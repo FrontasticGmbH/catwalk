@@ -4,13 +4,13 @@
         <tool-exists executable="yarn" />
 
         <!-- @TODO SAAS/PAAS -->
-        <exec executable="yarn" failonerror="true" dir="${basedir}/../../libraries/common/">
+        <exec executable="yarn" failonerror="true" dir="${frontastic_basedir}/libraries/common/">
             <env key="CI" value="true" />
 
             <arg value="link" />
         </exec>
 
-        <exec executable="yarn" failonerror="true" dir="${basedir}/../catwalk">
+        <exec executable="yarn" failonerror="true" dir="${frontastic_basedir}/paas/catwalk">
             <env key="CI" value="true" />
 
             <arg value="link" />

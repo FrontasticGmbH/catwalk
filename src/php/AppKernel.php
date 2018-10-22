@@ -75,6 +75,15 @@ class AppKernel extends \Frontastic\Common\Kernel
         }
         return static::$catwalkBaseDir;
     }
+
+    protected function buildContainer()
+    {
+        $container = parent::buildContainer();
+
+        $container->setParameter('frontastic.paas_catwalk_dir', __DIR__ . '/../..');
+
+        return $container;
+    }
 }
 
 // @FIXME: Remove references to \AppKernel from Frontastic\Common
