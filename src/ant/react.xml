@@ -3,7 +3,8 @@
     <target name="react:bootstrap" unless="${production}" extensionOf="-prepare:before~hook">
         <tool-exists executable="yarn" />
 
-        <exec executable="yarn" failonerror="true" dir="${basedir}/../libraries/common/">
+        <!-- @TODO SAAS/PAAS -->
+        <exec executable="yarn" failonerror="true" dir="${basedir}/../../libraries/common/">
             <env key="CI" value="true" />
 
             <arg value="link" />
