@@ -212,7 +212,14 @@ module.exports = {
                         },
                     },
                     {
-                        loader: "sass-loader" // compiles Sass to CSS
+                        loader: 'resolve-url-loader' // Resolve relative url() paths
+                    },
+                    {
+                        loader: "sass-loader", // compiles Sass to CSS
+                        options: {
+                            sourceMap: true,
+                            sourceMapContents: false
+                        }
                     },
                 ]
             },
