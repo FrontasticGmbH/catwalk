@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "301d280aacf93bf029e35671a3732d75",
+    "content-hash": "2c35d5a5b560cc1fe0d87510b164496e",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -1630,7 +1630,7 @@
             "version": "dev-master",
             "dist": {
                 "type": "path",
-                "url": "../libraries/common",
+                "url": "../../libraries/common",
                 "reference": "a2115f6b097ecd06903d5831f783d9b9ea4e137b",
                 "shasum": null
             },
