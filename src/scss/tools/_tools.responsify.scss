@@ -1,0 +1,92 @@
+/* ========================================================================
+   #RESPONSIFY MIXIN
+======================================================================== */
+
+$responsivy-until-include: null !default;
+$responsivy-until-exclude: null !default;
+$responsivy-until-string: "until-" !default;
+$responsivy-from-include: all !default;
+$responsivy-from-exclude: null !default;
+$responsivy-from-string: null!default;
+$responsivy-breakpoint-separator: \@ !default;
+
+@mixin responsify(
+    $from-include: $responsivy-from-include,
+    $from-exclude: $responsivy-from-exclude,
+    $until-include: $responsivy-until-include,
+    $until-exclude: $responsivy-until-exclude
+    ) {
+
+    // Reset includes/excludes
+    @if $until-include == default {
+        $until-include: $responsivy-until-include;
+    }
+
+    @if $until-exclude == default {
+        $until-exclude: $responsivy-until-exclude;
+    }
+
+    @if $from-include == default {
+        $from-include: $responsivy-from-include;
+    }
+
+    @if $from-exclude == default {
+        $from-exclude: $responsivy-from-exclude;
+    }
+
+    @if variable-exists(mq-breakpoints) {
+
+        // until (max-width) media queries
+        // ==============================
+
+        // For each breakpoint in $mq-breakpoints...
+        @each $inuit-bp-name, $inuit-bp-value in $mq-breakpoints {
+
+            // Exclude breakpoints
+            @if index($until-exclude, $inuit-bp-name) == null {
+
+                // Include breakpoints
+                @if $until-include == all or index($until-include, $inuit-bp-name) {
+
+                    // Make breakpoint variable global to allow use in @content
+                    $breakpoint: #{$responsivy-breakpoint-separator}#{$responsivy-until-string}#{$inuit-bp-name} !global;
+
+                    @include mq($until: $inuit-bp-name) {
+                        @content;
+                    }
+
+                    // Remove breakpoint variable from global scope
+                    $breakpoint: null !global;
+
+                }
+            }
+        }
+
+        // from (min-width) media queries
+        // ==============================
+
+        // For each breakpoint in $mq-breakpoints...
+        @each $inuit-bp-name, $inuit-bp-value in $mq-breakpoints {
+
+            // Exclude breakpoints
+            @if index($from-exclude, $inuit-bp-name) == null {
+
+                // Include breakpoints
+                @if $from-include == all or index($from-include, $inuit-bp-name) {
+
+                    // Make breakpoint variable global to allow use in @content
+                    $breakpoint: #{$responsivy-breakpoint-separator}#{$responsivy-from-string}#{$inuit-bp-name} !global;
+
+                    @include mq($from: $inuit-bp-name) {
+                        @content;
+                    }
+
+                    // Remove breakpoint variable from global scope
+                    $breakpoint: null !global;
+
+                }
+            }
+        }
+
+    }
+}

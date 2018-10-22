@@ -1,0 +1,31 @@
+/* ==========================================================================
+   #NAV-FOOT
+========================================================================== */
+
+.c-nav-foot {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    margin: 0 -$unit-small;
+}
+
+.c-nav-foot__item {
+    position: relative;
+    padding-right: $unit-small;
+    padding-left: $unit-small;
+
+    + .c-nav-foot__item {
+
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            height: $lh-base;
+            border-left: 1px solid;
+        }
+    }
+}
+
+.c-nav-foot__link {
+    text-decoration: none;
+}

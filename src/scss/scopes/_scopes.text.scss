@@ -1,0 +1,78 @@
+/* ==========================================================================
+   #SCOPE-TEXT
+========================================================================== */
+
+.s-text {
+    padding: $inuit-global-spacing-unit-small;
+
+    ul {
+        margin-left: 1.3em;
+
+        li {
+            list-style-type: circle;
+
+            + li {
+                margin-top: .3em;
+            }
+        }
+
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: $fw-bold;
+        color: $color-gray-dark;
+    }
+
+    h1 {
+        font-size: $fs-h1;
+    }
+    
+    h2 {
+        font-size: $fs-h2;
+    }
+    
+    h3 {
+        font-size: $fs-h3;
+    }
+    
+    h4 {
+        font-size: $fs-h4;
+    }
+    
+    h5 {
+        font-size: $fs-h5;
+    }
+    
+    h6 {
+        font-size: $fs-h6;
+    }
+
+    strong, b {
+        font-weight: $fw-bold;
+    }
+
+    a {
+        text-decoration: underline;
+        color: $color-brand;
+    }
+
+    blockquote {
+        margin-left: 1.3em;
+    }
+
+    code {
+        color: $color-secondary;
+    }
+}
+
+.c-page-foot {
+    .s-text {
+        h1, h2, h3, h4, h5, h6 {
+            color: $color-white;
+        }
+    
+        a {
+            color: $color-white;
+        }
+    }
+}

@@ -1,0 +1,45 @@
+/* ==========================================================================
+   #NAVBAR
+========================================================================== */
+
+$height-navbar: 3.125rem !default; /* 50px */
+
+.c-navbar {
+    box-shadow: 0 0 2px 3px rgba(0,0,0,.05);
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    height: $height-navbar;
+    width: 100%;
+    padding: 0 1rem;
+    z-index: 15;
+
+    background-color: $color-background-light;
+    position: fixed;
+    top: 0;
+}
+
+.c-navbar__spacing {
+    height: $height-navbar;
+}
+
+.c-navbar__logo {
+    margin-left: 1rem;
+    margin-right: auto;
+    height: calc(1rem * 1.5); /* 20px */
+    width: auto;
+}
+
+.c-navbar__logo-image {
+    height: calc(1rem * 1.5); /* 20px */
+    width: auto;
+}
+
+.c-navbar__button {
+
+    + .c-navbar__button {
+        margin-left: $unit-small;
+    }
+}

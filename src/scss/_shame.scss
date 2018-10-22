@@ -1,0 +1,28 @@
+/* ==========================================================================
+   #SHAME
+========================================================================== */
+
+/**
+ * Hacky, nasty code. These bits have to be repaired!
+ */
+
+/* ==========================================================================
+   TS: Copy & adapt for price range selector
+========================================================================== */
+
+.c-overlay-outsidevabar-isvisible {
+    z-index: 15!important;
+}
+
+/**
+ * We want the product image slider and image banners on mobile view to really
+ * fully expand to the ful page width, to have "full screen" product images.
+ * Where to put this?
+ */
+.e-tastic__imageBanner,
+.e-tastic__product-image .c-page-section {
+    @media (max-width: map-get($breakpoints, lap)) {
+        margin: 0 -1.5em;
+        width: calc(100% + 3em);
+    }
+}

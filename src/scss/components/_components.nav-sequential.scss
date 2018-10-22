@@ -1,0 +1,132 @@
+/* ==========================================================================
+   #SEQUENTIAL NAVIGATION
+========================================================================== */
+
+.c-sequential-nav {
+    backface-visibility: hidden;
+    position: relative;
+}
+
+// How animations are performed when part of an overlay
+.c-overlay {
+    .c-sequential-nav {
+        transform: translate3d(-100%, 0, 0);
+        transition: transform 270ms;
+        will-change: transform;
+
+        .c-sequential-nav__panel--level-2,
+        .c-sequential-nav__panel--level-3,
+        .c-sequential-nav__panel--level-4,
+        .c-sequential-nav__panel--level-5 {
+            transform: translate3d(1000%, 0, 0);
+        }
+    }
+
+    &.is-visible {
+        .c-sequential-nav {
+            transform: translate3d(0, 0, 0);
+            transition: transform 270ms;
+
+            .c-sequential-nav__panel--level-2,
+            .c-sequential-nav__panel--level-3,
+            .c-sequential-nav__panel--level-4,
+            .c-sequential-nav__panel--level-5 {
+                transform: translate3d(100vw, 0, 0);
+            }
+        }
+    }
+}
+
+.c-sequential-nav__panel {
+    background-color: $color-background-light;
+    backface-visibility: hidden;
+    height: 100vh;
+    width: 100vw;
+    max-width: (map-get($breakpoints, desk) / 2);
+    position: fixed;
+    z-index: 10;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    will-change: transform;
+    transition: transform 440ms;
+    visibility: visible;
+}
+
+.c-sequential-nav__panel--level-1 {
+    transform: translate3d(0, 0, 0);
+}
+
+.c-sequential-nav__panel--level-2 {
+    transform: translate3d(100vw, 0, 0);
+    z-index: 11;
+}
+
+.c-sequential-nav__panel--level-3 {
+    transform: translate3d(100vw, 0, 0);
+    z-index: 12;
+}
+
+.c-sequential-nav__panel--level-4 {
+    transform: translate3d(100vw, 0, 0);
+    z-index: 13;
+}
+
+.c-sequential-nav__panel--level-5 {
+    transform: translate3d(100vw, 0, 0);
+    z-index: 14;
+}
+
+.c-sequential-nav__panel--level-1.is-pulled-left {
+    transform: translate3d(-100%, 0, 0);
+}
+
+.c-sequential-nav__panel--level-2.is-pulled-left,
+.c-sequential-nav__panel--level-3.is-pulled-left,
+.c-sequential-nav__panel--level-4.is-pulled-left,
+.c-sequential-nav__panel--level-5.is-pulled-left {
+    transform: translate3d(0, 0, 0) !important;
+}
+
+.c-sequential-nav__header {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: $unit-small $unit;
+
+    &.c-sequential-nav__header--dark {
+        background-color: #d5d5d5;
+    }
+}
+
+.c-sequential-nav__title {
+    font-weight: bold;
+    margin: 0 auto;
+    position: absolute;
+}
+
+.c-sequential-nav__content {
+    padding-bottom: 3rem;
+}
+
+.c-sequential-nav__primary-action {
+    margin-left: auto;
+}
+
+.c-sequential-nav__secondary-action {
+    margin-right: auto;
+}
+
+.c-sequential-nav__footer {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: $unit-small $unit;
+
+    &.c-sequential-nav__header--dark {
+        background-color: #d5d5d5;
+    }
+}

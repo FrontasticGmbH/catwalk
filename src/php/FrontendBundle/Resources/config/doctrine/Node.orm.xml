@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Frontastic\Catwalk\FrontendBundle\Domain\Node" table="node">
+        <id name="nodeId" column="n_id" type="string">
+            <generator strategy="NONE"/>
+        </id>
+
+        <field name="sequence" column="n_sequence" type="string" />
+        <field name="isMaster" column="n_is_master" type="boolean" />
+        <field name="configuration" column="n_configuration" type="object" />
+        <field name="streams" column="n_streams" type="object" />
+        <field name="name" column="n_name" type="string" nullable="true" />
+        <field name="path" column="n_path" type="string" />
+        <field name="depth" column="n_depth" type="integer" />
+        <field name="sort" column="n_sort" type="integer" />
+        <field name="metaData" column="n_meta_data" type="object" />
+        <field name="isDeleted" column="n_is_deleted" type="boolean" />
+
+        <indexes>
+            <index columns="n_id"/>
+            <index columns="n_sequence"/>
+            <index columns="n_path,n_sort"/>
+        </indexes>
+    </entity>
+</doctrine-mapping>

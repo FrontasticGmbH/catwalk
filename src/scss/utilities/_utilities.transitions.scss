@@ -1,0 +1,46 @@
+.u-fade {
+    transition: opacity 115ms ease-in-out;
+    will-change: opacity;
+}
+
+.u-fade--appearing,
+.u-fade--entering {
+    opacity: 0.01;
+}
+
+.u-fade--appeared,
+.u-fade--entered {
+    opacity: .95;
+}
+
+.u-fade--exiting {
+    opacity: 0.01;
+}
+
+.u-fade--exited {
+    display: none;
+}
+
+.u-grow {
+    transition: max-height 225ms ease-in-out;
+    will-change: max-height;
+    overflow: hidden;
+}
+
+.u-grow--appearing,
+.u-grow--entering {
+    max-height: 0px;
+}
+
+.u-grow--appeared,
+.u-grow--entered {
+    max-height: 500px;
+}
+
+.u-grow--exiting {
+    max-height: 0px;
+}
+
+.u-grow--exited {
+    display: none;
+}

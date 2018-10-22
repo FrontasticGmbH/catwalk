@@ -1,0 +1,39 @@
+/* ==========================================================================
+   #PAGE_WIDTH
+========================================================================== */
+
+/**
+ * Utility class that increases element widths to full page widths.
+ * Even if the element is inside a wrapper container.
+ */
+
+$inuit-page-width-responsive: false !default;
+
+$inuit-responsive-page-width-until-include: default !default;
+$inuit-responsive-page-width-until-exclude: default !default;
+$inuit-responsive-page-width-from-include: default !default;
+$inuit-responsive-page-width-from-exclude: default !default;
+
+.u-page-width {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+}
+
+@if $inuit-page-width-responsive {
+
+    /* Responsive page-width helper classes */
+    @include responsify(
+        $until-include: $inuit-responsive-page-width-until-include,
+        $until-exclude: $inuit-responsive-page-width-until-exclude,
+        $from-include: $inuit-responsive-page-width-from-include,
+        $from-exclude: $inuit-responsive-page-width-from-exclude
+        ) {
+
+        .u-page-width#{$breakpoint} {
+            width: 100vw;
+            margin-left: calc(50% - 50vw);
+        }
+
+    }
+
+}

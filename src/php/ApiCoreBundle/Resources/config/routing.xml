@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="Frontastic.ApiCoreBundle.Api.context" path="/api/context" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\ApiCoreBundle\Controller\ApiController::contextAction</default>
+    </route>
+
+    <route id="Frontastic.ApiCoreBundle.Api.endpoint" path="/api/endpoint" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\ApiCoreBundle\Controller\ApiController::endpointAction</default>
+    </route>
+
+    <route id="Frontastic.ApiCoreBundle.App.get" path="/api/{app}/{dataId}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\ApiCoreBundle\Controller\AppController::getAction</default>
+    </route>
+
+    <route id="Frontastic.ApiCoreBundle.App.data" path="/api/{app}/data" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\ApiCoreBundle\Controller\AppController::dataAction</default>
+    </route>
+</routes>

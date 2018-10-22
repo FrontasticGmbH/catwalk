@@ -1,0 +1,46 @@
+/* ==========================================================================
+   #TEASER
+========================================================================== */
+
+.c-teaser {
+}
+
+.c-teaser__full-link {
+    display: block;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+
+        .c-teaser__title {
+            color: $color-link-hover;
+        }
+    }
+}
+
+.c-teaser__body.c-teaser__body {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+}
+
+.c-teaser__caption {
+    order: 1;
+    flex: 1 0 calc(100% - 5em);
+    min-width: 5em;
+    margin-right: $unit-small;
+}
+
+.c-teaser__prices {
+    flex: 1 1 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    margin-right: -$unit-small;
+}
+
+.c-teaser__price {
+    margin-right: $unit-small;
+}

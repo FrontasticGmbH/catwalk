@@ -1,0 +1,51 @@
+/* ========================================================================
+   #COLORS
+======================================================================== */
+
+// Pure Color Palette
+// ========================================================================
+
+$color-black: #000 !default;
+$color-white: #fff !default;
+
+$color-primary: #ee5b9f !default;
+$color-secondary: $color-primary !default;
+
+$color-pale: #f6f6f6 !default;
+$color-gray: #d8d8d8 !default;
+$color-gray-dark: #9b9b9b !default;
+
+// Abstract Colors Palette
+// ========================================================================
+
+$color-brand: $color-primary !default;
+$color-page: $color-white !default;
+$color-text: $color-black !default;
+$color-text-invert: $color-white !default;
+
+$color-link: $color-primary !default;
+$color-link-hover: darken($color-link, 10%) !default;
+
+$color-border: $color-gray !default;
+$color-background-medium: $color-gray !default;
+$color-background-dark: $color-gray-dark !default;
+$color-background-light: $color-white !default;
+
+$color-input: $color-text !default;
+$color-input-background: $color-white !default;
+$color-input-border: $color-text !default;
+
+$color-highlight: $color-secondary !default;
+
+// Primary theme color (default)
+// ========================================================================
+
+$color-theme-primary-rgb: 0,0,0;
+$color-theme-primary: rgb(0,0,0);
+:root { --theme-color-primary: $color-theme-primary-rgb; }
+
+$utility-colors: (
+        brand:                $color-brand,
+        text:                 $color-text,
+        highlight:        $color-highlight
+    ) !default;

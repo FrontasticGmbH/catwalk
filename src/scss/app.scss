@@ -1,0 +1,216 @@
+/* ==========================================================================
+   INUITCSS
+========================================================================== */
+
+/**
+ * inuitcss, by @csswizardry
+ *
+ * github.com/inuitcss | inuitcss.com
+ */
+
+/**
+ * This is an example inuitcss manifest file. DO NOT MODIFY THIS FILE DIRECTLY.
+ * Instead, copy and paste it into your own CSS directory and make additions,
+ * extensions, and modifications there.
+ */
+
+/**
+ * CONTENTS
+ *
+ * SETTINGS
+ * Config...............Project-level configuration and feature switches.
+ * Core.................inuitcss’ core and setup settings.
+ * Global...............Project-wide variables and settings.
+ *
+ * TOOLS
+ * Font-size............A mixin which guarantees baseline-friendly line-heights.
+ * Clearfix.............Micro clearfix mixin.
+ * Hidden...............Mixin for hiding elements.
+ * Sass MQ..............inuitcss’ default media query manager.
+ *
+ * GENERIC
+ * Box-sizing...........Better default `box-sizing`.
+ * Normalize.css........A level playing field using @necolas’ Normalize.css.
+ * Reset................A tiny reset to complement Normalize.css.
+ * Shared...............Sensibly and tersely share some global commonalities
+ *                      (particularly useful when managing vertical rhythm).
+ *
+ * ELEMENTS
+ * Page.................Set up our document’s default `font-size` and
+ *                      `line-height`.
+ * Headings.............Very minimal (i.e. only font-size information) for
+ *                      headings 1 through 6.
+ * Images...............Base image styles.
+ * Tables...............Simple table styles.
+ *
+ * OBJECTS
+ * Wrapper..............Page constraint object.
+ * Layout...............Generic layout module.
+ * Media................Image- and text-like content side by side. The
+ *                      poster-child of OOCSS.
+ * Flag.................Table-layout-based advancement on the Media object.
+ * List-bare............Lists with no bullets or indents.
+ * List-inline..........A list whose items all site in a line.
+ * Box..................Simple boxing abstraction.
+ * Block................Image-on-top-of-text object.
+ * Ratio................A container for maintaining aspect ratio of content.
+ * Crop.................Provide a cropping context for media (images, etc.).
+ * Table................Classes for manipulating `table`s.
+ * Pack.................Pack items into available horizontal space.
+ *
+ * COMPONENTS
+ * Buttons..............An example button component, and how it fits into the
+ *                      inuitcss framework.
+ *
+ * UTILITIES
+ * Clearfix.............Bind our clearfix onto a utility class.
+ * Widths...............Simple width helper classes.
+ * Headings.............Reassigning our heading styles to helper classes.
+ * Spacings.............Nudge bits of the DOM around with these spacing
+ *                      classes.
+ * Responsive-Spacings..Enhances the function of normal spacings for
+ *                      responsive usage.
+ * Print................Reset-like styles taken from the HTML5 Boilerplate.
+ * Hide.................Helper classes to hide content
+ */
+
+// SETTINGS
+@import "settings/settings.config";
+@import "settings/settings.global";
+// @import "../../node_modules/inuitcss/settings/settings.core";
+@import "settings/settings.core";
+// @import "../../node_modules/inuitcss/settings/example.settings.global";
+@import "settings/settings.colors";
+@import "settings/settings.typography";
+@import "settings/settings.breakpoints";
+
+// TOOLS
+// @import "../../node_modules/inuitcss/tools/tools.font-size";
+@import "tools/tools.aliases";
+@import "tools/tools.font-size";
+@import "../../node_modules/inuitcss/tools/tools.clearfix";
+@import "../../node_modules/inuitcss/tools/tools.hidden";
+@import "../../node_modules/sass-mq/mq";
+@import "tools/tools.responsify";
+
+.a {
+    width: $unit;
+    width: $unit-small;
+    width: $unit-huge;
+    width: $unit-large;
+    width: $unit-tiny;
+}
+
+// GENERIC
+@import "../../node_modules/inuitcss/generic/generic.box-sizing";
+@import "../../node_modules/inuitcss/generic/generic.normalize";
+@import "../../node_modules/inuitcss/generic/generic.reset";
+@import "../../node_modules/inuitcss/generic/generic.shared";
+
+// ELEMENTS
+// @import "../../node_modules/inuitcss/elements/elements.page";
+@import "elements/elements.page";
+// @import "../../node_modules/inuitcss/elements/elements.headings";
+@import "elements/elements.headings";
+@import "elements/elements.region";
+@import "elements/elements.cell";
+@import "elements/elements.content";
+@import "elements/elements.tastic";
+@import "elements/elements.button";
+@import "../../node_modules/inuitcss/elements/elements.images";
+@import "../../node_modules/inuitcss/elements/elements.tables";
+
+// OBJECTS
+//
+// Uncomment and add to this section as necessary.
+@import "../../node_modules/inuitcss/objects/objects.wrapper";
+@import "../../node_modules/inuitcss/objects/objects.layout";
+// @import "../../node_modules/inuitcss/objects/objects.media";
+// @import "../../node_modules/inuitcss/objects/objects.flag";
+// @import "../../node_modules/inuitcss/objects/objects.list-bare";
+//@import "../../node_modules/inuitcss/objects/objects.list-inline";
+@import "../../node_modules/inuitcss/objects/objects.box";
+// @import "../../node_modules/inuitcss/objects/objects.block";
+@import "../../node_modules/inuitcss/objects/objects.ratio";
+// @import "../../node_modules/inuitcss/objects/objects.crop";
+@import "../../node_modules/inuitcss/objects/objects.table";
+// @import "../../node_modules/inuitcss/objects/objects.pack";
+@import "objects/objects.icons";
+
+$enable-responsive-block-media-reverse: true;
+$responsive-block-until-include: lap;
+$block-media-auto-body-min-width: 12em;
+@import "objects/objects.block";
+
+// VENDOR
+//
+// Include vendor CSS/SCSS files here,
+@import "../../node_modules/flickity/dist/flickity";
+
+// COMPONENTS
+//
+// Build and include your project’s UI components here.
+// @import "../../node_modules/inuitcss/components/example.components.buttons";
+@import "components/components.alert";
+@import "components/components.badge";
+@import "components/components.buttons";
+@import "components/components.button-row";
+@import "components/components.cart";
+@import "components/components.cart-link";
+@import "components/components.figure";
+@import "components/components.filter-bar";
+@import "components/components.forms";
+@import "components/components.headings";
+@import "components/components.hero";
+@import "components/components.highlight";
+@import "components/components.links";
+@import "components/components.nav-foot";
+@import "components/components.nav-sequential";
+@import "components/components.navbar";
+@import "components/components.overlay";
+@import "components/components.page-body";
+@import "components/components.page-foot";
+@import "components/components.page-head";
+@import "components/components.page-section";
+@import "components/components.price";
+@import "components/components.price-list";
+@import "components/components.scrollup";
+@import "components/components.slider";
+@import "components/components.tableview";
+@import "components/components.teaser";
+@import "components/components.loading";
+@import "components/components.range-selector";
+@import "components/components.pattern-library";
+
+// SCOPES
+@import "scopes/scopes.text";
+@import "scopes/scopes.code";
+
+// UTILITIES
+@import "../../node_modules/inuitcss/utilities/utilities.clearfix";
+
+// Be aware that enabling offsets produces a large chunk of classes which might
+// bloat your CSS, depending on the amount of breakpoints you defined.
+// Only set this to `true` if you are absolutely sure about what you are doing.
+$inuit-offsets: true;
+@import "../../node_modules/inuitcss/utilities/utilities.widths";
+// @import "../../node_modules/inuitcss/utilities/utilities.headings";
+@import "../../node_modules/inuitcss/utilities/utilities.spacings";
+@import "../../node_modules/inuitcss/utilities/utilities.responsive-spacings";
+@import "../../node_modules/inuitcss/utilities/utilities.print";
+@import "../../node_modules/inuitcss/utilities/utilities.hide";
+
+@import "utilities/utilities.not-scrollable";
+@import "utilities/utilities.links";
+@import "utilities/utilities.transitions";
+
+$inuit-page-width-responsive: true;
+$inuit-responsive-page-width-until-include: desk;
+@import "utilities/utilities.page-width";
+
+@import "utilities/utilities.text";
+@import "utilities/utilities.colors";
+
+@import "utilities/utilities.responsive-hide";
+
+@import "shame";

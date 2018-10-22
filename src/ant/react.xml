@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="React">
+    <target name="react:bootstrap" unless="${production}" extensionOf="-prepare:before~hook">
+        <tool-exists executable="yarn" />
+
+        <exec executable="yarn" failonerror="true" dir="${basedir}/../libraries/common/">
+            <env key="CI" value="true" />
+
+            <arg value="link" />
+        </exec>
+
+        <exec executable="yarn" failonerror="true" dir="${basedir}/../catwalk">
+            <env key="CI" value="true" />
+
+            <arg value="link" />
+        </exec>
+
+        <exec executable="yarn" failonerror="true" dir="${basedir}">
+            <env key="CI" value="true" />
+
+            <arg value="install" />
+        </exec>
+
+        <exec executable="yarn" failonerror="true" dir="${basedir}">
+            <env key="CI" value="true" />
+
+            <arg value="link" />
+            <arg value="frontastic-common" />
+        </exec>
+
+        <exec executable="yarn" failonerror="true" dir="${basedir}">
+            <env key="CI" value="true" />
+
+            <arg value="link" />
+            <arg value="frontastic-catwalk" />
+        </exec>
+    </target>
+
+    <target name="react:start">
+        <tool-exists executable="yarn" />
+
+        <exec executable="yarn" failonerror="true" dir="${basedir}">
+            <arg value="start" />
+        </exec>
+    </target>
+
+    <target name="react:test" unless="${production}" extensionOf="-test-unit:main~hook">
+        <tool-exists executable="yarn" />
+
+        <exec executable="yarn" failonerror="true" dir="${basedir}">
+            <env key="CI" value="true" />
+
+            <arg value="run" />
+            <arg value="test" />
+        </exec>
+    </target>
+
+    <target name="react:check" unless="${production}" extensionOf="-test-static:main~hook">
+        <tool-exists executable="yarn" />
+
+        <exec executable="yarn" failonerror="true" dir="${basedir}">
+            <env key="CI" value="true" />
+
+            <arg value="run" />
+            <arg value="check" />
+        </exec>
+    </target>
+
+    <target name="-check-is-project" unless="${production}">
+        <available property="is-project" file="${basedir}/config/project.yml" />
+    </target>
+
+    <target name="react:package" depends="-check-is-project" if="${is-project}" extensionOf="-package:before~hook">
+        <tool-exists executable="yarn" />
+
+        <exec executable="yarn" failonerror="true" dir="${basedir}">
+            <env key="CI" value="false" />
+
+            <arg value="run" />
+            <arg value="build" />
+            <arg value="main" />
+        </exec>
+
+        <exec executable="git" failonerror="false" dir="${basedir}">
+            <arg value="rm" />
+            <arg value="-r" />
+            <arg value="--force" />
+            <arg value="${basedir}/public/service-worker.js" />
+            <arg value="${basedir}/public/assets/js/*" />
+            <arg value="${basedir}/public/assets/css/*" />
+            <arg value="${basedir}/public/assets/media/*" />
+        </exec>
+
+        <copy todir="${basedir}/public/assets/" >
+            <fileset dir="${builddir}/assets" includes="**"/>
+        </copy>
+
+        <copy todir="${basedir}/public/" >
+            <fileset dir="${builddir}" includes="service-worker.js"/>
+        </copy>
+
+        <first id="path.absolute.main.js">
+            <fileset dir="${builddir}/assets" includes="**/main.*.js" />
+        </first>
+
+        <pathconvert property="path.main.js">
+            <path location="${toString:path.absolute.main.js}"/>
+            <globmapper from="${builddir}/*" to="/*" />
+        </pathconvert>
+
+        <replaceregexp
+            file="${basedir}/templates/layout.html.twig"
+            match="/assets/js/main.[0-9a-f]*.js"
+            replace="${path.main.js}" />
+
+        <first id="path.absolute.main.css">
+            <fileset dir="${builddir}/assets" includes="**/main.*.css" />
+        </first>
+
+        <pathconvert property="path.main.css">
+            <path location="${toString:path.absolute.main.css}"/>
+            <globmapper from="${builddir}/*" to="/*" />
+        </pathconvert>
+
+        <replaceregexp
+            file="${basedir}/templates/layout.html.twig"
+            match="/assets/css/main.[0-9a-f]*.css"
+            replace="${path.main.css}" />
+
+        <exec executable="git" failonerror="true" dir="${basedir}">
+            <arg value="add" />
+            <arg value="${basedir}/public/service-worker.js" />
+            <arg value="${basedir}/public/assets/js/*" />
+            <arg value="${basedir}/public/assets/css/*" />
+            <arg value="${basedir}/public/assets/media/*" />
+            <arg value="${basedir}/templates/layout.html.twig" />
+        </exec>
+
+    <!--
+        <exec executable="yarn" failonerror="true" dir="${basedir}">
+            <env key="CI" value="false" />
+
+            <arg value="run" />
+            <arg value="build" />
+            <arg value="server" />
+        </exec>
+
+        <copy todir="${basedir}/bin/" >
+            <fileset dir="${builddir}/bin/" includes="server.js"/>
+        </copy>
+
+        <exec executable="git" failonerror="true" dir="${basedir}">
+            <arg value="add" />
+            <arg value="${basedir}/bin/server.js" />
+        </exec>
+    -->
+    </target>
+</project>

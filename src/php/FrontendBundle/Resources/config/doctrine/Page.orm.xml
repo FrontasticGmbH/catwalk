@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Frontastic\Catwalk\FrontendBundle\Domain\Page" table="page">
+        <id name="pageId" column="p_id" type="string">
+            <generator strategy="NONE"/>
+        </id>
+
+        <field name="sequence" column="p_sequence" type="string" />
+
+        <!-- @TODO: Many to many? -->
+        <field name="node" column="p_node" type="string" />
+
+        <!-- Many to one -->
+        <field name="layoutId" column="l_id" type="string" />
+
+        <field name="regions" column="p_regions" type="object" />
+        <field name="metaData" column="p_meta_data" type="object" />
+        <field name="isDeleted" column="p_is_deleted" type="boolean" />
+
+        <indexes>
+            <index columns="p_id"/>
+            <index columns="p_sequence"/>
+        </indexes>
+    </entity>
+</doctrine-mapping>

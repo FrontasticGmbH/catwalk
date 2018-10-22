@@ -1,0 +1,148 @@
+{
+  "name": "frontastic-catwalk",
+  "version": "0.1.0",
+  "private": true,
+  "resolutions": {
+    "unidragger": "2.2.3"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "autoprefixer": "8.6.5",
+    "babel-core": "6.26.3",
+    "babel-eslint": "8.2.6",
+    "babel-jest": "23.4.0",
+    "babel-loader": "7.1.5",
+    "babel-preset-react-app": "^3.1.2",
+    "babel-runtime": "6.26.0",
+    "case-sensitive-paths-webpack-plugin": "2.1.2",
+    "chalk": "2.4.1",
+    "classnames": "^2.2.6",
+    "cloudinary-core": "^2.5.0",
+    "css-loader": "^1.0.0",
+    "dot-object": "^1.7.0",
+    "dotenv": "6.0.0",
+    "eslint": "5.1.0",
+    "eslint-config-react": "^1.1.7",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard-react": "^7.0.0",
+    "eslint-loader": "2.0.0",
+    "eslint-plugin-flowtype": "2.50.0",
+    "eslint-plugin-import": "2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-react": "7.10.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "exports-loader": "^0.7.0",
+    "fast-levenshtein": "^2.0.6",
+    "file-loader": "1.1.11",
+    "flickity": "https://github.com/nvdbleek/flickity#keep-element-structure-if-possible",
+    "flickity-imagesloaded": "^2.0.0",
+    "focus-trap": "^2.4.6",
+    "fs-extra": "6.0.1",
+    "i": "^0.3.6",
+    "ignore-loader": "^0.1.2",
+    "ignore-styles": "^5.0.1",
+    "imports-loader": "^0.8.0",
+    "inuitcss": "^6.0.0",
+    "jest": "23.4.0",
+    "lodash": "^4.17.10",
+    "markdown": "^0.5.0",
+    "mini-css-extract-plugin": "^0.4.1",
+    "node-sass": "^4.9.2",
+    "npm": "^6.1.0",
+    "object-assign": "4.1.1",
+    "paypal-checkout": "^4.0.218",
+    "postcss-flexbugs-fixes": "3.3.1",
+    "postcss-loader": "2.1.6",
+    "promise": "8.0.1",
+    "prop-types": "^15.6.2",
+    "qrcode.react": "^0.8.0",
+    "rc-slider": "^8.6.1",
+    "react": "^16.4.1",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-custom-scrollbars": "^4.2.1",
+    "react-dev-utils": "^5.0.1",
+    "react-dnd": "^5.0.0",
+    "react-dnd-html5-backend": "^5.0.1",
+    "react-dom": "^16.4.1",
+    "react-instagram-embed": "^1.4.0",
+    "react-intl": "^2.4.0",
+    "react-markdown": "^3.3.4",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-sizer": "^1.0.5",
+    "react-transition-group": "^2.4.0",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
+    "resolve-url-loader": "^2.3.0",
+    "route-pattern": "^0.0.6",
+    "rss-parser": "^3.4.2",
+    "sass-loader": "^7.0.3",
+    "smooth-scroll": "^14.2.0",
+    "style-loader": "^0.21.0",
+    "sw-precache-webpack-plugin": "0.11.5",
+    "url-loader": "^1.0.1",
+    "webpack": "4.16.0",
+    "webpack-dev-server": "3.1.4",
+    "webpack-manifest-plugin": "2.0.3",
+    "webpack-node-externals": "^1.7.2",
+    "whatwg-fetch": "2.0.4"
+  },
+  "module": "src/js/index.js",
+  "scripts": {
+    "start": "node bin/start.js",
+    "build": "node bin/build.js",
+    "test": "node bin/test.js --env=jsdom",
+    "check": "node node_modules/.bin/eslint --ext .js --ext .jsx -c ../integration/eslint.config.json src/js/ test/js/",
+    "fix": "node node_modules/.bin/eslint --fix --ext .js --ext .jsx -c ../integration/eslint.config.json src/js/ test/js/",
+    "server:start": "NODE_ENV=development nodemon --legacy-watch --watch src/js/ bin/devServer.js --exec babel-node --presets env,react-app"
+  },
+  "proxy": {
+    "/api": {
+      "target": "http://backend.frontastic.io.local/",
+      "changeOrigin": true
+    }
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "<rootDir>/src/js/**/*.{js,jsx}"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js"
+    ],
+    "testMatch": [
+      "<rootDir>/test/js/**/*.js?(x)"
+    ],
+    "testEnvironment": "node",
+    "testURL": "http://localhost",
+    "transform": {
+      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+    ],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web"
+    },
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "json",
+      "web.jsx",
+      "jsx"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  }
+}

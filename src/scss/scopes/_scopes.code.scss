@@ -1,0 +1,23 @@
+/* ==========================================================================
+   #SCOPE-CODE
+========================================================================== */
+
+pre.s-code, .s-code {
+    background-color: $color-white;
+
+    code {
+        white-space: pre-wrap;
+    }
+}
+
+pre.s-code--block,
+code.s-code--block {
+    padding: $inuit-global-spacing-unit-small;
+    display: block;
+    width: 100%;
+    overflow: auto;
+
+    code {
+        width: 100%;
+    }
+}

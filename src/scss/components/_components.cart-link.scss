@@ -1,0 +1,15 @@
+/* ==========================================================================
+   #CART-LINK
+========================================================================== */
+
+.c-cart-link {
+    position: relative;
+}
+
+.c-cart-link__badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: translateX(25%);
+}
+

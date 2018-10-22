@@ -1,0 +1,6 @@
+imports:
+    - { resource: config_dev.yml }
+
+doctrine:
+    dbal:
+        dbname:     "%env(database_name)%_test"

@@ -1,0 +1,25 @@
+/* ==========================================================================
+   #TASTIC
+========================================================================== */
+
+.e-tastic--hidden-hand {
+    @media (max-width: map-get($breakpoints, lap)) {
+        display: none;
+    }
+}
+
+.e-tastic--hidden-lap {
+    @media (min-width: map-get($breakpoints, lap)) and (max-width: map-get($breakpoints, desk)) {
+        display: none;
+    }
+}
+
+.e-tastic--hidden-desk {
+    @media (min-width: map-get($breakpoints, desk)) {
+        display: none;
+    }
+}
+
+.e-tastic {
+    width: 100%;
+}

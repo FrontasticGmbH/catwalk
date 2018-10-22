@@ -1,0 +1,14 @@
+/* ==========================================================================
+   #BUTTON
+========================================================================== */
+$padding-button: 0!default;
+
+.c-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    padding: $padding-button; /* TODO: Revise with Dennis */
+}

@@ -1,0 +1,60 @@
+/* ==========================================================================
+   #HEADINGS
+========================================================================== */
+
+.c-heading-alpha,
+.c-heading-beta,
+.c-heading-gamma,
+.c-heading-delta,
+.c-heading-epsilon,
+.c-heading-zeta {
+    font-weight: $fw-bold;
+}
+
+.c-heading-alpha {
+    font-size: $fs-h1;
+    margin: $unit 0 $unit-small 0;
+}
+
+.c-heading-beta {
+    font-size: $fs-h2;
+    margin: $unit 0 $unit-small 0;
+}
+
+.c-heading-gamma {
+    font-size: $fs-h3;
+    margin: $unit-small 0 $unit-tiny 0;
+}
+
+.c-heading-delta {
+    font-size: $fs-h4;
+    margin: $unit-small 0 $unit-tiny 0;
+}
+
+.c-heading-epsilon {
+    font-size: $fs-h5;
+    margin: $unit-tiny 0 0 0;
+}
+
+.c-heading-zeta {
+    font-size: $fs-h6;
+    margin: $unit-tiny 0 0 0;
+}
+
+.c-heading-alpha:first-child,
+.c-heading-beta:first-child,
+.c-heading-gamma:first-child,
+.c-heading-delta:first-child,
+.c-heading-epsilon:first-child,
+.c-heading-zeta:first-child {
+    margin-top: 0;
+}
+
+.c-heading-subtitle {
+    font-size: $fs-h3;
+    margin-top: 0;
+}
+
+.c-heading-teaser {
+    font-weight: $fw-bold;
+}

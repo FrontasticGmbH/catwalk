@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="frontastic.project_file">%kernel.root_dir%/config/project.yml</parameter>
+    </parameters>
+
+    <services>
+        <defaults public="true" />
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService">
+            <argument type="service" id="router" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService" />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService">
+            <argument>%frontastic.project_file%</argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context">
+            <factory
+                service="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService"
+                method="createContextFromRequest" />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Controller\ParameterConverter\ContextConverter">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
+
+			<tag name="request.param_converter" priority="100" converter="Frontastic\Backstage\ApiBundle\Controller\ParameterConverter\ContextConverter" />
+		</service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Gateway\TasticGateway" />
+        </service>
+        <service id="frontastic.catwalk.api_core_bundle.domain.tastic_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+
+            <tag name="endpoint.target" channel="tastics" />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppService">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService" />
+
+            <tag name="endpoint.target" channel="apps" />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService">
+            <argument type="service" id="templating" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="frontastic.catwalk.api_core_bundle.domain.app_data_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
+            <argument type="service">
+                <service class="Frontastic\Catwalk\ApiCoreBundle\Domain\AppDataTarget">
+                    <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppService" />
+                    <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService" />
+                    <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Gateway\AppRepositoryGateway" />
+                    <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+                </service>
+            </argument>
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+
+            <tag name="endpoint.target" channel="app_data" />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Gateway\TasticGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                        method="getRepository" />
+                    <argument>Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                        method="getRepository" />
+                    <argument>Frontastic\Catwalk\ApiCoreBundle\Domain\App</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Gateway\AppRepositoryGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                        method="getRepository" />
+                    <argument>Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepository</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+    </services>
+</container>

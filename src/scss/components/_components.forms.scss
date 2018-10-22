@@ -1,0 +1,122 @@
+/* ==========================================================================
+   #FORMS
+========================================================================== */
+
+$input-min-height: $unit + $unit-small + $unit-tiny !default;
+$color-input-required: $color-secondary !default;
+
+.c-form {
+
+}
+
+/*
+ * Group form elements and labels
+ */
+.c-form__item {
+    + .c-form__item:not(.o-layout__item) {
+        margin-top: $unit-tiny;
+    }
+}
+
+.c-form__item.o-layout__item {
+    margin-bottom: $unit-tiny;
+}
+
+.c-form__label {
+    display: block;
+    font-size: $fs-s;
+}
+
+.c-form__input,
+.c-form__select {
+    display: inline-block;
+    width: 100%;
+    border-radius: 0;
+    background-color: $color-input-background;
+}
+
+.c-form__input:invalid {
+    border: 1px solid $color-input-required;
+}
+
+.c-form__input,
+.c-form__select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    min-height: $input-min-height;
+    padding: $unit-tiny $unit-small;
+}
+
+.c-form__input {
+    border: 1px solid $color-gray;
+}
+
+.c-form__select {
+    background-image: url('../../../catwalk/src/icons/icomoon_icons/SVG/chevron-down.svg');
+    background-repeat: no-repeat;
+    background-position: right $unit-tiny top 50%;
+    background-size: 24px;
+
+    &::-ms-expand {
+        display: none;
+    }
+}
+
+/* Graceful degradation for IE8 */
+.c-form__input[type='checkbox'],
+.c-form__input[type='radio'] {
+    width: auto;
+    margin-right: .75rem;
+    background: transparent;
+    border: none;
+}
+
+.c-form__input[type='checkbox']:checked,
+.c-form__input[type='checkbox']:not(:checked),
+.c-form__input[type='radio']:checked,
+.c-form__input[type='radio']:not(:checked) {
+    display: none;
+}
+
+.c-form__input[type='checkbox'] + label,
+.c-form__input[type='radio'] + label {
+    display: block;
+    cursor: pointer;
+}
+
+.c-form__input[type='checkbox']:checked + label::before,
+.c-form__input[type='checkbox']:not(:checked) + label::before,
+.c-form__input[type='radio']:checked + label::before,
+.c-form__input[type='radio']:not(:checked) + label::before {
+    content: ' ';
+    display: inline-block;
+    width: $fs-l;
+    height: $fs-l;
+    margin: 0 $unit-small 0 0;
+    position: relative;
+    top: $unit-tiny;
+    left: $unit-tiny;
+
+    border: 1px solid $color-gray;
+    background: $color-white;
+    box-shadow: inset 0 1px 1px 0 rgba(0,0,0,.1);
+}
+
+.c-form__input[type=radio]:checked + label::before,
+.c-form__input[type=radio]:not(:checked) + label::before {
+    border-radius: 30px;
+}
+
+.c-form__input[type='checkbox']:hover + label::before,
+.c-form__input[type='radio']:hover + label::before {
+    background: $color-gray;
+    box-shadow: inset 0 0 0 2px $color-white;
+}
+
+.c-form__input[type='checkbox']:checked + label::before,
+.c-form__input[type='radio']:checked + label::before {
+    background: $color-gray-dark;
+    box-shadow: inset 0 0 0 2px $color-white;
+}

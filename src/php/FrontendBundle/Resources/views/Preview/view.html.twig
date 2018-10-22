@@ -1,0 +1,14 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}
+{{ parent() }} – Page Preview
+{% endblock %}
+
+{% block main %}
+{% spaceless %}
+{% set response = frontastic_render(app.request, { previewId: previewId, node: node, page: page, data: data }) %}
+<div id="app" data-props="{{ { previewId: previewId, node: node, page: page, data: data }|json_encode() }}" data-app="{{ frontastic_context()|json_encode() }}">
+    {% if response.status < 400 %}{{ response.body|raw }}{% endif %}
+</div>
+{% endspaceless %}
+{% endblock %}

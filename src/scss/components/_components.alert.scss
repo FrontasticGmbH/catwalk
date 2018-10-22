@@ -1,0 +1,34 @@
+/* ==========================================================================
+   #ALERT
+========================================================================== */
+
+.c-alert {
+    position: relative;
+    margin-bottom: $unit;
+}
+
+.c-alert--error {
+    border-left: 2px solid $color-brand;
+    padding: $unit-small;
+    color: $color-black;
+
+    p:first-of-type {
+        display: inline;
+    }
+}
+
+.c-alert--info {
+    border-left: 2px solid $color-pale;
+    padding: $unit-small;
+    color: $color-black;
+
+    p:first-of-type {
+        display: inline;
+    }
+}
+
+.c-alert__caption {
+    display: inline-block;
+    font-weight: bold;
+    margin-right: .5em;
+}

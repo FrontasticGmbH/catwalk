@@ -1,0 +1,64 @@
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Scrollbars } from 'react-custom-scrollbars'
+
+import Entity from './app/entity'
+import Loading from './app/loading'
+
+import Page from './page/page'
+
+class Node extends Component {
+    UNSAFE_componentWillUpdate = (nextProps) => { // eslint-disable-line camelcase
+        if ((nextProps.page.data && nextProps.page.data.pageId) !==
+            (this.props.page.data && this.props.page.data.pageId)) {
+            this.scrollable && this.scrollable.scrollToTop()
+        }
+    }
+
+    render () {
+        if (!this.props.tastics.isComplete()) {
+            return <Loading large entity={this.props.tastics} />
+        }
+
+        return (<div className='s-node'>
+            {this.props.tastics.isComplete() ?
+                <Scrollbars autoHide style={{ height: '100vh', width: '100vw' }} ref={(element) => {
+                    this.scrollable = element
+                }}>
+                    <Page
+                        node={this.props.node.data || { configuration: {} }}
+                        page={this.props.page.data || {}}
+                        data={this.props.data.data || {}}
+                        tastics={this.props.tastics.data}
+                    />
+                </Scrollbars>
+            : null}
+            <Loading large entity={this.props.data} />
+        </div>)
+    }
+}
+
+Node.propTypes = {
+    node: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
+    page: PropTypes.object.isRequired,
+    tastics: PropTypes.object.isRequired,
+}
+
+Node.defaultProps = {
+}
+
+export default connect(
+    (globalState, props) => {
+        return {
+            node: globalState.node.nodes[globalState.node.currentNodeId] ||
+                globalState.node.last.node || new Entity(),
+            data: globalState.node.nodeData[globalState.node.currentCacheKey] ||
+                globalState.node.last.data || new Entity(),
+            page: globalState.node.pages[globalState.node.currentNodeId] ||
+                globalState.node.last.page || new Entity(),
+            tastics: globalState.tastic.tastics || new Entity(),
+        }
+    }
+)(Node)

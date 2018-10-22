@@ -1,0 +1,54 @@
+/* ==========================================================================
+   #TABLEVIEW
+========================================================================== */
+
+$color-tableview-disclosure-icon: $color-gray-dark !default;
+$color-tableview-cell-border: $color-gray !default;
+$color-tableview-link-primary: $color-primary !default;
+
+.c-tableview {
+    margin: 0;
+}
+
+.c-tableview__cell {
+    border-top: 1px solid $color-tableview-cell-border;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.c-tableview__cell.c-tableview__cell--nested {
+    padding-left: 1rem;
+}
+
+.c-tableview__button,
+.c-tableview__link {
+    font-size: $fs-base;
+    text-align: left;
+    text-decoration: none;
+
+    display: block;
+    margin-right: auto;
+    padding: $unit-small $unit;
+
+    position: relative;
+    flex: 1;
+
+    cursor: pointer;
+
+    &.c-tableview__button--deep {
+        text-align: right;
+        svg {
+            fill: $color-tableview-disclosure-icon;
+        }
+    }
+
+    &.c-tableview__link--button,
+    &.c-tableview__link--primary {
+        color: $color-tableview-link-primary;
+    }
+
+    &.is-active {
+        font-weight: bold;
+    }
+}

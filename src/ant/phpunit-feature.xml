@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PHPUnit Feature Tests Task">
+    <target name="phpunit:feature" extensionOf="-test-feature:main~hook">
+        <parallel>
+            <daemons>
+                <exec executable="${executable.php}" dir="${basedir}">
+                    <env key="CONFIG" value="${basedir}/test/environment" />
+
+                    <arg value="-d" />
+                    <arg value="html_errors=0" />
+                    <arg value="-S" />
+                    <arg value="localhost:8888" />
+                    <arg value="-t" />
+                    <arg value="public/" />
+                    <arg value="${basedir}/bin/serve.php" />
+                </exec>
+            </daemons>
+
+            <sequential>
+                <exec executable="${executable.php}" failonerror="true" dir="${basedir}">
+                    <env key="CONFIG" file="${basedir}/test/environment" />
+
+                    <arg value="bin/console" />
+                    <arg value="cache:clear" />
+                    <arg value="--no-warmup" />
+                </exec>
+
+                <exec executable="${bindir}/phpunit" failonerror="${test-feature.fail-on-violation}" dir="${basedir}">
+                    <env key="CONFIG" file="${basedir}/test/environment" />
+                    <env key="SERVER" value="http://localhost:8888" />
+
+                    <arg value="--debug" />
+                    <arg value="--verbose" />
+                    <arg value="--stop-on-failure" />
+                    <arg value="--group" />
+                    <arg value="functional" />
+                    <arg value="--configuration" />
+                    <arg value="${basedir}/phpunit.xml" />
+                </exec>
+            </sequential>
+        </parallel>
+    </target>
+
+    <target name="phpunit:feature:debug" depends="phpunit:feature">
+        <!-- We always use the debug output version for now to illustrate failures better -->
+    </target>
+</project>

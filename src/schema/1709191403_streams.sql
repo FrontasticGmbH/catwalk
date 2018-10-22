@@ -1,0 +1,1 @@
+ALTER TABLE node ADD n_streams LONGTEXT NOT NULL COMMENT '(DC2Type:object)';

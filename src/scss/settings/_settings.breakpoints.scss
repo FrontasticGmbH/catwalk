@@ -1,0 +1,42 @@
+/* ========================================================================
+   #BREAKPOINTS
+======================================================================== */
+
+$breakpoints: (
+    hand:    480em / 16,
+    lap:     740em / 16,
+    desk: 1270em / 18
+) !default;
+
+$tweakpoints: (
+);
+
+// Set page wrapper width
+$page-wrapper-width: map-get($breakpoints, desk);
+
+// Combine $breakpoints and $tweakpoints
+$mq-breakpoints: map-merge($breakpoints, $tweakpoints);
+
+// Variables to deal with smaller than hand breakpoint
+$inuit-mq-small: palm;
+$inuit-mq-small-breakpoint: hand;
+
+// Separator for use in utility classes
+$inuit-breakpoint-separator: \@;
+
+// Set wrapper width to breakpoint
+$inuit-wrapper-width-breakpoint: map-get($breakpoints, desk);
+
+// Strip unit from wrapper width
+$inuit-wrapper-width: $inuit-wrapper-width-breakpoint / ($inuit-wrapper-width-breakpoint * 0 + 1);
+
+// Wrapper width in rem
+$inuit-wrapper-width: $inuit-wrapper-width * 1rem / $fs-base * 1rem;
+
+$responsivy-from-include: hand lap desk;
+$responsivy-until-include: hand;
+
+// Show active breakpoint and its pixel and em values in the top right corner of the viewport
+@if (inuit-config(debug) == true) {
+    $mq-show-breakpoints: (hand,lap,desk);
+}

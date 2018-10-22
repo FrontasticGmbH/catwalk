@@ -1,0 +1,51 @@
+doctrine:
+    dbal:
+        driver:     pdo_mysql
+        host:     "%env(database_host)%"
+        port:     "%env(database_port)%"
+        dbname:     "%env(database_name)%"
+        user:     "%env(database_user)%"
+        password: "%env(database_password)%"
+        charset:    "UTF8"
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_mapping: true
+        dql:
+            numeric_functions:
+                RADIANS: DoctrineExtensions\Query\Mysql\Radians
+                ACOS: DoctrineExtensions\Query\Mysql\Acos
+                COS: DoctrineExtensions\Query\Mysql\Cos
+                SIN: DoctrineExtensions\Query\Mysql\Sin
+                DEGREES: DoctrineExtensions\Query\Mysql\Degrees
+            string_functions:
+                REGEXP: DoctrineExtensions\Query\Mysql\Regexp
+        mappings:
+            tree:
+                type: annotation
+                alias: Gedmo
+                prefix: Gedmo\Tree\Entity
+                dir: "%kernel.root_dir%/../catwalk/vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                is_bundle: false
+            FrontasticCatwalkApiCoreBundleAppTest:
+                type: annotation
+                prefix: Frontastic\Catwalk\ApiCoreBundle\Domain\App\
+                dir: "%kernel.root_dir%/../catwalk/test/php/ApiCoreBundle/Domain/App"
+            FrontasticCatwalkApiCoreBundle:
+                prefix: 'Frontastic\Catwalk\ApiCoreBundle\Domain'
+            FrontasticCatwalkFrontendBundle:
+                prefix: 'Frontastic\Catwalk\FrontendBundle\Domain'
+
+services:
+    gedmo.listener.tree:
+        class: Gedmo\Tree\TreeListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]

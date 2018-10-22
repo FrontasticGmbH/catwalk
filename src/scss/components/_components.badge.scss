@@ -1,0 +1,29 @@
+/* ==========================================================================
+   #BADGE
+========================================================================== */
+
+.c-badge {
+    box-sizing: content-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 1em;
+    height: 1em;
+    padding: .3em;
+    font-weight: $fw-bold;
+    text-decoration: none;
+    border-radius: 50%;
+    background: $color-link;
+    color: $color-text-invert;
+
+}
+
+.c-badge--invert {
+    background: $color-text-invert;
+    color: $color-link;
+    border: 1px solid $color-border;
+}
+
+.c-badge--tiny {
+    font-size: $fs-xs;
+}

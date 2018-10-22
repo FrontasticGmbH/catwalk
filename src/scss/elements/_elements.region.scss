@@ -1,0 +1,28 @@
+/* ==========================================================================
+   #REGION
+========================================================================== */
+
+.e-region {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-content:flex-start;
+}
+
+.e-region--hidden-hand {
+    @media (max-width: map-get($breakpoints, lap)) {
+        display: none;
+    }
+}
+
+.e-region--hidden-lap {
+    @media (min-width: map-get($breakpoints, lap)) and (max-width: map-get($breakpoints, desk)) {
+        display: none;
+    }
+}
+
+.e-region--hidden-desk {
+    @media (min-width: map-get($breakpoints, desk)) {
+        display: none;
+    }
+}

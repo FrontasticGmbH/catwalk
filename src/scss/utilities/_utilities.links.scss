@@ -1,0 +1,27 @@
+/* ==========================================================================
+   #LINKS
+========================================================================== */
+
+.u-link {
+    color: $color-link !important;
+
+    &:hover,
+    &:focus,
+    a:hover &,
+    a:focus & {
+        color: $color-link-hover !important;
+    }
+}
+
+.u-link--stealth {
+    text-decoration: inherit;
+    color: inherit !important;
+
+    &:hover,
+    &:focus,
+    a:hover &,
+    a:focus & {
+        color: $color-link-hover !important;
+    }
+}
+

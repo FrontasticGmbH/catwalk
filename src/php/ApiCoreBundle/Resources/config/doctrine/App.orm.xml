@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Frontastic\Catwalk\ApiCoreBundle\Domain\App" table="app">
+        <id name="appId" column="a_id" type="string">
+            <generator strategy="NONE"/>
+        </id>
+
+        <field name="sequence" column="a_sequence" type="string" />
+        <field name="identifier" column="a_identifier" type="string" />
+        <field name="name" column="a_name" type="string" nullable="true"  />
+        <field name="description" column="a_description" type="text" nullable="true"  />
+        <field name="configurationSchema" column="a_configuratioa_schema" type="object" />
+        <field name="environment" column="a_environment" type="string" nullable="true" />
+        <field name="metaData" column="a_meta_data" type="object" />
+
+        <indexes>
+            <index columns="a_id"/>
+            <index columns="a_sequence"/>
+        </indexes>
+    </entity>
+</doctrine-mapping>

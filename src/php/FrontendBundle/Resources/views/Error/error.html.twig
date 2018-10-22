@@ -1,0 +1,11 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}
+{{ parent() }} – Not Found
+{% endblock %}
+
+{% block main %}
+{% spaceless %}
+<div id="app" data-props="{{ { node: node, page: page, data: data }|json_encode() }}" data-app="{{ frontastic_context()|json_encode() }}" />
+{% endspaceless %}
+{% endblock %}

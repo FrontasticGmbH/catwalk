@@ -1,0 +1,17 @@
+/* ==========================================================================
+   #PRICE
+========================================================================== */
+
+.c-price {
+    white-space: nowrap;
+    font-weight: $fw-bold;
+}
+
+.c-price--highlight {
+    color: $color-highlight;
+}
+
+.c-price--old {
+    text-decoration: line-through;
+    font-weight: $fw-normal;
+}

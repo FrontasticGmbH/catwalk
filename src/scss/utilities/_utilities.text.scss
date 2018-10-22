@@ -1,0 +1,74 @@
+/* ==========================================================================
+   #TEXT
+========================================================================== */
+
+$inuit-responsive-text: false !default;
+
+$inuit-responsive-text-until-include: default !default
+$inuit-responsive-text-until-exclude: default !default
+$inuit-responsive-text-from-include: default !default
+$inuit-responsive-text-from-exclude: default !default
+
+.u-text {
+    font-weight: $fw-normal !important;
+    line-height: inital !important;
+    color: $color-text !important;
+    text-decoration: none !important;
+}
+
+@if variable-exists(fs-xxs) { .u-text-xxs { font-size: $fs-xxs !important; } }
+@if variable-exists(fs-xs) { .u-text-xs { font-size: $fs-xs !important; } }
+@if variable-exists(fs-s) { .u-text-s { font-size: $fs-s !important; } }
+@if variable-exists(fs-base) { .u-text-base { font-size: $fs-base !important; } }
+@if variable-exists(fs-l) { .u-text-l { font-size: $fs-l !important; } }
+@if variable-exists(fs-xl) { .u-text-xl { font-size: $fs-xl !important; } }
+@if variable-exists(fs-xxl) { .u-text-xxl { font-size: $fs-xxl !important; } }
+@if variable-exists(fs-xxxl) { .u-text-xxxl { font-size: $fs-xxxl !important; } }
+@if variable-exists(fs-xxxxl) { .u-text-xxxxl { font-size: $fs-xxxxl !important; } }
+
+@if $inuit-responsive-text {
+
+    /* Responsive text helper classes */
+    @include responsify(
+        $until-include: $inuit-responsive-text-until-include,
+        $until-exclude: $inuit-responsive-text-until-exclude,
+        $from-include: $inuit-responsive-text-from-include,
+        $from-exclude: $inuit-responsive-text-from-exclude
+    ) {
+
+        .u-text {
+            font-weight: $fw-normal !important;
+            line-height: inital !important;
+            color: $color-text !important;
+            text-decoration: none !important;
+        }
+
+        @if variable-exists(fs-xxs) {
+            .u-text-xxs#{$breakpoint} { font-size: $fs-xxs !important; }
+        }
+        @if variable-exists(fs-xs) {
+            .u-text-xs#{$breakpoint} { font-size: $fs-xs !important; }
+        }
+        @if variable-exists(fs-s) {
+            .u-text-s#{$breakpoint} { font-size: $fs-s !important; }
+        }
+        @if variable-exists(fs-base) {
+            .u-text-base#{$breakpoint} { font-size: $fs-base !important; }
+        }
+        @if variable-exists(fs-l) {
+            .u-text-l#{$breakpoint} { font-size: $fs-l !important; }
+        }
+        @if variable-exists(fs-xl) {
+            .u-text-xl#{$breakpoint} { font-size: $fs-xl !important; }
+        }
+        @if variable-exists(fs-xxl) {
+            .u-text-xxl#{$breakpoint} { font-size: $fs-xxl !important; }
+        }
+        @if variable-exists(fs-xxxl) {
+            .u-text-xxxl#{$breakpoint} { font-size: $fs-xxxl !important; }
+        }
+        @if variable-exists(fs-xxxxl) {
+            .u-text-xxxxl#{$breakpoint} { font-size: $fs-xxxxl !important; }
+        }
+    }
+}

@@ -1,0 +1,1 @@
+ALTER TABLE node ADD n_depth INT NOT NULL;

@@ -1,0 +1,84 @@
+/* ==========================================================================
+   #HERO
+========================================================================== */
+
+.c-hero {
+}
+
+// @TODO: Why is this needed?
+.c-hero > .o-ratio:before {
+    display: none;
+}
+
+.c-hero__figure {
+    position: relative;
+}
+
+.c-hero__image {
+    object-fit: cover;
+}
+
+.c-hero__caption {
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
+    color: $color-text-invert;
+    text-shadow: 0px 0px 2px $color-text;
+    padding: $unit-tiny $unit-small;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    max-height: 100%;
+    width: 100%;
+    text-align: center;
+
+    font-size: $fs-xl;
+}
+
+.c-hero__caption--center {
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.c-hero__caption--top {
+    top: 0;
+    transform: translate(0, 0);
+}
+
+.c-hero__caption--bottom {
+    bottom: 0;
+    transform: translate(0, calc(100% - 1em - #{2 * $unit-tiny}));
+}
+
+.c-hero__caption--left {
+    text-align: left;
+}
+
+.c-hero__caption--right {
+    text-align: right;
+}
+
+.c-hero__caption--small {
+    font-size: $fs-l;
+
+    @include mq($from: lap) {
+        font-size: $fs-l;
+    }
+
+    @include mq($from: desk) {
+        font-size: $fs-l;
+    }
+}
+
+.c-hero__caption--large {
+    font-size: $fs-xxl;
+
+    @include mq($from: lap) {
+        font-size: $fs-xxl;
+    }
+
+    @include mq($from: desk) {
+        font-size: $fs-xxxl;
+    }
+}

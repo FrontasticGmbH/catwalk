@@ -1,0 +1,233 @@
+/* ==========================================================================
+   #PATTERN LIBRARY
+========================================================================== */
+
+$headerHeight: (($fs-base * $lh-default) + (2 * $unit-small));
+
+.c-pattern-library {
+    width: 100vw;
+    height: 100vh;
+}
+
+.c-pattern-library__header {
+    background-color: $color-black;
+    color: $color-white;
+    height: $headerHeight;
+
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.c-pl-spacer {
+    flex: 1;
+}
+
+.c-pl-menu,
+.c-pl-content,
+.c-pl-sub-content {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.c-pl-sub-content {
+    margin-left: $unit;
+}
+
+.c-pl-menu__item {
+    display: inline-block;
+    position: relative;
+
+    font-size: $fs-base;
+    line-height: $lh-default;
+
+    & > button {
+        display: block;
+        width: 100%;
+        padding: $unit-small;
+        border: none;
+        cursor: pointer;
+
+        font-size: inherit;
+        line-height: inherit;
+
+        &:hover {
+            background-color: $color-gray-dark;
+            color: $color-white;
+        }
+    }
+
+    & > input {
+        text-align: right;
+        background-color: $color-black;
+        color: $color-gray;
+        border: none;
+        border-bottom: 1px solid $color-gray-dark;
+        width: 3em;
+
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+    .c-pl-menu__content {
+        max-height: 0;
+        min-width: 256px;
+        overflow: hidden;
+
+        box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+
+        position: absolute;
+        top: $headerHeight;
+        left: 0;
+
+        background-color: $color-gray-dark;
+        color: $color-white;
+
+        transition: max-height 225ms ease-in-out;
+    }
+
+    &--selected {
+        & > button {
+            background-color: $color-primary;
+            color: $color-white;
+        }
+
+        .c-pl-menu__content {
+            max-height: 100vh;
+        }
+    }
+}
+
+.c-pl-content__item,
+.c-pl-sub-content__item {
+    & > button {
+        display: block;
+        width: 100%;
+        padding: $unit-tiny;
+        text-align: left;
+
+        cursor: pointer;
+    }
+}
+
+.c-pattern-library__body {
+    height: calc(100vh - #{$headerHeight});
+    background-color: $color-pale;
+}
+
+.c-patterns {
+    display: block;
+
+    height: 100%;
+    width: 375px;
+    transition: width 125ms ease-in-out;
+    overflow: hidden auto;
+    margin: 0 auto;
+    padding: 0;
+
+    border: none;
+    border-left: 1px solid $color-gray;
+    border-right: 1px solid $color-gray;
+
+    background-color: $color-page;
+    color: $color-text;
+}
+
+.c-patterns__handle {
+    display: block;
+    position: absolute;
+    top: calc(50% + (#{$headerHeight} / 2));
+    left: calc(50% + (375px / 2));
+    transition: left 125ms ease-in-out;
+
+    transform: translateY(-50%);
+
+    height: 64px;
+    width: 12px;
+    cursor: ew-resize;
+
+    border: 1px solid $color-gray-dark;
+    border-radius: 0px 3px 3px 0px;
+    background-color: $color-gray;
+    box-shadow: 1px 2px 2px 0px rgba(0, 0, 0, 0.3), 1px 3px 1px -2px rgba(0, 0, 0, 0.1);
+}
+
+.c-patterns__title {
+    border-bottom: 1px solid $color-gray;
+    text-align: center;
+    padding: $unit-small;
+    background-color: $color-pale;
+    color: $color-text;
+    font-weight: bold;
+    margin: $unit-small 0;
+}
+
+.c-patterns__title:first-child {
+    margin-top: 0;
+}
+
+.c-patterns__title--1 {
+    font-size: $fs-xxl;
+}
+
+.c-patterns__title--2 {
+    font-size: $fs-xl;
+}
+
+.c-patterns__title--3 {
+    font-size: $fs-l;
+}
+
+.c-patterns__title--4 {
+    font-size: $fs-base;
+}
+
+.c-patterns__title--6 {
+    font-size: $fs-s;
+}
+
+.c-p-options {
+    display: flex;
+    flex-flow: row nowrap;
+
+    border-top: 1px solid $color-gray;
+    border-bottom: 1px solid $color-gray;
+    margin: 0 0 $unit-small 0;
+    padding: 0;
+}
+
+.c-p-options__option {
+    flex: 1;
+
+    background-color: $color-pale;
+    color: $color-text;
+    padding: $unit-tiny;
+    font-size: $fs-s;
+
+    :hover, &--active {
+        background-color: $color-primary;
+        color: $color-white;
+    }
+}
+
+.c-patterns__code {
+    font-family: monospace;
+    font-size: $fs-xs;
+
+    background-color: $color-pale;
+    color: $color-text;
+
+    padding: $unit-tiny;
+    overflow: scroll auto;
+}
+
+.c-patterns__properties {
+    margin: $unit-small 0;
+
+    font-family: monospace;
+    font-size: $fs-xs;
+
+    li {
+        padding: $unit-tiny;
+    }
+}

@@ -1,0 +1,112 @@
+/* ==========================================================================
+   #FILTER-BAR
+========================================================================== */
+$color-filter-bar-height: 3rem !default;
+$color-filter-bar-horizontal-offset: 1.5rem !default;
+$color-filter-bar-button: $color-text !default;
+$color-filter-bar-button-bg: transparent !default;
+$color-filter-bar-button-bg-active: $color-brand !default;
+$color-filter-bar-button-active: $color-text-invert !default;
+$border-radius-filter-bar-button: 1rem !default;
+$border-width-filter-bar-button: 2px !default;
+$transition-filter-bar-button: 150ms !default
+.c-filter-bar {
+    height: $color-filter-bar-height;
+    width: 100%;
+    width: 100vw;
+    max-width: calc(100% + (#{$color-filter-bar-horizontal-offset} * 2));
+
+    margin-left: -$color-filter-bar-horizontal-offset;
+    margin-right: -$color-filter-bar-horizontal-offset;
+    position: relative;
+    overflow: hidden;
+    .c-filter-bar__scrollable {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        padding: 0 $color-filter-bar-horizontal-offset 1rem;
+        margin-bottom: -1rem;
+
+        white-space: nowrap;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+        overflow-y: hidden;
+
+        // Hide scrollbar
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    &::before,
+    &::after {
+        content: '';
+        display: block;
+        height: 100%;
+        width: 1.5rem;
+        position: absolute;
+        top: 0;
+        z-index: 9;
+    }
+
+    &::before {
+        background-image: linear-gradient(to right, white 30%, rgba(255, 255, 255, 0) 100%);
+        left: 0;
+    }
+    &::after {
+        background-image: linear-gradient(to left, white 30%, rgba(255, 255, 255, 0) 100%);
+        right: 0;
+    }
+
+    .c-filter-bar__item {
+        display: inline-block;
+        margin-right: $color-filter-bar-horizontal-offset / 4;
+    }
+
+    .c-filter-bar__button {
+        // Override default button
+        $padding-button: .5rem 1rem;
+
+        border-radius: $border-radius-filter-bar-button;
+        border: $border-width-filter-bar-button solid $color-filter-bar-button;
+
+        cursor: pointer;
+
+        color: $color-filter-bar-button;
+        text-decoration: none;
+
+        display: inline-flex;
+        padding: $padding-button;
+
+        transition: color $transition-filter-bar-button, background-color $transition-filter-bar-button, border $transition-filter-bar-button;
+
+        &:hover {
+            color: $color-filter-bar-button-bg-active;
+        }
+    }
+
+    + .c-filter-button {
+        $padding-button: .5rem 1rem;
+        border: 2px solid;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: .5rem 0 1rem;
+        padding: $padding-button;
+        width: 100%;
+    }
+    input:focus + .c-filter-bar__button {
+        color: $color-filter-bar-button-bg-active;
+    }
+
+    input:checked + .c-filter-bar__button {
+        background-color: $color-filter-bar-button-bg-active;
+        color: $color-filter-bar-button-active;
+        border-color: $color-filter-bar-button-bg-active;
+    }
+
+}

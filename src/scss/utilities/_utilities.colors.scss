@@ -1,0 +1,78 @@
+/* ==========================================================================
+   #COLORS
+========================================================================== */
+
+$inuit-colors: true !default;
+$inuit-background-colors: false !default;
+$inuit-responsive-colors: false !default;
+
+$inuit-responsive-colors-until-include: default !default;
+$inuit-responsive-colors-until-exclude: default !default;
+$inuit-responsive-colors-from-include: default !default;
+$inuit-responsive-colors-from-exclude: default !default;
+
+// Colors map.
+// Insert colors here, you wish to have a background-color
+// and text-color utility-class for.
+$utility-colors: (
+    black:                #000,
+    white:                #fff
+) !default;
+
+@if $inuit-colors {
+    /* Text colors */
+    @each $color in $utility-colors {
+
+        $color-name:    nth($color, 1);
+        $color-value: nth($color, 2);
+
+        .u-color-#{$color-name} {
+            color: #{$color-value} !important;
+        }
+
+    }
+}
+
+@if $inuit-background-colors {
+    /* Background colors */
+    @each $color in $utility-colors {
+
+        $color-name:    nth($color, 1);
+        $color-value: nth($color, 2);
+
+        .u-bg-color-#{$color-name} {
+            background-color: #{$color-value} !important;
+        }
+
+    }
+}
+
+@if $inuit-responsive-colors {
+
+    /* Responsive colors */
+    @include responsify(
+        $until-include: $inuit-responsive-colors-until-include,
+        $until-exclude: $inuit-responsive-colors-until-exclude,
+        $from-include: $inuit-responsive-colors-from-include,
+        $from-exclude: $inuit-responsive-colors-from-exclude
+    ) {
+
+        @each $color in $utility-colors {
+
+            $color-name:    nth($color, 1);
+            $color-value: nth($color, 2);
+
+            .u-color-#{$color-name}#{$breakpoint} {
+                color: #{$color-value} !important;
+            }
+
+            @if $inuit-background-colors {
+                .u-bg-color-#{$color-name}#{$breakpoint} {
+                    background-color: #{$color-value} !important;
+                }
+            }
+
+        }
+    }
+
+}

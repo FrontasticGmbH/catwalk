@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Frontastic\Catwalk\FrontendBundle\Domain\MasterPageMatcherRules" table="page_matcher_rules">
+        <id name="rulesId" column="pmr_id" type="string">
+            <generator strategy="NONE"/>
+        </id>
+
+        <field name="rules" column="pmr_rules" type="json_array" />
+        <field name="sequence" column="pmr_sequence" type="string" />
+        <field name="metaData" column="pmr_meta_data" type="object" />
+    </entity>
+</doctrine-mapping>

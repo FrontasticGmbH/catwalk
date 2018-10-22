@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Frontastic\Catwalk\FrontendBundle\Domain\Layout" table="layout">
+        <id name="layoutId" column="l_id" type="string">
+            <generator strategy="NONE"/>
+        </id>
+
+        <field name="sequence" column="l_sequence" type="string" />
+        <field name="name" column="l_name" type="string" />
+        <field name="regions" column="l_regions" type="json_array" />
+        <field name="metaData" column="l_meta_data" type="object" />
+
+        <indexes>
+            <index columns="l_id"/>
+            <index columns="l_sequence"/>
+        </indexes>
+    </entity>
+</doctrine-mapping>

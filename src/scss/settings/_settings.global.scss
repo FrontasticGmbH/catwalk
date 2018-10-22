@@ -1,0 +1,58 @@
+/* ========================================================================
+   #GLOBAL
+======================================================================== */
+
+// The global settings file contains any project-wide variables; things that
+// need to be made available to the entire codebase.
+
+$inuit-global-spacing-unit: 1.5rem;
+$inuit-global-baseline: 1.5rem / 4;
+
+// Which fractions would you like in your grid system(s)?
+$inuit-fractions: 1 2 3 4 5 7 !default;
+
+// Responsive Spacings Settings
+$inuit-responsive-spacing-directions: (
+    null: null,
+    "-top": "-top",
+    "-right": "-right",
+    "-bottom": "-bottom",
+    "-left": "-left",
+);
+
+$inuit-responsive-spacing-properties: (
+    "margin": "margin",
+    "padding": "padding",
+);
+
+$inuit-responsive-spacing-sizes: (
+    null: $inuit-global-spacing-unit,
+    "-minus": -$inuit-global-spacing-unit,
+    "-none": 0
+);
+
+// Ratios
+$inuit-ratios: (
+    "2\\:1"     : (2:1),
+    "4\\:3"     : (4:3),
+    "16\\:9"    : (16:9),
+    "3\\:1"     : (3:1),
+    "5\\:1"     : (5:1)
+);
+
+// Icon sizes
+$icon-sizes: (
+    auto: 1em, // required
+    xs: 12px,
+    s: 18px,
+    base: 24px, // required
+    l: 30px,
+    xl: 48px,
+    xxl: 64px,
+);
+
+$icon-default-size: base;
+
+// Standardise some UI treatments.
+$global-radius: 3px !default;
+$global-transition: all 200ms ease-out !default;

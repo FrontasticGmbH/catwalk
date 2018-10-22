@@ -1,0 +1,25 @@
+core:
+    resource: "@FrontasticCommonCoreBundle/Resources/config/routing.xml"
+    prefix:   /
+
+frontend:
+    resource: "@FrontasticCatwalkFrontendBundle/Resources/config/routing.xml"
+    prefix:   /
+
+cart_api:
+    resource: "@FrontasticCommonCartApiBundle/Resources/config/routing.xml"
+    prefix:   /api
+
+api_core:
+    resource: "@FrontasticCatwalkApiCoreBundle/Resources/config/routing.xml"
+    prefix:   /
+
+dev_vm:
+    resource: "@FrontasticCatwalkDevVmBundle/Resources/config/routing.xml"
+    prefix:   /
+
+# This should always be the last entry
+frontend_nodes:
+    resource: .
+    prefix:   /
+    type:     "frontastic"

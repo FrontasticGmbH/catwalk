@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Symfony3-Symlink-Common-Directories">
+    <property name="executable.symfony" location="bin/console" />
+
+    <target name="symfony:symlinks" extensionOf="-prepare:before~hook">
+        <!-- TODO: Delete historical link. Can be removed in future. -->
+        <symlink action="delete" link="app/AppKernel.php" />
+        <!-- Intentionally copy instead of link to ensure correct base path -->
+        <copy tofile="${basedir}/app/AppKernel.php" file="${basedir}/../catwalk/app/AppKernel.php" overwrite="true" />
+
+        <symlink link="${basedir}/app/Resources" resource="../../catwalk/app/Resources" overwrite="true" />
+
+        <symlink link="${basedir}/app/config/config_dev.yml" resource="../../../catwalk/app/config/config_dev.yml" overwrite="true" />
+        <symlink link="${basedir}/app/config/config_test.yml" resource="../../../catwalk/app/config/config_test.yml" overwrite="true" />
+        <symlink link="${basedir}/app/config/config.yml" resource="../../../catwalk/app/config/config.yml" overwrite="true" />
+        <symlink link="${basedir}/app/config/doctrine.yml" resource="../../../catwalk/app/config/doctrine.yml" overwrite="true" />
+        <symlink link="${basedir}/app/config/routing_dev.yml" resource="../../../catwalk/app/config/routing_dev.yml" overwrite="true" />
+        <symlink link="${basedir}/app/config/routing.yml" resource="../../../catwalk/app/config/routing.yml" overwrite="true" />
+        <symlink link="${basedir}/app/config/security.yml" resource="../../../catwalk/app/config/security.yml" overwrite="true" />
+
+        <!-- TODO: Delete historical link. Can be removed in future. -->
+        <symlink action="delete" link="${basedir}/bin"/>
+        <!-- Intentionally copy to ensure correct base path -->
+        <copy todir="${basedir}/bin" overwrite="true">
+            <fileset dir="${basedir}/../catwalk/bin" />
+        </copy>
+        <chmod perm="ug+rx">
+            <fileset dir="${basedir}/bin" />
+        </chmod>
+
+        <symlink link="${basedir}/src" resource="../catwalk/src" overwrite="true" />
+        <symlink link="${basedir}/test" resource="../catwalk/test" overwrite="true" />
+        <symlink link="${basedir}/vendor" resource="../catwalk/vendor" overwrite="true" />
+        <symlink link="${basedir}/environment" resource="../catwalk/environment" overwrite="true" />
+
+        <!-- TODO: Delete historical link. Can be removed in future. -->
+        <symlink action="delete" link="web" />
+        <!-- FIXME: The index.php needs to be copied. We copy the remainder, too, although assets are generated. -->
+        <copy todir="${basedir}/web" overwrite="true">
+            <fileset dir="${basedir}/../catwalk/web" />
+        </copy>
+    </target>
+</project>

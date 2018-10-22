@@ -1,0 +1,23 @@
+/* ==========================================================================
+   #PRICE_LIST
+========================================================================== */
+
+.c-price-list {
+    margin-left: 0;
+    list-style: none;
+    margin-left: -$unit-tiny;
+    margin-right: -$unit-tiny;
+}
+
+.c-price-list__item {
+    display: inline-block;
+    margin-left: $unit-tiny;
+    margin-right: $unit-tiny;
+}
+
+.e-tastic__product-price {
+    .c-price-list__item {
+        display: block;
+        text-align: right;
+    }
+}

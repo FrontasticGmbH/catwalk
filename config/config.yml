@@ -1,0 +1,59 @@
+imports:
+    - { resource: security.yml }
+    - { resource: doctrine.yml }
+
+framework:
+    secret:          "%env(secret)%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: false }
+    serializer:      { enable_annotations: false }
+    templating:
+        engines: ['twig']
+    default_locale:  "%env(locale)%"
+    trusted_hosts:   ~
+    session:
+        handler_id:  session.handler.native_file
+        save_path:   "%kernel.cache_dir%/sessions"
+    fragments:       ~
+    http_method_override: true
+    assets: ~
+
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    exception_controller: Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::errorAction
+
+swiftmailer:
+    transport: "%env(mailer_transport)%"
+    spool:     { type: memory }
+
+sensio_framework_extra:
+    view:
+        annotations: false
+    request:
+        converters: true
+        auto_convert: true
+
+monolog:
+    handlers:
+        syslog:
+            type:                stream
+            path:                "%kernel.logs_dir%/frontend.log"
+            level:               ERROR
+            bubble:              false
+        main:
+            type:                fingers_crossed
+            action_level:        WARNING
+            buffer_size:         100
+            handler:             syslog
+
+doctrine:
+    orm:
+        filters:
+            undeleted:
+                class: "Frontastic\\Catwalk\\ApiCoreBundle\\Doctrine\\UndeletedFilter"
+                enabled: true

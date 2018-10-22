@@ -1,0 +1,149 @@
+<?php
+
+namespace Frontastic\Catwalk\FrontendBundle\Controller;
+
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\FrontendBundle\Domain\Node;
+use Frontastic\Catwalk\FrontendBundle\Domain\Page;
+use Frontastic\Catwalk\FrontendBundle\Domain\Preview;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
+use Frontastic\Common\ReplicatorBundle\Domain\Result;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @TODO Extract MasterPage related code into service
+ */
+class PreviewController extends Controller
+{
+    public function viewAction(Request $request, Context $context, string $preview): array
+    {
+        $previewService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\PreviewService');
+        $dataProvider = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider');
+
+        // @TODO: Build query from request (facet selections, …))
+        // $query = new Query();
+
+        $preview = $previewService->get($preview);
+
+        if ($preview->node && $preview->node->isMaster) {
+            $this->completeMasterNode($context, $preview->node);
+        }
+
+        $data = new \StdClass();
+        if ($preview->node) {
+            $data = $dataProvider->fetchDataFor($preview->node, $context, [], $preview->page);
+        }
+
+        return [
+            'previewId' => $preview->previewId,
+            'node' => $preview->node,
+            'page' => $preview->page,
+            'data' => $data,
+        ];
+    }
+
+    /**
+     * TODO: Replace this ugly hack with sane enhancement of page editor in Backstage.
+     *
+     * The admin should be able to select the product/category to use for preview.
+     *
+     * @param Node $node
+     */
+    private function completeMasterNode(Context $context, Node $node): void
+    {
+        $pageType = 'product';
+        $needsCompletion = false;
+
+        foreach ($node->streams as $stream) {
+            if (!isset($stream['configuration'])) {
+                continue;
+            }
+
+            if ($stream['streamId'] === '__master') {
+                $pageType = key($stream['configuration']);
+            }
+            $needsCompletion |= ($stream['configuration'][$pageType] === null);
+        }
+
+        if (!$needsCompletion) {
+            return;
+        }
+
+        $itemId = null;
+        switch ($pageType) {
+            case 'product':
+                $result = $this->get('frontastic.catwalk.product_api')->query(new ProductQuery([
+                    'locale' => $context->locale,
+                ]));
+                $itemId = $result->items[array_rand($result->items)]->productId;
+                break;
+ 
+            case 'category':
+            default:
+                /* @todo Extract query parameters from environment */
+                $categories = $this->get('frontastic.catwalk.product_api')
+                    ->getCategories(new CategoryQuery([
+                        'locale' => 'en_GB@euro',
+                        'limit' => 250,
+                    ]));
+                $itemId = $categories[array_rand($categories)]->categoryId;
+                break;
+        }
+
+        $node->streams = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\MasterService')->completeDefaultQuery(
+            $node->streams,
+            $pageType,
+            $itemId
+        );
+    }
+
+    public function storeAction(Request $request): JsonResponse
+    {
+        try {
+            $requestVerifier = $this->get('Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier');
+            $requestVerifier->ensure($request, $this->getParameter('secret'));
+
+            $previewService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\PreviewService');
+
+            if (!$request->getContent() ||
+                !($body = json_decode($request->getContent(), true))) {
+                throw new \InvalidArgumentException("Invalid data passed: " . $request->getContent());
+            }
+            $previewId = $body['previewId'];
+
+            try {
+                $preview = $previewService->get($previewId);
+            } catch (\OutOfBoundsException $e) {
+                $preview = new Preview(['previewId' => $previewId]);
+            }
+
+            $nodeService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\NodeService');
+            if ($body['node']) {
+                $preview->node = $nodeService->fill(new Node(), $body['node']);
+            }
+
+            $pageService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\PageService');
+            $preview->page = $pageService->fill(new Page(), $body['page']);
+
+            $preview->createdAt = new \DateTime();
+            $preview->metaData = $body['metaData'];
+
+            return new JsonResponse([
+                'ok' => true,
+                'link' => $this->generateUrl(
+                    'Frontastic.Frontend.Preview.view',
+                    ['preview' => $preview->previewId],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+                'preview' => $previewService->store($preview),
+            ]);
+        } catch (\Throwable $e) {
+            return new JsonResponse(Result::fromThrowable($e));
+        }
+    }
+}

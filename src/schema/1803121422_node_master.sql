@@ -1,0 +1,1 @@
+ALTER TABLE node ADD n_is_master TINYINT NOT NULL;

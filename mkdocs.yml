@@ -1,0 +1,22 @@
+site_name: Frontastic Catwalk
+copyright: Copyright Frontastic GmbH
+theme:
+    name: material
+    palette:
+      primary: white
+      accent: pink
+    logo: 'images/logo.svg'
+    base_url: '/docs'
+markdown_extensions: [codehilite, admonition]
+docs_dir: docs
+site_dir: ../landingpage/htdocs/docs
+
+pages:
+- Home: 'index.md'
+- Beta Notes: 'beta_notes.md'
+- Architecture: 'architecture.md'
+- Concepts: 'concepts.md'
+- Tutorials:
+    - '☉ Overview': 'tutorials/index.md'
+    - 'Simple Tastic': 'tutorials/10_simple_tastic.md'
+    - 'Testing Tastic': 'tutorials/20_testing_tastic.md'

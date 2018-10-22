@@ -1,0 +1,1 @@
+CREATE TABLE page_matcher_rules (pmr_id VARCHAR(255) NOT NULL, pmr_rules LONGTEXT NOT NULL COMMENT '(DC2Type:json_array)', pmr_sequence VARCHAR(255) NOT NULL, pmr_meta_data LONGTEXT NOT NULL COMMENT '(DC2Type:object)', PRIMARY KEY(pmr_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;

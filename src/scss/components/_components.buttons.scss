@@ -1,0 +1,351 @@
+/* ==========================================================================
+   #BUTTON
+========================================================================== */
+
+$button-border-width: 2px !default;
+$button-border-radius: .7rem !default;
+$button-min-height: $unit + $unit-small + $unit-tiny !default;
+
+$button-primary-color: $color-text-invert !default;
+$button-primary-color-hover: $button-primary-color !default;
+$button-primary-background: $color-link !default;
+$button-primary-background-hover: $color-link-hover !default;
+
+$button-secondary-color: $color-text !default;
+$button-secondary-color-hover: $color-link-hover !default;
+$button-secondary-background: $color-text-invert !default;
+$button-secondary-background-hover: $button-secondary-background !default;
+$button-secondary-border-color: currentColor !default;
+
+/**
+ * Mixin Color Button
+ */
+@mixin button-color(
+    $modifier,
+    $color,
+    $background,
+    $background-hover: null,
+    $color-hover: null,
+    $border-width: $button-border-width,
+    $border-color: null,
+    $border-color-hover: null,
+    $outline-variant: null,
+    $outline-variant-hover: null,
+    $radius: null,
+    $uppercase: null
+    ){
+
+    .c-button--#{$modifier} {
+        color: $color;
+        background: $background;
+
+        @if $uppercase {
+            text-transform: uppercase;
+        }
+
+        @if $radius {
+            border-radius: $radius;
+        }
+
+        @if $border-color {
+            box-shadow: inset 0 0 0 $border-width $border-color;
+        }
+
+        .c-button--hover &,
+        a:hover &,
+        a:active &,
+        a:focus & {
+
+            @if $color-hover {
+                color: $color-hover;
+            }
+            @else {
+                color: $color;
+            }
+
+            @if $background-hover {
+                background: $background-hover;
+            }
+
+            @if $border-color-hover {
+                box-shadow: inset 0 0 0 $border-width $border-color-hover;
+            }
+        }
+    }
+
+    .c-button--hover.c-button--#{$modifier},
+    a.c-button--#{$modifier},
+    button.c-button--#{$modifier},
+    input.c-button--#{$modifier} {
+
+        &:hover,
+        &:active,
+        &:focus {
+
+            @if $color-hover {
+                color: $color-hover;
+            }
+            @else {
+                color: $color;
+            }
+
+            @if $background-hover {
+                background: $background-hover;
+            }
+
+            @if $border-color-hover {
+                box-shadow: inset 0 0 0 $border-width $border-color-hover;
+            }
+        }
+    }
+
+    .c-button--#{$modifier}.c-button--disable-hover {
+
+        a:hover &,
+        a:active &,
+        a:focus &,
+        &:hover,
+        &:active,
+        &:focus,
+        &[disabled] {
+            color: $color;
+            background: $background;
+
+            @if $border-color {
+                box-shadow: inset 0 0 0 $border-width $border-color;
+            }
+        }
+    }
+
+    // Outline Variant
+    @if $outline-variant {
+
+        .c-button--#{$modifier}.c-button--outline {
+            color: $background;
+            background: $color;
+            //border: $button-border-width solid;
+            box-shadow: inset 0 0 0 $border-width $border-color;
+
+            @if $outline-variant-hover {
+
+                .c-button--hover:hover &,
+                a:hover &,
+                a:active &,
+                a:focus & {
+
+                    @if $background-hover {
+                        color: $background-hover;
+                    }
+                    @else {
+                        color: $background;
+                    }
+
+                    @if $color-hover {
+                        background: $color-hover;
+                    }
+                }
+            }
+        }
+
+        @if $outline-variant-hover {
+
+            a.c-button--#{$modifier},
+            button.c-button--#{$modifier},
+            input.c-button--#{$modifier} {
+
+                &.c-button--outline {
+
+                    &:hover,
+                    &:active,
+                    &:focus {
+
+                        @if $background-hover {
+                            color: $background-hover;
+                        }
+                        @else {
+                            color: $background;
+                        }
+
+                        @if $color-hover {
+                            background: $color-hover;
+                        }
+                        @else {
+                            background: $color;
+                        }
+                    }
+                }
+            }
+        }
+
+        .c-button--#{$modifier}.c-button--outline.c-button--disable-hover {
+
+            a:hover &,
+            a:active &,
+            a:focus &,
+            &:hover,
+            &:active,
+            &:focus,
+            &[disabled] {
+                color: $background;
+                background: $color;
+            }
+        }
+
+    }
+}
+
+/**
+ * 1. Allow us to style box model properties.
+ * 2. Line different sized buttons up a little nicer.
+ * 3. Make buttons inherit font styles (often necessary when styling `input`s as
+ *        buttons).
+ * 4. Reset/normalize some styles.
+ */
+
+.c-button {
+    box-sizing: border-box;
+    appearance: none;
+    //display: inline-block; /* [1] */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle; /* [2] */
+    font: inherit; /* [3] */
+    font-size: $fs-base;
+    text-align: center; /* [4] */
+    text-decoration: none;
+    // white-space: nowrap;
+    max-width: 100%;
+    min-height: $button-min-height;
+    padding: $unit-tiny $unit-small;
+    border-style: none;
+    background: none;
+    transition: $global-transition;
+
+    > * {
+        vertical-align: middle;
+    }
+}
+
+.c-button:disabled,
+.c-button[disabled] {
+    background-color: $color-gray;
+    color: $color-gray-dark;
+    cursor: not-allowed;
+
+    svg {
+        fill: $color-gray;
+    }
+}
+
+a.c-button, button.c-button:enabled, input.c-button:enabled {
+    cursor: pointer;
+}
+
+/**
+ * Primary button
+ */
+@include button-color(
+    primary,
+    $button-primary-color,
+    $button-primary-background,
+    $button-primary-background-hover,
+    $outline-variant: true,
+    $outline-variant-hover: true,
+    $uppercase: true
+    );
+
+/**
+ * Secondary button
+ */
+@include button-color(
+    secondary,
+    $button-secondary-color,
+    $button-secondary-background,
+    $button-secondary-background-hover,
+    $color-hover: $button-secondary-color-hover,
+    $border-color: $button-secondary-border-color,
+    $uppercase: true
+    );
+
+/**
+ * Button icon
+ */
+.c-button__icon {
+    @include icon-size(base);
+    min-width: 1em;
+
+    &:first-child {
+        margin-right: $unit-tiny;
+    }
+
+    &:last-child {
+        margin-left: $unit-tiny;
+    }
+
+    &:only-child {
+        margin: 0;
+    }
+}
+
+/**
+ * Small button
+ */
+.c-button--small {
+    @include font-size($fs-s, false);
+    min-height: $unit + $unit-tiny;
+    padding: $unit-tiny / 2 $unit-small;
+
+    /* Icons */
+    .c-button__icon {
+        @include icon-size(s);
+    }
+}
+
+/**
+ * Large button
+ */
+.c-button--large {
+    @include font-size($fs-l, false);
+    font-weight: $fw-bold;
+
+    /* Icons */
+    .c-button__icon {
+        @include icon-size(l);
+    }
+}
+
+/**
+ * Ghost button
+ */
+.c-button--ghost.c-button--ghost {
+    border-style: none;
+    box-shadow: none;
+    background: none;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+/**
+ * Rounded button
+ */
+.c-button--rounded {
+    border-radius: $button-border-radius;
+}
+
+/**
+ * Full width button
+ */
+.c-button--full {
+    width: 100%;
+}
+
+.c-button-overlay {
+    position: absolute;
+    top: $inuit-global-spacing-unit-small;
+    left: $inuit-global-spacing-unit-small;
+
+    display: flex;
+    flex-direction: column;
+}
+

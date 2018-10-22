@@ -1,0 +1,21 @@
+/* ==========================================================================
+   #LOADING COVER
+========================================================================== */
+
+.c-error,
+.c-loading {
+    background-color: $color-background-light;
+    backface-visibility: hidden;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    z-index: 10;
+
+    display: flex;
+    flex-direction: row wrap;
+    align-items: center;
+    justify-content: center;
+
+    overflow-x: hidden;
+    overflow-y: hidden;
+}

@@ -1,0 +1,42 @@
+/* ==========================================================================
+   #OVERLAY
+========================================================================== */
+
+.c-overlay {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+
+    height: 100%;
+    width: 100vw;
+
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    background-color: rgba(1, 1, 1, .5);
+    transition: opacity 270ms, visibility 0s 270ms;
+    will-change: opacity, visibility;
+
+    &.is-visible {
+        pointer-events: all;
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 270ms, visibility 270ms;
+        z-index: 9;
+    }
+
+    .c-overlay__bottom-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 99;
+        width: 100%;
+    }
+}

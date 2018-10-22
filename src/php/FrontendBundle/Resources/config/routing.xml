@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="Frontastic.Frontend.Node.view" path="/node/{nodeId}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\NodeController::viewAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Node.tree" path="/tree" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\NodeController::treeAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Product.view" path="/s/{slug}/{id}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ProductController::viewAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Category.view" path="/c/{id}/{slug}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CategoryController::viewAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Error.view" path="/__error" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::errorAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Checkout.cart" path="/checkout/cart" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CheckoutController::cartAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Checkout.checkout" path="/checkout/checkout" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CheckoutController::checkoutAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Checkout.finished" path="/checkout/finished" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CheckoutController::finishedAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Preview.view" path="/p/{preview}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\PreviewController::viewAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Preview.store" path="/preview" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\PreviewController::storeAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Tastic.all" path="/tastic" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\TasticController::allAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Proxy" path="/proxy" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ProxyController::indexAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.PatternLibrary.overview" path="/_patterns" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\PatternLibraryController::indexAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.PatternLibrary.view" path="/_patterns/show" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\PatternLibraryController::indexAction</default>
+    </route>
+</routes>

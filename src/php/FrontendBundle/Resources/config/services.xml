@@ -1,0 +1,230 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="frontastic.nodejs.renderer">http://localhost:8000</parameter>
+    </parameters>
+
+    <services>
+        <defaults public="true" />
+
+        <prototype namespace="Frontastic\Catwalk\FrontendBundle\Command\" resource="../../Command" autoconfigure="true" />
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService" />
+        </service>
+
+        <service id="frontastic.catwalk.frontend_bundle.domain.node.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+
+            <tag name="endpoint.target" channel="nodes" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\PageService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway" />
+        </service>
+
+        <service id="frontastic.catwalk.frontend_bundle.domain.page.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\PageService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+
+            <tag name="endpoint.target" channel="pages" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\MasterService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway" />
+
+            <tag name="endpoint.target" channel="page-matcher" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService">
+            <argument type="collection">
+                <argument type="service">
+                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ProductList">
+                        <argument type="service" id="frontastic.catwalk.product_api" />
+                    </service>
+                </argument>
+                <argument type="service">
+                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Product">
+                        <argument type="service" id="frontastic.catwalk.product_api" />
+                    </service>
+                </argument>
+                <argument type="service">
+                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ContentList">
+                        <argument type="service" id="frontastic.catwalk.content_api" />
+                    </service>
+                </argument>
+                <argument type="service">
+                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Content">
+                        <argument type="service" id="frontastic.catwalk.content_api" />
+                    </service>
+                </argument>
+            </argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldService">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
+            <argument type="collection">
+                <argument type="service">
+                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\TreeFieldHandler">
+                        <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService" />
+                    </service>
+                </argument>
+            </argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldService" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\LayoutService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\LayoutGateway" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\RenderService">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator" />
+            <argument type="service">
+                <service class="Frontastic\Common\HttpClient\StatsD">
+                    <argument>catwalk.node</argument>
+                    <argument type="service" id="Domnikl\Statsd\Client"/>
+                    <argument type="service" id="Frontastic\Common\HttpClient\Stream" />
+                </service>
+            </argument>
+            <argument>%frontastic.nodejs.renderer%</argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\PageImpressionRecorder">
+            <argument type="service" id="Domnikl\Statsd\Client" />
+
+             <tag name="kernel.event_listener" event="kernel.terminate" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator">
+             <tag name="kernel.event_listener" event="kernel.response" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\PreviewService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\PreviewGateway" />
+        </service>
+
+        <service id="frontastic.catwalk.product_api" class="Frontastic\Common\ProductApiBundle\Domain\ProductApi">
+            <factory
+                service="Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory"
+                method="factor" />
+            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
+        </service>
+
+        <service id="frontastic.catwalk.content_api" class="Frontastic\Common\ContentApiBundle\Domain\ContentApi">
+            <factory
+                service="Frontastic\Common\ContentApiBundle\Domain\ContentApiFactory"
+                method="factor" />
+            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService">
+            <argument>%kernel.cache_dir%</argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Routing\Loader">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService" />
+
+            <tag name="routing.loader" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                        method="getRepository" />
+                    <argument>Frontastic\Catwalk\FrontendBundle\Domain\Node</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                        method="getRepository" />
+                    <argument>Frontastic\Catwalk\FrontendBundle\Domain\Page</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                             method="getRepository" />
+                    <argument>Frontastic\Catwalk\FrontendBundle\Domain\MasterPageMatcherRules</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Gateway\LayoutGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                        method="getRepository" />
+                    <argument>Frontastic\Catwalk\FrontendBundle\Domain\Layout</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Gateway\PreviewGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                        method="getRepository" />
+                    <argument>Frontastic\Catwalk\FrontendBundle\Domain\Preview</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="Aptoma\Twig\Extension\MarkdownExtension">
+            <argument type="service">
+                <service class="Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine" />
+            </argument>
+
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Twig\RenderExtension">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RenderService" />
+
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Twig\ContextExtension">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
+            <argument type="service" id="Frontastic\Common\JsonSerializer" />
+
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Twig\NodeExtension">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService" />
+
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\EventListener\MissingHomepageRouteListener">
+            <argument type="service" id="Symfony\Component\Templating\EngineInterface" />
+            <argument>%kernel.debug%</argument>
+
+            <tag name="kernel.event_listener" event="kernel.exception" />
+        </service>
+    </services>
+</container>

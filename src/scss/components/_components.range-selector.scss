@@ -1,0 +1,14 @@
+/* ==========================================================================
+   #RANGE SELECTOR
+========================================================================== */
+
+.c-range-selector {
+    margin: 0;
+    padding: $unit-small $unit;
+}
+
+.c-range-selector__text-fields {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $unit-small;
+}

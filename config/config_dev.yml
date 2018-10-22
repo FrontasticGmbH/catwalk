@@ -1,0 +1,29 @@
+imports:
+    - { resource: config.yml }
+
+framework:
+    router:
+        resource: "%kernel.root_dir%/config/routing_dev.yml"
+        strict_requirements: ~
+    profiler: false
+
+monolog:
+    handlers:
+        syslog:
+            type:                stream
+            path:                "%kernel.logs_dir%/frontend.log"
+            level:               DEBUG
+            bubble:              false
+        main:
+            type:                fingers_crossed
+            action_level:        WARNING
+            buffer_size:         100
+            handler:             console
+        console:
+            type:                console
+            level:               NOTICE
+            verbosity_levels:
+                VERBOSITY_NORMAL:       WARNING
+                VERBOSITY_VERBOSE:      NOTICE
+                VERBOSITY_VERY_VERBOSE: INFO
+                VERBOSITY_DEBUG:        DEBUG

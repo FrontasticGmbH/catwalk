@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="frontastic.project_file">%kernel.root_dir%/config/project.yml</parameter>
+        <parameter key="frontastic.web_assets">%kernel.root_dir%/public/assets</parameter>
+    </parameters>
+
+    <services>
+        <service id="Frontastic\Catwalk\DevVmBundle\Controller\SyncController">
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier" />
+            <argument>%env(secret)%</argument>
+            <argument>%frontastic.web_assets%</argument>
+        </service>
+
+        <service id="Frontastic\Common\HttpClient\Signing">
+            <argument type="service" id="Frontastic\Common\HttpClient\Stream"/>
+            <argument>%env(secret)%</argument>
+        </service>
+
+        <service id="Frontastic\Common\HttpClient\Stream" class="Frontastic\Common\HttpClient\Stream" />
+    </services>
+</container>

@@ -1,0 +1,38 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Debug\Debug;
+use Doctrine\Common\Annotations\AnnotationRegistry;
+
+use Frontastic\Catwalk\AppKernel;
+
+// if you don't want to setup permissions the proper way, just uncomment the following PHP line
+// read http://symfony.com/doc/current/book/installation.html#configuration-and-setup for more information
+//umask(0000);
+
+set_time_limit(0);
+
+$autoloader = require __DIR__ . '/../vendor/autoload.php';
+
+AppKernel::$catwalkBaseDir = dirname(__DIR__);
+
+(new \Frontastic\Common\EnvironmentResolver())->loadEnvironmentVariables(
+    [ __DIR__ . '/../', __DIR__ . '/../../'],
+    AppKernel::getBaseConfiguration()
+);
+
+AnnotationRegistry::registerLoader(array($autoloader, 'loadClass'));
+
+$input = new ArgvInput();
+$env = $input->getParameterOption(['--env', '-e'], getenv('env'));
+$debug = AppKernel::isDebugEnvironment($env) && !$input->hasParameterOption(['--no-debug', '']) && $env !== 'prod';
+
+if ($debug) {
+    Debug::enable();
+}
+
+$kernel = new AppKernel($env, $debug);
+$application = new Application($kernel);
+$application->run($input);

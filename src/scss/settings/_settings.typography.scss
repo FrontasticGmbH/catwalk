@@ -1,0 +1,71 @@
+/* ========================================================================
+   #TYPOGRAPHY
+======================================================================== */
+
+// Base font family.
+$base-font: 'Helvetica Neue' !default;
+$ff-base: #{$base-font}, -apple-system, BlinkMacSystemFont, “Roboto”, “Droid Sans”, “Helvetica Neue”, Helvetica, Arial, sans-serif !default;
+
+// Font weights
+$fw-light: 300 !default;
+$fw-normal: 400 !default;
+$fw-regular: $fw-normal !default;
+// $fw-medium: 500 !default;
+// $fw-semibold: 500 !default;
+$fw-bold: 700 !default;
+
+// Font sizes
+// $fs-xxxs: ms(-6) !default;
+// $fs-xxs: ms(-3) !default;
+// $fs-xs: ms(-2) !default;
+// $fs-s: ms(-1) !default;
+// $fs-base: ms() !default;
+// $fs-l: ms(1) !default;
+// $fs-xl: ms(2) !default;
+// $fs-xxl: ms(3) !default;
+// $fs-xxxl: ms(4) !default;
+// $fs-xxxxl: ms(7) !default;
+// $fs-xxxxxl: ms(12) !default;
+
+$fs-base-px: 16 !default;
+$fs-xs:      0.8rem / 16 * $fs-base-px !default;
+$fs-s:       0.9rem / 16 * $fs-base-px !default;
+$fs-base:    1rem / 16 * $fs-base-px !default;
+$fs-l:       1.25rem / 16 * $fs-base-px !default;
+$fs-xl:      1.5625rem / 16 * $fs-base-px !default;
+$fs-xxl:     1.75rem / 16 * $fs-base-px !default;
+$fs-xxxl:    2rem / 16 * $fs-base-px !default;
+$fs-xxxxl:   3rem / 16 * $fs-base-px !default;
+
+@function rem2px($value) {
+    @return $value / ($value * 0 + 1) * 16px;
+}
+
+// Line height
+$lh-default: 1.33 !default;
+$lh-base: 1rem * $lh-default !default;
+
+// Optimized line length
+$text-width: 40em !default;
+$text-width-small: 12.5em !default;
+$text-width-medium: 33em !default;
+
+// Heading font sizes
+$fs-h1: $fs-xxl !default;
+$fs-h2: $fs-xl !default;
+$fs-h3: $fs-l !default;
+$fs-h4: $fs-base !default;
+$fs-h5: $fs-base !default;
+$fs-h6: $fs-base !default;
+
+// Inuit
+$inuit-global-font-size: $fs-base;
+$inuit-global-line-height: $lh-base;
+
+$inuit-font-size-h1: $fs-h1;
+$inuit-font-size-h2: $fs-h2;
+$inuit-font-size-h3: $fs-h3;
+$inuit-font-size-h4: $fs-h4;
+$inuit-font-size-h5: $fs-h5;
+$inuit-font-size-h6: $fs-h6;
+
