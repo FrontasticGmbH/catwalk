@@ -12,17 +12,17 @@
     <!--
         Import main target defintions (extension points)
     -->
-    <import file="${basedir}/../integration/main.xml" />
+    <import file="${basedir}/../../integration/main.xml" />
 
     <!--
         Enable used modules
     -->
-    <import file="${basedir}/../integration/build-commons/modules/composer.xml" />
-    <import file="${basedir}/../integration/build-commons/modules/phpunit.xml" />
-    <import file="${basedir}/../integration/build-commons/modules/checkstyle.xml" />
-    <import file="${basedir}/../integration/build-commons/modules/pdepend.xml" />
-    <import file="${basedir}/../integration/build-commons/modules/phpcpd.xml" />
-    <import file="${basedir}/../integration/build-commons/modules/phpmd.xml" />
+    <import file="${basedir}/../../integration/build-commons/modules/composer.xml" />
+    <import file="${basedir}/../../integration/build-commons/modules/phpunit.xml" />
+    <import file="${basedir}/../../integration/build-commons/modules/checkstyle.xml" />
+    <import file="${basedir}/../../integration/build-commons/modules/pdepend.xml" />
+    <import file="${basedir}/../../integration/build-commons/modules/phpcpd.xml" />
+    <import file="${basedir}/../../integration/build-commons/modules/phpmd.xml" />
 
     <!--
         Custom modules
