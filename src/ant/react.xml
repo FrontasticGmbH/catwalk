@@ -4,7 +4,7 @@
         <tool-exists executable="yarn" />
 
         <!-- @TODO SAAS/PAAS -->
-        <exec executable="yarn" failonerror="true" dir="${frontastic_basedir}/libraries/common/">
+        <exec executable="yarn" failonerror="true" dir="${frontastic_basedir}/paas/libraries/common/">
             <env key="CI" value="true" />
 
             <arg value="link" />
