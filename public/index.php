@@ -11,7 +11,7 @@ $autoloader = require_once __DIR__ . "/../vendor/autoload.php";
 AppKernel::$catwalkBaseDir = dirname(__DIR__);
 
 (new \Frontastic\Common\EnvironmentResolver())->loadEnvironmentVariables(
-    [__DIR__ . '/../../', __DIR__ . '/../'],
+    [__DIR__ . '/../../../', __DIR__ . '/../'],
     AppKernel::getBaseConfiguration()
 );
 
