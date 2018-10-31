@@ -11,7 +11,7 @@ class Embed extends Component {
         ).join(' ')
 
         let component = ''
-        if (this.props.component.component.testProps.children) {
+        if (this.props.component.component.testProps && this.props.component.component.testProps.children) {
             component = `&lt;${this.props.component.name} ${testProps}&gt;
                 ${String(this.props.component.component.testProps.children)}
             &lt;/${this.props.component.name}&gt;`
