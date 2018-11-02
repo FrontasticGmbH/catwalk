@@ -189,7 +189,7 @@ module.exports = {
                         loader: "style-loader" // creates style nodes from JS strings
                     },
                     {
-                        loader: "css-loader" // translates CSS into CommonJS
+                        loader: require.resolve('css-loader') // translates CSS into CommonJS
                     },
                     {
                         loader: require.resolve('postcss-loader'),
@@ -211,11 +211,14 @@ module.exports = {
                             ],
                         },
                     },
+                    // @TODO: This (sadly) does not work at all. Currently
+                    // resolved by adding a link catwalk -> paas/catwalk in the
+                    // root and still use relative paths to the entry point.
+                    /* {
+                        loader: require.resolve('resolve-url-loader'), // Resolve relative url() paths
+                    }, // */
                     {
-                        loader: 'resolve-url-loader' // Resolve relative url() paths
-                    },
-                    {
-                        loader: "sass-loader", // compiles Sass to CSS
+                        loader: require.resolve('sass-loader'), // compiles Sass to CSS
                         options: {
                             sourceMap: true,
                             sourceMapContents: false

@@ -160,7 +160,9 @@ const mainConfig = {
                     {
                         loader: MiniCssExtractPlugin.loader,
                     },
-                    'css-loader',
+                    {
+                        loader: require.resolve('css-loader') // translates CSS into CommonJS
+                    },
                     {
                         loader: require.resolve('postcss-loader'),
                         options: {
@@ -181,6 +183,12 @@ const mainConfig = {
                             ],
                         },
                     },
+                    // @TODO: This (sadly) does not work at all. Currently
+                    // resolved by adding a link catwalk -> paas/catwalk in the
+                    // root and still use relative paths to the entry point.
+                    /* {
+                        loader: require.resolve('resolve-url-loader'), // Resolve relative url() paths
+                    }, // */
                 ],
 			},
             {
@@ -190,7 +198,7 @@ const mainConfig = {
                         loader: MiniCssExtractPlugin.loader,
                     },
                     {
-                        loader: "css-loader" // translates CSS into CommonJS
+                        loader: require.resolve('css-loader') // translates CSS into CommonJS
                     },
                     {
                         loader: require.resolve('postcss-loader'),
@@ -212,8 +220,14 @@ const mainConfig = {
                             ],
                         },
                     },
+                    // @TODO: This (sadly) does not work at all. Currently
+                    // resolved by adding a link catwalk -> paas/catwalk in the
+                    // root and still use relative paths to the entry point.
+                    /* {
+                        loader: require.resolve('resolve-url-loader'), // Resolve relative url() paths
+                    }, // */
                     {
-                        loader: "sass-loader" // compiles Sass to CSS
+                        loader: require.resolve('sass-loader'), // compiles Sass to CSS
                     },
                 ]
             },
