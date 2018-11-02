@@ -14,7 +14,7 @@
         <meta name="theme-color" content="#5c3878">
 
     {% if app.environment == "prod" %}
-        <link rel="stylesheet" href="/assets/css/main.d3729d6c.css"></link>
+        <link rel="stylesheet" href="{{ asset_hash( '/assets/css/main.d3729d6c.css') }}"></link>
     {% endif %}
 
         <title>{% block title %}Frontastic Online Shop{% endblock %}</title>
@@ -29,7 +29,7 @@
     {% if app.environment == "dev" %}
         <script type="text/javascript" src="/webpack/js/bundle.js"></script>
     {% else %}
-        <script type="text/javascript" src="/assets/js/main.d3729d6c.js"></script>
+        <script type="text/javascript" src="{{ asset_hash( '/assets/js/main.d3729d6c.js') }}"></script>
     {% endif %}
     </body>
 </html>
