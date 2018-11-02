@@ -58,6 +58,12 @@ class SyncController
                 $response['backup'] = $backup->dump();
             }
 
+            if ($files = glob("{$this->webAssetDir}/js/main.*.js")) {
+                preg_match('(/main\.([0-9a-f]+)\.js)', $files[0], $match);
+
+                $filesystem->dumpFile($_SERVER['DOCUMENT_ROOT'] . '/.fake_preview_hash', $match[1]);
+            }
+
             $filesystem->remove($backupDir);
 
             return new JsonResponse($response);

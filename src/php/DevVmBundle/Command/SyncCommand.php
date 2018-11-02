@@ -44,7 +44,7 @@ class SyncCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $syncDirectory = realpath(sprintf(
-            '%s/../public/assets/',
+            '%s/public/assets/',
             $this->getContainer()->getParameter('kernel.root_dir')
         ));
 
@@ -70,10 +70,8 @@ class SyncCommand extends ContainerAwareCommand
 
         if (false === $input->getOption('vm')) {
             $uri = preg_replace(['(^http://)', '(\.local$)'], ['https://', ''], $uri);
-            $secret = $this->loadSecret('staging');
-        } else {
-            $secret = $this->loadSecret('vagrant');
         }
+        $secret = $this->loadSecret();
 
         /** @var \Frontastic\Common\HttpClient\Signing $httpClient */
         $httpClient = new Signing(
@@ -91,6 +89,8 @@ class SyncCommand extends ContainerAwareCommand
             $output->writeln("Successfully synced local catwalk changes to '{$uri}'.");
         }
 
+        print_r($response);
+
         if (false !== $input->getOption('backup')) {
             $filename = ($input->getOption('backup') ?:
                     sprintf(
@@ -106,28 +106,18 @@ class SyncCommand extends ContainerAwareCommand
         }
     }
 
-    private function loadSecret($environment): string
+    private function loadSecret(): string
     {
-        $directory = realpath(sprintf(
-            '%s/../../automation/',
+        $settings = realpath(sprintf(
+            '%s/../.vagrant.yml',
             $this->getContainer()->getParameter('kernel.root_dir')
         ));
 
-        $search = false;
-        foreach (file("{$directory}/{$environment}") as $line) {
-            $line = trim($line);
-            if ('[all:vars]' == $line) {
-                $search = true;
-                continue;
-            }
-            if (false === $search) {
-                continue;
-            }
-
-            if (preg_match('(^secret\s*=\s*([\S]+)$)', $line, $match)) {
+        foreach (file($settings) as $line) {
+            if (preg_match('(^customer_secret:\s*"([\S]+)"$)', trim($line), $match)) {
                 return $match[1];
             }
         }
-        return '';
+        return 'secret';
     }
 }
