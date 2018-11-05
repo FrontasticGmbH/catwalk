@@ -109,7 +109,7 @@ class SyncCommand extends ContainerAwareCommand
     private function loadSecret(): string
     {
         $settings = realpath(sprintf(
-            '%s/../.vagrant.yml',
+            '%s/../.vm.yml',
             $this->getContainer()->getParameter('kernel.root_dir')
         ));
 
