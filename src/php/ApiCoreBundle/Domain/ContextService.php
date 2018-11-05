@@ -29,7 +29,7 @@ class ContextService
         $request = $request ?: $this->requestStack->getCurrentRequest();
 
         // @HACK: Should be removed once we are using sensible security
-        if ($request->getSession()) {
+        if ($request && $request->getSession()) {
             $session = $request->getSession();
             $session->start();
 
