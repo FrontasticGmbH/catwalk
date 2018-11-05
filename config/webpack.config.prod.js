@@ -223,11 +223,15 @@ const mainConfig = {
                     // @TODO: This (sadly) does not work at all. Currently
                     // resolved by adding a link catwalk -> paas/catwalk in the
                     // root and still use relative paths to the entry point.
-                    /* {
+                    {
                         loader: require.resolve('resolve-url-loader'), // Resolve relative url() paths
-                    }, // */
+                    }, //
                     {
                         loader: require.resolve('sass-loader'), // compiles Sass to CSS
+                        options: {
+                            sourceMap: true, // resolve-url-loader requires a sourceMap, will be skipped afterwards
+                            sourceMapContents: false
+                        }
                     },
                 ]
             },
