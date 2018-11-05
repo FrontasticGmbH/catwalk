@@ -20,7 +20,7 @@
         <exec executable="git">
             <arg value="add" />
             <arg value="--no-ignore-removal" />
-            <arg value="${basedir}/../landingpage/htdocs/docs" />
+            <arg value="${basedir}/../landingpage/public/docs" />
         </exec>
     </target>
 </project>
