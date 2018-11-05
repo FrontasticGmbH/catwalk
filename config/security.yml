@@ -1,4 +1,11 @@
 security:
+    providers:
+        frontastic:
+            id: Frontastic\Common\AccountApiBundle\Security\AccountProvider
+
+    encoders:
+        Frontastic\Common\AccountApiBundle\Domain\Account: bcrypt
+
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         assests:
@@ -7,3 +14,9 @@ security:
 
         main:
             anonymous: ~
+            logout:
+                path: /api/user/logout # Use route ID
+                success_handler: Frontastic\Common\AccountApiBundle\Security\LogoutSuccessHandler
+            guard:
+                authenticators:
+                    - Frontastic\Common\AccountApiBundle\Security\Authenticator

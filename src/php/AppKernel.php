@@ -29,6 +29,7 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Frontastic\Common\ReplicatorBundle\FrontasticCommonReplicatorBundle(),
             new \Frontastic\Catwalk\FrontendBundle\FrontasticCatwalkFrontendBundle(),
             new \Frontastic\Catwalk\ApiCoreBundle\FrontasticCatwalkApiCoreBundle(),
+            new \Frontastic\Common\AccountApiBundle\FrontasticCommonAccountApiBundle(),
             new \Frontastic\Common\ProductApiBundle\FrontasticCommonProductApiBundle(),
             new \Frontastic\Common\ContentApiBundle\FrontasticCommonContentApiBundle(),
             new \Frontastic\Common\CartApiBundle\FrontasticCommonCartApiBundle(),
