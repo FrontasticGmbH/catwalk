@@ -71,12 +71,13 @@ class SyncCommand extends ContainerAwareCommand
         if (false === $input->getOption('vm')) {
             $uri = preg_replace(['(^http://)', '(\.local$)'], ['https://', ''], $uri);
         }
-        $secret = $this->loadSecret();
+
+        $customerSecret = getenv('secret');
 
         /** @var \Frontastic\Common\HttpClient\Signing $httpClient */
         $httpClient = new Signing(
             $this->getContainer()->get('Frontastic\Common\HttpClient\Stream'),
-            $secret
+            $customerSecret
         );
 
         $response = $httpClient->request(
@@ -104,20 +105,5 @@ class SyncCommand extends ContainerAwareCommand
 
             $output->writeln("Successfully stored backup of catwalk in  '{$filename}'.");
         }
-    }
-
-    private function loadSecret(): string
-    {
-        $settings = realpath(sprintf(
-            '%s/../.vagrant.yml',
-            $this->getContainer()->getParameter('kernel.root_dir')
-        ));
-
-        foreach (file($settings) as $line) {
-            if (preg_match('(^customer_secret:\s*"([\S]+)"$)', trim($line), $match)) {
-                return $match[1];
-            }
-        }
-        return 'secret';
     }
 }
