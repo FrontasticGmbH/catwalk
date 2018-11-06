@@ -88,9 +88,9 @@ class SyncCommand extends ContainerAwareCommand
 
         if ($response->status < 400) {
             $output->writeln("Successfully synced local catwalk changes to '{$uri}'.");
+        } else {
+            $output->writeln("<error>Failed to sync local catwalk changes to '{$uri}'.</error>");
         }
-
-        print_r($response);
 
         if (false !== $input->getOption('backup')) {
             $filename = ($input->getOption('backup') ?:
