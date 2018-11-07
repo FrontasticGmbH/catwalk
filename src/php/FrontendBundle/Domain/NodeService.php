@@ -70,9 +70,15 @@ class NodeService implements Target
         return $this->nodeGateway->getTree($root, $maxDepth);
     }
 
+    /**
+     * Returns a (cloned) tree of nodes.
+     *
+     * Note that changes to the returned nodes are *not* reflected to other instances of the same node. We need to
+     * reflect that multiple trees with different depth might be fetched in the same request.
+     */
     public function getTree(string $root = null, int $maxDepth = null): Node
     {
-        $nodes = $this->nodeGateway->getTree($root, $maxDepth);
+        $nodes = $this->cloneAll($this->nodeGateway->getTree($root, $maxDepth));
 
         $nodeIndex = [$root => new Node()];
         foreach ($nodes as $node) {
@@ -89,6 +95,13 @@ class NodeService implements Target
         }
 
         return $nodeIndex[$root];
+    }
+
+    private function cloneAll(array $objects): array
+    {
+        return array_map(function($object) {
+            return clone $object;
+        }, $objects);
     }
 
     public function get(string $nodeId): Node
