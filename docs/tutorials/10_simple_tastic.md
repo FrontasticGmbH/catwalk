@@ -6,8 +6,8 @@ but stripped the HTML code down a bit for better illustration. If you want to
 follow this tutorial in a copy & adapt way, please don't hesitate to copy the
 following files as a starting point:
 
-- `catwalk/src/js/tastic/productList/tastic.json`
-- `catwalk/src/js/tastic/productList/tastic.jsx`
+- `paas/catwalk/src/js/tastic/productList/tastic.json`
+- `paas/catwalk/src/js/tastic/productList/tastic.jsx`
 
 ## File Placement
 
@@ -17,11 +17,11 @@ Tastic requires its own sub-directory which is the *camelCased* tastic name.
 The `tastic.json` and `tastic.jsx` files must be named exactly like this in the
 Tastic directory.
 
-So if you start with the example from above and have a Project named
-`fall2018`, you should copy the files to:
+So if you start with the example from above, have a Project named `fall2018`
+and your customer ID is `year`, you should copy the files to:
 
-- `fall2018/src/js/tastic/myProductList/tastic.json`
-- `fall2018/src/js/tastic/myProductList/tastic.jsx`
+- `year_fall2018/src/js/tastic/myProductList/tastic.json`
+- `year_fall2018/src/js/tastic/myProductList/tastic.jsx`
 
 Note the Tastic identifier change to `myProductList` to avoid clashes with the
 original Tastics!
@@ -30,7 +30,7 @@ original Tastics!
 
 Backstage needs to know how the Tastic requires to be initialized and what
 parameters it expects to be available. This comes in form of a *JSON* file
-which follows a JSON schema that can be found in: `catwalk/vendor/frontastic/common/src/php/SpecificationBundle/Resources/tasticSchema.json`.
+which follows a JSON schema that can be found in: `paas/catwalk/vendor/frontastic/common/src/php/SpecificationBundle/Resources/tasticSchema.json`.
 
 On top level, this file contains meta information about the Tastic:
 

@@ -9,9 +9,9 @@ theme:
     base_url: '/docs'
 markdown_extensions: [codehilite, admonition]
 docs_dir: docs
-site_dir: ../landingpage/htdocs/docs
+site_dir: ../landingpage/public/docs
 
-pages:
+nav:
 - Home: 'index.md'
 - Beta Notes: 'beta_notes.md'
 - Architecture: 'architecture.md'

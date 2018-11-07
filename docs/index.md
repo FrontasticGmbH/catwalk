@@ -30,7 +30,7 @@ helpful. Please make sure to execute them in your VM:
 
 - `$ ant -p` tells you which build commands are available, like executing
   tests, checking the code style, etc.
-- In any project directory or in `catwalk/`: `$ bin/console` is the Symfony
+- In any project directory or in `paas/catwalk/`: `$ bin/console` is the Symfony
   Console that supports many Frontastic related commands and can perform
   general tasks like purging the cache.
 - Using `$ sudo supervisorctl status` displays the status of all supervisor
