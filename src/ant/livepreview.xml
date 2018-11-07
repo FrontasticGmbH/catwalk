@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Synchronize VM Assets to Live Preview Task">
+    <property name="executable.symfony" location="bin/console" />
+
+    <target name="sync:livepreview" depends="react:package">
+        <echo>Synchronizing local assets to live preview.</echo>
+        <exec executable="${executable.php}" failonerror="true" dir="${basedir}">
+            <arg value="${executable.symfony}" />
+            <arg value="--no-debug" />
+            <arg value="frontastic:vm:sync-livepreview" />
+        </exec>
+    </target>
+</project>
