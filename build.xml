@@ -34,4 +34,5 @@
     <import file="${basedir}/src/ant/serve.xml" />
     <import file="${basedir}/src/ant/phpunit-feature.xml" />
     <import file="${basedir}/src/ant/documentation.xml" />
+    <import file="${basedir}/src/ant/livepreview.xml" />
 </project>
