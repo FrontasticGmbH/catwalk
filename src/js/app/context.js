@@ -23,10 +23,8 @@ let Context = function (context = {}) {
 
     this.toParameters = function () {
         return {
-            environment: this.environment,
-            project: this.project.projectId || null,
-            locale: this.locale,
-            currency: this.currency,
+            // @TODO: Re-add *non-default* essential context parameters, there
+            // a none yet (languiage selections, currency-selections, …)
         }
     }
 
