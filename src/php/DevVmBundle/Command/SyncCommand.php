@@ -15,7 +15,7 @@ class SyncCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('frontastic:vm:catwalk-sync')
+            ->setName('frontastic:vm:sync-livepreview')
             ->setDescription('Synchronizes locale dev catwalk data into a cloud instance.');
 
         $this
@@ -80,11 +80,19 @@ class SyncCommand extends ContainerAwareCommand
             $customerSecret
         );
 
+        if ($this->getContainer()->getParameter('kernel.debug')) {
+            $output->writeln("curl -X POST {$uri}/devvm/sync?" . http_build_query($parameters));
+        }
+
         $response = $httpClient->request(
             'POST',
             "{$uri}/devvm/sync?" . http_build_query($parameters),
             $archive->dump()
         );
+
+        if ($this->getContainer()->getParameter('kernel.debug')) {
+            $output->writeln("Response:\n" . var_export($response, true));
+        }
 
         if ($response->status < 400) {
             $output->writeln("Successfully synced local catwalk changes to '{$uri}'.");
