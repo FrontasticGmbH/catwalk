@@ -18,7 +18,7 @@ class AccountLoginTastic extends Component {
 
     render () {
         if (this.props.context.session.loggedIn) {
-            return
+            return null
         }
 
         return (<div className='o-layout'>

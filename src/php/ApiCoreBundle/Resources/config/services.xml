@@ -21,6 +21,7 @@
             <argument type="service" id="router" />
             <argument type="service" id="request_stack" />
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService" />
+            <argument type="service" id="security.token_storage" />
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService">

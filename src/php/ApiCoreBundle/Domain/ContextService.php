@@ -5,9 +5,12 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Routing\Route;
 
 use Frontastic\Common\ReplicatorBundle\Domain\Customer;
+use Frontastic\Common\AccountApiBundle\Domain\Session;
+use Frontastic\Common\AccountApiBundle\Domain\Account;
 
 class ContextService
 {
@@ -17,31 +20,60 @@ class ContextService
 
     private $customerService;
 
-    public function __construct(Router $router, RequestStack $requestStack, CustomerService $customerService)
+    /**
+     * @var TokenStorage
+     */
+    private $tokenStorage;
+
+    public function __construct(Router $router, RequestStack $requestStack, CustomerService $customerService, TokenStorage $tokenStorage)
     {
         $this->router = $router;
         $this->requestStack = $requestStack;
         $this->customerService = $customerService;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function createContextFromRequest(Request $request = null): Context
     {
         $request = $request ?: $this->requestStack->getCurrentRequest();
 
-        // @HACK: Should be removed once we are using sensible security
-        if ($request && $request->getSession()) {
-            $session = $request->getSession();
-            $session->start();
-
-            if (!$session->has('userId')) {
-                $session->set('userId', md5(microtime()));
-            }
-        }
-
         return $this->getContext(
             $request ? $request->get('locale', 'en_GB') : 'en_GB',
-            new Session()
+            $this->getSession($request)
         );
+    }
+
+    /**
+     * @param Request $request Deprecated, is not required
+     * @return Session
+     */
+    public function getSession(Request $request): Session
+    {
+        try {
+            $token = $this->tokenStorage->getToken();
+
+            if ($token === null) {
+                return new Session([
+                    'loggedIn' => false,
+                    'account' => null,
+                ]);
+            }
+
+            $account = $token->getUser();
+            if (!($account instanceof Account)) {
+                $account = null;
+            }
+
+            return new Session([
+                'loggedIn' => (bool) $account,
+                'account' => $account,
+            ]);
+        } catch (UnauthenticatedUserException $e) {
+            return new Session([
+                'loggedIn' => false,
+                'message' => $e->getMessage() ? ('Unauthenticated: ' . $e->getMessage()) : null,
+            ]);
+        }
     }
 
     public function getContext(string $locale = 'en_GB', Session $session = null): Context
