@@ -15,7 +15,7 @@ security:
         main:
             anonymous: ~
             logout:
-                path: /api/user/logout # Use route ID
+                path: /api/account/logout # Use route ID
                 success_handler: Frontastic\Common\AccountApiBundle\Security\LogoutSuccessHandler
             guard:
                 authenticators:

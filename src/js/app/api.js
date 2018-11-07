@@ -84,11 +84,8 @@ let Api = function (router, store) {
             }
 
             if (response.status === 403) {
-                this.clearContinuousRequests()
-                this.store.dispatch({ type: 'ApiBundle.Api.context.success', data: { session: {} } })
-                if (this.store.getState().app.route.route !== 'Frontastic.Index.index') {
-                    this.router.replace('Frontastic.Index.index')
-                }
+                // Just do nothing?
+                return
             }
 
             let parsedError = { status: 500, message: 'Internal Server Error' }

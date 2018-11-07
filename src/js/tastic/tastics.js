@@ -1,3 +1,4 @@
+import AccountLogin from './account/login/tastic.jsx'
 import Cart from './cart/tastic.jsx'
 import Checkout from './checkout/tastic.jsx'
 import Content from './content/tastic.jsx'
@@ -24,6 +25,7 @@ import Text from './text/tastic.jsx'
 
 export default (() => {
     return {
+        'account-login': AccountLogin,
         'cart': Cart,
         'checkout': Checkout,
         'content': Content,
