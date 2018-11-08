@@ -15,7 +15,7 @@ class Register extends Component {
             register_prename: '',
             register_lastname: '',
             register_email: '',
-            register_phone_prefix: '',
+            register_phone_prefix: '+49',
             register_phone: '',
             register_birthday_day: '',
             register_birthday_month: '',
