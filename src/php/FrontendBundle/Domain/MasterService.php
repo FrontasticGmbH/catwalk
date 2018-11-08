@@ -13,6 +13,21 @@ class MasterService implements Target
      */
     private $rulesGateway;
 
+    protected $validContexts = [
+        'product',
+        'category',
+        'cart',
+        'checkout',
+        'checkout_finished',
+        'account',
+        'account_profile',
+        'account_addresses',
+        'account_orders',
+        'account_wishlists',
+        'account_vouchers',
+        'error',
+    ];
+
     public function __construct(MasterPageMatcherRulesGateway $rulesGateway)
     {
         $this->rulesGateway = $rulesGateway;
@@ -30,20 +45,10 @@ class MasterService implements Target
             return $this->pickNode($rules->rules['category'], $context->categoryId);
         }
 
-        if ($context->cart !== null) {
-            return $this->pickNode($rules->rules['cart'], null);
-        }
-
-        if ($context->checkout !== null) {
-            return $this->pickNode($rules->rules['checkout'], null);
-        }
-
-        if ($context->checkoutFinished !== null) {
-            return $this->pickNode($rules->rules['checkout_finished'], null);
-        }
-
-        if ($context->error !== null) {
-            return $this->pickNode($rules->rules['error'], null);
+        foreach ($this->validContexts as $validContext) {
+            if ($context->$validContext !== null) {
+                return $this->pickNode($rules->rules[$validContext], null);
+            }
         }
 
         throw new \RuntimeException('Could not resolve node!');
