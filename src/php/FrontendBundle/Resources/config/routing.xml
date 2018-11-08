@@ -44,6 +44,14 @@
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::indexAction</default>
     </route>
 
+    <route id="Frontastic.Frontend.Master.Account.confirm" path="/account/confirm/{token}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::indexAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.forgotPassword" path="/account/forgotPassword/{token}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::indexAction</default>
+    </route>
+
     <route id="Frontastic.Frontend.Master.Account.profile" path="/account/profile" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::profileAction</default>
     </route>
