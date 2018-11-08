@@ -39,7 +39,7 @@ class ContextService
 
         return $this->getContext(
             $request ? $request->get('locale', 'en_GB') : 'en_GB',
-            $this->getSession($request)
+            $request ? $this->getSession($request) : new Session()
         );
     }
 
