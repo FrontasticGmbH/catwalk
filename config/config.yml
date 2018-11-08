@@ -28,8 +28,8 @@ twig:
     exception_controller: Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::errorAction
 
 swiftmailer:
-    transport: "%env(mailer_transport)%"
-    spool:     { type: memory }
+    url:   "%env(mailer_url)%"
+    spool: { type: memory }
 
 sensio_framework_extra:
     view:

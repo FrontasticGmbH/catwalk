@@ -10,7 +10,7 @@ database_name=catwalk
 database_user=root
 database_password=root
 
-mailer_transport=sendmail
+mailer_url=smtp://localhost:1025/
 
 tideways_key=
 
