@@ -20,31 +20,31 @@ class AccountController extends Controller
     public function profileAction(Context $context): array
     {
         // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['account_profile' => true]));
+        return $this->getNode($context, new PageMatcherContext(['accountProfile' => true]));
     }
 
     public function addressesAction(Context $context): array
     {
         // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['account_addresses' => true]));
+        return $this->getNode($context, new PageMatcherContext(['accountAddresses' => true]));
     }
 
     public function ordersAction(Context $context): array
     {
         // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['account_orders' => true]));
+        return $this->getNode($context, new PageMatcherContext(['accountOrders' => true]));
     }
 
     public function wishlistsAction(Context $context): array
     {
         // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['account_wishlists' => true]));
+        return $this->getNode($context, new PageMatcherContext(['accountWishlists' => true]));
     }
 
     public function vouchersAction(Context $context): array
     {
         // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['account_vouchers' => true]));
+        return $this->getNode($context, new PageMatcherContext(['accountVouchers' => true]));
     }
 
     private function getNode(Context $context, PageMatcherContext $pageMatcherContext): array

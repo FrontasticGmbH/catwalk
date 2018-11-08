@@ -19,11 +19,6 @@ class PageMatcherContext extends DataObject
     /**
      * @var object|null
      */
-    public $error;
-
-    /**
-     * @var object|null
-     */
     public $cart;
 
     /**
@@ -35,6 +30,41 @@ class PageMatcherContext extends DataObject
      * @var object|null
      */
     public $checkoutFinished;
+
+    /**
+     * @var object|null
+     */
+    public $account;
+
+    /**
+     * @var object|null
+     */
+    public $accountProfile;
+
+    /**
+     * @var object|null
+     */
+    public $accountAddresses;
+
+    /**
+     * @var object|null
+     */
+    public $accountOrders;
+
+    /**
+     * @var object|null
+     */
+    public $accountWishlists;
+
+    /**
+     * @var object|null
+     */
+    public $accountVouchers;
+
+    /**
+     * @var object|null
+     */
+    public $error;
 
     public static function productPage($productId)
     {

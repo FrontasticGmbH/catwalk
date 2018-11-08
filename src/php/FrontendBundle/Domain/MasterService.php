@@ -14,17 +14,15 @@ class MasterService implements Target
     private $rulesGateway;
 
     protected $validContexts = [
-        'product',
-        'category',
         'cart',
         'checkout',
-        'checkout_finished',
+        'checkoutFinished',
         'account',
-        'account_profile',
-        'account_addresses',
-        'account_orders',
-        'account_wishlists',
-        'account_vouchers',
+        'accountProfile',
+        'accountAddresses',
+        'accountOrders',
+        'accountWishlists',
+        'accountVouchers',
         'error',
     ];
 
