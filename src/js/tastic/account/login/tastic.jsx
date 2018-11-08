@@ -47,7 +47,7 @@ class AccountLoginTastic extends Component {
                     </AtomsButton>
                 </span>
             </div>
-            <div className='o-layout__item u-1/2' style={{ margin: '2em auto', display: 'block' }}>
+            <div className='o-layout__item u-1/1 u-2/3@lap u-1/2@desk' style={{ margin: '2em auto', display: 'block' }}>
                 <Grow in={(this.state.form === 'login')}>
                     <Login />
                 </Grow>
