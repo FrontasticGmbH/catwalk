@@ -40,6 +40,30 @@
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CheckoutController::finishedAction</default>
     </route>
 
+    <route id="Frontastic.Frontend.Master.Account.index" path="/account" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::indexAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.profile" path="/account/profile" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::profileAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.addesses" path="/account/addesses" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::addessesAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.orders" path="/account/orders" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::ordersAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.wishlists" path="/account/wishlists" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::wishlistsAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.vouchers" path="/account/vouchers" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::vouchersAction</default>
+    </route>
+
     <route id="Frontastic.Frontend.Preview.view" path="/p/{preview}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\PreviewController::viewAction</default>
     </route>
