@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import AtomsButton from '../../../patterns/10-atoms/10-buttons/10-button'
@@ -11,19 +11,19 @@ class Login extends Component {
         super(props)
 
         this.state = {
-            login_email: 'kore@frontastic.cloud',
-            login_password: 'password',
+            login_email: '',
+            login_password: '',
         }
     }
 
     render () {
-        return (<div className='o-layout o-form'>
-            <div className='o-layout__item o-form__item u-1/1'>
+        return (<div className='c-form'>
+            <div className='c-form__item'>
                 <label htmlFor='login_email' className='c-form__label'>E-Mail</label>
                 <input
                     id='login_email'
                     className='c-form__input'
-                    type='text'
+                    type='email'
                     required
                     autoComplete='email'
                     value={this.state.login_email}
@@ -32,7 +32,7 @@ class Login extends Component {
                     }}
                 />
             </div>
-            <div className='o-layout__item o-form__item u-1/1'>
+            <div className='c-form__item'>
                 <label htmlFor='login_password' className='c-form__label'>Password</label>
                 <input
                     id='login_password'
@@ -46,9 +46,9 @@ class Login extends Component {
                     }}
                 />
             </div>
-            <div className='o-layout__item o-form__item u-1/1'>
+            <div className='c-form__item'>
                 <AtomsButton
-                    type='primary'
+                    type='primary' full
                     disabled={!this.state.login_email || !this.state.login_password}
                     onClick={() => {
                         app.getLoader('context').login(this.state.login_email, this.state.login_password)

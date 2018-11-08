@@ -37,6 +37,28 @@ let Loader = function (store, api) {
         )
     }
 
+    this.register = (user, previous = null) => {
+        this.api.request(
+            'POST',
+            'Frontastic.AccountApi.Api.register',
+            {},
+            user,
+            (json) => {
+                this.refresh()
+
+                if (previous) {
+                    app.getRouter().replace(
+                        previous.route,
+                        previous.parameters
+                    )
+                }
+            },
+            (json) => {
+                this.notifyUser('Login Failed')
+            }
+        )
+    }
+
     this.login = (email, password, previous = null) => {
         this.api.request(
             'POST',

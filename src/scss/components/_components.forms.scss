@@ -25,6 +25,16 @@ $color-input-required: $color-secondary !default;
 .c-form__label {
     display: block;
     font-size: $fs-s;
+
+    margin-top: $unit-small;
+}
+
+.c-form__label--required {
+    font-weight: bold;
+}
+
+.c-form__label:first-child {
+    margin-top: 0;
 }
 
 .c-form__input,
