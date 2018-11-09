@@ -18,6 +18,8 @@ class MasterService implements Target
         'checkout',
         'checkoutFinished',
         'account',
+        'accountForgotPassword',
+        'accountConfirm',
         'accountProfile',
         'accountAddresses',
         'accountOrders',
@@ -44,12 +46,13 @@ class MasterService implements Target
         }
 
         foreach ($this->validContexts as $contextAttribute) {
+            $ruleName = strtolower(preg_replace('((?<=[A-Za-z])(?=[A-Z]))', '_$1', $contextAttribute));
             if ($context->$contextAttribute !== null) {
-                if (!isset($rules->rules[$contextAttribute])) {
-                    throw new \OutOfBoundsException('No page defined for ' . $contextAttribute . ' yet.');
+                if (!isset($rules->rules[$ruleName])) {
+                    throw new \OutOfBoundsException('No page defined for ' . $ruleName . ' yet.');
                 }
 
-                return $this->pickNode($rules->rules[$contextAttribute], null);
+                return $this->pickNode($rules->rules[$ruleName], null);
             }
         }
 

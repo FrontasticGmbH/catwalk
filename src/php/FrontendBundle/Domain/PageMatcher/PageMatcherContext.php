@@ -39,6 +39,16 @@ class PageMatcherContext extends DataObject
     /**
      * @var object|null
      */
+    public $accountForgotPassword;
+
+    /**
+     * @var object|null
+     */
+    public $accountConfirm;
+
+    /**
+     * @var object|null
+     */
     public $accountProfile;
 
     /**

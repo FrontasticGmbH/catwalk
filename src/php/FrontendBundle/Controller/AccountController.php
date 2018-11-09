@@ -17,6 +17,18 @@ class AccountController extends Controller
         return $this->getNode($context, new PageMatcherContext(['account' => true]));
     }
 
+    public function forgotPasswordAction(Context $context): array
+    {
+        // @TODO: Add information about cart here, so that we can build selectors on top if this?
+        return $this->getNode($context, new PageMatcherContext(['accountForgotPassword' => true]));
+    }
+
+    public function confirmAction(Context $context): array
+    {
+        // @TODO: Add information about cart here, so that we can build selectors on top if this?
+        return $this->getNode($context, new PageMatcherContext(['accountConfirm' => true]));
+    }
+
     public function profileAction(Context $context): array
     {
         // @TODO: Add information about cart here, so that we can build selectors on top if this?

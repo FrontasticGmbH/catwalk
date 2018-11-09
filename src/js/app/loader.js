@@ -77,6 +77,8 @@ let Loader = function (store, router, api) {
         case 'Frontastic.Frontend.Master.Checkout.cart':
         case 'Frontastic.Frontend.Master.Checkout.checkout':
         case 'Frontastic.Frontend.Master.Account.index':
+        case 'Frontastic.Frontend.Master.Account.forgotPassword':
+        case 'Frontastic.Frontend.Master.Account.confirm':
         case 'Frontastic.Frontend.Master.Account.profile':
         case 'Frontastic.Frontend.Master.Account.addresses':
         case 'Frontastic.Frontend.Master.Account.orders':
