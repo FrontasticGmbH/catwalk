@@ -43,9 +43,13 @@ class MasterService implements Target
             return $this->pickNode($rules->rules['category'], $context->categoryId);
         }
 
-        foreach ($this->validContexts as $validContext) {
-            if (property_exists($context, $validContext) && ($context->$validContext !== null)) {
-                return $this->pickNode($rules->rules[$validContext], null);
+        foreach ($this->validContexts as $contextAttribute) {
+            if ($context->$contextAttribute !== null) {
+                if (!isset($rules->rules[$contextAttribute])) {
+                    throw new \OutOfBoundsException('No page defined for ' . $contextAttribute . ' yet.');
+                }
+
+                return $this->pickNode($rules->rules[$contextAttribute], null);
             }
         }
 
