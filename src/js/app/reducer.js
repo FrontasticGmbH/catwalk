@@ -3,6 +3,7 @@ import CartLoader from '../domain/cartLoader'
 
 import Context from './context'
 
+import ContextLoader from './loader/context'
 import NodeLoader from './loader/node'
 import DataLoader from './loader/data'
 import TasticLoader from './loader/tastic'
@@ -60,6 +61,7 @@ const reducer = (globalState = initialGlobalState, action) => {
 
 export default combineReducers({
     app: reducer,
+    user: ContextLoader.handleAction,
     node: NodeLoader.handleAction,
     data: DataLoader.handleAction,
     tastic: TasticLoader.handleAction,

@@ -98,12 +98,12 @@ let Api = function (router, store) {
                 console.error('Unhandled Error:', response)
             }
 
-            if (parameters && !parameters.hasError && !parameters.ownErrorHandler) {
-                this.trigger('Frontastic.Frontend.Master.Error.view', { hasError: true }, 'error')
-            }
-
             if (error) {
                 error(parsedError)
+            }
+
+            if (parameters && !parameters.hasError && !parameters.ownErrorHandler) {
+                this.trigger('Frontastic.Frontend.Master.Error.view', { hasError: true }, 'error')
             }
         })
     }

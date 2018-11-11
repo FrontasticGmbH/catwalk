@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import AtomsButton from '../../../patterns/10-atoms/10-buttons/10-button'
 import AtomsHeading from '../../../patterns/10-atoms/20-headings/10-heading'
 import Grow from '../../../component/grow'
+import Notifications from '../../../component/notifications'
 
 import Login from './login'
 import Register from './register'
@@ -24,7 +25,10 @@ class AccountLoginTastic extends Component {
         }
 
         return (<div className='o-layout'>
-            <AtomsHeading type='alpha'>Anmelden oder Registrieren</AtomsHeading>
+            <div className='o-layout__item u-1/1'>
+                <AtomsHeading type='alpha'>Anmelden oder Registrieren</AtomsHeading>
+                <Notifications />
+            </div>
             <div className='o-layout__item u-1/1'>
                 <span className='c-button-row'>
                     <AtomsButton

@@ -1,7 +1,8 @@
+import { generateId } from 'frontastic-common'
+
 import app from '../app'
 import Context from '../context'
-
-import { generateId } from 'frontastic-common'
+import Entity from '../entity'
 
 /**
  * Special context loader
@@ -41,9 +42,10 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.register',
-            {},
+            { ownErrorHandler: true, },
             user,
             (json) => {
+                this.notifyUser('Registration successfull')
                 this.refresh()
 
                 if (previous) {
@@ -54,7 +56,7 @@ let Loader = function (store, api) {
                 }
             },
             (json) => {
-                this.notifyUser('Login Failed')
+                this.notifyUser('Could not register: ' + json.message)
             }
         )
     }
@@ -63,7 +65,7 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.login',
-            {},
+            { ownErrorHandler: true, },
             { email: email, password: password },
             (json) => {
                 this.refresh()
@@ -76,7 +78,7 @@ let Loader = function (store, api) {
                 }
             },
             (json) => {
-                this.notifyUser('Login Failed')
+                this.notifyUser('Login Failure – email or password are wrong.')
             }
         )
     }
@@ -127,13 +129,14 @@ let Loader = function (store, api) {
         )
     }
 
-    this.notifyUser = (message, timeout = null) => {
+    this.notifyUser = (message, type = 'info', timeout = null) => {
         let notificationId = generateId()
         this.store.dispatch({
             type: 'Frontastic.Notification.add',
             data: {
                 notificationId: notificationId,
                 message: message,
+                type: type,
                 timeout: timeout,
             },
             id: notificationId,
@@ -144,10 +147,12 @@ let Loader = function (store, api) {
 
 const initialGlobalState = {
     users: {},
+    notifications: {},
 }
 
 Loader.handleAction = (globalState = initialGlobalState, action) => {
     let users = {}
+    let notifications = {}
 
     switch (action.type) {
     case 'FRONTASTIC_CONTEXT_SWITCH':
@@ -155,6 +160,8 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
     case 'FRONTASTIC_ROUTE':
         return {
             users: Entity.purgeMap(globalState.users),
+            // Never remove notifications ourselves
+            notifications: globalState.notifications,
         }
     case 'AccountApi.Api.get.success':
         users = _.extend({}, globalState.users)
@@ -175,6 +182,23 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         return {
             ...globalState,
             users: users,
+        }
+
+    case 'Frontastic.Notification.add':
+        notifications = _.extend({}, globalState.notifications)
+        notifications[action.id] = action.data
+
+        return {
+            ...globalState,
+            notifications: notifications,
+        }
+    case 'Frontastic.Notification.remove':
+        notifications = _.extend({}, globalState.notifications)
+        delete notifications[action.id]
+
+        return {
+            ...globalState,
+            notifications: notifications,
         }
     default:
         // Do nothing for all other actions
