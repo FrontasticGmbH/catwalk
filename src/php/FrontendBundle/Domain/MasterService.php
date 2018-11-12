@@ -46,7 +46,7 @@ class MasterService implements Target
         }
 
         foreach ($this->validContexts as $contextAttribute) {
-            $ruleName = strtolower(preg_replace('((?<=[A-Za-z])(?=[A-Z]))', '_$1', $contextAttribute));
+            $ruleName = $this->propertyToRuleName($contextAttribute);
             if ($context->$contextAttribute !== null) {
                 if (!isset($rules->rules[$ruleName])) {
                     throw new \OutOfBoundsException('No page defined for ' . $ruleName . ' yet.');
@@ -56,18 +56,21 @@ class MasterService implements Target
             }
         }
 
-        throw new \RuntimeException('Could not resolve node!');
+        throw new \RuntimeException('Could not resolve master page for node.');
     }
 
-    public function completeDefaultQuery(array $streams, string $pageType, string $itemId): array
+    public function completeDefaultQuery(array $streams, string $pageType, ?string $itemId): array
     {
+        $pageType = $this->propertyToRuleName($pageType);
         foreach ($streams as $streamKey => $streamData) {
-            if (array_key_exists('product', $streamData['configuration'])
-                && $streamData['configuration'][$pageType] === null
+            if (isset($streamData['configuration']) &&
+                array_key_exists($pageType, $streamData['configuration']) &&
+                $streamData['configuration'][$pageType] === null
             ) {
                 $streams[$streamKey]['configuration'][$pageType] = $itemId;
             }
         }
+
         return $streams;
     }
 
@@ -131,5 +134,10 @@ class MasterService implements Target
 
         $rules->sequence = $update['sequence'];
         $rules->metaData = $update['metaData'];
+    }
+
+    private function propertyToRuleName(string $name)
+    {
+        return strtolower(preg_replace('((?<=[A-Za-z])(?=[A-Z]))', '_$1', $name));
     }
 }
