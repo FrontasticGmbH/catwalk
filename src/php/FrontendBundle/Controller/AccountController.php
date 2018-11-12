@@ -13,50 +13,42 @@ class AccountController extends Controller
 {
     public function indexAction(Context $context): array
     {
-        // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['account' => true]));
+        return $this->getNode($context, new PageMatcherContext(['account' => $context->session]));
     }
 
     public function forgotPasswordAction(Context $context): array
     {
-        // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['accountForgotPassword' => true]));
+        return $this->getNode($context, new PageMatcherContext(['accountForgotPassword' => $context->session]));
     }
 
     public function confirmAction(Context $context): array
     {
-        // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['accountConfirm' => true]));
+        return $this->getNode($context, new PageMatcherContext(['accountConfirm' => $context->session]));
     }
 
     public function profileAction(Context $context): array
     {
-        // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['accountProfile' => true]));
+        return $this->getNode($context, new PageMatcherContext(['accountProfile' => $context->session]));
     }
 
     public function addressesAction(Context $context): array
     {
-        // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['accountAddresses' => true]));
+        return $this->getNode($context, new PageMatcherContext(['accountAddresses' => $context->session]));
     }
 
     public function ordersAction(Context $context): array
     {
-        // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['accountOrders' => true]));
+        return $this->getNode($context, new PageMatcherContext(['accountOrders' => $context->session]));
     }
 
     public function wishlistsAction(Context $context): array
     {
-        // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['accountWishlists' => true]));
+        return $this->getNode($context, new PageMatcherContext(['accountWishlists' => $context->session]));
     }
 
     public function vouchersAction(Context $context): array
     {
-        // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['accountVouchers' => true]));
+        return $this->getNode($context, new PageMatcherContext(['accountVouchers' => $context->session]));
     }
 
     private function getNode(Context $context, PageMatcherContext $pageMatcherContext): array
