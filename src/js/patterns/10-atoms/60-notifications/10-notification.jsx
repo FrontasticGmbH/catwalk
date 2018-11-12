@@ -8,12 +8,12 @@ import ComponentInjector from '../../../app/injector'
 class AtomsNotification extends Component {
     render () {
         // @TODO: Handle autoHideDuration (call onClose after timeout)
-        // @TODO: Add close button if onClose is defined
         return (<div className={classnames(
             'c-alert',
             'c-alert--' + this.props.type,
         )}>
             <p className='c-alert__message'>{this.props.message}</p>
+            {/* @TODO: Add close button if onClose is defined */}
         </div>)
     }
 }

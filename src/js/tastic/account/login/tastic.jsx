@@ -7,6 +7,8 @@ import AtomsHeading from '../../../patterns/10-atoms/20-headings/10-heading'
 import Grow from '../../../component/grow'
 import Notifications from '../../../component/notifications'
 
+import app from '../../../app/app'
+
 import Login from './login'
 import Register from './register'
 
@@ -15,13 +17,28 @@ class AccountLoginTastic extends Component {
         super(props)
 
         this.state = {
-            form: 'register',
+            form: 'login',
         }
     }
 
     render () {
         if (this.props.context.session.loggedIn) {
-            return null
+            return (<div className='o-layout'>
+                <div className='o-layout__item u-3/4 u-1/1@hand'>
+                    <AtomsHeading type='delta'>Hallo { this.props.context.session.account.prename } { this.props.context.session.account.lastname }</AtomsHeading>
+                    <Notifications />
+                    <div className='u-right'>
+                        <AtomsButton
+                            outline
+                            onClick={() => {
+                                app.getLoader('context').logout()
+                            }}
+                        >
+                            Abmelden
+                        </AtomsButton>
+                    </div>
+                </div>
+            </div>)
         }
 
         return (<div className='o-layout'>

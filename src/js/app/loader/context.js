@@ -45,7 +45,7 @@ let Loader = function (store, api) {
             { ownErrorHandler: true, },
             user,
             (json) => {
-                this.notifyUser('Registration successfull')
+                this.notifyUser('Registration successfull', 'success')
                 this.refresh()
 
                 if (previous) {
@@ -56,7 +56,7 @@ let Loader = function (store, api) {
                 }
             },
             (json) => {
-                this.notifyUser('Could not register: ' + json.message)
+                this.notifyUser('Could not register: ' + json.message, 'error')
             }
         )
     }
@@ -78,7 +78,7 @@ let Loader = function (store, api) {
                 }
             },
             (json) => {
-                this.notifyUser('Login Failure – email or password are wrong.')
+                this.notifyUser('Login Failure – email or password are wrong.', 'error')
             }
         )
     }
@@ -90,6 +90,7 @@ let Loader = function (store, api) {
             null,
             null,
             (json) => {
+                this.notifyUser('Successfully logged out', 'success', 5000)
                 this.refresh()
             },
             (json) => {

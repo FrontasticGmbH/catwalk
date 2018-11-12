@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import { generateId } from 'frontastic-common'
+
 import AtomsButton from '../../../patterns/10-atoms/10-buttons/10-button'
 import AtomsHeading from '../../../patterns/10-atoms/20-headings/10-heading'
 
@@ -14,7 +16,7 @@ class Register extends Component {
             register_salutation: '',
             register_prename: '',
             register_lastname: '',
-            register_email: '',
+            register_email: generateId() + '',
             register_phone_prefix: '+49',
             register_phone: '',
             register_birthday_day: '',
