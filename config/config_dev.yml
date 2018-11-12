@@ -7,6 +7,10 @@ framework:
         strict_requirements: ~
     profiler: false
 
+swiftmailer:
+    # Providing null via environment variables does not work
+    encryption: null
+
 monolog:
     handlers:
         syslog:

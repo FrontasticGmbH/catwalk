@@ -1,6 +1,10 @@
 imports:
     - { resource: config_dev.yml }
 
+swiftmailer:
+    # Providing null via environment variables does not work
+    encryption: null
+
 doctrine:
     dbal:
         dbname:     "%env(database_name)%_test"
