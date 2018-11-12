@@ -58,14 +58,17 @@ class AccountController extends Controller
         $dataService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider');
         $pageService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\PageService');
 
-        $node = $nodeService->get(
-            $masterService->matchNodeId($pageMatcherContext)
+        $queryData = array_filter((array) $pageMatcherContext);
+        $node = $nodeService->get($masterService->matchNodeId($pageMatcherContext));
+        $node->streams = $masterService->completeDefaultQuery(
+            $node->streams,
+            key($queryData),
+            $context->session->account->accountId ?? null
         );
-        $page = $pageService->fetchForNode($node);
 
         return [
             'node' => $node,
-            'page' => $page,
+            'page' => $page = $pageService->fetchForNode($node),
             'data' => $dataService->fetchDataFor($node, $context, [], $page),
         ];
     }

@@ -19,14 +19,7 @@ class CategoryController extends Controller
         $dataProvider = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider');
         $pageService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\PageService');
 
-        $nodeId = $pageMatcherService->matchNodeId(
-            new PageMatcherContext(['categoryId' => $id])
-        );
-
-        $node = $nodeService->get($nodeId);
-
-        $page = $pageService->fetchForNode($node);
-
+        $node = $nodeService->get($pageMatcherService->matchNodeId(new PageMatcherContext(['categoryId' => $id])));
         $node->streams = $pageMatcherService->completeDefaultQuery(
             $node->streams,
             'category',
@@ -34,8 +27,8 @@ class CategoryController extends Controller
         );
 
         return [
-            'page' => $page,
             'node' => $node,
+            'page' => $page = $pageService->fetchForNode($node),
             'data' => $dataProvider->fetchDataFor($node, $context, [], $page),
         ];
     }

@@ -61,10 +61,10 @@ class MasterService implements Target
 
     public function completeDefaultQuery(array $streams, string $pageType, ?string $itemId): array
     {
-        $pageType = $this->propertyToRuleName($pageType);
+        $pageType = $this->propertyToRuleName($pageType, '-');
         foreach ($streams as $streamKey => $streamData) {
             if (isset($streamData['configuration']) &&
-                array_key_exists($pageType, $streamData['configuration']) &&
+                (array_key_exists($pageType, $streamData['configuration']) || $streamData['type'] === $pageType) &&
                 $streamData['configuration'][$pageType] === null
             ) {
                 $streams[$streamKey]['configuration'][$pageType] = $itemId;
@@ -136,8 +136,8 @@ class MasterService implements Target
         $rules->metaData = $update['metaData'];
     }
 
-    private function propertyToRuleName(string $name)
+    private function propertyToRuleName(string $name, string $separator = '_')
     {
-        return strtolower(preg_replace('((?<=[A-Za-z])(?=[A-Z]))', '_$1', $name));
+        return strtolower(preg_replace('((?<=[A-Za-z])(?=[A-Z]))', $separator . '$1', $name));
     }
 }
