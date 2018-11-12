@@ -1,3 +1,10 @@
+parameters:
+    env(smtp_host): "localhost"
+    env(smtp_port): 1025
+    env(username): ""
+    env(password): ""
+    env(encryption): "tls"
+
 imports:
     - { resource: security.yml }
     - { resource: doctrine.yml }
