@@ -65,7 +65,7 @@ class MasterService implements Target
         foreach ($streams as $streamKey => $streamData) {
             if (isset($streamData['configuration']) &&
                 (array_key_exists($pageType, $streamData['configuration']) || $streamData['type'] === $pageType) &&
-                $streamData['configuration'][$pageType] === null
+                empty($streamData['configuration'][$pageType])
             ) {
                 $streams[$streamKey]['configuration'][$pageType] = $itemId;
             }

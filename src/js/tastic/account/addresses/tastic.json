@@ -10,8 +10,9 @@
                 {
                     "label": "Show SomeField",
                     "field": "showSomeField",
-                    "type": "boolean",
-                    "default": true
+                    "type": "stream",
+                    "streamType": "account-address",
+                    "default": null
                 }
             ]
         }
