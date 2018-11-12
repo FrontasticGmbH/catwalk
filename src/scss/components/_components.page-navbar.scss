@@ -128,10 +128,6 @@ $transition-page-navbar-button: 150ms !default
 			margin: 0px 0px $unit-small 0px;
 		}
 
-		.c-page-navbar__item--selected {
-			font-weight: bold;
-		}
-
 		.c-page-navbar__button {
 			// Override default button
 			$padding-button: .5rem 1rem;
@@ -152,6 +148,10 @@ $transition-page-navbar-button: 150ms !default
 			&:hover {
 				color: $color-page-navbar-button-bg-active;
 			}
+		}
+
+		.c-page-navbar__item--selected .c-page-navbar__button {
+            font-weight: bold;
 		}
 
 		input:focus + .c-page-navbar__button {
