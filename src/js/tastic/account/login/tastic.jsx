@@ -11,6 +11,7 @@ import app from '../../../app/app'
 
 import Login from './login'
 import Register from './register'
+import AccountBar from '../bar'
 
 class AccountLoginTastic extends Component {
     constructor(props) {
@@ -24,7 +25,10 @@ class AccountLoginTastic extends Component {
     render () {
         if (this.props.context.session.loggedIn) {
             return (<div className='o-layout'>
-                <div className='o-layout__item u-3/4 u-1/1@hand'>
+                <div className='o-layout__item u-1/1 u-1/3@lap u-1/4@desk'>
+                    <AccountBar />
+                </div>
+                <div className='o-layout__item u-1/1 u-2/3@lap u-3/4@desk'>
                     <AtomsHeading type='delta'>Hallo { this.props.context.session.account.prename } { this.props.context.session.account.lastname }</AtomsHeading>
                     <Notifications />
                     <div className='u-right'>

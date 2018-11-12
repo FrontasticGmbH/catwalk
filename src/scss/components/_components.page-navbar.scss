@@ -1,0 +1,167 @@
+/* ==========================================================================
+   #page-navbar
+========================================================================== */
+
+$color-page-navbar-height: 3rem !default;
+$color-page-navbar-horizontal-offset: 1.5rem !default;
+$color-page-navbar-button: $color-primary !default;
+$color-page-navbar-button-bg: transparent !default;
+$color-page-navbar-button-bg-active: $color-brand !default;
+$color-page-navbar-button-active: $color-text-invert !default;
+$border-radius-page-navbar-button: 1rem !default;
+$border-width-page-navbar-button: 2px !default;
+$transition-page-navbar-button: 150ms !default
+
+@media (max-width: map-get($breakpoints, lap)) {
+	.c-page-navbar {
+		height: $color-page-navbar-height;
+		width: 100%;
+		width: 100vw;
+		max-width: calc(100% + (#{$color-page-navbar-horizontal-offset} * 2));
+
+		margin-left: -$color-page-navbar-horizontal-offset;
+		margin-right: -$color-page-navbar-horizontal-offset;
+		position: relative;
+		overflow: hidden;
+
+		.c-page-navbar__scrollable {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+
+			padding: 0 $color-page-navbar-horizontal-offset 1rem;
+			margin-bottom: -1rem;
+
+			white-space: nowrap;
+			overflow-x: scroll;
+			-webkit-overflow-scrolling: touch;
+			overflow-y: hidden;
+
+			// Hide scrollbar
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
+
+		&::before,
+		&::after {
+			content: '';
+			display: block;
+			height: 100%;
+			width: 1.5rem;
+			position: absolute;
+			top: 0;
+			z-index: 9;
+		}
+
+		&::before {
+			background-image: linear-gradient(to right, white 30%, rgba(255, 255, 255, 0) 100%);
+			left: 0;
+		}
+		&::after {
+			background-image: linear-gradient(to left, white 30%, rgba(255, 255, 255, 0) 100%);
+			right: 0;
+		}
+
+		.c-page-navbar__item {
+			display: inline-block;
+			margin-right: $color-page-navbar-horizontal-offset / 4;
+		}
+
+		.c-page-navbar__button {
+			// Override default button
+			$padding-button: .5rem 1rem;
+
+			border-radius: $border-radius-page-navbar-button;
+			border: $border-width-page-navbar-button solid $color-page-navbar-button;
+
+			cursor: pointer;
+
+			color: $color-page-navbar-button;
+			text-decoration: none;
+
+			display: inline-flex;
+			padding: $padding-button;
+
+			transition: color $transition-page-navbar-button, background-color $transition-page-navbar-button, border $transition-page-navbar-button;
+
+			&:hover {
+				color: $color-page-navbar-button-bg-active;
+			}
+		}
+
+		+ .c-filter-button {
+			$padding-button: .5rem 1rem;
+			border: 2px solid;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: .5rem 0 1rem;
+			padding: $padding-button;
+			width: 100%;
+		}
+		input:focus + .c-page-navbar__button {
+			color: $color-page-navbar-button-bg-active;
+		}
+
+		input:checked + .c-page-navbar__button {
+			background-color: $color-page-navbar-button-bg-active;
+			color: $color-page-navbar-button-active;
+			border-color: $color-page-navbar-button-bg-active;
+		}
+	}
+}
+
+@media (min-width: map-get($breakpoints, lap)) {
+	.c-page-navbar {
+		width: 100%;
+
+		.c-page-navbar__scrollable {
+		}
+
+		.c-page-navbar__item {
+			width: 100%;
+			display: block;
+			margin: 0px 0px $unit-small 0px;
+		}
+
+		.c-page-navbar__item--selected {
+			font-weight: bold;
+		}
+
+		.c-page-navbar__button {
+			// Override default button
+			$padding-button: .5rem 1rem;
+
+			cursor: pointer;
+
+			font-size: $fs-l;
+			color: $color-page-navbar-button;
+			text-decoration: none;
+            text-align: left;
+
+			width: 100%;
+			display: inline-flex;
+			padding: $padding-button;
+
+			transition: color $transition-page-navbar-button, background-color $transition-page-navbar-button, border $transition-page-navbar-button;
+
+			&:hover {
+				color: $color-page-navbar-button-bg-active;
+			}
+		}
+
+		input:focus + .c-page-navbar__button {
+			color: $color-page-navbar-button-bg-active;
+		}
+
+		input:checked + .c-page-navbar__button {
+			background-color: $color-page-navbar-button-bg-active;
+			color: $color-page-navbar-button-active;
+			border-color: $color-page-navbar-button-bg-active;
+		}
+	}
+}

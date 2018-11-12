@@ -56,8 +56,8 @@
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::profileAction</default>
     </route>
 
-    <route id="Frontastic.Frontend.Master.Account.addesses" path="/account/addesses" methods="GET">
-        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::addessesAction</default>
+    <route id="Frontastic.Frontend.Master.Account.addresses" path="/account/addresses" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::addressesAction</default>
     </route>
 
     <route id="Frontastic.Frontend.Master.Account.orders" path="/account/orders" methods="GET">
