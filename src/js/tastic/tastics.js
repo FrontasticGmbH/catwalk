@@ -1,6 +1,10 @@
+import AccountAddresses from './account/addresses/tastic.jsx'
 import AccountConfirm from './account/confirm/tastic.jsx'
 import AccountLogin from './account/login/tastic.jsx'
-import AccountAddresses from './account/addresses/tastic.jsx'
+import AccountOrders from './account/orders/tastic.jsx'
+import AccountProfile from './account/profile/tastic.jsx'
+import AccountVouchers from './account/vouchers/tastic.jsx'
+import AccountWishlists from './account/wishlists/tastic.jsx'
 import Cart from './cart/tastic.jsx'
 import Checkout from './checkout/tastic.jsx'
 import Content from './content/tastic.jsx'
@@ -30,6 +34,10 @@ export default (() => {
         'account-addresses': AccountAddresses,
         'account-confirm': AccountConfirm,
         'account-login': AccountLogin,
+        'account-orders': AccountOrders,
+        'account-profile': AccountProfile,
+        'account-vouchers': AccountVouchers,
+        'account-wishlists': AccountWishlists,
         'cart': Cart,
         'checkout': Checkout,
         'content': Content,
