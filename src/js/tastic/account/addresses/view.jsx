@@ -5,7 +5,9 @@ import _ from 'lodash'
 class Address extends Component {
     render () {
         return (<address className='c-address'>
-            {this.props.address.firstName} {this.props.address.lastName}
+            {this.props.address.firstName} {this.props.address.lastName}<br />
+            {this.props.address.streetName} {this.props.address.streetNumber}<br />
+            {this.props.address.postalCode} {this.props.address.city} ({this.props.address.country})<br />
         </address>)
     }
 }
