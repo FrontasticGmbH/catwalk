@@ -124,9 +124,11 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.update',
-            null,
+            { ownErrorHandler: true, },
             user,
             (json) => {
+                this.notifyUser('Userdata updated.', 'success', 5000)
+
                 this.refresh()
                 this.store.dispatch({
                     type: 'AccountApi.Api.get.success',
@@ -135,10 +137,7 @@ let Loader = function (store, api) {
                 })
             },
             (json) => {
-                this.store.dispatch({
-                    type: 'AccountApi.Api.get.error',
-                    data: json,
-                })
+                this.notifyUser('Failed to store address: ' + json.message, 'error')
             }
         )
     }
