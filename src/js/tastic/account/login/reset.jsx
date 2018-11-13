@@ -1,0 +1,54 @@
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
+import AtomsButton from '../../../patterns/10-atoms/10-buttons/10-button'
+import AtomsHeading from '../../../patterns/10-atoms/20-headings/10-heading'
+
+import app from '../../../app/app'
+
+class Reset extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            reset_email: '',
+        }
+    }
+
+    render () {
+        return (<div className='c-form'>
+            <div className='c-form__item'>
+                <label htmlFor='reset_email' className='c-form__label'>E-Mail</label>
+                <input
+                    id='reset_email'
+                    className='c-form__input'
+                    type='email'
+                    required
+                    autoComplete='email'
+                    value={this.state.reset_email}
+                    onChange={(event) => {
+                        this.setState({ reset_email: event.target.value })
+                    }}
+                />
+            </div>
+            <div className='c-form__item'>
+                <AtomsButton
+                    type='primary' full
+                    disabled={!this.state.reset_email}
+                    onClick={() => {
+                        app.getLoader('context').resetPassword(this.state.reset_email)
+                    }}>
+                    Passwort anfordern
+                </AtomsButton>
+            </div>
+        </div>)
+    }
+}
+
+Reset.propTypes = {
+}
+
+Reset.defaultProps = {
+}
+
+export default Reset

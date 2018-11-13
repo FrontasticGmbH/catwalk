@@ -13,14 +13,6 @@ import AccountLoginForm from './form'
 import AccountBar from '../bar'
 
 class AccountLoginTastic extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            form: 'login',
-        }
-    }
-
     render () {
         if (this.props.context.session.loggedIn) {
             return (<div className='o-layout'>

@@ -11,6 +11,7 @@ import ComponentInjector from '../../../app/injector'
 import app from '../../../app/app'
 
 import Login from './login'
+import Reset from './reset'
 import Register from './register'
 import AccountBar from '../bar'
 
@@ -54,9 +55,20 @@ class AccountLoginForm extends Component {
             <div className='o-layout__item u-1/1 u-2/3@lap u-1/2@desk' style={{ margin: '2em auto', display: 'block' }}>
                 <Grow in={(this.state.form === 'login')}>
                     <Login />
+                    <AtomsButton
+                        full
+                        onClick={() => {
+                            this.setState({ form: 'reset' })
+                        }}
+                    >
+                        Passwort vergessen
+                    </AtomsButton>
                 </Grow>
                 <Grow in={(this.state.form === 'register')}>
                     <Register />
+                </Grow>
+                <Grow in={(this.state.form === 'reset')}>
+                    <Reset />
                 </Grow>
             </div>
         </div>)
