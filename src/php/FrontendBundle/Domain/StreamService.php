@@ -38,9 +38,10 @@ class StreamService
         }
 
         if (!isset($this->streamHandlers[$stream->type])) {
-            throw new \OutOfBoundsException(
-                "No stream handler for stream type {$stream->type} configured."
-            );
+            return [
+                'ok' => false,
+                'message' => "No stream handler for stream type {$stream->type} configured.",
+            ];
         }
 
         return $this->streamHandlers[$stream->type]->handle($stream, $context, $parameters);
