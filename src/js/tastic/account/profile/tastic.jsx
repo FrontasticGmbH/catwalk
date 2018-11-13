@@ -52,15 +52,23 @@ class AccountProfileTastic extends Component {
         return nextState
     }
 
-    hasAllRequired = () => {
+    hasAllRequiredAndIsChanged = () => {
+        let account = this.props.context.session.account || { data: {} }
+
         return !!(
             this.state.profile_salutation &&
             this.state.profile_firstName &&
             this.state.profile_lastName &&
-            this.state.profile_email &&
             this.state.profile_birthday_day &&
             this.state.profile_birthday_month &&
             this.state.profile_birthday_year
+        ) && (
+            (this.state.profile_salutation !== account.salutation) ||
+            (this.state.profile_firstName !== account.firstName) ||
+            (this.state.profile_lastName !== account.lastName) ||
+            (this.state.profile_birthday_day != new Date(account.birthday).getDate()) ||
+            (this.state.profile_birthday_month != new Date(account.birthday).getMonth() + 1) ||
+            (this.state.profile_birthday_year != new Date(account.birthday).getFullYear())
         )
     }
 
@@ -221,7 +229,7 @@ class AccountProfileTastic extends Component {
                     <div className='c-form__item'>
                         <AtomsButton
                             type='primary' full
-                            disabled={!this.hasAllRequired()}
+                            disabled={!this.hasAllRequiredAndIsChanged()}
                             onClick={() => {
                                 app.getLoader('context').updateUser({
                                     salutation: this.state.profile_salutation,
