@@ -142,6 +142,24 @@ let Loader = function (store, api) {
         )
     }
 
+    this.updatePassword = (oldPassword, newPassword) => {
+        this.api.request(
+            'POST',
+            'Frontastic.AccountApi.Api.changePassword',
+            { ownErrorHandler: true, },
+            {
+                oldPassword: oldPassword,
+                newPassword: newPassword,
+            },
+            (json) => {
+                this.notifyUser('Password updated.', 'success', 5000)
+            },
+            (json) => {
+                this.notifyUser('Failed to update password: ' + json.message, 'error')
+            }
+        )
+    }
+
     this.notifyUser = (message, type = 'info', timeout = null) => {
         let notificationId = generateId()
         this.store.dispatch({

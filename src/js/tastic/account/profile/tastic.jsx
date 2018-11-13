@@ -287,16 +287,21 @@ class AccountProfileTastic extends Component {
                     <div className='c-form__item'>
                         <AtomsButton
                             type='primary' full
-                            disabled={!!(
+                            disabled={!(
                                 this.state.profile_password &&
                                 this.state.profile_password_new &&
                                 this.state.profile_password_repeat &&
                                 (this.state.profile_password_new === this.state.profile_password_repeat)
                             )}
                             onClick={() => {
-                                app.getLoader('context').update({
-                                    password: this.state.profile_password,
-                                    password_new: this.state.profile_password_new,
+                                app.getLoader('context').updatePassword(
+                                    this.state.profile_password,
+                                    this.state.profile_password_new
+                                )
+                                this.setState({
+                                    profile_password: '',
+                                    profile_password_new: '',
+                                    profile_password_repeat: '',
                                 })
                             }}>
                             Passwort ändern
