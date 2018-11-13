@@ -142,7 +142,7 @@ let Loader = function (store, api) {
         )
     }
 
-    this.resetPassword = (email) => {
+    this.requestPasswordReset = (email) => {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.requestReset',
@@ -153,6 +153,21 @@ let Loader = function (store, api) {
             },
             (json) => {
                 this.notifyUser('Failed to request password reset: ' + json.message, 'error')
+            }
+        )
+    }
+
+    this.resetPassword = (token, newPassword) => {
+        this.api.request(
+            'POST',
+            'Frontastic.AccountApi.Api.reset',
+            { ownErrorHandler: true, token: token },
+            { newPassword: newPassword },
+            (json) => {
+                this.notifyUser('Password updated', 'success', 5000)
+            },
+            (json) => {
+                this.notifyUser('Failed to reset password: ' + json.message, 'error')
             }
         )
     }

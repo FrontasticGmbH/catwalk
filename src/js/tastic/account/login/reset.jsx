@@ -36,7 +36,7 @@ class Reset extends Component {
                     type='primary' full
                     disabled={!this.state.reset_email}
                     onClick={() => {
-                        app.getLoader('context').resetPassword(this.state.reset_email)
+                        app.getLoader('context').requestPasswordReset(this.state.reset_email)
                     }}>
                     Passwort anfordern
                 </AtomsButton>
