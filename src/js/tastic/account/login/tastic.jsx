@@ -28,7 +28,7 @@ class AccountLoginTastic extends Component {
                     <AccountBar />
                 </div>
                 <div className='o-layout__item u-1/1 u-2/3@lap u-3/4@desk'>
-                    <AtomsHeading type='alpha'>Hallo { this.props.context.session.account.prename } { this.props.context.session.account.lastname }</AtomsHeading>
+                    <AtomsHeading type='alpha'>Hallo { this.props.context.session.account.firstName } { this.props.context.session.account.lastName }</AtomsHeading>
                     <Notifications />
                     <div className='u-right'>
                         <AtomsButton

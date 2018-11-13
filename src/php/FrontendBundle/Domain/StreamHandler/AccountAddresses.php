@@ -23,6 +23,10 @@ class AccountAddresses extends StreamHandler
 
     public function handle(Stream $stream, Context $context, array $parameters = [])
     {
+        if (!$context->session->loggedIn) {
+            return [];
+        }
+
         // While the account ID is also available in the stream configuration
         // this makes sure we always fetch the current accounts addresses.
         return $this->accountApi->getAddresses(

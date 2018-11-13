@@ -9,8 +9,8 @@ import app from '../../app/app'
 import Entity from '../../app/entity'
 
 import Summary from '../cart/summary'
-import Email from './email'
-import Address from './address'
+import Email from '../account/login/form'
+import Address from '../account/addresses/edit'
 import Paypal from './paypal'
 
 class Checkout extends Component {

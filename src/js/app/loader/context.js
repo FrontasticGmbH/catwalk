@@ -102,9 +102,22 @@ let Loader = function (store, api) {
         )
     }
 
-    this.loadUser = (email) => {
-        email = email || this.store.getState().app.context.session.user.email
-        this.api.trigger('Frontastic.AccountApi.Api.get', { email: email }, email)
+    this.addAddress = (address) => {
+        this.api.request(
+            'POST',
+            'Frontastic.AccountApi.Api.addAddress',
+            { ownErrorHandler: true, },
+            address,
+            (json) => {
+                this.notifyUser('Added new address', 'success', 5000)
+
+                let route = this.store.getState().app.route
+                app.getLoader('node').loadMaster(route.route, route.parameters)
+            },
+            (json) => {
+                this.notifyUser('Failed to store address: ' + json.message, 'error')
+            }
+        )
     }
 
     this.updateUser = (user) => {

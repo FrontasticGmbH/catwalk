@@ -8,8 +8,8 @@
             "name": "Content",
             "fields": [
                 {
-                    "label": "Show SomeField",
-                    "field": "showSomeField",
+                    "label": "Customer Adresses",
+                    "field": "addresses",
                     "type": "stream",
                     "streamType": "account-address",
                     "default": null

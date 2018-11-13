@@ -14,8 +14,8 @@ class Register extends Component {
 
         this.state = {
             register_salutation: '',
-            register_prename: '',
-            register_lastname: '',
+            register_firstName: '',
+            register_lastName: '',
             register_email: generateId() + '',
             register_phone_prefix: '+49',
             register_phone: '',
@@ -30,8 +30,8 @@ class Register extends Component {
     hasAllRequired = () => {
         return !!(
             this.state.register_salutation &&
-            this.state.register_prename &&
-            this.state.register_lastname &&
+            this.state.register_firstName &&
+            this.state.register_lastName &&
             this.state.register_email &&
             this.state.register_birthday_day &&
             this.state.register_birthday_month &&
@@ -61,30 +61,30 @@ class Register extends Component {
                 </select>
             </div>
             <div className='c-form__item'>
-                <label htmlFor='register_prename' className='c-form__label c-form__label--required'>Vorname</label>
+                <label htmlFor='register_firstName' className='c-form__label c-form__label--required'>Vorname</label>
                 <input
-                    id='register_prename'
+                    id='register_firstName'
                     className='c-form__input'
                     type='text'
                     required
-                    autoComplete='prename'
-                    value={this.state.register_prename}
+                    autoComplete='firstName'
+                    value={this.state.register_firstName}
                     onChange={(event) => {
-                        this.setState({ register_prename: event.target.value })
+                        this.setState({ register_firstName: event.target.value })
                     }}
                 />
             </div>
             <div className='c-form__item'>
-                <label htmlFor='register_lastname' className='c-form__label c-form__label--required'>Nachname</label>
+                <label htmlFor='register_lastName' className='c-form__label c-form__label--required'>Nachname</label>
                 <input
-                    id='register_lastname'
+                    id='register_lastName'
                     className='c-form__input'
                     type='text'
                     required
-                    autoComplete='lastname'
-                    value={this.state.register_lastname}
+                    autoComplete='lastName'
+                    value={this.state.register_lastName}
                     onChange={(event) => {
-                        this.setState({ register_lastname: event.target.value })
+                        this.setState({ register_lastName: event.target.value })
                     }}
                 />
             </div>
@@ -221,8 +221,8 @@ class Register extends Component {
                     onClick={() => {
                         app.getLoader('context').register({
                             salutation: this.state.register_salutation,
-                            prename: this.state.register_prename,
-                            lastname: this.state.register_lastname,
+                            firstName: this.state.register_firstName,
+                            lastName: this.state.register_lastName,
                             email: this.state.register_email,
                             phonePrefix: this.state.register_phone_prefix,
                             phone: this.state.register_phone,
