@@ -233,7 +233,7 @@ class Register extends Component {
                             tos: this.state.register_tos,
                         })
                     }}>
-                    Anmelden
+                    Registrieren
                 </AtomsButton>
             </div>
         </div>)
