@@ -46,7 +46,7 @@ class MasterService implements Target
         }
 
         foreach ($this->validContexts as $validContext) {
-            if ($context->$validContext !== null) {
+            if (property_exists($context, $validContext) && ($context->$validContext !== null)) {
                 return $this->pickNode($rules->rules[$validContext], null);
             }
         }
