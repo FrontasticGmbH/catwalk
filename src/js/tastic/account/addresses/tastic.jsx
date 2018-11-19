@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import AtomsButton from '../../../patterns/10-atoms/10-buttons/10-button'
 import AtomsHeading from '../../../patterns/10-atoms/20-headings/10-heading'
 import AtomsNotification from '../../../patterns/10-atoms/60-notifications/10-notification'
+import MoleculesAddress from '../../../patterns/20-molecules/80-address/10-address'
 import Notifications from '../../../component/notifications'
 
 import app from '../../../app/app'
@@ -14,7 +15,6 @@ import AccountLoginForm from '../login/form'
 import AccountBar from '../bar'
 
 import AddressEdit from './edit'
-import AddressView from './view'
 
 class AccountAddressesTastic extends Component {
     constructor (props) {
@@ -46,7 +46,7 @@ class AccountAddressesTastic extends Component {
                     <div className='o-layout'>
                     {_.map(addresses, (address) => {
                         return (<div className='o-layout__item u-1/1 u-1/2@lap u-1/3@desk' key={address.addressId}>
-                            <AddressView
+                            <MoleculesAddress
                                 address={address}
                                 setDefaultBillingAddress={(address) => {
                                     app.getLoader('context').setDefaultBillingAddress(address)

@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 
-import AtomsButton from '../../../patterns/10-atoms/10-buttons/10-button'
+import ComponentInjector from '../../../app/injector'
 
-class Address extends Component {
+import fixture from '../../fixture'
+
+import AtomsButton from '../../10-atoms/10-buttons/10-button'
+
+class MoleculesAddress extends Component {
     render () {
         return (<div className='c-address'>
             <address className='c-address__address'>
@@ -17,7 +20,7 @@ class Address extends Component {
                 <AtomsButton onClick={() => { this.props.removeAddress(this.props.address)} }>Remove</AtomsButton>
             </div>
             <div className='c-address__options'>
-                <div className='c-form__item o-layout__item u-1/1 u-1/2@lap'>
+                <div className='c-form__item o-layout__item u-1/1'>
                     <input
                         className='c-form__input'
                         type='checkbox'
@@ -29,7 +32,7 @@ class Address extends Component {
                         Standard-Lieferadresse
                     </label>
                 </div>
-                <div className='c-form__item o-layout__item u-1/1 u-1/2@lap'>
+                <div className='c-form__item o-layout__item u-1/1'>
                     <input
                         className='c-form__input'
                         type='checkbox'
@@ -46,7 +49,7 @@ class Address extends Component {
     }
 }
 
-Address.propTypes = {
+MoleculesAddress.propTypes = {
     address: PropTypes.object.isRequired,
     setDefaultBillingAddress: PropTypes.func.isRequired,
     setDefaultShippingAddress: PropTypes.func.isRequired,
@@ -54,7 +57,26 @@ Address.propTypes = {
     removeAddress: PropTypes.func.isRequired,
 }
 
-Address.defaultProps = {
+MoleculesAddress.defaultProps = {
 }
 
-export default Address
+// These are just default props for the pattern library
+MoleculesAddress.testProps = {
+    address: {
+        addressId: 'test',
+        firstName: 'Erika',
+        lastName: 'Mustermann',
+        streetName: 'Musterweg',
+        streetNumber: '42',
+        additionalStreetInfo: '1. Etage',
+        postalCode: '12345',
+        city: 'Musterstadt',
+        country: 'DE',
+    },
+    setDefaultBillingAddress: () => {},
+    setDefaultShippingAddress: () => {},
+    editAddress: () => {},
+    removeAddress: () => {},
+}
+
+export default ComponentInjector.return('MoleculesAddress', MoleculesAddress)
