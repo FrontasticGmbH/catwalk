@@ -11,16 +11,16 @@ class MoleculesAddress extends Component {
     render () {
         return (<div className='c-address'>
             <address className='c-address__address'>
-                {this.props.address.firstName} {this.props.address.lastName}<br />
-                {this.props.address.streetName} {this.props.address.streetNumber}<br />
-                {this.props.address.postalCode} {this.props.address.city} ({this.props.address.country})<br />
+                {this.props.address.firstName} {this.props.address.lastName}{this.props.short ? ', ' : <br />}
+                {this.props.address.streetName} {this.props.address.streetNumber}{this.props.short ? ', ' : <br />}
+                {this.props.address.postalCode} {this.props.address.city} ({this.props.address.country})
             </address>
-            <div className='c-address__buttons'>
-                <AtomsButton onClick={() => { this.props.editAddress(this.props.address)} }>Edit</AtomsButton>
-                <AtomsButton onClick={() => { this.props.removeAddress(this.props.address)} }>Remove</AtomsButton>
-            </div>
-            <div className='c-address__options'>
-                <div className='c-form__item o-layout__item u-1/1'>
+            {this.props.editAddress || this.props.removeAddress ? (<div className='c-address__buttons'>
+                {this.props.editAddress ? <AtomsButton onClick={() => { this.props.editAddress(this.props.address)} }>Edit</AtomsButton> : null}
+                {this.props.removeAddress ?  <AtomsButton onClick={() => { this.props.removeAddress(this.props.address)} }>Remove</AtomsButton> : null}
+            </div>) : null}
+            {this.props.setDefaultBillingAddress || this.props.setDefaultShippingAddress ? (<div className='c-address__options'>
+                {this.props.setDefaultShippingAddress ? (<div className='c-form__item o-layout__item u-1/1'>
                     <input
                         className='c-form__input'
                         type='checkbox'
@@ -31,8 +31,8 @@ class MoleculesAddress extends Component {
                     <label className='c-form__label' htmlFor={'address-default-shipping-address-' + this.props.address.addressId}>
                         Standard-Lieferadresse
                     </label>
-                </div>
-                <div className='c-form__item o-layout__item u-1/1'>
+                </div>) : null}
+                {this.props.setDefaultBillingAddress ? (<div className='c-form__item o-layout__item u-1/1'>
                     <input
                         className='c-form__input'
                         type='checkbox'
@@ -43,21 +43,23 @@ class MoleculesAddress extends Component {
                     <label className='c-form__label' htmlFor={'address-default-billing-address-' + this.props.address.addressId}>
                         Standard-Rechnungsadresse
                     </label>
-                </div>
-            </div>
+                </div>) : null}
+            </div>) : null}
         </div>)
     }
 }
 
 MoleculesAddress.propTypes = {
     address: PropTypes.object.isRequired,
-    setDefaultBillingAddress: PropTypes.func.isRequired,
-    setDefaultShippingAddress: PropTypes.func.isRequired,
-    editAddress: PropTypes.func.isRequired,
-    removeAddress: PropTypes.func.isRequired,
+    short: PropTypes.bool,
+    setDefaultBillingAddress: PropTypes.func,
+    setDefaultShippingAddress: PropTypes.func,
+    editAddress: PropTypes.func,
+    removeAddress: PropTypes.func,
 }
 
 MoleculesAddress.defaultProps = {
+    short: false,
 }
 
 // These are just default props for the pattern library
