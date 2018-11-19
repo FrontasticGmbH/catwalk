@@ -2,11 +2,13 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
-import app from '../../app/app'
-import Price from '../../patterns/10-atoms/80-prices/10-price'
-import RemoteImage from '../../remoteImage'
+import ComponentInjector from '../../../app/injector'
+import fixture from '../../fixture'
 
-class LineItem extends Component {
+import Price from '../../10-atoms/80-prices/10-price'
+import RemoteImage from '../../../remoteImage'
+
+class MoleculesLineItem extends Component {
     ucFirst (string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
     }
@@ -47,13 +49,16 @@ class LineItem extends Component {
                         <button
                             className='c-button c-button--small c-button--secondary'
                             onClick={(event) => {
-                                app.getLoader('cart').removeLineItem({ lineItemId: lineItem.lineItemId })
+                                this.props.onRemove(lineItem)
                             }}
                         >
                             Remove
                         </button>
                         <button
                             className='c-button c-button--small c-button--secondary'
+                            onClick={(event) => {
+                                this.props.onAddToWishlist(lineItem, +event.target.value)
+                            }}
                         >
                             Add to Wishlist
                         </button>
@@ -67,10 +72,7 @@ class LineItem extends Component {
                             className='c-form__select'
                             value={lineItem.count}
                             onChange={(event) => {
-                                app.getLoader('cart').updateLineItem({
-                                    lineItemId: lineItem.lineItemId,
-                                    count: +event.target.value,
-                                })
+                                this.props.onChangeCount(lineItem, +event.target.value)
                             }}
                         >
                             {_.map(_.range(1, 11), (count) => {
@@ -90,7 +92,7 @@ class LineItem extends Component {
                     }</strong>
                 </div>
             </div>
-            {!lineItem.discountTexts.length ? null : <div className='o-layout__item u-1/1'>
+            {!lineItem.discountTexts || !lineItem.discountTexts.length ? null : <div className='o-layout__item u-1/1'>
                 <ul className='c-discounts'>
                     {_.map(
                         lineItem.discountTexts,
@@ -105,13 +107,34 @@ class LineItem extends Component {
     }
 }
 
-LineItem.propTypes = {
-    showProductPicture: PropTypes.bool,
+MoleculesLineItem.propTypes = {
     lineItem: PropTypes.object.isRequired,
+    onRemove: PropTypes.func.isRequired,
+    onChangeCount: PropTypes.func.isRequired,
+    onAddToWishlist: PropTypes.func.isRequired,
+    showProductPicture: PropTypes.bool,
 }
 
-LineItem.defaultProps = {
+MoleculesLineItem.defaultProps = {
     showProductPicture: true,
 }
 
-export default LineItem
+// These are just default props for the pattern library
+MoleculesLineItem.testProps = {
+    lineItem: {
+        lineItemId: 'test',
+        name: fixture.headline.short,
+        type: 'variant',
+        variant: fixture.product.variants[0],
+        count: 1,
+        price: 19999,
+        discountedPrice: 17999,
+        totalPrice: 17999,
+        isGift: false,
+    },
+    onRemove: () => {},
+    onChangeCount: () => {},
+    onAddToWishlist: () => {},
+}
+
+export default ComponentInjector.return('MoleculesLineItem', MoleculesLineItem)

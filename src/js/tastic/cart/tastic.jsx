@@ -7,7 +7,7 @@ import app from '../../app/app'
 import Entity from '../../app/entity'
 import Loading from '../../app/loading'
 
-import LineItem from './lineItem'
+import MoleculesLineItem from '../../patterns/20-molecules/50-cart/30-line-item'
 import Summary from './summary'
 
 class CartTastic extends Component {
@@ -28,6 +28,18 @@ class CartTastic extends Component {
                             return (<LineItem
                                 key={lineItem.lineItemId}
                                 lineItem={lineItem}
+                                onRemove={(lineItem) => {
+                                    app.getLoader('cart').removeLineItem({ lineItemId: lineItem.lineItemId })
+                                }}
+                                onChangeCount={(lineItem, count) => {
+                                    app.getLoader('cart').updateLineItem({
+                                        lineItemId: lineItem.lineItemId,
+                                        count: count,
+                                    })
+                                }}
+                                onAddToWishlist={(lineItem, count) => {
+                                    console.warn('@TODO: Add to wishlist', lineItem, count)
+                                }}
                                 showProductPicture={this.props.tastic.schema.get('showProductPicture')}
                             />)
                         })
