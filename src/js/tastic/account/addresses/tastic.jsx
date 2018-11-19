@@ -46,16 +46,46 @@ class AccountAddressesTastic extends Component {
                     <div className='o-layout'>
                     {_.map(addresses, (address) => {
                         return (<div className='o-layout__item u-1/1 u-1/2@lap u-1/3@desk' key={address.addressId}>
-                            <AddressView address={address} />
+                            <AddressView
+                                address={address}
+                                setDefaultBillingAddress={(address) => {
+                                    app.getLoader('context').setDefaultBillingAddress(address)
+                                }}
+                                setDefaultShippingAddress={(address) => {
+                                    app.getLoader('context').setDefaultShippingAddress(address)
+                                }}
+                                editAddress={(address) => {
+                                    this.setState({
+                                        edit: true,
+                                        address: address,
+                                    })
+                                }}
+                                removeAddress={(address) => {
+                                    app.getLoader('context').removeAddress(address)
+                                }}
+                            />
                         </div>)
                     })}
                     </div>
                 }
                 {this.state.edit ?
                     <Fragment>
-                        <AddressEdit onChange={(address) => { this.setState({ address: address }) }} />
+                        <AddressEdit
+                            address={this.state.address}
+                            onChange={(address) => {
+                                this.setState({ address: address })
+                            }}
+                        />
+                        <AtomsButton onClick={() => { this.setState({ edit: false, address: null }) }}>
+                            Abbrechen
+                        </AtomsButton>
                         <AtomsButton type='primary' onClick={() => {
-                            app.getLoader('context').addAddress(this.state.address)
+                            if (this.state.address.addressId) {
+                                app.getLoader('context').updateAddress(this.state.address)
+                            } else {
+                                app.getLoader('context').addAddress(this.state.address)
+                            }
+
                             this.setState({ edit: false, address: null })
                         }}>
                             Speichern

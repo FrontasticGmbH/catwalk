@@ -120,6 +120,78 @@ let Loader = function (store, api) {
         )
     }
 
+    this.updateAddress = (address) => {
+        this.api.request(
+            'POST',
+            'Frontastic.AccountApi.Api.updateAddress',
+            { ownErrorHandler: true, },
+            address,
+            (json) => {
+                this.notifyUser('Updated address', 'success', 5000)
+
+                let route = this.store.getState().app.route
+                app.getLoader('node').loadMaster(route.route, route.parameters)
+            },
+            (json) => {
+                this.notifyUser('Failed to update address: ' + json.message, 'error')
+            }
+        )
+    }
+
+    this.removeAddress = (address) => {
+        this.api.request(
+            'POST',
+            'Frontastic.AccountApi.Api.removeAddress',
+            { ownErrorHandler: true, },
+            address,
+            (json) => {
+                this.notifyUser('Removed address', 'success', 5000)
+
+                let route = this.store.getState().app.route
+                app.getLoader('node').loadMaster(route.route, route.parameters)
+            },
+            (json) => {
+                this.notifyUser('Failed to remove address: ' + json.message, 'error')
+            }
+        )
+    }
+
+    this.setDefaultBillingAddress = (address) => {
+        this.api.request(
+            'POST',
+            'Frontastic.AccountApi.Api.setDefaultBillingAddress',
+            { ownErrorHandler: true, },
+            address,
+            (json) => {
+                this.notifyUser('Set new default billing address', 'success', 5000)
+
+                let route = this.store.getState().app.route
+                app.getLoader('node').loadMaster(route.route, route.parameters)
+            },
+            (json) => {
+                this.notifyUser('Failed to set new default billing address: ' + json.message, 'error')
+            }
+        )
+    }
+
+    this.setDefaultShippingAddress = (address) => {
+        this.api.request(
+            'POST',
+            'Frontastic.AccountApi.Api.setDefaultShippingAddress',
+            { ownErrorHandler: true, },
+            address,
+            (json) => {
+                this.notifyUser('Set new default shipping address', 'success', 5000)
+
+                let route = this.store.getState().app.route
+                app.getLoader('node').loadMaster(route.route, route.parameters)
+            },
+            (json) => {
+                this.notifyUser('Failed to set new default shipping address: ' + json.message, 'error')
+            }
+        )
+    }
+
     this.updateUser = (user) => {
         this.api.request(
             'POST',

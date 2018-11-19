@@ -6,7 +6,8 @@ class Address extends Component {
     constructor (props) {
         super(props)
 
-        this.state = {
+        this.state = props.address || {
+            addressId: null,
             firstName: '',
             lastName: '',
             streetName: '',
@@ -15,6 +16,23 @@ class Address extends Component {
             postalCode: '',
             city: '',
             country: 'DE',
+        }
+    }
+
+    componentWillUpdate = (nextProps) => {
+        if (nextProps.address &&
+            (this.state.addressId !== nextProps.address.addressId)) {
+            this.setState(nextProps.address || {
+                addressId: null,
+                firstName: '',
+                lastName: '',
+                streetName: '',
+                streetNumber: '',
+                additionalStreetInfo: '',
+                postalCode: '',
+                city: '',
+                country: 'DE',
+            })
         }
     }
 
@@ -132,11 +150,13 @@ class Address extends Component {
 
 Address.propTypes = {
     onChange: PropTypes.func.isRequired,
+    address: PropTypes.object,
     scope: PropTypes.string,
 }
 
 Address.defaultProps = {
     scope: 'shipping',
+    address: null,
 }
 
 export default Address
