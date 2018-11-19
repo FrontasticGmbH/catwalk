@@ -6,7 +6,7 @@ import _ from 'lodash'
 import Entity from '../../app/entity'
 
 import Summary from '../cart/summary'
-import LineItem from './lineItem'
+import MoleculesLineItem from '../../patterns/20-molecules/50-cart/30-line-item'
 import Order from '../../domain/order'
 
 class Ordered extends Component {
@@ -23,7 +23,7 @@ class Ordered extends Component {
                     {!order.lineItems.length ?
                         <p className='c-order__message'>Nothing in here…</p> :
                         _.map(order.lineItems, (lineItem) => {
-                            return <LineItem key={lineItem.lineItemId} lineItem={lineItem} />
+                            return <MoleculesLineItem key={lineItem.lineItemId} lineItem={lineItem} />
                         })
                     }
                 </div>

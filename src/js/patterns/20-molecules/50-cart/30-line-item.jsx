@@ -5,7 +5,9 @@ import _ from 'lodash'
 import ComponentInjector from '../../../app/injector'
 import fixture from '../../fixture'
 
-import Price from '../../10-atoms/80-prices/10-price'
+import AtomsButton from '../../10-atoms/10-buttons/10-button'
+import AtomsHeading from '../../10-atoms/20-headings/10-heading'
+import AtomsPrice from '../../10-atoms/80-prices/10-price'
 import RemoteImage from '../../../remoteImage'
 
 class MoleculesLineItem extends Component {
@@ -33,7 +35,7 @@ class MoleculesLineItem extends Component {
                 </div> : null}
             <div className='o-layout__item u-1/2 u-1/3@lap u-1/2@desk'>
                 <div className='c-cart__text'>
-                    <h3 className='c-heading-gamma'>{lineItem.name}</h3>
+                    <AtomsHeading type='gamma'>{lineItem.name}</AtomsHeading>
                     {!lineItem.variant ? null : <ul>
                         {_.map(displayAttributes, (attribute) => {
                             if (!lineItem.variant.attributes[attribute]) {
@@ -45,29 +47,31 @@ class MoleculesLineItem extends Component {
                             </li>)
                         })}
                     </ul>}
-                    {lineItem.type === 'variant' ? <div className='c-button-row'>
-                        <button
-                            className='c-button c-button--small c-button--secondary'
+                    {lineItem.type === 'variant' && (this.props.onRemove || this.props.onAddToWishlist) ? <div className='c-button-row'>
+                        {this.props.onRemove ? <AtomsButton
+                            size='small'
+                            type='secondary'
                             onClick={(event) => {
                                 this.props.onRemove(lineItem)
                             }}
                         >
                             Remove
-                        </button>
-                        <button
-                            className='c-button c-button--small c-button--secondary'
+                        </AtomsButton> : null}
+                        {this.props.onAddToWishlist ? <AtomsButton
+                            size='small'
+                            type='secondary'
                             onClick={(event) => {
                                 this.props.onAddToWishlist(lineItem, +event.target.value)
                             }}
                         >
                             Add to Wishlist
-                        </button>
+                        </AtomsButton> : null}
                     </div> : null}
                 </div>
             </div>
             <div className='o-layout__item u-1/1 u-1/3@lap u-1/4@desk' align='right'>
                 <div className='c-cart__price'>
-                    {lineItem.type === 'variant' ?
+                    {lineItem.type === 'variant' && this.props.onChangeCount ?
                         <select
                             className='c-form__select'
                             value={lineItem.count}
@@ -83,7 +87,7 @@ class MoleculesLineItem extends Component {
                         ? 'Your gift!'
                         : <Fragment>
                             <span>
-                                <Price value={lineItem.totalPrice} />
+                                <AtomsPrice value={lineItem.totalPrice} />
                             </span>
                             {lineItem.discountedPrice ?
                                 <span>*</span>

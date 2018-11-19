@@ -25,7 +25,7 @@ class CartTastic extends Component {
                     {!cart.lineItems.length ?
                         <p className='c-cart__message'>Nothing in here…</p> :
                         _.map(cart.lineItems, (lineItem) => {
-                            return (<LineItem
+                            return (<MoleculesLineItem
                                 key={lineItem.lineItemId}
                                 lineItem={lineItem}
                                 onRemove={(lineItem) => {
