@@ -40,7 +40,7 @@ class Register extends Component {
     }
 
     render () {
-        return (<div className='c-form'>
+        return (<form className='c-form'>
             <div className='c-form__item'>
                 <label htmlFor='register_salutation' className='c-form__label c-form__label--required'>Anrede</label>
                 <select
@@ -215,8 +215,12 @@ class Register extends Component {
             <div className='c-form__item'>
                 <AtomsButton
                     type='primary' full
+                    htmlType='submit'
                     disabled={!this.hasAllRequired()}
-                    onClick={() => {
+                    onClick={(event) => {
+                        event.preventDefault()
+                        event.stopPropagation()
+
                         app.getLoader('context').register({
                             salutation: this.state.register_salutation,
                             firstName: this.state.register_firstName,
@@ -234,7 +238,7 @@ class Register extends Component {
                     Registrieren
                 </AtomsButton>
             </div>
-        </div>)
+        </form>)
     }
 }
 

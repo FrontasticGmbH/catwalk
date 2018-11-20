@@ -17,7 +17,7 @@ class Login extends Component {
     }
 
     render () {
-        return (<div className='c-form'>
+        return (<form className='c-form'>
             <div className='c-form__item'>
                 <label htmlFor='login_email' className='c-form__label'>E-Mail</label>
                 <input
@@ -49,14 +49,18 @@ class Login extends Component {
             <div className='c-form__item'>
                 <AtomsButton
                     type='primary' full
+                    htmlType='submit'
                     disabled={!this.state.login_email || !this.state.login_password}
-                    onClick={() => {
+                    onClick={(event) => {
+                        event.preventDefault()
+                        event.stopPropagation()
+
                         app.getLoader('context').login(this.state.login_email, this.state.login_password)
                     }}>
                     Anmelden
                 </AtomsButton>
             </div>
-        </div>)
+        </form>)
     }
 }
 

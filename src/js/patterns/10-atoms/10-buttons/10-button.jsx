@@ -10,7 +10,8 @@ class AtomsButton extends Component {
         const Component = this.props.component
 
         return (<Component
-            {..._.omit(this.props, ['children', 'component', 'className', 'type', 'ghost', 'outline', 'rounded', 'full'])}
+            {..._.omit(this.props, ['children', 'component', 'className', 'type', 'ghost', 'outline', 'rounded', 'full', 'htmlType'])}
+            type={this.props.htmlType}
             className={classnames(
                 'c-button',
                 this.props.className,
@@ -34,6 +35,7 @@ AtomsButton.propTypes = {
     className: PropTypes.string,
     type: PropTypes.oneOf([null, 'primary', 'secondary']),
     size: PropTypes.oneOf([null, 'small', 'large']),
+    htmlType: PropTypes.string,
     ghost: PropTypes.bool,
     outline: PropTypes.bool,
     rounded: PropTypes.bool,
@@ -44,6 +46,7 @@ AtomsButton.defaultProps = {
     component: 'button',
     className: '',
     type: null,
+    htmlType: null,
     ghost: false,
     outline: false,
     rounded: false,

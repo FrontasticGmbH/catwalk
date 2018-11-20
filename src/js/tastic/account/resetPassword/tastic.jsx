@@ -25,7 +25,7 @@ class AccountResetPasswordTastic extends Component {
                 <div className='o-layout__item u-1/1'>
                     <AtomsHeading type='alpha'>Reset Password</AtomsHeading>
                     <Notifications />
-                    <div className='c-form'>
+                    <form className='c-form'>
                         <div className='c-form__item'>
                             <label htmlFor='profile_password_new' className='c-form__label c-form__label--required'>Neues Password</label>
                             <input
@@ -59,12 +59,16 @@ class AccountResetPasswordTastic extends Component {
                         <div className='c-form__item'>
                             <AtomsButton
                                 type='primary' full
+                                htmlType='submit'
                                 disabled={!(
                                     this.state.profile_password_new &&
                                     this.state.profile_password_repeat &&
                                     (this.state.profile_password_new === this.state.profile_password_repeat)
                                 )}
-                                onClick={() => {
+                                onClick={(event) => {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+
                                     app.getLoader('context').resetPassword(
                                         this.props.token,
                                         this.state.profile_password_new
@@ -77,7 +81,7 @@ class AccountResetPasswordTastic extends Component {
                                 Passwort ändern
                             </AtomsButton>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>)
     }

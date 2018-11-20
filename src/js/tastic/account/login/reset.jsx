@@ -16,7 +16,7 @@ class Reset extends Component {
     }
 
     render () {
-        return (<div className='c-form'>
+        return (<form className='c-form'>
             <div className='c-form__item'>
                 <label htmlFor='reset_email' className='c-form__label'>E-Mail</label>
                 <input
@@ -34,14 +34,18 @@ class Reset extends Component {
             <div className='c-form__item'>
                 <AtomsButton
                     type='primary' full
+                    htmlType='submit'
                     disabled={!this.state.reset_email}
-                    onClick={() => {
+                    onClick={(event) => {
+                        event.preventDefault()
+                        event.stopPropagation()
+
                         app.getLoader('context').requestPasswordReset(this.state.reset_email)
                     }}>
                     Passwort anfordern
                 </AtomsButton>
             </div>
-        </div>)
+        </form>)
     }
 }
 
