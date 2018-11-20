@@ -87,11 +87,9 @@ class MoleculesLineItem extends Component {
                         ? 'Your gift!'
                         : <Fragment>
                             <span>
-                                <AtomsPrice value={lineItem.totalPrice} />
+                                <AtomsPrice value={lineItem.totalPrice || (lineItem.count * lineItem.variant.price) || 0} />
                             </span>
-                            {lineItem.discountedPrice ?
-                                <span>*</span>
-                                : null}
+                            {lineItem.discountedPrice ? <span>*</span> : null}
                         </Fragment>
                     }</strong>
                 </div>
