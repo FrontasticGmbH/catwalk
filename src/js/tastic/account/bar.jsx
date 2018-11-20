@@ -31,6 +31,16 @@ class AccountBar extends Component {
 					</button>
 				</li>)
             })}
+				<li className='c-page-navbar__item'>
+					<button
+                        className='c-page-navbar__button'
+                        onClick={() => {
+                            app.getLoader('context').logout()
+                        }}
+                    >
+						<FormattedMessage id='account.logout' />
+					</button>
+				</li>
 			</ul>
         </nav>)
     }
