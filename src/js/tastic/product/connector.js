@@ -6,7 +6,7 @@ export default (globalState, props) => {
     }
 
     let selectedVariant = globalState.app.route.get('_variant', 0)
-    let variant = product.variants[selectedVariant] || null
+    let variant = (product.variants && product.variants[selectedVariant]) || null
     if (!variant) {
         console.warn('Product variants are always required')
         return { ...props }
