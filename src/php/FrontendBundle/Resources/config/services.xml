@@ -80,6 +80,11 @@
                         <argument type="service" id="frontastic.catwalk.account_api" />
                     </service>
                 </argument>
+                <argument type="service">
+                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountOrders">
+                        <argument type="service" id="frontastic.catwalk.cart_api" />
+                    </service>
+                </argument>
             </argument>
         </service>
 
@@ -140,6 +145,13 @@
         <service id="frontastic.catwalk.content_api" class="Frontastic\Common\ContentApiBundle\Domain\ContentApi">
             <factory
                 service="Frontastic\Common\ContentApiBundle\Domain\ContentApiFactory"
+                method="factor" />
+            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
+        </service>
+
+        <service id="frontastic.catwalk.cart_api" class="Frontastic\Common\AccountApiBundle\Domain\CartApi">
+            <factory
+                service="Frontastic\Common\CartApiBundle\Domain\CartApiFactory"
                 method="factor" />
             <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
         </service>

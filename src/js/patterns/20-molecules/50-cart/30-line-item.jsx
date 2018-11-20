@@ -113,14 +113,17 @@ class MoleculesLineItem extends Component {
 
 MoleculesLineItem.propTypes = {
     lineItem: PropTypes.object.isRequired,
-    onRemove: PropTypes.func.isRequired,
-    onChangeCount: PropTypes.func.isRequired,
-    onAddToWishlist: PropTypes.func.isRequired,
     showProductPicture: PropTypes.bool,
+    onRemove: PropTypes.func,
+    onChangeCount: PropTypes.func,
+    onAddToWishlist: PropTypes.func,
 }
 
 MoleculesLineItem.defaultProps = {
     showProductPicture: true,
+    onRemove: null,
+    onChangeCount: null,
+    onAddToWishlist: null,
 }
 
 // These are just default props for the pattern library
