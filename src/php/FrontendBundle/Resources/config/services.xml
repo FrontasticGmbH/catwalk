@@ -85,6 +85,11 @@
                         <argument type="service" id="frontastic.catwalk.cart_api" />
                     </service>
                 </argument>
+                <argument type="service">
+                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountWishlists">
+                        <argument type="service" id="frontastic.catwalk.wishlist_api" />
+                    </service>
+                </argument>
             </argument>
         </service>
 
@@ -159,6 +164,13 @@
         <service id="frontastic.catwalk.account_api" class="Frontastic\Common\AccountApiBundle\Domain\AccountApi">
             <factory
                 service="Frontastic\Common\AccountApiBundle\Domain\AccountApiFactory"
+                method="factor" />
+            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
+        </service>
+
+        <service id="frontastic.catwalk.wishlist_api" class="Frontastic\Common\WishlistApiBundle\Domain\WishlistApi">
+            <factory
+                service="Frontastic\Common\WishlistApiBundle\Domain\WishlistApiFactory"
                 method="factor" />
             <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
         </service>

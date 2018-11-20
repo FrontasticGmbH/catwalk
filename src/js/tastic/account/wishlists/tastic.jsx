@@ -19,6 +19,8 @@ class AccountWishlistsTastic extends Component {
             return <AccountLoginForm />
         }
 
+        let wishlists = this.props.rawData.stream.__master
+        console.log(wishlists)
         return (<div className='o-layout'>
             <div className='o-layout__item u-1/1 u-1/3@lap u-1/4@desk'>
                 <AccountBar selected='wishlists' />
