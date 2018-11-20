@@ -22,6 +22,7 @@ import ProductImage from './product/image/tastic.jsx'
 import ProductBrand from './product/brand/tastic.jsx'
 import ProductPrice from './product/price/tastic.jsx'
 import ProductAddToCart from './product/addToCart/tastic.jsx'
+import ProductAddToWishlist from './product/addToWishlist/tastic.jsx'
 import ProductDescription from './product/description/tastic.jsx'
 import ProductStock from './product/stock/tastic.jsx'
 import ProductList from './productList/tastic.jsx'
@@ -57,6 +58,7 @@ export default (() => {
         'product-image': ProductImage,
         'product-brand': ProductBrand,
         'product-addToCart': ProductAddToCart,
+        'product-addToWishlist': ProductAddToWishlist,
         'product-description': ProductDescription,
         'product-stock': ProductStock,
         'product-price': ProductPrice,

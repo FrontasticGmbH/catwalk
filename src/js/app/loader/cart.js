@@ -1,8 +1,8 @@
 import _ from 'lodash'
 
-import Cart from './cart'
-import app from '../app/app'
-import Entity from '../app/entity'
+import Cart from '../../domain/cart'
+import app from '../app'
+import Entity from '../entity'
 
 /**
  * Loader classes like this consilidate all loading monitors for a domain

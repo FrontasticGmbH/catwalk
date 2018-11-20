@@ -6,8 +6,8 @@ import TasticLoader from './loader/tastic'
 import DataLoader from './loader/data'
 import FacetLoader from './loader/facet'
 import CategoryLoader from './loader/category'
-
-import CartLoader from '../domain/cartLoader'
+import CartLoader from './loader/cart'
+import WishlistLoader from './loader/wishlist'
 
 /**
  * This class defines which content is to be loaded and written into the global
@@ -31,6 +31,7 @@ let Loader = function (store, router, api) {
         node: new NodeLoader(this.store, this.api),
         tastic: new TasticLoader(this.store, this.api),
         cart: new CartLoader(this.store, this.api),
+        wishlist: new WishlistLoader(this.store, this.api),
         data: new DataLoader(this.store, this.api),
         facet: new FacetLoader(this.store, this.api),
         category: new CategoryLoader(this.store, this.api),

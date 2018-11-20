@@ -10,6 +10,10 @@ cart_api:
     resource: "@FrontasticCommonCartApiBundle/Resources/config/routing.xml"
     prefix:   /api/cart
 
+wishlist_api:
+    resource: "@FrontasticCommonWishlistApiBundle/Resources/config/routing.xml"
+    prefix:   /api/cart
+
 account_core:
     resource: "@FrontasticCommonAccountApiBundle/Resources/config/routing.xml"
     prefix:   /api/account

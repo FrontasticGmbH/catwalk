@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-import CartLoader from '../domain/cartLoader'
 
 import Context from './context'
 
@@ -9,6 +8,8 @@ import DataLoader from './loader/data'
 import TasticLoader from './loader/tastic'
 import FacetLoader from './loader/facet'
 import CategoryLoader from './loader/category'
+import CartLoader from './loader/cart'
+import WishlistLoader from './loader/wishlist'
 
 const initialGlobalState = {
     route: null,
@@ -68,4 +69,5 @@ export default combineReducers({
     cart: CartLoader.handleAction,
     facet: FacetLoader.handleAction,
     category: CategoryLoader.handleAction,
+    wishlist: WishlistLoader.handleAction,
 })
