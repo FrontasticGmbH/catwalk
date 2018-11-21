@@ -7,7 +7,7 @@ import Loading from '../../../app/loading'
 import Markdown from '../../../component/markdown'
 
 class AccountConfirmTastic extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props)
 
         this.state = {

@@ -11,7 +11,7 @@ import Loading from '../../../app/loading'
 import Markdown from '../../../component/markdown'
 
 class AccountResetPasswordTastic extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props)
 
         this.state = {
@@ -21,51 +21,51 @@ class AccountResetPasswordTastic extends Component {
     }
 
     render () {
-            return (<div className='o-layout'>
-                <div className='o-layout__item u-1/1'>
-                    <AtomsHeading type='alpha'>Reset Password</AtomsHeading>
-                    <Notifications />
-                    <form className='c-form'>
-                        <div className='c-form__item'>
-                            <label htmlFor='profile_password_new' className='c-form__label c-form__label--required'>Neues Password</label>
-                            <input
-                                placeholder='Mindestens 8 Buchstaben/Zahlen und 1 Sonderzeichen'
-                                id='profile_password_new'
-                                className='c-form__input'
-                                type='password'
-                                required
-                                pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
-                                value={this.state.profile_password_new}
-                                onChange={(event) => {
+        return (<div className='o-layout'>
+            <div className='o-layout__item u-1/1'>
+                <AtomsHeading type='alpha'>Reset Password</AtomsHeading>
+                <Notifications />
+                <form className='c-form'>
+                    <div className='c-form__item'>
+                        <label htmlFor='profile_password_new' className='c-form__label c-form__label--required'>Neues Password</label>
+                        <input
+                            placeholder='Mindestens 8 Buchstaben/Zahlen und 1 Sonderzeichen'
+                            id='profile_password_new'
+                            className='c-form__input'
+                            type='password'
+                            required
+                            pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
+                            value={this.state.profile_password_new}
+                            onChange={(event) => {
                                     this.setState({ profile_password_new: event.target.value })
                                 }}
                             />
-                        </div>
-                        <div className='c-form__item'>
-                            <label htmlFor='profile_password_repeat' className='c-form__label c-form__label--required'>Neues Password (Wiederholung)</label>
-                            <input
-                                placeholder='Wiederholung des neuen Passworts'
-                                id='profile_password_repeat'
-                                className='c-form__input'
-                                type='password'
-                                required
-                                pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
-                                value={this.state.profile_password_repeat}
-                                onChange={(event) => {
+                    </div>
+                    <div className='c-form__item'>
+                        <label htmlFor='profile_password_repeat' className='c-form__label c-form__label--required'>Neues Password (Wiederholung)</label>
+                        <input
+                            placeholder='Wiederholung des neuen Passworts'
+                            id='profile_password_repeat'
+                            className='c-form__input'
+                            type='password'
+                            required
+                            pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
+                            value={this.state.profile_password_repeat}
+                            onChange={(event) => {
                                     this.setState({ profile_password_repeat: event.target.value })
                                 }}
                             />
-                        </div>
-                        <div className='c-form__item'>
-                            <AtomsButton
-                                type='primary' full
-                                htmlType='submit'
-                                disabled={!(
+                    </div>
+                    <div className='c-form__item'>
+                        <AtomsButton
+                            type='primary' full
+                            htmlType='submit'
+                            disabled={!(
                                     this.state.profile_password_new &&
                                     this.state.profile_password_repeat &&
                                     (this.state.profile_password_new === this.state.profile_password_repeat)
                                 )}
-                                onClick={(event) => {
+                            onClick={(event) => {
                                     event.preventDefault()
                                     event.stopPropagation()
 
@@ -79,11 +79,11 @@ class AccountResetPasswordTastic extends Component {
                                     })
                                 }}>
                                 Passwort ändern
-                            </AtomsButton>
-                        </div>
-                    </form>
-                </div>
-            </div>)
+                        </AtomsButton>
+                    </div>
+                </form>
+            </div>
+        </div>)
     }
 }
 

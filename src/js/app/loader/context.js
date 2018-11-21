@@ -42,7 +42,7 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.register',
-            { ownErrorHandler: true, },
+            { ownErrorHandler: true },
             user,
             (json) => {
                 this.notifyUser('Registration successfull', 'success')
@@ -65,7 +65,7 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.login',
-            { ownErrorHandler: true, },
+            { ownErrorHandler: true },
             { email: email, password: password },
             (json) => {
                 this.refresh()
@@ -106,7 +106,7 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.addAddress',
-            { ownErrorHandler: true, },
+            { ownErrorHandler: true },
             address,
             (json) => {
                 this.notifyUser('Added new address', 'success', 5000)
@@ -124,7 +124,7 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.updateAddress',
-            { ownErrorHandler: true, },
+            { ownErrorHandler: true },
             address,
             (json) => {
                 this.notifyUser('Updated address', 'success', 5000)
@@ -142,7 +142,7 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.removeAddress',
-            { ownErrorHandler: true, },
+            { ownErrorHandler: true },
             address,
             (json) => {
                 this.notifyUser('Removed address', 'success', 5000)
@@ -160,7 +160,7 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.setDefaultBillingAddress',
-            { ownErrorHandler: true, },
+            { ownErrorHandler: true },
             address,
             (json) => {
                 this.notifyUser('Set new default billing address', 'success', 5000)
@@ -178,7 +178,7 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.setDefaultShippingAddress',
-            { ownErrorHandler: true, },
+            { ownErrorHandler: true },
             address,
             (json) => {
                 this.notifyUser('Set new default shipping address', 'success', 5000)
@@ -196,7 +196,7 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.update',
-            { ownErrorHandler: true, },
+            { ownErrorHandler: true },
             user,
             (json) => {
                 this.notifyUser('Userdata updated.', 'success', 5000)
@@ -218,7 +218,7 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.requestReset',
-            { ownErrorHandler: true, },
+            { ownErrorHandler: true },
             { email: email },
             (json) => {
                 this.notifyUser('Password reset mail sent.', 'success', 5000)
@@ -248,7 +248,7 @@ let Loader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.changePassword',
-            { ownErrorHandler: true, },
+            { ownErrorHandler: true },
             {
                 oldPassword: oldPassword,
                 newPassword: newPassword,

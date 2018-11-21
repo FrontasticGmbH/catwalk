@@ -30,7 +30,7 @@ class AccountWishlistsTastic extends Component {
                 {wishlists.length === 1 ?
                     <Wishlist wishlist={wishlists[0]} /> :
                     <ul className='c-wishlists'>
-                    {_.map(wishlists, (wishlist) => {
+                        {_.map(wishlists, (wishlist) => {
                         return (<li key={wishlist.wishlistId}>
                             {wishlist.name}
                         </li>)

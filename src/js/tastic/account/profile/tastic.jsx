@@ -14,7 +14,7 @@ import AccountLoginForm from '../login/form'
 import AccountBar from '../bar'
 
 class AccountProfileTastic extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props)
 
         this.state = {

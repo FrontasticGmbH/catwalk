@@ -7,7 +7,7 @@ import AtomsHeading from '../../../patterns/10-atoms/20-headings/10-heading'
 import app from '../../../app/app'
 
 class Register extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props)
 
         this.state = {

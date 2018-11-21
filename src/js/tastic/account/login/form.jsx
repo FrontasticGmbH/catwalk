@@ -16,7 +16,7 @@ import Register from './register'
 import AccountBar from '../bar'
 
 class AccountLoginForm extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props)
 
         this.state = {

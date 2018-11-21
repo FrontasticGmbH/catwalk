@@ -15,33 +15,33 @@ class AccountBar extends Component {
         }
 
         return (<nav className='c-page-navbar'>
-        	<ul className='c-page-navbar__scrollable'>
-            {_.map(this.props.actions, (action) => {
+            <ul className='c-page-navbar__scrollable'>
+                {_.map(this.props.actions, (action) => {
 				return (<li key={action}
-                    className={classnames({
+    className={classnames({
                         'c-page-navbar__item': true,
                         'c-page-navbar__item--selected': (action === this.props.selected),
                     }, 'c-page-navbar__' + action)}
                 >
-					<button
-                        className='c-page-navbar__button'
-                        onClick={() => { app.getRouter().push('Frontastic.Frontend.Master.Account.' + action) }}
+    <button
+        className='c-page-navbar__button'
+        onClick={() => { app.getRouter().push('Frontastic.Frontend.Master.Account.' + action) }}
                     >
-						<FormattedMessage id={'account.' + action} />
-					</button>
+        <FormattedMessage id={'account.' + action} />
+    </button>
 				</li>)
             })}
-				<li className='c-page-navbar__item'>
-					<button
+                <li className='c-page-navbar__item'>
+                    <button
                         className='c-page-navbar__button'
                         onClick={() => {
                             app.getLoader('context').logout()
                         }}
                     >
-						<FormattedMessage id='account.logout' />
-					</button>
-				</li>
-			</ul>
+                        <FormattedMessage id='account.logout' />
+                    </button>
+                </li>
+            </ul>
         </nav>)
     }
 }

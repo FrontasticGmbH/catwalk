@@ -44,7 +44,7 @@ class AccountAddressesTastic extends Component {
                 {!addresses.length ?
                     <AtomsNotification message='No addresses yet' type='info' /> :
                     <div className='o-layout'>
-                    {_.map(addresses, (address) => {
+                        {_.map(addresses, (address) => {
                         return (<div className='o-layout__item u-1/1 u-1/2@lap u-1/3@desk' key={address.addressId}>
                             <MoleculesAddress
                                 address={address}
@@ -90,7 +90,7 @@ class AccountAddressesTastic extends Component {
                         }}>
                             Speichern
                         </AtomsButton>
-                    </Fragment>:
+                    </Fragment> :
                     <AtomsButton type='primary' onClick={() => { this.setState({ edit: true }) }}>
                         Neue Adresse anlegen
                     </AtomsButton>

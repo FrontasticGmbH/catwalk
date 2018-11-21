@@ -16,8 +16,8 @@ class MoleculesAddress extends Component {
                 {this.props.address.postalCode} {this.props.address.city} ({this.props.address.country})
             </address>
             {this.props.editAddress || this.props.removeAddress ? (<div className='c-address__buttons'>
-                {this.props.editAddress ? <AtomsButton onClick={() => { this.props.editAddress(this.props.address)} }>Edit</AtomsButton> : null}
-                {this.props.removeAddress ?  <AtomsButton onClick={() => { this.props.removeAddress(this.props.address)} }>Remove</AtomsButton> : null}
+                {this.props.editAddress ? <AtomsButton onClick={() => { this.props.editAddress(this.props.address) }}>Edit</AtomsButton> : null}
+                {this.props.removeAddress ? <AtomsButton onClick={() => { this.props.removeAddress(this.props.address) }}>Remove</AtomsButton> : null}
             </div>) : null}
             {this.props.setDefaultBillingAddress || this.props.setDefaultShippingAddress ? (<div className='c-address__options'>
                 {this.props.setDefaultShippingAddress ? (<div className='c-form__item o-layout__item u-1/1'>
@@ -26,7 +26,7 @@ class MoleculesAddress extends Component {
                         type='checkbox'
                         id={'address-default-shipping-address-' + this.props.address.addressId}
                         checked={this.props.address.isDefaultShippingAddress}
-                        onChange={() => { this.props.setDefaultShippingAddress(this.props.address)} }
+                        onChange={() => { this.props.setDefaultShippingAddress(this.props.address) }}
                     />
                     <label className='c-form__label' htmlFor={'address-default-shipping-address-' + this.props.address.addressId}>
                         Standard-Lieferadresse
@@ -38,7 +38,7 @@ class MoleculesAddress extends Component {
                         type='checkbox'
                         id={'address-default-billing-address-' + this.props.address.addressId}
                         checked={this.props.address.isDefaultBillingAddress}
-                        onChange={() => { this.props.setDefaultBillingAddress(this.props.address)} }
+                        onChange={() => { this.props.setDefaultBillingAddress(this.props.address) }}
                     />
                     <label className='c-form__label' htmlFor={'address-default-billing-address-' + this.props.address.addressId}>
                         Standard-Rechnungsadresse
