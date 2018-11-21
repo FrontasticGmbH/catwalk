@@ -17,10 +17,6 @@ import Wishlist from './wishlist'
 
 class AccountWishlistsTastic extends Component {
     render () {
-        if (!this.props.context.session.loggedIn) {
-            return <AccountLoginForm />
-        }
-
         let wishlists = this.props.rawData.stream.__master
         return (<div className='o-layout'>
             <div className='o-layout__item u-1/1 u-1/3@lap u-1/4@desk'>
@@ -46,18 +42,10 @@ class AccountWishlistsTastic extends Component {
 }
 
 AccountWishlistsTastic.propTypes = {
-    context: PropTypes.object.isRequired,
     tastic: PropTypes.object.isRequired,
 }
 
 AccountWishlistsTastic.defaultProps = {
 }
 
-export default connect(
-    (globalState, props) => {
-        return {
-            ...props,
-            context: globalState.app.context,
-        }
-    }
-)(AccountWishlistsTastic)
+export default AccountWishlistsTastic
