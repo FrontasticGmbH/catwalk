@@ -3,17 +3,24 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import _ from 'lodash'
 
+import AtomsButton from '../10-buttons/10-button'
+
 import ComponentInjector from '../../../app/injector'
 
 class AtomsNotification extends Component {
+    componentDidMount = () => {
+        if (this.props.autoHideDuration && this.props.onClose) {
+            window.setTimeout(this.props.onClose, this.props.autoHideDuration)
+        }
+    }
+
     render () {
-        // @TODO: Handle autoHideDuration (call onClose after timeout)
         return (<div className={classnames(
             'c-alert',
             'c-alert--' + this.props.type,
         )}>
             <p className='c-alert__message'>{this.props.message}</p>
-            {/* @TODO: Add close button if onClose is defined */}
+            {this.props.onClose ? <AtomsButton onClick={() => { this.props.onClose() }}>x</AtomsButton> : null}
         </div>)
     }
 }

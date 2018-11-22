@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-import app from '../app'
+import app from '../app/app'
 
 import AtomsNotification from '../patterns/10-atoms/60-notifications/10-notification'
 
