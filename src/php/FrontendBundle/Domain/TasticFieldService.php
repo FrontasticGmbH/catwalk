@@ -3,7 +3,6 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
-use Frontastic\Common\DevelopmentBundle\Debugger;
 
 class TasticFieldService
 {
@@ -75,12 +74,12 @@ class TasticFieldService
 
     private function setHandledFieldData(array $fieldData, Tastic $tastic, array $fieldDefinition): array
     {
-        if (!isset($this->fieldHandlers[$fieldDefinition['type']])) {
+        $type = $fieldDefinition['streamType'] ?? $fieldDefinition['type'];
+        if (!isset($this->fieldHandlers[$type])) {
             return $fieldData;
         }
 
         $field = $fieldDefinition['field'];
-        $type = $fieldDefinition['type'];
 
         if (!isset($fieldData[$tastic->tasticId])) {
             $fieldData[$tastic->tasticId] = [];
