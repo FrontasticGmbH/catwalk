@@ -53,7 +53,7 @@ let WishlistLoader = function (store, api) {
         )
     }
 
-    this.add = (product, variant, count, option = null) => {
+    this.add = (product, variant, count, wishlist = null) => {
         this.store.dispatch({
             type: 'WishlistApi.Wishlist.loading',
         })
@@ -61,8 +61,8 @@ let WishlistLoader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.WishlistApi.Wishlist.add',
-            null,
-            { product, variant, count, option },
+            { wishlist: wishlist, ownErrorHandler: true },
+            { product, variant, count },
             (data) => {
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
@@ -83,7 +83,7 @@ let WishlistLoader = function (store, api) {
         )
     }
 
-    this.updateLineItem = (update) => {
+    this.updateLineItem = (wishlist, update) => {
         this.store.dispatch({
             type: 'WishlistApi.Wishlist.loading',
         })
@@ -91,7 +91,7 @@ let WishlistLoader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.WishlistApi.Wishlist.updateLineItem',
-            { ownErrorHandler: true },
+            { wishlist: wishlist, ownErrorHandler: true },
             update,
             (data) => {
                 let route = this.store.getState().app.route
@@ -113,7 +113,7 @@ let WishlistLoader = function (store, api) {
         )
     }
 
-    this.removeLineItem = (update) => {
+    this.removeLineItem = (wishlist, update) => {
         this.store.dispatch({
             type: 'WishlistApi.Wishlist.loading',
         })
@@ -121,7 +121,7 @@ let WishlistLoader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.WishlistApi.Wishlist.removeLineItem',
-            { ownErrorHandler: true },
+            { wishlist: wishlist, ownErrorHandler: true },
             update,
             (data) => {
                 let route = this.store.getState().app.route

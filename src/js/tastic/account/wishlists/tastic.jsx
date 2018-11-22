@@ -25,7 +25,7 @@ class AccountWishlistsTastic extends Component {
     }
 
     render () {
-        let wishlists = this.props.rawData.stream.__master
+        let wishlists = this.props.rawData.stream.__master || []
         let selectedWishlist = null
 
         if (this.props.selected) {

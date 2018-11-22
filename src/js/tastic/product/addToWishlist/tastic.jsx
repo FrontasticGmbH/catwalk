@@ -13,7 +13,7 @@ class ProductAddToWishlistTastic extends Component {
         super(props)
 
         this.state = {
-            selectedWishlist: null,
+            selectedWishlist: 0,
             indicateBaskedAdded: false,
         }
     }
@@ -32,7 +32,7 @@ class ProductAddToWishlistTastic extends Component {
     }
 
     addToWishlist = (variantIndex) => {
-        app.getLoader('wishlist').add(this.props.product, this.props.variant, 1, this.props.option)
+        app.getLoader('wishlist').add(this.props.product, this.props.variant, 1, this.state.selectedWishlist)
 
         this.setState(
             { indicateBaskedAdded: true },
@@ -74,7 +74,7 @@ class ProductAddToWishlistTastic extends Component {
             this.props.tastic.schema.get('variantAttributes') || ['color', 'size', 'style']
         )
 
-        let wishlists = this.props.rawData.stream.__master || []
+        let wishlists = this.props.data.wishlists || []
 
         return (<div className='c-page-section'>
             <Fade in={this.state.indicateBaskedAdded}>
@@ -95,10 +95,10 @@ class ProductAddToWishlistTastic extends Component {
                             className='c-form__select'
                             value={this.state.selectedWishlist}
                             onChange={(event) => {
-                                thi.setState({ selectedWishlist: event.currentTarget.value })
+                                this.setState({ selectedWishlist: event.currentTarget.value })
                             }}
                         >
-                            <option value={null}>Select Wishlist</option>
+                            <option value={0}>Select Wishlist</option>
                             {_.map(wishlists, (wishlist) => {
                                 return (<option value={wishlist.wishlistId} key={wishlist.wishlistId}>
                                     {wishlist.name}

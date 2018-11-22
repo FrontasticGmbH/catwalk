@@ -6,5 +6,6 @@ export default {
         wishlists: 'Wunschlisten',
         vouchers: 'Gutscheincodes',
         logout: 'Abmelden',
+        new_wishlist: 'Neuer Wunschzettel',
     },
 }

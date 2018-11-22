@@ -26,7 +26,7 @@ class ViewDataProvider
     {
         return new ViewData([
             'stream' => (object) $this->streamService->getStreamData($node, $context, $streamParameters),
-            'tastic' => (object) ($page !== null ? $this->tasticFieldService->getFieldData($page) : []),
+            'tastic' => (object) ($page !== null ? $this->tasticFieldService->getFieldData($context, $page) : []),
         ]);
     }
 }

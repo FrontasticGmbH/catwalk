@@ -20,12 +20,12 @@ class Wishlist extends Component {
                     key={lineItem.lineItemId}
                     lineItem={lineItem}
                     onRemove={(lineItem) => {
-                        app.getLoader('wishlist').removeLineItem({
+                        app.getLoader('wishlist').removeLineItem(this.props.wishlist.wishlistId, {
                             lineItemId: lineItem.lineItemId
                         })
                     }}
                     onChangeCount={(lineItem, count) => {
-                        app.getLoader('wishlist').updateLineItem({
+                        app.getLoader('wishlist').updateLineItem(this.props.wishlist.wishlistId, {
                             lineItemId: lineItem.lineItemId,
                             count: count,
                         })

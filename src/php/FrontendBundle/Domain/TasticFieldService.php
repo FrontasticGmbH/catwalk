@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class TasticFieldService
 {
@@ -40,7 +41,7 @@ class TasticFieldService
         $this->fieldHandlers[$fieldHandler->getType()] = $fieldHandler;
     }
 
-    public function getFieldData(Page $page): array
+    public function getFieldData(Context $context, Page $page): array
     {
         $tasticDefinitionMap = $this->getTasticDefinitionMap();
 
@@ -59,6 +60,7 @@ class TasticFieldService
                     foreach ($definition->configurationSchema['schema'] as $fieldSet) {
                         foreach ($fieldSet['fields'] as $fieldDefinition) {
                             $fieldData = $this->setHandledFieldData(
+                                $context,
                                 $fieldData,
                                 $tastic,
                                 $fieldDefinition
@@ -72,7 +74,7 @@ class TasticFieldService
         return $fieldData;
     }
 
-    private function setHandledFieldData(array $fieldData, Tastic $tastic, array $fieldDefinition): array
+    private function setHandledFieldData(Context $context, array $fieldData, Tastic $tastic, array $fieldDefinition): array
     {
         $type = $fieldDefinition['streamType'] ?? $fieldDefinition['type'];
         if (!isset($this->fieldHandlers[$type])) {
@@ -86,6 +88,7 @@ class TasticFieldService
         }
 
         $fieldData[$tastic->tasticId][$field] = $this->fieldHandlers[$type]->handle(
+            $context,
             ($tastic->configuration->$field !== null
                 ? $tastic->configuration->$field
                 : $fieldDefinition['default']
