@@ -43,37 +43,58 @@ class ContextService
         );
     }
 
-    /**
-     * @param Request $request Deprecated, is not required
-     * @return Session
-     */
     public function getSession(Request $request): Session
     {
         try {
             $token = $this->tokenStorage->getToken();
 
             if ($token === null) {
-                return new Session([
-                    'loggedIn' => false,
-                    'account' => null,
-                ]);
+                return $this->getAnonymousSession($request);
             }
 
             $account = $token->getUser();
             if (!($account instanceof Account)) {
-                $account = null;
+                return $this->getAnonymousSession($request);
             }
 
             return new Session([
-                'loggedIn' => (bool) $account,
+                'loggedIn' => true,
                 'account' => $account,
             ]);
         } catch (UnauthenticatedUserException $e) {
+            $session = $this->getAnonymousSession($request);
+            $session->message = $e->getMessage() ? ('Unauthenticated: ' . $e->getMessage()) : null;
+            return $session;
+        }
+    }
+
+    private function getAnonymousSession(Request $request): Session
+    {
+        $session = $request->getSession();
+
+        if ($session->has('anonymousId')) {
             return new Session([
                 'loggedIn' => false,
-                'message' => $e->getMessage() ? ('Unauthenticated: ' . $e->getMessage()) : null,
+                'account' => new Account(['accountId' => $session->get('anonymousId')]),
             ]);
         }
+
+        $anonymousId = md5(json_encode([
+            'languages' => $_SERVER['HTTP_ACCEPT_LANGUAGE'],
+            'agent' => $_SERVER['HTTP_USER_AGENT'],
+            'ip' => $_SERVER['REMOTE_ADDR'],
+            // @TODO: If we replace this by more user-specifica (time zone,
+            // resolution, …) this might enable us to recognize users and
+            // associate them with the same anonymousId (See: evercookie /
+            // Panopticlick)
+            'time' => microtime(),
+        ]));
+        $session->set('anonymousId', $anonymousId);
+
+        return new Session([
+            'loggedIn' => false,
+            'account' => new Account(['accountId' => $anonymousId]),
+        ]);
     }
 
     public function getContext(string $locale = 'en_GB', Session $session = null): Context

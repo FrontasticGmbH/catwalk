@@ -26,7 +26,7 @@ class AccountWishlists extends StreamHandler
     {
         if (!$context->session->loggedIn) {
             try {
-                return [$this->wishlistApi->getAnonymous(session_id())];
+                return [$this->wishlistApi->getAnonymous($context->session->account->accountId)];
             } catch (\OutOfBoundsException $e) {
                 return [$this->wishlistApi->create(new Wishlist([
                     'name' => ['de' => 'Wunschzettel'],

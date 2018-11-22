@@ -13,6 +13,7 @@ security:
             security: false
 
         main:
+            pattern: ^/
             anonymous: ~
             logout:
                 path: /api/account/logout # Use route ID
@@ -20,3 +21,6 @@ security:
             guard:
                 authenticators:
                     - Frontastic\Common\AccountApiBundle\Security\Authenticator
+
+    access_control:
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
