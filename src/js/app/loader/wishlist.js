@@ -23,6 +23,36 @@ let WishlistLoader = function (store, api) {
         this.api.triggerContinuously('Frontastic.WishlistApi.Wishlist.get', parameters)
     }
 
+    this.create = (name) => {
+        this.store.dispatch({
+            type: 'WishlistApi.Wishlist.loading',
+        })
+
+        this.api.request(
+            'POST',
+            'Frontastic.WishlistApi.Wishlist.create',
+            null,
+            { name: name },
+            (data) => {
+                let route = this.store.getState().app.route
+                app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                app.getLoader('context').notifyUser('Created wishlist: ' + name, 'success', 5000)
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.add.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser('Failed to create wishlist: ' + error.message, 'error')
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.add.error',
+                    error: error,
+                })
+            }
+        )
+    }
+
     this.add = (product, variant, count, option = null) => {
         this.store.dispatch({
             type: 'WishlistApi.Wishlist.loading',
