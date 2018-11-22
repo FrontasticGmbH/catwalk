@@ -20,7 +20,13 @@ let CartLoader = function (store, api) {
     this.api = api
 
     this.get = (parameters = {}) => {
-        this.api.triggerContinuously('Frontastic.CartApi.Cart.get', parameters)
+        this.api.triggerContinuously(
+            'Frontastic.CartApi.Cart.get',
+            _.extend(
+                { ownErrorHandler: true },
+                parameters
+            )
+        )
     }
 
     this.getOrder = (parameters = {}) => {
@@ -43,7 +49,7 @@ let CartLoader = function (store, api) {
         this.api.request(
             'POST',
             'Frontastic.CartApi.Cart.add',
-            null,
+            { ownErrorHandler: true },
             { product, variant, count, option },
             (data) => {
                 this.store.dispatch({
@@ -52,6 +58,7 @@ let CartLoader = function (store, api) {
                 })
             },
             (error) => {
+                app.getLoader('context').notifyUser('Failed to add item to cart', 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.add.error',
                     error: error,
@@ -77,6 +84,7 @@ let CartLoader = function (store, api) {
                 })
             },
             (error) => {
+                app.getLoader('context').notifyUser('Failed to update line item.', 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.update.error',
                     error: error,
@@ -102,6 +110,7 @@ let CartLoader = function (store, api) {
                 })
             },
             (error) => {
+                app.getLoader('context').notifyUser('Failed to remove line item.', 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.update.error',
                     error: error,
@@ -127,6 +136,7 @@ let CartLoader = function (store, api) {
                 )
             },
             (error) => {
+                app.getLoader('context').notifyUser('Checkout error: ' + error.message, 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.checkout.error',
                     error: error,

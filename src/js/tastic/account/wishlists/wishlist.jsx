@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
+import app from '../../../app/app'
+
 import AtomsButton from '../../../patterns/10-atoms/10-buttons/10-button'
 import AtomsHeading from '../../../patterns/10-atoms/20-headings/10-heading'
 import MoleculesLineItem from '../../../patterns/20-molecules/50-cart/30-line-item'
@@ -14,7 +16,21 @@ class Wishlist extends Component {
                 <AtomsHeading type='beta'>{this.props.wishlist.name}</AtomsHeading>
             </div>
             {_.map(this.props.wishlist.lineItems, (lineItem) => {
-                return <MoleculesLineItem key={lineItem.lineItemId} lineItem={lineItem} />
+                return <MoleculesLineItem
+                    key={lineItem.lineItemId}
+                    lineItem={lineItem}
+                    onRemove={(lineItem) => {
+                        app.getLoader('wishlist').removeLineItem({
+                            lineItemId: lineItem.lineItemId
+                        })
+                    }}
+                    onChangeCount={(lineItem, count) => {
+                        app.getLoader('wishlist').updateLineItem({
+                            lineItemId: lineItem.lineItemId,
+                            count: count,
+                        })
+                    }}
+                />
             })}
         </div>)
     }

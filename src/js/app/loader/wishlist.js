@@ -34,12 +34,17 @@ let WishlistLoader = function (store, api) {
             null,
             { product, variant, count, option },
             (data) => {
+                let route = this.store.getState().app.route
+                app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                app.getLoader('context').notifyUser('Added product to wishlist', 'success', 5000)
                 this.store.dispatch({
                     type: 'WishlistApi.Wishlist.add.success',
                     data: data,
                 })
             },
             (error) => {
+                app.getLoader('context').notifyUser('Failed to add product to wishlist: ' + error.message, 'error')
                 this.store.dispatch({
                     type: 'WishlistApi.Wishlist.add.error',
                     error: error,
@@ -59,12 +64,17 @@ let WishlistLoader = function (store, api) {
             { ownErrorHandler: true },
             update,
             (data) => {
+                let route = this.store.getState().app.route
+                app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                app.getLoader('context').notifyUser('Updated product count', 'success', 5000)
                 this.store.dispatch({
                     type: 'WishlistApi.Wishlist.update.success',
                     data: data,
                 })
             },
             (error) => {
+                app.getLoader('context').notifyUser('Failed to updated product count: ' + error.message, 'error')
                 this.store.dispatch({
                     type: 'WishlistApi.Wishlist.update.error',
                     error: error,
@@ -84,12 +94,17 @@ let WishlistLoader = function (store, api) {
             { ownErrorHandler: true },
             update,
             (data) => {
+                let route = this.store.getState().app.route
+                app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                app.getLoader('context').notifyUser('Removed product from wishlist', 'success', 5000)
                 this.store.dispatch({
                     type: 'WishlistApi.Wishlist.update.success',
                     data: data,
                 })
             },
             (error) => {
+                app.getLoader('context').notifyUser('Failed to removed product from wishlist: ' + error.message, 'error')
                 this.store.dispatch({
                     type: 'WishlistApi.Wishlist.update.error',
                     error: error,
