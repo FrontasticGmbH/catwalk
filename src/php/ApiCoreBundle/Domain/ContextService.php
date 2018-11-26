@@ -80,9 +80,9 @@ class ContextService
         }
 
         $anonymousId = md5(json_encode([
-            'languages' => $_SERVER['HTTP_ACCEPT_LANGUAGE'],
-            'agent' => $_SERVER['HTTP_USER_AGENT'],
-            'ip' => $_SERVER['REMOTE_ADDR'],
+            'languages' => $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '',
+            'agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+            'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
             // @TODO: If we replace this by more user-specifica (time zone,
             // resolution, …) this might enable us to recognize users and
             // associate them with the same anonymousId (See: evercookie /
