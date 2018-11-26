@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { FormattedMessage } from 'react-intl'
 
-import AtomsButton from '../../patterns/10-atoms/10-buttons/10-button'
+import AtomsButton from '../../patterns/atoms/buttons/button'
 
 import app from '../../app/app'
 

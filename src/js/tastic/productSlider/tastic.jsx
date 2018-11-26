@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import Slider from '../../component/slider'
-import MoleculesProductTeaser from '../../patterns/20-molecules/40-teasers/10-product-teaser'
+import MoleculesProductTeaser from '../../patterns/molecules/teasers/product-teaser'
 
 class ProductSliderTastic extends Component {
     render () {

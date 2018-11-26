@@ -8,7 +8,7 @@ import logo from '../../../layout/logo.svg'
 import LanguageSelector from './languageSelector'
 import MiniCart from './miniCart'
 import Sequential from './sequential'
-import SvgIcon from '../../patterns/10-atoms/40-icons/10-icon'
+import SvgIcon from '../../patterns/atoms/icons/icon'
 
 class NavigationTastic extends Component {
     constructor (props) {

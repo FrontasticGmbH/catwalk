@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import Entity from '../../app/entity'
 
-import SvgIcon from '../../patterns/10-atoms/40-icons/10-icon'
+import SvgIcon from '../../patterns/atoms/icons/icon'
 import SelectionPane from './selectionPane'
 
 import toggleTerm from './toggleTerm'

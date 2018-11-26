@@ -5,9 +5,9 @@ import _ from 'lodash'
 
 import app from '../../../app/app'
 
-import AtomsButton from '../../../patterns/10-atoms/10-buttons/10-button'
-import AtomsHeading from '../../../patterns/10-atoms/20-headings/10-heading'
-import MoleculesLineItem from '../../../patterns/20-molecules/50-cart/30-line-item'
+import AtomsButton from '../../../patterns/atoms/buttons/button'
+import AtomsHeading from '../../../patterns/atoms/headings/heading'
+import MoleculesLineItem from '../../../patterns/molecules/cart/line-item'
 
 class Wishlist extends Component {
     render () {

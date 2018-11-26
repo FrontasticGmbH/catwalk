@@ -6,7 +6,7 @@ import _ from 'lodash'
 import Entity from '../../app/entity'
 
 import Summary from '../cart/summary'
-import MoleculesLineItem from '../../patterns/20-molecules/50-cart/30-line-item'
+import MoleculesLineItem from '../../patterns/molecules/cart/line-item'
 import Order from '../../domain/order'
 
 class Ordered extends Component {

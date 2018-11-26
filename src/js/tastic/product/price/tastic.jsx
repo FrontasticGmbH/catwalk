@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import Price from '../../../patterns/10-atoms/80-prices/10-price'
+import Price from '../../../patterns/atoms/prices/price'
 import productConnector from '../connector'
 
 class ProductPriceTastic extends Component {

@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 import app from '../app/app'
 
-import AtomsNotification from '../patterns/10-atoms/60-notifications/10-notification'
+import AtomsNotification from '../patterns/atoms/notifications/notification'
 
 class Notifications extends Component {
     render () {

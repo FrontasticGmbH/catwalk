@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import _ from 'lodash'
 
-import AtomsButton from '../../../patterns/10-atoms/10-buttons/10-button'
-import AtomsHeading from '../../../patterns/10-atoms/20-headings/10-heading'
+import AtomsButton from '../../../patterns/atoms/buttons/button'
+import AtomsHeading from '../../../patterns/atoms/headings/heading'
 import Grow from '../../../component/grow'
 import Notifications from '../../../component/notifications'
 

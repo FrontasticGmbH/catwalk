@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import Price from '../../../patterns/10-atoms/80-prices/10-price'
+import Price from '../../../patterns/atoms/prices/price'
 
 class PriceFacetTitle extends Component {
     render () {

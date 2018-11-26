@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import AtomsButton from '../../../patterns/10-atoms/10-buttons/10-button'
-import AtomsHeading from '../../../patterns/10-atoms/20-headings/10-heading'
+import AtomsButton from '../../../patterns/atoms/buttons/button'
+import AtomsHeading from '../../../patterns/atoms/headings/heading'
 
 import app from '../../../app/app'
 

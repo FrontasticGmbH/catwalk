@@ -6,7 +6,7 @@ import _ from 'lodash'
 import Reference from '../../component/reference'
 import { getTranslation } from 'frontastic-common'
 
-import MoleculesHero from '../../patterns/20-molecules/30-heros/10-hero'
+import MoleculesHero from '../../patterns/molecules/heros/hero'
 
 class ImageBannerTastic extends Component {
     render () {

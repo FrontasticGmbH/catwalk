@@ -7,7 +7,7 @@ import app from '../../app/app'
 import Entity from '../../app/entity'
 import Loading from '../../app/loading'
 
-import MoleculesLineItem from '../../patterns/20-molecules/50-cart/30-line-item'
+import MoleculesLineItem from '../../patterns/molecules/cart/line-item'
 import Summary from './summary'
 
 class CartTastic extends Component {

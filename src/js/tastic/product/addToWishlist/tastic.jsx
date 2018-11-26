@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import app from '../../../app/app'
-import SvgIcon from '../../../patterns/10-atoms/40-icons/10-icon'
+import SvgIcon from '../../../patterns/atoms/icons/icon'
 import Fade from '../../../component/fade'
 import productConnector from '../connector'
 

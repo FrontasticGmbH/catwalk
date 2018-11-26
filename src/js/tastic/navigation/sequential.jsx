@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import Link from '../../app/link'
 
-import SvgIcon from '../../patterns/10-atoms/40-icons/10-icon'
+import SvgIcon from '../../patterns/atoms/icons/icon'
 
 class Sequential extends Component {
     constructor (props) {
