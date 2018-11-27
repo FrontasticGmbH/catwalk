@@ -197,6 +197,16 @@ $headerHeight: (($fs-base * $lh-default) + (2 * $unit-small));
     font-size: $fs-s;
 }
 
+.c-p-source {
+    border-bottom: 1px solid $color-gray;
+    text-align: center;
+    padding: $unit-tiny;
+    background-color: $color-pale;
+    color: $color-text;
+    font-size: $fs-s;
+    margin: -$unit-small 0 $unit-small 0;
+}
+
 .c-p-options {
     display: flex;
     flex-flow: row nowrap;

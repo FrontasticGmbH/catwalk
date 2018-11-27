@@ -22,6 +22,7 @@ class Pattern extends Component {
             let Component = this.props.pattern.component
             let testProps = Component.testProps || {}
             return (<Fragment>
+                <h6 className='c-p-source'>Source: <strong>{this.props.pattern.source}</strong></h6>
                 <div className='c-p-options'>
                     <button
                         className={'c-p-options__option' + (this.state.showProperties ? ' c-p-options__option--active' : '')}

@@ -12,8 +12,7 @@ function isReactComponent (component) {
     return !!(component.component && component.name && component.path)
 }
 
-function processPatterns(directory) {
-    const loader = require.context('../patterns/', true, /^(.*\.jsx)[^.]*$/im)
+function processPatterns(loader, source = 'Frontastic') {
     let patterns = {}
 
     loader.keys().forEach(function (fileName) {
@@ -25,6 +24,7 @@ function processPatterns(directory) {
             {
                 name: displayName(propertyPath.split('.').pop()),
                 path: fileName,
+                source: source,
                 component: loader(fileName).default,
             }
         )
