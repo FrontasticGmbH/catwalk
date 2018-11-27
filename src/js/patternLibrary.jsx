@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import _ from 'lodash'
+import QRCode from 'qrcode.react'
 
 import app from './app/app'
 
@@ -18,6 +19,7 @@ class PatternLibrary extends Component {
             size: 'hand',
             width: 375,
             highlight: null,
+            showLinks: false,
         }
     }
 
@@ -131,20 +133,46 @@ class PatternLibrary extends Component {
                             }} />&thinsp;px&nbsp;
                     </li>
                     {_.toArray(_.map(sizes, (size, name) => {
-                    return (<li key={name} className={classnames({
-                        'c-pl-menu__item': true,
-                        'c-pl-menu__item--selected': this.state.size === name,
-                    })}>
-                        <button onClick={() => {
-                            this.setState({
-                                size: name,
-                                width: _.random(sizes[name].minimum, sizes[name].maximum, false),
-                            })
-                        }}>
-                            {displayName(name)}
+                        return (<li key={name} className={classnames({
+                            'c-pl-menu__item': true,
+                            'c-pl-menu__item--selected': this.state.size === name,
+                        })}>
+                            <button onClick={() => {
+                                this.setState({
+                                    size: name,
+                                    width: _.random(sizes[name].minimum, sizes[name].maximum, false),
+                                })
+                            }}>
+                                {displayName(name)}
+                            </button>
+                        </li>)
+                    }))}
+                    <li className={'c-pl-menu__item' + (this.state.showLinks ? ' c-pl-menu__item--selected' : '')}>
+                        <button onClick={() => { this.setState({ showLinks: !this.state.showLinks }) }}>
+                            🔗
                         </button>
-                    </li>)
-                }))}
+                        <div className='c-pl-menu__content c-pl-menu__content--right'>
+                            <ul className='c-pl-content'>
+                                <li className='c-pl-content__item'>
+                                    <a
+                                        href={app.getRouter().path('Frontastic.Frontend.PatternLibrary.view', { pattern: this.props.pattern })}
+                                        target='_blank'>
+                                        Open in New Tab
+                                    </a>
+                                </li>
+                                {this.props.tunnels.length ? <li className='c-pl-content__item'>
+                                    <a
+                                        href={this.props.tunnels[0] + app.getRouter().path('Frontastic.Frontend.PatternLibrary.view', { pattern: this.props.pattern })}
+                                        target='_blank'>
+                                        Open through ngrok:
+                                    </a>
+                                    <div className='qrcode'>
+                                        <QRCode value={this.props.tunnels[0] + app.getRouter().path('Frontastic.Frontend.PatternLibrary.view', { pattern: this.props.pattern })} size={200} />
+                                    </div>
+                                </li> : null}
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </div>
             <div
@@ -179,6 +207,7 @@ class PatternLibrary extends Component {
 
 PatternLibrary.propTypes = {
     pattern: PropTypes.string.isRequired,
+    tunnels: PropTypes.array.isRequired,
 }
 
 PatternLibrary.defaultProps = {
@@ -189,6 +218,7 @@ export default connect(
         return {
             ...props,
             pattern: globalState.app.route.get('pattern', 'atoms'),
+            tunnels: globalState.dev.tunnels,
         }
     },
 )(PatternLibrary)

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 
 import Context from './context'
 
+import DevLoader from './loader/dev'
 import ContextLoader from './loader/context'
 import NodeLoader from './loader/node'
 import DataLoader from './loader/data'
@@ -62,6 +63,7 @@ const reducer = (globalState = initialGlobalState, action) => {
 
 export default combineReducers({
     app: reducer,
+    dev: DevLoader.handleAction,
     user: ContextLoader.handleAction,
     node: NodeLoader.handleAction,
     data: DataLoader.handleAction,

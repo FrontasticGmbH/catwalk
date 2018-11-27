@@ -1,5 +1,6 @@
 import Route from './route'
 
+import DevLoader from './loader/dev'
 import ContextLoader from './loader/context'
 import NodeLoader from './loader/node'
 import TasticLoader from './loader/tastic'
@@ -27,6 +28,7 @@ let Loader = function (store, router, api) {
     this.api = api
 
     this.loaders = {
+        dev: new DevLoader(this.store, this.api),
         context: new ContextLoader(this.store, this.api),
         node: new NodeLoader(this.store, this.api),
         tastic: new TasticLoader(this.store, this.api),
@@ -90,6 +92,9 @@ let Loader = function (store, router, api) {
             break
         case 'Frontastic.Frontend.Preview.view':
             this.loaders.node.reloadPreview(route.parameters)
+            break
+        case 'Frontastic.Frontend.PatternLibrary.overview':
+            this.loaders.dev.loadTunnel(route.parameters)
             break
         default:
             if (route.route.substr(0, 5) === 'node_') {
