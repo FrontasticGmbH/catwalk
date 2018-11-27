@@ -7,4 +7,8 @@
     <route id="Frontastic.DevVmBundle.sync" path="/devvm/sync" methods="POST">
         <default key="_controller">Frontastic\Catwalk\DevVmBundle\Controller\SyncController::syncAction</default>
     </route>
+
+    <route id="Frontastic.DevVmBundle.Ngrok.tunnels" path="/devvm/tunnel" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\DevVmBundle\Controller\NgrokController::tunnelAction</default>
+    </route>
 </routes>
