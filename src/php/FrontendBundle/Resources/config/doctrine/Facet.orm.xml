@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Frontastic\Catwalk\FrontendBundle\Domain\Facet" table="facet">
+        <id name="facetId" column="f_id" type="string">
+            <generator strategy="NONE"/>
+        </id>
+
+        <field name="sequence" column="f_sequence" type="string" />
+        <field name="attributeId" column="f_attribute_id" type="string" />
+        <field name="attributeType" column="f_attribute_type" type="string" />
+        <field name="sort" column="f_sort" type="integer" />
+        <field name="isEnabled" column="f_is_enabled" type="boolean" />
+        <field name="label" column="f_label" type="object" nullable="true" />
+        <field name="displayType" column="f_display_type" type="string" nullable="true" />
+        <field name="urlIdentifier" column="f_url_identifier" type="string" nullable="true" />
+        <field name="facetOptions" column="f_facet_options" type="object" nullable="true" />
+
+        <field name="metaData" column="f_meta_data" type="object" />
+        <field name="isDeleted" column="f_is_deleted" type="boolean" />
+
+        <indexes>
+            <index columns="f_id"/>
+            <index columns="f_sequence"/>
+        </indexes>
+    </entity>
+</doctrine-mapping>
