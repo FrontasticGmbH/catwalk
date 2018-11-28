@@ -42,6 +42,17 @@
             <tag name="endpoint.target" channel="page-matcher" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\FacetService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\FacetGateway" />
+        </service>
+
+        <service id="frontastic.catwalk.frontend_bundle.domain.facet.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\FacetService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+
+            <tag name="endpoint.target" channel="facets" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService">
             <argument type="collection">
                 <argument type="service">
@@ -188,6 +199,17 @@
                     <factory service="doctrine.orm.default_entity_manager"
                         method="getRepository" />
                     <argument>Frontastic\Catwalk\FrontendBundle\Domain\Preview</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Gateway\FacetGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                             method="getRepository" />
+                    <argument>Frontastic\Catwalk\FrontendBundle\Domain\Facet</argument>
                 </service>
             </argument>
             <argument type="service" id="doctrine.orm.entity_manager" />
