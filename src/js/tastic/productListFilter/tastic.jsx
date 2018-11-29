@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import Entity from '../../app/entity'
 
 import SvgIcon from '../../patterns/10-atoms/40-icons/10-icon'
 import SelectionPane from './selectionPane'
@@ -9,6 +11,7 @@ import SelectionPane from './selectionPane'
 import toggleTerm from './toggleTerm'
 
 import app from '../../app/app'
+import facetConnector from '../../app/connector/facet'
 
 class ProductListFilterTastic extends Component {
     constructor (props) {
@@ -25,6 +28,12 @@ class ProductListFilterTastic extends Component {
             console.warn('Product list does not contain facets. Won\'t display filter tastic.')
             return null
         }
+
+        if (!this.props.facets.isComplete()) {
+            console.log('Facet configuration not loaded. Will not render facets.')
+            return null
+        }
+
         return (<Fragment>
             {this.renderCategorySelector(productList)}
 
@@ -45,6 +54,7 @@ class ProductListFilterTastic extends Component {
                 removeFacetValue={this.removeFacetValue}
                 facetValues={this.getFacetValues(this.props.tastic.configuration.stream)}
                 valuesFromTastic={!!this.props.route.historyState && this.props.route.historyState.comeFromTastic}
+                facetConfiguration={this.props.facets.data}
             />
 
         </Fragment>)
@@ -191,19 +201,21 @@ ProductListFilterTastic.propTypes = {
     tastic: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     streamParameters: PropTypes.object.isRequired,
+    // Facet definition as provided by Frontastic
+    facets: PropTypes.instanceOf(Entity).isRequired,
 }
 
 ProductListFilterTastic.defaultProps = {
 }
 
-export default connect(
-    (globalState, props) => {
+export default compose(
+    connect(facetConnector),
+    connect((globalState) => {
         let streamParameters = globalState.app.route.parameters.s || {}
 
         return {
-            ...props,
             route: globalState.app.route,
             streamParameters: streamParameters,
         }
-    }
+    }),
 )(ProductListFilterTastic)
