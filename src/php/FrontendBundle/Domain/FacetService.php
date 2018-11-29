@@ -46,7 +46,6 @@ class FacetService implements Target
         $facet->sort = $data['sort'];
         $facet->isEnabled = (bool)$data['isEnabled'];
         $facet->label = (!empty($data['label']) ? (object)$data['label'] : null);
-        $facet->displayType = (!empty($data['displayType']) ? $data['displayType'] : null);
         $facet->urlIdentifier = (!empty($data['urlIdentifier']) ? $data['urlIdentifier'] : null);
         $facet->facetOptions = (!empty($data['facetOptions']) ? (object)$data['facetOptions'] : null);
         $facet->metaData = $data['metaData'];

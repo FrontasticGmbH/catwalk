@@ -15,7 +15,6 @@
         <field name="sort" column="f_sort" type="integer" />
         <field name="isEnabled" column="f_is_enabled" type="boolean" />
         <field name="label" column="f_label" type="object" nullable="true" />
-        <field name="displayType" column="f_display_type" type="string" nullable="true" />
         <field name="urlIdentifier" column="f_url_identifier" type="string" nullable="true" />
         <field name="facetOptions" column="f_facet_options" type="object" nullable="true" />
 

@@ -44,11 +44,6 @@ class Facet extends DataObject
     /**
      * @var string
      */
-    public $displayType;
-
-    /**
-     * @var string
-     */
     public $urlIdentifier;
 
     /**
