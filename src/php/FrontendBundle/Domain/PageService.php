@@ -77,6 +77,9 @@ class PageService implements Target
         );
         $page->metaData = $data['metaData'];
         $page->isDeleted = $data['isDeleted'];
+        $page->state = $data['state'];
+        $page->scheduledFromTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledFrom']);
+        $page->scheduledToTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledTo']);
 
         return $page;
     }
@@ -99,5 +102,14 @@ class PageService implements Target
     public function remove(Page $page): void
     {
         $this->pageGateway->remove($page);
+    }
+
+    private function dateTimeStringToUnixTimestamp(string $time = null)
+    {
+        if ($time === null) {
+            return null;
+        }
+
+        return strtotime($time);
     }
 }

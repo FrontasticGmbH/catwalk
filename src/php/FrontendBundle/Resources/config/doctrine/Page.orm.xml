@@ -21,6 +21,10 @@
         <field name="metaData" column="p_meta_data" type="object" />
         <field name="isDeleted" column="p_is_deleted" type="boolean" />
 
+        <field name="state" column="p_state" type="string" />
+        <field name="scheduledFromTimestamp" column="p_scheduled_from_timestamp" type="integer" />
+        <field name="scheduledToTimestamp" column="p_scheduled_to_timestamp" type="integer" />
+
         <indexes>
             <index columns="p_id"/>
             <index columns="p_sequence"/>

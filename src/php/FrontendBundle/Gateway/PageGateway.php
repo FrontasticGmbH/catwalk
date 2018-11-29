@@ -30,10 +30,16 @@ class PageGateway
         $query = $this->manager->createQuery(
             "SELECT p
             FROM Frontastic\\Catwalk\\FrontendBundle\\Domain\\Page p
-            WHERE p.node = :node
-            ORDER BY p.sequence DESC"
+            WHERE p.node = :node AND (
+                p.state = 'default' OR (
+                    p.state = 'scheduled' AND
+                    :currentTimestamp BETWEEN p.scheduledFromTimestamp AND p.scheduledToTimestamp
+                )
+            )
+            ORDER BY p.state DESC, p.scheduledFromTimestamp DESC, p.scheduledToTimestamp ASC, p.sequence DESC"
         );
         $query->setParameter('node', $nodeId);
+        $query->setParameter('currentTimestamp', time());
         $query->setMaxResults(1);
 
         return $query->getSingleResult();

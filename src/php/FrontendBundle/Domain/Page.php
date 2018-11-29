@@ -40,4 +40,27 @@ class Page extends DataObject
      * @var bool
      */
     public $isDeleted = false;
+
+    /**
+     * @var string
+     */
+    public $state;
+
+    /**
+     * This is a UNIX timestamp since doctrine can not persist a \DateTime-object to MySQL and ensure the time point is
+     * still the same. It can ensure to maintain the time but the timezone may change which produces a different time
+     * point.
+     *
+     * @var int|null
+     */
+    public $scheduledFromTimestamp;
+
+    /**
+     * This is a UNIX timestamp since doctrine can not persist a \DateTime-object to MySQL and ensure the time point is
+     * still the same. It can ensure to maintain the time but the timezone may change which produces a different time
+     * point.
+     *
+     * @var int|null
+     */
+    public $scheduledToTimestamp;
 }
