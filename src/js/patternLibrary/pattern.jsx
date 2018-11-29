@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
@@ -18,6 +19,13 @@ class Pattern extends Component {
     }
 
     render () {
+        if (!this.props.pattern) {
+            return (<Fragment>
+                <h1 className='c-patterns__title'>Pattern Not Found</h1>
+                <p>This pattern is supposed to be located at <code>src/js/patterns/{this.props.selectedPattern.replace('.', '/')}.jsx</code> or this should be a folder containing multiple patterns called <code>src/js/patterns/{this.props.selectedPattern.replace('.', '/')}/</code>.</p>
+            </Fragment>)
+        }
+
         if (isReactComponent(this.props.pattern)) {
             let Component = this.props.pattern.component
             let testProps = Component.testProps || {}
@@ -56,6 +64,7 @@ class Pattern extends Component {
 }
 
 Pattern.propTypes = {
+    selectedPattern: PropTypes.string.isRequired,
     pattern: PropTypes.any.isRequired,
     level: PropTypes.number,
 }
@@ -64,4 +73,11 @@ Pattern.defaultProps = {
     level: 2,
 }
 
-export default Pattern
+export default connect(
+    (globalState, props) => {
+        return {
+            ...props,
+            selectedPattern: globalState.app.route.get('pattern', 'atoms'),
+        }
+    },
+)(Pattern)
