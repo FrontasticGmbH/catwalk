@@ -56,7 +56,7 @@ class Pattern extends Component {
                     {displayName(name)}
                 </Title>
                 <div style={{ position: 'relative' }}>
-                    <Pattern pattern={displayPatterns} level={this.props.level + 1} />
+                    <Pattern pattern={displayPatterns} level={this.props.level + 1} selectedPattern={this.props.selectedPattern} />
                 </div>
             </Fragment>)
         }))
