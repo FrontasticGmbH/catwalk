@@ -12,7 +12,6 @@ import TermFacetPane from './term/termFacetPane'
 import TermFacetTitle from './term/termFacetTitle'
 
 class SelectionPane extends Component {
-
     attributeTypeMap = {
         enum: {
             selector: TermFacetPane,
@@ -25,7 +24,7 @@ class SelectionPane extends Component {
         money: {
             selector: PriceFacetPane,
             title: PriceFacetTitle,
-        }
+        },
     }
 
     constructor (props) {

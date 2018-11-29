@@ -8,7 +8,7 @@ let mountNode = document.getElementById('app')
 let props = mountNode ? JSON.parse(mountNode.getAttribute('data-props')) : {}
 
 /* eslint-disable no-underscore-dangle */
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 /* eslint-enable */
 
 export default createStore(
