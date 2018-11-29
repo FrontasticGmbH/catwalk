@@ -34,6 +34,14 @@ class FacetGateway
         return $facet;
     }
 
+    /**
+     * @return Facet[]
+     */
+    public function getEnabled(): array
+    {
+        return $this->repository->findBy(['isEnabled' => true]);
+    }
+
     public function getHighestSequence(): string
     {
         $query = $this->manager->createQuery(

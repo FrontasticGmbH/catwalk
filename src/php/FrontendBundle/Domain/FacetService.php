@@ -59,4 +59,12 @@ class FacetService implements Target
     {
         return $this->facetGateway->get($facetId);
     }
+
+    /**
+     * @return Facet[]
+     */
+    public function getEnabled(): array
+    {
+        return $this->facetGateway->getEnabled();
+    }
 }
