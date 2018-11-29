@@ -1,0 +1,65 @@
+<?php
+
+namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
+
+use Frontastic\Catwalk\FrontendBundle\Domain\FacetService;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory;
+use Frontastic\Common\ReplicatorBundle\Domain\Customer;
+
+class ProductApiFactoryDecorator implements ProductApiFactory
+{
+    /**
+     * @var ProductApiFactory
+     */
+    private $productApiFactory;
+
+    /**
+     * @var FacetService
+     */
+    private $facetService;
+
+    public function __construct(ProductApiFactory $productApiFactory, FacetService $facetService)
+    {
+        $this->productApiFactory = $productApiFactory;
+        $this->facetService = $facetService;
+    }
+
+    public function factor(Customer $customer): ProductApi
+    {
+        $api = $this->productApiFactory->factor($customer);
+        $this->setCommercetoolsOptions($api);
+        return $api;
+    }
+
+    private function setCommercetoolsOptions(ProductApi $api): void
+    {
+        if (!($api instanceof ProductApi\Commercetools)) {
+            return;
+        }
+
+        $enabledFacets = $this->facetService->getEnabled();
+
+        $facetConfig = [];
+        foreach ($enabledFacets as $facet) {
+            $facetConfig[] = [
+                'attributeId' => $facet->attributeId,
+                'attributeType' => $facet->attributeType,
+            ];
+        }
+
+        \debug('Facet config', $enabledFacets);
+
+        /** @var ProductApi\Commercetools $api */
+        $api->setOptions(new ProductApi\Commercetools\Options([
+            'facetsToQuery' => $facetConfig,
+        ]));
+    }
+
+    public function factorFromConfiguration(array $config): ProductApi
+    {
+        $this->productApiFactory->factorFromConfiguration($config);
+        $this->setCommercetoolsOptions($api);
+        return $api;
+    }
+}

@@ -11,6 +11,12 @@
     <services>
         <defaults public="true" />
 
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProductApiFactoryDecorator"
+                 decorates="Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProductApiFactoryDecorator.inner"/>
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\FacetService"/>
+        </service>
+
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService">
             <argument type="service" id="router" />
             <argument type="service" id="request_stack" />
