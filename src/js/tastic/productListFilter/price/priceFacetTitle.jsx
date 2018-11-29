@@ -25,7 +25,7 @@ class PriceFacetTitle extends Component {
 
 PriceFacetTitle.propTypes = {
     facet: PropTypes.object.isRequired,
-    name: PropTypes.string,
+    name: PropTypes.node,
 }
 
 PriceFacetTitle.defaultProps = {}

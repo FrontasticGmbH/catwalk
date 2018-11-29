@@ -27,7 +27,7 @@ class TermFacetTitle extends Component {
 
 TermFacetTitle.propTypes = {
     facet: PropTypes.object.isRequired,
-    name: PropTypes.string,
+    name: PropTypes.node,
 }
 
 TermFacetTitle.defaultProps = {}
