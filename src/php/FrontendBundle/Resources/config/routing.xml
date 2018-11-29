@@ -48,6 +48,10 @@
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\TasticController::allAction</default>
     </route>
 
+    <route id="Frontastic.Frontend.Facet.all" path="/facet" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\FacetController::allAction</default>
+    </route>
+
     <route id="Frontastic.Frontend.Proxy" path="/proxy" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ProxyController::indexAction</default>
     </route>
