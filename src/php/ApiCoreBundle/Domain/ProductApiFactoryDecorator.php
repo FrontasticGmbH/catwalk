@@ -48,8 +48,6 @@ class ProductApiFactoryDecorator implements ProductApiFactory
             ];
         }
 
-        \debug('Facet config', $enabledFacets);
-
         /** @var ProductApi\Commercetools $api */
         $api->setOptions(new ProductApi\Commercetools\Options([
             'facetsToQuery' => $facetConfig,
