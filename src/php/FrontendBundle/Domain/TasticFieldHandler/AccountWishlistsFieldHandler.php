@@ -31,7 +31,6 @@ class AccountWishlistsFieldHandler extends TasticFieldHandler
      */
     public function handle(Context $context, $fieldValue)
     {
-        debug($context);
         if (!$context->session->loggedIn) {
             try {
                 return [$this->wishlistApi->getAnonymous($context->session->account->accountId)];
