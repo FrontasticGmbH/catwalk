@@ -51,7 +51,6 @@ class ProductList extends StreamHandler
             $streamConfig['facets'] ?? []
         );
 
-        // TODO: Do we need to take care for duplicate facets?
         $queryParameters['facets'] = [];
         foreach ($rawFacets as $facetConfig) {
             $queryParameters['facets'][] = $this->createFacet($facetConfig);
