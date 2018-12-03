@@ -11,7 +11,7 @@ class TermFacetPane extends Component {
         // TODO: Handle term selection state through URL provided facetValue
         return (<ul className='c-tableview'>
             {_.map(
-                facet.terms,
+                this.getTerms(),
                 (term) => {
                     return (<li key={term.handle} className='c-tableview__cell'>
                         <button
@@ -26,10 +26,61 @@ class TermFacetPane extends Component {
             )}
         </ul>)
     }
+
+    getTerms = () => {
+        let terms = _.cloneDeep(this.props.facet.terms)
+        terms = this.sortTerms(terms)
+        return terms = this.removeLabelPrefix(terms)
+    }
+
+    sortTerms = (terms) => {
+        const options = this.props.facetConfig.facetOptions || {}
+
+        const sortOrder = options.sortOrder || 'sort-undefined'
+        const stripPrefix = options.stripLabelPrefix || false
+
+        if (sortOrder === 'sort-undefined') {
+            return terms
+        }
+
+        const preprocessLabel = (stripPrefix ?
+            (label) => {
+                _.toInteger(label.replace(/^([\d]+)-.*$/, '$1'))
+            }
+            :
+            _.identity
+        )
+
+        terms = _.sortBy(terms, (term) => {
+            return preprocessLabel(term.name)
+        })
+
+        if (sortOrder === 'sort-descending') {
+            terms = _.reverse(terms)
+        }
+
+        return terms
+    }
+
+    removeLabelPrefix = (terms) => {
+        const options = this.props.facetConfig.options || {}
+
+        const stripPrefix = options.stripLabelPrefix || false
+
+        if (!stripPrefix) {
+            return terms
+        }
+
+        return _.map(terms, (term) => {
+            term.name = term.name.replace(/^[\d]+-(.*)$/, '$1')
+            return term
+        })
+    }
 }
 
 TermFacetPane.propTypes = {
     facet: PropTypes.object.isRequired,
+    facetConfig: PropTypes.object.isRequired,
     // facetValue: PropTypes.object,
     selectFacetValue: PropTypes.func.isRequired,
     removeFacetValue: PropTypes.func.isRequired,

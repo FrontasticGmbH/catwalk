@@ -98,6 +98,7 @@ class SelectionPane extends Component {
                                                 }}>
                                                 {<TitleComponent
                                                     facet={facet}
+                                                    facetConfig={facetData.config}
                                                     facetValue={this.getFacetValue(facet)}
                                                     name={<Translatable value={facetData.config.label} />}
                                                 />}
@@ -143,6 +144,7 @@ class SelectionPane extends Component {
             <div className='c-sequential-nav__content'>
                 <ComponentClass
                     facet={facet}
+                    facetConfig={facetData.config}
                     facetValue={this.getFacetValue(facet)}
                     selectFacetValue={this.props.selectFacetValue}
                     removeFacetValue={this.props.removeFacetValue}
