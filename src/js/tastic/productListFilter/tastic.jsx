@@ -12,6 +12,7 @@ import toggleTerm from './toggleTerm'
 
 import app from '../../app/app'
 import facetConnector from '../../app/connector/facet'
+import categoryConnector from '../../app/connector/category'
 
 class ProductListFilterTastic extends Component {
     constructor (props) {
@@ -150,8 +151,6 @@ class ProductListFilterTastic extends Component {
             return null
         }
 
-        console.log(categoryFacet)
-
         return (<div className='c-filter-bar'>
             <fieldset className='c-filter-bar__scrollable'>
                 {_.map(this.filterCategoryTerms(categoryFacet.terms), (term) => {
@@ -201,7 +200,21 @@ class ProductListFilterTastic extends Component {
             return term.value === '_'
         })
 
+        // @TODO: Extract to facet settings
         categoryFacet.terms = _.take(_.reverse(_.sortBy(categoryFacet.terms, 'count')), count)
+
+        // @HACK: Should be part of the term already
+        categoryFacet.terms = _.map(categoryFacet.terms, (term) => {
+            const category = _.find(this.props.categories.data, { categoryId: term.handle })
+
+            // Resilience
+            if (!category) {
+                return term
+            }
+
+            term.name = category.name
+            return term
+        })
 
         return categoryFacet
     }
@@ -214,6 +227,7 @@ ProductListFilterTastic.propTypes = {
     streamParameters: PropTypes.object.isRequired,
     // Facet definition as provided by Frontastic
     facets: PropTypes.instanceOf(Entity).isRequired,
+    categories: PropTypes.instanceOf(Entity).isRequired,
 }
 
 ProductListFilterTastic.defaultProps = {
@@ -221,6 +235,7 @@ ProductListFilterTastic.defaultProps = {
 
 export default compose(
     connect(facetConnector),
+    connect(categoryConnector),
     connect((globalState) => {
         let streamParameters = globalState.app.route.parameters.s || {}
 

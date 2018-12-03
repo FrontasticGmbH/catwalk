@@ -44,9 +44,11 @@ class CategoryController extends Controller
     {
         $productApi = $this->get('frontastic.catwalk.product_api');
 
+        // TODO: Allow fetching of more than 500 categories by paging
         return [
             'categories' => $productApi->getCategories(new CategoryQuery([
                 'locale' => $context->locale,
+                'limit' => 500,
             ])),
         ];
     }
