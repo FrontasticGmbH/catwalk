@@ -7,6 +7,7 @@ import NodeLoader from './loader/node'
 import DataLoader from './loader/data'
 import TasticLoader from './loader/tastic'
 import FacetLoader from './loader/facet'
+import CategoryLoader from './loader/category'
 
 const initialGlobalState = {
     route: null,
@@ -64,4 +65,5 @@ export default combineReducers({
     tastic: TasticLoader.handleAction,
     cart: CartLoader.handleAction,
     facet: FacetLoader.handleAction,
+    category: CategoryLoader.handleAction,
 })

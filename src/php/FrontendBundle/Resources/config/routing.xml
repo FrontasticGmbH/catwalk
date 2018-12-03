@@ -20,6 +20,10 @@
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CategoryController::viewAction</default>
     </route>
 
+    <route id="Frontastic.Frontend.Category.all" path="/categories" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CategoryController::allAction</default>
+    </route>
+
     <route id="Frontastic.Frontend.Master.Error.view" path="/__error" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::errorAction</default>
     </route>

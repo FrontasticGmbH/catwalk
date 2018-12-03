@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
@@ -36,6 +37,17 @@ class CategoryController extends Controller
             'page' => $page,
             'node' => $node,
             'data' => $dataProvider->fetchDataFor($node, $context, [], $page),
+        ];
+    }
+
+    public function allAction(Context $context)
+    {
+        $productApi = $this->get('frontastic.catwalk.product_api');
+
+        return [
+            'categories' => $productApi->getCategories(new CategoryQuery([
+                'locale' => $context->locale,
+            ])),
         ];
     }
 }

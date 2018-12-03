@@ -5,6 +5,7 @@ import NodeLoader from './loader/node'
 import TasticLoader from './loader/tastic'
 import DataLoader from './loader/data'
 import FacetLoader from './loader/facet'
+import CategoryLoader from './loader/category'
 
 import CartLoader from '../domain/cartLoader'
 
@@ -32,6 +33,7 @@ let Loader = function (store, router, api) {
         cart: new CartLoader(this.store, this.api),
         data: new DataLoader(this.store, this.api),
         facet: new FacetLoader(this.store, this.api),
+        category: new CategoryLoader(this.store, this.api),
     }
 
     this.loadContentForPath = function (pathname, query = {}, historyState = null) {
@@ -62,6 +64,7 @@ let Loader = function (store, router, api) {
         // TODO: This re-loads tastic config on every request. Should be done in the background continuously or once?
         this.loaders.tastic.loadTastics(route.parameters)
         this.loaders.facet.loadFacets(route.parameters)
+        this.loaders.category.loadCategories(route.parameters)
         this.loaders.cart.get()
 
         switch (route.route) {
