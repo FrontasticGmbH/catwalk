@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 use Kore\DataObject\DataObject;
 
 use Frontastic\Common\ReplicatorBundle\Domain\Customer;
+use Frontastic\Common\ReplicatorBundle\Domain\Project;
 
 class Context extends DataObject
 {
