@@ -21,7 +21,27 @@ class SelectionPane extends Component {
             selector: TermFacetPane,
             title: TermFacetTitle,
         },
+        text: {
+            selector: TermFacetPane,
+            title: TermFacetTitle,
+        },
+        localizedText: {
+            selector: TermFacetPane,
+            title: TermFacetTitle,
+        },
+        boolean: {
+            selector: TermFacetPane,
+            title: TermFacetTitle,
+        },
+        reference: {
+            selector: TermFacetPane,
+            title: TermFacetTitle,
+        },
         money: {
+            selector: PriceFacetPane,
+            title: PriceFacetTitle,
+        },
+        number: {
             selector: PriceFacetPane,
             title: PriceFacetTitle,
         },
@@ -63,6 +83,10 @@ class SelectionPane extends Component {
                                 {_.map(
                                     viewModel,
                                     (facetData) => {
+                                        if (facetData.config.attributeType === 'categoryId') {
+                                            return null
+                                        }
+
                                         const TitleComponent = this.attributeTypeMap[facetData.config.attributeType].title
                                         const facet = facetData.facet
 
@@ -96,6 +120,10 @@ class SelectionPane extends Component {
     }
 
     renderFacetPane = (facetData) => {
+        if (facetData.config.attributeType === 'categoryId') {
+            return null
+        }
+
         const facet = facetData.facet
 
         const ComponentClass = this.attributeTypeMap[facetData.config.attributeType].selector

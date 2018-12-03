@@ -143,7 +143,15 @@ class ProductListFilterTastic extends Component {
          * TODO: Is the category-list really part of the filter tastic or is it a dedicated one? What happens to
          * filters applied when selecting a different category?
          */
-        const categoryFacet = this.getCategoryFacet(productList.facets)
+        const categoryFacet = this.getCategoryFacet(productList.facets, this.props.facets.data)
+
+        if (!categoryFacet) {
+            console.warn('No category facet found.')
+            return null
+        }
+
+        console.log(categoryFacet)
+
         return (<div className='c-filter-bar'>
             <fieldset className='c-filter-bar__scrollable'>
                 {_.map(this.filterCategoryTerms(categoryFacet.terms), (term) => {
@@ -171,28 +179,31 @@ class ProductListFilterTastic extends Component {
         return _.uniqBy(terms, 'name')
     }
 
-    getCategoryFacet = (facets, count = 10) => {
-        let facet = null
+    getCategoryFacet = (facets, facetDefinitions, count = 10) => {
+        let categoryFacetDefinition = null
 
-        for (let i = 0; i < facets.length; i++) {
-            facet = facets[i]
+        for (let i = 0; i < facetDefinitions.length; i++) {
+            const facetDefinition = facetDefinitions[i]
 
-            if (facet.key === 'category_tree_terms') {
+            if (facetDefinition.attributeType === 'categoryId') {
+                categoryFacetDefinition = facetDefinition
                 break
             }
         }
 
-        if (!facet) {
-            throw new Error('No category facet found')
+        if (!categoryFacetDefinition) {
+            return null
         }
 
-        _.remove(facet.terms, (term) => {
+        const categoryFacet = _.find(facets, { handle: categoryFacetDefinition.attributeId })
+
+        _.remove(categoryFacet.terms, (term) => {
             return term.value === '_'
         })
 
-        facet.terms = _.take(_.reverse(_.sortBy(facet.terms, 'count')), count)
+        categoryFacet.terms = _.take(_.reverse(_.sortBy(categoryFacet.terms, 'count')), count)
 
-        return facet
+        return categoryFacet
     }
 }
 
