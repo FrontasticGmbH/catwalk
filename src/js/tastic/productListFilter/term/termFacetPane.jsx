@@ -30,7 +30,7 @@ class TermFacetPane extends Component {
     getTerms = () => {
         let terms = _.cloneDeep(this.props.facet.terms)
         terms = this.sortTerms(terms)
-        return terms = this.removeLabelPrefix(terms)
+        return this.removeLabelPrefix(terms)
     }
 
     sortTerms = (terms) => {
@@ -45,7 +45,7 @@ class TermFacetPane extends Component {
 
         const preprocessLabel = (stripPrefix ?
             (label) => {
-                _.toInteger(label.replace(/^([\d]+)-.*$/, '$1'))
+                return _.toInteger(label.replace(/^([\d]+)-.*$/, '$1'))
             }
             :
             _.identity
