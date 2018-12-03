@@ -144,7 +144,6 @@ class SelectionPane extends Component {
                 <ComponentClass
                     facet={facet}
                     facetValue={this.getFacetValue(facet)}
-                    valueFromTastic={this.props.valuesFromTastic}
                     selectFacetValue={this.props.selectFacetValue}
                     removeFacetValue={this.props.removeFacetValue}
                 />
@@ -169,8 +168,6 @@ SelectionPane.propTypes = {
     facets: PropTypes.array.isRequired,
     facetValues: PropTypes.object.isRequired,
     facetConfiguration: PropTypes.array.isRequired,
-
-    valuesFromTastic: PropTypes.bool.isRequired,
 
     show: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,

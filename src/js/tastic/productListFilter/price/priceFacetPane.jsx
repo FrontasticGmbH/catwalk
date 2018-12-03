@@ -15,22 +15,39 @@ class PriceFacetPane extends PureComponent {
         }
     }
 
-    static getDerivedStateFromProps = (props, state) => {
-        if (!state.range || !props.valueFromTastic) {
-            return {
-                range: [
-                    _.toInteger((props.facetValue || {}).min || props.facet.min),
-                    _.toInteger((props.facetValue || {}).max || props.facet.max),
-                ],
-            }
+    getCurrentRange = () => {
+        if (this.state.range) {
+            return this.state.range
         }
-        return null
+
+        return [
+            _.toInteger((this.props.facetValue || {}).min || this.props.facet.min),
+            _.toInteger((this.props.facetValue || {}).max || this.props.facet.max),
+        ]
+    }
+
+    startEditing = () => {
+        this.setState({
+            range: [
+                _.toInteger((this.props.facetValue || {}).min || this.props.facet.min),
+                _.toInteger((this.props.facetValue || {}).max || this.props.facet.max),
+            ],
+        })
+    }
+
+    finishEditing = () => {
+        this.updateFacet(this.state.range)
+        this.setState({
+            range: null,
+        })
     }
 
     render () {
-        let min = this.props.facet.min
-        let max = this.props.facet.max
-        let step = this.props.facet.step || 1
+        const min = this.props.facet.min
+        const max = this.props.facet.max
+        const step = this.props.facet.step || 1
+
+        const range = this.getCurrentRange()
 
         return (<div className='c-range-selector'>
             <form className='c-form' action=''>
@@ -42,11 +59,13 @@ class PriceFacetPane extends PureComponent {
                             name='price-range-min'
                             type='number'
                             className='c-form__input-text'
-                            value={(this.state.range[0] / 100).toFixed(2)}
+                            value={(range[0] / 100).toFixed(2)}
                             min={min / 100}
-                            max={this.state.range[1] / 100}
+                            max={range[1] / 100}
                             step={step / 100}
                             onChange={this.updateLower}
+                            onFocus={this.startEditing}
+                            onBlur={this.finishEditing}
                         />
                     </div>
 
@@ -55,11 +74,13 @@ class PriceFacetPane extends PureComponent {
                             name='price-range-max'
                             type='number'
                             className='c-form__input-text'
-                            value={(this.state.range[1] / 100).toFixed(2)}
-                            min={(this.state.range[0] / 100)}
+                            value={(range[1] / 100).toFixed(2)}
+                            min={(range[0] / 100)}
                             max={max / 100}
                             step={step / 100}
                             onChange={this.updateUpper}
+                            onFocus={this.startEditing}
+                            onBlur={this.finishEditing}
                         />
                     </div>
 
@@ -70,10 +91,16 @@ class PriceFacetPane extends PureComponent {
                         min={min}
                         max={max}
                         step={step}
-                        value={this.state.range}
+                        value={range}
                         allowCross={false}
                         onChange={(range) => {
                             this.updateRange(range)
+                        }}
+                        onBeforeChange={() => {
+                            this.startEditing()
+                        }}
+                        onAfterChange={() => {
+                            this.finishEditing()
                         }}
                         trackStyle={[{ backgroundColor: 'black' }, { backgroundColor: 'black' }]}
                         handleStyle={[{ borderColor: 'black' }, { borderColor: 'black' }]}
@@ -88,7 +115,7 @@ class PriceFacetPane extends PureComponent {
     updateRange = (range) => {
         this.setState({
             range: _.cloneDeep(range),
-        }, this.updateFacet)
+        })
     }
 
     updateLower = (e) => {
@@ -103,15 +130,15 @@ class PriceFacetPane extends PureComponent {
         this.updateRange(range)
     }
 
-    updateFacet = _.debounce(() => {
-        if (_.isEqual(this.state.range, [this.props.facet.min, this.props.facet.max])) {
+    updateFacet = _.throttle((range) => {
+        if (_.isEqual(range, [this.props.facet.min, this.props.facet.max])) {
             this.props.removeFacetValue(this.props.facet)
         } else {
             this.props.selectFacetValue(
                 this.props.facet,
                 {
-                    min: this.state.range[0],
-                    max: this.state.range[1],
+                    min: range[0],
+                    max: range[1],
                 }
             )
         }
@@ -120,10 +147,7 @@ class PriceFacetPane extends PureComponent {
 
 PriceFacetPane.propTypes = {
     facet: PropTypes.object.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     facetValue: PropTypes.object, // used in getDerivedStateFromProps() as props.
-    // eslint-disable-next-line react/no-unused-prop-types
-    valueFromTastic: PropTypes.bool, // used in getDerivedStateFromProps() as props.
     selectFacetValue: PropTypes.func.isRequired,
     removeFacetValue: PropTypes.func.isRequired,
 }

@@ -54,16 +54,10 @@ class ProductListFilterTastic extends Component {
                 selectFacetValue={this.selectFacetValue}
                 removeFacetValue={this.removeFacetValue}
                 facetValues={this.getFacetValues(this.props.tastic.configuration.stream)}
-                valuesFromTastic={!!this.props.route.historyState && this.props.route.historyState.comeFromTastic}
                 facetConfiguration={this.props.facets.data}
             />
 
         </Fragment>)
-    }
-
-    componentDidMount = () => {
-        // Indicate that we have processed the current URL
-        this.replaceUrl(this.getCurrentStreamParameters())
     }
 
     getFacetValues = (streamId) => {
@@ -107,15 +101,7 @@ class ProductListFilterTastic extends Component {
             s: streamParameters,
         })
 
-        app.getRouter().push(this.props.route.route, newParameters, { comeFromTastic: true })
-    }
-
-    replaceUrl = (streamParameters) => {
-        const newParameters = this.deriveRouteParameters({
-            s: streamParameters,
-        })
-
-        app.getRouter().replace(this.props.route.route, newParameters, { comeFromTastic: true })
+        app.getRouter().push(this.props.route.route, newParameters)
     }
 
     deriveRouteParameters = (updatedParameters) => {
