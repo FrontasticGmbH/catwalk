@@ -1,4 +1,7 @@
 import Entity from '../entity'
+import _ from 'lodash'
+
+import { ConfigurationSchema, FacetTypeSchemaMap } from 'frontastic-common'
 
 /**
  * Loader classes like this consolidate all loading monitors for a domain
@@ -33,7 +36,17 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             facets: Entity.purge(globalState.facets),
         }
     case 'Frontend.Facet.all.success':
-        facets = new Entity(action.data, 3600)
+        facets = new Entity(
+            _.map(action.data, (facetConfig) => {
+                let facetConfigNew = _.cloneDeep(facetConfig)
+                facetConfigNew.facetOptions = new ConfigurationSchema(
+                    FacetTypeSchemaMap[facetConfig.attributeType] || [],
+                    facetConfig.facetOptions
+                )
+                return facetConfigNew
+            }),
+            3600
+        )
 
         return {
             ...globalState,

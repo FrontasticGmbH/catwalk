@@ -58,7 +58,7 @@ class SelectionPane extends Component {
     viewModel = () => {
         return _.map(this.props.facetConfiguration, (facetConfig) => {
             return {
-                config: facetConfig,
+                config: _.cloneDeep(facetConfig),
                 facet: _.find(this.props.facets, { handle: facetConfig.attributeId }),
             }
         })
