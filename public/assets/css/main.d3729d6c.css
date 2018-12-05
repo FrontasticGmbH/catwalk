@@ -4797,7 +4797,7 @@ a:focus .c-button--secondary.c-button--disable-hover, .c-button--secondary.c-but
    ========================================================================== */
 .u-text {
   font-weight: 400 !important;
-  line-height: inital !important;
+  line-height: initial !important;
   color: #000 !important;
   text-decoration: none !important; }
 
