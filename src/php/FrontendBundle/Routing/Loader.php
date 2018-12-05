@@ -35,7 +35,7 @@ class Loader extends BaseLoader
                 new Route(
                     $route->route,
                     array(
-                        '_controller' => 'FrontasticCatwalkFrontendBundle:Node:view',
+                        '_controller' => sprintf('%s::viewAction', NodeController::class),
                         'nodeId' => $route->nodeId,
                     )
                 )
