@@ -31,7 +31,7 @@ class PageGateway
             "SELECT p
             FROM Frontastic\\Catwalk\\FrontendBundle\\Domain\\Page p
             WHERE p.node = :node AND (
-                p.state = 'default' OR (
+                p.state IN ('draft', 'default') OR (
                     p.state = 'scheduled' AND
                     :currentTimestamp BETWEEN p.scheduledFromTimestamp AND p.scheduledToTimestamp
                 )
