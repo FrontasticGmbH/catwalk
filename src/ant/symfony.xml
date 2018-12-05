@@ -6,9 +6,5 @@
         <exec executable="${executable.symfony}" failonerror="true" dir="${basedir}">
             <arg value="cache:clear" />
         </exec>
-
-        <exec executable="${executable.symfony}" failonerror="true" dir="${basedir}">
-            <arg value="frontastic:routes:rebuild" />
-        </exec>
     </target>
 </project>
