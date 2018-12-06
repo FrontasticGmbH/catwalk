@@ -2,16 +2,19 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\FrontendBundle\Domain\Cell;
+use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
+use Frontastic\Catwalk\FrontendBundle\Domain\Node;
+use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
+use Frontastic\Catwalk\FrontendBundle\Domain\Page;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
+use Frontastic\Catwalk\FrontendBundle\Domain\Region;
+use Frontastic\Catwalk\FrontendBundle\Domain\Tastic;
+use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Debug\Exception\FlattenException;
-
-use Frontastic\Catwalk\FrontendBundle\Domain\Node;
-use Frontastic\Catwalk\FrontendBundle\Domain\Page;
-use Frontastic\Catwalk\FrontendBundle\Domain\Region;
-use Frontastic\Catwalk\FrontendBundle\Domain\Cell;
-use Frontastic\Catwalk\FrontendBundle\Domain\Tastic;
-use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class ErrorController extends Controller
 {
@@ -28,10 +31,10 @@ class ErrorController extends Controller
 
     public function errorAction(Context $context, FlattenException $exception = null)
     {
-        $masterService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\MasterService');
-        $nodeService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\NodeService');
-        $dataProvider = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider');
-        $pageService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\PageService');
+        $masterService = $this->get(MasterService::class);
+        $nodeService = $this->get(NodeService::class);
+        $dataProvider = $this->get(ViewDataProvider::class);
+        $pageService = $this->get(PageService::class);
 
         try {
             $node = $nodeService->get(

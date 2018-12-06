@@ -2,22 +2,23 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
+use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
+use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-use Frontastic\Catwalk\FrontendBundle\Domain\Node;
-use Frontastic\Catwalk\FrontendBundle\Domain\Page;
-use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class CategoryController extends Controller
 {
     public function viewAction(Context $context, $id): array
     {
-        $pageMatcherService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\MasterService');
-        $nodeService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\NodeService');
-        $dataProvider = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider');
-        $pageService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\PageService');
+        $pageMatcherService = $this->get(MasterService::class);
+        $nodeService = $this->get(NodeService::class);
+        $dataProvider = $this->get(ViewDataProvider::class);
+        $pageService = $this->get(PageService::class);
 
         $node = $nodeService->get($pageMatcherService->matchNodeId(new PageMatcherContext(['categoryId' => $id])));
         $node->streams = $pageMatcherService->completeDefaultQuery(

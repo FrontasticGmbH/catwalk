@@ -2,12 +2,13 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-use Frontastic\Catwalk\FrontendBundle\Domain\Node;
-use Frontastic\Catwalk\FrontendBundle\Domain\Page;
-use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
+use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
+use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class CheckoutController extends Controller
 {
@@ -31,10 +32,10 @@ class CheckoutController extends Controller
 
     private function getNode(Context $context, PageMatcherContext $pageMatcherContext): array
     {
-        $masterService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\MasterService');
-        $nodeService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\NodeService');
-        $dataService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider');
-        $pageService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\PageService');
+        $masterService = $this->get(MasterService::class);
+        $nodeService = $this->get(NodeService::class);
+        $dataService = $this->get(ViewDataProvider::class);
+        $pageService = $this->get(PageService::class);
 
         $node = $nodeService->get(
             $masterService->matchNodeId($pageMatcherContext)

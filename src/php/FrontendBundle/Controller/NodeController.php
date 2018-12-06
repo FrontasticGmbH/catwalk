@@ -2,23 +2,22 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
-use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\FrontendBundle\Domain\Node;
+use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
+use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Frontastic\Common\ReplicatorBundle\Domain\Result;
-use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 
 class NodeController extends Controller
 {
     public function viewAction(Request $request, Context $context, string $nodeId): array
     {
-        $nodeService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\NodeService');
-        $pageService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\PageService');
-        $dataProvider = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider');
+        $nodeService = $this->get(NodeService::class);
+        $dataProvider = $this->get(ViewDataProvider::class);
+        $pageService = $this->get(PageService::class);
 
         $node = $nodeService->get($nodeId);
 
