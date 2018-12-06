@@ -36,6 +36,10 @@ class TermFacetPane extends Component {
     sortTerms = (terms) => {
         const options = this.props.facetConfig.facetOptions
 
+        if (!options.has('sortOrder')) {
+            return terms
+        }
+
         const sortOrder = options.get('sortOrder')
         const stripPrefix = options.get('stripLabelPrefix')
 
@@ -64,6 +68,10 @@ class TermFacetPane extends Component {
 
     removeLabelPrefix = (terms) => {
         const options = this.props.facetConfig.facetOptions
+
+        if (!options.has('stripLabelPrefix')) {
+            return terms
+        }
 
         const stripPrefix = options.get('stripLabelPrefix')
 
