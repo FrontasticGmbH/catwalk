@@ -40,7 +40,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             _.map(action.data, (facetConfig) => {
                 let facetConfigNew = _.cloneDeep(facetConfig)
                 facetConfigNew.facetOptions = new ConfigurationSchema(
-                    FacetTypeSchemaMap[facetConfig.attributeType] || [],
+                    (FacetTypeSchemaMap[facetConfig.attributeType] || {}).schema || [],
                     facetConfig.facetOptions
                 )
                 return facetConfigNew
