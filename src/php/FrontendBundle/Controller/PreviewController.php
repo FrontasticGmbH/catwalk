@@ -3,11 +3,17 @@
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
+use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Preview;
+use Frontastic\Catwalk\FrontendBundle\Domain\PreviewService;
+use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
+use Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier;
 use Frontastic\Common\ReplicatorBundle\Domain\Result;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,8 +28,8 @@ class PreviewController extends Controller
 {
     public function viewAction(Request $request, Context $context, string $preview): array
     {
-        $previewService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\PreviewService');
-        $dataProvider = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider');
+        $previewService = $this->get(PreviewService::class);
+        $dataProvider = $this->get(ViewDataProvider::class);
 
         // @TODO: Build query from request (facet selections, …))
         // $query = new Query();
@@ -95,7 +101,7 @@ class PreviewController extends Controller
                 break;
         }
 
-        $node->streams = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\MasterService')->completeDefaultQuery(
+        $node->streams = $this->get(MasterService::class)->completeDefaultQuery(
             $node->streams,
             $pageType,
             $itemId
@@ -105,10 +111,10 @@ class PreviewController extends Controller
     public function storeAction(Request $request): JsonResponse
     {
         try {
-            $requestVerifier = $this->get('Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier');
+            $requestVerifier = $this->get(RequestVerifier::class);
             $requestVerifier->ensure($request, $this->getParameter('secret'));
 
-            $previewService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\PreviewService');
+            $previewService = $this->get(PreviewService::class);
 
             if (!$request->getContent() ||
                 !($body = json_decode($request->getContent(), true))) {
@@ -122,12 +128,12 @@ class PreviewController extends Controller
                 $preview = new Preview(['previewId' => $previewId]);
             }
 
-            $nodeService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\NodeService');
+            $nodeService = $this->get(NodeService::class);
             if ($body['node']) {
                 $preview->node = $nodeService->fill(new Node(), $body['node']);
             }
 
-            $pageService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\PageService');
+            $pageService = $this->get(PageService::class);
             $preview->page = $pageService->fill(new Page(), $body['page']);
 
             $preview->createdAt = new \DateTime();

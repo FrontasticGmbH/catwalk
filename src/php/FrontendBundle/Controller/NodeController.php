@@ -45,7 +45,7 @@ class NodeController extends Controller
 
     public function treeAction(Request $request): Node
     {
-        $nodeService = $this->get('Frontastic\Catwalk\FrontendBundle\Domain\NodeService');
+        $nodeService = $this->get(NodeService::class);
         $root = $request->get('root', null);
         $depth = $request->get('depth', 1);
 
