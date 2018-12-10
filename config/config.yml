@@ -9,6 +9,16 @@ imports:
     - { resource: security.yml }
     - { resource: doctrine.yml }
 
+services:
+    session.memcache:
+        class: Memcached
+        calls:
+            - [ addServer, [ "%env(memcache_ip)%", "11211" ]]
+
+    session.handler.memcache:
+        class: 'Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler'
+        arguments: [ "@session.memcache", { prefix: "sessions_", expiretime: 86400 } ]
+
 framework:
     secret:          "%env(secret)%"
     router:
@@ -23,8 +33,8 @@ framework:
     default_locale:  "%env(locale)%"
     trusted_hosts:   ~
     session:
-        handler_id:  session.handler.native_file
-        save_path:   "%kernel.cache_dir%/sessions"
+        handler_id:  session.handler.memcache
+        name: 'FCSESSID0815'
     fragments:       ~
     http_method_override: true
     assets: ~
