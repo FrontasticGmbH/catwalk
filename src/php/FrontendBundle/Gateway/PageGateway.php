@@ -34,14 +34,14 @@ class PageGateway
         $query = $this->manager->createQuery(
             "SELECT p
             FROM Frontastic\\Catwalk\\FrontendBundle\\Domain\\Page p
-            WHERE 
-                p.node = :node AND 
-                p.isDeleted = 0 AND
+            WHERE
+                (p.node = :node) AND
+                (p.isDeleted = 0) AND
                 (
-                    p.state = 'default' OR
+                    (p.state = 'default') OR
                     (
-                        p.state = 'scheduled' AND
-                        :currentTimestamp BETWEEN p.scheduledFromTimestamp AND p.scheduledToTimestamp
+                        (p.state = 'scheduled') AND
+                        (:currentTimestamp BETWEEN p.scheduledFromTimestamp AND p.scheduledToTimestamp)
                     )
                 )
             ORDER BY p.state DESC, p.scheduledFromTimestamp DESC, p.scheduledToTimestamp ASC, p.sequence DESC"
