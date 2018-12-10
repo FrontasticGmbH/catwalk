@@ -27,6 +27,10 @@ class PageGateway
 
     public function fetchForNode(string $nodeId): Page
     {
+        /*
+         * `ORDER BY p.state DESC` sorts scheduled pages before the default page since 'scheduled' is after 'default' in
+         * the alphabet.
+         */
         $query = $this->manager->createQuery(
             "SELECT p
             FROM Frontastic\\Catwalk\\FrontendBundle\\Domain\\Page p
