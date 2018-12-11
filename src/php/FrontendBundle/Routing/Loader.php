@@ -6,6 +6,7 @@ use Symfony\Component\Config\Loader\Loader as BaseLoader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
+use Frontastic\Catwalk\FrontendBundle\Controller\NodeController;
 use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
 
 class Loader extends BaseLoader
