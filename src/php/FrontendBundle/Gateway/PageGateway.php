@@ -38,7 +38,7 @@ class PageGateway
                 p.node = :node AND 
                 p.isDeleted = 0 AND
                 (
-                    p.state IN ('draft', 'default') OR
+                    p.state = 'default' OR
                     (
                         p.state = 'scheduled' AND
                         :currentTimestamp BETWEEN p.scheduledFromTimestamp AND p.scheduledToTimestamp
