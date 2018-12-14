@@ -12,8 +12,11 @@
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\NodeController::treeAction</default>
     </route>
 
-    <route id="Frontastic.Frontend.Master.Product.view" path="/s/{slug}/{id}" methods="GET">
+    <route id="Frontastic.Frontend.Master.Product.view" path="/{url}/s/{id}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ProductController::viewAction</default>
+
+        <!-- explicitly allow / in urlParts -->
+        <requirement key="url">.+</requirement>
     </route>
 
     <route id="Frontastic.Frontend.Master.Category.view" path="/c/{id}/{slug}" methods="GET">

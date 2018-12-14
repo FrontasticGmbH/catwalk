@@ -17,10 +17,11 @@ class MoleculesProductTeaser extends Component {
         let variant = this.props.variant || product.variants[0]
 
         return (<article className='c-teaser o-block' itemScope itemType='http://schema.org/Product'>
+            {/* FIXME: Temporarily set slug as url */}
             <Link itemProp='url'
                 className='c-teaser__full-link'
                 route='Frontastic.Frontend.Master.Product.view'
-                params={{ id: product.productId, slug: product.slug }}>
+                params={{ id: product.productId, urlParts: product.slug }}>
                 <figure className='c-teaser__figure o-block__figure'>
                     <RemoteImage
                         className='c-teaser__image'
