@@ -25,7 +25,7 @@ let Router = function (history, routes = {}, context = null) {
 
         let keys = []
         let matches = false
-        while ((matches = this.parameterMatcher.exec(this.routes[route]))) { // eslint-disable-line no-cond-assign
+        while ((matches = this.parameterMatcher.exec(this.routes[route].path))) { // eslint-disable-line no-cond-assign
             keys.push(matches[1])
         }
 
@@ -46,7 +46,7 @@ let Router = function (history, routes = {}, context = null) {
                 function (link, key) {
                     return link.replace('{' + key + '}', allParameters[key])
                 },
-                this.routes[route]
+                this.routes[route].path
             ),
             search: search,
         }
@@ -95,16 +95,22 @@ let Router = function (history, routes = {}, context = null) {
 
         let keys = []
         let matches = false
-        while ((matches = this.parameterMatcher.exec(this.routes[route]))) { // eslint-disable-line no-cond-assign
+        while ((matches = this.parameterMatcher.exec(this.routes[route].path))) { // eslint-disable-line no-cond-assign
             keys.push(matches[1])
         }
+
+        const requirements = this.routes[route].requirements || {}
 
         return _.reduce(
             keys,
             function (link, key) {
-                return link.replace('{' + key + '}', ':' + key)
+                let keyRequirement = ''
+                if (requirements[key]) {
+                    keyRequirement = '(' + requirements[key] + ')'
+                }
+                return link.replace('{' + key + '}', ':' + key + keyRequirement)
             },
-            this.routes[route]
+            this.routes[route].path
         )
     }
 

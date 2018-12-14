@@ -115,8 +115,11 @@ class ContextService
             'currency' => 'EUR',
             'session' => $session ?: new Session(),
             'routes' => array_map(
-                function (Route $route): string {
-                    return $route->getPath();
+                function (Route $route): object {
+                    return (object) [
+                        'path' => $route->getPath(),
+                        'requirements' => (object) $route->getRequirements(),
+                    ];
                 },
                 iterator_to_array($this->router->getRouteCollection())
             ),
