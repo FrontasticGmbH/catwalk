@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import RoutePattern from 'route-pattern'
+import { matchPath } from 'react-router'
 import levenshtein from 'fast-levenshtein'
 
 import { httpBuildQuery } from 'frontastic-common'
@@ -59,13 +59,12 @@ let Router = function (history, routes = {}, context = null) {
 
     this.match = function (path) {
         for (let route in this.routes) {
-            // @TODO: Cache route to pattern compilation?
-            let pattern = RoutePattern.fromString(this.reactRoute(route))
+            let matchResult = matchPath(path, this.reactRoute(route))
 
-            if (pattern.matches(path)) {
+            if (matchResult) {
                 return {
                     route: route,
-                    parameters: pattern.match(path).namedParams || {},
+                    parameters: matchResult.params,
                 }
             }
         }
