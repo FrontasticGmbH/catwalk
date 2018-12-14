@@ -13,6 +13,12 @@
 
         <prototype namespace="Frontastic\Catwalk\FrontendBundle\Command\" resource="../../Command" autoconfigure="true" />
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Routing\UrlGenerator">
+            <argument type="service" id="router" />
+
+            <tag name="frontastic.json_serializer.enhancer" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService" />
