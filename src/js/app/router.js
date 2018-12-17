@@ -59,7 +59,13 @@ let Router = function (history, routes = {}, context = null) {
 
     this.match = function (path) {
         for (let route in this.routes) {
-            let matchResult = matchPath(path, this.reactRoute(route))
+            let matchResult = matchPath(
+                path,
+                {
+                    path: this.reactRoute(route),
+                    exact: true,
+                }
+            )
 
             if (matchResult) {
                 return {
