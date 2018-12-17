@@ -29,16 +29,15 @@ class ProductRouter
                     // Just for testing, no need in the future
                     '-' => '/'
                 ]),
-                'id' => $product->productId,
+                'identifier' => $product->variants[0]->sku,
             ]
         );
     }
 
     public function parseQueryFrom(Request $request)
     {
-
         return new ProductQuery([
-            'productId' => $request->get('id'),
+            'sku' => $request->attributes->get('identifier'),
         ]);
     }
 }
