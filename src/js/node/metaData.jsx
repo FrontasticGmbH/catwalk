@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 
 class MetaData extends Component {
     render () {
-        // Make title template configurable
+        // TODO: Make title template configurable
         return (<Fragment>
             <Helmet titleTemplate='%s | Apollo'>
                 <title>{this.generateTitle()}</title>
