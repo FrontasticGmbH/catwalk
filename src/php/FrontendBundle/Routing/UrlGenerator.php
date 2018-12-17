@@ -8,14 +8,18 @@ use Symfony\Component\Routing\Router;
 
 class UrlGenerator implements ObjectEnhancer
 {
-    /**
-     * @var Router
-     */
-    private $router;
+    private $objectRouterMap = [];
 
-    public function __construct(Router $router)
+    public function __construct(array $objectRouterMap = [])
     {
-        $this->router = $router;
+        foreach ($objectRouterMap as $class => $router) {
+            $this->registerRouter($class, $router);
+        }
+    }
+
+    public function registerRouter(string $class, $router): void
+    {
+        $this->objectRouterMap[$class] = $router;
     }
 
     /**
@@ -24,27 +28,14 @@ class UrlGenerator implements ObjectEnhancer
      */
     public function enhance($object): array
     {
-        if ($object instanceof Product) {
-            return [
-                '_url' => $this->generateProductUrl($object),
-            ];
+        $class = get_class($object);
+
+        if (!isset($this->objectRouterMap[$class])) {
+            return [];
         }
 
-        return [];
-    }
-
-    private function generateProductUrl(Product $product): string
-    {
-        return $this->router->generate(
-            'Frontastic.Frontend.Master.Product.view',
-            [
-                'url' => strtr($product->slug, [
-                    '_' => '/',
-                    // Just for testing, no need in the future
-                    '-' => '/'
-                ]),
-                'id' => $product->productId,
-            ]
-        );
+        return [
+            '_url' => $this->objectRouterMap[$class]->generateUrlFor($object),
+        ];
     }
 }
