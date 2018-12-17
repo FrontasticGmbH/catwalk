@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 import ComponentInjector from '../../../app/injector'
 
@@ -7,7 +8,6 @@ import fixture from '../../fixture'
 
 import AtomsPrice from '../../atoms/prices/price'
 
-import Link from '../../../app/link'
 import NoImage from '../../../../layout/noImage.svg'
 import RemoteImage from '../../../remoteImage'
 
@@ -18,10 +18,8 @@ class MoleculesProductTeaser extends Component {
 
         return (<article className='c-teaser o-block' itemScope itemType='http://schema.org/Product'>
             {/* FIXME: Temporarily set slug as url */}
-            <Link itemProp='url'
-                className='c-teaser__full-link'
-                route='Frontastic.Frontend.Master.Product.view'
-                params={{ id: product.productId, urlParts: product.slug }}>
+            <Link itemProp='url' className='c-teaser__full-link'
+                  to={this.props.product._url}>
                 <figure className='c-teaser__figure o-block__figure'>
                     <RemoteImage
                         className='c-teaser__image'
