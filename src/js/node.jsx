@@ -5,6 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 
 import Entity from './app/entity'
 import Loading from './app/loading'
+import MetaData from './node/metaData'
 
 import Page from './page/page'
 
@@ -26,6 +27,11 @@ class Node extends Component {
                 <Scrollbars autoHide style={{ height: '100vh', width: '100vw' }} ref={(element) => {
                     this.scrollable = element
                 }}>
+                    <MetaData
+                        node={this.props.node.data || { configuration: {} }}
+                        page={this.props.page.data || {}}
+                        data={this.props.data.data || {}}
+                    />
                     <Page
                         node={this.props.node.data || { configuration: {} }}
                         page={this.props.page.data || {}}
