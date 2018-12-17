@@ -2,7 +2,6 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Routing;
 
-use Frontastic\Catwalk\FrontendBundle\Controller\NodeController;
 use Symfony\Component\Config\Loader\Loader as BaseLoader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
