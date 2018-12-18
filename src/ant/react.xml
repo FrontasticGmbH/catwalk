@@ -59,7 +59,7 @@
     <target name="react:check" unless="${production}" extensionOf="-test-static:main~hook">
         <tool-exists executable="yarn" />
 
-        <exec executable="yarn" failonerror="true" dir="${basedir}">
+        <exec executable="yarn" failonerror="${test_static_checkstyle_fail_on_violation}" dir="${basedir}">
             <env key="CI" value="true" />
 
             <arg value="run" />
