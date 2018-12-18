@@ -81,6 +81,7 @@ export default {
         name: LoremIpsum.heading(1, 3),
         productId: 'test-product',
         slug: 'test-product',
+		_url: '/',
         variants: [
             {
                 attributes: {
