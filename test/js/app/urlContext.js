@@ -27,3 +27,12 @@ it('it does not filter parameters starting with s', () => {
         server: 'foo',
     })
 })
+
+it('it filters the nocrawl parameter', () => {
+    expect(UrlContext.getActionParameters({
+        relevantParameter: 'foo',
+        nocrawl: '1',
+    })).toEqual({
+        relevantParameter: 'foo',
+    })
+})
