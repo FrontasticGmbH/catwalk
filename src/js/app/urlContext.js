@@ -7,14 +7,24 @@ import _ from 'lodash'
  * class allows working with action and non-action specific parameters.
  */
 class UrlContext {
+    static parameterKeyFilter = /^(s|_.*)$/
+
     static getActionHash = (parameters) => {
         return JSON.stringify(UrlContext.getActionParameters(parameters))
     }
 
     static getActionParameters = (parameters) => {
-        return _.pickBy(parameters, (value, key) => {
-            return (key.charAt(0) !== '_')
-        })
+        return _.pickBy(
+            parameters,
+            /**
+             * @param {*} value
+             * @param {string} key
+             * @returns {boolean}
+             */
+            (value, key) => {
+                return (key.match(UrlContext.parameterKeyFilter) === null)
+            }
+        )
     }
 
     static hasChanged = (lastRoute, route) => {

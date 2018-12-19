@@ -8,3 +8,22 @@ it('it filters _ parameters', () => {
         relevantParameter: 'foo',
     })
 })
+
+it('it filters the s parameter', () => {
+    expect(UrlContext.getActionParameters({
+        relevantParameter: 'foo',
+        s: {
+            foo: 'bar',
+        },
+    })).toEqual({
+        relevantParameter: 'foo',
+    })
+})
+
+it('it does not filter parameters starting with s', () => {
+    expect(UrlContext.getActionParameters({
+        server: 'foo',
+    })).toEqual({
+        server: 'foo',
+    })
+})
