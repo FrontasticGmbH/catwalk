@@ -13,8 +13,9 @@ let UrlHandler = function (route, streamConfigurations) {
 
     /**
      * @param {manipulatorCallback} manipulator
+     * @return {Object<string,*>}
      */
-    this.getParameters = (manipulator) => {
+    this.deriveParameters = (manipulator) => {
         const urlState = new UrlState(
             _.cloneDeep(this.route.getParameters()),
             this.streamConfigurations

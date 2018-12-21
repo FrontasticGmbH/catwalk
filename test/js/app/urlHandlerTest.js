@@ -22,7 +22,7 @@ it('it creates new parameters', () => {
         ]
     )
 
-    const outputParameters = handler.getParameters((urlState) => {
+    const outputParameters = handler.deriveParameters((urlState) => {
         expect(urlState).toBeInstanceOf(UrlState)
 
         urlState.getStream('someStream').setOffset(23)
