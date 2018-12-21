@@ -52,26 +52,33 @@ class ProductList extends StreamHandler
         );
 
         $queryParameters['facets'] = [];
-        foreach ($rawFacets as $facetConfig) {
-            $queryParameters['facets'][] = $this->createFacet($facetConfig);
+        foreach ($rawFacets as $facetHandle => $facetConfig) {
+            $queryParameters['facets'][] = $this->createFacet($facetHandle, $facetConfig);
         }
 
         return new ProductQuery($queryParameters);
     }
 
-    private function createFacet(array $facetConfig) : ProductApi\Query\Facet
+    /**
+     * @param string $facetHandle
+     * @param array $facetConfig
+     * @return ProductApi\Query\Facet
+     */
+    private function createFacet($facetHandle, array $facetConfig) : ProductApi\Query\Facet
     {
-        $facetType = $facetConfig['type'];
-        unset($facetConfig['type']);
+        $facetConfig['handle'] = $facetHandle;
 
-        switch ($facetType) {
-            case ProductApi\Facets::TYPE_RANGE:
+        // TODO: Extract into factory in ProductApi?
+
+        switch (true) {
+            case (isset($facetConfig['min']) || isset($facetConfig['max'])):
                 return new ProductApi\Query\RangeFacet($facetConfig);
 
-            case ProductApi\Facets::TYPE_TERM:
+            case (isset($facetConfig['terms'])):
                 return new ProductApi\Query\TermFacet($facetConfig);
-        }
 
-        throw new \RuntimeException("Unknown facet type '{$facetType}'");
+            default:
+                throw new \RuntimeException("Unknown facet type for '{$facetHandle}'");
+        }
     }
 }
