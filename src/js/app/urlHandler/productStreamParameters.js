@@ -2,11 +2,12 @@ import _ from 'lodash'
 
 /**
  * @param {Object} parameters
- * @param {Object} streamConfiguration
+ * @param {boolean} isReadOnly
  * @constructor
  */
-let ProductStreamParameters = function (parameters) {
+let ProductStreamParameters = function (parameters, isReadOnly = true) {
     this.parameters = parameters
+    this.isReadOnly = isReadOnly
 
     /**
      * @return {Object}
@@ -27,6 +28,7 @@ let ProductStreamParameters = function (parameters) {
      * @param {*} value
      */
     this.setFilter = (filterHandle, value) => {
+        this.assertWriteMode()
         if (!this.parameters.facets) {
             this.parameters.facets = {}
         }
@@ -37,6 +39,7 @@ let ProductStreamParameters = function (parameters) {
      * @param {string} filterHandle
      */
     this.removeFilter = (filterHandle) => {
+        this.assertWriteMode()
         if (!this.parameters.facets) {
             return
         }
@@ -52,10 +55,17 @@ let ProductStreamParameters = function (parameters) {
      * @param {int} offset
      */
     this.setOffset = (offset = 0) => {
+        this.assertWriteMode()
         if (offset === 0) {
             delete this.parameters.offset
         } else {
             this.parameters.offset = offset
+        }
+    }
+
+    this.assertWriteMode = () => {
+        if (this.isReadOnly) {
+            throw new Error('Parameters cannot be manipulated. Use UrlHandler.deriveParameters().')
         }
     }
 }

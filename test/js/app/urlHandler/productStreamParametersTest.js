@@ -2,7 +2,7 @@ import ProductStreamParameters from '../../../../src/js/app/urlHandler/productSt
 import UrlState from '../../../../src/js/app/urlHandler/urlState'
 
 test('is sets filter value correctly', () => {
-    let parameters = new ProductStreamParameters({})
+    let parameters = new ProductStreamParameters({}, false)
 
     parameters.setFilter('color', 'red')
 
@@ -18,7 +18,7 @@ test('it removes filter value correctly', () => {
         facets: {
             color: 'red',
         },
-    })
+    }, false)
 
     parameters.removeFilter('color')
 
@@ -26,7 +26,7 @@ test('it removes filter value correctly', () => {
 })
 
 test('it sets offset correctly', () => {
-    let parameters = new ProductStreamParameters({})
+    let parameters = new ProductStreamParameters({}, false)
 
     parameters.setOffset(23)
 
@@ -36,7 +36,7 @@ test('it sets offset correctly', () => {
 })
 
 test('it removes offset correctly', () => {
-    let parameters = new ProductStreamParameters({})
+    let parameters = new ProductStreamParameters({}, false)
 
     parameters.setOffset()
 
@@ -44,7 +44,7 @@ test('it removes offset correctly', () => {
 })
 
 test('it detects filters as non-crawlable', () => {
-    let parameters = new ProductStreamParameters({})
+    let parameters = new ProductStreamParameters({}, false)
 
     parameters.setFilter('color', 'red')
 
@@ -52,7 +52,7 @@ test('it detects filters as non-crawlable', () => {
 })
 
 test('it detects filters as non-crawlable with offset', () => {
-    let parameters = new ProductStreamParameters({})
+    let parameters = new ProductStreamParameters({}, false)
 
     parameters.setFilter('color', 'red')
     parameters.setOffset(23)
@@ -61,15 +61,30 @@ test('it detects filters as non-crawlable with offset', () => {
 })
 
 test('it detects empty as crawlable', () => {
-    let parameters = new ProductStreamParameters({})
+    let parameters = new ProductStreamParameters({}, false)
 
     expect(parameters.isCrawlable()).toBe(true)
 })
 
 test('it detects offset only as crawlable', () => {
-    let parameters = new ProductStreamParameters({})
+    let parameters = new ProductStreamParameters({}, false)
 
     parameters.setOffset(23)
 
     expect(parameters.isCrawlable()).toBe(true)
+})
+
+test('it throws when attempt to change in readonly mode', () => {
+    let parameters = new ProductStreamParameters({})
+
+    expect(() => {
+        parameters.setOffset(23)
+    }).toThrow()
+})
+
+test('it does not throw when just reading in readonly mode', () => {
+    let parameters = new ProductStreamParameters({})
+
+    expect(parameters.getParameters()).toBeInstanceOf(Object)
+    expect(parameters.isCrawlable()).toBeDefined()
 })

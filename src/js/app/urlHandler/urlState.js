@@ -23,7 +23,7 @@ const UrlState = function (parameters, streamConfigurations) {
             // @TODO: Make injectable
             return new ProductStreamParameters(
                 (parameters.s || {})[streamConfiguration.streamId] || {},
-                streamConfiguration
+                false
             )
         }
     )
