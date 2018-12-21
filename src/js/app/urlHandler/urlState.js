@@ -1,13 +1,14 @@
 
 import _ from 'lodash'
 import ProductStreamParameters from './productStreamParameters'
+import ParameterHandlerFactory from './parameterHandlerFactory'
 
 /**
- * @param {Object} parameters
- * @param {Object[]} streamConfigurations
+ * @param {Object<string, *>} parameters
+ * @param {ParameterHandlerFactory} parameterHandlerFactory
  * @constructor
  */
-const UrlState = function (parameters, streamConfigurations) {
+const UrlState = function (parameters, parameterHandlerFactory) {
     /**
      * @private
      * @type {Object}
@@ -15,18 +16,9 @@ const UrlState = function (parameters, streamConfigurations) {
     this.parameters = parameters
     /**
      * @private
-     * @type {Object{ProductStreamParameters}}
+     * @type {Object<string, ProductStreamParameters>}
      */
-    this.streamMap = _.mapValues(
-        _.keyBy(streamConfigurations, 'streamId'),
-        (streamConfiguration) => {
-            // @TODO: Make injectable
-            return new ProductStreamParameters(
-                (parameters.s || {})[streamConfiguration.streamId] || {},
-                false
-            )
-        }
-    )
+    this.streamMap = parameterHandlerFactory.createParameterHandlerMap(parameters)
 
     /**
      * @param {string} streamId

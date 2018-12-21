@@ -1,12 +1,13 @@
+import _ from 'lodash'
+
+import ParameterHandlerFactory from '../../../../src/js/app/urlHandler/parameterHandlerFactory'
 import ProductStreamParameters from '../../../../src/js/app/urlHandler/productStreamParameters'
 import UrlState from '../../../../src/js/app/urlHandler/urlState'
 
 test('it creates stream parameters', () => {
     const urlState = new UrlState(
         {},
-        [
-            { streamId: 'foo', }
-        ]
+        createParameterHandlerFactory()
     )
 
     expect(urlState.getStream('foo')).toBeInstanceOf(ProductStreamParameters)
@@ -15,9 +16,7 @@ test('it creates stream parameters', () => {
 test('it errors on missing stream', () => {
     const urlState = new UrlState(
         {},
-        [
-            { streamId: 'foo', }
-        ]
+        createParameterHandlerFactory()
     )
 
     expect(() => {
@@ -35,10 +34,7 @@ test('it collects parameters', () => {
                 },
             },
         },
-        [
-            { streamId: 'foo', },
-            { streamId: 'bar', },
-        ]
+        createParameterHandlerFactory(['foo', 'bar'])
     )
 
     expect(urlState.getParameters()).toEqual({
@@ -61,9 +57,7 @@ test('it sets nocrawl parameter', () => {
                 },
             },
         },
-        [
-            { streamId: 'foo', },
-        ]
+        createParameterHandlerFactory()
     )
 
     expect(urlState.getParameters()).toMatchObject({
@@ -81,12 +75,25 @@ test('it remove nocrawl parameter', () => {
                 },
             },
         },
-        [
-            { streamId: 'foo', },
-        ]
+        createParameterHandlerFactory()
     )
 
     expect(urlState.getParameters()).not.toMatchObject({
         nocrawl: '1',
     })
 })
+
+/**
+ * @param {string[]} streamIds
+ * @return {ParameterHandlerFactory}
+ */
+const createParameterHandlerFactory = (streamIds = ['foo']) => {
+    return new ParameterHandlerFactory(
+        _.map(streamIds, (streamId) => {
+            return {
+                streamId: streamId,
+            }
+        }),
+        false
+    )
+}
