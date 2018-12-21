@@ -3,14 +3,16 @@ import _ from 'lodash'
 import Route from './route'
 import UrlState from './urlHandler/urlState'
 import ParameterHandlerFactory from './urlHandler/parameterHandlerFactory'
+import ProductStreamParameters from './urlHandler/productStreamParameters'
 /**
  * @param {Route} route
- * @param {object} streamConfigurations
+ * @param {Object<string, *>} streamConfigurations
  * @constructor
  */
 let UrlHandler = function (route, streamConfigurations) {
     this.route = route
     this.streamConfigurations = streamConfigurations
+    this.parameterReaderFactory = new ParameterHandlerFactory(streamConfigurations)
 
     /**
      * @param {manipulatorCallback} manipulator
@@ -27,6 +29,13 @@ let UrlHandler = function (route, streamConfigurations) {
         return urlState.getParameters()
     }
 
+    /**
+     * @param {string} streamId
+     * @return {ProductStreamParameters}
+     */
+    this.parameterReader = (streamId) => {
+        return this.parameterReaderFactory.createParameterHandler(streamId)
+    }
 }
 
 export default UrlHandler
