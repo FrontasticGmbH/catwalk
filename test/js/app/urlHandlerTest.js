@@ -11,9 +11,7 @@ it('it creates new parameters', () => {
     const originalInputParemeters = _.cloneDeep(inputParameters)
 
     const routeMock = jest.genMockFromModule('../../../src/js/app/route').default
-    routeMock.getParameters = jest.fn(() => {
-        return inputParameters
-    })
+    routeMock.parameters = inputParameters
 
     const handler = new UrlHandler(
         routeMock,

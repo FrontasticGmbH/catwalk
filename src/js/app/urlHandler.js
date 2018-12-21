@@ -20,7 +20,7 @@ let UrlHandler = function (route, streamConfigurations) {
      */
     this.deriveParameters = (manipulator) => {
         const urlState = new UrlState(
-            _.cloneDeep(this.route.getParameters()),
+            _.cloneDeep(this.route.parameters),
             new ParameterHandlerFactory(this.streamConfigurations, false)
         )
 
@@ -34,7 +34,7 @@ let UrlHandler = function (route, streamConfigurations) {
      * @return {ProductStreamParameters}
      */
     this.parameterReader = (streamId) => {
-        return this.parameterReaderFactory.createParameterHandler(streamId)
+        return this.parameterReaderFactory.createParameterHandler(streamId, this.route.parameters)
     }
 }
 
