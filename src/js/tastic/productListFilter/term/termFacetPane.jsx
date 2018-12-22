@@ -2,22 +2,29 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
-import toggleTerm from '../toggleTerm'
-
 class TermFacetPane extends Component {
     render () {
         const facet = this.props.facet
 
-        // TODO: Handle term selection state through URL provided facetValue
         return (<ul className='c-tableview'>
             {_.map(
                 this.getTerms(),
                 (term) => {
                     return (<li key={term.handle} className='c-tableview__cell'>
                         <button
-                            className={'c-button c-tableview__button' + (term.selected ? ' is-active' : '')}
+                            className={'c-button c-tableview__button' + (this.getValue().terms.includes(term.handle) ? ' is-active' : '')}
                             onClick={() => {
-                                toggleTerm(facet, term, this.props.selectFacetValue, this.props.removeFacetValue)
+                                const newTerms = _.clone(this.getValue().terms)
+                                if (newTerms.includes(term.handle)) {
+                                    _.pull(newTerms, term.handle)
+                                } else {
+                                    newTerms.push(term.handle)
+                                }
+                                if (_.isEmpty(newTerms)) {
+                                    this.props.removeFacetValue(facet)
+                                } else {
+                                    this.props.selectFacetValue(facet, { terms: newTerms })
+                                }
                             }}>
                             {term.name}
                         </button>
@@ -31,6 +38,15 @@ class TermFacetPane extends Component {
         let terms = _.cloneDeep(this.props.facet.terms)
         terms = this.sortTerms(terms)
         return this.removeLabelPrefix(terms)
+    }
+
+    getValue = () => {
+        let currentValue = this.props.facetValue || { terms: [] }
+        // FIXME: Workaround for HTTP query parsing bug
+        if (!_.isArray(currentValue.terms)) {
+            currentValue.terms = _.values(currentValue.terms)
+        }
+        return currentValue
     }
 
     sortTerms = (terms) => {
@@ -89,11 +105,14 @@ class TermFacetPane extends Component {
 TermFacetPane.propTypes = {
     facet: PropTypes.object.isRequired,
     facetConfig: PropTypes.object.isRequired,
-    // facetValue: PropTypes.object,
+    // FIXME: Workaround for HTTP query parsing bug
+    facetValue: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     selectFacetValue: PropTypes.func.isRequired,
     removeFacetValue: PropTypes.func.isRequired,
 }
 
-TermFacetPane.defaultProps = {}
+TermFacetPane.defaultProps = {
+    facetValue: [],
+}
 
 export default TermFacetPane

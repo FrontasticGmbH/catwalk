@@ -4,15 +4,15 @@ import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import Entity from '../../app/entity'
+import UrlHandler from '../../app/urlHandler'
 
 import SvgIcon from '../../patterns/atoms/icons/icon'
 import SelectionPane from './selectionPane'
 
-import toggleTerm from './toggleTerm'
-
 import app from '../../app/app'
 import facetConnector from '../../app/connector/facet'
 import categoryConnector from '../../app/connector/category'
+import urlHandlerConnector from '../../app/connector/urlHandler'
 
 class ProductListFilterTastic extends Component {
     constructor (props) {
@@ -61,60 +61,26 @@ class ProductListFilterTastic extends Component {
     }
 
     getFacetValues = (streamId) => {
-        if (this.props.streamParameters[streamId]) {
-            return this.props.streamParameters[streamId].facets || {}
+        if (!this.props.urlHandler) {
+            return {}
         }
-        return {}
+        return this.props.urlHandler.parameterReader(streamId).getParameters().facets || {}
     }
 
     selectFacetValue = (facet, value) => {
-        let streamParameters = this.getCurrentStreamParameters()
+        const parameters = this.props.urlHandler.deriveParameters((urlState) => {
+            urlState.getStream(this.props.tastic.configuration.stream).setFilter(facet.handle, value)
+        })
 
-        _.set(
-            streamParameters,
-            [this.props.tastic.configuration.stream, 'facets', facet.handle],
-            _.extend(
-                {
-                    type: facet.type,
-                    handle: facet.handle,
-                },
-                value
-            )
-        )
-
-        this.updateUrl(streamParameters)
+        app.getRouter().push(this.props.route.route, parameters)
     }
 
     removeFacetValue = (facet) => {
-        let streamParameters = this.getCurrentStreamParameters()
-
-        _.unset(
-            streamParameters,
-            [this.props.tastic.configuration.stream, 'facets', facet.handle],
-        )
-
-        this.updateUrl(streamParameters)
-    }
-
-    updateUrl = (streamParameters) => {
-        const newParameters = this.deriveRouteParameters({
-            s: streamParameters,
+        const parameters = this.props.urlHandler.deriveParameters((urlState) => {
+            urlState.getStream(this.props.tastic.configuration.stream).removeFilter(facet.handle)
         })
 
-        app.getRouter().push(this.props.route.route, newParameters)
-    }
-
-    deriveRouteParameters = (updatedParameters) => {
-        return _.extend(
-            {},
-            // nodeId comes from route itself already
-            _.omit(this.props.route.parameters, ['nodeId', 'environment', 'project', 'locale']),
-            updatedParameters
-        )
-    }
-
-    getCurrentStreamParameters = () => {
-        return _.cloneDeep(this.props.route.parameters.s || {})
+        app.getRouter().push(this.props.route.route, parameters)
     }
 
     closeFilterSelection = () => {
@@ -149,7 +115,17 @@ class ProductListFilterTastic extends Component {
                                 id={'filter-' + term.handle}
                                 value={term.selected}
                                 onChange={(e) => {
-                                    toggleTerm(categoryFacet, term, this.selectFacetValue, this.removeFacetValue)
+                                    const newTerms = _.clone(this.getCategoryFacetValue(categoryFacet).terms)
+                                    if (newTerms.includes(term.handle)) {
+                                        _.pull(newTerms, term.handle)
+                                    } else {
+                                        newTerms.push(term.handle)
+                                    }
+                                    if (_.isEmpty(newTerms)) {
+                                        this.props.removeFacetValue(categoryFacet)
+                                    } else {
+                                        this.props.selectFacetValue(categoryFacet, { terms: newTerms })
+                                    }
                                 }}
                             />
                             <span className='c-filter-bar__button'>{term.name}</span>
@@ -158,6 +134,16 @@ class ProductListFilterTastic extends Component {
                 })}
             </fieldset>
         </div>)
+    }
+
+    getCategoryFacetValue = (categoryFacet) => {
+        let currentValues = this.getFacetValues(this.props.tastic.configuration.stream)
+        let currentValue = currentValues[categoryFacet.handle] || { termis: [] }
+        // FIXME: Workaround for HTTP query parsing bug
+        if (!_.isArray(currentValue.terms)) {
+            currentValue.terms = _.values(currentValue.terms)
+        }
+        return currentValue
     }
 
     filterCategoryTerms = (terms) => {
@@ -211,6 +197,7 @@ ProductListFilterTastic.propTypes = {
     tastic: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     streamParameters: PropTypes.object.isRequired,
+    urlHandler: PropTypes.instanceOf(UrlHandler),
     // Facet definition as provided by Frontastic
     facets: PropTypes.instanceOf(Entity).isRequired,
     categories: PropTypes.instanceOf(Entity).isRequired,
@@ -222,6 +209,7 @@ ProductListFilterTastic.defaultProps = {
 export default compose(
     connect(facetConnector),
     connect(categoryConnector),
+    connect(urlHandlerConnector),
     connect((globalState) => {
         let streamParameters = globalState.app.route.parameters.s || {}
 
