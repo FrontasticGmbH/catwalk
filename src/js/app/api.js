@@ -21,6 +21,11 @@ let Api = function (router, store) {
     }
 
     this.request = function (method, route, parameters = {}, body = null, success = null, error = null) { // eslint-disable-line
+        if (this.router.context.environment === 'local') {
+            // Do not try to fetch any data when running in local environment
+            return
+        }
+
         parameters = parameters || {}
         fetch(
             this.router.path(route, parameters),
