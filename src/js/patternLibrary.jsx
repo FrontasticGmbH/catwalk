@@ -31,15 +31,15 @@ class PatternLibrary extends Component {
         const sizes = {
             hand: {
                 minimum: 360,
-                maximum: 500,
+                maximum: 768,
             },
             lap: {
-                minimum: 500,
-                maximum: 800,
+                minimum: 769,
+                maximum: 1280,
             },
             desk: {
-                minimum: 800,
-                maximum: 1280,
+                minimum: 1280,
+                maximum: 1920,
             },
         }
 
