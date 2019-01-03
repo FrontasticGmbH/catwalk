@@ -144,25 +144,6 @@ $headerHeight: (($fs-base * $lh-default) + (2 * $unit-small));
     color: $color-text;
 }
 
-.c-patterns__handle {
-    display: block;
-    position: absolute;
-    top: calc(50% + (#{$headerHeight} / 2));
-    left: calc(50% + (375px / 2));
-    transition: left 125ms ease-in-out;
-
-    transform: translateY(-50%);
-
-    height: 64px;
-    width: 12px;
-    cursor: ew-resize;
-
-    border: 1px solid $color-gray-dark;
-    border-radius: 0px 3px 3px 0px;
-    background-color: $color-gray;
-    box-shadow: 1px 2px 2px 0px rgba(0, 0, 0, 0.3), 1px 3px 1px -2px rgba(0, 0, 0, 0.1);
-}
-
 .c-patterns__title {
     border-bottom: 1px solid $color-gray;
     text-align: center;

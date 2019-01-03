@@ -17,54 +17,14 @@ class PatternLibrary extends Component {
         this.state = {
             category: null,
             size: 'hand',
-            width: 375,
             highlight: null,
             showLinks: false,
         }
     }
 
     selectPattern (pattern) {
-        app.getRouter().replace('Frontastic.Frontend.PatternLibrary.overview', { pattern: pattern })
+        app.getRouter().replace('Frontastic.Frontend.PatternLibrary.overview', { pattern: pattern, w: this.props.width })
         this.setState({ category: null })
-    }
-
-    handleStart = (event) => {
-        document.addEventListener('mousemove', this.handleDrag)
-        document.addEventListener('mouseup', this.handleEnd)
-    }
-
-    handleDrag = (event) => {
-        event.stopPropagation()
-
-        this.setState({ width: Math.max(360, this.position(event)) })
-    }
-
-    handleEnd = (event) => {
-        document.removeEventListener('mousemove', this.handleDrag)
-        document.removeEventListener('mouseup', this.handleEnd)
-    }
-
-    handleKeyDown = (event) => {
-        event.preventDefault()
-
-        switch (event.keyCode) {
-        case 38:
-        case 39:
-            this.setState({ width: this.state.width + 1 })
-            break
-        case 37:
-        case 40:
-            this.setState({ width: this.state.width - 1 })
-            break
-        }
-    }
-
-    position = (event) => {
-        const handlePosition = event.touches ? event.touches[0].clientX : event.clientX
-        const handleOffset = this.handleReference.getBoundingClientRect().width / 2
-        const bodyOffset = this.bodyReference.getBoundingClientRect().width / 2
-
-        return ((handlePosition - handleOffset - bodyOffset) * 2) || 375
     }
 
     render () {
@@ -127,9 +87,15 @@ class PatternLibrary extends Component {
                     <li className='c-pl-menu__item'>
                         <input
                             type='text'
-                            value={this.state.width}
+                            value={this.props.width}
                             onChange={(event) => {
-                                this.setState({ width: +event.target.value })
+                                app.getRouter().replace(
+                                    'Frontastic.Frontend.PatternLibrary.overview',
+                                    {
+                                        pattern: this.props.pattern,
+                                        w: event.target.value,
+                                    }
+                                )
                             }} />&thinsp;px&nbsp;
                     </li>
                     {_.toArray(_.map(sizes, (size, name) => {
@@ -138,10 +104,14 @@ class PatternLibrary extends Component {
                             'c-pl-menu__item--selected': this.state.size === name,
                         })}>
                             <button onClick={() => {
-                                this.setState({
-                                    size: name,
-                                    width: _.random(sizes[name].minimum, sizes[name].maximum, false),
-                                })
+                                this.setState({ size: name })
+                                app.getRouter().replace(
+                                    'Frontastic.Frontend.PatternLibrary.overview',
+                                    {
+                                        pattern: this.props.pattern,
+                                        w: _.random(sizes[name].minimum, sizes[name].maximum, false),
+                                    }
+                                )
                             }}>
                                 {displayName(name)}
                             </button>
@@ -175,30 +145,12 @@ class PatternLibrary extends Component {
                     </li>
                 </ul>
             </div>
-            <div
-                ref={handleReference => {
-                    this.bodyReference = handleReference
-                }}
-                className='c-pattern-library__body'>
+            <div className='c-pattern-library__body'>
                 <iframe
                     title='Patterns'
                     className='c-patterns'
-                    style={{ width: (this.state.width + 2) + 'px' }}
+                    style={{ width: (+this.props.width + 2) + 'px' }}
                     src={app.getRouter().path('Frontastic.Frontend.PatternLibrary.view', { pattern: this.props.pattern })}
-                />
-                <div
-                    ref={handleReference => {
-                        this.handleReference = handleReference
-                    }}
-                    className='c-patterns__handle'
-                    onMouseDown={this.handleStart}
-                    onTouchMove={this.handleDrag}
-                    onTouchEnd={this.handleEnd}
-                    onKeyDown={this.handleKeyDown}
-                    style={{
-                        left: `calc(50% + (${this.state.width}px / 2))`,
-                    }}
-                    tabIndex={0}
                 />
             </div>
         </div>)
@@ -206,6 +158,7 @@ class PatternLibrary extends Component {
 }
 
 PatternLibrary.propTypes = {
+    width: PropTypes.string.isRequired,
     pattern: PropTypes.string.isRequired,
     tunnels: PropTypes.array.isRequired,
 }
@@ -217,6 +170,7 @@ export default connect(
     (globalState, props) => {
         return {
             ...props,
+            width: globalState.app.route.get('w', '375'),
             pattern: globalState.app.route.get('pattern', 'atoms'),
             tunnels: globalState.dev.tunnels,
         }
