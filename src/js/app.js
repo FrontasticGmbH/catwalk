@@ -86,6 +86,18 @@ export default (mountNode, tastics = null) => {
                             component={Node}
                         />
 
+                        <Route exact path='/' component={() => {
+                            return (<div style={{
+                                maxWidth: '768px',
+                                margin: '50px auto',
+                            }}>
+                                <h1 className='c-heading-beta'>Frontastic Local Development</h1>
+                                <div className='c-alert c-alert--info'>
+                                    <p className='c-alert__message'>You can find <a href='/_patterns'>our Patternlab under /_patterns</a>.</p>
+                                </div>
+                            </div>)
+                        }} />
+
                         <Route component={Node} />
                     </Switch>
                 </Router>
