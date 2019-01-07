@@ -41,12 +41,7 @@ class TermFacetPane extends Component {
     }
 
     getValue = () => {
-        let currentValue = this.props.facetValue || { terms: [] }
-        // FIXME: Workaround for HTTP query parsing bug
-        if (!_.isArray(currentValue.terms)) {
-            currentValue.terms = _.values(currentValue.terms)
-        }
-        return currentValue
+        return this.props.facetValue || { terms: [] }
     }
 
     sortTerms = (terms) => {

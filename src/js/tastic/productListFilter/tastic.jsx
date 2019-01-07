@@ -138,12 +138,7 @@ class ProductListFilterTastic extends Component {
 
     getCategoryFacetValue = (categoryFacet) => {
         let currentValues = this.getFacetValues(this.props.tastic.configuration.stream)
-        let currentValue = currentValues[categoryFacet.handle] || { termis: [] }
-        // FIXME: Workaround for HTTP query parsing bug
-        if (!_.isArray(currentValue.terms)) {
-            currentValue.terms = _.values(currentValue.terms)
-        }
-        return currentValue
+        return currentValues[categoryFacet.handle] || { terms: [] }
     }
 
     filterCategoryTerms = (terms) => {
