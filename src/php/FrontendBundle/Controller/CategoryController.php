@@ -15,9 +15,13 @@ class CategoryController extends Controller
 {
     public function viewAction(Context $context, $id): array
     {
+        /** @var MasterService $pageMatcherService */
         $pageMatcherService = $this->get(MasterService::class);
+        /** @var NodeService $nodeService */
         $nodeService = $this->get(NodeService::class);
+        /** @var ViewDataProvider $dataProvider */
         $dataProvider = $this->get(ViewDataProvider::class);
+        /** @var PageService $pageService */
         $pageService = $this->get(PageService::class);
 
         $node = $nodeService->get($pageMatcherService->matchNodeId(new PageMatcherContext(['categoryId' => $id])));

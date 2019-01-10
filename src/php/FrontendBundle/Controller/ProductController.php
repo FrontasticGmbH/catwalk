@@ -19,9 +19,13 @@ class ProductController extends Controller
 
     public function viewAction(Context $context, Request $request): array
     {
+        /** @var MasterService $masterService */
         $masterService = $this->get(MasterService::class);
+        /** @var NodeService $nodeService */
         $nodeService = $this->get(NodeService::class);
+        /** @var ViewDataProvider $dataService */
         $dataService = $this->get(ViewDataProvider::class);
+        /** @var PageService $pageService */
         $pageService = $this->get(PageService::class);
 
         /** @var ProductApi $productApi */
