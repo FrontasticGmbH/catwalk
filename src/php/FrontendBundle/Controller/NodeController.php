@@ -9,15 +9,17 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class NodeController extends Controller
 {
     public function viewAction(Request $request, Context $context, string $nodeId): array
     {
+        /** @var NodeService $nodeService */
         $nodeService = $this->get(NodeService::class);
-        $dataProvider = $this->get(ViewDataProvider::class);
+        /** @var PageService $pageService */
         $pageService = $this->get(PageService::class);
+        /** @var ViewDataProvider $dataProvider */
+        $dataProvider = $this->get(ViewDataProvider::class);
 
         $node = $nodeService->get($nodeId);
 
@@ -45,6 +47,7 @@ class NodeController extends Controller
 
     public function treeAction(Request $request): Node
     {
+        /** @var NodeService $nodeService */
         $nodeService = $this->get(NodeService::class);
         $root = $request->get('root', null);
         $depth = $request->get('depth', 1);
