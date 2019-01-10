@@ -10,13 +10,21 @@ class SymfonyLink extends Component {
     render () {
         let childProps = _.omit(this.props, ['route', 'params', 'router', 'dispatch'])
         let params = _.extend({}, this.props.params)
+        let path = this.props.path
 
         if (this.props.to || this.props.href) {
-            throw new Error("Use route parameter with Symfony route ID to link '" + (this.props.to || this.props.href) + "'")
+            console.error("Use route parameter with Symfony route ID to link '" + (this.props.to || this.props.href) + "'")
+        }
+
+        if(!path) {
+            if (this.props.router.hasRoute(this.props.route)) {
+                console.log('hatter!');
+                path = this.props.router.path(this.props.route, params)
+            }
         }
 
         return (<Link
-            to={this.props.path || this.props.router.path(this.props.route, params)}
+            to={path || '/__error'}
             {...childProps}>
             {this.props.children}
         </Link>)

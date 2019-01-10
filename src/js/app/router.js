@@ -16,7 +16,7 @@ let Router = function (history, routes = {}, context = null) {
     this.location = function (route, parameters = {}) {
         let allParameters = _.extend({}, this.contextParameters(), parameters)
 
-        if (!(route in this.routes)) {
+        if (!this.hasRoute(route)) {
             throw new Error(
                 'Route ' + route + ' not defined, did you mean any of these: ' +
                 this.getSimilarRoutes(route).join(', ')
@@ -50,6 +50,10 @@ let Router = function (history, routes = {}, context = null) {
             ),
             search: search,
         }
+    }
+
+    this.hasRoute = function (route) {
+        return !!(route in this.routes)
     }
 
     this.path = function (route, parameters = {}) {
