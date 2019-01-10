@@ -2,8 +2,8 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -16,6 +16,11 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
      * @var TasticService|\PHPUnit\Framework\MockObject\MockObject
      */
     private $tasticDefinitionServiceMock;
+
+    /**
+     * @var Context
+     */
+    private $context;
 
     /**
      * @var TasticFieldService
@@ -36,6 +41,8 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->context = new Context();
+
         $this->fieldService = new TasticFieldService(
             $this->tasticDefinitionServiceMock,
             [$this->fieldHandlerMock]
@@ -46,7 +53,10 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->fieldHandlerMock->expects($this->once())
             ->method('handle')
-            ->with($this->equalTo('The Field Value'));
+            ->with(
+                $this->isInstanceOf(Context::class),
+                $this->equalTo('The Field Value')
+            );
 
         $pageFixture = $this->pageFixture([
             new Tastic([
@@ -70,7 +80,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $this->fieldService->getFieldData($pageFixture);
+        $this->fieldService->getFieldData($this->context, $pageFixture);
     }
 
     public function testGetFieldDataIncludesDataForHandledFields()
@@ -102,7 +112,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $actualResult = $this->fieldService->getFieldData($pageFixture);
+        $actualResult = $this->fieldService->getFieldData($this->context, $pageFixture);
 
         $this->assertEquals(
             [
@@ -141,7 +151,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $this->fieldService->getFieldData($pageFixture);
+        $this->fieldService->getFieldData($this->context, $pageFixture);
     }
 
     public function testGetFieldDataDoesNotIncludeDataForUnhandledFields()
@@ -173,7 +183,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $actualResult = $this->fieldService->getFieldData($pageFixture);
+        $actualResult = $this->fieldService->getFieldData($this->context, $pageFixture);
 
         $this->assertEquals(
             [],
@@ -185,7 +195,10 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->fieldHandlerMock->expects($this->once())
             ->method('handle')
-            ->with($this->equalTo('The Default Value'));
+            ->with(
+                $this->isInstanceOf(Context::class),
+                $this->equalTo('The Default Value')
+            );
 
         $pageFixture = $this->pageFixture([
             new Tastic([
@@ -208,7 +221,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $this->fieldService->getFieldData($pageFixture);
+        $this->fieldService->getFieldData($this->context, $pageFixture);
     }
 
     private function pageFixture(array $tastics): Page
