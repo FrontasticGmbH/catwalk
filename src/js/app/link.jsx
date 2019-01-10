@@ -18,7 +18,6 @@ class SymfonyLink extends Component {
 
         if(!path) {
             if (this.props.router.hasRoute(this.props.route)) {
-                console.log('hatter!');
                 path = this.props.router.path(this.props.route, params)
             }
         }
