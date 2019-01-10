@@ -7,6 +7,8 @@ use Kore\DataObject\DataObject;
 use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 
+use Frontastic\Common\AccountApiBundle\Domain\Session;
+
 class Context extends DataObject
 {
     /**
