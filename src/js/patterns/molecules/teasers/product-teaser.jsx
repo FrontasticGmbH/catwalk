@@ -18,7 +18,7 @@ class MoleculesProductTeaser extends Component {
 
         return (<article className='c-teaser o-block' itemScope itemType='http://schema.org/Product'>
             <Link itemProp='url' className='c-teaser__full-link'
-                to={this.props.product._url}
+                to={this.props.product._url || ''}
             >
                 <figure className='c-teaser__figure o-block__figure'>
                     <RemoteImage
