@@ -16,6 +16,10 @@ use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Debug\Exception\FlattenException;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Due to node faking. Keep
+ * this class really concise to avoid errors in error handling.
+ */
 class ErrorController extends Controller
 {
     private $errorTexts = [

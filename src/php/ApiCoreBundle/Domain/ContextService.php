@@ -25,8 +25,12 @@ class ContextService
      */
     private $tokenStorage;
 
-    public function __construct(Router $router, RequestStack $requestStack, CustomerService $customerService, TokenStorage $tokenStorage)
-    {
+    public function __construct(
+        Router $router,
+        RequestStack $requestStack,
+        CustomerService $customerService,
+        TokenStorage $tokenStorage
+    ) {
         $this->router = $router;
         $this->requestStack = $requestStack;
         $this->customerService = $customerService;

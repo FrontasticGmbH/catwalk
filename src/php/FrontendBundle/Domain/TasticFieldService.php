@@ -74,8 +74,12 @@ class TasticFieldService
         return $fieldData;
     }
 
-    private function setHandledFieldData(Context $context, array $fieldData, Tastic $tastic, array $fieldDefinition): array
-    {
+    private function setHandledFieldData(
+        Context $context,
+        array $fieldData,
+        Tastic $tastic,
+        array $fieldDefinition
+    ): array {
         $type = $fieldDefinition['streamType'] ?? $fieldDefinition['type'];
         if (!isset($this->fieldHandlers[$type])) {
             return $fieldData;

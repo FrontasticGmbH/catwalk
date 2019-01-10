@@ -99,7 +99,7 @@ class NodeService implements Target
 
     private function cloneAll(array $objects): array
     {
-        return array_map(function($object) {
+        return array_map(function ($object) {
             return clone $object;
         }, $objects);
     }
