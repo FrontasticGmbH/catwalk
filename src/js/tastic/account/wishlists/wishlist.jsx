@@ -1,11 +1,9 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import app from '../../../app/app'
 
-import AtomsButton from '../../../patterns/atoms/buttons/button'
 import AtomsHeading from '../../../patterns/atoms/headings/heading'
 import MoleculesLineItem from '../../../patterns/molecules/cart/line-item'
 
@@ -21,7 +19,7 @@ class Wishlist extends Component {
                     lineItem={lineItem}
                     onRemove={(lineItem) => {
                         app.getLoader('wishlist').removeLineItem(this.props.wishlist.wishlistId, {
-                            lineItemId: lineItem.lineItemId
+                            lineItemId: lineItem.lineItemId,
                         })
                     }}
                     onChangeCount={(lineItem, count) => {

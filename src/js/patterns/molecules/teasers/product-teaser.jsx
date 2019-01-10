@@ -17,9 +17,9 @@ class MoleculesProductTeaser extends Component {
         let variant = this.props.variant || product.variants[0]
 
         return (<article className='c-teaser o-block' itemScope itemType='http://schema.org/Product'>
-            {/* FIXME: Temporarily set slug as url */}
             <Link itemProp='url' className='c-teaser__full-link'
-                  to={this.props.product._url}>
+                to={this.props.product._url}
+            >
                 <figure className='c-teaser__figure o-block__figure'>
                     <RemoteImage
                         className='c-teaser__image'

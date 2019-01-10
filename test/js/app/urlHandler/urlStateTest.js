@@ -43,7 +43,7 @@ test('it collects parameters', () => {
             foo: {
                 offset: 42,
             },
-            bar: {}
+            bar: {},
         },
     })
 })
@@ -53,7 +53,7 @@ test('it sets nocrawl parameter', () => {
         {
             s: {
                 foo: {
-                    facets: { color: 'red' }
+                    facets: { color: 'red' },
                 },
             },
         },
@@ -71,7 +71,7 @@ test('it remove nocrawl parameter', () => {
             nocrawl: '1',
             s: {
                 foo: {
-                    offset: 23
+                    offset: 23,
                 },
             },
         },

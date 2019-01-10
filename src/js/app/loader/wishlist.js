@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 import Wishlist from '../../domain/wishlist'
 import app from '../app'
 import Entity from '../entity'

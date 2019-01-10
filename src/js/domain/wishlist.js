@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 class Wishlist {
     constructor (wishlist = {}) {
         this.wishlistId = wishlist.wishlistId || null

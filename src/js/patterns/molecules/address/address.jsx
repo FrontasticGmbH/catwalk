@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import ComponentInjector from '../../../app/injector'
 
-import fixture from '../../fixture'
-
 import AtomsButton from '../../atoms/buttons/button'
 
 class MoleculesAddress extends Component {

@@ -153,9 +153,9 @@ ProductAddToWishlistTastic.propTypes = {
     context: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     tastic: PropTypes.object.isRequired,
+    data: PropTypes.object,
     product: PropTypes.object,
     variant: PropTypes.object,
-    option: PropTypes.object,
     selectedVariant: PropTypes.number,
 }
 

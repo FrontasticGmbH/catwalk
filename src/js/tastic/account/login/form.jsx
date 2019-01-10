@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -8,12 +8,9 @@ import Grow from '../../../component/grow'
 import Notifications from '../../../component/notifications'
 import ComponentInjector from '../../../app/injector'
 
-import app from '../../../app/app'
-
 import Login from './login'
 import Reset from './reset'
 import Register from './register'
-import AccountBar from '../bar'
 
 class AccountLoginForm extends Component {
     constructor (props) {
@@ -76,7 +73,6 @@ class AccountLoginForm extends Component {
 }
 
 AccountLoginForm.propTypes = {
-    context: PropTypes.object.isRequired,
 }
 
 AccountLoginForm.defaultProps = {

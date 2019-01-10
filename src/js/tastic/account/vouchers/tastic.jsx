@@ -1,14 +1,10 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 
-import AtomsButton from '../../../patterns/atoms/buttons/button'
 import AtomsHeading from '../../../patterns/atoms/headings/heading'
-import Grow from '../../../component/grow'
 import Notifications from '../../../component/notifications'
-
-import app from '../../../app/app'
 
 import AccountLoginForm from '../login/form'
 import AccountBar from '../bar'
@@ -38,7 +34,6 @@ class AccountVouchersTastic extends Component {
 
 AccountVouchersTastic.propTypes = {
     context: PropTypes.object.isRequired,
-    tastic: PropTypes.object.isRequired,
 }
 
 AccountVouchersTastic.defaultProps = {

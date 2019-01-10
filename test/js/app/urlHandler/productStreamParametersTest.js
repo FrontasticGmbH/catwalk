@@ -1,5 +1,4 @@
 import ProductStreamParameters from '../../../../src/js/app/urlHandler/productStreamParameters'
-import UrlState from '../../../../src/js/app/urlHandler/urlState'
 
 test('is sets filter value correctly', () => {
     let parameters = new ProductStreamParameters({}, false)

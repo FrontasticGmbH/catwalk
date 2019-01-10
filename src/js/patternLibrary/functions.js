@@ -12,7 +12,7 @@ function isReactComponent (component) {
     return !!(component.component && component.name && component.path)
 }
 
-function processPatterns(loader, source = 'Frontastic') {
+function processPatterns (loader, source = 'Frontastic') {
     let patterns = {}
 
     loader.keys().forEach(function (fileName) {

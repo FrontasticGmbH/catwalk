@@ -6,12 +6,10 @@ import _ from 'lodash'
 
 import AtomsButton from '../../../patterns/atoms/buttons/button'
 import AtomsHeading from '../../../patterns/atoms/headings/heading'
-import Grow from '../../../component/grow'
 import Notifications from '../../../component/notifications'
 
 import app from '../../../app/app'
 
-import AccountLoginForm from '../login/form'
 import AccountBar from '../bar'
 import Wishlist from './wishlist'
 
@@ -106,8 +104,8 @@ class AccountWishlistsTastic extends Component {
 }
 
 AccountWishlistsTastic.propTypes = {
+    rawData: PropTypes.object,
     context: PropTypes.object.isRequired,
-    tastic: PropTypes.object.isRequired,
     selected: PropTypes.string,
 }
 

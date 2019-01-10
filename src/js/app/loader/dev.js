@@ -1,7 +1,3 @@
-import { generateId } from 'frontastic-common'
-
-import app from '../app'
-
 /**
  * Special context loader
  */

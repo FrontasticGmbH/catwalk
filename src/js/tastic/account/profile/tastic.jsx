@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import _ from 'lodash'
 
 import AtomsButton from '../../../patterns/atoms/buttons/button'
 import AtomsHeading from '../../../patterns/atoms/headings/heading'
-import Grow from '../../../component/grow'
 import Notifications from '../../../component/notifications'
 
 import app from '../../../app/app'
@@ -66,9 +66,9 @@ class AccountProfileTastic extends Component {
             (this.state.profile_salutation !== account.salutation) ||
             (this.state.profile_firstName !== account.firstName) ||
             (this.state.profile_lastName !== account.lastName) ||
-            (this.state.profile_birthday_day != new Date(account.birthday).getDate()) ||
-            (this.state.profile_birthday_month != new Date(account.birthday).getMonth() + 1) ||
-            (this.state.profile_birthday_year != new Date(account.birthday).getFullYear())
+            (this.state.profile_birthday_day !== new Date(account.birthday).getDate()) ||
+            (this.state.profile_birthday_month !== new Date(account.birthday).getMonth() + 1) ||
+            (this.state.profile_birthday_year !== new Date(account.birthday).getFullYear())
         )
     }
 
@@ -324,7 +324,6 @@ class AccountProfileTastic extends Component {
 
 AccountProfileTastic.propTypes = {
     context: PropTypes.object.isRequired,
-    tastic: PropTypes.object.isRequired,
 }
 
 AccountProfileTastic.defaultProps = {

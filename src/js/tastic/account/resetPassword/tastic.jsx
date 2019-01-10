@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -7,8 +7,6 @@ import AtomsHeading from '../../../patterns/atoms/headings/heading'
 import Notifications from '../../../component/notifications'
 
 import app from '../../../app/app'
-import Loading from '../../../app/loading'
-import Markdown from '../../../component/markdown'
 
 class AccountResetPasswordTastic extends Component {
     constructor (props) {
@@ -88,7 +86,6 @@ class AccountResetPasswordTastic extends Component {
 }
 
 AccountResetPasswordTastic.propTypes = {
-    tastic: PropTypes.object.isRequired,
     token: PropTypes.string,
 }
 

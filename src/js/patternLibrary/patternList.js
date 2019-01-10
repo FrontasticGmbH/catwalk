@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { processPatterns } from './functions'
 
 import ComponentInjector from '../app/injector'

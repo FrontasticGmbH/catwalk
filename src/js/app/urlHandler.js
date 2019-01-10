@@ -1,9 +1,14 @@
 import _ from 'lodash'
 
-import Route from './route'
 import UrlState from './urlHandler/urlState'
 import ParameterHandlerFactory from './urlHandler/parameterHandlerFactory'
+
+/* eslint-disable no-unused-vars */
+// JSDoc imports
+import Route from './route'
 import ProductStreamParameters from './urlHandler/productStreamParameters'
+/* eslint-enable no-unused-vars */
+
 /**
  * @param {Route} route
  * @param {Object<string, *>} streamConfigurations

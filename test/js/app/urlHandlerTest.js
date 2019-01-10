@@ -4,9 +4,8 @@ import UrlHandler from '../../../src/js/app/urlHandler'
 import UrlState from '../../../src/js/app/urlHandler/urlState'
 
 it('it creates new parameters', () => {
-
     const inputParameters = {
-        some: 'value'
+        some: 'value',
     }
     const originalInputParemeters = _.cloneDeep(inputParameters)
 

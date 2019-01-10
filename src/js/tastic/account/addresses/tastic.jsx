@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import _ from 'lodash'
 
 import AtomsButton from '../../../patterns/atoms/buttons/button'
 import AtomsHeading from '../../../patterns/atoms/headings/heading'
@@ -102,7 +103,7 @@ class AccountAddressesTastic extends Component {
 
 AccountAddressesTastic.propTypes = {
     context: PropTypes.object.isRequired,
-    tastic: PropTypes.object.isRequired,
+    rawData: PropTypes.object,
 }
 
 AccountAddressesTastic.defaultProps = {

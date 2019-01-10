@@ -1,7 +1,11 @@
 
 import _ from 'lodash'
+
+/* eslint-disable no-unused-vars */
+// JSDoc imports
 import ProductStreamParameters from './productStreamParameters'
 import ParameterHandlerFactory from './parameterHandlerFactory'
+/* eslint-enable no-unused-vars */
 
 /**
  * @param {Object<string, *>} parameters

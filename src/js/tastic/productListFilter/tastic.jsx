@@ -122,9 +122,9 @@ class ProductListFilterTastic extends Component {
                                         newTerms.push(term.handle)
                                     }
                                     if (_.isEmpty(newTerms)) {
-                                        this.props.removeFacetValue(categoryFacet)
+                                        this.removeFacetValue(categoryFacet)
                                     } else {
-                                        this.props.selectFacetValue(categoryFacet, { terms: newTerms })
+                                        this.selectFacetValue(categoryFacet, { terms: newTerms })
                                     }
                                 }}
                             />
@@ -191,7 +191,6 @@ ProductListFilterTastic.propTypes = {
     rawData: PropTypes.object.isRequired,
     tastic: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
-    streamParameters: PropTypes.object.isRequired,
     urlHandler: PropTypes.instanceOf(UrlHandler),
     // Facet definition as provided by Frontastic
     facets: PropTypes.instanceOf(Entity).isRequired,

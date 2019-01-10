@@ -37,8 +37,6 @@ class MetaData extends Component {
 
 MetaData.propTypes = {
     node: PropTypes.object.isRequired,
-    page: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
 }
 
 MetaData.defaultProps = {}
