@@ -18,6 +18,15 @@
 .e-cell--12 {
 }
 
+.e-cell--8 {
+    @media (min-width: map-get($breakpoints, lap)) {
+        width: 50%;
+    }
+    @media (min-width: map-get($breakpoints, desk)) {
+        width: 66%;
+    }
+}
+
 .e-cell--6 {
     @media (min-width: map-get($breakpoints, lap)) {
         width: 50%;

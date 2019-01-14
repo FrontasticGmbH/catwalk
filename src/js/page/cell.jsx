@@ -7,6 +7,7 @@ import Tastic from './tastic'
 class Cell extends Component {
     columnMap = {
         '12': 'e-cell--12',
+        '8': 'e-cell--8',
         '6': 'e-cell--6',
         '4': 'e-cell--4',
         '3': 'e-cell--3',
