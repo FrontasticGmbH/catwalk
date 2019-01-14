@@ -39,6 +39,15 @@
     }
 }
 
+.e-cell--8 + .e-cell--4 {
+    @media (min-width: map-get($breakpoints, lap)){
+        width: 50%;
+    }
+    @media (min-width: map-get($breakpoints, desk)){
+        width: 33%;
+    }
+}
+
 .e-cell--3 {
     width: 50%;
 
