@@ -2,6 +2,8 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
+use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
+use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,8 +19,10 @@ class RebuildRoutesCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $nodeService = $this->getContainer()->get('Frontastic\Catwalk\FrontendBundle\Domain\NodeService');
-        $routeService = $this->getContainer()->get('Frontastic\Catwalk\FrontendBundle\Domain\RouteService');
+        /** @var NodeService $nodeService */
+        $nodeService = $this->getContainer()->get(NodeService::class);
+        /** @var RouteService $routeService */
+        $routeService = $this->getContainer()->get(RouteService::class);
 
         $routeService->rebuildRoutes($nodeService->getNodes());
     }
