@@ -30,7 +30,7 @@ original Tastics!
 
 Backstage needs to know how the Tastic requires to be initialized and what
 parameters it expects to be available. This comes in form of a *JSON* file
-which follows a JSON schema that can be found in: `paas/catwalk/vendor/frontastic/common/src/php/SpecificationBundle/Resources/tasticSchema.json`.
+which follows a JSON schema that can be found in: `paas/frontastic/common/src/json/tasticSchema.json`.
 
 On top level, this file contains meta information about the Tastic:
 
