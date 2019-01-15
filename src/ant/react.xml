@@ -28,7 +28,7 @@
             <arg value="1000000000" />
 	    <arg value="install" />
         </exec>
-
+        <exec executable="pwd" dir="${basedir}" />
         <exec executable="yarn" failonerror="true" dir="${basedir}">
             <env key="CI" value="true" />
 
