@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="React">
+    <target name="react:toby:test">
+        <property name="relative_path" value="${frontastic_basedir}" relative="yes" />
+
+        <echo message="Rel: ${relative_path}" />
+    </target>
+
     <target name="react:bootstrap" unless="${production}" extensionOf="-prepare:before~hook">
         <property name="relative_path" value="${frontastic_basedir}" relative="yes" />
         <tool-exists executable="yarn" />
