@@ -40,7 +40,8 @@
 
         "predis/predis": "@stable",
         "michelf/php-markdown": "@stable",
-        "aptoma/twig-markdown": "@stable"
+        "aptoma/twig-markdown": "@stable",
+        "mtdowling/cron-expression": "@stable"
     },
     "require-dev":  {
         "phpunit/phpunit": "^6",
