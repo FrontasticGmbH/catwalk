@@ -11,6 +11,9 @@ class RouteService
         $this->cacheDirectory = $cacheDirectory;
     }
 
+    /**
+     * @return \Frontastic\Catwalk\FrontendBundle\Domain\Route[]
+     */
     public function getRoutes(): array
     {
         $cacheFile = $this->getCacheFile();
@@ -21,7 +24,7 @@ class RouteService
         return [];
     }
 
-    public function storeRoutes(array $routes)
+    public function storeRoutes(array $routes): void
     {
         file_put_contents(
             $this->getCacheFile(),
@@ -35,12 +38,24 @@ class RouteService
         }
     }
 
-    protected function getCacheFile()
+    protected function getCacheFile(): string
     {
         return $this->cacheDirectory . '/frontastic_frontent_routes.php';
     }
 
-    public function rebuildRoutes(array $nodes)
+    /**
+     * @param \Frontastic\Catwalk\FrontendBundle\Domain\Node[] $nodes
+     */
+    public function rebuildRoutes(array $nodes): void
+    {
+        $this->storeRoutes(array_values($this->generateRoutes($nodes)));
+    }
+
+    /**
+     * @param \Frontastic\Catwalk\FrontendBundle\Domain\Node[] $nodes
+     * @return \Frontastic\Catwalk\FrontendBundle\Domain\Route[]
+     */
+    public function generateRoutes(array $nodes): array
     {
         $routes = [];
 
@@ -74,7 +89,6 @@ class RouteService
                 'route' => rtrim($routes[$parent]->route, '/') . $route,
             ]);
         }
-
-        $this->storeRoutes(array_values($routes));
+        return $routes;
     }
 }
