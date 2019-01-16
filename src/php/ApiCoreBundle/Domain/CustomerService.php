@@ -2,11 +2,9 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
-use Symfony\Component\Yaml\Yaml;
-
 use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
-use Frontastic\Common\ReplicatorBundle\Domain\Endpoint;
+use Symfony\Component\Yaml\Yaml;
 
 class CustomerService
 {
