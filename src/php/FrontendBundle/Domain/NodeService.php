@@ -65,6 +65,11 @@ class NodeService implements Target
         return $node;
     }
 
+    /**
+     * @param string|null $root
+     * @param int|null $maxDepth
+     * @return \Frontastic\Catwalk\FrontendBundle\Domain\Node[]
+     */
     public function getNodes(string $root = null, int $maxDepth = null): array
     {
         return $this->nodeGateway->getTree($root, $maxDepth);
