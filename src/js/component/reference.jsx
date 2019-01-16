@@ -9,9 +9,22 @@ class Reference extends Component {
             return <Fragment>{this.props.children}</Fragment>
         }
 
+        if (this.isAbsoluteHttpLink()) {
+            return <a href={this.props.reference.target} className={this.props.className}>{this.props.children}</a>
+        }
+
         return (
             <Link children={this.props.children} {...this.linkProps()} />
         )
+    }
+
+    isAbsoluteHttpLink = () => {
+        if (this.props.reference.type !== 'link') {
+            return false
+        }
+
+        const target = this.props.reference.target
+        return target.startsWith('http://') || target.startsWith('https://')
     }
 
     linkProps = () => {

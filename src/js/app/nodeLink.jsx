@@ -1,7 +1,7 @@
 import React from 'react'
 
 import PropTypes from 'prop-types'
-import SymfonyLink from "./link"
+import SymfonyLink from './link'
 
 /**
  * Supports linking to a frontastic node
@@ -9,7 +9,7 @@ import SymfonyLink from "./link"
  * @example
  * <NodeLink node={imprintNode}>Imprint</NodeLink>
  */
-const NodeLink = ({node, children, ...otherProps}) => (
+const NodeLink = ({ node, children, ...otherProps }) => (
     <SymfonyLink {...otherProps} route={'node_' + node.nodeId}>
         {children}
     </SymfonyLink>
