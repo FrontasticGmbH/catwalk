@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
+import { getTranslation } from 'frontastic-common'
 
 class MetaData extends Component {
     render () {
@@ -20,7 +22,11 @@ class MetaData extends Component {
 
     generateTitle = () => {
         if (this.props.node.configuration.seoTitle) {
-            return this.props.node.configuration.seoTitle
+            return getTranslation(
+                    this.props.node.configuration.seoTitle,
+                    this.props.context.locale,
+                    this.props.context.project.defaultLanguage
+            ).text
         }
 
         if (this.props.node.name) {
@@ -37,8 +43,16 @@ class MetaData extends Component {
 
 MetaData.propTypes = {
     node: PropTypes.object.isRequired,
+    context: PropTypes.object.isRequired,
 }
 
 MetaData.defaultProps = {}
 
-export default MetaData
+export default connect(
+    (globalState, props) => {
+        return {
+            ...props,
+            context: globalState.app.context,
+        }
+    }
+)(MetaData)
