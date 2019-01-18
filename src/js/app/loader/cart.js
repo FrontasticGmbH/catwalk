@@ -119,6 +119,28 @@ let CartLoader = function (store, api) {
         )
     }
 
+    this.updateCart = (cartInformation) => {
+        this.api.request(
+            'POST',
+            'Frontastic.CartApi.Cart.update',
+            { ownErrorHandler: true },
+            cartInformation,
+            (data) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser('Cart update error: ' + error.message, 'error')
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.error',
+                    error: error,
+                })
+            }
+        )
+    }
+
     this.checkout = (cartInformation) => {
         this.api.request(
             'POST',
