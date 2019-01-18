@@ -3,7 +3,7 @@ import { Tastic } from 'frontastic-common'
 import tasticDataConnector from '../../../src/js/page/tasticDataConnector'
 
 describe('tasticDataConnector', () => {
-    it('resolves simple field values', () => {
+    it('resolves simple field values, even without stream/tastic data', () => {
         const tasticFixture = createTasticFixture({
             label: 'Fixture Field',
             field: 'fixtureField',
@@ -16,7 +16,7 @@ describe('tasticDataConnector', () => {
         expect(actualResult.resolved.fixtureField).toBe('I am the default')
     })
 
-    it('resolves stream field data', () => {
+    it('resolves from stream data', () => {
         const tasticFixture = createTasticFixture({
             label: 'Fixture Field',
             field: 'fixtureField',
@@ -37,7 +37,7 @@ describe('tasticDataConnector', () => {
         expect(actualResult.resolved.fixtureField).toEqual(['some', 'values'])
     })
 
-    it('resolves tastic special field data', () => {
+    it('resolves from tastic field data', () => {
         const tasticFixture = createTasticFixture({
             label: 'Fixture Field',
             field: 'fixtureField',
