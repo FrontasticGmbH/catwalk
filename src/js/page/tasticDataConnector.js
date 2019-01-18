@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import configurationResolver from '../app/configurationResolver'
 
 export default (globalState, props) => {
     if (!props.tastic || !props.data) {
@@ -16,26 +17,10 @@ export default (globalState, props) => {
 
     /** @var Tastic props.tastic **/
 
-    const resolved = _.fromPairs(
-        _.map(props.tastic.schema.fields, (fieldDefinition, fieldName) => {
-            // Simple value handling
-            let fieldValue = props.tastic.schema.get(fieldName)
-
-            // Lookup stream data
-            if (fieldDefinition.type === 'stream') {
-                fieldValue = props.data.stream[fieldValue] || null
-            }
-
-            // Lookup special field type values
-            if (props.data && props.data.tastic &&
-                props.data.tastic[props.tastic.tasticId] &&
-                props.data.tastic[props.tastic.tasticId][fieldName]
-            ) {
-                fieldValue = props.data.tastic[props.tastic.tasticId][fieldName]
-            }
-
-            return [fieldName, fieldValue]
-        })
+    const resolved = configurationResolver(
+        props.tastic.schema,
+        props.data.stream,
+        (props.data.tastic || {})[props.tastic.tasticId] || {}
     )
 
     return {
