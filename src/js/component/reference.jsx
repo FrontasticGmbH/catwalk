@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import Link from '../app/link'
+import {isReferenceAbsoluteHttpLink} from "../app/referenceHelper";
 
 class Reference extends Component {
     render () {
@@ -9,22 +10,13 @@ class Reference extends Component {
             return <Fragment>{this.props.children}</Fragment>
         }
 
-        if (this.isAbsoluteHttpLink()) {
+        if (isReferenceAbsoluteHttpLink(this.props.reference)) {
             return <a href={this.props.reference.target} className={this.props.className}>{this.props.children}</a>
         }
 
         return (
             <Link children={this.props.children} {...this.linkProps()} />
         )
-    }
-
-    isAbsoluteHttpLink = () => {
-        if (this.props.reference.type !== 'link') {
-            return false
-        }
-
-        const target = this.props.reference.target
-        return target.startsWith('http://') || target.startsWith('https://')
     }
 
     linkProps = () => {
