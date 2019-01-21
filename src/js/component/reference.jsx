@@ -4,6 +4,9 @@ import PropTypes from 'prop-types'
 import Link from '../app/link'
 import {isReferenceAbsoluteHttpLink} from "../app/referenceHelper";
 
+/**
+ * Provides a Link to a Reference (which means either a link to an external site or a node).
+ */
 class Reference extends Component {
     render () {
         if (!this.props.reference.type) {
