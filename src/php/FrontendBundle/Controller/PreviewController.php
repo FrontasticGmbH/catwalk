@@ -3,7 +3,6 @@
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page;
@@ -62,50 +61,41 @@ class PreviewController extends Controller
      */
     private function completeMasterNode(Context $context, Node $node): void
     {
-        $pageType = 'product';
-        $needsCompletion = false;
-
-        foreach ($node->streams as $stream) {
+        foreach ($node->streams as $streamKey => $stream) {
             if (!isset($stream['configuration'])) {
                 continue;
             }
 
-            if ($stream['streamId'] === '__master') {
+            $pageType = 'product';
+
+            if (strpos($stream['streamId'], '__master') === 0) {
                 $pageType = key($stream['configuration']);
             }
-            $needsCompletion |= ($stream['configuration'][$pageType] === null);
-        }
 
-        if (!$needsCompletion) {
-            return;
-        }
+            if (array_key_exists($pageType, $stream['configuration']) && $stream['configuration'][$pageType] === null) {
+                $itemId = null;
+                switch ($pageType) {
+                    case 'product':
+                        $result = $this->get('frontastic.catwalk.product_api')->query(new ProductQuery([
+                            'locale' => $context->locale,
+                        ]));
+                        $itemId = $result->items[array_rand($result->items)]->productId;
+                        break;
 
-        $itemId = null;
-        switch ($pageType) {
-            case 'product':
-                $result = $this->get('frontastic.catwalk.product_api')->query(new ProductQuery([
-                    'locale' => $context->locale,
-                ]));
-                $itemId = $result->items[array_rand($result->items)]->productId;
-                break;
- 
-            case 'category':
-            default:
-                /* @todo Extract query parameters from environment */
-                $categories = $this->get('frontastic.catwalk.product_api')
-                    ->getCategories(new CategoryQuery([
-                        'locale' => 'en_GB@euro',
-                        'limit' => 250,
-                    ]));
-                $itemId = $categories[array_rand($categories)]->categoryId;
-                break;
-        }
+                    case 'category':
+                    default:
+                        $categories = $this->get('frontastic.catwalk.product_api')
+                            ->getCategories(new CategoryQuery([
+                                'locale' => $context->locale,
+                                'limit' => 250,
+                            ]));
+                        $itemId = $categories[array_rand($categories)]->categoryId;
+                        break;
+                }
 
-        $node->streams = $this->get(MasterService::class)->completeDefaultQuery(
-            $node->streams,
-            $pageType,
-            $itemId
-        );
+                $node->streams[$streamKey]['configuration'][$pageType] = $itemId;
+            }
+        }
     }
 
     public function storeAction(Request $request): JsonResponse
