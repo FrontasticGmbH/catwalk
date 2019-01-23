@@ -37,11 +37,15 @@ See the end of this chapter for some hints that can help you working this way.
 
 3. Capitalize the subject line
 
+4. Use past tense in the subject (`Fixed schema to complete defaults` instead
+   of `Fixes schema to complete defaults`)
+
 4. If you are working on a ticket, prefix the subject by the ticket number
    using a `#` (e.g. `#4223 Implemented model for product types`)
 
-5. If necessary, explain details of your commit in an additional body part.
-   This should only be needed in extraordinary cases.
+5. Add a body to your commit to explain the reasons for your change if you feel
+   its necessary (e.g. removing a feature, changing a behavior for certain
+   reasons, etc.)
 
 6. Divide the subject from the body using a blank line.
 
@@ -85,7 +89,7 @@ Most importantly, the following rules should by applied to any kind of code:
 
 ## PHP Coding Style
 
-* Stick to PSR-0, PSR-1, PSR-2 and PSR-4
+* Stick to PSR-1, PSR-2 and PSR-4
 * Implement tests using PHPUnit
 * See the guidelines in README.md
 
