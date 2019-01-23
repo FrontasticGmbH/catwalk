@@ -8,6 +8,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -40,7 +41,8 @@ class CategoryController extends Controller
 
     public function allAction(Context $context)
     {
-        $productApi = $this->get('frontastic.catwalk.product_api');
+        /** @var ProductApi $productApi */
+        $productApi = $this->get(ProductApi::class);
 
         // TODO: Allow fetching of more than 500 categories by paging
         return [
