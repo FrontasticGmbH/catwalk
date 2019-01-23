@@ -22,7 +22,7 @@ class TasticFieldService
      */
     private $tasticDefinionMapCache;
 
-    public function __construct(TasticService $tasticDefinitionService, array $fieldHandlers = [])
+    public function __construct(TasticService $tasticDefinitionService, iterable $fieldHandlers = [])
     {
         $this->tasticDefinitionService = $tasticDefinitionService;
         foreach ($fieldHandlers as $fieldHandler) {
