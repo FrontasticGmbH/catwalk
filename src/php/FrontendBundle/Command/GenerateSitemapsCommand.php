@@ -3,12 +3,16 @@ namespace Frontastic\Catwalk\FrontendBundle\Command;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
+use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
+use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -17,6 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -63,6 +68,12 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 'Generate sitemap for nodes'
             )
             ->addOption(
+                'with-categories',
+                null,
+                InputOption::VALUE_NONE,
+                'Generate sitemap for categories'
+            )
+            ->addOption(
                 'with-products',
                 null,
                 InputOption::VALUE_NONE,
@@ -94,6 +105,9 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         if ($input->getOption('all') || $input->getOption('with-nodes')) {
             $sitemaps = array_merge($sitemaps, $this->generateNodeSitemap($context, $output));
         }
+        if ($input->getOption('all') || $input->getOption('with-categories')) {
+            $sitemaps = array_merge($sitemaps, $this->generateCategorySitemap($context, $output));
+        }
         if ($input->getOption('all') || $input->getOption('with-products')) {
             $sitemaps = array_merge($sitemaps, $this->generateProductSitemap($context, $output));
         }
@@ -122,10 +136,8 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         $routeService = $this->getContainer()->get(RouteService::class);
         /** @var PageService $pageService */
         $pageService = $this->getContainer()->get(PageService::class);
-        /** @var ViewDataProvider $dataProvider */
-        $dataProvider = $this->getContainer()->get(ViewDataProvider::class);
 
-        $output->writeln('Generating nodes sitemap…');
+        $output->writeln('Generating node sitemaps…');
 
         $nodes = $nodeService->getNodes();
         $routes = $routeService->generateRoutes($nodes);
@@ -133,7 +145,8 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         $entries = [];
         foreach ($nodes as $node) {
             try {
-                $page = $pageService->fetchForNode($node);
+                // Only render urls for nodes with pages
+                $pageService->fetchForNode($node);
             } catch (\Exception $e) {
                 continue;
             }
@@ -143,34 +156,115 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 'changed' => strtotime($node->metaData['changed'])
             ];
 
-            $data = $dataProvider->fetchDataFor($node, $context, [], $page);
-            foreach (get_object_vars($data->stream) as $streamId => $result) {
-                if (false === ($result instanceof Result)) {
-                    continue;
-                }
-                if ($result->total <= $result->count) {
-                    continue;
-                }
+            $entries = array_merge(
+                $entries,
+                $this->generatePagerEntries(
+                    $node,
+                    $context,
+                    $routes[$node->nodeId]->route
+                )
+            );
+        }
 
-                $offset = $result->count;
-                for ($i = 0; $i < (ceil($result->total / $result->count) - 1); ++$i) {
-                    $entries[] = [
-                        'uri' => sprintf(
-                            '%s?s[%s][offset]=%d',
-                            $routes[$node->nodeId]->route,
-                            $streamId,
-                            $offset
-                        ),
-                        'changed' => strtotime($node->metaData['changed'])
-                    ];
-                    $offset += $result->count;
-                }
+        return $this->renderSitemaps($context, $entries, 'nodes');
+    }
+
+    private function generateCategorySitemap(Context $context, OutputInterface $output): array
+    {
+        $limit = min(500, $this->maxEntries);
+
+        /** @var ProductApi $productApi */
+        $productApi = $this->getContainer()->get(ProductApi::class);
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $this->getContainer()->get('router');
+        /** @var MasterService $pageMatcherService */
+        $masterService = $this->getContainer()->get(MasterService::class);
+        /** @var NodeService $nodeService */
+        $nodeService = $this->getContainer()->get(NodeService::class);
+
+        $output->writeln('Generating category sitemaps…');
+
+        $query = new CategoryQuery([
+            'locale' => $context->locale,
+            'offset' => 0,
+            'limit' => $limit,
+        ]);
+
+        $entries = [];
+
+        do {
+            /** @var \Frontastic\Common\ProductApiBundle\Domain\Category[] $result */
+            $result = $productApi->getCategories($query);
+
+            foreach ($result as $category) {
+                $uri = $urlGenerator->generate(
+                    'Frontastic.Frontend.Master.Category.view',
+                    [
+                        'id' => $category->categoryId,
+                        'slug' => strtolower(rawurlencode($category->name))
+                    ]
+                );
+
+                $entries[] = [
+                    'uri' => $uri,
+                    'changed' => time()
+                ];
+
+                $node = $nodeService->get($masterService->matchNodeId(
+                    new PageMatcherContext([
+                        'categoryId' => $category->categoryId
+                    ])
+                ));
+                $node->streams = $masterService->completeDefaultQuery(
+                    $node->streams,
+                    'category',
+                    $category->categoryId
+                );
+
+                $entries = array_merge($entries, $this->generatePagerEntries($node, $context, $uri));
+            }
+
+            $query->offset += $limit;
+        } while (count($result) > 0);
+
+        return $this->renderSitemaps($context, $entries, 'categories');
+    }
+
+    private function generatePagerEntries(Node $node, Context $context, $baseUri): array
+    {
+        /** @var ViewDataProvider $dataProvider */
+        $dataProvider = $this->getContainer()->get(ViewDataProvider::class);
+        /** @var PageService $pageService */
+        $pageService = $this->getContainer()->get(PageService::class);
+
+        $page = $pageService->fetchForNode($node);
+        $data = $dataProvider->fetchDataFor($node, $context, [], $page);
+
+        $entries = [];
+        foreach (get_object_vars($data->stream) as $streamId => $result) {
+            if (false === ($result instanceof Result)) {
+                continue;
+            }
+            if ($result->total <= $result->count) {
+                continue;
+            }
+
+            $offset = $result->count;
+            for ($i = 0; $i < (ceil($result->total / $result->count) - 1); ++$i) {
+                $entries[] = [
+                    'uri' => sprintf(
+                        '%s?s[%s][offset]=%d',
+                        $baseUri,
+                        $streamId,
+                        $offset
+                    ),
+                    'changed' => strtotime($node->metaData['changed'])
+                ];
+                $offset += $result->count;
             }
         }
 
-        $this->renderSitemap($context, $entries, 'sitemap_nodes.xml');
-
-        return ['sitemap_nodes.xml'];
+        return $entries;
     }
 
     private function generateProductSitemap(Context $context, OutputInterface $output): array
@@ -182,7 +276,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         /** @var ProductRouter $productRouter */
         $productRouter = $this->getContainer()->get(ProductRouter::class);
 
-        $output->writeln('Generating product sitemap…');
+        $output->writeln('Generating product sitemaps…');
 
         $query = new ProductQuery([
             'locale' => $context->locale,
@@ -213,9 +307,14 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             $query->offset += $limit;
         } while ($result->count > 0);
 
+        return $this->renderSitemaps($context, $entries, 'products');
+    }
+
+    private function renderSitemaps(Context $context, array $entries, string $type): array
+    {
         $sitemaps = [];
         while (count($entries) > 0) {
-            $sitemaps[] = sprintf('sitemap_products-%d.xml', count($sitemaps));
+            $sitemaps[] = sprintf('sitemap_%s-%d.xml', $type, count($sitemaps));
 
             $this->renderSitemap(
                 $context,
