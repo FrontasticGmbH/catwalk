@@ -66,6 +66,7 @@ module.exports = function (proxy = null) {
         // https://github.com/facebookincubator/create-react-app/issues/293
         watchOptions: {
             ignored: /node_modules/,
+            poll: 250,
         },
         // Enable HTTPS if the HTTPS environment variable is set to 'true'
         https: protocol === 'https',

@@ -51,7 +51,6 @@ choosePort(HOST, DEFAULT_PORT)
             // We have not found a port.
             return
         }
-        console.log(1)
         const protocol = process.env.HTTPS === 'true' ? 'https' : 'http'
         const appName = require(paths.appPackageJson).name
         const urls = prepareUrls(protocol, HOST, port)
@@ -65,25 +64,15 @@ choosePort(HOST, DEFAULT_PORT)
             proxyConfig,
             urls.lanUrlForConfig
         )
-        serverConfig.disableHostCheck = true
-        serverConfig.watchContentBase = false
-        serverConfig.compress = false
-        serverConfig.watchOptions.poll = true
-        serverConfig.hot = false
-        serverConfig.quiet = false
-        serverConfig.clientLogLevel = 'info'
-        serverConfig.logLevel = 'debug'
 
-        console.log(serverConfig)
         const devServer = new WebpackDevServer(compiler, serverConfig)
-        console.log(4)
         // Launch WebpackDevServer.
         devServer.listen(port, HOST, err => {
             if (err) {
                 return console.log(err)
             }
             if (isInteractive) {
-                // clearConsole()
+                clearConsole()
             }
             console.log(chalk.cyan('Starting the development server...\n'))
             // openBrowser(urls.localUrlForBrowser)
