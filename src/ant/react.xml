@@ -26,7 +26,7 @@
 
             <arg value="--network-timeout" />
             <arg value="1000000000" />
-	    <arg value="install" />
+            <arg value="install" />
         </exec>
 
         <exec executable="yarn" failonerror="true" dir="${basedir}">
@@ -45,6 +45,12 @@
             <arg value="frontastic-catwalk" />
             <arg value="--link-folder" />
             <arg value="${relative_path}/.yarn-links" />
+        </exec>
+
+        <exec executable="yarn" failonerror="true" dir="${basedir}">
+            <env key="CI" value="true" />
+
+            <arg value="install" />
         </exec>
     </target>
 

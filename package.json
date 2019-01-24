@@ -91,7 +91,7 @@
     "sw-precache-webpack-plugin": "0.11.5",
     "url-loader": "^1.0.1",
     "webpack": "4.16.0",
-    "webpack-dev-server": "3.1.4",
+    "webpack-dev-server": "3.1.14",
     "webpack-manifest-plugin": "2.0.3",
     "webpack-node-externals": "^1.7.2",
     "whatwg-fetch": "2.0.4"
@@ -104,12 +104,6 @@
     "check": "node node_modules/.bin/eslint --ext .js --ext .jsx -c ../../paas/integration/eslint.config.json src/js/ test/js/",
     "fix": "node node_modules/.bin/eslint --fix --ext .js --ext .jsx -c ../../paas/integration/eslint.config.json src/js/ test/js/",
     "server:start": "NODE_ENV=development nodemon --legacy-watch --watch src/js/ bin/devServer.js --exec babel-node --presets env,react-app"
-  },
-  "proxy": {
-    "/api": {
-      "target": "http://backend.frontastic.io.local/",
-      "changeOrigin": true
-    }
   },
   "jest": {
     "collectCoverageFrom": [
