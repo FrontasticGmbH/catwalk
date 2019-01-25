@@ -23,9 +23,9 @@ class MetaData extends Component {
     generateTitle = () => {
         if (this.props.node.configuration.seoTitle) {
             return getTranslation(
-                    this.props.node.configuration.seoTitle,
-                    this.props.context.locale,
-                    this.props.context.project.defaultLanguage
+                this.props.node.configuration.seoTitle,
+                this.props.context.locale,
+                this.props.context.project.defaultLanguage
             ).text
         }
 

@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import configurationResolver from '../app/configurationResolver'
 
 export default (globalState, props) => {

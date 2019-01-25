@@ -1,7 +1,5 @@
 import _ from 'lodash'
 
-import { ConfigurationSchema } from 'frontastic-common'
-
 /**
  * @param {ConfigurationSchema} schema
  * @param {object} streamData

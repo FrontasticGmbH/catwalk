@@ -57,8 +57,8 @@ function createSchemaFixture (fieldDefinition, configuration = {}) {
         [{
             name: 'Some name',
             fields: [
-                fieldDefinition
-            ]
+                fieldDefinition,
+            ],
         }],
         configuration
     )
