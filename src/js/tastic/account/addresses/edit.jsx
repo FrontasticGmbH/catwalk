@@ -8,6 +8,7 @@ class Address extends Component {
 
         this.state = props.address || {
             addressId: null,
+            salutation: 'Herr',
             firstName: '',
             lastName: '',
             streetName: '',
@@ -24,6 +25,7 @@ class Address extends Component {
             (this.state.addressId !== nextProps.address.addressId)) {
             this.setState(nextProps.address || {
                 addressId: null,
+                salutation: 'Herr',
                 firstName: '',
                 lastName: '',
                 streetName: '',
@@ -47,7 +49,24 @@ class Address extends Component {
 
     render () {
         return (<div className='c-form o-layout'>
-            <div className='c-form__item o-layout__item u-1/1 u-1/2@lap'>
+            <div className='c-form__item o-layout__item u-1/1 u-1/3@lap'>
+                <label htmlFor={'checkout_' + this.props.scope + '_firstName'} className='c-form__label'>
+                    Anrede
+                </label>
+                <select
+                    id={'checkout_' + this.props.scope + '_salutation'}
+                    className='c-form__input'
+                    autoComplete='salutation'
+                    value={this.state.salutation || 'Herr'}
+                    onChange={(event) => {
+                        this.updateState({ salutation: event.target.value })
+                    }}
+                >
+                    <option value='Herr'>Herr</option>
+                    <option value='Frau'>Frau</option>
+                </select>
+            </div>
+            <div className='c-form__item o-layout__item u-1/1 u-1/3@lap'>
                 <label htmlFor={'checkout_' + this.props.scope + '_firstName'} className='c-form__label'>Vorname</label>
                 <input
                     id={'checkout_' + this.props.scope + '_firstName'}
@@ -61,7 +80,7 @@ class Address extends Component {
                     }}
                 />
             </div>
-            <div className='c-form__item o-layout__item u-1/1 u-1/2@lap'>
+            <div className='c-form__item o-layout__item u-1/1 u-1/3@lap'>
                 <label htmlFor={'checkout_' + this.props.scope + '_lastName'} className='c-form__label'>Nachname</label>
                 <input
                     id={'checkout_' + this.props.scope + '_lastName'}
