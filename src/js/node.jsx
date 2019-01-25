@@ -12,7 +12,7 @@ import MetaData from './node/metaData'
 import Page from './page/page'
 
 import configurationResolver from './app/configurationResolver'
-import schemes from './schema/schemes'
+import schemas from './schemas'
 
 class Node extends Component {
     UNSAFE_componentWillUpdate = (nextProps) => { // eslint-disable-line camelcase
@@ -34,7 +34,7 @@ class Node extends Component {
             {},
             _.pick(nodeData.configuration, ['path']),
             configurationResolver(
-                new ConfigurationSchema(schemes.node.schema, nodeData.configuration),
+                new ConfigurationSchema(schemas.node.schema, nodeData.configuration),
                 (this.props.data.data || {}).stream || {}
             )
         )
