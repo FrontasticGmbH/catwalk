@@ -31,7 +31,8 @@ let Router = function (history, routes = {}, context = null) {
 
         let unknownKeys = _.difference(keys, _.keys(allParameters))
         if (unknownKeys.length) {
-            throw new Error('Missing values for ' + route + ': ' + unknownKeys.join(', '))
+            console.error('Missing values for ' + route + ': ' + unknownKeys.join(', '))
+            return { pathname: '/', search: {} }
         }
 
         let queryKeys = _.difference(_.keys(allParameters), keys)
