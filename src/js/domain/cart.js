@@ -6,6 +6,7 @@ class Cart {
         this.cartVersion = cart.cartVersion || 0
         this.lineItems = cart.lineItems || []
         this.sum = +cart.sum || 0
+        this.payment = cart.payment || null
     }
 
     getLineItems () {
