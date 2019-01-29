@@ -3,6 +3,7 @@ import _ from 'lodash'
 class Cart {
     constructor (cart = {}) {
         this.cartId = cart.cartId || null
+        this.cartVersion = cart.cartVersion || 0
         this.lineItems = cart.lineItems || []
         this.sum = +cart.sum || 0
     }
