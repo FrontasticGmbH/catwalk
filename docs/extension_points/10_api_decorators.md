@@ -6,11 +6,11 @@ after* each method call to any API.
 * If called before an API call you can modify the data passed to the API or
   perform additional actions.
 
-* If called after an API you can modify or enrich the result or jsut react to
+* If called after an API you can modify or enrich the result or just react to
   the API response.
 
 We provide the API decorators natively for all our APIs, this means they are
-vailable right now for the following APIs:
+avilable right now for the following APIs:
 
 * AccountAPI
 * CartAPI
@@ -18,7 +18,7 @@ vailable right now for the following APIs:
 * ProductAPI
 * WishlistAPI
 
-In  the [Example: Adding Information to Products](20_product_enhancer.md) we
+In the [Example: Adding Information to Products](20_product_enhancer.md) we
 document the process of creating a custom decorator in more detail, but the
 general scheme is described in this document.
 
@@ -51,9 +51,8 @@ method is defined in you decorator and just call it with the aggregated API and
 all original arguments for the before call and with the aggregate and the
 return value for the after call.
 
-If we take a look at `ProductApi::getProduct(ProductQuery $query):
-?Product` this means you can deine th following methods in you
-decorator:
+If we take a look at `ProductApi::getProduct(ProductQuery $query): ?Product`
+this means you can define the following methods in your decorator:
 
 ```
     public function beforeGetProduct(ProductApi $api, ProductQuery $query)
