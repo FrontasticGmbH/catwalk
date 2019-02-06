@@ -1,0 +1,46 @@
+{
+    "identifier": "featureFlag",
+    "name": "Feature Flags",
+    "icon": "local_offer",
+    "fields": [
+        {
+            "label": "Key",
+            "field": "key"
+        },
+        {
+            "label": "Turned On",
+            "field": "on"
+        }
+    ],
+    "schema": [
+        {
+            "name": "Base Data",
+            "fields": [
+                {
+                    "label": "Key",
+                    "field": "key",
+                    "required": true,
+                    "translatable": false,
+                    "type": "string"
+                },
+                {
+                    "label": "Turned On",
+                    "field": "on",
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "label": "Description",
+                    "field": "description",
+                    "type": "markdown"
+                }
+            ]
+        }
+    ],
+    "indexes": [
+        {
+            "name": "Key",
+            "fields": ["key"]
+        }
+    ]
+}
