@@ -77,6 +77,7 @@ let Loader = function (store, router, api) {
             break
         case 'Frontastic.Frontend.Master.Category.view':
         case 'Frontastic.Frontend.Master.Product.view':
+        case 'Frontastic.Frontend.Master.Search.search':
         case 'Frontastic.Frontend.Master.Checkout.cart':
         case 'Frontastic.Frontend.Master.Checkout.checkout':
         case 'Frontastic.Frontend.Master.Account.index':

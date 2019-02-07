@@ -26,12 +26,12 @@ class SearchController extends Controller
         $pageService = $this->get(PageService::class);
 
         $node = $nodeService->get($pageMatcherService->matchNodeId(new PageMatcherContext(['search' => $phrase])));
-        $node->streams = $pageMatcherService->completeDefaultQuery($node->streams, 'query', $phrase);
+        $node->streams = $pageMatcherService->completeDefaultQuery($node->streams, 'search', $phrase);
 
         return [
             'node' => $node,
             'page' => $page = $pageService->fetchForNode($node),
-            'data' => $dataProvider->fetchDataFor($node, $context, [], $page),
+            'data' => $dataProvider->fetchDataFor($node, $context, ['__master' => ['query' => $phrase]], $page),
         ];
     }
 }
