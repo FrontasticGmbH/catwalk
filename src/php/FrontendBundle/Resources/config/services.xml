@@ -348,5 +348,17 @@
 
             <tag name="kernel.event_listener" event="kernel.exception" />
         </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\FeatureFlagService">
+            <argument type="service">
+                <service class="Frontastic\Catwalk\ApiCoreBundle\Domain\DataRepository">
+                    <factory service="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService"
+                        method="getRepository" />
+                    <argument>FeatureFlag</argument>
+                </service>
+            </argument>
+
+            <tag name="context.decorator" />
+        </service>
     </services>
 </container>

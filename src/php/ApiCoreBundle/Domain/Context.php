@@ -48,6 +48,11 @@ class Context extends DataObject
      */
     public $session = null;
 
+    /**
+     * @var [string => bool]
+     */
+    public $featureFlags = [];
+
     public function __construct(array $values = [])
     {
         parent::__construct($values);
@@ -60,6 +65,15 @@ class Context extends DataObject
     public function applicationEnvironment(): string
     {
         return $this->mapFrameworkToApplicationEnvironment($this->environment);
+    }
+
+    public function hasFeature(string $featureFlag): bool
+    {
+        if (!isset($this->featureFlags[$featureFlag])) {
+            return false;
+        }
+
+        return (bool) $this->featureFlags[$featureFlag];
     }
 
     private function mapFrameworkToApplicationEnvironment(string $frameworkEnvironment): string
