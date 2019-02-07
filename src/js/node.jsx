@@ -23,7 +23,7 @@ class Node extends Component {
     }
 
     render () {
-        if (!this.props.tastics.isComplete()) {
+        if (!this.props.node.data || !this.props.tastics.isComplete()) {
             return <Loading large entity={this.props.tastics} />
         }
 
