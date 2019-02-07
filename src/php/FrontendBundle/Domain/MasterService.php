@@ -25,6 +25,7 @@ class MasterService implements Target
         'accountOrders',
         'accountWishlists',
         'accountVouchers',
+        'search',
         'error',
     ];
 

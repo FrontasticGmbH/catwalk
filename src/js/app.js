@@ -77,15 +77,6 @@ export default (mountNode, tastics = null) => {
                             }
                         ))}
 
-                        <Route exact
-                            path={app.getRouter().reactRoute('Frontastic.Frontend.Master.Product.view')}
-                            component={Node}
-                        />
-                        <Route exact
-                            path={app.getRouter().reactRoute('Frontastic.Frontend.Master.Category.view')}
-                            component={Node}
-                        />
-
                         <Route exact path='/' component={() => {
                             return (<div style={{
                                 maxWidth: '768px',
