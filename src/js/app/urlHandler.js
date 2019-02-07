@@ -25,7 +25,7 @@ let UrlHandler = function (route, streamConfigurations) {
      */
     this.deriveParameters = (manipulator) => {
         const urlState = new UrlState(
-            _.cloneDeep(this.route.query),
+            _.extend({}, this.route.query, this.route.parameters),
             new ParameterHandlerFactory(this.streamConfigurations, false)
         )
 
