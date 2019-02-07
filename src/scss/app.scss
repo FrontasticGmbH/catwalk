@@ -75,23 +75,23 @@
  */
 
 // SETTINGS
-@import "settings/settings.config";
-@import "settings/settings.global";
+@import 'settings/settings.config';
+@import 'settings/settings.global';
 // @import "../../node_modules/inuitcss/settings/settings.core";
-@import "settings/settings.core";
+@import 'settings/settings.core';
 // @import "../../node_modules/inuitcss/settings/example.settings.global";
-@import "settings/settings.colors";
-@import "settings/settings.typography";
-@import "settings/settings.breakpoints";
+@import 'settings/settings.colors';
+@import 'settings/settings.typography';
+@import 'settings/settings.breakpoints';
 
 // TOOLS
 // @import "../../node_modules/inuitcss/tools/tools.font-size";
-@import "tools/tools.aliases";
-@import "tools/tools.font-size";
-@import "../../node_modules/inuitcss/tools/tools.clearfix";
-@import "../../node_modules/inuitcss/tools/tools.hidden";
-@import "../../node_modules/sass-mq/mq";
-@import "tools/tools.responsify";
+@import 'tools/tools.aliases';
+@import 'tools/tools.font-size';
+@import '../../node_modules/inuitcss/tools/tools.clearfix';
+@import '../../node_modules/inuitcss/tools/tools.hidden';
+@import '../../node_modules/sass-mq/mq';
+@import 'tools/tools.responsify';
 
 .a {
     width: $unit;
@@ -102,117 +102,117 @@
 }
 
 // GENERIC
-@import "../../node_modules/inuitcss/generic/generic.box-sizing";
-@import "../../node_modules/inuitcss/generic/generic.normalize";
-@import "../../node_modules/inuitcss/generic/generic.reset";
-@import "../../node_modules/inuitcss/generic/generic.shared";
+@import '../../node_modules/inuitcss/generic/generic.box-sizing';
+@import '../../node_modules/inuitcss/generic/generic.normalize';
+@import '../../node_modules/inuitcss/generic/generic.reset';
+@import '../../node_modules/inuitcss/generic/generic.shared';
 
 // ELEMENTS
 // @import "../../node_modules/inuitcss/elements/elements.page";
-@import "elements/elements.page";
+@import 'elements/elements.page';
 // @import "../../node_modules/inuitcss/elements/elements.headings";
-@import "elements/elements.headings";
-@import "elements/elements.region";
-@import "elements/elements.cell";
-@import "elements/elements.content";
-@import "elements/elements.tastic";
-@import "elements/elements.button";
-@import "../../node_modules/inuitcss/elements/elements.images";
-@import "../../node_modules/inuitcss/elements/elements.tables";
+@import 'elements/elements.headings';
+@import 'elements/elements.region';
+//@import "elements/elements.cell";
+@import '../../../../apollo_de/src/scss/objects/objects.cell';
+@import 'elements/elements.content';
+@import 'elements/elements.tastic';
+@import 'elements/elements.button';
+@import '../../node_modules/inuitcss/elements/elements.images';
+@import '../../node_modules/inuitcss/elements/elements.tables';
 
 // OBJECTS
 //
 // Uncomment and add to this section as necessary.
-@import "../../node_modules/inuitcss/objects/objects.wrapper";
-@import "../../node_modules/inuitcss/objects/objects.layout";
+@import '../../node_modules/inuitcss/objects/objects.wrapper';
+@import '../../node_modules/inuitcss/objects/objects.layout';
 // @import "../../node_modules/inuitcss/objects/objects.media";
 // @import "../../node_modules/inuitcss/objects/objects.flag";
 // @import "../../node_modules/inuitcss/objects/objects.list-bare";
 //@import "../../node_modules/inuitcss/objects/objects.list-inline";
-@import "../../node_modules/inuitcss/objects/objects.box";
+@import '../../node_modules/inuitcss/objects/objects.box';
 // @import "../../node_modules/inuitcss/objects/objects.block";
-@import "../../node_modules/inuitcss/objects/objects.ratio";
+@import '../../node_modules/inuitcss/objects/objects.ratio';
 // @import "../../node_modules/inuitcss/objects/objects.crop";
-@import "../../node_modules/inuitcss/objects/objects.table";
+@import '../../node_modules/inuitcss/objects/objects.table';
 // @import "../../node_modules/inuitcss/objects/objects.pack";
-@import "objects/objects.icons";
+@import 'objects/objects.icons';
 
 $enable-responsive-block-media-reverse: true;
 $responsive-block-until-include: lap;
 $block-media-auto-body-min-width: 12em;
-@import "objects/objects.block";
+@import 'objects/objects.block';
 
 // VENDOR
 //
 // Include vendor CSS/SCSS files here,
-@import "../../node_modules/flickity/dist/flickity";
+@import '../../node_modules/flickity/dist/flickity';
 
 // COMPONENTS
 //
 // Build and include your project’s UI components here.
 // @import "../../node_modules/inuitcss/components/example.components.buttons";
-@import "components/components.alert";
-@import "components/components.badge";
-@import "components/components.buttons";
-@import "components/components.button-row";
-@import "components/components.card";
-@import "components/components.cart";
-@import "components/components.cart-link";
-@import "components/components.figure";
-@import "components/components.filter-bar";
-@import "components/components.forms";
-@import "components/components.headings";
-@import "components/components.hero";
-@import "components/components.highlight";
-@import "components/components.links";
-@import "components/components.nav-foot";
-@import "components/components.nav-sequential";
-@import "components/components.navbar";
-@import "components/components.overlay";
-@import "components/components.page-body";
-@import "components/components.page-foot";
-@import "components/components.page-head";
-@import "components/components.page-section";
-@import "components/components.page-navbar";
-@import "components/components.price";
-@import "components/components.price-list";
-@import "components/components.scrollup";
-@import "components/components.slider";
-@import "components/components.tableview";
-@import "components/components.teaser";
-@import "components/components.loading";
-@import "components/components.range-selector";
-@import "components/components.pattern-library";
+@import 'components/components.alert';
+@import 'components/components.badge';
+@import 'components/components.buttons';
+@import 'components/components.button-row';
+@import 'components/components.cart';
+@import 'components/components.cart-link';
+@import 'components/components.figure';
+@import 'components/components.filter-bar';
+@import 'components/components.forms';
+@import 'components/components.headings';
+@import 'components/components.hero';
+@import 'components/components.highlight';
+@import 'components/components.links';
+@import 'components/components.nav-foot';
+@import 'components/components.nav-sequential';
+@import 'components/components.navbar';
+@import 'components/components.overlay';
+@import 'components/components.page-body';
+@import 'components/components.page-foot';
+@import 'components/components.page-head';
+@import 'components/components.page-section';
+@import 'components/components.page-navbar';
+@import 'components/components.price';
+@import 'components/components.price-list';
+@import 'components/components.scrollup';
+@import 'components/components.slider';
+@import 'components/components.tableview';
+@import 'components/components.teaser';
+@import 'components/components.loading';
+@import 'components/components.range-selector';
+@import 'components/components.pattern-library';
 
 // SCOPES
-@import "scopes/scopes.text";
-@import "scopes/scopes.code";
+@import 'scopes/scopes.text';
+@import 'scopes/scopes.code';
 
 // UTILITIES
-@import "../../node_modules/inuitcss/utilities/utilities.clearfix";
+@import '../../node_modules/inuitcss/utilities/utilities.clearfix';
 
 // Be aware that enabling offsets produces a large chunk of classes which might
 // bloat your CSS, depending on the amount of breakpoints you defined.
 // Only set this to `true` if you are absolutely sure about what you are doing.
 $inuit-offsets: true;
-@import "../../node_modules/inuitcss/utilities/utilities.widths";
+@import '../../node_modules/inuitcss/utilities/utilities.widths';
 // @import "../../node_modules/inuitcss/utilities/utilities.headings";
-@import "../../node_modules/inuitcss/utilities/utilities.spacings";
-@import "../../node_modules/inuitcss/utilities/utilities.responsive-spacings";
-@import "../../node_modules/inuitcss/utilities/utilities.print";
-@import "../../node_modules/inuitcss/utilities/utilities.hide";
+@import '../../node_modules/inuitcss/utilities/utilities.spacings';
+@import '../../node_modules/inuitcss/utilities/utilities.responsive-spacings';
+@import '../../node_modules/inuitcss/utilities/utilities.print';
+@import '../../node_modules/inuitcss/utilities/utilities.hide';
 
-@import "utilities/utilities.not-scrollable";
-@import "utilities/utilities.links";
-@import "utilities/utilities.transitions";
+@import 'utilities/utilities.not-scrollable';
+@import 'utilities/utilities.links';
+@import 'utilities/utilities.transitions';
 
 $inuit-page-width-responsive: true;
 $inuit-responsive-page-width-until-include: desk;
-@import "utilities/utilities.page-width";
+@import 'utilities/utilities.page-width';
 
-@import "utilities/utilities.text";
-@import "utilities/utilities.colors";
+@import 'utilities/utilities.text';
+@import 'utilities/utilities.colors';
 
-@import "utilities/utilities.responsive-hide";
+@import 'utilities/utilities.responsive-hide';
 
-@import "shame";
+@import 'shame';

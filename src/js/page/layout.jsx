@@ -4,52 +4,66 @@ import PropTypes from 'prop-types'
 import Region from './region'
 
 class Layout extends Component {
-    render () {
+    render() {
         if (this.props.page.layoutId === 'kit') {
-            return (<main className='c-page-body'>
-                <div className='c-page-wrapper o-wrapper'>
-                    <Region
-                        identifier='kit'
-                        region={this.props.page.regions.kit}
-                        highlight={this.props.highlight}
-                        data={this.props.data}
-                        node={this.props.node}
-                        page={this.props.page} />
-                </div>
-            </main>)
+            return (
+                <main className='c-page-body'>
+                    <div className='c-page-wrapper o-wrapper'>
+                        <Region
+                            identifier='kit'
+                            region={this.props.page.regions.kit}
+                            highlight={this.props.highlight}
+                            data={this.props.data}
+                            node={this.props.node}
+                            page={this.props.page}
+                        />
+                    </div>
+                </main>
+            )
         }
 
-        return (<Fragment>
-            <header className='c-page-head'>
-                {this.props.page.regions.head ? <Region
-                    identifier='head'
-                    region={this.props.page.regions.head}
-                    highlight={this.props.highlight}
-                    data={this.props.data}
-                    node={this.props.node}
-                    page={this.props.page} /> : null}
-            </header>
-            <main className='c-page-body'>
-                <div className='c-page-wrapper o-wrapper'>
-                    {this.props.page.regions.main ? <Region
-                        identifier='main'
-                        region={this.props.page.regions.main}
-                        highlight={this.props.highlight}
-                        data={this.props.data}
-                        node={this.props.node}
-                        page={this.props.page} /> : null}
-                </div>
-            </main>
-            <footer className='c-page-foot'>
-                {this.props.page.regions.footer ? <Region
-                    identifier='footer'
-                    region={this.props.page.regions.footer}
-                    highlight={this.props.highlight}
-                    data={this.props.data}
-                    node={this.props.node}
-                    page={this.props.page} /> : null}
-            </footer>
-        </Fragment>)
+        return (
+            <Fragment>
+                <header className='c-page-head'>
+                    {this.props.page.regions.head ? (
+                        <Region
+                            identifier='head'
+                            region={this.props.page.regions.head}
+                            highlight={this.props.highlight}
+                            data={this.props.data}
+                            node={this.props.node}
+                            page={this.props.page}
+                        />
+                    ) : null}
+                </header>
+                <main className='c-page-body'>
+                    <div className='c-page-wrapper o-wrapper'>
+                        {this.props.page.regions.main ? (
+                            <Region
+                                identifier='main'
+                                region={this.props.page.regions.main}
+                                highlight={this.props.highlight}
+                                data={this.props.data}
+                                node={this.props.node}
+                                page={this.props.page}
+                            />
+                        ) : null}
+                    </div>
+                </main>
+                <footer className='c-page-foot'>
+                    {this.props.page.regions.footer ? (
+                        <Region
+                            identifier='footer'
+                            region={this.props.page.regions.footer}
+                            highlight={this.props.highlight}
+                            data={this.props.data}
+                            node={this.props.node}
+                            page={this.props.page}
+                        />
+                    ) : null}
+                </footer>
+            </Fragment>
+        )
 
         /*
          * @TODO: This is the genric layout which we replaced by this hardcoded
