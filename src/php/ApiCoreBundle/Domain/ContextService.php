@@ -25,16 +25,31 @@ class ContextService
      */
     private $tokenStorage;
 
+    /**
+     * @var ContextDecorator[]
+     */
+    private $decorators = [];
+
     public function __construct(
         Router $router,
         RequestStack $requestStack,
         CustomerService $customerService,
-        TokenStorage $tokenStorage
+        TokenStorage $tokenStorage,
+        iterable $decorators
     ) {
         $this->router = $router;
         $this->requestStack = $requestStack;
         $this->customerService = $customerService;
         $this->tokenStorage = $tokenStorage;
+
+        foreach ($decorators as $decorator) {
+            $this->addDecorator($decorator);
+        }
+    }
+
+    public function addDecorator(ContextDecorator $decorator): void
+    {
+        $this->decorators[] = $decorator;
     }
 
     public function createContextFromRequest(Request $request = null): Context
@@ -110,7 +125,7 @@ class ContextService
             $locale = $project->defaultLanguage;
         }
 
-        return new Context([
+        $context = new Context([
             'environment' => \Frontastic\Catwalk\AppKernel::getEnvironmentFromConfiguration(),
             'customer' => $customer,
             'project' => $project,
@@ -128,5 +143,11 @@ class ContextService
                 iterator_to_array($this->router->getRouteCollection())
             ),
         ]);
+
+        foreach ($this->decorators as $decorator) {
+            $context = $decorator->decorate($context);
+        }
+
+        return $context;
     }
 }
