@@ -9,9 +9,10 @@ let Context = function (context = {}) {
         user: null,
         message: null,
     }
+    this.featureFlags = {}
 
     this.hasFeature = function (feature) {
-        return this.features && _.contains(this.features, feature)
+        return !!this.featureFlags[feature]
     }
 
     this.isLoggedIn = function () {
