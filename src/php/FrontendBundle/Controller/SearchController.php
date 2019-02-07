@@ -2,6 +2,9 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
@@ -10,11 +13,10 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class SearchController extends Controller
 {
-    public function searchAction(Context $context, string $phrase): array
+    public function searchAction(Request $request, Context $context, string $phrase): array
     {
         /** @var MasterService $pageMatcherService */
         $pageMatcherService = $this->get(MasterService::class);
@@ -28,10 +30,15 @@ class SearchController extends Controller
         $node = $nodeService->get($pageMatcherService->matchNodeId(new PageMatcherContext(['search' => $phrase])));
         $node->streams = $pageMatcherService->completeDefaultQuery($node->streams, 'search', $phrase);
 
+        $parameters = array_merge_recursive(
+             $request->query->get('s', []),
+            ['__master' => ['query' => $phrase]]
+        );
+
         return [
             'node' => $node,
             'page' => $page = $pageService->fetchForNode($node),
-            'data' => $dataProvider->fetchDataFor($node, $context, ['__master' => ['query' => $phrase]], $page),
+            'data' => $dataProvider->fetchDataFor($node, $context, $parameters, $page),
         ];
     }
 }

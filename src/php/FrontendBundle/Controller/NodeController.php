@@ -2,13 +2,14 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
 class NodeController extends Controller
 {
@@ -23,26 +24,13 @@ class NodeController extends Controller
 
         $node = $nodeService->get($nodeId);
 
-        $streamParameterMap = $this->extractStreamParameters($node, $request);
-
         $page = $pageService->fetchForNode($node);
 
         return [
             'node' => $node,
             'page' => $page,
-            'data' => $dataProvider->fetchDataFor($node, $context, $streamParameterMap, $page),
+            'data' => $dataProvider->fetchDataFor($node, $context, $request->query->get('s', []), $page),
         ];
-    }
-
-    private function extractStreamParameters(Node $node, Request $request)
-    {
-        if (!$request->query->has('s')) {
-            return [];
-        }
-        $streamParameters = $request->query->get('s');
-
-        // Expecting s[$streamId][...] query parameters that translate to e.g. ProductQuery
-        return $streamParameters;
     }
 
     public function treeAction(Request $request): Node

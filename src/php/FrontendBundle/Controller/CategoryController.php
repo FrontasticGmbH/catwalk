@@ -35,7 +35,7 @@ class CategoryController extends Controller
         return [
             'node' => $node,
             'page' => $page = $pageService->fetchForNode($node),
-            'data' => $dataProvider->fetchDataFor($node, $context, [], $page),
+            'data' => $dataProvider->fetchDataFor($node, $context, $request->query->get('s', []), $page),
         ];
     }
 
