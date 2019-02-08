@@ -14,13 +14,10 @@ let Route = function (route, query, historyState = null) {
         return (this.parameters && this.parameters[parameter])
     }
 
-    for (let property in route) {
-        this[property] = route[property]
-    }
-
+    this.route = route.route
     this.query = query
-    this.urlParameters = _.extend({}, route.parameters)
-    this.parameters = _.extend({}, this.urlParameters, this.query)
+    this.urlParameters = _.cloneDeep(route.parameters)
+    this.parameters = { ...route.parameters, ...this.query }
     this.historyState = historyState
 }
 
