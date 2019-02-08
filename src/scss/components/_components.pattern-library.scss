@@ -58,15 +58,22 @@ $headerHeight: (($fs-base * $lh-default) + (2 * $unit-small));
     }
 
     & > input {
-        text-align: right;
         background-color: $color-black;
         color: $color-gray;
         border: none;
-        border-bottom: 1px solid $color-gray-dark;
-        width: 3em;
+        border-bottom: 1px solid $color-gray;
 
         font-size: inherit;
         line-height: inherit;
+    }
+
+    .c-pl-menu__input--search {
+        width: 5em;
+    }
+
+    .c-pl-menu__input--width {
+        text-align: right;
+        width: 3em;
     }
 
     .c-pl-menu__content {
@@ -119,10 +126,15 @@ $headerHeight: (($fs-base * $lh-default) + (2 * $unit-small));
         margin: $unit-tiny auto;
         text-align: center;
     }
+
+    small {
+        font-size: $fs-s;
+    }
 }
 
 .c-pattern-library__body {
     height: calc(100vh - #{$headerHeight});
+    margin-top: $headerHeight;
     background-color: $color-pale;
 }
 

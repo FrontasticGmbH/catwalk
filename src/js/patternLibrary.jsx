@@ -19,7 +19,36 @@ class PatternLibrary extends Component {
             size: 'hand',
             highlight: null,
             showLinks: false,
+            search: '',
         }
+    }
+
+    index = this.compilePatternIndex(patterns, [])
+    fuse
+
+    componentDidMount = () => {
+        // eslint-disable-next-line global-require
+        const scriptjs = require(`scriptjs`)
+        scriptjs(
+            '//cdnjs.cloudflare.com/ajax/libs/fuse.js/3.4.0/fuse.min.js',
+            () => {
+                this.fuse = new Fuse(this.index, { keys: ['id', 'keys', 'name'] })
+            }
+        )
+    }
+
+    compilePatternIndex (patterns, index, prefix = '') {
+        for (let key in patterns) {
+            let id = (prefix ? prefix + '.' : '') + key 
+
+            if (patterns[key].component && patterns[key].path) {
+                index.push(_.extend({ id, keys: id.split('.').join(' ') }, patterns[key]))
+            } else {
+                index = this.compilePatternIndex(patterns[key], index, id)
+            }
+        }
+
+        return index
     }
 
     selectPattern (pattern) {
@@ -81,11 +110,40 @@ class PatternLibrary extends Component {
                         </div>
                     </li>)
                 }))}
+                    <li key={name} className={classnames({
+                        'c-pl-menu__item': true,
+                        'c-pl-menu__item--selected': !!this.state.search,
+                    })}>
+                        <input
+                            className='c-pl-menu__input--search'
+                            type='text'
+                            placeholder='Search Patterns…'
+                            value={this.props.search}
+                            onChange={(event) => {
+                                this.setState({ search: event.target.value })
+                            }}
+                        />
+                        <div className='c-pl-menu__content'>
+                            <ul className='c-pl-content'>
+                                {this.state.search && this.fuse.search(this.state.search).map((result) => {
+                                    return (<li className='c-pl-content__item' key={result.id}>
+                                        <button onClick={() => {
+                                            this.setState({ search: '' })
+                                            this.selectPattern(result.id)
+                                        }}>
+                                            {result.name} <small>({result.id})</small>
+                                        </button>
+                                    </li>)
+                                })}
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
                 <div className='c-pl-spacer' />
                 <ul className='c-pl-menu'>
                     <li className='c-pl-menu__item'>
                         <input
+                            className='c-pl-menu__input--width'
                             type='text'
                             value={this.props.width}
                             onChange={(event) => {
