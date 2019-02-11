@@ -2,6 +2,13 @@
 <project name="Documentation">
     <property name="executable.mkdocs" location="/usr/local/bin/mkdocs" />
 
+    <property name="docs.build-base" location="${builddir}/docs" />
+    <property name="docs.build-target" location="${builddir}/docs/target" />
+
+    <property name="docs.tpl.sitename" value="Docs Test" />
+    <property name="docs.tpl.docsdir" location="${basedir}/docs" />
+    <property name="docs.tpl.sitedir" location="${docs.build-target}" />
+
     <target name="docs:serve" >
         <exec executable="${executable.mkdocs}" failonerror="true" dir="${basedir}">
             <arg value="serve" />
@@ -10,9 +17,11 @@
         </exec>
     </target>
 
-    <target name="docs:build" >
+    <target name="docs:build" depends="-docs:prepare">
         <exec executable="${executable.mkdocs}" failonerror="true" dir="${basedir}">
             <arg value="build" />
+            <arg value="-f" />
+            <arg value="${docs.build-base}/mkdocs.yml" />
         </exec>
     </target>
 
@@ -22,5 +31,20 @@
             <arg value="--no-ignore-removal" />
             <arg value="${basedir}/../landingpage/public/docs" />
         </exec>
+    </target>
+
+    <target name="-docs:prepare" depends="clean">
+        <mkdir dir="${docs.build-base}" />
+        <mkdir dir="${docs.build-target}" />
+
+        <copy todir="${docs.build-base}">
+            <fileset file="${frontastic_basedir}/paas/integration/mkdocs.yml.template" />
+
+            <mapper type="regexp" from="(.*).template" to="\1" />
+
+            <filterchain>
+                <expandproperties />
+            </filterchain>
+        </copy>
     </target>
 </project>
