@@ -6,6 +6,11 @@ class Cart {
         this.cartVersion = cart.cartVersion || 0
         this.lineItems = cart.lineItems || []
         this.sum = +cart.sum || 0
+        this.email = cart.email || null
+        this.birthday = cart.birthday || null
+        this.shippingMethod = cart.shippingMethod || null
+        this.shippingAddress = cart.shippingAddress || null
+        this.billingAddress = cart.billingAddress || null
         this.payment = cart.payment || null
     }
 
