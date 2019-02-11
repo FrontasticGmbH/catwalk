@@ -56,12 +56,17 @@ class SelectionPane extends Component {
     }
 
     viewModel = () => {
-        return _.map(this.props.facetConfiguration, (facetConfig) => {
-            return {
-                config: _.cloneDeep(facetConfig),
-                facet: _.find(this.props.facets, { handle: facetConfig.attributeId }),
-            }
-        })
+        console.log(this.props.facetConfiguration, this.props.facets)
+
+        return _.filter(
+                _.map(this.props.facetConfiguration, (facetConfig) => {
+                return {
+                    config: _.cloneDeep(facetConfig),
+                    facet: _.find(this.props.facets, { handle: facetConfig.attributeId }),
+                }
+            }),
+            'facet'
+        )
     }
 
     render () {
@@ -100,7 +105,7 @@ class SelectionPane extends Component {
                                                     facet={facet}
                                                     facetConfig={facetData.config}
                                                     facetValue={this.getFacetValue(facet)}
-                                                    name={<Translatable value={facetData.config.label} />}
+                                                    name={facetData.config.label ? <Translatable value={facetData.config.label} /> : null}
                                                 />}
                                             </button>
                                         </li>)
@@ -136,7 +141,7 @@ class SelectionPane extends Component {
                 (this.state.displayFacetDetails === facet.key ? ' is-pulled-left' : '')}
             >
             <div className='c-sequential-nav__header'>
-                <h3 className='c-sequential-nav__title'><Translatable value={facetData.config.label} /></h3>
+                <h3 className='c-sequential-nav__title'><Translatable value={facetData.config.label || facetData.config.attributeId} /></h3>
                 <button className='c-sequential-nav__primary-action c-button' onClick={this.closeFacet}>
                     <img className='o-icon' data-icon='cross' data-icon-size='base' src={iconArrowLeft} alt='Return' />
                 </button>
