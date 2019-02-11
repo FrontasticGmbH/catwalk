@@ -115,21 +115,25 @@ class MasterService implements Target
     {
         $pageType = $update['pageType'];
 
-        if ($update['deleted']) {
-            foreach ($rules->rules[$pageType]['byId'] as $index => $rule) {
-                if ($rule['nodeId'] === $update['rule']['nodeId']) {
-                    unset($rules->rules[$pageType]['byId'][$index]);
+        // If there is an old rule, remove it. The new rule will be added again.
+        $rules->rules[$pageType]['byId'] = array_values(
+            array_filter(
+                $rules->rules[$pageType]['byId'],
+                function ($rule) use ($update) {
+                    return $rule['nodeId'] !== $update['rule']['nodeId'];
                 }
-            }
+            )
+        );
+
+        if ($update['deleted']) {
+            // Nothing to do since the rule was removed, above
+        } else if (isset($update['rule']['itemId'])) {
+            $rules->rules[$pageType]['byId'][] = [
+                'nodeId' => $update['rule']['nodeId'],
+                'itemId' => $update['rule']['itemId'],
+            ];
         } else {
-            if (isset($update['rule']['itemId'])) {
-                $rules->rules[$pageType]['byId'][] = [
-                    'nodeId' => $update['rule']['nodeId'],
-                    'itemId' => $update['rule']['itemId'],
-                ];
-            } else {
-                $rules->rules[$pageType]['default'] = $update['rule']['nodeId'];
-            }
+            $rules->rules[$pageType]['default'] = $update['rule']['nodeId'];
         }
 
         $rules->sequence = $update['sequence'];
