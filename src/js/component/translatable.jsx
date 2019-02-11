@@ -5,6 +5,10 @@ import { getTranslation } from 'frontastic-common'
 
 class Translatable extends Component {
     render () {
+        if (!value) {
+            return null
+        }
+
         let value = getTranslation(
             this.props.value,
             this.props.currentLocale,
@@ -27,12 +31,13 @@ Translatable.propTypes = {
     value: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.object,
-    ]).isRequired,
+    ]),
     currentLocale: PropTypes.string.isRequired,
     defaultLocale: PropTypes.string.isRequired,
 }
 
 Translatable.defaultProps = {
+    value: null,
 }
 
 export default connect(
