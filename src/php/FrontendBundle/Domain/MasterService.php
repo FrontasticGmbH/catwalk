@@ -101,8 +101,8 @@ class MasterService implements Target
 
     private function pickNode(array $rules, $itemId): string
     {
-        if (isset($rules['rules'])) {
-            foreach ($rules['rules'] as $rule) {
+        if (isset($rules['byId'])) {
+            foreach ($rules['byId'] as $rule) {
                 if ($rule['itemId'] === $itemId) {
                     return $rule['nodeId'];
                 }
