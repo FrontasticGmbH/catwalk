@@ -125,7 +125,7 @@ class PatternLibrary extends Component {
                         />
                         <div className='c-pl-menu__content'>
                             <ul className='c-pl-content'>
-                                {this.state.search && this.fuse.search(this.state.search).map((result) => {
+                                {this.state.search && this.fuse.search(this.state.search).slice(0, 10).map((result) => {
                                     return (<li className='c-pl-content__item' key={result.id}>
                                         <button onClick={() => {
                                             this.setState({ search: '' })
