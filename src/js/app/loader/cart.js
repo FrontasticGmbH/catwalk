@@ -67,6 +67,32 @@ let CartLoader = function (store, api) {
         )
     }
 
+    this.addMultiple = (lineItems) => {
+        this.store.dispatch({
+            type: 'CartApi.Cart.loading',
+        })
+
+        this.api.request(
+            'POST',
+            'Frontastic.CartApi.Cart.addMultiple',
+            { ownErrorHandler: true },
+            { lineItems },
+            (data) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.add.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser('Failed to add item to cart', 'error')
+                this.store.dispatch({
+                    type: 'CartApi.Cart.add.error',
+                    error: error,
+                })
+            }
+        )
+    }
+
     this.updateLineItem = (update) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
