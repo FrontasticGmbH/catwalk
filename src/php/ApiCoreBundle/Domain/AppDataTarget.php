@@ -48,7 +48,6 @@ class AppDataTarget implements Target
 
     public function replicate(array $updates): void
     {
-        file_put_contents('/tmp/repli', 'Received: ' . \json_encode($updates), FILE_APPEND);
         foreach ($updates as $update) {
             $app = $this->appService->getByIdentifier($update['appId']);
             $repository = $this->appRepositoryService->getRepository($app->identifier);
@@ -77,7 +76,6 @@ class AppDataTarget implements Target
                         $data->$property = $value;
                     }
                 }
-                file_put_contents('/tmp/repli', 'Stored: ' . \json_encode($data), FILE_APPEND);
 
                 $repository->store($data);
             }
