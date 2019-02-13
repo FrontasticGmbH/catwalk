@@ -56,8 +56,6 @@ class SelectionPane extends Component {
     }
 
     viewModel = () => {
-        console.log(this.props.facetConfiguration, this.props.facets)
-
         return _.filter(
             _.map(this.props.facetConfiguration, (facetConfig) => {
                 return {
@@ -101,12 +99,12 @@ class SelectionPane extends Component {
                                                 onClick={() => {
                                                     this.showFacet(facet)
                                                 }}>
-                                                {<TitleComponent
+                                                <TitleComponent
                                                     facet={facet}
                                                     facetConfig={facetData.config}
                                                     facetValue={this.getFacetValue(facet)}
-                                                    name={facetData.config.label ? <Translatable value={facetData.config.label} /> : null}
-                                                />}
+                                                    name={<Translatable value={facetData.config.label} />}
+                                                />
                                             </button>
                                         </li>)
                                     }
