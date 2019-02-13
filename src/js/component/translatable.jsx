@@ -5,7 +5,7 @@ import { getTranslation } from 'frontastic-common'
 
 class Translatable extends Component {
     render () {
-        if (!value) {
+        if (!this.props.value) {
             return null
         }
 
