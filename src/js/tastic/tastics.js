@@ -33,7 +33,7 @@ import ProductList from './productList/tastic.jsx'
 import ProductListFilter from './productListFilter/tastic.jsx'
 import ProductSlider from './productSlider/tastic.jsx'
 import Teaser from './teaser/tastic.jsx'
-import Text from './text/tastic.jsx'
+//import Text from './text/tastic.jsx'
 
 export default (() => {
     return {
@@ -70,8 +70,7 @@ export default (() => {
         'product-description': ProductDescription,
         'product-stock': ProductStock,
         'product-price': ProductPrice,
-        'productSlider': ProductSlider,
-        'teaser': Teaser,
-        'text': Text,
+        productSlider: ProductSlider,
+        teaser: Teaser,
     }
 })()
