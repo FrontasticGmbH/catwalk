@@ -127,7 +127,7 @@ class MasterService implements Target
 
         if ($update['deleted']) {
             // Nothing to do since the rule was removed, above
-        } else if (isset($update['rule']['itemId'])) {
+        } elseif (isset($update['rule']['itemId'])) {
             $rules->rules[$pageType]['byId'][] = [
                 'nodeId' => $update['rule']['nodeId'],
                 'itemId' => $update['rule']['itemId'],

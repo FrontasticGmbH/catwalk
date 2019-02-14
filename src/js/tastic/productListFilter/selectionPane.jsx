@@ -59,7 +59,7 @@ class SelectionPane extends Component {
         console.log(this.props.facetConfiguration, this.props.facets)
 
         return _.filter(
-                _.map(this.props.facetConfiguration, (facetConfig) => {
+            _.map(this.props.facetConfiguration, (facetConfig) => {
                 return {
                     config: _.cloneDeep(facetConfig),
                     facet: _.find(this.props.facets, { handle: facetConfig.attributeId }),
