@@ -14,12 +14,12 @@ class MasterPageMatcherRules
     /**
      * @var array
      */
-    public $rules;
+    public $rules = [];
 
     /**
      * @var string
      */
-    public $sequence;
+    public $sequence = 0;
 
     /**
      * @var MetaData

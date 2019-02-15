@@ -38,11 +38,11 @@ class MasterService implements Target
         $rules = $this->rulesGateway->get();
 
         if ($context->productId !== null) {
-            return $this->pickNode($rules->rules['product'], $context->productId);
+            return $this->pickNode($rules->rules['product'] ?? null, $context->productId);
         }
 
         if ($context->categoryId !== null) {
-            return $this->pickNode($rules->rules['category'], $context->categoryId);
+            return $this->pickNode($rules->rules['category'] ?? null, $context->categoryId);
         }
 
         foreach ($this->validContexts as $contextAttribute) {
@@ -118,7 +118,7 @@ class MasterService implements Target
         // If there is an old rule, remove it. The new rule will be added again.
         $rules->rules[$pageType]['byId'] = array_values(
             array_filter(
-                $rules->rules[$pageType]['byId'],
+                $rules->rules[$pageType]['byId'] ?? [],
                 function ($rule) use ($update) {
                     return $rule['nodeId'] !== $update['rule']['nodeId'];
                 }
