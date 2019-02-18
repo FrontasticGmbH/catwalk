@@ -10,13 +10,18 @@ class FeatureFlagService implements ContextDecorator
 {
     private $repository;
 
-    public function __construct(DataRepository $repository)
+    public function __construct(DataRepository $repository = null)
     {
         $this->repository = $repository;
     }
 
     public function decorate(Context $context): Context
     {
+        // Missing feature flag custom app
+        if ($this->repository === null) {
+            return $context;
+        }
+
         try {
             $featureFlags = $this->repository->findAll();
         } catch (\Exception $e) {

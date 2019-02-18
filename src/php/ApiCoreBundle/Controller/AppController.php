@@ -14,6 +14,10 @@ class AppController extends Controller
     {
         $repository = $this->get('Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService')->getRepository($app);
 
+        if ($repository === null) {
+            return new JsonResponse([]);
+        }
+
         $orderBy = $request->get('orderBy', []);
         $offset = $request->get('offset', null);
         $limit = $request->get('limit', null);
@@ -39,6 +43,10 @@ class AppController extends Controller
     public function getAction(string $app, string $dataId, Context $context): JsonResponse
     {
         $repository = $this->get('Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService')->getRepository($app);
+
+        if ($repository === null) {
+            return new JsonResponse([]);
+        }
 
         return new JsonResponse(
             $repository->findOneBy(['locale' => $context->locale, 'dataId' => $dataId])

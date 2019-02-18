@@ -51,11 +51,21 @@ class AppRepositoryService
         $this->updateDatabaseSchema($className);
     }
 
-    public function getRepository(string $className): DataRepository
+    /**
+     * Create data repository for $className.
+     *
+     * While the custom app is still not synchronized, this will return null.
+     * Please make sure your code works accordingly!
+     */
+    public function getRepository(string $className): ?DataRepository
     {
-        return $this->entityManager->getRepository(
-            $this->getFullyQualifiedClassName($className)
-        );
+        $className = $this->getFullyQualifiedClassName($className);
+
+        if (!class_exists($className, true)) {
+            return null;
+        }
+
+        return $this->entityManager->getRepository($className);
     }
 
     private function makeClassName(string $identifier): string

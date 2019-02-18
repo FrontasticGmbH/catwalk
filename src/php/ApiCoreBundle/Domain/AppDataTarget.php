@@ -51,6 +51,12 @@ class AppDataTarget implements Target
         foreach ($updates as $update) {
             $app = $this->appService->getByIdentifier($update['appId']);
             $repository = $this->appRepositoryService->getRepository($app->identifier);
+
+            if ($repository === null) {
+                // App structure not fully synchronized, skipping for now
+                return;
+            }
+
             $properties = $this->appRepositoryService->getProperties($app);
             $entityClass = $this->appRepositoryService->getFullyQualifiedClassName($app->identifier);
 

@@ -350,7 +350,7 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\FeatureFlagService">
-            <argument type="service">
+            <argument type="service" on-invalid="null">
                 <service class="Frontastic\Catwalk\ApiCoreBundle\Domain\DataRepository">
                     <factory service="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService"
                         method="getRepository" />
