@@ -17,7 +17,17 @@ class FeatureFlagService implements ContextDecorator
 
     public function decorate(Context $context): Context
     {
-        $featureFlags = $this->repository->findAll();
+        try {
+            $featureFlags = $this->repository->findAll();
+        } catch (\Exception $e) {
+            // If there is a critical error, like the database not existing
+            // yet, just ignore it and provide no feature flags.
+            //
+            // This might make this hard to debug but since this happens during
+            // context initialization we should be very defensive.
+            $featureFlags = [];
+        }
+
         foreach ($featureFlags as $featureFlag) {
             $context->featureFlags[$featureFlag->key] = (bool) $featureFlag->on;
         }
