@@ -95,6 +95,7 @@ Image.propTypes = {
     ]),
     className: PropTypes.string,
     options: PropTypes.object,
+    title: PropTypes.string,
 }
 
 Image.defaultProps = {
