@@ -1,3 +1,16 @@
+/**
+ * Returns the product in the `stream` field of the tastic and the selected variant + options, if available.
+ *
+ * @typedef ProductConnectorReturnValue
+ * @property {object} product
+ * @property {object} variant
+ * @property {object} option
+ * @property {number} selectedVariant
+ *
+ * @param globalState
+ * @param props
+ * @return {ProductConnectorReturnValue|{}}
+ */
 export default (globalState, props) => {
     let product = props.data.stream
     if (!product) {
