@@ -167,6 +167,28 @@ let CartLoader = function (store, api) {
         )
     }
 
+    this.redeemDiscount = (code) => {
+        this.api.request(
+            'POST',
+            'Frontastic.CartApi.Cart.redeemDiscount',
+            { ownErrorHandler: true, code: code },
+            null,
+            (data) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser('Checkout error: ' + error.message, 'error')
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.error',
+                    error: error,
+                })
+            }
+        )
+    }
+
     this.checkout = (cartInformation) => {
         this.api.request(
             'POST',
