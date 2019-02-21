@@ -11,7 +11,7 @@ class Cart {
         this.shippingMethod = cart.shippingMethod || null
         this.shippingAddress = cart.shippingAddress || null
         this.billingAddress = cart.billingAddress || null
-        this.payment = cart.payment || null
+        this.payments = cart.payments || []
     }
 
     getLineItems () {
