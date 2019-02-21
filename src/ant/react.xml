@@ -51,6 +51,8 @@
             <env key="CI" value="true" />
 
             <arg value="install" />
+            <arg value="--link-folder" />
+            <arg value="../../.yarn-links" />
         </exec>
     </target>
 
