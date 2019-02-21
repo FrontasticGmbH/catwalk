@@ -27,7 +27,7 @@ class Image extends Component {
     }
 
     render () {
-        let omitedProperties = ['context', 'media', 'title', 'url', 'alt', 'cropRatio', 'width', 'height', 'dispatch', 'options']
+        let omitedProperties = ['context', 'media', 'title', 'url', 'alt', 'cropRatio', 'width', 'height', 'dispatch', 'options', 'forceWidth', 'forceHeight']
 
         let [width, height] = this.mediaApi.getImageDimensions(
             this.props.media,
@@ -87,6 +87,8 @@ Image.propTypes = {
     title: PropTypes.string,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
+    forceWidth: PropTypes.number,
+    forceHeight: PropTypes.number,
     style: PropTypes.object,
     cropRatio: PropTypes.oneOfType([
         PropTypes.string,
@@ -104,13 +106,28 @@ Image.defaultProps = {
     className: '',
 }
 
-export default connect(
+export default sizer({
+    getSize: MediaApi.getElementDimensions,
+})(connect(
     (globalState, props) => {
-        return {
+        let inferredProps = {
             ...props,
             context: globalState.app.context,
         }
+
+        console.log(inferredProps)
+        if (props.forceWidth && props.media && props.media.width && props.media.height) {
+            inferredProps.width = props.forceWidth
+            inferredProps.height = props.forceHeight || (props.forceWidth / props.media.width * props.media.height)
+        }
+
+        console.log(inferredProps)
+        if (props.forceHeight && props.media && props.media.width && props.media.height) {
+            inferredProps.width = props.forceWidth || (props.forceHeight / props.media.height * props.media.width)
+            inferredProps.height = props.forceHeight
+        }
+
+        console.log(inferredProps)
+        return inferredProps
     }
-)(sizer({
-    getSize: MediaApi.getElementDimensions,
-})(Image))
+)(Image))
