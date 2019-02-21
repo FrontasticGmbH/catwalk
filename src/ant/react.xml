@@ -52,7 +52,7 @@
 
             <arg value="install" />
             <arg value="--link-folder" />
-            <arg value="../../.yarn-links" />
+            <arg value="${relative_path}/.yarn-links" />
         </exec>
     </target>
 
