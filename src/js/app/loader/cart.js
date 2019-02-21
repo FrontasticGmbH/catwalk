@@ -180,7 +180,7 @@ let CartLoader = function (store, api) {
                 })
             },
             (error) => {
-                app.getLoader('context').notifyUser('Checkout error: ' + error.message, 'error')
+                app.getLoader('context').notifyUser(error.message, 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.update.error',
                     error: error,
