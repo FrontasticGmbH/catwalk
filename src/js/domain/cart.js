@@ -29,6 +29,12 @@ class Cart {
             'count'
         )
     }
+
+    getDiscount () {
+        return _.sum(this.lineItems.map((lineItem) => {
+            return (lineItem.price * lineItem.count) - lineItem.totalPrice
+        }))
+    }
 }
 
 export default Cart
