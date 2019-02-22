@@ -115,19 +115,16 @@ export default sizer({
             context: globalState.app.context,
         }
 
-        console.log(inferredProps)
         if (props.forceWidth && props.media && props.media.width && props.media.height) {
             inferredProps.width = props.forceWidth
             inferredProps.height = props.forceHeight || (props.forceWidth / props.media.width * props.media.height)
         }
 
-        console.log(inferredProps)
         if (props.forceHeight && props.media && props.media.width && props.media.height) {
             inferredProps.width = props.forceWidth || (props.forceHeight / props.media.height * props.media.width)
             inferredProps.height = props.forceHeight
         }
 
-        console.log(inferredProps)
         return inferredProps
     }
 )(Image))
