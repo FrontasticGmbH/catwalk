@@ -4,7 +4,7 @@
  * @typedef ProductConnectorReturnValue
  * @property {object} product
  * @property {object} variant
- * @property {object} option
+ * @property {object} option Options currently selected for product
  * @property {number} selectedVariant
  *
  * @param globalState
