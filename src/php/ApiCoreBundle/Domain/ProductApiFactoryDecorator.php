@@ -56,7 +56,7 @@ class ProductApiFactoryDecorator implements ProductApiFactory
 
     public function factorFromConfiguration(array $config): ProductApi
     {
-        $this->productApiFactory->factorFromConfiguration($config);
+        $api = $this->productApiFactory->factorFromConfiguration($config);
         $this->setCommercetoolsOptions($api);
         return $api;
     }
