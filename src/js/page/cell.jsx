@@ -52,6 +52,7 @@ Cell.propTypes = {
     region: PropTypes.object.isRequired,
     cell: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
+    customConfiguration: PropTypes.object.isRequired,
     highlight: PropTypes.any,
 }
 

@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
+import { ConfigurationSchema } from 'frontastic-common'
+import configurationResolver from '../app/configurationResolver'
+
 import Cell from './cell'
+import schemas from '../schemas'
 
 class Region extends Component {
     render () {
@@ -28,6 +32,11 @@ class Region extends Component {
             }}>
             {region && region.elements && region.elements.length ?
             _.map(region.elements, (cell, i) => {
+                const customConfiguration = configurationResolver(
+                    new ConfigurationSchema(schemas.cell.schema, cell.customConfiguration || {}),
+                    (this.props.data.data || {}).stream || {}
+                )
+
                 return (<Cell key={cell.cellId}
                     highlight={this.props.highlight}
                     node={this.props.node}
@@ -35,6 +44,7 @@ class Region extends Component {
                     data={this.props.data}
                     region={region}
                     cell={cell}
+                    customConfiguration={customConfiguration}
                 />)
             }) : null}
         </div>)
