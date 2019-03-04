@@ -54,6 +54,11 @@ class PageService implements Target
                         $cell->cellId = $cellData['cellId'];
                         $cell->configuration = new Cell\Configuration($cellData['configuration']);
 
+                        $cell->customConfiguration = (isset($cellData['customConfiguration'])
+                            ? (object)$cellData['customConfiguration']
+                            : null
+                        );
+
                         $cell->tastics = array_map(
                             function (array $tasticData): Tastic {
                                 $tastic = new Tastic();

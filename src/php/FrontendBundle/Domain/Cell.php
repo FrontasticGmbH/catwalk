@@ -17,6 +17,11 @@ class Cell extends DataObject
     public $configuration;
 
     /**
+     * @var \stdClass|null
+     */
+    public $customConfiguration;
+
+    /**
      * @var Tastic[]
      */
     public $tastics = [];
