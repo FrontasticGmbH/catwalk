@@ -7,6 +7,10 @@ const schemes = {
         'NodeConfigurationSchema',
         DefaultSchemas.NodeConfigurationSchema
     ),
+    cell: ComponentInjector.return(
+        'CellConfigurationSchema',
+        DefaultSchemas.CellConfigurationSchema
+    )
 }
 
 export default schemes
