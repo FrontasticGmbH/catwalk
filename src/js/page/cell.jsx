@@ -52,8 +52,9 @@ Cell.propTypes = {
     region: PropTypes.object.isRequired,
     cell: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
-    customConfiguration: PropTypes.object.isRequired,
     highlight: PropTypes.any,
+    // eslint-disable-next-line react/no-unused-prop-types
+    customConfiguration: PropTypes.object.isRequired, // For extensions
 }
 
 Cell.defaultProps = {
