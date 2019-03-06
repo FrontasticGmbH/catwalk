@@ -30,7 +30,7 @@ class Pattern extends Component {
             let Component = this.props.pattern.component
             let testProps = Component.testProps || {}
 
-            if (Component.propTypes.onChange && Component.propTypes.value) {
+            if (Component.propTypes && Component.propTypes.onChange && Component.propTypes.value) {
                 // Component has onChange listener as well as value prop.
 
                 testProps.value = testProps.value || '';
