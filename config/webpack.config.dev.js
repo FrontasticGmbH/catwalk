@@ -136,7 +136,10 @@ module.exports = {
             // Process JS with Babel.
             {
                 test: /\.(js|jsx)$/,
-                exclude: /(node_modules|bower_components)/,
+                // On windows it can happen that the frontastic packages are
+                // not linked but copied. In this case babel should still
+                // compile the files in those folders.
+                exclude: /(node_modules(?!\/frontastic-)|bower_components)/,
                 loader: require.resolve('babel-loader'),
                 options: {
                     // This is a feature of `babel-loader` for webpack (not Babel itself).
