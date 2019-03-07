@@ -19,7 +19,13 @@ class Image extends Component {
 
     mediaApi = new MediaApi()
 
+    getAltText = () => {
+        return this.props.title || this.props.media.name
+    }
+
     render () {
+        let omitedProperties = ['context', 'media', 'title', 'url', 'alt', 'cropRatio', 'width', 'height', 'dispatch', 'options']
+
         let [width, height] = this.mediaApi.getImageDimensions(
             this.props.media,
             this.props.width,
@@ -32,9 +38,9 @@ class Image extends Component {
                 style={this.props.style}
                 width={width}
                 height={height}
-                alt={this.props.media.name}
+                alt={this.getAltText()}
                 src={NoImage}
-                {...(_.omit(this.props, ['context', 'url', 'alt', 'cropRatio', 'width', 'height', 'dispatch', 'options']))}
+                {...(_.omit(this.props, omitedProperties))}
             />)
         }
 
@@ -46,7 +52,7 @@ class Image extends Component {
             }}
             width={width}
             height={height}
-            alt={this.props.media.name}
+            alt={this.getAltText()}
             src={this.mediaApi.getImageLink(
                 this.props.media,
                 this.props.context.project.configuration,
@@ -68,13 +74,14 @@ class Image extends Component {
             onError={() => {
                 this.setState({ error: true })
             }}
-            {...(_.omit(this.props, ['context', 'media', 'cropRatio', 'width', 'height', 'dispatch', 'options']))} />)
+            {...(_.omit(this.props, omitedProperties))} />)
     }
 }
 
 Image.propTypes = {
     context: PropTypes.object.isRequired,
     media: PropTypes.object.isRequired,
+    title: PropTypes.string,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     style: PropTypes.object,

@@ -29,6 +29,11 @@ class ImageBannerTastic extends Component {
                 size={size}
                 verticalAlign={verticalAlign}
                 horizontalAlign={horizontalAlign}
+                mediaTitle={getTranslation(
+                    imageSettings.title,
+                    this.props.context.locale,
+                    this.props.context.project.defaultLanguage
+                ).text}
                 caption={getTranslation(
                     this.props.tastic.schema.get('caption'),
                     this.props.context.locale,

@@ -20,6 +20,7 @@ class MoleculesHero extends Component {
                 <Image
                     className='c-hero__image'
                     media={this.props.media}
+                    title={this.props.mediaTitle}
                     cropRatio={this.props.ratio === 'custom' ? null : this.props.ratio} />
                 {!this.props.caption ? null : <figcaption className={classnames([
                     'c-hero__caption',
@@ -36,6 +37,7 @@ class MoleculesHero extends Component {
 
 MoleculesHero.propTypes = {
     media: PropTypes.object.isRequired,
+    mediaTitle: PropTypes.string,
     caption: PropTypes.string,
     className: PropTypes.string,
     ratio: PropTypes.oneOf(['8:1', '5:1', '3:1', '2:1', '4:3', '16:9', '1:1', 'custom']),
