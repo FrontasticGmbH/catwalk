@@ -1,7 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
-import UICell from '../../../../../apollo_de/src/js/patterns/atoms/grid/cell'
+import UICell from '../patterns/atoms/grid/cell'
 import Tastic from './tastic'
 
 const insertIf = (cond, ...els) => (cond ? els : [])

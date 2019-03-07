@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { ConfigurationSchema } from 'frontastic-common'
 import configurationResolver from '../app/configurationResolver'
 
-import Grid from '../../../../../apollo_de/src/js/patterns/atoms/grid/grid'
+import Grid from '../patterns/atoms/grid/grid'
 import Cell from './cell'
 import schemas from '../schemas'
 
