@@ -52,8 +52,7 @@ ImageBannerTastic.propTypes = {
     context: PropTypes.object.isRequired,
 }
 
-ImageBannerTastic.defaultProps = {
-}
+ImageBannerTastic.defaultProps = {}
 
 export default connect(
     (globalState, props) => {
