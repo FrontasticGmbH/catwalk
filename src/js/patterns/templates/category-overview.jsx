@@ -81,10 +81,8 @@ class TemplatesCategoryOverview extends Component {
     }
 }
 
-TemplatesCategoryOverview.propTypes = {
-}
+TemplatesCategoryOverview.propTypes = {}
 
-TemplatesCategoryOverview.defaultProps = {
-}
+TemplatesCategoryOverview.defaultProps = {}
 
 export default TemplatesCategoryOverview

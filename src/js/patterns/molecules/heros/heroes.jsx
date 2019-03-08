@@ -31,10 +31,8 @@ class MoleculesHeroes extends Component {
     }
 }
 
-MoleculesHeroes.propTypes = {
-}
+MoleculesHeroes.propTypes = {}
 
-MoleculesHeroes.defaultProps = {
-}
+MoleculesHeroes.defaultProps = {}
 
 export default ComponentInjector.return('MoleculesHeroes', MoleculesHeroes)
