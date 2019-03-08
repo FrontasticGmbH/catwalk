@@ -33,7 +33,12 @@ class TemplatesCategoryOverview extends Component {
 
                         <MoleculesFilterBar />
 
-                        <MoleculesHero media={fixture.image.person} caption={fixture.headline.short} />
+                        <MoleculesHero
+                            media={{
+                                media: fixture.image.person,
+                                title: fixture.headline.short,
+                            }}
+                            caption={fixture.headline.short} />
 
                         <div className='o-layout'>
                             <div className='o-layout__item    u-1/2    u-1/3@lap    u-1/4@desk'>
@@ -50,7 +55,14 @@ class TemplatesCategoryOverview extends Component {
                             </div>
                         </div>
 
-                        <MoleculesHero media={fixture.image.person} caption={fixture.headline.short} size='small' />
+
+                        <MoleculesHero
+                            media={{
+                                media: fixture.image.person,
+                                title: fixture.headline.short,
+                            }}
+                            caption={fixture.headline.short}
+                            size='small' />
 
                         <div className='o-layout'>
                             <div className='o-layout__item    u-1/2    u-1/3@lap    u-1/4@desk'>

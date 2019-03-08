@@ -27,7 +27,7 @@ class Image extends Component {
     }
 
     render () {
-        let omitedProperties = ['context', 'media', 'title', 'url', 'alt', 'cropRatio', 'width', 'height', 'dispatch', 'options', 'forceWidth', 'forceHeight']
+        let omitedProperties = ['context', 'media', 'title', 'url', 'alt', 'cropRatio', 'width', 'height', 'dispatch', 'options', 'title', 'forceWidth', 'forceHeight']
 
         let [width, height] = this.mediaApi.getImageDimensions(
             this.props.media,

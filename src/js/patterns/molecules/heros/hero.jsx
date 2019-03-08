@@ -6,7 +6,7 @@ import ComponentInjector from '../../../app/injector'
 
 import fixture from '../../fixture'
 
-import Image from '../../../../js/image'
+import MediaImage from '../../../mediaImage'
 
 class MoleculesHero extends Component {
     render () {
@@ -17,11 +17,7 @@ class MoleculesHero extends Component {
                     'o-ratio',
                     'o-ratio--' + this.props.ratio
                 )}>
-                <Image
-                    className='c-hero__image'
-                    media={this.props.media}
-                    title={this.props.mediaTitle}
-                    cropRatio={this.props.ratio === 'custom' ? null : this.props.ratio} />
+                <MediaImage className='c-hero__image' media={this.props.media} />
                 {!this.props.caption ? null : <figcaption className={classnames([
                     'c-hero__caption',
                     'c-hero__caption--' + this.props.size,
@@ -40,7 +36,6 @@ MoleculesHero.propTypes = {
     mediaTitle: PropTypes.string,
     caption: PropTypes.string,
     className: PropTypes.string,
-    ratio: PropTypes.oneOf(['8:1', '5:1', '3:1', '2:1', '4:3', '16:9', '1:1', 'custom']),
     size: PropTypes.oneOf(['small', 'normal', 'large']),
     verticalAlign: PropTypes.oneOf(['top', 'center', 'bottom']),
     horizontalAlign: PropTypes.oneOf(['left', 'center', 'right']),
@@ -49,7 +44,6 @@ MoleculesHero.propTypes = {
 MoleculesHero.defaultProps = {
     caption: null,
     className: '',
-    ratio: 'custom',
     size: 'normal',
     verticalAlign: 'center',
     horizontalAlign: 'center',
@@ -57,9 +51,12 @@ MoleculesHero.defaultProps = {
 
 // These are just default props for the pattern library
 MoleculesHero.testProps = {
-    media: fixture.image.person,
+    media: {
+        media: fixture.image.person,
+        title: fixture.headline.short,
+        ratio: '1:1',
+    },
     caption: fixture.headline.xs,
-    ratio: '1:1',
 }
 
 export default ComponentInjector.return('MoleculesHero', MoleculesHero)

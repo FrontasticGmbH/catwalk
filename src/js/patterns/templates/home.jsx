@@ -25,7 +25,7 @@ class TemplatesHome extends Component {
                         </div>
 
                         <section className='c-page-section'>
-                            <MoleculesHero media={fixture.image.person} />
+                            <MoleculesHero media={{ media: fixture.image.person, title: fixture.headline.short }} />
                         </section>
 
                         <div className='c-page-section    u-page-width@until-desk    u-margin-left-minus@desk'>

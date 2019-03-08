@@ -24,8 +24,7 @@ class ImageBannerTastic extends Component {
             target: null,
         }}>
             <MoleculesHero
-                media={imageSettings.media || {}}
-                ratio={imageSettings.ratio}
+                media={imageSettings}
                 size={size}
                 verticalAlign={verticalAlign}
                 horizontalAlign={horizontalAlign}

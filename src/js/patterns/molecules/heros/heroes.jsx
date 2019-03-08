@@ -10,21 +10,30 @@ class MoleculesHeroes extends Component {
     render () {
         return (<Fragment>
             <MoleculesHero
-                media={fixture.image.person}
+                media={{
+                    media: fixture.image.person,
+                    title: fixture.headline.short,
+                    ratio: '3:1',
+                }}
                 caption='Large Hero'
                 size='large'
-                ratio='3:1'
             />
             <MoleculesHero
-                media={fixture.image.person}
+                media={{
+                    media: fixture.image.person,
+                    title: fixture.headline.short,
+                    ratio: '5:1',
+                }}
                 caption='Tiny Top Left Hero'
                 verticalAlign='top'
                 horizontalAlign='left'
                 size='small'
-                ratio='5:1'
             />
             <MoleculesHero
-                media={fixture.image.person}
+                media={{
+                    media: fixture.image.person,
+                    title: fixture.headline.short,
+                }}
                 caption='Hero with native aspect ratio'
             />
         </Fragment>)
