@@ -45,6 +45,7 @@ twig:
     exception_controller: Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::errorAction
 
 swiftmailer:
+    url:        "%env(mailer_url)%"
     host:       "%env(smtp_host)%"
     port:       "%env(smtp_port)%"
     username:   "%env(smtp_user)%"
