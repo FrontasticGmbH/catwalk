@@ -18,6 +18,13 @@ function processPatterns (loader, source = 'Frontastic') {
     loader.keys().forEach(function (fileName) {
         let propertyPath = _.trim(fileName.replace(/(\.?\/|\.[a-z]+$)/g, '.'), '.')
 
+        let patternComponent = loader(fileName)
+
+        if (!patternComponent.default) {
+            console.error('Pattern witout default export', propertyPath)
+            return
+        }
+
         _.set(
             patterns,
             propertyPath,
@@ -25,7 +32,7 @@ function processPatterns (loader, source = 'Frontastic') {
                 name: displayName(propertyPath.split('.').pop()),
                 path: fileName,
                 source: source,
-                component: loader(fileName).default,
+                component: patternComponent.default,
             }
         )
     })
