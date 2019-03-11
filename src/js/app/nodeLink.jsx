@@ -16,6 +16,7 @@ const NodeLink = ({ node, children, ...otherProps }) => (
 )
 
 NodeLink.propTypes = {
+    node: PropTypes.objectOf.isRequired,
     children: PropTypes.node,
     params: PropTypes.object,
 }
