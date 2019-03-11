@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-
 import Slider from '../../component/slider'
 import MoleculesProductTeaser from '../../patterns/molecules/teasers/product-teaser'
 
@@ -13,8 +12,10 @@ class ProductSliderTastic extends Component {
         }
 
         let productsToShow = _.take(productList.items, this.props.tastic.schema.get('productCount'))
+
         let showPercent = this.props.tastic.schema.get('showPercent') || true
         let showStrikePrice = this.props.tastic.schema.get('showStrikePrice') || true
+
 
         return (<Slider>
             {_.map(productsToShow, (product) => {
@@ -33,9 +34,11 @@ class ProductSliderTastic extends Component {
 ProductSliderTastic.propTypes = {
     rawData: PropTypes.object.isRequired,
     tastic: PropTypes.object.isRequired,
+    showStrikePrice: PropTypes.bool.isRequired
 }
 
 ProductSliderTastic.defaultProps = {
+    showStrikePrice: false
 }
 
 export default ProductSliderTastic

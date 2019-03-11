@@ -28,8 +28,7 @@
                 {
                     "label": "Show strike price",
                     "field": "showStrikePrice",
-                    "type": "boolean",
-                    "default": true
+                    "type": "boolean"
                 }
             ]
         }
