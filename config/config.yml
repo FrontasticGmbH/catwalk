@@ -10,14 +10,10 @@ imports:
     - { resource: doctrine.yml }
 
 services:
-    session.memcache:
-        class: Memcached
-        calls:
-            - [ addServer, [ "%env(memcache_ip)%", "11211" ]]
-
-    session.handler.memcache:
-        class: 'Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler'
-        arguments: [ "@session.memcache", { prefix: "sessions_", expiretime: 86400 } ]
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - 'mysql:dbname=%env(database_name)%; host=%env(database_host)%; port=%env(database_port)%'
+            - { db_table: 'http_session', db_username: '%env(database_user)%', db_password: '%env(database_password)%' }
 
 framework:
     secret:          "%env(secret)%"
@@ -33,7 +29,7 @@ framework:
     default_locale:  "%env(locale)%"
     trusted_hosts:   ~
     session:
-        handler_id:  session.handler.memcache
+        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
         name: 'FCSESSID0815'
     fragments:       ~
     http_method_override: true
@@ -54,6 +50,8 @@ swiftmailer:
     spool: { type: memory }
 
 sensio_framework_extra:
+    router:
+        annotations: false
     view:
         annotations: false
     request:

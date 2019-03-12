@@ -12,6 +12,11 @@ security:
             pattern: ^/(_(profiler|wdt)|assets)/
             security: false
 
+        replicator:
+            pattern: ^/api/endpoint
+            stateless: true
+            security: false
+
         main:
             pattern: ^/
             anonymous: ~
