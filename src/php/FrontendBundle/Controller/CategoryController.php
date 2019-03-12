@@ -11,10 +11,11 @@ use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class CategoryController extends Controller
 {
-    public function viewAction(Context $context, $id): array
+    public function viewAction(Context $context, Request $request, $id): array
     {
         /** @var MasterService $pageMatcherService */
         $pageMatcherService = $this->get(MasterService::class);
