@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Controller;
 
+use Frontastic\Common\AccountApiBundle\Domain\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,6 +26,9 @@ class ApiController extends Controller
         try {
             $requestVerifier = $this->get('Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier');
             $requestVerifier->ensure($request, $this->getParameter('secret'));
+
+            /* HACK: This request is stateless, so let the ContextService know that we do not need a session. */
+            $request->attributes->set(Session::STATELESS, true);
 
             if (!$request->getContent() ||
                 !($body = json_decode($request->getContent(), true))) {

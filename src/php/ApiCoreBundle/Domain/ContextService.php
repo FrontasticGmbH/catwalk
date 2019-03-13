@@ -64,6 +64,15 @@ class ContextService
 
     public function getSession(Request $request): Session
     {
+        /* HACK: Is this request is stateless, so let the ContextService know that we do not need a session. */
+        $attributes = $request->attributes;
+        if ($attributes->get(Session::STATELESS) && true === $attributes->get(Session::STATELESS)) {
+            return new Session([
+                'loggedIn' => true,
+                'account' => new Account(['accountId' => 'system.stateless.call']),
+            ]);
+        }
+
         try {
             $token = $this->tokenStorage->getToken();
 
