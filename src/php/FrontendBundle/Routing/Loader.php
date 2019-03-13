@@ -17,9 +17,15 @@ class Loader extends BaseLoader
      */
     private $routeService;
 
-    public function __construct(RouteService $routeService)
+    /**
+     * @var string
+     */
+    private $nodeControllerClass;
+
+    public function __construct(RouteService $routeService, string $nodeControllerClass = NodeController::class)
     {
         $this->routeService = $routeService;
+        $this->nodeControllerClass = $nodeControllerClass;
     }
 
     public function load($resource, $type = null)
@@ -49,7 +55,7 @@ class Loader extends BaseLoader
                 new Route(
                     $route->route,
                     array(
-                        '_controller' => sprintf('%s::viewAction', NodeController::class),
+                        '_controller' => sprintf('%s::viewAction', $this->nodeControllerClass),
                         'nodeId' => $route->nodeId,
                     )
                 )
