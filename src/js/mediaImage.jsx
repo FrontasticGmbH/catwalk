@@ -6,16 +6,29 @@ import Image from './image'
 
 class MediaImage extends Component {
     getCropRatio = () => {
+        if (this.props.ratio === 'custom') {
+            return null
+        }
+
+        if (this.props.ratio && this.props.ratio !== '') {
+            return this.props.ratio
+        }
+
         return this.props.media.ratio === 'custom' ? null : this.props.media.ratio
     }
 
     getOptions = () => {
         return {
             gravity: this.props.media.gravity,
+            ...this.props.options,
         }
     }
 
     getTitle = () => {
+        if (this.props.title && this.props.title !== '') {
+            return this.props.title
+        }
+
         const translatedTitle = getTranslation(
             this.props.media.title,
             this.props.context.locale,
@@ -34,7 +47,9 @@ class MediaImage extends Component {
             media={this.props.media.media}
             title={this.getTitle()}
             cropRatio={this.getCropRatio()}
-            options={this.getOptions()} />
+            options={this.getOptions()}
+            forceWidth={this.props.width}
+            forceHeight={this.props.height} />
     }
 }
 
@@ -42,10 +57,16 @@ MediaImage.propTypes = {
     context: PropTypes.object.isRequired,
     media: PropTypes.object.isRequired,
     className: PropTypes.string,
+    options: PropTypes.object,
+    title: PropTypes.string,
+    ratio: PropTypes.string,
+    width: PropTypes.number,
+    height: PropTypes.number,
 }
 
 MediaImage.defaultProps = {
     className: '',
+    options: {},
 }
 
 export default connect(
