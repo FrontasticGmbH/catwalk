@@ -12,6 +12,7 @@ use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProductController extends Controller
 {
@@ -33,18 +34,19 @@ class ProductController extends Controller
         /** @var ProductRouter $productRouter */
         $productRouter = $this->get(ProductRouter::class);
 
-        $productQuery = $productRouter->parseQueryFrom($request);
-        $productQuery->locale = $context->locale;
+        $productId = $productRouter->identifyFrom($request, $context);
 
-        $product = $productApi->getProduct($productQuery);
+        if ($productId === null) {
+            throw new NotFoundHttpException();
+        }
 
         $node = $nodeService->get(
-            $masterService->matchNodeId(new PageMatcherContext(['productId' => $product->productId]))
+            $masterService->matchNodeId(new PageMatcherContext(['productId' => $productId]))
         );
         $node->streams = $masterService->completeDefaultQuery(
             $node->streams,
             'product',
-            $product->productId
+            $productId
         );
 
         $page = $pageService->fetchForNode($node);

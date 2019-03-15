@@ -2,7 +2,9 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\ProductApiBundle\Domain\Product;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
@@ -14,9 +16,15 @@ class ProductRouter
      */
     private $router;
 
-    public function __construct(Router $router)
+    /**
+     * @var ProductApi
+     */
+    private $productApi;
+
+    public function __construct(Router $router, ProductApi $productApi)
     {
         $this->router = $router;
+        $this->productApi = $productApi;
     }
 
     public function generateUrlFor(Product $product)
@@ -34,10 +42,20 @@ class ProductRouter
         );
     }
 
-    public function parseQueryFrom(Request $request)
+    /**
+     * @param Request $request
+     * @return string|null ID of the product
+     */
+    public function identifyFrom(Request $request, Context $context): ?string
     {
-        return new ProductQuery([
+        $product = $this->productApi->getProduct(new ProductQuery([
+            'locale' => $context->locale,
             'sku' => $request->attributes->get('identifier'),
-        ]);
+        ]));
+
+        if (!$product) {
+            return null;
+        }
+        return $product->productId;
     }
 }

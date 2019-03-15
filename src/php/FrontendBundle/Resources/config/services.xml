@@ -27,6 +27,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter">
             <argument type="service" id="router" />
+            <argument type="service" id="frontastic.catwalk.product_api"/>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService">
