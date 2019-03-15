@@ -46,6 +46,7 @@ try {
     if (!headers_sent()) {
         header("HTTP/1.0 500 Internal Server Error");
     }
+    syslog(LOG_CRIT, $e->getMessage() . PHP_EOL . $e->getTraceAsString());
 
     echo "<html><body><h1>Internal Server Error</h1>";
     if (AppKernel::getDebug()) {
