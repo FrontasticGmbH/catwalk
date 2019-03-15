@@ -2,10 +2,6 @@
 
 namespace Frontastic\Catwalk;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\App;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
