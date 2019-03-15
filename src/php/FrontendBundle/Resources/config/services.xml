@@ -349,6 +349,12 @@
             <tag name="kernel.event_listener" event="kernel.exception" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\EventListener\RebuildRoutesListener">
+            <argument type="service" id="Symfony\Component\DependencyInjection\ContainerInterface" />
+
+            <tag name="kernel.event_listener" event="kernel.request" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\FeatureFlagService">
             <argument type="service" on-invalid="null">
                 <service class="Frontastic\Catwalk\ApiCoreBundle\Domain\DataRepository">
