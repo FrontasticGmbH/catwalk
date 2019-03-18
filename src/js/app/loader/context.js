@@ -115,6 +115,7 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
+                this.refresh()
             },
             (json) => {
                 this.notifyUser('Failed to store address: ' + json.message, 'error')
@@ -133,6 +134,7 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
+                this.refresh()
             },
             (json) => {
                 this.notifyUser('Failed to update address: ' + json.message, 'error')
@@ -151,6 +153,7 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
+                this.refresh()
             },
             (json) => {
                 this.notifyUser('Failed to remove address: ' + json.message, 'error')
