@@ -35,6 +35,58 @@ class Cart {
             return (lineItem.price * lineItem.count) - lineItem.totalPrice
         }))
     }
+
+    getPayedAmount () {
+        return _.sum(this.payments.map((payment) => { return payment.amount }))
+    }
+
+    getRemainingAmountToPay () {
+        return this.sum - this.getPayedAmount()
+    }
+
+    hasUser () {
+        return !!this.email
+    }
+
+    hasShippingAddress () {
+        return (
+            !!this.shippingAddress &&
+            !!this.shippingAddress.firstName &&
+            !!this.shippingAddress.lastName &&
+            !!this.shippingAddress.postalCode &&
+            !!this.shippingAddress.city &&
+            !!this.shippingAddress.country
+        )
+    }
+
+    hasBillingAddress () {
+        return (
+            !!this.billingAddress &&
+            !!this.billingAddress.firstName &&
+            !!this.billingAddress.lastName &&
+            !!this.billingAddress.postalCode &&
+            !!this.billingAddress.city &&
+            !!this.billingAddress.country
+        )
+    }
+    
+    hasAddresses () {
+        return (
+            this.hasShippingAddress() &&
+            this.hasBillingAddress()
+        )
+    }
+
+    hasCompletePayments () {
+        return (
+            !!this.payments.length &&
+            (this.getPayedAmount() >= this.sum)
+        )
+    }
+
+    isComplete () {
+        return this.hasUser() && this.hasAddresses() && this.hasCompletePayments()
+    }
 }
 
 export default Cart
