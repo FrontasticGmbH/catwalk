@@ -37,6 +37,9 @@ export default createStore(
             currentNodeId: null,
             currentCacheKey: null,
         },
+        tastic: {
+            tastics: new Entity(props.tastics, 86400),
+        }
     },
     composeEnhancers(applyMiddleware(thunk))
 )

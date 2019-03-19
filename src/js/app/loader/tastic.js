@@ -32,12 +32,12 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         return {
             tastics: Entity.purge(globalState.tastics),
         }
-    case 'Frontend.Tastic.all.success':
-        tastics = new Entity(action.data, 3600)
 
+    case 'Frontend.Tastic.initialize':
+    case 'Frontend.Tastic.all.success':
         return {
             ...globalState,
-            tastics: tastics,
+            tastics: new Entity(action.data, 86400)
         }
 
     case 'Frontend.Tastic.all.error':
