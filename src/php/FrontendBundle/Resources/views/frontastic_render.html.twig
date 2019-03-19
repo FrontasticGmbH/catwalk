@@ -1,8 +1,6 @@
 {# @var array variables #}
 {% spaceless %}
     {% set response = frontastic_render(app.request, variables) %}
-    {{ response.body|raw }}
-    {#
     {% if response.status >= 400 and app.debug %}
     <script type="text/javascript">
         console.warn("Server Side Rendering failed", {{ response|json_encode()|raw() }})
@@ -14,5 +12,4 @@
     >
         {% if response.status < 400 %}{{ response.body|raw }}{% endif %}
     </div>
-    #}
 {% endspaceless %}
