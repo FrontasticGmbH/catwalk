@@ -5,7 +5,9 @@ export default class Grid extends React.Component {
         windowWidth: -1,
         gridWidth: -1,
     }
+
     _gridRef = React.createRef()
+
     static defaultProps = {
         debug: false,
         style: {},
@@ -13,10 +15,11 @@ export default class Grid extends React.Component {
         prefix: 'o-grid',
         hideOn: [],
     }
+
     handleResize = () => {
         this.setState({
-            windowWidth: window ? document.body.offsetWidth : -1,
-            gridWidth: this._gridRef.current ? this._gridRef.current.getBoundingClientRect().width : -1,
+            windowWidth: (typeof window !== 'undefined') ? window.document.body.offsetWidth : 1280,
+            gridWidth: this._gridRef.current ? this._gridRef.current.getBoundingClientRect().width : 1280,
         })
     }
 
@@ -24,11 +27,15 @@ export default class Grid extends React.Component {
         this.handleResize()
     }
     componentDidMount() {
-        window.addEventListener('resize', this.handleResize)
-        this.handleResize()
+        if (typeof window !== 'undefined') {
+            window.addEventListener('resize', this.handleResize)
+            this.handleResize()
+        }
     }
     componentWillUnmount() {
-        window.removeEventListener('resize', this.handleResize)
+        if (typeof window !== 'undefined') {
+            window.removeEventListener('resize', this.handleResize)
+        }
     }
 
     render() {
