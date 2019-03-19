@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import Link from '../app/link'
-import { isReferenceAbsoluteHttpLink } from '../app/referenceHelper'
+import { isReferenceAbsoluteHttpOrMailtoLink } from '../app/referenceHelper'
 
 /**
  * Provides a Link to a Reference (which means either a link to an external site or a node).
@@ -14,7 +14,7 @@ class Reference extends Component {
             return <Fragment>{children}</Fragment>
         }
 
-        if (isReferenceAbsoluteHttpLink(reference)) {
+        if (isReferenceAbsoluteHttpOrMailtoLink(reference)) {
             return (
                 <a href={reference.target} className={className} style={style} target={target}>
                     {children}

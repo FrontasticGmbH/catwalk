@@ -1,20 +1,20 @@
 /**
  * @returns boolean
  */
-export const isReferenceAbsoluteHttpLink = (reference) => {
+export const isReferenceAbsoluteHttpOrMailtoLink = (reference) => {
     if (reference.type !== 'link') {
         return false
     }
 
     const target = reference.target
-    return target.startsWith('http://') || target.startsWith('https://')
+    return target.startsWith('http://') || target.startsWith('https://') || target.startsWith('mailto:')
 }
 
 /**
  * @returns string
  */
 export const getPathForAppAndReference = (router, reference) => {
-    if (isReferenceAbsoluteHttpLink(reference)) {
+    if (isReferenceAbsoluteHttpOrMailtoLink(reference)) {
         throw new Error(`Reference to ${reference.target} is an absolute link, which is not supported by getPathForAppAndReference`)
     }
     if (reference.type === 'link') {
@@ -32,7 +32,7 @@ export const getPathForAppAndReference = (router, reference) => {
  * Navigate the user to the site corresponding to the given reference
  */
 export const gotoReference = (router, reference) => {
-    if (isReferenceAbsoluteHttpLink(reference)) {
+    if (isReferenceAbsoluteHttpOrMailtoLink(reference)) {
         window.location.href = reference.target
         return
     }
