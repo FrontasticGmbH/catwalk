@@ -51,6 +51,7 @@ class Cart {
     hasShippingAddress () {
         return (
             !!this.shippingAddress &&
+            !!this.shippingAddress.salutation &&
             !!this.shippingAddress.firstName &&
             !!this.shippingAddress.lastName &&
             !!this.shippingAddress.postalCode &&
@@ -62,6 +63,7 @@ class Cart {
     hasBillingAddress () {
         return (
             !!this.billingAddress &&
+            !!this.billingAddress.salutation &&
             !!this.billingAddress.firstName &&
             !!this.billingAddress.lastName &&
             !!this.billingAddress.postalCode &&
