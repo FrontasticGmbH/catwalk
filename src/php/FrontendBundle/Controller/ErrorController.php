@@ -40,9 +40,6 @@ class ErrorController extends Controller
         $dataProvider = $this->get(ViewDataProvider::class);
         $pageService = $this->get(PageService::class);
 
-        echo $e;
-        die();
-
         try {
             $node = $nodeService->get(
                 $masterService->matchNodeId(new PageMatcherContext([
