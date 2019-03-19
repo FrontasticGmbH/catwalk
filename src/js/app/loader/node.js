@@ -94,6 +94,13 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             currentNodeId: UrlContext.hasChanged(action.lastRoute, action.route) ? null : globalState.currentNodeId,
             currentCacheKey: UrlContext.hasChanged(action.lastRoute, action.route) ? null : globalState.currentCacheKey,
         }
+
+    case 'Frontend.Node.initialize':
+        return {
+            ...globalState,
+            last: action.data,
+        }
+
     case 'Frontend.Node.tree.success':
         trees = _.extend({}, globalState.trees)
         if (action.id) {

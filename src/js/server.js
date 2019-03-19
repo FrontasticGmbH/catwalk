@@ -32,15 +32,13 @@ function handleRender (request, response) {
         type: 'ApiBundle.Api.context.success',
         data: request.body.context,
     })
+    store.dispatch({
+        type: 'Frontend.Node.initialize',
+        data: props,
+    })
 
     app.getRouter().setContext(context)
     app.getRouter().setRoutes(context.routes)
-
-    let wrapComponent = (Component, props) => {
-        return () => {
-            return <Component {...props} />
-        }
-    }
 
     response.send(
         renderToString(
@@ -49,7 +47,7 @@ function handleRender (request, response) {
                     <Switch>
                         <Route exact
                             path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                            component={wrapComponent(Preview, props)}
+                            component={Preview}
                         />
 
                         {_.toArray(_.mapValues(
@@ -62,26 +60,24 @@ function handleRender (request, response) {
                                 return (<Route exact
                                     key={route}
                                     path={app.getRouter().reactRoute(route)}
-                                    component={wrapComponent(Node, props)}
+                                    component={Node}
                                 />)
                             }
                         ))}
 
-                        <Route exact
-                            key='Frontastic.Frontend.Master.Product.view'
-                            path={app.getRouter().reactRoute('Frontastic.Frontend.Master.Product.view')}
-                            component={wrapComponent(Node, props)}
-                        />
-                        <Route exact
-                            key='Frontastic.Frontend.Master.Category.view'
-                            path={app.getRouter().reactRoute('Frontastic.Frontend.Master.Category.view')}
-                            component={wrapComponent(Node, props)}
-                        />
-
-                        <Route component={() => {
-                            console.error('No route found.')
-                            return null
+                        <Route exact path='/' component={() => {
+                            return (<div style={{
+                                maxWidth: '768px',
+                                margin: '50px auto',
+                            }}>
+                                <h1 className='c-heading-beta'>Frontastic Local Development</h1>
+                                <div className='c-alert c-alert--info'>
+                                    <p className='c-alert__message'>You can find <a href='/_patterns'>our Patternlab under /_patterns</a>.</p>
+                                </div>
+                            </div>)
                         }} />
+
+                        <Route component={Node} />
                     </Switch>
                 </StaticRouter>
             </Provider>
