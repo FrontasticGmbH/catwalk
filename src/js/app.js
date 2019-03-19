@@ -17,13 +17,11 @@ import Patterns from './patternLibrary/patterns'
 import Node from './node'
 
 export default (mountNode, tastics = null) => {
-    // @HACK: Is there a saner way to inject the current tastics into the
-    // tastic.jsx component then global state?
-    (window || global).tastics = tastics || defaultTastics
-
     if (!mountNode) {
         return
     }
+
+    window.tastics = tastics || defaultTastics
 
     let appData = mountNode.getAttribute('data-app')
     if (appData) {
