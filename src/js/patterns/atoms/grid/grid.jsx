@@ -18,7 +18,7 @@ export default class Grid extends React.Component {
 
     handleResize = () => {
         this.setState({
-            windowWidth: (typeof window !== 'undefined') ? window.document.body.offsetWidth : 1280,
+            windowWidth: window ? window.document.body.offsetWidth : 1280,
             gridWidth: this._gridRef.current ? this._gridRef.current.getBoundingClientRect().width : 1280,
         })
     }
@@ -27,13 +27,13 @@ export default class Grid extends React.Component {
         this.handleResize()
     }
     componentDidMount() {
-        if (typeof window !== 'undefined') {
+        if (window) {
             window.addEventListener('resize', this.handleResize)
             this.handleResize()
         }
     }
     componentWillUnmount() {
-        if (typeof window !== 'undefined') {
+        if (window) {
             window.removeEventListener('resize', this.handleResize)
         }
     }
