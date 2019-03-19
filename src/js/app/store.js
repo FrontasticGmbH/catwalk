@@ -1,15 +1,14 @@
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk'
+import { createStore } from 'redux'
 
 import Entity from './entity'
 import reducer from './reducer'
 
-let mountNode = document.getElementById('app')
-let props = mountNode ? JSON.parse(mountNode.getAttribute('data-props')) : {}
-
-/* eslint-disable no-underscore-dangle */
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-/* eslint-enable */
+let mountNode = null
+let props = {}
+if (typeof document !== 'undefined') {
+    mountNode = document.getElementById('app')
+    props = mountNode ? JSON.parse(mountNode.getAttribute('data-props')) : {}
+}
 
 export default createStore(
     reducer,
@@ -21,6 +20,5 @@ export default createStore(
                 page: new Entity(props.page),
             },
         },
-    },
-    composeEnhancers(applyMiddleware(thunk))
+    }
 )

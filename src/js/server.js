@@ -20,7 +20,7 @@ const express = Express()
 const port = 8000
 
 // We increase the body data limit because we can recieve quite some data from
-// the BFF inclduing product lsits, etc.
+// Catwalk inclduing product lists, etc.
 express.use(bodyParser.json({ limit: '1MB' }))
 express.use(handleRender)
 
