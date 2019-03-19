@@ -9,24 +9,35 @@ import { isReferenceAbsoluteHttpOrMailtoLink } from '../app/referenceHelper'
  */
 class Reference extends Component {
     render () {
-        const { reference, children, className, style, target } = this.props
+        const { reference, children, className, style } = this.props
         if (!reference.type) {
             return <Fragment>{children}</Fragment>
         }
 
         if (isReferenceAbsoluteHttpOrMailtoLink(reference)) {
             return (
-                <a href={reference.target} className={className} style={style} target={target}>
+                <a href={reference.target} className={className} {...this.targetProps()} style={style}>
                     {children}
                 </a>
             )
         }
 
         return (
-            <Link className={className} {...this.linkProps()} style={style} target={target}>
+            <Link className={className} {...this.linkProps()} {...this.targetProps()} style={style}>
                 {children}
             </Link>
         )
+    }
+
+    targetProps = () => {
+        if (this.props.target === '_blank' || this.props.reference.mode === 'new_window') {
+            return {
+                target: '_blank',
+                rel: 'noopener',
+            }
+        }
+
+        return {}
     }
 
     linkProps = () => {
