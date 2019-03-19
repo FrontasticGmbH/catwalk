@@ -98,7 +98,11 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
     case 'Frontend.Node.initialize':
         return {
             ...globalState,
-            last: action.data,
+            last: {
+                node: new Entity(action.data.node),
+                page: new Entity(action.data.page),
+                data: new Entity(action.data.data),
+            },
         }
 
     case 'Frontend.Node.tree.success':
