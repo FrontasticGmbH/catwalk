@@ -6,6 +6,6 @@
 
 {% block main %}
 {% spaceless %}
-<div id="app" data-props="{{ { node: node, page: page, data: data }|json_encode() }}" data-app="{{ frontastic_context()|json_encode() }}" />
+<div id="app" data-props="{{ { node: node, page: page, data: data, tastics: getTastics() }|json_encode() }}" data-app="{{ frontastic_context()|json_encode() }}" />
 {% endspaceless %}
 {% endblock %}

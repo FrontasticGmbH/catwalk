@@ -5,5 +5,5 @@
 {% endblock %}
 
 {% block main %}
-    {%  include 'FrontasticCatwalkFrontendBundle::frontastic_render.html.twig' with { variables: {node: node, page: page, data: data} } %}
+    {%  include 'FrontasticCatwalkFrontendBundle::frontastic_render.html.twig' with { variables: {node: node, page: page, data: data, tastics: getTastics()} } %}
 {% endblock %}

@@ -39,7 +39,7 @@ class RenderService
                 'Content-Type: application/json',
             ],
             new HttpClient\Options([
-                'timeout' => 0.1,
+                'timeout' => \AppKernel::getDebug() ? 0.5 : 0.1,
             ])
         );
 
