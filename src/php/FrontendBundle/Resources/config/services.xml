@@ -26,8 +26,11 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter">
-            <argument type="service" id="router" />
-            <argument type="service" id="frontastic.catwalk.product_api"/>
+            <!--
+             * IMPORTANT: We must use the container here, otherwise we try to load
+             * the ContextService in context free situations.
+            -->
+            <argument type="service" id="service_container" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService">
@@ -315,8 +318,11 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Twig\ContextExtension">
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
-            <argument type="service" id="Frontastic\Common\JsonSerializer" />
+            <!--
+             * IMPORTANT: We must use the container here, otherwise we try to load
+             * the ContextService in context free situations.
+            -->
+            <argument type="service" id="service_container" />
 
             <tag name="twig.extension" />
         </service>
