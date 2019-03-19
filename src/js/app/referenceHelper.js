@@ -15,10 +15,10 @@ export const isReferenceAbsoluteHttpLink = (reference) => {
  */
 export const getPathForAppAndReference = (router, reference) => {
     if (isReferenceAbsoluteHttpLink(reference)) {
-        throw new Error(`Reference to ${reference.target} is an absolute link, which is not supported by getPathForAppAndReference`);
+        throw new Error(`Reference to ${reference.target} is an absolute link, which is not supported by getPathForAppAndReference`)
     }
     if (reference.type === 'link') {
-        return reference.target;
+        return reference.target
     }
 
     if (router.hasRoute(`node_${reference.target}`)) {
@@ -33,9 +33,9 @@ export const getPathForAppAndReference = (router, reference) => {
  */
 export const gotoReference = (router, reference) => {
     if (isReferenceAbsoluteHttpLink(reference)) {
-        window.location.href = reference.target;
-        return;
+        window.location.href = reference.target
+        return
     }
 
-    router.history.push(getPathForAppAndReference(router, reference));
+    router.history.push(getPathForAppAndReference(router, reference))
 }

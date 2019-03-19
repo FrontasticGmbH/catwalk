@@ -8,7 +8,7 @@ import { isReferenceAbsoluteHttpLink } from '../app/referenceHelper'
  * Provides a Link to a Reference (which means either a link to an external site or a node).
  */
 class Reference extends Component {
-    render() {
+    render () {
         const { reference, children, className, style, target } = this.props
         if (!reference.type) {
             return <Fragment>{children}</Fragment>
@@ -31,18 +31,18 @@ class Reference extends Component {
 
     linkProps = () => {
         switch (this.props.reference.type) {
-            case 'link':
-                return {
-                    path: this.props.reference.target,
-                }
+        case 'link':
+            return {
+                path: this.props.reference.target,
+            }
 
-            case 'node':
-                return {
-                    route: 'node_' + this.props.reference.target,
-                }
+        case 'node':
+            return {
+                route: 'node_' + this.props.reference.target,
+            }
 
-            default:
-                return {}
+        default:
+            return {}
         }
     }
 }
