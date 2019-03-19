@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import DefaultLayout from './layout'
-import { Page } from 'frontastic-common'
+import Page from 'frontastic-common/src/js/domain/page'
 
 class PageView extends Component {
     constructor (props) {
