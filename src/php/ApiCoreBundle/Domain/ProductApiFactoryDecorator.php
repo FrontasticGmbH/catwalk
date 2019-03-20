@@ -34,6 +34,10 @@ class ProductApiFactoryDecorator implements ProductApiFactory
 
     private function setCommercetoolsOptions(ProductApi $api): void
     {
+        if ($api instanceof ProductApi\LifecycleEventDecorator) {
+            $api = $api->getAggregate();
+        }
+
         if (!($api instanceof ProductApi\Commercetools)) {
             return;
         }
