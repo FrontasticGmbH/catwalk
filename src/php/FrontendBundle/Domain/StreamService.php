@@ -44,7 +44,14 @@ class StreamService
             ];
         }
 
-        return $this->streamHandlers[$stream->type]->handle($stream, $context, $parameters);
+        try {
+            return $this->streamHandlers[$stream->type]->handle($stream, $context, $parameters);
+        } catch (\Throwable $e) {
+            return [
+                'ok' => false,
+                'message' => $e->getMessage(),
+            ];
+        }
     }
 
     /**
