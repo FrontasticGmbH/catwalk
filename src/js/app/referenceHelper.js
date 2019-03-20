@@ -32,10 +32,15 @@ export const getPathForAppAndReference = (router, reference) => {
  * Navigate the user to the site corresponding to the given reference
  */
 export const gotoReference = (router, reference) => {
-    if (isReferenceAbsoluteHttpOrMailtoLink(reference)) {
-        window.location.href = reference.target
-        return
-    }
+    const isAbsolute = isReferenceAbsoluteHttpOrMailtoLink(reference)
+    const openNewWindow = reference.mode === 'new_window'
+    const target = isAbsolute ? reference.target : getPathForAppAndReference(router, reference)
 
-    router.history.push(getPathForAppAndReference(router, reference))
+    if (openNewWindow) {
+        window.open(target)
+    } else if (isAbsolute) {
+        window.location.href = target
+    } else {
+        router.history.push(target)
+    }
 }
