@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Flickity from 'flickity'
-import imagesLoaded from 'imagesloaded'
+// import Flickity from 'flickity/src/flickity'
+// import imagesLoaded from 'imagesloaded'
 import _ from 'lodash'
 
 import ComponentInjector from '../app/injector'
@@ -64,6 +64,11 @@ class Slider extends Component {
     }
 
     render () {
+        // @TODO: How to render Flickity on SSR?
+        if (!window || !Flickity) {
+            return null
+        }
+
         return (<div className={this.props.className} ref='carousel'>
             <div className='flickity-viewport'>
                 <div className='flickity-slider'>
