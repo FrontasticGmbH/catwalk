@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import Flickity from 'flickity/src/flickity'
-// import imagesLoaded from 'imagesloaded'
+import Flickity from 'flickity'
+import imagesLoaded from 'imagesloaded'
 import _ from 'lodash'
 
 import ComponentInjector from '../app/injector'
