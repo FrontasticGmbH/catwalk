@@ -37,6 +37,10 @@ let Context = function (context = {}) {
         return this.locale.substr(0, this.locale.indexOf('_'))
     }
 
+    this.getCountry = function () {
+        return this.locale.substr(this.locale.indexOf('_') + 1, 2)
+    }
+
     this.update = function (context = {}) {
         let properties = {}
 
