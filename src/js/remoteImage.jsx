@@ -65,7 +65,6 @@ class RemoteImage extends Component {
                     this.props.width,
                     this.props.height,
                     this.props.cropRatio,
-                    this.props.autoHeight,
                     this.props.options
                 )}
                 srcSet={_.map([1, 2], (factor) => {
@@ -76,7 +75,6 @@ class RemoteImage extends Component {
                             this.props.width,
                             this.props.height,
                             this.props.cropRatio,
-                            this.props.autoHeight,
                             this.props.options
                         ),
                         factor + 'x',
@@ -113,7 +111,6 @@ RemoteImage.propTypes = {
         PropTypes.number,
     ]).isRequired,
     options: PropTypes.object,
-    autoHeight: PropTypes.bool,
 }
 
 RemoteImage.defaultProps = {

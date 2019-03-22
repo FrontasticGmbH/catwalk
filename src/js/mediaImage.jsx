@@ -52,7 +52,6 @@ class MediaImage extends Component {
                 options={this.getOptions()}
                 forceWidth={this.props.width}
                 forceHeight={this.props.height}
-                autoHeight={this.props.autoHeight}
             />
         )
     }
@@ -67,7 +66,6 @@ MediaImage.propTypes = {
     ratio: PropTypes.string,
     width: PropTypes.number,
     height: PropTypes.number,
-    autoHeight: PropTypes.bool,
 }
 
 MediaImage.defaultProps = {
