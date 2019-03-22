@@ -79,6 +79,11 @@ class AppDataTarget implements Target
                             $value = $this->translate($value, $locale, $this->context->project->defaultLanguage);
                         }
 
+                        if (in_array($properties[$property], ['number', 'integer', 'decimal'], true) &&
+                            is_array($value)) {
+                            $value = reset($value);
+                        }
+
                         $data->$property = $value;
                     }
                 }
@@ -114,6 +119,6 @@ class AppDataTarget implements Target
             return (string) $value[$defaultLocale];
         }
 
-        return '';
+        return (string) reset($value);
     }
 }
