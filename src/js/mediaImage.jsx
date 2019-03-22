@@ -32,7 +32,8 @@ class MediaImage extends Component {
         const translatedTitle = getTranslation(
             this.props.media.title,
             this.props.context.locale,
-            this.props.context.project.defaultLanguage)
+            this.props.context.project.defaultLanguage
+        )
 
         if (translatedTitle.translated !== false || translatedTitle.text !== '') {
             return translatedTitle.text
@@ -41,15 +42,19 @@ class MediaImage extends Component {
         return this.props.media.media.name
     }
 
-    render () {
-        return <Image
-            className={this.props.className}
-            media={this.props.media.media}
-            title={this.getTitle()}
-            cropRatio={this.getCropRatio()}
-            options={this.getOptions()}
-            forceWidth={this.props.width}
-            forceHeight={this.props.height} />
+    render() {
+        return (
+            <Image
+                className={this.props.className}
+                media={this.props.media.media}
+                title={this.getTitle()}
+                cropRatio={this.getCropRatio()}
+                options={this.getOptions()}
+                forceWidth={this.props.width}
+                forceHeight={this.props.height}
+                autoHeight={this.props.autoHeight}
+            />
+        )
     }
 }
 
@@ -62,6 +67,7 @@ MediaImage.propTypes = {
     ratio: PropTypes.string,
     width: PropTypes.number,
     height: PropTypes.number,
+    autoHeight: PropTypes.bool,
 }
 
 MediaImage.defaultProps = {
@@ -69,10 +75,8 @@ MediaImage.defaultProps = {
     options: {},
 }
 
-export default connect(
-    (globalState) => {
-        return {
-            context: globalState.app.context,
-        }
+export default connect((globalState) => {
+    return {
+        context: globalState.app.context,
     }
-)(MediaImage)
+})(MediaImage)

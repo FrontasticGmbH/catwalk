@@ -8,7 +8,7 @@ import { MediaApi } from 'frontastic-common'
 import NoImage from '../layout/noImage.svg'
 
 class RemoteImage extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props)
 
         this.state = {
@@ -19,7 +19,7 @@ class RemoteImage extends Component {
 
     mediaApi = new MediaApi()
 
-    render () {
+    render() {
         let [width, height] = this.mediaApi.getImageDimensions(
             this.props.url,
             this.props.width,
@@ -28,48 +28,75 @@ class RemoteImage extends Component {
         )
 
         if (this.state.error) {
-            return (<img
+            return (
+                <img
+                    style={this.props.style}
+                    width={width}
+                    height={height}
+                    alt={this.props.alt}
+                    src={NoImage}
+                    {..._.omit(this.props, [
+                        'context',
+                        'url',
+                        'alt',
+                        'cropRatio',
+                        'width',
+                        'height',
+                        'dispatch',
+                        'options',
+                    ])}
+                />
+            )
+        }
+
+        return (
+            <img
                 style={this.props.style}
+                className={this.state.loading ? 'loading' : 'loaded'}
+                onLoad={() => {
+                    this.setState({ loading: false })
+                }}
                 width={width}
                 height={height}
                 alt={this.props.alt}
-                src={NoImage}
-                {...(_.omit(this.props, ['context', 'url', 'alt', 'cropRatio', 'width', 'height', 'dispatch', 'options']))}
-            />)
-        }
-
-        return (<img
-            style={this.props.style}
-            className={this.state.loading ? 'loading' : 'loaded'}
-            onLoad={() => {
-                this.setState({ loading: false })
-            }}
-            width={width}
-            height={height}
-            alt={this.props.alt}
-            src={this.mediaApi.getImageLink(
-                this.props.url,
-                this.props.context.project.configuration,
-                this.props.width,
-                this.props.height,
-                this.props.cropRatio,
-                this.props.options
-            )}
-            srcSet={(_.map([1, 2], (factor) => {
-                return [this.mediaApi.getImageLink(
+                src={this.mediaApi.getImageLink(
                     this.props.url,
                     this.props.context.project.configuration,
                     this.props.width,
                     this.props.height,
                     this.props.cropRatio,
+                    this.props.autoHeight,
                     this.props.options
-                ), factor + 'x'].join(' ')
-            })).join(', ')}
-            onError={() => {
-                this.setState({ error: true })
-            }}
-            {...(_.omit(this.props, ['context', 'url', 'alt', 'cropRatio', 'width', 'height', 'dispatch', 'options']))}
-        />)
+                )}
+                srcSet={_.map([1, 2], (factor) => {
+                    return [
+                        this.mediaApi.getImageLink(
+                            this.props.url,
+                            this.props.context.project.configuration,
+                            this.props.width,
+                            this.props.height,
+                            this.props.cropRatio,
+                            this.props.autoHeight,
+                            this.props.options
+                        ),
+                        factor + 'x',
+                    ].join(' ')
+                }).join(', ')}
+                onError={() => {
+                    this.setState({ error: true })
+                }}
+                {..._.omit(this.props, [
+                    'context',
+                    'url',
+                    'alt',
+                    'cropRatio',
+                    'width',
+                    'height',
+                    'dispatch',
+                    'options',
+                ])}
+            />
+        )
     }
 }
 
@@ -86,6 +113,7 @@ RemoteImage.propTypes = {
         PropTypes.number,
     ]).isRequired,
     options: PropTypes.object,
+    autoHeight: PropTypes.bool,
 }
 
 RemoteImage.defaultProps = {
@@ -93,13 +121,13 @@ RemoteImage.defaultProps = {
     cropRatio: null,
 }
 
-export default connect(
-    (globalState, props) => {
-        return {
-            ...props,
-            context: globalState.app.context,
-        }
+export default connect((globalState, props) => {
+    return {
+        ...props,
+        context: globalState.app.context,
     }
-)(sizer({
-    getSize: MediaApi.getElementDimensions,
-})(RemoteImage))
+})(
+    sizer({
+        getSize: MediaApi.getElementDimensions,
+    })(RemoteImage)
+)
