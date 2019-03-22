@@ -63,6 +63,21 @@ let ProductStreamParameters = function (parameters, isReadOnly = true) {
         }
     }
 
+    /**
+     * @param {string} attributeId
+     * @param {string} order
+     */
+    this.setSortOrder = (attributeId, order) => {
+        this.assertWriteMode()
+        if (!attributeId || !order) {
+            delete this.parameters.sortAttributeId
+            delete this.parameters.sortOrder
+        } else {
+            this.parameters.sortAttributeId = attributeId
+            this.parameters.sortOrder = order
+        }
+    }
+
     this.assertWriteMode = () => {
         if (this.isReadOnly) {
             throw new Error('Parameters cannot be manipulated. Use UrlHandler.deriveParameters().')
