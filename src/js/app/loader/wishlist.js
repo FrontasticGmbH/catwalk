@@ -32,6 +32,7 @@ let WishlistLoader = function (store, api) {
             null,
             { name: name },
             (data) => {
+                // FIXME: Also remove? See further calls to loadMaster() in this file
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
 
@@ -62,8 +63,9 @@ let WishlistLoader = function (store, api) {
             { wishlist: wishlist, ownErrorHandler: true },
             { product, variant, count },
             (data) => {
-                let route = this.store.getState().app.route
-                app.getLoader('node').loadMaster(route.route, route.parameters)
+                // FIXME: No idea why this was here. Caused re-ordering of products in normal node. Can be removed?
+                // let route = this.store.getState().app.route
+                // app.getLoader('node').loadMaster(route.route, route.parameters)
 
                 app.getLoader('context').notifyUser('Added product to wishlist', 'success', 5000)
                 this.store.dispatch({
@@ -92,6 +94,7 @@ let WishlistLoader = function (store, api) {
             { wishlist: wishlist, ownErrorHandler: true },
             update,
             (data) => {
+                // FIXME: Also remove? See further calls to loadMaster() in this file
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
 
@@ -122,8 +125,9 @@ let WishlistLoader = function (store, api) {
             { wishlist: wishlist, ownErrorHandler: true },
             update,
             (data) => {
-                let route = this.store.getState().app.route
-                app.getLoader('node').loadMaster(route.route, route.parameters)
+                // FIXME: No idea why this was here. Caused re-ordering of products in normal node. Can be removed?
+                // let route = this.store.getState().app.route
+                // app.getLoader('node').loadMaster(route.route, route.parameters)
 
                 app.getLoader('context').notifyUser('Removed product from wishlist', 'success', 5000)
                 this.store.dispatch({
