@@ -53,10 +53,6 @@ let WishlistLoader = function (store, api) {
     }
 
     this.add = (product, variant, count, wishlist = null) => {
-        this.store.dispatch({
-            type: 'WishlistApi.Wishlist.loading',
-        })
-
         this.api.request(
             'POST',
             'Frontastic.WishlistApi.Wishlist.add',
@@ -84,10 +80,6 @@ let WishlistLoader = function (store, api) {
     }
 
     this.updateLineItem = (wishlist, update) => {
-        this.store.dispatch({
-            type: 'WishlistApi.Wishlist.loading',
-        })
-
         this.api.request(
             'POST',
             'Frontastic.WishlistApi.Wishlist.updateLineItem',
@@ -115,10 +107,6 @@ let WishlistLoader = function (store, api) {
     }
 
     this.removeLineItem = (wishlist, update) => {
-        this.store.dispatch({
-            type: 'WishlistApi.Wishlist.loading',
-        })
-
         this.api.request(
             'POST',
             'Frontastic.WishlistApi.Wishlist.removeLineItem',
