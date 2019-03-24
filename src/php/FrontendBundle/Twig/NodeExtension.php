@@ -21,7 +21,17 @@ class NodeExtension extends \Twig_Extension
     {
         return [
             new \Twig_Function('frontastic_tree', [$this->nodeService, 'getTree']),
-            new \Twig_Function('getTastics', [$this->tasticService, 'getAll']),
+            new \Twig_Function('completeInformation', [$this, 'completeInformation']),
         ];
+    }
+
+    public function completeInformation(array $data): array
+    {
+        return array_merge(
+            [
+                'tastics' => $this->tasticService->getAll(),
+            ],
+            $data
+        );
     }
 }

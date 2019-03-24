@@ -1,5 +1,5 @@
 {% extends "layout.html.twig" %}
 
 {% block main %}
-    {%  include 'FrontasticCatwalkFrontendBundle::frontastic_render.html.twig' with { variables: {page: page, data: data, tastics: getTastics()} } %}
+    {%  include 'FrontasticCatwalkFrontendBundle::frontastic_render.html.twig' with { variables: completeInformation({ page: page, data: data }) } %}
 {% endblock %}
