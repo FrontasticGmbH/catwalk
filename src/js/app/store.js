@@ -4,6 +4,8 @@ import thunk from 'redux-thunk'
 import Entity from './entity'
 import reducer from './reducer'
 
+import { ConfigurationSchema, FacetTypeSchemaMap } from 'frontastic-common'
+
 // Try to read initial props from DOM
 let mountNode = null
 let props = {}
@@ -39,7 +41,24 @@ export default createStore(
         },
         tastic: {
             tastics: new Entity(props.tastics, 86400),
-        }
+        },
+        facet: {
+            facets: new Entity(
+                // @TODO: Clone from app/loader/facet.js – extract!
+                _.map(props.facets, (facetConfig) => {
+                    let facetConfigNew = _.cloneDeep(facetConfig)
+                    facetConfigNew.facetOptions = new ConfigurationSchema(
+                        (FacetTypeSchemaMap[facetConfig.attributeType] || {}).schema || [],
+                        facetConfig.facetOptions
+                    )
+                    return facetConfigNew
+                }),
+                86400
+            ),
+        },
+        category: {
+            categories: new Entity(props.categories, 86400),
+        },
     },
     composeEnhancers(applyMiddleware(thunk))
 )

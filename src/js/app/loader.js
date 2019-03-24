@@ -64,9 +64,6 @@ let Loader = function (store, router, api) {
             console.groupEnd()
         }
 
-        // TODO: This re-loads tastic config on every request. Should be done in the background continuously or once?
-        this.loaders.facet.loadFacets(route.parameters)
-        this.loaders.category.loadCategories(route.parameters)
         this.loaders.cart.get()
 
         switch (route.route) {

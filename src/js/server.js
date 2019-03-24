@@ -47,6 +47,14 @@ export default (tastics = null) => {
             type: 'Frontend.Tastic.initialize',
             data: props.tastics,
         })
+        store.dispatch({
+            type: 'Frontend.Category.all.success',
+            data: { categories: props.categories },
+        })
+        store.dispatch({
+            type: 'Frontend.Facet.all.success',
+            data: props.facets,
+        })
 
         app.getRouter().setContext(context)
         app.getRouter().setRoutes(context.routes)

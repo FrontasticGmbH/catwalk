@@ -45,7 +45,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
                 )
                 return facetConfigNew
             }),
-            3600
+            86400
         )
 
         return {

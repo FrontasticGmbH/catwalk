@@ -33,7 +33,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             categories: Entity.purge(globalState.categories),
         }
     case 'Frontend.Category.all.success':
-        categories = new Entity(action.data.categories, 3600)
+        categories = new Entity(action.data.categories, 86400)
 
         return {
             ...globalState,
