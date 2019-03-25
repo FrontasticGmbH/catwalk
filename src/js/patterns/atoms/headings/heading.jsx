@@ -21,7 +21,8 @@ class AtomsHeading extends Component {
         return (<Component
             {..._.omit(this.props, ['children', 'component', 'className', 'type'])}
             className={classnames(
-                'c-heading-' + this.props.type
+                'c-heading-' + this.props.type,
+                this.props.className
             )}>
             {this.props.children}
         </Component>)
