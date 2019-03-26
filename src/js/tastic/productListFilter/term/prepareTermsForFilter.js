@@ -1,7 +1,6 @@
 import _ from "lodash";
 
 export const prepareTermsForFilter = (terms, facetConfig) => {
-    console.log('facetConfig', facetConfig)
     terms = _.cloneDeep(terms)
     terms = sortTerms(terms, facetConfig)
     return removeLabelPrefix(terms, facetConfig)
