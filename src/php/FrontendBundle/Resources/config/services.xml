@@ -333,11 +333,6 @@
              * the ContextService in context free situations.
             -->
             <argument type="service" id="service_container" />
-            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
-            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\FacetService" />
-            <argument type="service" id="frontastic.catwalk.product_api" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
 
             <tag name="twig.extension" />
         </service>
