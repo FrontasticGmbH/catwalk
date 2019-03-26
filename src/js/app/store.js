@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
+import _ from 'lodash'
 
 import Entity from './entity'
 import reducer from './reducer'
