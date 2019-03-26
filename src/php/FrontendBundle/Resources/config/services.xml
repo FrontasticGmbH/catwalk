@@ -366,6 +366,12 @@
             <tag name="kernel.event_listener" event="kernel.request" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ContentSecurityPolicy">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+
+            <tag name="kernel.event_listener" event="kernel.response" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\FeatureFlagService">
             <argument type="service" on-invalid="null">
                 <service class="Frontastic\Catwalk\ApiCoreBundle\Domain\DataRepository">
