@@ -44,7 +44,7 @@ class NodeExtension extends \Twig_Extension
                 'page' => null,
                 'data' => null,
                 'tastics' => $this->container->get(TasticService::class)->getAll(),
-                'facets' => $this->facetService->getEnabled(),
+                'facets' => $this->container->get(FacetService::class)->getEnabled(),
                 'categories' => $this->container->get(ProductApi::class)->getCategories(
                     new CategoryQuery([
                         'locale' => $this->container->get(Context::class)->locale,
