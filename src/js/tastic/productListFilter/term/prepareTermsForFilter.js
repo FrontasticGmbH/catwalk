@@ -23,7 +23,7 @@ const sortTerms = (terms, facetConfig) => {
 
     const preprocessLabel = (stripPrefix ?
             (label) => {
-                return _.toInteger(label.replace(/^([\d]+)-.*$/, '$1'))
+                return _.toInteger(label.replace(/^([\d]+)_.*$/, '$1'))
             }
             :
             _.identity
@@ -54,7 +54,7 @@ const removeLabelPrefix = (terms, facetConfig) => {
     }
 
     return _.map(terms, (term) => {
-        term.name = term.name.replace(/^[\d]+-(.*)$/, '$1')
+        term.name = term.name.replace(/^[\d]+_(.*)$/, '$1')
         return term
     })
 }
