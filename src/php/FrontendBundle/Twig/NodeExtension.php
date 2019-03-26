@@ -38,6 +38,9 @@ class NodeExtension extends \Twig_Extension
 
     public function completeInformation(array $variables): array
     {
+        $context = $this->container->get(Context::class);
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+
         return array_merge(
             [
                 'node' => null,
@@ -47,10 +50,23 @@ class NodeExtension extends \Twig_Extension
                 'facets' => $this->container->get(FacetService::class)->getEnabled(),
                 'categories' => $this->container->get(ProductApi::class)->getCategories(
                     new CategoryQuery([
-                        'locale' => $this->container->get(Context::class)->locale,
+                        'locale' => $context->locale,
                         'limit' => 100,
                     ])
                 ),
+                'route' => [
+                    'route' => $request->get('_route'),
+                    'parameters' => array_merge(
+                        $request->query->all(),
+                        array_filter(
+                            $request->attributes->all(),
+                            function ($value, $key) {
+                                return $key[0] !== '_' && is_string($value);
+                            },
+                            ARRAY_FILTER_USE_BOTH
+                        )
+                    ),
+                ],
             ],
             $variables
         );

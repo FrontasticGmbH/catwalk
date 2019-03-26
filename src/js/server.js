@@ -10,6 +10,7 @@ import defaultTastics from './tastic/tastics'
 import app from './app/app'
 import store from './app/store'
 import Context from './app/context'
+import FrontasticRoute from './app/route'
 
 import Preview from './preview'
 import Node from './node'
@@ -35,6 +36,11 @@ export default (tastics = null) => {
         // This usually is done by createStore() and reading the
         // properties directly from the DOM.  This does not work, thus
         // we post-initilize the state (see app/store.js):
+        store.dispatch({
+            type: 'FRONTASTIC_ROUTE',
+            route: new FrontasticRoute(props.route),
+            lastRoute: null,
+        })
         store.dispatch({
             type: 'ApiBundle.Api.context.success',
             data: request.body.context,
