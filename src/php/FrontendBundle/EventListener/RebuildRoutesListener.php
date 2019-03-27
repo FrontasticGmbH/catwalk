@@ -14,9 +14,15 @@ class RebuildRoutesListener
      */
     private $container;
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(ContainerInterface $container, LoggerInterface $logger)
     {
         $this->container = $container;
+        $this->logger = $logger;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
@@ -35,8 +41,6 @@ class RebuildRoutesListener
         $nodeService = $this->container->get(NodeService::class);
         $routeService->rebuildRoutes($nodeService->getNodes());
 
-        /** @var LoggerInterface $logger */
-        $logger = $this->container->get(LoggerInterface::class);
-        $logger->info('Routes rebuild in ' . __METHOD__ . '()');
+        $this->logger->info('Routes rebuild in ' . __METHOD__ . '()');
     }
 }
