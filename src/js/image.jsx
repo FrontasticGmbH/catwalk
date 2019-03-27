@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import sizer from 'react-sizer'
 import _ from 'lodash'
 
-import { MediaApi } from 'frontastic-common'
+import MediaApi from 'frontastic-common/src/js/mediaApi'
 import NoImage from '../layout/noImage.svg'
 
 /**
