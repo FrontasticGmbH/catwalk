@@ -18,10 +18,8 @@ import Node from './node'
 // @TODO: Fork: http://rowanmanning.com/posts/node-cluster-and-express/
 // @TODO: Supervise forks
 const express = Express()
-// @TODO: Only listen on localhost?
-const port = 8000
 
-export default (tastics = null) => {
+export default (tastics = null, port = 8000) => {
     global.tastics = tastics || defaultTastics
 
     // We increase the body data limit because we can recieve quite some data from
