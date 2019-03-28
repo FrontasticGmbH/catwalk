@@ -5,7 +5,8 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="frontastic.nodejs.renderer">http://localhost:8000</parameter>
+        <parameter key="ssr_port">8000</parameter>
+        <parameter key="frontastic.nodejs.renderer">http://localhost:%ssr_port%</parameter>
     </parameters>
 
     <services>
