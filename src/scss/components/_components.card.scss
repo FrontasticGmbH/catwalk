@@ -1,0 +1,43 @@
+/* ==========================================================================
+   #CARD
+========================================================================== */
+
+.card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    border: 1px solid #edf2f9;
+    border-radius: .5rem;
+    background-color: #fff;
+    background-clip: border-box;
+
+    margin-bottom: 1.5rem;
+    border-color: #edf2f9;
+    box-shadow: 0 0.75rem 1.5rem rgba(18,38,63,.03);
+}
+
+.card-header{
+    display: flex;
+    flex-direction: row;
+    min-height: 3.75rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    flex-grow: 1;
+    align-items: center;
+
+    margin-bottom: 0;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #edf2f9;
+    background-color: transparent;
+}
+
+.card-header-title{
+    margin-bottom: 0;
+}
+
+.card-body {
+    padding: 1.5rem;
+    flex: 1 1 auto;
+}
