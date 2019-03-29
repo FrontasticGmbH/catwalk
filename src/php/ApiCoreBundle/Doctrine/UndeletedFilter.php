@@ -4,12 +4,14 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Doctrine;
 
 use Doctrine\ORM\Mapping\ClassMetaData;
 use Doctrine\ORM\Query\Filter\SQLFilter;
+use Frontastic\Catwalk\FrontendBundle\Domain\Facet;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page;
 
 class UndeletedFilter extends SQLFilter
 {
     const ENTITY_CLASSES = [
+        Facet::class => 'f',
         Node::class => 'n',
         Page::class => 'p',
     ];
