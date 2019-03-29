@@ -57,7 +57,7 @@ class Node extends DataObject
     public $children = [];
 
     /**
-     * @var \Frontastic\UserBundle\Domain\MetaData
+     * @var \Frontastic\Backstage\UserBundle\Domain\MetaData
      */
     public $metaData;
 
