@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { Helmet } from 'react-helmet'
+
+import { getTranslation } from 'frontastic-common'
 import ComponentInjector from '../app/injector'
 
 class Description extends Component {
@@ -12,7 +14,15 @@ class Description extends Component {
     }
 
     generateDescription = () => {
-        return this.props.node.configuration.seoDescription || ''
+        if (!this.props.node.configuration.seoDescription) {
+            return ''
+        }
+
+        return getTranslation(
+            this.props.node.configuration.seoDescription,
+            this.props.context.locale,
+            this.props.context.project.defaultLanguage
+        ).text
     }
 }
 
