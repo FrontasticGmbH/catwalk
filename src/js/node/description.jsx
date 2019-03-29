@@ -8,8 +8,14 @@ import ComponentInjector from '../app/injector'
 
 class Description extends Component {
     render () {
+        const description = this.generateDescription()
+
+        if (description === '') {
+            return null
+        }
+
         return (<Helmet>
-            <meta name='description' content={this.generateDescription()} />
+            <meta name='description' content={description} />
         </Helmet>)
     }
 
