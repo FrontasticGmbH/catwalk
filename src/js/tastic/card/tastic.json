@@ -1,0 +1,23 @@
+{
+    "tasticType": "card",
+    "name": "Card",
+    "category": "Data Visualisation",
+    "schema": [
+        {
+            "name": "Header",
+            "fields": [
+                {
+                    "label": "Card Title",
+                    "field": "cardTitle",
+                    "type": "string",
+                    "translatable": false
+                },
+                {
+                    "label": "Card Tastic",
+                    "field": "cardTastic",
+                    "type": "tastic"
+                }
+            ]
+        }
+    ]
+}
