@@ -12,20 +12,16 @@ class Card extends Component {
     }
 
     renderTastic() {
-        console.log('card', this.props)
         if (!this.props.data.cardTastic) { return this.renderEmptyTastic() }
 
         const { tasticType, tasticData, tasticObject } = this.props.data.cardTastic
         if (!tasticType || tasticType === "") { return this.renderEmptyTastic() }
 
         const TasticComponent = this.tastics[tasticType]
-
         const nestedTastic = new Tastic({
             tasticType,
             ...tasticObject.schema
         });
-
-        console.log('nestedTastic', nestedTastic)
 
         return <TasticComponent data={tasticData} tastic={nestedTastic} />
     }
