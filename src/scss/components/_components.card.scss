@@ -2,35 +2,33 @@
    #CARD
 ========================================================================== */
 
+$card-border-width: 1px;
+$card-border-radius: .5rem;
+$card-border-color: #edf2f9;
+$card-box-shadow-color: rgba(18,38,63,.03);
+
 .card{
     position: relative;
     display: flex;
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    border: 1px solid #edf2f9;
-    border-radius: .5rem;
-    background-color: #fff;
-    background-clip: border-box;
-
-    margin-bottom: 1.5rem;
-    border-color: #edf2f9;
-    box-shadow: 0 0.75rem 1.5rem rgba(18,38,63,.03);
+    border: $card-border-width solid $card-border-color;
+    border-radius: $card-border-radius;
+    background-color: $color-background-light;
+    margin: $unit 0;
+    box-shadow: 0 $unit-small $unit $card-box-shadow-color;
 }
 
 .card-header{
     display: flex;
     flex-direction: row;
-    min-height: 3.75rem;
-    padding-top: .5rem;
-    padding-bottom: .5rem;
     flex-grow: 1;
     align-items: center;
-
+    min-height: $unit-large;
     margin-bottom: 0;
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid #edf2f9;
-    background-color: transparent;
+    padding: $unit-small $unit;
+    border-bottom: $card-border-width solid $card-border-color;
 }
 
 .card-header-title{
@@ -38,6 +36,6 @@
 }
 
 .card-body {
-    padding: 1.5rem;
+    padding: $unit;
     flex: 1 1 auto;
 }
