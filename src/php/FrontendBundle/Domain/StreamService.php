@@ -14,7 +14,7 @@ class StreamService
     /**
      * @param StreamHandler[]
      */
-    public function __construct(array $streamHandlers = [])
+    public function __construct(iterable $streamHandlers = [])
     {
         foreach ($streamHandlers as $streamHandler) {
             $this->addStreamHandler($streamHandler);

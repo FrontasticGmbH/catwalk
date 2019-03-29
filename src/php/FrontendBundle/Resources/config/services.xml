@@ -87,43 +87,49 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService">
-            <argument type="collection">
-                <argument type="service">
-                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ProductList">
-                        <argument type="service" id="frontastic.catwalk.product_api" />
-                    </service>
-                </argument>
-                <argument type="service">
-                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Product">
-                        <argument type="service" id="frontastic.catwalk.product_api" />
-                    </service>
-                </argument>
-                <argument type="service">
-                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ContentList">
-                        <argument type="service" id="frontastic.catwalk.content_api" />
-                    </service>
-                </argument>
-                <argument type="service">
-                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Content">
-                        <argument type="service" id="frontastic.catwalk.content_api" />
-                    </service>
-                </argument>
-                <argument type="service">
-                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountAddresses">
-                        <argument type="service" id="frontastic.catwalk.account_api" />
-                    </service>
-                </argument>
-                <argument type="service">
-                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountOrders">
-                        <argument type="service" id="frontastic.catwalk.cart_api" />
-                    </service>
-                </argument>
-                <argument type="service">
-                    <service class="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountWishlists">
-                        <argument type="service" id="frontastic.catwalk.wishlist_api" />
-                    </service>
-                </argument>
-            </argument>
+            <argument type="tagged" tag="frontend.streamHandler" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ProductList">
+            <argument type="service" id="frontastic.catwalk.product_api" />
+
+             <tag name="frontend.streamHandler"/>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Product">
+            <argument type="service" id="frontastic.catwalk.product_api" />
+
+             <tag name="frontend.streamHandler"/>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ContentList">
+            <argument type="service" id="frontastic.catwalk.content_api" />
+
+             <tag name="frontend.streamHandler"/>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Content">
+            <argument type="service" id="frontastic.catwalk.content_api" />
+
+             <tag name="frontend.streamHandler"/>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountAddresses">
+            <argument type="service" id="frontastic.catwalk.account_api" />
+
+             <tag name="frontend.streamHandler"/>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountOrders">
+            <argument type="service" id="frontastic.catwalk.cart_api" />
+
+             <tag name="frontend.streamHandler"/>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountWishlists">
+            <argument type="service" id="frontastic.catwalk.wishlist_api" />
+
+             <tag name="frontend.streamHandler"/>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldService">
