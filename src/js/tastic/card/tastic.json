@@ -1,6 +1,7 @@
 {
     "tasticType": "card",
     "name": "Card",
+    "icon": "check_box_outline_blank",
     "schema": [
         {
             "name": "Header",
