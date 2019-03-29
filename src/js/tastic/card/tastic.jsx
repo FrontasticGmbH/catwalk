@@ -1,32 +1,32 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Tastic } from 'frontastic-common'
 
 class Card extends Component {
     tastics = window ? window.tastics : global.tastics
 
-    renderEmptyTastic() {
+    renderEmptyTastic () {
         return (
             <span>Warning: Add a tastic in the configuration</span>
         )
     }
 
-    renderTastic() {
+    renderTastic () {
         if (!this.props.data.cardTastic) { return this.renderEmptyTastic() }
 
         const { tasticType, tasticData, tasticObject } = this.props.data.cardTastic
-        if (!tasticType || tasticType === "") { return this.renderEmptyTastic() }
+        if (!tasticType || tasticType === '') { return this.renderEmptyTastic() }
 
         const TasticComponent = this.tastics[tasticType]
         const nestedTastic = new Tastic({
             tasticType,
-            ...tasticObject.schema
-        });
+            ...tasticObject.schema,
+        })
 
         return <TasticComponent data={tasticData} tastic={nestedTastic} />
     }
 
-    render() {
+    render () {
         return (
             <div className='card'>
                 <div className='card-header'>
@@ -47,7 +47,7 @@ class Card extends Component {
 }
 
 Card.propTypes = {
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
 }
 
 Card.defaultProps = {}

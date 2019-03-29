@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import { getTranslation } from 'frontastic-common'
 
 class TextTastic extends Component {
-    render() {
-
+    render () {
         let text = getTranslation(
             this.props.tastic.schema.get('text'),
             this.props.context.locale,
