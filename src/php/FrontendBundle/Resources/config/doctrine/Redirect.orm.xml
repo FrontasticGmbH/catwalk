@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Frontastic\Catwalk\FrontendBundle\Domain\Redirect" table="redirect">
+        <id name="redirectId" column="rd_id" type="string">
+            <generator strategy="NONE" />
+        </id>
+
+        <field name="sequence" column="rd_sequence" type="string" />
+        <field name="path" column="rd_path" type="string" />
+        <field name="targetType" column="rd_target_type" type="string" />
+        <field name="target" column="rd_target" type="string" />
+        <field name="metaData" column="rd_meta_data" type="object" />
+        <field name="isDeleted" column="rd_is_deleted" type="boolean" />
+    </entity>
+</doctrine-mapping>
