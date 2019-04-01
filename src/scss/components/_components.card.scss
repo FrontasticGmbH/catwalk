@@ -1,0 +1,41 @@
+/* ==========================================================================
+   #CARD
+========================================================================== */
+
+$card-border-width: 1px;
+$card-border-radius: .5rem;
+$card-border-color: #edf2f9;
+$card-box-shadow-color: rgba(18,38,63,.03);
+
+.card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    border: $card-border-width solid $card-border-color;
+    border-radius: $card-border-radius;
+    background-color: $color-background-light;
+    margin: $unit 0;
+    box-shadow: 0 $unit-small $unit $card-box-shadow-color;
+}
+
+.card-header{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: center;
+    min-height: $unit-large;
+    margin-bottom: 0;
+    padding: $unit-small $unit;
+    border-bottom: $card-border-width solid $card-border-color;
+}
+
+.card-header-title{
+    margin-bottom: 0;
+}
+
+.card-body {
+    padding: $unit;
+    flex: 1 1 auto;
+}

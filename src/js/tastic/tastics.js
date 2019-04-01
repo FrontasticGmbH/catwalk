@@ -6,6 +6,7 @@ import AccountProfile from './account/profile/tastic.jsx'
 import AccountResetPasswordTastic from './account/resetPassword/tastic.jsx'
 import AccountVouchers from './account/vouchers/tastic.jsx'
 import AccountWishlists from './account/wishlists/tastic.jsx'
+import Card from './card/tastic.jsx'
 import Cart from './cart/tastic.jsx'
 import Checkout from './checkout/tastic.jsx'
 import Content from './content/tastic.jsx'
@@ -41,6 +42,7 @@ export default (() => {
         'account-resetPassword': AccountResetPasswordTastic,
         'account-vouchers': AccountVouchers,
         'account-wishlists': AccountWishlists,
+        'card': Card,
         'cart': Cart,
         'checkout': Checkout,
         'content': Content,
