@@ -38,6 +38,11 @@ class RedirectService implements Target
         }
     }
 
+    public function get(string $redirectId): Redirect
+    {
+        return $this->redirectGateway->get($redirectId);
+    }
+
     protected function fill(Redirect $redirect, array $data): Redirect
     {
         $redirect->sequence = $data['sequence'];
