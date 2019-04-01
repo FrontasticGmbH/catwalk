@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import Context from './context'
+import ComponentInjector from './injector'
 
 import DevLoader from './loader/dev'
 import ContextLoader from './loader/context'
@@ -72,4 +73,7 @@ export default combineReducers({
     facet: FacetLoader.handleAction,
     category: CategoryLoader.handleAction,
     wishlist: WishlistLoader.handleAction,
+
+    // Optional customer reducers
+    ...ComponentInjector.getReducer()
 })
