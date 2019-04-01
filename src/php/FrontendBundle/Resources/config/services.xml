@@ -71,6 +71,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectCacheService" />
         </service>
 
         <service id="frontastic.catwalk.frontend_bundle.domain.redirect.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
@@ -212,8 +213,13 @@
             <argument>%kernel.cache_dir%</argument>
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectCacheService">
+            <argument>%kernel.cache_dir%</argument>
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Routing\Loader">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectCacheService" />
 
             <tag name="routing.loader" />
         </service>

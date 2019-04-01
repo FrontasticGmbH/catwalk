@@ -36,9 +36,9 @@ class RedirectGateway
     /**
      * @return Redirect[]
      */
-    public function getByPath(string $path): array
+    public function getAll(): array
     {
-        return $this->repository->findBy(['path' => $path]);
+        return $this->repository->findAll();
     }
 
     public function getHighestSequence(): string

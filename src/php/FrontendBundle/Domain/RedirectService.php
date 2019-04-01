@@ -12,9 +12,15 @@ class RedirectService implements Target
      */
     private $redirectGateway;
 
-    public function __construct(RedirectGateway $redirectGateway)
+    /**
+     * @var RedirectCacheService
+     */
+    private $redirectCacheService;
+
+    public function __construct(RedirectGateway $redirectGateway, RedirectCacheService $redirectCacheService)
     {
         $this->redirectGateway = $redirectGateway;
+        $this->redirectCacheService = $redirectCacheService;
     }
 
     public function lastUpdate(): string
@@ -36,11 +42,21 @@ class RedirectService implements Target
             $redirect = $this->fill($redirect, $update);
             $this->redirectGateway->store($redirect);
         }
+
+        $this->redirectCacheService->storeRedirects($this->getRedirects());
     }
 
     public function get(string $redirectId): Redirect
     {
         return $this->redirectGateway->get($redirectId);
+    }
+
+    /**
+     * @return Redirect[]
+     */
+    public function getRedirects(): array
+    {
+        return $this->redirectGateway->getAll();
     }
 
     protected function fill(Redirect $redirect, array $data): Redirect
