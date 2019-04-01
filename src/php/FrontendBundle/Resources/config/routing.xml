@@ -106,4 +106,8 @@
     <route id="Frontastic.Frontend.PatternLibrary.view" path="/_patterns/show" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\PatternLibraryController::indexAction</default>
     </route>
+
+    <route id="Frontastic.Frontend.Redirect.redirect" path="/redirect/{redirectId}">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\RedirectController::redirectAction</default>
+    </route>
 </routes>
