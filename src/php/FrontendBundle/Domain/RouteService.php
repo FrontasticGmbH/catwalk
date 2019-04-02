@@ -59,6 +59,10 @@ class RouteService
     {
         $routes = [];
 
+        usort($nodes, function (Node $a, Node $b) {
+            return (strlen($a->path) - strlen($b->path));
+        });
+
         foreach ($nodes as $node) {
             if (empty($node->configuration['path'])) {
                 // Ignore routes where no path is defined. Those are probably

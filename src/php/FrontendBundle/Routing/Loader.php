@@ -2,12 +2,13 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Routing;
 
+use Frontastic\Catwalk\FrontendBundle\Controller\NodeController;
+use Frontastic\Catwalk\FrontendBundle\Controller\RedirectController;
+use Frontastic\Catwalk\FrontendBundle\Domain\RedirectCacheService;
+use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
 use Symfony\Component\Config\Loader\Loader as BaseLoader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
-
-use Frontastic\Catwalk\FrontendBundle\Controller\NodeController;
-use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
 
 class Loader extends BaseLoader
 {
@@ -18,9 +19,15 @@ class Loader extends BaseLoader
      */
     private $routeService;
 
-    public function __construct(RouteService $routeService)
+    /**
+     * @var RedirectCacheService
+     */
+    private $redirectCacheService;
+
+    public function __construct(RouteService $routeService, RedirectCacheService $redirectCacheService)
     {
         $this->routeService = $routeService;
+        $this->redirectCacheService = $redirectCacheService;
     }
 
     public function load($resource, $type = null)
@@ -30,6 +37,21 @@ class Loader extends BaseLoader
         }
 
         $routes = new RouteCollection();
+
+        $this->addRoutesToRouteCollection($routes);
+        $this->addRedirectsToRouteCollection($routes);
+
+        $this->loaded = true;
+        return $routes;
+    }
+
+    public function supports($resource, $type = null)
+    {
+        return 'frontastic' === $type;
+    }
+
+    protected function addRoutesToRouteCollection(RouteCollection $routes): void
+    {
         foreach ($this->routeService->getRoutes() as $route) {
             $routes->add(
                 'node_' . $route->nodeId,
@@ -42,13 +64,21 @@ class Loader extends BaseLoader
                 )
             );
         }
-
-        $this->loaded = true;
-        return $routes;
     }
 
-    public function supports($resource, $type = null)
+    protected function addRedirectsToRouteCollection(RouteCollection $routes): void
     {
-        return 'frontastic' === $type;
+        foreach ($this->redirectCacheService->getRedirects() as $redirect) {
+            $routes->add(
+                'redirect_' . $redirect->redirectId,
+                new Route(
+                    $redirect->path,
+                    array(
+                        '_controller' => sprintf('%s::redirectAction', RedirectController::class),
+                        'redirectId' => $redirect->redirectId,
+                    )
+                )
+            );
+        }
     }
 }
