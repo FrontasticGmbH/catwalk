@@ -112,11 +112,20 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             $sitemaps = array_merge($sitemaps, $this->generateProductSitemap($context, $output));
         }
 
+        $outputDir = $input->getArgument('output-directory');
+        list(, $basePath) = explode('public/');
+        if ($basePath) {
+            $basePath = trim($basePath, '/') . '/';
+        }
+
+        $sitemaps = array_map(function ($sitemap) use ($basePath) {
+            return $basePath . $sitemap;
+        }, $sitemaps);
+
         $output->writeln('Generating sitemap index…');
         $this->renderIndex($context, $sitemaps, 'sitemap_index.xml');
 
         $backupDir = null;
-        $outputDir = $input->getArgument('output-directory');
         if ($this->filesystem->exists($outputDir)) {
             $backupDir = uniqid(sprintf('%s/backup_sitemap_', sys_get_temp_dir()));
             $this->filesystem->rename($outputDir, $backupDir);
