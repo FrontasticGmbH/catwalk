@@ -50,6 +50,7 @@ class Reference extends Component {
         case 'node':
             return {
                 route: 'node_' + this.props.reference.target,
+                params: this.props.reference.parameters || {},
             }
 
         default:
