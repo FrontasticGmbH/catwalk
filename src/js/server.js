@@ -4,7 +4,6 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { Helmet } from 'react-helmet'
 import _ from 'lodash'
 
 import defaultTastics from './tastic/tastics'
@@ -16,11 +15,13 @@ import FrontasticRoute from './app/route'
 import Preview from './preview'
 import Node from './node'
 
+import { Helmet } from 'react-helmet'
+
 // @TODO: Fork: http://rowanmanning.com/posts/node-cluster-and-express/
 // @TODO: Supervise forks
 const express = Express()
 
-export default (tastics = null, port = 8000) => {
+export default (ProjectHelmet, tastics = null, port = 8000) => {
     global.tastics = tastics || defaultTastics
 
     // We increase the body data limit because we can recieve quite some data from
@@ -106,12 +107,32 @@ export default (tastics = null, port = 8000) => {
                     </StaticRouter>
                 </Provider>
             ),
-            helmet: _.mapValues(
-                Helmet.renderStatic(),
-                (value) => {
-                    return value.toString()
-                }
-            ),
+            helmet: {
+                title: '',
+                meta: '',
+                ...(_.omitBy(
+                    _.mapValues(
+                        Helmet.renderStatic(),
+                        (value, key) => {
+                            return value.toString()
+                        }
+                    ),
+                    (value) => {
+                        return !value
+                    }
+                )),
+                ...(_.omitBy(
+                    _.mapValues(
+                        ProjectHelmet.renderStatic(),
+                        (value, key) => {
+                            return value.toString()
+                        }
+                    ),
+                    (value) => {
+                        return !value
+                    }
+                )),
+            }
         })
     }
 
