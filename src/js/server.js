@@ -4,6 +4,7 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { Helmet } from 'react-helmet'
 import _ from 'lodash'
 
 import defaultTastics from './tastic/tastics'
@@ -63,8 +64,8 @@ export default (tastics = null, port = 8000) => {
         app.getRouter().setContext(context)
         app.getRouter().setRoutes(context.routes)
 
-        response.send(
-            renderToString(
+        response.send({
+            app: renderToString(
                 <Provider store={store}>
                     <StaticRouter location={request.url} context={{}}>
                         <Switch>
@@ -104,8 +105,14 @@ export default (tastics = null, port = 8000) => {
                         </Switch>
                     </StaticRouter>
                 </Provider>
-            )
-        )
+            ),
+            helmet: _.mapValues(
+                Helmet.renderStatic(),
+                (value) => {
+                    return value.toString()
+                }
+            ),
+        })
     }
 
     express.listen(port)

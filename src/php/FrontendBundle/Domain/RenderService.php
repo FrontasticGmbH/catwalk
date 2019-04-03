@@ -47,6 +47,7 @@ class RenderService
             $this->responseDecorator->setTimedOut();
         }
 
+        $response->body = json_decode($response->body);
         return $response;
     }
 }
