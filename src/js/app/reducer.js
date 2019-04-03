@@ -22,7 +22,8 @@ const reducer = (globalState = initialGlobalState, action) => {
     if ((typeof PRODUCTION === 'undefined') &&
         action.type &&
         (action.type.substr(0, 2) !== '@@') &&
-        console.groupCollapsed) {
+        console.groupCollapsed &&
+        window) {
         console.groupCollapsed('%c🔊 %c%s', 'color: gray', 'color: darkmagenta', action.type)
         console.info(action)
         console.groupEnd()
