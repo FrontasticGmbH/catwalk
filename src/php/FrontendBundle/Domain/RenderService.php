@@ -47,7 +47,13 @@ class RenderService
             $this->responseDecorator->setTimedOut();
         }
 
-        $response->body = json_decode($response->body);
+        $response->body = json_decode($response->body) ?: [
+            'app' => $response->body,
+            'helmet' => [
+                'meta' => null,
+                'title' => null,
+            ],
+        ];
         return $response;
     }
 }
