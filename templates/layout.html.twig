@@ -12,12 +12,13 @@
         <link rel="shortcut icon" href="/assets/favicon.ico">
         <meta name="msapplication-config" content="/assets/browserconfig.xml">
         <meta name="theme-color" content="#5c3878">
+        {% block meta %}{% endblock %}
 
     {% if app.environment == "prod" %}
         <link rel="stylesheet" href="{{ asset_hash( '/assets/css/main.d3729d6c.css') }}"></link>
     {% endif %}
 
-        <title>{% block title %}Frontastic Online Shop{% endblock %}</title>
+        {% block title %}<title>Frontastic Online Shop</title>{% endblock %}
     </head>
     <body>
     {% block main %}

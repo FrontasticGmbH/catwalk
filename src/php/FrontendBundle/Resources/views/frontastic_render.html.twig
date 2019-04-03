@@ -1,15 +1,14 @@
-{# @var array variables #}
+{# @var Response response #}
 {% spaceless %}
-    {% set response = frontastic_render(app.request, variables) %}
     {% if response.status >= 400 and app.debug %}
     <script type="text/javascript">
         console.warn("Server Side Rendering failed", {{ response|json_encode()|raw() }})
     </script>
     {% endif %}
     <div id="app"
-         data-props="{{ variables|frontastic_json_serialize|json_encode }}"
+         data-props="{{ pageData|frontastic_json_serialize|json_encode }}"
          data-app="{{ frontastic_context()|json_encode }}"
     >
-        {% if response.status < 400 %}{{ response.body|raw }}{% endif %}
+        {% if response.status < 400 %}{{ response.body.app|raw }}{% endif %}
     </div>
 {% endspaceless %}

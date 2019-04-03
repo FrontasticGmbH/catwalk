@@ -1,5 +1,16 @@
 {% extends "layout.html.twig" %}
 
+{% set pageData = completeInformation({ node: node, page: page, data: data }) %}
+{% set response = frontastic_render(app.request, pageData) %}
+
+{% block meta %}
+{{response.body.helmet.meta|raw()}}
+{% endblock %}
+
+{% block title %}
+{{response.body.helmet.title|raw()}}
+{% endblock %}
+
 {% block main %}
-    {%  include 'FrontasticCatwalkFrontendBundle::frontastic_render.html.twig' with { variables: completeInformation({ node: node, page: page, data: data }) } %}
+{%  include 'FrontasticCatwalkFrontendBundle::frontastic_render.html.twig' with { response: response, pageData: pageData } %}
 {% endblock %}
