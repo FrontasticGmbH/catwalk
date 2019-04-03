@@ -50,10 +50,11 @@ class RenderService
         $response->body = json_decode($response->body) ?: [
             'app' => $response->body,
             'helmet' => [
-                'meta' => null,
-                'title' => null,
+                'meta' => '',
+                'title' => '',
             ],
         ];
+
         return $response;
     }
 }
