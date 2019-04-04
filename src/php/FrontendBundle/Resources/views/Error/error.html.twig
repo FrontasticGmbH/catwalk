@@ -1,11 +1,21 @@
 {% extends "layout.html.twig" %}
 
+{% set pageData = completeInformation({ node: node, page: page, data: data }) %}
+{% set response = frontastic_render(app.request, pageData) %}
+
+{% block meta %}
+{{response.body.helmet.meta|raw()}}
+{% endblock %}
+
 {% block title %}
-{{ parent() }} – Not Found
+{{response.body.helmet.title|raw()}}
 {% endblock %}
 
 {% block main %}
-{% spaceless %}
-<div id="app" data-props="{{ completeInformation({ node: node, page: page, data: data })|json_encode() }}" data-app="{{ frontastic_context()|json_encode() }}" />
-{% endspaceless %}
+    <div id="app"
+         data-props="{{ pageData|frontastic_json_serialize|json_encode }}"
+         data-app="{{ frontastic_context()|json_encode }}"
+    >
+        {% if response.status < 400 %}{{ response.body.app|raw }}{% endif %}
+    </div>
 {% endblock %}
