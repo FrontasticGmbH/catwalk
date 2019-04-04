@@ -82,6 +82,7 @@ class AppRepositoryService
             'node' => 'object',
             'media' => 'object',
             'group' => 'object',
+            'json' => 'text',
         ];
 
         // @TODO: Map PHP type information for better autocompletion
