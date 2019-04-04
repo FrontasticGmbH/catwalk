@@ -7,6 +7,8 @@ export const isReferenceAbsoluteHttpOrMailtoLink = (reference) => {
     }
 
     const target = reference.target
+    if (!target) return false
+
     return target.startsWith('http://') || target.startsWith('https://') || target.startsWith('mailto:')
 }
 
@@ -15,7 +17,9 @@ export const isReferenceAbsoluteHttpOrMailtoLink = (reference) => {
  */
 export const getPathForAppAndReference = (router, reference) => {
     if (isReferenceAbsoluteHttpOrMailtoLink(reference)) {
-        throw new Error(`Reference to ${reference.target} is an absolute link, which is not supported by getPathForAppAndReference`)
+        throw new Error(
+            `Reference to ${reference.target} is an absolute link, which is not supported by getPathForAppAndReference`
+        )
     }
     if (reference.type === 'link') {
         return reference.target
