@@ -22,8 +22,6 @@ class NodeController extends Controller
         /** @var ViewDataProvider $dataProvider */
         $dataProvider = $this->get(ViewDataProvider::class);
 
-        var_dump($nodeId);
-
         $node = $nodeService->get($nodeId);
 
         $page = $pageService->fetchForNode($node);
