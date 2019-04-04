@@ -9,6 +9,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
+use Frontastic\Catwalk\FrontendBundle\Domain\StreamService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
@@ -113,7 +114,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         }
 
         $outputDir = $input->getArgument('output-directory');
-        list(, $basePath) = explode('public/');
+        list(, $basePath) = explode('public/', $outputDir);
         if ($basePath) {
             $basePath = trim($basePath, '/') . '/';
         }
@@ -241,16 +242,13 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
 
     private function generatePagerEntries(Node $node, Context $context, $baseUri): array
     {
-        /** @var ViewDataProvider $dataProvider */
-        $dataProvider = $this->getContainer()->get(ViewDataProvider::class);
-        /** @var PageService $pageService */
-        $pageService = $this->getContainer()->get(PageService::class);
+        /** @var StreamService $streamService */
+        $streamService = $this->getContainer()->get(StreamService::class);
 
-        $page = $pageService->fetchForNode($node);
-        $data = $dataProvider->fetchDataFor($node, $context, [], $page);
+        $streams = $streamService->getStreamData($node, $context);
 
         $entries = [];
-        foreach (get_object_vars($data->stream) as $streamId => $result) {
+        foreach ($streams as $streamId => $result) {
             if (false === ($result instanceof Result)) {
                 continue;
             }
