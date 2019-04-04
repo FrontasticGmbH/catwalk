@@ -13,7 +13,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 
 class NodeController extends Controller
 {
-    public function viewAction(Request $request, Context $context, string $nodeId): array
+    public function viewAction(Request $request, Context $context, string $nodeId)
     {
         /** @var NodeService $nodeService */
         $nodeService = $this->get(NodeService::class);
@@ -21,6 +21,8 @@ class NodeController extends Controller
         $pageService = $this->get(PageService::class);
         /** @var ViewDataProvider $dataProvider */
         $dataProvider = $this->get(ViewDataProvider::class);
+
+        var_dump($nodeId);
 
         $node = $nodeService->get($nodeId);
 
