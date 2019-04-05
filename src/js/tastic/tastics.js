@@ -13,6 +13,9 @@ import Content from './content/tastic.jsx'
 import ContentList from './contentList/tastic.jsx'
 import CategoryDescription from './categoryDescription/tastic.jsx'
 import CategoryImage from './categoryImage/tastic.jsx'
+import DatavisBarChart from './datavis/barChart/tastic.jsx'
+import DatavisLineChart from './datavis/lineChart/tastic.jsx'
+import DatavisExample from './datavis/datavisExample/tastic.jsx'
 import ImageBanner from './imageBanner/tastic.jsx'
 import Markdown from './markdown/tastic.jsx'
 import Navigation from './navigation/tastic.jsx'
@@ -49,6 +52,9 @@ export default (() => {
         'contentList': ContentList,
         'categoryDescription': CategoryDescription,
         'categoryImage': CategoryImage,
+        'datavis-barChart': DatavisBarChart,
+        'datavis-lineChart': DatavisLineChart,
+        'datavis-example': DatavisExample,
         'imageBanner': ImageBanner,
         'markdown': Markdown,
         'navigation': Navigation,

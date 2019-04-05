@@ -1,0 +1,72 @@
+{
+    "tasticType": "datavis-lineChart",
+    "name": "Line Chart",
+    "icon": "timeline",
+    "schema": [
+        {
+            "name": "Chart General",
+            "fields": [
+                {
+                    "label": "Show X Axis",
+                    "field": "showXAxis",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "label": "Show Y Axis",
+                    "field": "showYAxis",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "label": "Show Horizontal Grid Lines",
+                    "field": "showHorizontalGridLines",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "label": "Show Vertical Grid Lines",
+                    "field": "showVerticalGridLines",
+                    "type": "boolean",
+                    "default": true
+                }
+            ]
+        },
+        {
+            "name": "Chart Type",
+            "fields": [
+                {
+                    "label": "Curve",
+                    "field": "curve",
+                    "type": "enum",
+                    "default": "curveLinear",
+                    "values": [
+                        {
+                            "value": "curveLinear",
+                            "name": "Linear"
+                        },
+                        {
+                            "value": "curveBasis",
+                            "name": "Basis"
+                        },
+                        {
+                            "value": "curveStep",
+                            "name": "Step"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Styling",
+            "fields": [
+                {
+                    "label": "Stroke Width",
+                    "field": "strokeWidth",
+                    "type": "integer",
+                    "default": 2
+                }
+            ]
+        }
+    ]
+}
