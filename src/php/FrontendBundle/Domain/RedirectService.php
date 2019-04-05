@@ -63,6 +63,7 @@ class RedirectService implements Target
     {
         $redirect->sequence = $data['sequence'];
         $redirect->path = $data['path'];
+        $redirect->query = $data['query'];
         $redirect->targetType = $data['target']['targetType'];
         $redirect->target = $data['target']['target'];
         $redirect->metaData = $data['metaData'];

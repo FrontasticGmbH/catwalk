@@ -25,6 +25,11 @@ class Redirect extends DataObject
     public $path;
 
     /**
+     * @var string
+     */
+    public $query;
+
+    /**
      * @var string One of TARGET_TYPE_* constants
      */
     public $targetType;
