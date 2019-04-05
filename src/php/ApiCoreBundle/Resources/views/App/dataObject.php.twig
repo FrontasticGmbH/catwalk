@@ -58,8 +58,8 @@ class {{className}} extends DataObject
 
 {% for property, type in properties %}
     /**
-     * @ORM\Column(name="d_{{property|lower()}}", type="{{doctrineTypeMap[type]}}", nullable=true)
-     * @var {{doctrineTypeMap[type]}}
+     * @ORM\Column(name="d_{{property|lower()}}", type="{{doctrineTypeMap[type]|default('text')}}", nullable=true)
+     * @var {{doctrineTypeMap[type]|default('text')}}
      */
     public ${{property}};
 {% if not loop.last %}
