@@ -9,8 +9,6 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const paths = require('./paths')
 const getClientEnvironment = require('./env')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -24,8 +22,6 @@ const shouldUseRelativeAssetPaths = publicPath === './'
 const publicUrl = publicPath.slice(0, -1)
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl)
-
-const PRODUCTION = true
 
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
@@ -79,12 +75,7 @@ const mainConfig = {
         // We placed these paths second because we want `node_modules` to 'win'
         // if there are any conflicts. This matches Node resolution mechanism.
         // https://github.com/facebookincubator/create-react-app/issues/253
-        modules: [
-            'node_modules/frontastic-catwalk/node_modules',
-            'node_modules/frontastic-common/node_modules',
-            path.resolve(__dirname, '../node_modules'),
-            paths.appNodeModules
-        ].concat(
+        modules: ['node_modules', paths.appNodeModules].concat(
             // It is guaranteed to exist because we tweak it in `env.js`
             process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
         ),
@@ -256,33 +247,19 @@ const mainConfig = {
         // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
         // It is absolutely essential that NODE_ENV was set to production here.
         // Otherwise React will be compiled in the very slow development mode.
-        new webpack.DefinePlugin({
-            PRODUCTION: JSON.stringify(PRODUCTION),
-            'process.env.NODE_ENV': '"production"'
-        }),
-
-        // Ignore files only used during pattern development
-        new webpack.IgnorePlugin(/-ui\.jsx$/),
-        // @TODO: Reactivate these. Production should not depend on this, but
-        // right now still does:
-        // new webpack.IgnorePlugin(/fixture(\.js)?$/),
-        // new webpack.IgnorePlugin(/\/templates\//),
-
-        // Extract CSS code statically
+        new webpack.DefinePlugin(env.stringified),
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
             // both options are optional
             filename: 'assets/css/[name].[chunkhash:8].css',
             chunkFilename: 'assets/css/[id].[chunkhash:8].css'
         }),
-
         // Generate a manifest file which contains a mapping of all asset filenames
         // to their corresponding output file so that tools can pick it up without
         // having to parse `index.html`.
         new ManifestPlugin({
             fileName: 'asset-manifest.json',
         }),
-
         // Generate a service worker script that will precache, and keep up to date,
         // the HTML & assets that are part of the Webpack build.
         new SWPrecacheWebpackPlugin({
@@ -319,32 +296,12 @@ const mainConfig = {
             // Don't precache sourcemaps (they're large) and build asset manifest:
             staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
         }),
-
         // Moment.js is an extremely popular library that bundles large locale files
         // by default due to how Webpack interprets its code. This is a practical
         // solution that requires the user to opt into importing specific locales.
         // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
         // You can remove this if you don't use Moment.js:
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-
-        // Anlyze bundle size
-        new BundleAnalyzerPlugin({
-            reportFilename: paths.appBuild + '/bundleSize.html',
-            analyzerMode: 'static',
-        }),
-
-        // Show packages which are included from multiple locations, which
-        // increases the build size.
-        new DuplicatePackageCheckerPlugin({
-            // Also show module that is requiring each duplicate package (default: false)
-            verbose: true,
-            // Emit errors instead of warnings (default: false)
-            emitError: true,
-            // Show help message if duplicate packages are found (default: true)
-            showHelp: false,
-            // Warn also if major versions differ (default: true)
-            strict: true,
-        }),
     ],
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
@@ -360,7 +317,89 @@ const serverConfig = {
     name: 'server',
     mode: 'production',
     target: 'node',
-    ...mainConfig,
+    // https://stackoverflow.com/questions/41692643/webpack-and-express-critical-dependencies-warning
+    externals: [require('webpack-node-externals')()],
+    // Don't attempt to continue if there are any errors.
+    bail: true,
+    // We generate sourcemaps in production. This is slow but gives good results.
+    // You can exclude the *.map files from the build during deployment.
+    devtool: 'source-map',
+    // In production, we only want to load the polyfills and the app code.
+    entry: [paths.serverIndexJs],
+    output: {
+        // The build folder.
+        path: paths.appBuild,
+        // Generated JS file names (with nested folders).
+        // There will be one main bundle, and one file per asynchronous chunk.
+        // We don't currently advertise code splitting but Webpack supports it.
+        filename: 'bin/server.js',
+    },
+    resolve: {
+        // This allows you to set a fallback for where Webpack should look for modules.
+        // We placed these paths second because we want `node_modules` to 'win'
+        // if there are any conflicts. This matches Node resolution mechanism.
+        // https://github.com/facebookincubator/create-react-app/issues/253
+        modules: ['node_modules', paths.appNodeModules].concat(
+            // It is guaranteed to exist because we tweak it in `env.js`
+            process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
+        ),
+        // These are the reasonable defaults supported by the Node ecosystem.
+        // We also include JSX as a common component filename extension to support
+        // some tools, although we do not recommend using it, see:
+        // https://github.com/facebookincubator/create-react-app/issues/290
+        // `web` extension prefixes have been added for better support
+        // for React Native Web.
+        extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
+        alias: {
+            // Support React Native Web
+            // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
+            'react-native': 'react-native-web',
+        },
+        plugins: [
+        ],
+    },
+    module: {
+        strictExportPresence: true,
+        rules: [
+            // When you `import` an asset, you get its filename.
+            {
+                exclude: [
+                    /\.(js|jsx)$/,
+                ],
+                loader: require.resolve('ignore-loader'),
+            },
+            // Process JS with Babel.
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: require.resolve('babel-loader'),
+                options: {
+                    compact: true,
+                },
+            },
+            // Process libraries JS with Babel.
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: require.resolve('babel-loader'),
+                options: {
+                    compact: true,
+                },
+            },
+            // ** STOP ** Are you adding a new loader?
+            // Remember to add the new extension(s) to the 'file' loader exclusion list.
+        ],
+    },
+    optimization: {
+        minimize: true,
+    },
+    plugins: [
+        // Makes some environment variables available to the JS code, for example:
+        // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
+        // It is absolutely essential that NODE_ENV was set to production here.
+        // Otherwise React will be compiled in the very slow development mode.
+        new webpack.DefinePlugin(env.stringified),
+    ],
 }
 
 module.exports = [mainConfig, serverConfig]

@@ -10,7 +10,6 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 // const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
 const getClientEnvironment = require('./env')
 const paths = require('./paths')
-const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -21,8 +20,6 @@ const publicPath = '/'
 const publicUrl = ''
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl)
-
-const PRODUCTION = false
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -79,12 +76,7 @@ module.exports = {
         // We placed these paths second because we want `node_modules` to "win"
         // if there are any conflicts. This matches Node resolution mechanism.
         // https://github.com/facebookincubator/create-react-app/issues/253
-        modules: [
-            'node_modules/frontastic-catwalk/node_modules',
-            'node_modules/frontastic-common/node_modules',
-            path.resolve(__dirname, '../node_modules'),
-            paths.appNodeModules
-        ].concat(
+        modules: ['node_modules', paths.appNodeModules].concat(
             // It is guaranteed to exist because we tweak it in `env.js`
             process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
         ),
@@ -96,6 +88,9 @@ module.exports = {
         // for React Native Web.
         extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
         alias: {
+            // Support React Native Web
+            // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
+            'react-native': 'react-native-web',
         },
     },
     module: {
@@ -243,10 +238,7 @@ module.exports = {
         new webpack.NamedModulesPlugin(),
         // Makes some environment variables available to the JS code, for example:
         // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
-        new webpack.DefinePlugin({
-            PRODUCTION: JSON.stringify(PRODUCTION),
-            'process.env.NODE_ENV': '"development"'
-        }),
+        new webpack.DefinePlugin(env.stringified),
         // This is necessary to emit hot updates (currently CSS only):
         new webpack.HotModuleReplacementPlugin(),
         // Watcher doesn't work well if you mistype casing in a path so we use
@@ -264,18 +256,6 @@ module.exports = {
         // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
         // You can remove this if you don't use Moment.js:
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        // Show packages which are included from multiple locations, which
-        // increases the build size.
-        new DuplicatePackageCheckerPlugin({
-            // Also show module that is requiring each duplicate package (default: false)
-            verbose: true,
-            // Emit errors instead of warnings (default: false)
-            emitError: true,
-            // Show help message if duplicate packages are found (default: true)
-            showHelp: true,
-            // Warn also if major versions differ (default: true)
-            strict: true,
-        }),
     ],
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
