@@ -72,6 +72,17 @@ let Router = function (history, routes = {}, context = null) {
                 }
             )
 
+            console.log(
+                'DEBUG Route matching',
+                route,
+                path,
+                {
+                    path: this.reactRoute(route),
+                    exact: true,
+                },
+                matchResult
+            )
+
             if (matchResult) {
                 return {
                     route: route,
