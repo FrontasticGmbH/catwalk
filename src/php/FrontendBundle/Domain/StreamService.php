@@ -47,10 +47,16 @@ class StreamService
         try {
             return $this->streamHandlers[$stream->type]->handle($stream, $context, $parameters);
         } catch (\Throwable $e) {
-            return [
+            $errorResult = [
                 'ok' => false,
                 'message' => $e->getMessage(),
             ];
+
+            if ($context->applicationEnvironment() === 'development') {
+                $errorResult['trace'] = $e->getTrace();
+            }
+
+            return $errorResult;
         }
     }
 
