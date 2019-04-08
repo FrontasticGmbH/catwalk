@@ -71,7 +71,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway" />
-            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectCacheService" />
+            <argument type="service" id="router.default" />
         </service>
 
         <service id="frontastic.catwalk.frontend_bundle.domain.redirect.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
@@ -213,13 +213,8 @@
             <argument>%kernel.cache_dir%</argument>
         </service>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectCacheService">
-            <argument>%kernel.cache_dir%</argument>
-        </service>
-
         <service id="Frontastic\Catwalk\FrontendBundle\Routing\Loader">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService" />
-            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectCacheService" />
 
             <tag name="routing.loader" />
         </service>
@@ -336,6 +331,12 @@
             <argument type="service" id="Frontastic\Common\JsonSerializer" />
 
             <tag name="twig.extension" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\EventListener\RedirectListener">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectService" />
+
+            <tag name="kernel.event_listener" event="kernel.exception" priority="10" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\MissingHomepageRouteListener">

@@ -41,6 +41,14 @@ class RedirectGateway
         return $this->repository->findAll();
     }
 
+    /**
+     * @return Redirect[]
+     */
+    public function getByPath(string $path): array
+    {
+        return $this->repository->findBy(['path' => $path]);
+    }
+
     public function getHighestSequence(): string
     {
         $query = $this->manager->createQuery(

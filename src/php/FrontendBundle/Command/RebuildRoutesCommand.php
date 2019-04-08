@@ -19,11 +19,7 @@ class RebuildRoutesCommand extends ContainerAwareCommand
     {
         $nodeService = $this->getContainer()->get('Frontastic\Catwalk\FrontendBundle\Domain\NodeService');
         $routeService = $this->getContainer()->get('Frontastic\Catwalk\FrontendBundle\Domain\RouteService');
-        $redirectService = $this->getContainer()->get('Frontastic\Catwalk\FrontendBundle\Domain\RedirectService');
-        $redirectCacheService =
-            $this->getContainer()->get('Frontastic\Catwalk\FrontendBundle\Domain\RedirectCacheService');
 
         $routeService->rebuildRoutes($nodeService->getNodes());
-        $redirectCacheService->storeRedirects($redirectService->getRedirects());
     }
 }
