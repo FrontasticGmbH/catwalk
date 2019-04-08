@@ -19,7 +19,7 @@ const initialGlobalState = {
 }
 
 const reducer = (globalState = initialGlobalState, action) => {
-    if (!PRODUCTION &&
+    if ((typeof PRODUCTION === 'undefined' || !PRODUCTION) &&
         action.type &&
         (action.type.substr(0, 2) !== '@@') &&
         console.groupCollapsed &&
