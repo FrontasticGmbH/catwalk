@@ -20,6 +20,7 @@ import { Helmet } from 'react-helmet'
 // @TODO: Fork: http://rowanmanning.com/posts/node-cluster-and-express/
 // @TODO: Supervise forks
 const express = Express()
+const PRODUCTION = true
 
 export default (ProjectHelmet, tastics = null, port = 8000) => {
     global.tastics = tastics || defaultTastics
