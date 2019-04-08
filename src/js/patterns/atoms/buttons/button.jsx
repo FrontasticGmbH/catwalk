@@ -31,7 +31,7 @@ class AtomsButton extends Component {
 
 AtomsButton.propTypes = {
     children: PropTypes.node.isRequired,
-    component: PropTypes.string,
+    component: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     className: PropTypes.string,
     type: PropTypes.oneOf([null, 'primary', 'secondary']),
     size: PropTypes.oneOf([null, 'small', 'large']),
