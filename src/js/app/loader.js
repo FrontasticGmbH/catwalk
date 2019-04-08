@@ -58,7 +58,7 @@ let Loader = function (store, router, api) {
             lastRoute: this.store.getState().app.route,
         })
 
-        if (typeof PRODUCTION === 'undefined') {
+        if (!PRODUCTION) {
             console.groupCollapsed('%c🔀 %c%s', 'color: gray', 'color: darkmagenta', route.route)
             console.info(route)
             console.groupEnd()
