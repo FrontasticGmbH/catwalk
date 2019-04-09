@@ -26,10 +26,16 @@ let App = function (store, history) {
         )
     }
 
+    /**
+     * @return {Api}
+     */
     this.getApi = function () {
         return this.api
     }
 
+    /**
+     * @return {Router}
+     */
     this.getRouter = function () {
         return this.router
     }
