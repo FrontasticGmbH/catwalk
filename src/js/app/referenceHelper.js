@@ -7,7 +7,7 @@ export const isReferenceAbsoluteHttpOrMailtoLink = (reference) => {
     }
 
     const target = reference.target
-    if (!target) return false
+    if (!target) { return false }
 
     return target.startsWith('http://') || target.startsWith('https://') || target.startsWith('mailto:')
 }
