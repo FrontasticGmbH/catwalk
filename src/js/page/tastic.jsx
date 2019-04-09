@@ -38,7 +38,8 @@ class Tastic extends Component {
                 }
                 style={{
                     outline: (_.isEqual(tastic.tasticId, this.props.highlight) ? '2px dashed #d73964' : null),
-                }}>
+                }}
+                id={tastic.tasticId}>
                 <Tastic tastic={tastic} node={this.props.node} page={this.props.page} rawData={this.props.data} data={this.props.resolved} />
             </div>
         </ErrorBoundary>)
