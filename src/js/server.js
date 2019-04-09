@@ -27,7 +27,7 @@ export default (ProjectHelmet, tastics = null, port = 8000) => {
 
     // We increase the body data limit because we can recieve quite some data from
     // Catwalk inclduing product lists, etc.
-    express.use(bodyParser.json({ limit: '1MB' }))
+    express.use(bodyParser.json({ limit: '2MB' }))
     express.use(handleRender)
 
     function handleRender (request, response) {
