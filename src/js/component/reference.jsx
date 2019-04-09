@@ -9,7 +9,7 @@ import { isReferenceAbsoluteHttpOrMailtoLink } from '../app/referenceHelper'
  */
 class Reference extends Component {
     render () {
-        const { reference, children} = this.props
+        const { reference, children } = this.props
         if (!reference.type) {
             return <Fragment>{children}</Fragment>
         }
@@ -73,6 +73,7 @@ Reference.propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
     target: PropTypes.string,
+    onMouseEnter: PropTypes.func,
 }
 
 Reference.defaultProps = {}
