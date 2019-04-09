@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-let Route = function (route, query, historyState = null) {
+let Route = function (route, query = {}, historyState = null) {
     this.get = function (parameter, fallback = null) {
         if (this.parameters &&
             this.parameters[parameter]) {
