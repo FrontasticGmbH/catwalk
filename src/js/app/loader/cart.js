@@ -202,7 +202,10 @@ let CartLoader = function (store, api) {
                 })
                 app.getRouter().push(
                     'Frontastic.Frontend.Master.Checkout.finished',
-                    { order: data.order.orderId }
+                    {
+                        order: data.order.orderId,
+                        token: _.get(data, 'order.dangerousInnerOrder.custom.fields.viewToken', null),
+                    }
                 )
             },
             (error) => {
