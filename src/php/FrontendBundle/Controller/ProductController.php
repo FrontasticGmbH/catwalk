@@ -39,6 +39,10 @@ class ProductController extends Controller
         // FIXME: Product is loaded to often in this request (1x identify, 1x generate URL, 1x stream), needs optimize!
 
         $productId = $productRouter->identifyFrom($request, $context);
+        if (!$productId) {
+            throw new NotFoundHttpException();
+        }
+
         $product = $productApi->getProduct(new ProductApi\Query\ProductQuery([
             'locale' => $context->locale,
             'productId' => $productId,
