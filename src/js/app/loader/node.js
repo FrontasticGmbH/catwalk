@@ -93,7 +93,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             // We only want this if there is some major change, eg. if we need
             // data from the server or the display structure changed.
             currentNodeId: hasChanged ? null : globalState.currentNodeId,
-            currentCacheKey: hasChanged ? null : globalState.currentCacheKey,
+            currentCacheKey: UrlContext.getActionHash(action.route),
         }
 
     case 'Frontend.Node.initialize':
@@ -136,7 +136,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         pages = _.extend({}, globalState.pages)
         if (action.id) {
             nodes[action.id] = new Entity(action.data.node, 3600)
-            nodeData[action.cacheKey] = new Entity(action.data.data, 3600)
+            nodeData[globalState.currentCacheKey] = new Entity(action.data.data, 3600)
             pages[action.id] = new Entity(action.data.page, 3600)
         }
 
@@ -146,7 +146,6 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         return {
             ...globalState,
             currentNodeId: action.id,
-            currentCacheKey: action.cacheKey,
             nodes: nodes,
             nodeData: nodeData,
             pages: pages,
@@ -172,7 +171,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         return {
             ...globalState,
             currentNodeId: action.id,
-            currentCacheKey: action.cacheKey,
+            currentCacheKey: 'error',
             nodes: nodes,
             nodeData: nodeData,
             pages: pages,

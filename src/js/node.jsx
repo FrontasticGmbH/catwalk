@@ -15,10 +15,34 @@ import configurationResolver from './app/configurationResolver'
 import schemas from './schemas'
 
 class Node extends Component {
-    UNSAFE_componentWillUpdate = (nextProps) => { // eslint-disable-line camelcase
-        if ((nextProps.page.data && nextProps.page.data.pageId) !==
-            (this.props.page.data && this.props.page.data.pageId)) {
-            this.scrollable && this.scrollable.scrollToTop()
+    scrollable = null
+
+    scrollPositions = new Map()
+
+    getScrollPosition (key) {
+        if (!key) {
+            return null
+        }
+
+        return this.scrollPositions.get(key) || null
+    }
+
+    setScrollPosition (key, scrollPosition) {
+        if (!key) {
+            return
+        }
+        return this.scrollPositions.set(key, scrollPosition)
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.viewKey !== prevProps.viewKey) {
+            let scrollTop = this.getScrollPosition(this.props.viewKey)
+
+            if (scrollTop) {
+                window.requestAnimationFrame(() => {
+                    this.scrollable.scrollTop(scrollTop)
+                })
+            }
         }
     }
 
@@ -41,9 +65,16 @@ class Node extends Component {
 
         return (<div className='s-node'>
             {this.props.tastics.isComplete() ?
-                <Scrollbars autoHide style={{ height: '100vh', width: '100vw' }} ref={(element) => {
-                    this.scrollable = element
-                }}>
+                <Scrollbars
+                    autoHide
+                    style={{ height: '100vh', width: '100vw' }}
+                    ref={(element) => {
+                        this.scrollable = element
+                    }}
+                    onScrollStop={(event) => {
+                        this.setScrollPosition(this.props.viewKey, this.scrollable.getScrollTop())
+                    }}
+                >
                     <MetaData
                         node={nodeData}
                         page={this.props.page.data || {}}
@@ -63,6 +94,7 @@ class Node extends Component {
 }
 
 Node.propTypes = {
+    viewKey: PropTypes.string.isRequired,
     node: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     page: PropTypes.object.isRequired,
@@ -91,6 +123,7 @@ export default connect(
         }
 
         return {
+            viewKey: globalState.node.currentCacheKey + '-' + (page && page.data.pageId),
             node: globalState.node.nodes[globalState.node.currentNodeId] ||
                 globalState.node.last.node || new Entity(),
             data: globalState.node.nodeData[globalState.node.currentCacheKey] ||
