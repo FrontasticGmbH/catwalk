@@ -29,15 +29,17 @@ export default createStore(
         node: {
             error: null,
             trees: {},
-            nodes: {},
-            nodeData: {},
-            pages: {},
-            last: {
-                node: new Entity(props.node),
-                data: new Entity(props.data),
-                page: new Entity(props.page),
+            nodes: {
+                [props.node.nodeId]: new Entity(props.node),
             },
-            currentNodeId: null,
+            nodeData: {
+                [props.node.nodeId]: new Entity(props.data),
+            },
+            pages: {
+                [props.node.nodeId]: new Entity(props.page),
+            },
+            last: {},
+            currentNodeId: props.node.nodeId,
             currentCacheKey: null,
         },
         tastic: {
