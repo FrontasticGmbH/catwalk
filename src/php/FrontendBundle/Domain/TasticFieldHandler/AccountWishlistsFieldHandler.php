@@ -33,7 +33,12 @@ class AccountWishlistsFieldHandler extends TasticFieldHandler
     {
         if (!$context->session->loggedIn) {
             try {
-                return [$this->wishlistApi->getAnonymous($context->session->account->accountId)];
+                return [
+                    $this->wishlistApi->getAnonymous(
+                        $context->session->account->accountId,
+                        $context->locale
+                    )
+                ];
             } catch (\OutOfBoundsException $e) {
                 return [$this->wishlistApi->create(new Wishlist([
                     'name' => ['de' => 'Wunschzettel'],
@@ -45,7 +50,8 @@ class AccountWishlistsFieldHandler extends TasticFieldHandler
         // While the wishlist ID is also available in the stream configuration
         // this makes sure we always fetch the current wishlists addresses.
         return $this->wishlistApi->getWishlists(
-            $context->session->account->accountId
+            $context->session->account->accountId,
+            $context->locale
         );
     }
 }
