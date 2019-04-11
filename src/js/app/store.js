@@ -10,7 +10,10 @@ import { ConfigurationSchema, FacetTypeSchemaMap } from 'frontastic-common'
 
 // Try to read initial props from DOM
 let mountNode = null
-let props = {}
+let props = {
+    route: {},
+    node: {},
+}
 if (typeof document !== 'undefined') {
     mountNode = document && document.getElementById('app')
     props = mountNode ? JSON.parse(mountNode.getAttribute('data-props')) : {}
