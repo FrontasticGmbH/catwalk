@@ -89,7 +89,10 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             pages: Entity.purgeMap(globalState.pages),
             last: globalState.last,
 
-            currentNodeId: globalState.currentNodeId,
+            // Do not unset the currentNodeId during the first render cycle,
+            // because it will (otherwise) we initialized to late and we will
+            // get an intermitting empty page
+            currentNodeId: action.lastRoute ? null : globalState.currentNodeId,
             currentCacheKey: UrlContext.getActionHash(action.route),
         }
 
