@@ -43,7 +43,7 @@ class AccountWishlistsFieldHandler extends TasticFieldHandler
                 return [$this->wishlistApi->create(new Wishlist([
                     'name' => ['de' => 'Wunschzettel'],
                     'anonymousId' => session_id(),
-                ]))];
+                ]), $context->locale)];
             }
         }
 

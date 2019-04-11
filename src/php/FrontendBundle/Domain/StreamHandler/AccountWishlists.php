@@ -36,7 +36,7 @@ class AccountWishlists extends StreamHandler
                 return [$this->wishlistApi->create(new Wishlist([
                     'name' => ['de' => 'Wunschzettel'],
                     'anonymousId' => session_id(),
-                ]))];
+                ]), $context->locale)];
             }
         }
 
