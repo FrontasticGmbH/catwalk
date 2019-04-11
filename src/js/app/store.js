@@ -16,7 +16,14 @@ let props = {
 }
 if (typeof document !== 'undefined') {
     mountNode = document && document.getElementById('app')
-    props = mountNode ? JSON.parse(mountNode.getAttribute('data-props')) : {}
+
+    if (mountNode) {
+        const newProps = JSON.parse(mountNode.getAttribute('data-props'));
+        if (newProps) {
+            // within storybook, we do have a document and mountnode, but no data-props attribute.
+            props = newProps;
+        }
+    }
 }
 
 // Use thunk if available (not available during SSR)
