@@ -39,7 +39,7 @@ let Loader = function (store, api) {
             (data, parameters) => {
                 this.store.dispatch({
                     id: data.node.nodeId,
-                    cacheKey: UrlContext.getActionHash(parameters),
+                    cacheKey:  UrlContext.getActionHash({ route, parameters }),
                     type: 'Frontend.Master.view.success',
                     data: data,
                     parameters: parameters,
@@ -80,6 +80,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
 
     switch (action.type) {
     case 'FRONTASTIC_ROUTE':
+        let hasChanged = UrlContext.hasChanged(action.lastRoute, action.route)
         return {
             error: null,
             trees: Entity.purgeMap(globalState.trees),
@@ -91,8 +92,8 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             // Setting the following two to `null` means a visible page load.
             // We only want this if there is some major change, eg. if we need
             // data from the server or the display structure changed.
-            currentNodeId: UrlContext.hasChanged(action.lastRoute, action.route) ? null : globalState.currentNodeId,
-            currentCacheKey: UrlContext.hasChanged(action.lastRoute, action.route) ? null : globalState.currentCacheKey,
+            currentNodeId: hasChanged ? null : globalState.currentNodeId,
+            currentCacheKey: hasChanged ? null : globalState.currentCacheKey,
         }
 
     case 'Frontend.Node.initialize':

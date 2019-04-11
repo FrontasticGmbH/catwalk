@@ -75,12 +75,19 @@ Node.defaultProps = {
 export default connect(
     (globalState, props) => {
         let page = null
-         if (globalState.node.pages[globalState.node.currentNodeId]) {
+        if (globalState.node.pages[globalState.node.currentNodeId] &&
+             globalState.node.nodeData[globalState.node.currentCacheKey]) {
             page = globalState.node.pages[globalState.node.currentNodeId]
         } else if (globalState.node.last.page) {
-            page = globalState.node.last.page
-            page.data.regions.main.elements = []
-            page.data.regions.footer.elements = []
+            page = new Entity({
+                ...globalState.node.last.page.data,
+                pageId: 'partial',
+                regions: {
+                    head: globalState.node.last.page.data.regions.head,
+                    main: { regionId: 'main' },
+                    footer: { regionId: 'footer' },
+                }
+            })
         }
 
         return {

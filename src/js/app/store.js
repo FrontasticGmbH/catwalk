@@ -4,6 +4,7 @@ import _ from 'lodash'
 
 import Entity from './entity'
 import reducer from './reducer'
+import UrlContext from './urlContext'
 
 import { ConfigurationSchema, FacetTypeSchemaMap } from 'frontastic-common'
 
@@ -23,6 +24,8 @@ if (typeof window !== 'undefined') {
     /* eslint-enable */
 }
 
+let cacheKey = UrlContext.getActionHash(props.route)
+
 export default createStore(
     reducer,
     {
@@ -33,14 +36,14 @@ export default createStore(
                 [props.node.nodeId]: new Entity(props.node),
             },
             nodeData: {
-                [props.node.nodeId]: new Entity(props.data),
+                [cacheKey]: new Entity(props.data),
             },
             pages: {
                 [props.node.nodeId]: new Entity(props.page),
             },
             last: {},
             currentNodeId: props.node.nodeId,
-            currentCacheKey: null,
+            currentCacheKey: cacheKey,
         },
         tastic: {
             tastics: new Entity(props.tastics, 86400),

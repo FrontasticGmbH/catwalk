@@ -9,8 +9,8 @@ import _ from 'lodash'
 class UrlContext {
     static parameterKeyFilter = /^(s|nocrawl|_.*)$/
 
-    static getActionHash = (parameters) => {
-        return JSON.stringify(UrlContext.getActionParameters(parameters))
+    static getActionHash = (route) => {
+        return route.route + '-' + JSON.stringify(UrlContext.getActionParameters(route.parameters))
     }
 
     static getActionParameters = (parameters) => {
@@ -36,7 +36,8 @@ class UrlContext {
             return true
         }
 
-        return UrlContext.getActionHash(lastRoute.parameters) !== UrlContext.getActionHash(route.parameters)
+        return UrlContext.getActionHash(lastRoute) !==
+            UrlContext.getActionHash(route)
     }
 }
 
