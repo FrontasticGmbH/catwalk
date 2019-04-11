@@ -74,13 +74,21 @@ Node.defaultProps = {
 
 export default connect(
     (globalState, props) => {
+        let page = null
+         if (globalState.node.pages[globalState.node.currentNodeId]) {
+            page = globalState.node.pages[globalState.node.currentNodeId]
+        } else if (globalState.node.last.page) {
+            page = globalState.node.last.page
+            page.data.regions.main.elements = []
+            page.data.regions.footer.elements = []
+        }
+
         return {
             node: globalState.node.nodes[globalState.node.currentNodeId] ||
                 globalState.node.last.node || new Entity(),
             data: globalState.node.nodeData[globalState.node.currentCacheKey] ||
                 globalState.node.last.data || new Entity(),
-            page: globalState.node.pages[globalState.node.currentNodeId] ||
-                globalState.node.last.page || new Entity(),
+            page: page || new Entity(),
             tastics: globalState.tastic.tastics || new Entity(),
         }
     }
