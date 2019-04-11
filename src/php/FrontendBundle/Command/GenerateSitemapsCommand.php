@@ -9,6 +9,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
+use Frontastic\Catwalk\FrontendBundle\Domain\SitemapService;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter;
@@ -81,6 +82,12 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 'Generate sitemap for products'
             )
             ->addOption(
+                'with-extensions',
+                null,
+                InputOption::VALUE_NONE,
+                'Generate sitemap with custom extensions'
+            )
+            ->addOption(
                 'max-entries',
                 null,
                 InputOption::VALUE_REQUIRED,
@@ -100,6 +107,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         /** @var ContextService $contextService */
         $contextService = $this->getContainer()->get(ContextService::class);
 
+
         $context = $contextService->getContext();
 
         $sitemaps = [];
@@ -111,6 +119,9 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         }
         if ($input->getOption('all') || $input->getOption('with-products')) {
             $sitemaps = array_merge($sitemaps, $this->generateProductSitemap($context, $output));
+        }
+        if ($input->getOption('all') || $input->getOption('with-extensions')) {
+            $sitemaps = array_merge($sitemaps, $this->generateSitemapExtensions($context, $output));
         }
 
         $outputDir = $input->getArgument('output-directory');
@@ -136,6 +147,29 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         if ($backupDir) {
             $this->filesystem->remove($backupDir);
         }
+    }
+
+    private function generateSitemapExtensions(Context $context, OutputInterface $output): array
+    {
+        /** @var SitemapService $sitemapService */
+        $sitemapService = $this->getContainer()->get(SitemapService::class);
+
+        $sitemaps = [];
+        foreach ($sitemapService->getExtensions() as $extension) {
+            $entries = [];
+            foreach ($extension->getUrls() as $url) {
+                $entries[] = [
+                    'uri' => $url,
+                    'changed' => time()
+                ];
+            }
+
+            $output->writeln("Generating {$extension->getName()} sitemaps…");
+
+            $sitemaps = array_merge($sitemaps, $this->renderSitemaps($context, $entries, $extension->getName()));
+        }
+
+        return $sitemaps;
     }
 
     private function generateNodeSitemap(Context $context, OutputInterface $output): array

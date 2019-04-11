@@ -391,5 +391,9 @@
 
             <tag name="context.decorator" />
         </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\SitemapService">
+            <argument type="tagged" tag="frontend.sitemapExtension" />
+        </service>
     </services>
 </container>
