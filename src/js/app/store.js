@@ -35,6 +35,7 @@ if (typeof window !== 'undefined') {
 }
 
 let cacheKey = UrlContext.getActionHash(props.route)
+console.log(props.route, props.node.nodeId, cacheKey)
 
 export default createStore(
     reducer,

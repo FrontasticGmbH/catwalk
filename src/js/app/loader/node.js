@@ -89,21 +89,23 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             pages: Entity.purgeMap(globalState.pages),
             last: globalState.last,
 
-            // Setting the following two to `null` means a visible page load.
-            // We only want this if there is some major change, eg. if we need
-            // data from the server or the display structure changed.
-            currentNodeId: hasChanged ? null : globalState.currentNodeId,
+            currentNodeId: globalState.currentNodeId,
             currentCacheKey: UrlContext.getActionHash(action.route),
         }
 
     case 'Frontend.Node.initialize':
         return {
             ...globalState,
-            last: {
-                node: new Entity(action.data.node),
-                page: new Entity(action.data.page),
-                data: new Entity(action.data.data),
+            nodes: {
+                [action.data.node.nodeId]: new Entity(action.data.node),
             },
+            nodeData: {
+                [globalState.currentCacheKey]: new Entity(action.data.data),
+            },
+            pages: {
+                [action.data.node.nodeId]: new Entity(action.data.page),
+            },
+            currentNodeId: action.data.node.nodeId,
         }
 
     case 'Frontend.Node.tree.success':
