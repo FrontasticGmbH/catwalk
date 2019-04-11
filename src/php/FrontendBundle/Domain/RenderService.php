@@ -34,6 +34,7 @@ class RenderService
             json_encode([
                 'context' => $this->contextService->getContext(),
                 'props' => $props,
+                'queryParameters' => $request->query->all(),
             ]),
             [
                 'Content-Type: application/json',

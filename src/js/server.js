@@ -39,7 +39,7 @@ export default (ProjectHelmet, tastics = null, port = 8000) => {
         // we post-initilize the state (see app/store.js):
         store.dispatch({
             type: 'FRONTASTIC_ROUTE',
-            route: new FrontasticRoute(props.route),
+            route: new FrontasticRoute(props.route, request.body.queryParameters),
             lastRoute: null,
         })
         store.dispatch({
