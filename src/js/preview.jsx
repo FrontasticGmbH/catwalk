@@ -87,6 +87,10 @@ class Preview extends Component {
             return <Loading large entity={this.props.tastics} />
         }
 
+        if (!this.props.node) {
+            return <Loading large />
+        }
+
         return (<div className='s-preview'>
             {this.props.tastics.isComplete() ?
                 <Page
