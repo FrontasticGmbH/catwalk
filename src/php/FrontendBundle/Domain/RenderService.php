@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Common\JsonSerializer;
 use Symfony\Component\HttpFoundation\Request;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator;
@@ -15,27 +16,38 @@ class RenderService
     private $httpClient;
     private $backendUrl;
 
+    /**
+     * @var JsonSerializer
+     */
+    private $jsonSerializer;
+
     public function __construct(
         ContextService $contextService,
         ResponseDecorator $responseDecorator,
         HttpClient $httpClient,
-        string $backendUrl
+        string $backendUrl,
+        JsonSerializer $jsonSerializer
     ) {
         $this->contextService = $contextService;
         $this->responseDecorator = $responseDecorator;
         $this->httpClient = $httpClient;
         $this->backendUrl = $backendUrl;
+        $this->jsonSerializer = $jsonSerializer;
     }
 
     public function render(Request $request, array $props = []): Response
     {
-        $response = $this->httpClient->post(
-            $this->backendUrl . $request->getPathInfo(),
-            json_encode([
+        $jsonString = json_encode(
+            $this->jsonSerializer->serialize([
                 'context' => $this->contextService->getContext(),
                 'props' => $props,
                 'queryParameters' => $request->query->all(),
-            ]),
+            ])
+        );
+
+        $response = $this->httpClient->post(
+            $this->backendUrl . $request->getPathInfo(),
+            $jsonString,
             [
                 'Content-Type: application/json',
             ],

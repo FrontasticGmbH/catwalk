@@ -170,6 +170,7 @@
                 </service>
             </argument>
             <argument>%frontastic.nodejs.renderer%</argument>
+            <argument type="service" id="Frontastic\Common\JsonSerializer" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\PageImpressionRecorder">
