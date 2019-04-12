@@ -81,6 +81,7 @@ class RedirectService implements Target
         $additionalParameters = new ParameterBag(
             array_diff_key($queryParameters->all(), $redirect->getQueryParameters()->all())
         );
+        $additionalParameters->remove(self::REDIRECT_COUNT_PARAMETER_KEY);
 
         return $this->appendQueryParametersToTargetUrl($targetUrl, $additionalParameters, $redirectCount + 1);
     }

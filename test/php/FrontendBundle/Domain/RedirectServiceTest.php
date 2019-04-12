@@ -41,6 +41,28 @@ class RedirectServiceTest extends TestCase
         $this->assertNull($url);
     }
 
+    public function testGetRedirectForCountExceeded()
+    {
+        $path = '/foo/bar/baz';
+        $target = 'https://frontastic.io/nice-page';
+        $queryParameters = new ParameterBag([
+            RedirectService::REDIRECT_COUNT_PARAMETER_KEY => 10
+        ]);
+
+        \Phake::when($this->redirectGatewayMock)->getByPath($path)->thenReturn([
+            new Redirect([
+                'redirectId' => '1',
+                'path' => $path,
+                'targetType' => Redirect::TARGET_TYPE_LINK,
+                'target' => $target,
+            ]),
+        ]);
+
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+
+        $this->assertNull($url);
+    }
+
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingLinkRedirect()
     {
         $path = '/foo/bar/baz';
@@ -114,6 +136,7 @@ class RedirectServiceTest extends TestCase
         $queryParameters = new ParameterBag([
             'key1' => 'value1',
             'key2' => 'value2',
+            RedirectService::REDIRECT_COUNT_PARAMETER_KEY => 2,
         ]);
 
         \Phake::when($this->redirectGatewayMock)->getByPath($path)->thenReturn([
@@ -127,7 +150,7 @@ class RedirectServiceTest extends TestCase
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
         $targetWithCounter =
-            sprintf('%s&key1=value1&key2=value2&%s=1%s',
+            sprintf('%s&key1=value1&key2=value2&%s=3%s',
                 $target,
                 RedirectService::REDIRECT_COUNT_PARAMETER_KEY,
                 $targetFragment);
