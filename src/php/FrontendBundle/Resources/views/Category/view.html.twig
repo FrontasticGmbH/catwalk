@@ -1,6 +1,6 @@
 {% extends "layout.html.twig" %}
 
-{% set pageData = completeInformation({ page: page, data: data }) %}
+{% set pageData = completeInformation({ node: node, page: page, data: data }) %}
 {% set response = frontastic_render(app.request, pageData) %}
 
 {% block meta %}
