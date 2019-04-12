@@ -50,6 +50,11 @@ export default class Grid extends React.Component {
             hideOnClasses = hideOn.reduce((acc, crnt) => acc + ` ${prefix}--hidden-${crnt}`, '')
         }
         const children = React.Children.map(this.props.children, (c) => {
+            if (typeof c.type === 'string') {
+                // if c.type is a string, this is an HTML element, and we do not want to modify those.
+                return c
+            }
+
             return React.cloneElement(c, { windowWidth, gridWidth })
         })
 
