@@ -36,13 +36,11 @@ class Node extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.viewKey !== prevProps.viewKey) {
-            let scrollTop = this.getScrollPosition(this.props.viewKey)
+            let scrollTop = this.getScrollPosition(this.props.viewKey) || 0
 
-            if (scrollTop) {
-                window.requestAnimationFrame(() => {
-                    this.scrollable.scrollTop(scrollTop)
-                })
-            }
+            window.requestAnimationFrame(() => {
+                this.scrollable.scrollTop(scrollTop)
+            })
         }
     }
 
