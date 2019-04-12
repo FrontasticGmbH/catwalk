@@ -43,7 +43,7 @@ class MediaImage extends Component {
     }
 
     render() {
-        if (!this.props.media) {
+        if (!this.props.media || !this.props.media.media) {
             return null
         }
 
