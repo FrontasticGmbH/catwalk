@@ -4,6 +4,7 @@ parameters:
     env(smtp_user): ""
     env(smtp_password): ""
     env(smtp_encryption): "tls"
+    env(smtp_sender): "support@frontastic.io"
 
 imports:
     - { resource: security.yml }
