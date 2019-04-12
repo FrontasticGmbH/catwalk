@@ -12,7 +12,9 @@ import { ConfigurationSchema, FacetTypeSchemaMap } from 'frontastic-common'
 let mountNode = null
 let props = {
     route: {},
-    node: {},
+    node: {
+        nodeId: null,
+    },
 }
 if (typeof document !== 'undefined') {
     mountNode = document && document.getElementById('app')
@@ -20,8 +22,9 @@ if (typeof document !== 'undefined') {
     if (mountNode) {
         const newProps = JSON.parse(mountNode.getAttribute('data-props'));
         if (newProps) {
-            // within storybook, we do have a document and mountnode, but no data-props attribute.
-            props = newProps;
+            // Within storybook, we do have a document and mountnode, but no
+            // data-props attribute.
+            props = { ...props, ...newProps };
         }
     }
 }
@@ -35,7 +38,6 @@ if (typeof window !== 'undefined') {
 }
 
 let cacheKey = UrlContext.getActionHash(props.route)
-console.log(props.route, props.node.nodeId, cacheKey)
 
 export default createStore(
     reducer,
