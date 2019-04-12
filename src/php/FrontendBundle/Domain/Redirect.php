@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Kore\DataObject\DataObject;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class Redirect extends DataObject
 {
@@ -48,4 +49,14 @@ class Redirect extends DataObject
      * @var bool
      */
     public $isDeleted = false;
+
+    public function getQueryParameters(): ParameterBag
+    {
+        $paremters = [];
+        if ($this->query !== null && $this->query !== '') {
+            parse_str($this->query, $paremters);
+        }
+
+        return new ParameterBag($paremters);
+    }
 }

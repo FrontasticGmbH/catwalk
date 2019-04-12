@@ -78,7 +78,11 @@ class RedirectService implements Target
                 throw new \InvalidArgumentException("Unknown redirect target type $redirect->targetType");
         }
 
-        return $this->appendRedirectCounterToTargetUrl($targetUrl, $redirectCount + 1);
+        $additionalParameters = new ParameterBag(
+            array_diff_key($queryParameters->all(), $redirect->getQueryParameters()->all())
+        );
+
+        return $this->appendQueryParametersToTargetUrl($targetUrl, $additionalParameters, $redirectCount + 1);
     }
 
     /**
@@ -93,23 +97,15 @@ class RedirectService implements Target
     {
         $redirects = $this->redirectGateway->getByPath($path);
 
-        $redirectQueryCount = [];
-
         $redirects = array_filter(
             $redirects,
             function (Redirect $redirect) use ($queryParameters, &$redirectQueryCount): bool {
-                if ($redirect->query === null || $redirect->query === '') {
-                    return true;
-                }
-
-                parse_str($redirect->query, $redirectParameters);
-                foreach ($redirectParameters as $key => $value) {
+                foreach ($redirect->getQueryParameters()->all() as $key => $value) {
                     if (!$queryParameters->has($key) || $queryParameters->get($key) !== $value) {
                         return false;
                     }
                 }
 
-                $redirectQueryCount[$redirect->redirectId] = count($redirectParameters);
                 return true;
             }
         );
@@ -121,8 +117,8 @@ class RedirectService implements Target
         usort(
             $redirects,
             function (Redirect $a, Redirect $b) use ($redirectQueryCount): int {
-                $aQueryCount = $redirectQueryCount[$a->redirectId] ?? 0;
-                $bQueryCount = $redirectQueryCount[$b->redirectId] ?? 0;
+                $aQueryCount = $a->getQueryParameters()->count();
+                $bQueryCount = $b->getQueryParameters()->count();
 
                 if ($aQueryCount !== $bQueryCount) {
                     return $bQueryCount - $aQueryCount;
@@ -148,8 +144,11 @@ class RedirectService implements Target
         return $redirect;
     }
 
-    protected function appendRedirectCounterToTargetUrl(string $targetUrl, int $redirectCount): string
-    {
+    protected function appendQueryParametersToTargetUrl(
+        string $targetUrl,
+        ParameterBag $additionalParameters,
+        int $redirectCount
+    ): string {
         $urlComponents = parse_url($targetUrl);
         if ($urlComponents === false) {
             throw new \InvalidArgumentException('The url ' . $targetUrl . ' is ill formed');
@@ -170,6 +169,9 @@ class RedirectService implements Target
         $url .= '?';
         if (isset($urlComponents['query'])) {
             $url .= $urlComponents['query'] . '&';
+        }
+        if ($additionalParameters->count() > 0) {
+            $url .= http_build_query($additionalParameters->all()) . '&';
         }
         $url .= self::REDIRECT_COUNT_PARAMETER_KEY . '=' . $redirectCount;
         if (isset($urlComponents['fragment'])) {
