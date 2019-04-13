@@ -80,7 +80,11 @@ let Loader = function (store, api) {
                 }
             },
             (json) => {
-                this.notifyUser('Login Failure – email or password are wrong.', 'error')
+		        if(json.message === 'Unauthenticated: Your email address was not yet verified.') {
+                    this.notifyUser(    'Login fehlgeschlagen. Ihre E-Mail-Adresse wurde nocht nicht bestätigt. Bitte prüfen Sie Ihren Posteingang.', 'error')
+                } else {
+                    this.notifyUser(    'Login fehlgeschlagen. E-Mail oder Passwort falsch.', 'error')
+                }
             }
         )
     }
