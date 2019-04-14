@@ -35,9 +35,6 @@ class ErrorController extends Controller
 
     public function errorAction(Context $context, FlattenException $exception = null)
     {
-        echo $exception;
-        die();
-
         $masterService = $this->get(MasterService::class);
         $nodeService = $this->get(NodeService::class);
         $dataProvider = $this->get(ViewDataProvider::class);
