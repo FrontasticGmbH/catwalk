@@ -64,12 +64,14 @@ class PageGateway
 
     public function getHighestSequence(): string
     {
-        $query = $this->manager->createQuery(
-            "SELECT MAX(p.sequence)
-                FROM Frontastic\\Catwalk\\FrontendBundle\\Domain\\Page p"
-        );
+        return $this->withoutUndeletedFilter(function () {
+            $query = $this->manager->createQuery(
+                "SELECT MAX(p.sequence)
+                    FROM Frontastic\\Catwalk\\FrontendBundle\\Domain\\Page p"
+            );
 
-        return $query->getSingleScalarResult() ?? '0';
+            return $query->getSingleScalarResult() ?? '0';
+        });
     }
 
     public function store(Page $page): Page

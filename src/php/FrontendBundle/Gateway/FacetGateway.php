@@ -44,14 +44,16 @@ class FacetGateway
 
     public function getHighestSequence(): string
     {
-        $query = $this->manager->createQuery(
-            "SELECT
-                MAX(n.sequence)
-            FROM
-                Frontastic\\Catwalk\\FrontendBundle\\Domain\\Facet n"
-        );
+        return $this->withoutUndeletedFilter(function () {
+            $query = $this->manager->createQuery(
+                "SELECT
+                    MAX(f.sequence)
+                FROM
+                    Frontastic\\Catwalk\\FrontendBundle\\Domain\\Facet f"
+            );
 
-        return $query->getSingleScalarResult() ?? '0';
+            return $query->getSingleScalarResult() ?? '0';
+        });
     }
 
     public function store(Facet $facet): Facet

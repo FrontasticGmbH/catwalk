@@ -51,14 +51,16 @@ class RedirectGateway
 
     public function getHighestSequence(): string
     {
-        $query = $this->manager->createQuery(
-            "SELECT
-                MAX(rd.sequence)
-            FROM
-                Frontastic\\Catwalk\\FrontendBundle\\Domain\\Redirect rd"
-        );
+        return $this->withoutUndeletedFilter(function () {
+            $query = $this->manager->createQuery(
+                "SELECT
+                    MAX(rd.sequence)
+                FROM
+                    Frontastic\\Catwalk\\FrontendBundle\\Domain\\Redirect rd"
+            );
 
-        return $query->getSingleScalarResult() ?? '0';
+            return $query->getSingleScalarResult() ?? '0';
+        });
     }
 
     public function store(Redirect $redirect): Redirect

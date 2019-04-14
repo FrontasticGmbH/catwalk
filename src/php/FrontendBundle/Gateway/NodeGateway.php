@@ -74,14 +74,16 @@ class NodeGateway
 
     public function getHighestSequence(): string
     {
-        $query = $this->manager->createQuery(
-            "SELECT
-                MAX(n.sequence)
-            FROM
-                Frontastic\\Catwalk\\FrontendBundle\\Domain\\Node n"
-        );
+        return $this->withoutUndeletedFilter(function () {
+            $query = $this->manager->createQuery(
+                "SELECT
+                    MAX(n.sequence)
+                FROM
+                    Frontastic\\Catwalk\\FrontendBundle\\Domain\\Node n"
+            );
 
-        return $query->getSingleScalarResult() ?? '0';
+            return $query->getSingleScalarResult() ?? '0';
+        });
     }
 
     public function store(Node $node): Node
