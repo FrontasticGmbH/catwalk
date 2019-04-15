@@ -1,8 +1,10 @@
+import React from 'react';
 import _ from 'lodash'
 
 import Cart from '../../domain/cart'
 import app from '../app'
 import Entity from '../entity'
+import Error from '../error'
 
 /**
  * Loader classes like this consilidate all loading monitors for a domain
@@ -180,7 +182,7 @@ let CartLoader = function (store, api) {
                 })
             },
             (error) => {
-                app.getLoader('context').notifyUser(error.message, 'error')
+                app.getLoader('context').notifyUser(<Error {...error} />, 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.update.error',
                     error: error,

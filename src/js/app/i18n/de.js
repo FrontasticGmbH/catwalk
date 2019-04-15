@@ -8,4 +8,7 @@ export default {
         logout: 'Abmelden',
         new_wishlist: 'Neuer Wunschzettel',
     },
+    commercetools: {
+        DiscountCodeNonApplicable: 'Der Gutscheincode {discountCode} konnte nicht gefunden werden.',
+    }
 }
