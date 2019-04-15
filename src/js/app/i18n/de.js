@@ -18,6 +18,9 @@ export default {
             update: 'Account-Daten aktualisiert',
             reset: 'Email für den Password-Reset wurde verschickt',
             passwordUpdate: 'Passwort aktualisiert',
+            wishlist: 'Wunschzettel {wishlist} wurd angelegt.',
+            wishlistAdd: 'Produkt zum Wunschzettel hinzugefügt',
+            wishlistRemove: 'Produkt vom Wunschzettel entfernt',
         }
     },
     commercetools: {
