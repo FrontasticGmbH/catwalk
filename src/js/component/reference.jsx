@@ -33,6 +33,7 @@ class Reference extends Component {
         return {
             style: this.props.style,
             onMouseEnter: this.props.onMouseEnter,
+            onClick: this.props.onClick,
             className: this.props.className,
         }
     }
@@ -74,6 +75,7 @@ Reference.propTypes = {
     style: PropTypes.object,
     target: PropTypes.string,
     onMouseEnter: PropTypes.func,
+    onClick: PropTypes.func,
 }
 
 Reference.defaultProps = {}
