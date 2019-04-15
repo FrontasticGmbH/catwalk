@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types'
 import {FormattedMessage} from 'react-intl';
 
-class Error extends Component {
+class Message extends Component {
     render() {
         return (
             <FormattedMessage
@@ -14,15 +14,15 @@ class Error extends Component {
     }
 }
 
-Error.propTypes = {
+Message.propTypes = {
     message: PropTypes.string.isRequired,
     code: PropTypes.string,
     parameters: PropTypes.object,
 }
 
-Error.defaultProps = {
+Message.defaultProps = {
     code: 'Unknown',
     parameters: {},
 }
 
-export default Error
+export default Message

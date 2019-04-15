@@ -4,7 +4,7 @@ import _ from 'lodash'
 import Cart from '../../domain/cart'
 import app from '../app'
 import Entity from '../entity'
-import Error from '../error'
+import Message from '../message'
 
 /**
  * Loader classes like this consilidate all loading monitors for a domain
@@ -60,7 +60,7 @@ let CartLoader = function (store, api) {
                 })
             },
             (error) => {
-                app.getLoader('context').notifyUser('Failed to add item to cart', 'error')
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.add.error',
                     error: error,
@@ -86,7 +86,7 @@ let CartLoader = function (store, api) {
                 })
             },
             (error) => {
-                app.getLoader('context').notifyUser('Failed to add item to cart', 'error')
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.add.error',
                     error: error,
@@ -112,7 +112,7 @@ let CartLoader = function (store, api) {
                 })
             },
             (error) => {
-                app.getLoader('context').notifyUser('Failed to update line item.', 'error')
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.update.error',
                     error: error,
@@ -138,7 +138,7 @@ let CartLoader = function (store, api) {
                 })
             },
             (error) => {
-                app.getLoader('context').notifyUser('Failed to remove line item.', 'error')
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.update.error',
                     error: error,
@@ -160,7 +160,7 @@ let CartLoader = function (store, api) {
                 })
             },
             (error) => {
-                app.getLoader('context').notifyUser('Cart update error: ' + error.message, 'error')
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.update.error',
                     error: error,
@@ -182,7 +182,7 @@ let CartLoader = function (store, api) {
                 })
             },
             (error) => {
-                app.getLoader('context').notifyUser(<Error {...error} />, 'error')
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.update.error',
                     error: error,
@@ -211,7 +211,7 @@ let CartLoader = function (store, api) {
                 )
             },
             (error) => {
-                app.getLoader('context').notifyUser('Checkout error: ' + error.message, 'error')
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
                 this.store.dispatch({
                     type: 'CartApi.Cart.checkout.error',
                     error: error,

@@ -1,3 +1,4 @@
+import React from 'react';
 import _ from 'lodash'
 
 import { generateId } from 'frontastic-common'
@@ -5,6 +6,7 @@ import { generateId } from 'frontastic-common'
 import app from '../app'
 import Context from '../context'
 import Entity from '../entity'
+import Message from '../message'
 
 /**
  * Special context loader
@@ -47,7 +49,7 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             user,
             (json) => {
-                this.notifyUser('Registration successfull', 'success')
+                this.notifyUser(<Message code='account.message.registered' message='Registration successfull' />, 'success')
                 this.refresh()
 
                 if (previous) {
@@ -58,7 +60,7 @@ let Loader = function (store, api) {
                 }
             },
             (json) => {
-                this.notifyUser('Could not register: ' + json.message, 'error')
+                this.notifyUser(<Message {...json} />, 'error')
             }
         )
     }
@@ -80,10 +82,11 @@ let Loader = function (store, api) {
                 }
             },
             (json) => {
+                // @TODO: We should ensure Symfony auth errors contain sensible codes
 		        if(json.message === 'Unauthenticated: Your email address was not yet verified.') {
-                    this.notifyUser(    'Login fehlgeschlagen. Ihre E-Mail-Adresse wurde nocht nicht bestätigt. Bitte prüfen Sie Ihren Posteingang.', 'error')
+                    this.notifyUser(<Message code='symfony.notVerified' {...json} />, 'error')
                 } else {
-                    this.notifyUser(    'Login fehlgeschlagen. E-Mail oder Passwort falsch.', 'error')
+                    this.notifyUser(<Message code='symfony.invalid' {...json} />, 'error')
                 }
             }
         )
@@ -96,7 +99,7 @@ let Loader = function (store, api) {
             null,
             null,
             (json) => {
-                this.notifyUser('Successfully logged out', 'success', 5000)
+                this.notifyUser(<Message code='account.message.logout' message='Successfully logged out' />, 'success')
                 this.refresh()
             },
             (json) => {
@@ -115,14 +118,14 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             address,
             (json) => {
-                this.notifyUser('Added new address', 'success', 5000)
+                this.notifyUser(<Message code='account.message.addressNew' message='Added new address' />, 'success')
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
                 this.refresh()
             },
             (json) => {
-                this.notifyUser('Failed to store address: ' + json.message, 'error')
+                this.notifyUser(<Message {...json} />, 'error')
             }
         )
     }
@@ -134,14 +137,14 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             address,
             (json) => {
-                this.notifyUser('Updated address', 'success', 5000)
+                this.notifyUser(<Message code='account.message.addressUpdated' message='Updated address' />, 'success')
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
                 this.refresh()
             },
             (json) => {
-                this.notifyUser('Failed to update address: ' + json.message, 'error')
+                this.notifyUser(<Message {...json} />, 'error')
             }
         )
     }
@@ -153,14 +156,14 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             address,
             (json) => {
-                this.notifyUser('Removed address', 'success', 5000)
+                this.notifyUser(<Message code='account.message.addressRemoved' message='Removed address' />, 'success')
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
                 this.refresh()
             },
             (json) => {
-                this.notifyUser('Failed to remove address: ' + json.message, 'error')
+                this.notifyUser(<Message {...json} />, 'error')
             }
         )
     }
@@ -172,13 +175,13 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             address,
             (json) => {
-                this.notifyUser('Set new default billing address', 'success', 5000)
+                this.notifyUser(<Message code='account.message.billingDefault' message='Set new default billing address' />, 'success')
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
             },
             (json) => {
-                this.notifyUser('Failed to set new default billing address: ' + json.message, 'error')
+                this.notifyUser(<Message {...json} />, 'error')
             }
         )
     }
@@ -190,13 +193,13 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             address,
             (json) => {
-                this.notifyUser('Set new default shipping address', 'success', 5000)
+                this.notifyUser(<Message code='account.message.shippingDefault' message='Set new default shipping address' />, 'success')
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
             },
             (json) => {
-                this.notifyUser('Failed to set new default shipping address: ' + json.message, 'error')
+                this.notifyUser(<Message {...json} />, 'error')
             }
         )
     }
@@ -208,7 +211,7 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             user,
             (json) => {
-                this.notifyUser('Userdata updated.', 'success', 5000)
+                this.notifyUser(<Message code='account.message.update' message='Account data updated' />, 'success')
 
                 this.refresh()
                 this.store.dispatch({
@@ -218,7 +221,7 @@ let Loader = function (store, api) {
                 })
             },
             (json) => {
-                this.notifyUser('Failed to store address: ' + json.message, 'error')
+                this.notifyUser(<Message {...json} />, 'error')
             }
         )
     }
@@ -230,10 +233,10 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             { email: email },
             (json) => {
-                this.notifyUser('Password reset mail sent.', 'success', 5000)
+                this.notifyUser(<Message code='account.message.reset' message='Password reset mail sent.' />, 'success')
             },
             (json) => {
-                this.notifyUser('Failed to request password reset: ' + json.message, 'error')
+                this.notifyUser(<Message {...json} />, 'error')
             }
         )
     }
@@ -245,10 +248,10 @@ let Loader = function (store, api) {
             { ownErrorHandler: true, token: token },
             { newPassword: newPassword },
             (json) => {
-                this.notifyUser('Password updated', 'success', 5000)
+                this.notifyUser(<Message code='account.message.passwordUpdate' message='Password updated' />, 'success')
             },
             (json) => {
-                this.notifyUser('Failed to reset password: ' + json.message, 'error')
+                this.notifyUser(<Message {...json} />, 'error')
             }
         )
     }
@@ -263,15 +266,15 @@ let Loader = function (store, api) {
                 newPassword: newPassword,
             },
             (json) => {
-                this.notifyUser('Password updated.', 'success', 5000)
+                this.notifyUser(<Message code='account.message.passwordUpdate' message='Password updated' />, 'success')
             },
             (json) => {
-                this.notifyUser('Failed to update password: ' + json.message, 'error')
+                this.notifyUser(<Message {...json} />, 'error')
             }
         )
     }
 
-    this.notifyUser = (message, type = 'info', timeout = null) => {
+    this.notifyUser = (message, type = 'info', timeout = 5000) => {
         let notificationId = generateId()
         this.store.dispatch({
             type: 'Frontastic.Notification.add',
