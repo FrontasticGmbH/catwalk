@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import app from '../../../app/app'
 import Loading from '../../../app/loading'
-import Markdown from '../../../component/markdown'
+import Message from '../../../app/message'
 
 class AccountConfirmTastic extends Component {
     constructor (props) {
@@ -23,24 +23,34 @@ class AccountConfirmTastic extends Component {
         app.api.request(
             'POST',
             'Frontastic.AccountApi.Api.confirm',
-            { token: this.props.token },
+            { token: this.props.token, ownErrorHandler: true },
             {},
             (json) => {
-                this.setState({ confirm: 'success' })
+                app.getLoader('context').notifyUser(
+                    <Message
+                        code='account.message.confirmSuccess'
+                        message='Account confirmation successfull.'
+                    />,
+                    'success'
+                )
                 app.getLoader('context').refresh()
+                app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
             },
             (json) => {
-                this.setState({ confirm: 'failure' })
+                app.getLoader('context').notifyUser(
+                    <Message
+                        code='account.message.confirmError'
+                        message='Could not confirm account'
+                    />,
+                    'error'
+                )
+                app.getRouter().history.replace('/')
             }
         )
     }
 
     render () {
-        return (<Fragment>
-            {!this.state.confirm ? <Loading /> : null}
-            {this.state.confirm === 'success' ? <Markdown text={this.props.tastic.schema.get('success')} /> : null}
-            {this.state.confirm === 'failure' ? <Markdown text={this.props.tastic.schema.get('failure')} /> : null}
-        </Fragment>)
+        return !this.state.confirm ? <Loading /> : null
     }
 }
 

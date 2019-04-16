@@ -21,6 +21,8 @@ export default {
             wishlist: 'Wunschzettel {wishlist} wurd angelegt.',
             wishlistAdd: 'Produkt zum Wunschzettel hinzugefügt',
             wishlistRemove: 'Produkt vom Wunschzettel entfernt',
+            confirmSuccess: 'Account ist bestätigt.',
+            confirmError: 'Account-Bestätigung ist leider fehlgeschlagen.',
         }
     },
     commercetools: {
