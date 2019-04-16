@@ -80,7 +80,6 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
 
     switch (action.type) {
     case 'FRONTASTIC_ROUTE':
-        let hasChanged = UrlContext.hasChanged(action.lastRoute, action.route)
         return {
             error: null,
             trees: Entity.purgeMap(globalState.trees),
