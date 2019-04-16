@@ -80,6 +80,17 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
 
     switch (action.type) {
     case 'FRONTASTIC_ROUTE':
+        // Assume that the currentNode does not change.
+        // This is particularly important for the first render cycle,
+        // because it will (otherwise) we initialized to late and we will
+        // get an intermitting empty page
+        let currentNodeId = globalState.currentNodeId
+
+        if (action.lastRoute && action.lastRoute.route !== action.route.route) {
+            // We are apparently changing the node, so do not render the current node anymore.
+            currentNodeId = null;
+        }
+
         return {
             error: null,
             trees: Entity.purgeMap(globalState.trees),
@@ -87,12 +98,8 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             nodeData: Entity.purgeMap(globalState.nodeData),
             pages: Entity.purgeMap(globalState.pages),
             last: globalState.last,
-
-            // Do not unset the currentNodeId during the first render cycle,
-            // because it will (otherwise) we initialized to late and we will
-            // get an intermitting empty page
-            currentNodeId: action.lastRoute ? null : globalState.currentNodeId,
             currentCacheKey: UrlContext.getActionHash(action.route),
+            currentNodeId,
         }
 
     case 'Frontend.Node.initialize':
