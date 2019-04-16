@@ -13,6 +13,7 @@ import Page from './page/page'
 
 import configurationResolver from './app/configurationResolver'
 import schemas from './schemas'
+import { ScrollContext } from './app/scrollContext'
 
 class Node extends Component {
     scrollable = null
@@ -32,6 +33,16 @@ class Node extends Component {
             return
         }
         return this.scrollPositions.set(key, scrollPosition)
+    }
+
+    /**
+     * Discards any remembered scroll psoition for the current page
+     */
+    forceScrollToTop = (key) => {
+        this.setScrollPosition(key, 0)
+        window.requestAnimationFrame(() => {
+            this.scrollable.scrollTop(0)
+        })
     }
 
     componentDidUpdate(prevProps) {
@@ -78,12 +89,14 @@ class Node extends Component {
                         page={this.props.page.data || {}}
                         data={this.props.data.data || {}}
                     />
-                    <Page
-                        node={nodeData}
-                        page={this.props.page.data || {}}
-                        data={this.props.data.data || {}}
-                        tastics={this.props.tastics.data}
-                    />
+                    <ScrollContext.Provider value={{ forceScrollToTop: this.forceScrollToTop }}>
+                        <Page
+                            node={nodeData}
+                            page={this.props.page.data || {}}
+                            data={this.props.data.data || {}}
+                            tastics={this.props.tastics.data}
+                        />
+                    </ScrollContext.Provider>
                 </Scrollbars>
             : null}
             <Loading large entity={this.props.data} />
