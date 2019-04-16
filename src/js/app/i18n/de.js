@@ -8,7 +8,7 @@ export default {
         logout: 'Abmelden',
         new_wishlist: 'Neuer Wunschzettel',
         message: {
-            registered: 'Anmeldung erfolgreich',
+            registered: 'Anmeldung erfolgreich – wir haben Ihnen eine E-Mail geschickt mit der Sie Ihren Account aktivieren können.',
             logout: 'Erfolgreich abgemeldet',
             addressNew: 'Adresse hinzugefügt',
             addressUpdated: 'Adresse aktualisiert',

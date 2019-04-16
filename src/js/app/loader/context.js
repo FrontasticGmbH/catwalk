@@ -49,15 +49,15 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             user,
             (json) => {
-                this.notifyUser(<Message code='account.message.registered' message='Registration successfull' />, 'success')
+                this.notifyUser(
+                    <Message
+                        code='account.message.registered'
+                        message='Registration successfull – we sent you an email to confirm your registration.'
+                    />,
+                    'success'
+                )
                 this.refresh()
-
-                if (previous) {
-                    app.getRouter().replace(
-                        previous.route,
-                        previous.parameters
-                    )
-                }
+                app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
