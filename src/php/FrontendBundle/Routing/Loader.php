@@ -57,7 +57,9 @@ class Loader extends BaseLoader
                     array(
                         '_controller' => sprintf('%s::viewAction', $this->nodeControllerClass),
                         'nodeId' => $route->nodeId,
-                    )
+                    ),
+                    [],
+                    ['utf8' => true]
                 )
             );
         }
