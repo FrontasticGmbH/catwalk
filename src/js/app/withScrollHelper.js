@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { ScrollContext } from './scrollContext'
 
@@ -12,13 +12,15 @@ import { ScrollContext } from './scrollContext'
  *   }}
  * />
  */
-const WithScrollHelper = ({ render }) => {
-    const scrollContext = useContext(ScrollContext)
-
-    return render({
-        forceScrollToTop: scrollContext.forceScrollToTop,
-    })
+class WithScrollHelper extends Component {
+    static contextType = ScrollContext
+    render () {
+        return this.props.render({
+            forceScrollToTop: this.context.forceScrollToTop,
+        })
+    }
 }
+
 WithScrollHelper.propTypes = {
     render: PropTypes.func.isRequired,
 }
