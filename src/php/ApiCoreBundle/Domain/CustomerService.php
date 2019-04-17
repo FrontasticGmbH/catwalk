@@ -22,7 +22,7 @@ class CustomerService
             'name' => $project['customer'],
             'secret' => $project['apiKey'],
             'configuration' => array_map(
-                function (array $values) {
+                function ($values) {
                     return is_array($values) ? (object) $values : $values;
                 },
                 $project['configuration']

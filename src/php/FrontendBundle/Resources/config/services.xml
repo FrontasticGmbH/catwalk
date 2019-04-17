@@ -375,6 +375,12 @@
             <tag name="kernel.event_listener" event="kernel.request" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ReferrerPolicy">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+
+            <tag name="kernel.event_listener" event="kernel.response" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ContentSecurityPolicy">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
 
