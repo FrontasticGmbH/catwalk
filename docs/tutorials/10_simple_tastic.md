@@ -14,17 +14,18 @@ following files as a starting point:
 Custom Tastics need to be placed in the project directory they belong to. By
 convention the path `<project>/src/js/tastic/` holds all custom Tastics. Each
 Tastic requires its own sub-directory which is the *camelCased* tastic name.
-The `tastic.json` and `tastic.jsx` files must be named exactly like this in the
-Tastic directory.
+
+The tastic schema specification should always be named `tastic.json` for easier
+lookup.  **Note**: We originally recommended to name the entry point of a
+Tastic `tastic.jsx`. However, this caused a lot of confusion with imports that
+do not include a file extension suffix. Therefore we now recommend naming your
+Tastic entry point the same as the Tastic and append `...Tastic.jsx` to it.
 
 So if you start with the example from above, have a Project named `fall2018`
 and your customer ID is `year`, you should copy the files to:
 
-- `year_fall2018/src/js/tastic/myProductList/tastic.json`
-- `year_fall2018/src/js/tastic/myProductList/tastic.jsx`
-
-Note the Tastic identifier change to `myProductList` to avoid clashes with the
-original Tastics!
+- `year_fall2018/src/js/tastic/productList/tastic.json`
+- `year_fall2018/src/js/tastic/productList/productListTastic.jsx`
 
 ## Tastic Specification
 
@@ -36,7 +37,7 @@ On top level, this file contains meta information about the Tastic:
 
 ```js
 {
-    "tasticType": "productList",
+    "tasticType": "year-productList",
     "name": "Product List",
     "icon": "list",
     "schema": [
@@ -47,8 +48,11 @@ On top level, this file contains meta information about the Tastic:
 ```
 
 The `tasticType` defines a name how the Tastic can be looked up in code. This
-**needs** to be the same identifier as used for the Tastic directory above! So,
-if you are working with the example, please name it `myProductList`.
+**needs** to be prefixed by (at least) your customer ID or another unique
+identifier.
+
+**Note**: In previous versions of this tutorial we recommended overwriting
+existing tastic identifiers. But that turned out to be a bad idea.
 
 The `name` provides a readable name, in contrast to that. You should provide an
 `icon` for your Tastic which can be selected from the [Material Design
@@ -109,8 +113,6 @@ repository together with the Tastic code. To make the Tastic known by Backstage
 you need to upload the schema to the Development App in Backstage once. In
 addition you need to re-upload the Specification every time you change the
 required parameters or any meta data.
-
-@TODO: BC & FC constraints on Tastic specifications.
 
 ## Tastic React Code
 
@@ -213,8 +215,6 @@ The component wraps all HTML into a div with `o-layout` class, iterates all
 items from the `product-list` stream and presents the product itself using
 another React component: `<Product>`. The latter one is not a Tastic, but a
 simple React component like you maybe know it from other projects.
-
-@TODO: CSS-Framework and how to use it.
 
 ## Register the Tastic
 
