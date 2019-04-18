@@ -32,6 +32,11 @@ let Loader = function (store, api) {
                     data: data,
                 })
                 app.loadForLocation(window.location)
+
+                // Restart continuous updates
+                app.api.clearContinuousRequests()
+                app.getLoader('wishlist').get()
+                app.getLoader('cart').get()
             },
             (error) => {
                 this.store.dispatch({
