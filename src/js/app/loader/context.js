@@ -42,7 +42,7 @@ let Loader = function (store, api) {
         )
     }
 
-    this.register = (user, previous = null) => {
+    this.register = (user, redirect = true) => {
         this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.register',
@@ -57,7 +57,9 @@ let Loader = function (store, api) {
                     'success'
                 )
                 this.refresh()
-                app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
+                if (redirect) {
+                    app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
+                }
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
