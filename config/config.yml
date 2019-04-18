@@ -14,7 +14,7 @@ services:
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
         arguments:
             - 'mysql:dbname=%env(database_name)%; host=%env(database_host)%; port=%env(database_port)%'
-            - { db_table: 'http_session', db_username: '%env(database_user)%', db_password: '%env(database_password)%' }
+            - { db_table: 'http_session', db_username: '%env(database_user)%', db_password: '%env(database_password)%', lock_mode: 0 }
 
 framework:
     secret:          "%env(secret)%"
