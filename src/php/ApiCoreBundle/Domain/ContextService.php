@@ -63,7 +63,7 @@ class ContextService
 
         // Do not rebuild the context for the same request again and again
         $contextCacheHash = $request !== null ? spl_object_hash($request) : '__CLI';
-        if (isset(ContextService::$contextCache[$contextCacheHash])) {
+        if (false && isset(ContextService::$contextCache[$contextCacheHash])) {
             return ContextService::$contextCache[$contextCacheHash];
         }
 
@@ -139,7 +139,7 @@ class ContextService
     public function getContext(string $locale = 'en_GB', Session $session = null): Context
     {
         $contextCacheHash = $locale . ($session ? spl_object_hash($session) : '-');
-        if (isset(ContextService::$contextCache[$contextCacheHash])) {
+        if (false && isset(ContextService::$contextCache[$contextCacheHash])) {
             return ContextService::$contextCache[$contextCacheHash];
         }
 
