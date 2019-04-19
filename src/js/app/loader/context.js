@@ -282,6 +282,10 @@ let Loader = function (store, api) {
     }
 
     this.notifyUser = (message, type = 'info', timeout = 5000) => {
+        if (message && message.props && (message.props.code === 'commercetools.ConcurrentModification')) {
+            return null
+        }
+
         let notificationId = generateId()
         this.store.dispatch({
             type: 'Frontastic.Notification.add',
