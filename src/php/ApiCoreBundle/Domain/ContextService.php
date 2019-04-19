@@ -62,7 +62,7 @@ class ContextService
         $request = $request ?: $this->requestStack->getCurrentRequest();
 
         // Do not rebuild the context for the same request again and again
-        $contextCacheHash = spl_object_hash($request);
+        $contextCacheHash = $request !== null ? spl_object_hash($request) : '__CLI';
         if (isset(ContextService::$contextCache[$contextCacheHash])) {
             return ContextService::$contextCache[$contextCacheHash];
         }
