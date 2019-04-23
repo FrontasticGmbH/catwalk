@@ -24,6 +24,7 @@ export default (globalState, props) => {
 
     return {
         ...props,
+        isDebug: !!props.context && (props.context.environment === 'dev'),
         resolved: resolved,
     }
 }

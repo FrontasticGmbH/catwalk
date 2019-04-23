@@ -13,6 +13,10 @@ class Tastic extends Component {
         let tastic = this.props.tastic
 
         if (!this.tastics[tastic.tasticType]) {
+            if (!this.props.isDebug) {
+                return null
+            }
+
             return (<div className='alert alert-warning'>
                 <p>Tastic {tastic.tasticType} not yet implemented.</p>
                 <p>Did you just implement it? Please don't forget to register it in the <code>tastic/tastics.js</code>!</p>
@@ -53,9 +57,11 @@ Tastic.propTypes = {
     data: PropTypes.object.isRequired,
     resolved: PropTypes.object.isRequired,
     highlight: PropTypes.any,
+    isDebug: PropTypes.bool,
 }
 
 Tastic.defaultProps = {
+    isDebug: false,
 }
 
 export default connect(tasticDataConnector)(Tastic)
