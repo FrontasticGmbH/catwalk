@@ -170,6 +170,10 @@ let CartLoader = function (store, api) {
     }
 
     this.redeemDiscount = (code) => {
+        if (!code) {
+            return
+        }
+
         this.api.request(
             'POST',
             'Frontastic.CartApi.Cart.redeemDiscount',
