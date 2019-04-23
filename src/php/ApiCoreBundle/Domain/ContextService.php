@@ -30,6 +30,11 @@ class ContextService
      */
     private $decorators = [];
 
+    /**
+     * @HACK This is a hack to cache getting the same context over and over again.
+     */
+    static $contextCache = [];
+
     public function __construct(
         Router $router,
         RequestStack $requestStack,
@@ -127,7 +132,11 @@ class ContextService
 
     public function getContext(string $locale = 'en_GB', Session $session = null): Context
     {
-        $contextCacheHash = $locale . ($session ? spl_object_hash($session) : '-');
+        $contextCacheHash = $locale . '-' . md5(json_encode($session));
+        if (isset(ContextService::$contextCache[$contextCacheHash])) {
+            return ContextService::$contextCache[$contextCacheHash];
+        }
+
         $customer = $this->customerService->getCustomer();
         $project = reset($customer->projects);
 
@@ -158,6 +167,8 @@ class ContextService
             $context = $decorator->decorate($context);
         }
 
-        return $context;
+        debug('Regenerate context', $contextCacheHash);
+
+        return ContextService::$contextCache[$contextCacheHash] = $context;
     }
 }
