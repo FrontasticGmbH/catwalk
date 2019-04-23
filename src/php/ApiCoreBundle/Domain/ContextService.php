@@ -167,8 +167,6 @@ class ContextService
             $context = $decorator->decorate($context);
         }
 
-        debug('Regenerate context', $contextCacheHash);
-
         return ContextService::$contextCache[$contextCacheHash] = $context;
     }
 }
