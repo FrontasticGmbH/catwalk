@@ -243,7 +243,7 @@ let Loader = function (store, api) {
                 this.notifyUser(<Message code='account.message.reset' message='Password reset mail sent.' />, 'success')
             },
             (json) => {
-                this.notifyUser(<Message {...json} />, 'error')
+                this.notifyUser(<Message code='account.message.resetFail' message={'Could not find account with email ' + email} />, 'error')
             }
         )
     }
