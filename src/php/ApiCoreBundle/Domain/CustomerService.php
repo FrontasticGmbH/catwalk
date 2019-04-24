@@ -10,15 +10,33 @@ class CustomerService
 {
     private $projectFile;
 
+    private $environment;
+
+    private $customer = null;
+
     public function __construct(string $projectFile)
     {
         $this->projectFile = $projectFile;
+        $this->environment = \Frontastic\Catwalk\AppKernel::getEnvironmentFromConfiguration();
     }
 
     public function getCustomer(): Customer
     {
+        if ($this->customer) {
+            return $this->customer;
+        }
+
         $project = Yaml::parse(file_get_contents($this->projectFile));
-        return new Customer([
+
+        if (!in_array($this->environment, ['prod', 'production']) &&
+            file_exists($this->projectFile . '.' . $this->environment)) {
+            $project = array_merge_recursive(
+                $project,
+                Yaml::parse(file_get_contents($this->projectFile . '.' . $this->environment))
+            );
+        }
+
+        return $this->customer = new Customer([
             'name' => $project['customer'],
             'secret' => $project['apiKey'],
             'configuration' => array_map(
