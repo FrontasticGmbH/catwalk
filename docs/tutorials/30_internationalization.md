@@ -7,6 +7,8 @@ translatable data.
 
 ## Making Tastic Data Translatable
 
+!!! stability dependable
+
 If you want to mark a tastic field to be `translatable` you simply set the
 corresponding flag to `true` in your Tastic schema specification. For example:
 
@@ -70,6 +72,8 @@ Catwalk provides a shortcut.
 
 ## Translating Textual Data
 
+!!! stability dependable
+
 Given you defined a text field that is `translatable` as follows:
 
 ```js
@@ -114,6 +118,8 @@ to style this in your development or staging environment so that you can easily
 spot missing translations.
 
 # Working Manually with Internationlized Data
+
+!!! stability trial
 
 If you need to work with more advanced data structures, numbers or you have
 advanced requirements than our `Translatable` component provide you can handle

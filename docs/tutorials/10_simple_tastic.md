@@ -1,5 +1,7 @@
 # Implementing a Simple Tastic
 
+!!! stability dependable
+
 In this tutorial we implement a simple Tastic that displays a list of products.
 We use the `ProductList` Tastic that is shipped with Frontastic as the basis
 but stripped the HTML code down a bit for better illustration. If you want to
@@ -10,6 +12,10 @@ following files as a starting point:
 - `paas/catwalk/src/js/tastic/productList/tastic.jsx`
 
 ## File Placement
+
+!!! stability trial
+    We might want to change the tastic entrance JSX to something predictable in
+    order to auto-discover tastics.
 
 Custom Tastics need to be placed in the project directory they belong to. By
 convention the path `<project>/src/js/tastic/` holds all custom Tastics. Each
@@ -28,6 +34,8 @@ and your customer ID is `year`, you should copy the files to:
 - `year_fall2018/src/js/tastic/productList/productListTastic.jsx`
 
 ## Tastic Specification
+
+!!! stability dependable
 
 Backstage needs to know how the Tastic requires to be initialized and what
 parameters it expects to be available. This comes in form of a *JSON* file
@@ -115,6 +123,8 @@ addition you need to re-upload the Specification every time you change the
 required parameters or any meta data.
 
 ## Tastic React Code
+
+!!! stability dependable
 
 The Tastic itself is basically a ReactJS component which receives some
 pre-defined props from Catwalk. If you are not familiar with ReactJS, component
@@ -217,6 +227,8 @@ another React component: `<Product>`. The latter one is not a Tastic, but a
 simple React component like you maybe know it from other projects.
 
 ## Register the Tastic
+
+!!! stability dependable
 
 By now you still need to register your Tastic in the code base of Catwalk. Do
 this by editing `<project>/src/js/tastic/tastics.js`, import the ReactJS class of

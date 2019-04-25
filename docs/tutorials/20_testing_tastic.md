@@ -1,5 +1,7 @@
 # Testing a Tastic
 
+!!! stability dependable
+
 There are several stages how you should test your Tastic code. One of them is
 of course by executing the code in the browser.
 
