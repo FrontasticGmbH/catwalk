@@ -97,8 +97,6 @@ Given you defined a text field that is `translatable` as follows:
 
 You can simply render the `description` in the user's language using:
 
-```
-
 ```js
 import Translatable from 'frontastic-catwalk/src/js/component/translatable'
 
