@@ -2,7 +2,7 @@
     "tasticType": "account-login",
     "name": "Login",
     "category": "Account",
-    "icon": "profile",
+    "icon": "person",
     "schema": [
         {
             "name": "Content",
