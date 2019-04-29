@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
+use Frontastic\Common\Functions;
 use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Symfony\Component\Yaml\Yaml;
@@ -30,7 +31,7 @@ class CustomerService
 
         if (!in_array($this->environment, ['prod', 'production']) &&
             file_exists($this->projectFile . '.' . $this->environment)) {
-            $project = array_merge_recursive(
+            $project = Functions::array_merge_recursive(
                 $project,
                 Yaml::parse(file_get_contents($this->projectFile . '.' . $this->environment))
             );
