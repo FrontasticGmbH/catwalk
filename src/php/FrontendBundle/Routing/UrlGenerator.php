@@ -3,8 +3,6 @@
 namespace Frontastic\Catwalk\FrontendBundle\Routing;
 
 use Frontastic\Common\JsonSerializer\ObjectEnhancer;
-use Frontastic\Common\ProductApiBundle\Domain\Product;
-use Symfony\Component\Routing\Router;
 
 class UrlGenerator implements ObjectEnhancer
 {
