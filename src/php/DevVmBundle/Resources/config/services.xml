@@ -24,7 +24,5 @@
             <argument type="service" id="Frontastic\Common\HttpClient\Stream"/>
             <argument>%env(secret)%</argument>
         </service>
-
-        <service id="Frontastic\Common\HttpClient\Stream" class="Frontastic\Common\HttpClient\Stream" />
     </services>
 </container>
