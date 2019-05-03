@@ -11,7 +11,6 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
 use Frontastic\Catwalk\FrontendBundle\Domain\SitemapService;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamService;
-use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
@@ -334,15 +333,9 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             foreach ($result as $product) {
                 $entries[] = [
                     'uri' => $productRouter->generateUrlFor($product),
-                    'changed' => time()
+                    'changed' => time(),
+                    'images' => $product->images
                 ];
-
-                foreach ($product->images as $image) {
-                    $entries[] = [
-                        'uri' => $image,
-                        'changed' => time()
-                    ];
-                }
             }
 
             $query->offset += $limit;
