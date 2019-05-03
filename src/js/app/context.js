@@ -30,7 +30,7 @@ let Context = function (context = {}) {
     }
 
     this.isDevelopment = function () {
-        return this.environment === 'development'
+        return this.environment === 'development' || this.environment === 'dev'
     }
 
     this.getLanguage = function () {
