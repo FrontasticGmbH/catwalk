@@ -46,6 +46,11 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
      */
     private $maxEntries;
 
+    /**
+     * @var string[]
+     */
+    private $excludes = [];
+
     protected function configure(): void
     {
         $this
@@ -67,6 +72,12 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_NONE,
                 'Generate sitemap for nodes'
+            )
+            ->addOption(
+                'with-nodes-subpages',
+                null,
+                InputOption::VALUE_NONE,
+                'Generate sitemap for nodes only accessible by pager'
             )
             ->addOption(
                 'with-categories',
@@ -92,6 +103,12 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 InputOption::VALUE_REQUIRED,
                 'Maximum number of url entries in a sitemap file',
                 self::MAX_ENTRIES
+            )
+            ->addOption(
+                'exclude',
+                null,
+                InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY,
+                'Pattern to exclude all urls that match'
             );
     }
 
@@ -103,22 +120,22 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
     {
         $this->maxEntries = $input->getOption('max-entries');
         $this->workingDir = uniqid(sprintf('%s/sitemap_', sys_get_temp_dir()));
-
+        $this->excludes = $input->getOption('exclude');
+var_dump($this->excludes);
         $this->filesystem = new Filesystem();
         $this->filesystem->mkdir($this->workingDir);
 
         /** @var ContextService $contextService */
         $contextService = $this->getContainer()->get(ContextService::class);
 
-
         $context = $contextService->getContext();
 
         $sitemaps = [];
         if ($input->getOption('all') || $input->getOption('with-nodes')) {
-            $sitemaps = array_merge($sitemaps, $this->generateNodeSitemap($context, $output));
+            $sitemaps = array_merge($sitemaps, $this->generateNodeSitemap($context, $input, $output));
         }
         if ($input->getOption('all') || $input->getOption('with-categories')) {
-            $sitemaps = array_merge($sitemaps, $this->generateCategorySitemap($context, $output));
+            $sitemaps = array_merge($sitemaps, $this->generateCategorySitemap($context, $input, $output));
         }
         if ($input->getOption('all') || $input->getOption('with-products')) {
             $sitemaps = array_merge($sitemaps, $this->generateProductSitemap($context, $output));
@@ -175,7 +192,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         return $sitemaps;
     }
 
-    private function generateNodeSitemap(Context $context, OutputInterface $output): array
+    private function generateNodeSitemap(Context $context, InputInterface $input, OutputInterface $output): array
     {
         /** @var NodeService $nodeService */
         $nodeService = $this->getContainer()->get(NodeService::class);
@@ -203,6 +220,9 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 'changed' => strtotime($node->metaData['changed'])
             ];
 
+            if (!$input->getOption('with-nodes-subpages')) {
+                continue;
+            }
             $entries = array_merge(
                 $entries,
                 $this->generatePagerEntries(
@@ -216,7 +236,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         return $this->renderSitemaps($context, $entries, 'nodes');
     }
 
-    private function generateCategorySitemap(Context $context, OutputInterface $output): array
+    private function generateCategorySitemap(Context $context, InputInterface $input, OutputInterface $output): array
     {
         $limit = min(500, $this->maxEntries);
 
@@ -256,6 +276,10 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                     'uri' => $uri,
                     'changed' => time()
                 ];
+
+                if (!$input->getOption('with-nodes-subpages')) {
+                    continue;
+                }
 
                 $node = $nodeService->get($masterService->matchNodeId(
                     new PageMatcherContext([
@@ -348,8 +372,25 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         return $this->renderSitemaps($context, $entries, 'products');
     }
 
+    private function filterEntries(array $entries): array
+    {
+        if (0 === count($this->excludes)) {
+            return $entries;
+        }
+
+        $pattern = sprintf('(%s)', join('|', array_map('trim', $this->excludes)));
+        return array_filter(
+            $entries,
+            function (array $entry) use ($pattern): bool {
+                return (0 === preg_match($pattern, $entry['uri']));
+            }
+        );
+    }
+
     private function renderSitemaps(Context $context, array $entries, string $type): array
     {
+        $entries = $this->filterEntries($entries);
+
         $sitemaps = [];
         while (count($entries) > 0) {
             $sitemaps[] = sprintf('sitemap_%s-%d.xml', $type, count($sitemaps));
