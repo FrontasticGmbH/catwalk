@@ -66,6 +66,7 @@ class Image extends Component {
         return (
             <img
                 style={this.props.style}
+                loading='lazy'
                 className={this.props.className + (this.state.loading ? 'loading' : 'loaded')}
                 onLoad={() => {
                     this.setState({ loading: false })
