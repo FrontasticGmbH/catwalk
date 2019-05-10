@@ -250,6 +250,9 @@ const mainConfig = {
     },
     optimization: {
         minimize: true,
+        splitChunks: {
+            chunks: 'all',
+        },
     },
     plugins: [
         // Makes some environment variables available to the JS code, for example:
