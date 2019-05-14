@@ -251,19 +251,26 @@ const mainConfig = {
     optimization: {
         minimize: true,
         splitChunks: {
-            chunks: 'async',
-            minSize: 1 * 1024,
+            chunks: 'all',
+            minSize: 10 * 1024,
             maxSize: 0,
             minChunks: 1,
+            automaticNameDelimiter: '~',
+            name: true,
             cacheGroups: {
+                icons: {
+                    minChunks: 1,
+                    test: /\/layout\/icons\//,
+                    priority: 10,
+                },
                 vendors: {
-                    test: /[\\/]node_modules[\\/]/,
-                    priority: -10
+                    test: /\/node_modules\//,
+                    priority: 5,
                 },
                 default: {
                     minChunks: 2,
                     priority: -20,
-                    reuseExistingChunk: true
+                    reuseExistingChunk: true,
                 },
             },
         },

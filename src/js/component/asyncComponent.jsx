@@ -17,7 +17,7 @@ const asyncComponent = (importComponent, height = 0) => {
             const InnerComponent = this.state.component;
 
             if (!InnerComponent) {
-                return <div style={{ height: height + 'px' }}>Loading…</div>
+                return <div className='c-asyc-component' style={{ height: height + 'px' }} />
             }
 
             return <InnerComponent {...this.props}/>;
