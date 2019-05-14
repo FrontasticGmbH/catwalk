@@ -16,7 +16,7 @@ class MoleculesProductTeaser extends Component {
         let product = this.props.product
         let variant = this.props.variant || product.variants[0]
 
-        return (<article className='c-teaser o-block' itemScope itemType='http://schema.org/Product'>
+        return (<article className='c-teaser o-block' itemScope>
             <Link itemProp='url' className='c-teaser__full-link'
                 to={this.props.product._url || ''}
             >
@@ -33,14 +33,14 @@ class MoleculesProductTeaser extends Component {
                 <div className='o-block__body'>
                     <div className='c-teaser__body'>
                         <div className='c-teaser__caption'>
-                            <h3 className='c-teaser__title c-heading-teaser' itemProp='name'>
+                            <h3 className='c-teaser__title c-heading-teaser'>
                                 {product.name}
                             </h3>
                             {variant.attributes.designer ?
                                 <div className='c-heading-teaser-subheading'>{variant.attributes.designer}</div>
                             : null}
                         </div>
-                        <div className='c-teaser__prices' itemScope itemType='http://schema.org/Offer'>
+                        <div className='c-teaser__prices' itemScope>
                             <AtomsPrice className='c-teaser__price'
                                 value={variant.discountedPrice || variant.price}
                                 highlight={variant.discountedPrice && (this.props.showPercent || this.props.showStrikePrice)} />
