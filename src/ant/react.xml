@@ -9,15 +9,24 @@
             <env key="CI" value="true" />
 
             <arg value="link" />
+
             <arg value="--link-folder" />
             <arg value="../../../.yarn-links" />
+
+            <arg value="--registry" />
+            <arg value="https://registry.npmjs.org" />
         </exec>
+
         <exec executable="yarn" failonerror="true" dir="${frontastic_basedir}/paas/catwalk">
             <env key="CI" value="true" />
 
             <arg value="link" />
+
             <arg value="--link-folder" />
             <arg value="../../.yarn-links" />
+
+            <arg value="--registry" />
+            <arg value="https://registry.npmjs.org" />
         </exec>
 
         <!-- Link the base packages to our local node_modules -->
@@ -27,14 +36,21 @@
             <arg value="--link-folder" />
             <arg value="${relative_path}/.yarn-links" />
 
+            <arg value="--registry" />
+            <arg value="https://registry.npmjs.org" />
+
             <arg value="link" />
             <arg value="frontastic-common" />
         </exec>
+
         <exec executable="yarn" failonerror="true" dir="${basedir}">
             <env key="CI" value="true" />
 
             <arg value="--link-folder" />
             <arg value="${relative_path}/.yarn-links" />
+
+            <arg value="--registry" />
+            <arg value="https://registry.npmjs.org" />
 
             <arg value="link" />
             <arg value="frontastic-catwalk" />
@@ -51,6 +67,9 @@
             <arg value="${relative_path}/.yarn-links" />
 
             <arg value="install" />
+
+            <arg value="--registry" />
+            <arg value="https://registry.npmjs.org" />
         </exec>
     </target>
 
