@@ -14,6 +14,7 @@ class AtomsPrice extends Component {
         const Component = this.props.old ? 'del' : 'span'
 
         return (<Component
+            itemProp='price'
             className={classnames({
                 'c-price': true,
                 'c-price--highlight': this.props.highlight,
