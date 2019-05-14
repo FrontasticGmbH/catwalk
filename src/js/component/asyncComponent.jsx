@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-const asyncComponent = (importComponent, height = 0) => {
-    return class extends Component {
+const asyncComponent = (component) => {
+    return class extends React.Component {
         state = {
             component: null
         }
 
         componentDidMount() {
-            importComponent()
+            component.import()
                 .then(component => {
                     this.setState({component: component.default});
                 });
@@ -17,7 +17,14 @@ const asyncComponent = (importComponent, height = 0) => {
             const InnerComponent = this.state.component;
 
             if (!InnerComponent) {
-                return <div className='c-asyc-component' style={{ height: height + 'px' }} />
+                // @TODO: Is there a sensible way to pre-render height device
+                // specific?
+                return (
+                    <div
+                        className='c-asyc-component'
+                        style={{ height: component.height.desktop + 'px' }}
+                    />
+                )
             }
 
             return <InnerComponent {...this.props}/>;
