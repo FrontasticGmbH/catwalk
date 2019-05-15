@@ -28,9 +28,6 @@ class RemoteImage extends Component {
             this.props.cropRatio
         )
 
-        const log = this.props.url === 'https://cos.flexvault.de/shop-images/8719154233166_FRONT_InStyle_HD.jpg'
-        log && console.log('Dimensions', width, height)
-
         if (this.state.error) {
             return (
                 <img
