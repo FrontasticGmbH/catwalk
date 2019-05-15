@@ -138,33 +138,13 @@
             <fileset dir="${builddir}" includes="service-worker.js"/>
         </copy>
 
-        <first id="path.absolute.main.js">
-            <fileset dir="${builddir}/assets" includes="**/main.*.js" />
-        </first>
-
-        <pathconvert property="path.main.js">
-            <path location="${toString:path.absolute.main.js}"/>
-            <globmapper from="${builddir}/*" to="/*" />
-        </pathconvert>
-
-        <replaceregexp
-            file="${basedir}/templates/layout.html.twig"
-            match="/assets/js/main.[0-9a-f]*.js"
-            replace="${path.main.js}" />
-
-        <first id="path.absolute.main.css">
-            <fileset dir="${builddir}/assets" includes="**/main.*.css" />
-        </first>
-
-        <pathconvert property="path.main.css">
-            <path location="${toString:path.absolute.main.css}"/>
-            <globmapper from="${builddir}/*" to="/*" />
-        </pathconvert>
-
-        <replaceregexp
-            file="${basedir}/templates/layout.html.twig"
-            match="/assets/css/main.[0-9a-f]*.css"
-            replace="${path.main.css}" />
+        <foreach target="-inject-into-layout" param="asset">
+            <fileset dir="${builddir}/assets">
+                <include name="**/main.*.js" />
+                <include name="**/*~main.*.chunk.js" />
+                <include name="**/main.*.css" />
+            </fileset>
+        </foreach>
 
         <exec executable="git" failonerror="true" dir="${basedir}">
             <arg value="add" />
@@ -193,5 +173,32 @@
             <arg value="${basedir}/bin/server.js" />
         </exec>
     -->
+    </target>
+
+    <target name="-inject-into-layout">
+        <pathconvert property="asset-local-path">
+            <path location="${asset}"/>
+            <globmapper from="${builddir}/*" to="/*" />
+        </pathconvert>
+
+        <!-- Create a regular expression from the asset path to match any asset
+             hash and use that later to find the old asset (hash) in the layout
+             and replace it -->
+        <loadresource property="asset-regexp">
+            <propertyresource name="asset-local-path"/>
+            <filterchain>
+                <tokenfilter>
+                    <filetokenizer/>
+                    <replaceregex pattern="\.[0-9a-f]{8}\." replace="\.[0-9a-f]{8}\." />
+                </tokenfilter>
+            </filterchain>
+        </loadresource>
+
+        <echo>Inject asset: ${asset-local-path}</echo>
+
+        <replaceregexp
+            file="${basedir}/templates/layout.html.twig"
+            match="${asset-regexp}"
+            replace="${asset-local-path}" />
     </target>
 </project>
