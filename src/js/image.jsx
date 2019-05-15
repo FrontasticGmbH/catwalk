@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import sizer from 'react-sizer'
 import _ from 'lodash'
+import 'lazysizes'
 
 import MediaApi from 'frontastic-common/src/js/mediaApi'
 import NoImage from '../layout/noImage.svg'
@@ -27,7 +28,8 @@ class Image extends Component {
     }
 
     render () {
-        const omitedProperties = [
+        const omitedProps = [
+            'className',
             'context',
             'media',
             'width',
@@ -67,14 +69,14 @@ class Image extends Component {
             <img
                 style={this.props.style}
                 loading='lazy'
-                className={this.props.className + (this.state.loading ? 'loading' : 'loaded')}
+                className={'lazyload ' + this.props.className}
                 onLoad={() => {
                     this.setState({ loading: false })
                 }}
                 width={width}
                 height={height}
                 alt={this.props.title || this.props.media.name}
-                src={this.mediaApi.getImageLink(
+                data-src={this.mediaApi.getImageLink(
                     this.props.media,
                     this.props.context.project.configuration,
                     this.props.width,
@@ -82,7 +84,7 @@ class Image extends Component {
                     this.props.cropRatio,
                     this.props.options
                 )}
-                srcSet={_.map([1, 2], (factor) => {
+                data-src-set={_.map([1, 2], (factor) => {
                     return [
                         this.mediaApi.getImageLink(
                             this.props.media,

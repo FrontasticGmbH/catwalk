@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import sizer from 'react-sizer'
 import _ from 'lodash'
+import 'lazysizes'
 
 import MediaApi from 'frontastic-common/src/js/mediaApi'
 import NoImage from '../layout/noImage.svg'
@@ -27,15 +28,20 @@ class RemoteImage extends Component {
             this.props.cropRatio
         )
 
+        const log = this.props.url === 'https://cos.flexvault.de/shop-images/8719154233166_FRONT_InStyle_HD.jpg'
+        log && console.log('Dimensions', width, height)
+
         if (this.state.error) {
             return (
                 <img
-                    style={this.props.style}
+                style={{ display: 'block', width: width, height: height, ...this.props.style }}
                     width={width}
                     height={height}
                     alt={this.props.alt}
                     src={NoImage}
                     {..._.omit(this.props, [
+                        'style',
+                        'className',
                         'context',
                         'url',
                         'alt',
@@ -51,16 +57,16 @@ class RemoteImage extends Component {
 
         return (
             <img
-                style={this.props.style}
+                style={{ display: 'block', width: width, height: height, ...this.props.style }}
                 loading='lazy'
-                className={this.state.loading ? 'loading' : 'loaded'}
+                className={'lazyload ' + this.props.className}
                 onLoad={() => {
                     this.setState({ loading: false })
                 }}
                 width={width}
                 height={height}
                 alt={this.props.alt}
-                src={this.mediaApi.getImageLink(
+                data-src={this.mediaApi.getImageLink(
                     this.props.url,
                     this.props.context.project.configuration,
                     this.props.width,
@@ -68,7 +74,7 @@ class RemoteImage extends Component {
                     this.props.cropRatio,
                     this.props.options
                 )}
-                srcSet={_.map([1, 2], (factor) => {
+                data-src-set={_.map([1, 2], (factor) => {
                     return [
                         this.mediaApi.getImageLink(
                             this.props.url,
@@ -85,6 +91,8 @@ class RemoteImage extends Component {
                     this.setState({ error: true })
                 }}
                 {..._.omit(this.props, [
+                    'style',
+                    'className',
                     'context',
                     'url',
                     'alt',
@@ -111,12 +119,14 @@ RemoteImage.propTypes = {
         // @DEPRECATED:
         PropTypes.number,
     ]).isRequired,
+    className: PropTypes.string,
     options: PropTypes.object,
 }
 
 RemoteImage.defaultProps = {
     style: {},
     cropRatio: null,
+    className: '',
 }
 
 export default connect((globalState, props) => {
