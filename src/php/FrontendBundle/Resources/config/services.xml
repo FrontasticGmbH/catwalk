@@ -341,6 +341,7 @@
              * the ContextService in context free situations.
             -->
             <argument type="service" id="service_container" />
+            <argument type="service" id="cache.app.simple" />
 
             <tag name="twig.extension" />
         </service>
