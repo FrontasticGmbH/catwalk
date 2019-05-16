@@ -4,6 +4,7 @@ class Cart {
     constructor (cart = {}) {
         this.cartId = cart.cartId || null
         this.cartVersion = cart.cartVersion || 0
+        this.custom = cart.custom || {}
         this.lineItems = cart.lineItems || []
         this.sum = +cart.sum || 0
         this.email = cart.email || null

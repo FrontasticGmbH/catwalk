@@ -5,6 +5,8 @@ class Order extends Cart {
         super(order)
 
         this.orderId = order.orderId
+        this.orderState = order.orderState || null
+        this.createdAt = order.createdAt || null
     }
 }
 
