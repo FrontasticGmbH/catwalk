@@ -62,7 +62,6 @@
     "imports-loader": "^0.8.0",
     "inuitcss": "^6.0.0",
     "jest": "23.4.0",
-    "lazysizes": "^5.0.0",
     "lodash": "^4.17.10",
     "markdown": "^0.5.0",
     "mini-css-extract-plugin": "^0.4.1",

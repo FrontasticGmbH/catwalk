@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import sizer from 'react-sizer'
 import _ from 'lodash'
-import 'lazysizes'
 
 import MediaApi from 'frontastic-common/src/js/mediaApi'
 import NoImage from '../layout/noImage.svg'
@@ -31,14 +30,12 @@ class RemoteImage extends Component {
         if (this.state.error) {
             return (
                 <img
-                style={{ display: 'block', width: width, height: height, ...this.props.style }}
+                    style={this.props.style}
                     width={width}
                     height={height}
                     alt={this.props.alt}
                     src={NoImage}
                     {..._.omit(this.props, [
-                        'style',
-                        'className',
                         'context',
                         'url',
                         'alt',
@@ -54,16 +51,16 @@ class RemoteImage extends Component {
 
         return (
             <img
-                style={{ display: 'block', width: width, height: height, ...this.props.style }}
+                style={this.props.style}
                 loading='lazy'
-                className={'lazyload ' + this.props.className}
+                className={this.state.loading ? 'loading' : 'loaded'}
                 onLoad={() => {
                     this.setState({ loading: false })
                 }}
                 width={width}
                 height={height}
                 alt={this.props.alt}
-                data-src={this.mediaApi.getImageLink(
+                src={this.mediaApi.getImageLink(
                     this.props.url,
                     this.props.context.project.configuration,
                     this.props.width,
@@ -71,7 +68,7 @@ class RemoteImage extends Component {
                     this.props.cropRatio,
                     this.props.options
                 )}
-                data-src-set={_.map([1, 2], (factor) => {
+                srcSet={_.map([1, 2], (factor) => {
                     return [
                         this.mediaApi.getImageLink(
                             this.props.url,
@@ -88,8 +85,6 @@ class RemoteImage extends Component {
                     this.setState({ error: true })
                 }}
                 {..._.omit(this.props, [
-                    'style',
-                    'className',
                     'context',
                     'url',
                     'alt',
@@ -116,14 +111,12 @@ RemoteImage.propTypes = {
         // @DEPRECATED:
         PropTypes.number,
     ]).isRequired,
-    className: PropTypes.string,
     options: PropTypes.object,
 }
 
 RemoteImage.defaultProps = {
     style: {},
     cropRatio: null,
-    className: '',
 }
 
 export default connect((globalState, props) => {
