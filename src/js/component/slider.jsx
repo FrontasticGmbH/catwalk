@@ -4,11 +4,15 @@ import PropTypes from 'prop-types'
 
 import ComponentInjector from '../app/injector'
 
+import _ from 'lodash'
+
 // import Flickity from 'react-flickity-component' // Imported dynamically in constructor
 
 const defaultOptions = {
     cellAlign: 'left',
     pageDots: true,
+    freeScroll: false,
+    dragThreshold: 20,
     prevNextButtons: true,
     groupCells: true,
     draggable: '>1',
@@ -20,25 +24,38 @@ class Slider extends Component {
     constructor (props) {
         super(props)
 
-        if ((typeof window !== 'undefined') && window) {
+        if (typeof window !== 'undefined' && window) {
             this.Flickity = require('react-flickity-component')
+            // we need to import the flickity-as-nav-for plugin in order to make asNavFor feature (see below) work.
+            require('flickity-as-nav-for')
         }
     }
 
     Flickity = null
 
+    resizeTimer = null
+
     updateDimensions = () => {
         this.carousel.slider.classList.add('slider-is-resizing')
 
-        clearTimeout(resizeTimer)
+        clearTimeout(this.resizeTimer)
 
         this.carousel.resize()
-        const resizeTimer = setTimeout(() => {
+        this.resizeTimer = setTimeout(() => {
             this.carousel.slider.classList.remove('slider-is-resizing')
             this.carousel.resize()
             this.carousel.reloadCells()
         }, 300)
     }
+
+    debouncedResize = _.debounce(() => {
+        if (!this.carousel) {
+            return
+        }
+
+        this.carousel.resize()
+        this.carousel.reloadCells()
+    }, 250)
 
     checkSliderAlone = () => {
         if (this.carousel && this.carousel.slides) {
@@ -46,6 +63,10 @@ class Slider extends Component {
                 ? this.carousel.element.classList.add('slider-is-alone')
                 : this.carousel.element.classList.remove('slider-is-alone')
         }
+    }
+
+    componentDidUpdate = () => {
+        this.debouncedResize()
     }
 
     componentDidMount = () => {
@@ -86,7 +107,9 @@ class Slider extends Component {
                 className={classnames('c-slider', slidesPerPage ? `c-slider--${slidesPerPage}` : '', className)}
                 options={{ ...defaultOptions, ...options }}
                 reloadOnUpdate
-                flickityRef={(carousel) => { return (this.carousel = carousel) }}
+                flickityRef={(carousel) => {
+                    return (this.carousel = carousel)
+                }}
                 >
                 {children}
             </Flickity>
