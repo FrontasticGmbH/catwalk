@@ -133,14 +133,14 @@ let CartLoader = function (store, api) {
             update,
             (data) => {
                 this.store.dispatch({
-                    type: 'CartApi.Cart.update.success',
+                    type: 'CartApi.Cart.remove.success',
                     data: data,
                 })
             },
             (error) => {
                 app.getLoader('context').notifyUser(<Message {...error} />, 'error')
                 this.store.dispatch({
-                    type: 'CartApi.Cart.update.error',
+                    type: 'CartApi.Cart.remove.error',
                     error: error,
                 })
             }
@@ -266,6 +266,7 @@ CartLoader.handleAction = (globalState = initialGlobalState, action) => {
 
     case 'CartApi.Cart.get.success':
     case 'CartApi.Cart.add.success':
+    case 'CartApi.Cart.remove.success':
     case 'CartApi.Cart.update.success':
         return {
             ...globalState,
@@ -273,6 +274,7 @@ CartLoader.handleAction = (globalState = initialGlobalState, action) => {
         }
     case 'CartApi.Cart.get.error':
     case 'CartApi.Cart.add.error':
+    case 'CartApi.Cart.remove.error':
     case 'CartApi.Cart.update.error':
     case 'CartApi.Cart.checkout.error':
         return {
