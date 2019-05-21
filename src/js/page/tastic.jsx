@@ -18,7 +18,7 @@ class Tastic extends Component {
             }
 
             return (<div className='alert alert-warning'>
-                <p>Tastic {tastic.tasticType} not yet implemented.</p>
+                <p>Tastic <code>{tastic.tasticType}</code> not yet implemented.</p>
                 <p>Did you just implement it? Please don't forget to register it in the <code>tastic/tastics.js</code>!</p>
             </div>)
         }
