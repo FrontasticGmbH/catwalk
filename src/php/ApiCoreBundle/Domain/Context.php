@@ -93,4 +93,9 @@ class Context extends DataObject
 
         return $map[$frameworkEnvironment];
     }
+
+    public function isProduction(): bool
+    {
+        return $this->environment === 'prod' || $this->environment === 'production';
+    }
 }
