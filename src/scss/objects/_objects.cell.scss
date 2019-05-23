@@ -1,0 +1,131 @@
+/* ==========================================================================
+   #CELL
+========================================================================== */
+
+.o-cell {
+    display: flex;
+    flex-direction: column;
+    grid-column: 1 / -1;
+}
+.o-cell--12,
+.o-cell--1\/1 {
+    grid-column: 1 / -1;
+}
+.o-cell--6,
+.o-cell--1\/2 {
+    grid-column: 1 / -1;
+    //@include mq($from: lap) {
+    //    grid-column: 1 / -1;
+    //}
+    @include mq($from: lap) {
+        grid-column: span 6;
+    }
+}
+.o-cell--4,
+.o-cell--1\/3 {
+    grid-column: 1 / -1;
+    @include mq($from: lap) {
+        grid-column: span 6;
+    }
+    @include mq($from: desk) {
+        grid-column: span 4;
+    }
+}
+.o-cell--8,
+.o-cell--2\/3 {
+    grid-column: 1 / -1;
+    @include mq($from: lap) {
+        grid-column: span 6;
+    }
+    @include mq($from: desk) {
+        grid-column: span 8;
+    }
+}
+.o-cell--3,
+.o-cell--1\/4 {
+    grid-column: 1 / -1;
+
+    @include mq($from: lap) {
+        grid-column: span 6;
+    }
+    @include mq($from: desk) {
+        grid-column: span 3;
+    }
+}
+.o-cell--2,
+.o-cell--1\/6 {
+    grid-column: span 6;
+    //@include mq($from: lap) {
+    //    grid-column: span 4;
+    //}
+    @include mq($from: lap) {
+        grid-column: span 2;
+    }
+}
+.o-cell--1,
+.o-cell--1\/12 {
+    grid-column: span 1;
+}
+
+/*
+@include mq($from: lap) {
+    .o-cell--12 {
+        grid-column: 1 / -1;
+    }
+    .o-cell--12.o-cell--full {
+        grid-column: 1 / -1;
+    }
+    .o-cell--11 {
+        grid-column: span 11;
+    }
+    .o-cell--10 {
+        grid-column: span 10;
+    }
+    .o-cell--9 {
+        grid-column: span 9;
+    }
+    .o-cell--8 {
+        grid-column: span 8;
+    }
+    .o-cell--7 {
+        grid-column: span 7;
+    }
+    .o-cell--6 {
+        grid-column: span 6;
+    }
+    .o-cell--6 {
+        grid-column: span 6;
+    }
+    .o-cell--5 {
+        grid-column: span 5;
+    }
+    .o-cell--4 {
+        grid-column: span 4;
+    }
+    .o-cell--3 {
+        grid-column: span 3;
+    }
+    .o-cell--2 {
+        grid-column: span 2;
+    }
+    .o-cell--1 {
+        grid-column: span 1;
+    }
+}
+*/
+
+.o-cell--hidden-hand {
+    @include mq($until: lap) {
+        display: none;
+    }
+}
+.o-cell--hidden-lap {
+    @include mq($from: lap, $until: desk) {
+        display: none;
+    }
+}
+.o-cell--hidden-desk {
+    @include mq($from: desk) {
+        display: none;
+    }
+}
