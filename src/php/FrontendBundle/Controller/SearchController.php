@@ -28,7 +28,7 @@ class SearchController extends Controller
         $node->streams = $pageMatcherService->completeDefaultQuery($node->streams, 'search', $phrase);
 
         $parameters = array_merge_recursive(
-             $request->query->get('s', []),
+            $request->query->get('s', []),
             ['__master' => ['query' => $phrase]]
         );
 

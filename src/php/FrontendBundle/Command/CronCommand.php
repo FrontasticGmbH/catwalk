@@ -45,5 +45,4 @@ class CronCommand extends ContainerAwareCommand
             $process->start();
         }
     }
-
 }

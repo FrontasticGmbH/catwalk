@@ -12,6 +12,9 @@ use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 use Frontastic\Common\AccountApiBundle\Domain\Session;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Yes, context encapsulates quite some stuff
+ */
 class ContextService
 {
     private $router;
@@ -33,7 +36,7 @@ class ContextService
     /**
      * @HACK This is a hack to cache getting the same context over and over again.
      */
-    static $contextCache = [];
+    static private $contextCache = [];
 
     public function __construct(
         Router $router,

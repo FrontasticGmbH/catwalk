@@ -46,6 +46,12 @@ class AppDataTarget implements Target
         return $this->appRepositoryGateway->getHighestSequence() ?: '0';
     }
 
+    /**
+     * @param array $updates
+     *
+     * @todo Refactor to reduce complexity
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     public function replicate(array $updates): void
     {
         foreach ($updates as $update) {

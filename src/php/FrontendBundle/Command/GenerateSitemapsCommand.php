@@ -95,6 +95,10 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             );
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity) Batch code
+     * @SuppressWarnings(PHPMD.NPathComplexity) Batch code
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->maxEntries = $input->getOption('max-entries');

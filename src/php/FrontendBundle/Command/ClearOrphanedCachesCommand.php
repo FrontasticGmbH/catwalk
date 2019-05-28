@@ -38,7 +38,7 @@ class ClearOrphanedCachesCommand extends ContainerAwareCommand
             $environment = null;
             if (file_exists("{$rootDir}/{$component}/environment")) {
                 $environment = parse_ini_file("{$rootDir}/{$component}/environment");
-            } else if (file_exists("{$rootDir}/paas/{$component}/environment")) {
+            } elseif (file_exists("{$rootDir}/paas/{$component}/environment")) {
                 $environment = parse_ini_file("{$rootDir}/paas/{$component}/environment");
             }
 
@@ -52,5 +52,4 @@ class ClearOrphanedCachesCommand extends ContainerAwareCommand
             }
         }
     }
-
 }
