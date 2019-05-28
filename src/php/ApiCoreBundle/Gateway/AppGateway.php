@@ -25,6 +25,9 @@ class AppGateway
         $this->manager = $manager;
     }
 
+    /**
+     * @return App[]
+     */
     public function getAll(): array
     {
         return $this->repository->findAll();

@@ -57,6 +57,9 @@ class AppService implements Target
         return $app;
     }
 
+    /**
+     * @return App[]
+     */
     public function getAll(): array
     {
         return $this->appGateway->getAll();
