@@ -27,6 +27,8 @@
             <arg value="--network-timeout" />
             <arg value="1000000000" />
             <arg value="install" />
+            <arg value="--link-folder" />
+            <arg value="${relative_path}/.yarn-links" />
         </exec>
 
         <exec executable="yarn" failonerror="true" dir="${basedir}">
