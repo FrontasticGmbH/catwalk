@@ -55,7 +55,6 @@ class TemplatesCategoryOverview extends Component {
                             </div>
                         </div>
 
-
                         <MoleculesHero
                             media={{
                                 media: fixture.image.person,

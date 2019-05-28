@@ -20,11 +20,11 @@ if (typeof document !== 'undefined') {
     mountNode = document && document.getElementById('app')
 
     if (mountNode) {
-        const newProps = JSON.parse(mountNode.getAttribute('data-props'));
+        const newProps = JSON.parse(mountNode.getAttribute('data-props'))
         if (newProps) {
             // Within storybook, we do have a document and mountnode, but no
             // data-props attribute.
-            props = { ...props, ...newProps };
+            props = { ...props, ...newProps }
         }
     }
 }

@@ -20,7 +20,7 @@ class LineChart extends Component {
     xAxis = d3.axisBottom().scale(this.state.xScale)
         .tickFormat(d3.timeFormat('%b'));
     yAxis = d3.axisLeft().scale(this.state.yScale)
-        .tickFormat(d => `${d}℉`);
+        .tickFormat(d => { return `${d}℉` });
 
     static getDerivedStateFromProps (nextProps, prevState) {
         if (!nextProps.data) { return null } // data hasn't been loaded yet so do nothing
@@ -28,17 +28,17 @@ class LineChart extends Component {
         const { xScale, yScale, lineGenerator } = prevState
 
         // data has changed, so recalculate scale domains
-        const timeDomain = d3.extent(data, d => d.date)
-        const tempMax = d3.max(data, d => d.high)
+        const timeDomain = d3.extent(data, d => { return d.date })
+        const tempMax = d3.max(data, d => { return d.high })
         xScale.domain(timeDomain)
         yScale.domain([0, tempMax])
 
         // calculate line for lows
-        lineGenerator.x(d => xScale(d.date))
-        lineGenerator.y(d => yScale(d.low))
+        lineGenerator.x(d => { return xScale(d.date) })
+        lineGenerator.y(d => { return yScale(d.low) })
         const lows = lineGenerator(data)
         // and then highs
-        lineGenerator.y(d => yScale(d.high))
+        lineGenerator.y(d => { return yScale(d.high) })
         const highs = lineGenerator(data)
 
         return { lows, highs }

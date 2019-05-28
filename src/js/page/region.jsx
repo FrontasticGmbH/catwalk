@@ -9,10 +9,10 @@ import Row from '../patterns/atoms/grid/row'
 import Cell from './cell'
 import schemas from '../schemas'
 
-const insertIf = (cond, ...els) => (cond ? els : [])
+const insertIf = (cond, ...els) => { return (cond ? els : []) }
 
 class Region extends React.Component {
-    render() {
+    render () {
         let region = this.props.region
         if (!region) {
             return null
@@ -21,16 +21,18 @@ class Region extends React.Component {
         // TBR (to be refactored) *marcel
         // very readable like this (prio) but might be
         // better suited in a function
-        let colsPerRow = 0,
-            row = 0,
-            renderTree = [[]]
+        let colsPerRow = 0
+
+        let row = 0
+
+        let renderTree = [[]]
         // elements?
         if (region && region.elements && region.elements.length) {
             const els = region.elements
             // iterate
             for (let i = 0; i < els.length; i++) {
                 // is nested array?
-                if (!renderTree[row]) renderTree[row] = []
+                if (!renderTree[row]) { renderTree[row] = [] }
                 // push cell to nested array
                 renderTree[row].push(els[i])
                 // add current col size to counter
@@ -55,7 +57,7 @@ class Region extends React.Component {
                 style={{
                     outline: region.regionId === this.props.highlight ? '2px dashed #a1d8e7' : null,
                 }}
-            >
+                >
                 {renderTree.map((group, i) => {
                     // TODO: fix row key
                     return (

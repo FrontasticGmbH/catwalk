@@ -9,11 +9,13 @@ import SymfonyLink from './link'
  * @example
  * <NodeLink node={imprintNode}>Imprint</NodeLink>
  */
-const NodeLink = ({ node, children, ...otherProps }) => (
-    <SymfonyLink {...otherProps} route={'node_' + node.nodeId}>
-        {children}
-    </SymfonyLink>
-)
+const NodeLink = ({ node, children, ...otherProps }) => {
+    return (
+        <SymfonyLink {...otherProps} route={'node_' + node.nodeId}>
+            {children}
+        </SymfonyLink>
+    )
+}
 
 NodeLink.propTypes = {
     node: PropTypes.shape({

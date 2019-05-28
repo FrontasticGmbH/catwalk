@@ -14,9 +14,9 @@ class DatavisCoded extends Component {
     };
 
     componentDidMount () {
-        sfData.forEach(day => (day.date = new Date(day.date)))
-        nyData.forEach(day => (day.date = new Date(day.date)))
-        amData.forEach(day => (day.date = new Date(day.date)))
+        sfData.forEach(day => { return (day.date = new Date(day.date)) })
+        nyData.forEach(day => { return (day.date = new Date(day.date)) })
+        amData.forEach(day => { return (day.date = new Date(day.date)) })
         this.setState({ temps: { sf: sfData, ny: nyData, am: amData } })
     }
 
@@ -30,7 +30,7 @@ class DatavisCoded extends Component {
         return (<div>
             <h1 className='s-text'>
                 2017 Temperatures for{' '}
-                <select name='city' onChange={(event) => this.updateCity(event)}>
+                <select name='city' onChange={(event) => { return this.updateCity(event) }}>
                     {[
                         { label: 'San Francisco', value: 'sf' },
                         { label: 'New York', value: 'ny' },

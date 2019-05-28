@@ -41,7 +41,6 @@ class Slider extends Component {
         }, 300)
     }
 
-
     checkSliderAlone = () => {
         if (this.carousel && this.carousel.slides) {
             this.carousel.slides.length < 2
@@ -62,10 +61,10 @@ class Slider extends Component {
         })
         this.forceUpdate()
 
-        this.carousel.on('ready', this.checkSliderAlone);
+        this.carousel.on('ready', this.checkSliderAlone)
     }
 
-    componentWillUnmount() {
+    componentWillUnmount () {
         // @TODO: How to render Flickity on SSR?
         if (!window) {
             return null
@@ -74,7 +73,7 @@ class Slider extends Component {
         window.removeEventListener('resize', this.updateDimensions)
     }
 
-    render() {
+    render () {
         // @TODO: How to render Flickity on SSR?
         if (!window || !this.Flickity) {
             return null
@@ -88,8 +87,8 @@ class Slider extends Component {
                 className={classnames('c-slider', slidesPerPage ? `c-slider--${slidesPerPage}` : '', className)}
                 options={{ ...defaultOptions, ...options }}
                 reloadOnUpdate
-                flickityRef={(carousel) => (this.carousel = carousel)}
-            >
+                flickityRef={(carousel) => { return (this.carousel = carousel) }}
+                >
                 {children}
             </Flickity>
         )

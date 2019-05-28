@@ -8,7 +8,7 @@ import MediaApi from 'frontastic-common/src/js/mediaApi'
 import NoImage from '../layout/noImage.svg'
 
 class RemoteImage extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props)
 
         this.state = {
@@ -19,7 +19,7 @@ class RemoteImage extends Component {
 
     mediaApi = new MediaApi()
 
-    render() {
+    render () {
         let [width, height] = this.mediaApi.getImageDimensions(
             this.props.url,
             this.props.width,

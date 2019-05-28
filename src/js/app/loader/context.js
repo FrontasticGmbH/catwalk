@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import _ from 'lodash'
 
 import { generateId } from 'frontastic-common'
@@ -90,7 +90,7 @@ let Loader = function (store, api) {
             },
             (json) => {
                 // @TODO: We should ensure Symfony auth errors contain sensible codes
-		        if(json.message === 'Unauthenticated: Your email address was not yet verified.') {
+		        if (json.message === 'Unauthenticated: Your email address was not yet verified.') {
                     this.notifyUser(<Message code='symfony.notVerified' {...json} />, 'error')
                 } else {
                     this.notifyUser(<Message code='symfony.invalid' {...json} />, 'error')
@@ -256,7 +256,7 @@ let Loader = function (store, api) {
             { newPassword: newPassword },
             (json) => {
                 this.notifyUser(<Message code='account.message.passwordUpdate' message='Password updated' />, 'success')
-                    app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
+                app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')

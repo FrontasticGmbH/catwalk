@@ -45,7 +45,7 @@ class Node extends Component {
         })
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate (prevProps) {
         if (this.scrollable && (this.props.viewKey !== prevProps.viewKey)) {
             let scrollTop = this.getScrollPosition(this.props.viewKey) || 0
 
@@ -129,7 +129,7 @@ export default connect(
                     head: globalState.node.last.page.data.regions.head,
                     main: { regionId: 'main' },
                     footer: { regionId: 'footer' },
-                }
+                },
             })
         }
 

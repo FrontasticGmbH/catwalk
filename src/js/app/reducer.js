@@ -76,5 +76,5 @@ export default combineReducers({
     wishlist: WishlistLoader.handleAction,
 
     // Optional customer reducers
-    ...ComponentInjector.getReducer()
+    ...ComponentInjector.getReducer(),
 })

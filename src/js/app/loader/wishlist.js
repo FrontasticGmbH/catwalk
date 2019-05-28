@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 import Wishlist from '../../domain/wishlist'
 import app from '../app'

@@ -25,8 +25,8 @@ class RadialChart extends Component {
         const { radiusScale, colorScale, arcGenerator } = prevState
 
         // data has changed, so recalculate scale domains
-        const tempMax = d3.max(data, d => d.high)
-        const colorDomain = d3.extent(data, d => d.avg)
+        const tempMax = d3.max(data, d => { return d.high })
+        const colorDomain = d3.extent(data, d => { return d.avg })
         radiusScale.domain([0, tempMax])
         colorScale.domain(colorDomain)
 
@@ -57,14 +57,16 @@ class RadialChart extends Component {
         return (
             <svg width={width} height={height}>
                 <g transform={`translate(${width / 2}, ${height / 2})`}>
-                    {this.state.slices.map((d, i) => (<path key={i} d={d.path} fill={d.fill} />))}
+                    {this.state.slices.map((d, i) => { return (<path key={i} d={d.path} fill={d.fill} />) })}
 
-                    {this.state.tempAnnotations.map((d, i) => (
-                        <g key={i}>
-                            <circle r={d.r} fill='none' stroke='#999' />
-                            <text y={-d.r - 2} textAnchor='middle'>{d.temp}℉</text>
-                        </g>
-                    ))}
+                    {this.state.tempAnnotations.map((d, i) => {
+ return (
+     <g key={i}>
+         <circle r={d.r} fill='none' stroke='#999' />
+         <text y={-d.r - 2} textAnchor='middle'>{d.temp}℉</text>
+     </g>
+                    )
+})}
                 </g>
             </svg>
         )

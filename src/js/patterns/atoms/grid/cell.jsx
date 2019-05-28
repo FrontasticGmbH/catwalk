@@ -6,7 +6,7 @@ const cellStyle = (full, wWidth, gWidth) => {
     return full ? { marginLeft: ml * -1, width: w } : {}
 }
 
-export default function Cell({
+export default function Cell ({
     size = 12,
     children,
     fullWidth = false,
@@ -21,13 +21,13 @@ export default function Cell({
     if (!Array.isArray(hideOn)) {
         hideOnClasses = ` ${prefix}--hidden-${hideOn}`
     } else {
-        hideOnClasses = hideOn.reduce((acc, crnt) => acc + ` ${prefix}--hidden-${crnt}`, '')
+        hideOnClasses = hideOn.reduce((acc, crnt) => { return acc + ` ${prefix}--hidden-${crnt}` }, '')
     }
     return (
         <div
             style={cellStyle(fullWidth, windowWidth, gridWidth)}
             className={`${prefix} ${prefix}--${size}${fullWidth ? ` ${prefix}--full` : ''} ${className} ${hideOnClasses}`}
-        >
+            >
             {children}
         </div>
     )

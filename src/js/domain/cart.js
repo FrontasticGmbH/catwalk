@@ -72,7 +72,7 @@ class Cart {
             !!this.billingAddress.country
         )
     }
-    
+
     hasAddresses () {
         return (
             this.hasShippingAddress() &&

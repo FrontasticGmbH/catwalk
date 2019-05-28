@@ -39,7 +39,7 @@ class PatternLibrary extends Component {
 
     compilePatternIndex (patterns, index, prefix = '') {
         for (let key in patterns) {
-            let id = (prefix ? prefix + '.' : '') + key 
+            let id = (prefix ? prefix + '.' : '') + key
 
             if (patterns[key].component && patterns[key].path) {
                 index.push(_.extend({ id, keys: id.split('.').join(' ') }, patterns[key]))

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from 'lodash'
 
 export const prepareTermsForFilter = (terms, facetConfig) => {
     terms = _.cloneDeep(terms)
@@ -21,11 +21,11 @@ const sortTerms = (terms, facetConfig) => {
     }
 
     const preprocessLabel = (stripPrefix ?
-            (label) => {
-                return _.toInteger(label.replace(/^([\d]+)_.*$/, '$1'))
-            }
-            :
-            _.identity
+        (label) => {
+            return _.toInteger(label.replace(/^([\d]+)_.*$/, '$1'))
+        }
+        :
+        _.identity
     )
 
     terms = _.sortBy(terms, (term) => {

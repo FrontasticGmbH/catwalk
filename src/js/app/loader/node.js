@@ -39,7 +39,7 @@ let Loader = function (store, api) {
             (data, parameters) => {
                 this.store.dispatch({
                     id: data.node.nodeId,
-                    cacheKey:  UrlContext.getActionHash({ route, parameters }),
+                    cacheKey: UrlContext.getActionHash({ route, parameters }),
                     type: 'Frontend.Master.view.success',
                     data: data,
                     parameters: parameters,
@@ -88,7 +88,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
 
         if (action.lastRoute && action.lastRoute.route !== action.route.route) {
             // We are apparently changing the node, so do not render the current node anymore.
-            currentNodeId = null;
+            currentNodeId = null
         }
 
         return {

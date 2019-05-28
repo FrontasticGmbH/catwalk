@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import UICell from '../patterns/atoms/grid/cell'
 import Tastic from './tastic'
 
-const insertIf = (cond, ...els) => (cond ? els : [])
+const insertIf = (cond, ...els) => { return (cond ? els : []) }
 
 class Cell extends React.Component {
-    render() {
+    render () {
         let cell = this.props.cell
         let columns = cell.schema.get('size') || '12'
 
@@ -22,7 +22,7 @@ class Cell extends React.Component {
                 style={{
                     outline: cell.cellId === this.props.highlight ? '2px dashed #30a0bf' : null,
                 }}
-            >
+                >
                 {cell && cell.tastics && cell.tastics.length
                     ? cell.tastics.map((tastic, i) => {
                           return (

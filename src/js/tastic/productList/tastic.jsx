@@ -7,7 +7,7 @@ import Cell from '../../patterns/atoms/grid/cell'
 import MoleculesProductTeaser from '../../patterns/molecules/teasers/product-teaser'
 
 class ProductListTastic extends Component {
-    render() {
+    render () {
         let productList = this.props.rawData.stream[this.props.tastic.configuration.stream]
         if (!productList) {
             return null

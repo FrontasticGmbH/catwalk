@@ -37,7 +37,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
     case 'Frontend.Tastic.all.success':
         return {
             ...globalState,
-            tastics: new Entity(action.data, 86400)
+            tastics: new Entity(action.data, 86400),
         }
 
     case 'Frontend.Tastic.all.error':

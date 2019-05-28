@@ -106,7 +106,7 @@ export default (ProjectHelmet, tastics = null, port = 8000) => {
                         return !value
                     }
                 )),
-            }
+            },
         })
     }
 

@@ -33,15 +33,15 @@ class Pattern extends Component {
             if (Component.propTypes && Component.propTypes.onChange && Component.propTypes.value) {
                 // Component has onChange listener as well as value prop.
 
-                testProps.value = testProps.value || '';
-                testProps.onChange =  ((value) => {
+                testProps.value = testProps.value || ''
+                testProps.onChange = (value) => {
                     testProps.value = value
 
                     // forcing an update here, because otherwise I would need to handle the testProps within the Pattern compoonents state...
                     // I assume it's okay for now, to just do it like this.
                     // If we encounter issues, we should clean this up.
                     this.forceUpdate()
-                })
+                }
             }
 
             return (<Fragment>

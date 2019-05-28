@@ -33,7 +33,7 @@ import ProductList from './productList/tastic.jsx'
 import ProductListFilter from './productListFilter/tastic.jsx'
 import ProductSlider from './productSlider/tastic.jsx'
 import Teaser from './teaser/tastic.jsx'
-//import Text from './text/tastic.jsx'
+// import Text from './text/tastic.jsx'
 
 export default (() => {
     return {

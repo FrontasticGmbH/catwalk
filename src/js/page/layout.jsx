@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Region from './region'
 
 class Layout extends Component {
-    render() {
+    render () {
         if (this.props.page.layoutId === 'kit') {
             return (
                 <main className='c-page-body'>

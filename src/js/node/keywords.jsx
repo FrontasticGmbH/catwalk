@@ -10,7 +10,7 @@ class Keywords extends Component {
             <Helmet>
                 <meta name='keywords' content={this.props.node.configuration.seoKeywords} />
             </Helmet>
-        : null)
+            : null)
     }
 }
 

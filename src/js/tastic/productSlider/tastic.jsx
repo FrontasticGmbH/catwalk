@@ -16,7 +16,6 @@ class ProductSliderTastic extends Component {
         let showPercent = this.props.tastic.schema.get('showPercent') || true
         let showStrikePrice = this.props.tastic.schema.get('showStrikePrice') || true
 
-
         return (<Slider>
             {_.map(productsToShow, (product) => {
                 return (<div className='c-slider__item  js-slider__item  u-3/4  u-2/5@lap  u-2/7@desk' key={product.productId}>
@@ -34,11 +33,11 @@ class ProductSliderTastic extends Component {
 ProductSliderTastic.propTypes = {
     rawData: PropTypes.object.isRequired,
     tastic: PropTypes.object.isRequired,
-    showStrikePrice: PropTypes.bool.isRequired
+    showStrikePrice: PropTypes.bool.isRequired,
 }
 
 ProductSliderTastic.defaultProps = {
-    showStrikePrice: false
+    showStrikePrice: false,
 }
 
 export default ProductSliderTastic

@@ -16,7 +16,7 @@ class SymfonyLink extends Component {
             console.error("Use route parameter with Symfony route ID to link '" + (this.props.to || this.props.href) + "'")
         }
 
-        if(!path) {
+        if (!path) {
             if (this.props.router.hasRoute(this.props.route)) {
                 path = this.props.router.path(this.props.route, params)
             }

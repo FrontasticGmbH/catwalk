@@ -88,7 +88,6 @@ let Api = function (router, store) {
                 }
             }
 
-
             let parsedError = { status: 500, message: 'Internal Server Error' }
             if (response.json &&
                 response.json.message &&

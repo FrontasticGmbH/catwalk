@@ -54,7 +54,7 @@ class BarChart extends Component {
                     data={settings.data}
                     barWidth={settings.barWidth}
                     fill={settings.barFill}
-                    onValueClick={() => settings.onValueClick()}
+                    onValueClick={() => { return settings.onValueClick() }}
                 />
 
             </FlexibleWidthXYPlot>

@@ -11,7 +11,7 @@ import NoImage from '../layout/noImage.svg'
  * This component renders an image from the Media API. If you need to render an image from a URL, use RemoteImage!
  */
 class Image extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props)
 
         this.state = {

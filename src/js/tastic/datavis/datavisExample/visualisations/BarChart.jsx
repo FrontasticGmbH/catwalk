@@ -26,7 +26,7 @@ class BarChart extends Component {
     yAxis = d3
         .axisLeft()
         .scale(this.state.yScale)
-        .tickFormat(d => `${d}℉`);
+        .tickFormat(d => { return `${d}℉` });
 
     static getDerivedStateFromProps (nextProps, prevState) {
         if (!nextProps.data) { return null } // data hasn't been loaded yet so do nothing
@@ -34,9 +34,9 @@ class BarChart extends Component {
         const { xScale, yScale, colorScale } = prevState
 
         // data has changed, so recalculate scale domains
-        const timeDomain = d3.extent(data, d => d.date)
-        const tempMax = d3.max(data, d => d.high)
-        const colorDomain = d3.extent(data, d => d.avg)
+        const timeDomain = d3.extent(data, d => { return d.date })
+        const tempMax = d3.max(data, d => { return d.high })
+        const colorDomain = d3.extent(data, d => { return d.avg })
         xScale.domain(timeDomain)
         yScale.domain([0, tempMax])
         colorScale.domain(colorDomain)
@@ -64,16 +64,18 @@ class BarChart extends Component {
     render () {
         return (
             <svg id='barChart' width={width} height={height}>
-                {this.state.bars.map((d, i) => (
-                    <rect
-                        key={i}
-                        x={d.x}
-                        y={d.y}
-                        width='2'
-                        height={d.height}
-                        fill={d.fill}
+                {this.state.bars.map((d, i) => {
+ return (
+     <rect
+         key={i}
+         x={d.x}
+         y={d.y}
+         width='2'
+         height={d.height}
+         fill={d.fill}
                     />
-                ))}
+                )
+})}
                 <g>
                     <g
                         id='xAxis'

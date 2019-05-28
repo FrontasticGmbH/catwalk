@@ -24,7 +24,7 @@ const settle = (val, target, range) => {
     return lowerRange || upperRange ? target : val
 }
 
-const inverse = (x) => x * -1
+const inverse = (x) => { return x * -1 }
 
 const getPointFromEvent = (touch, element) => {
     const rect = element.getBoundingClientRect()

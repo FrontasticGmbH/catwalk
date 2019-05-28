@@ -24,7 +24,7 @@ export default {
             wishlistRemove: 'Produkt vom Wunschzettel entfernt',
             confirmSuccess: 'Account ist bestätigt',
             confirmError: 'Account-Bestätigung ist leider fehlgeschlagen',
-        }
+        },
     },
     commercetools: {
         DiscountCodeNonApplicable: 'Der Gutscheincode {discountCode} konnte nicht gefunden werden',

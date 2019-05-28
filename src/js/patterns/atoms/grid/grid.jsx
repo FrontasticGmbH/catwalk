@@ -23,22 +23,22 @@ export default class Grid extends React.Component {
         })
     }
 
-    componentWillMount() {
+    componentWillMount () {
         this.handleResize()
     }
-    componentDidMount() {
+    componentDidMount () {
         if (window) {
             window.addEventListener('resize', this.handleResize)
             this.handleResize()
         }
     }
-    componentWillUnmount() {
+    componentWillUnmount () {
         if (window) {
             window.removeEventListener('resize', this.handleResize)
         }
     }
 
-    render() {
+    render () {
         const { debug, style, className, hideOn, prefix } = this.props
         const { windowWidth, gridWidth } = this.state
 
@@ -47,7 +47,7 @@ export default class Grid extends React.Component {
         if (!Array.isArray(hideOn)) {
             hideOnClasses = ` ${prefix}--hidden-${hideOn}`
         } else {
-            hideOnClasses = hideOn.reduce((acc, crnt) => acc + ` ${prefix}--hidden-${crnt}`, '')
+            hideOnClasses = hideOn.reduce((acc, crnt) => { return acc + ` ${prefix}--hidden-${crnt}` }, '')
         }
         const children = React.Children.map(this.props.children, (c) => {
             if (typeof c.type === 'string') {
@@ -63,7 +63,7 @@ export default class Grid extends React.Component {
                 className={`o-grid ${debug ? 'o-grid--debug' : ''} ${className} ${hideOnClasses}`}
                 style={style}
                 ref={this._gridRef}
-            >
+                >
                 {children}
             </div>
         )
