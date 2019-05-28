@@ -16,7 +16,6 @@ class Keywords extends Component {
 
 Keywords.propTypes = {
     node: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
 }
 
 Keywords.defaultProps = {}

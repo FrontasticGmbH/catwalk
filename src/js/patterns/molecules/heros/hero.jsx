@@ -33,12 +33,12 @@ class MoleculesHero extends Component {
 
 MoleculesHero.propTypes = {
     media: PropTypes.object.isRequired,
-    mediaTitle: PropTypes.string,
     caption: PropTypes.string,
     className: PropTypes.string,
     size: PropTypes.oneOf(['small', 'normal', 'large']),
     verticalAlign: PropTypes.oneOf(['top', 'center', 'bottom']),
     horizontalAlign: PropTypes.oneOf(['left', 'center', 'right']),
+    ratio: PropTypes.string,
 }
 
 MoleculesHero.defaultProps = {

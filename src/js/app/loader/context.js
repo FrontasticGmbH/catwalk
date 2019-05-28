@@ -90,7 +90,7 @@ let Loader = function (store, api) {
             },
             (json) => {
                 // @TODO: We should ensure Symfony auth errors contain sensible codes
-		        if (json.message === 'Unauthenticated: Your email address was not yet verified.') {
+                if (json.message === 'Unauthenticated: Your email address was not yet verified.') {
                     this.notifyUser(<Message code='symfony.notVerified' {...json} />, 'error')
                 } else {
                     this.notifyUser(<Message code='symfony.invalid' {...json} />, 'error')

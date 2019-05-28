@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import _ from 'lodash'
 
 import defaultTastics from './tastic/tastics'
 import app from './app/app'

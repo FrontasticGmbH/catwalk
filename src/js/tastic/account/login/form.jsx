@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 
 import AtomsButton from '../../../patterns/atoms/buttons/button'
 import AtomsHeading from '../../../patterns/atoms/headings/heading'

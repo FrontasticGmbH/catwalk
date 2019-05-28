@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -55,7 +55,6 @@ class AccountConfirmTastic extends Component {
 }
 
 AccountConfirmTastic.propTypes = {
-    tastic: PropTypes.object.isRequired,
     token: PropTypes.string,
 }
 

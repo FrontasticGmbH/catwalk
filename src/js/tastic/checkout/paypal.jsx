@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-// import paypal from 'paypal-checkout'
+import paypal from 'paypal-checkout'
 import Cart from '../../domain/cart'
 import Context from '../../app/context'
 

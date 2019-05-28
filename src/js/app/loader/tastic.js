@@ -25,8 +25,6 @@ const initialGlobalState = {
 }
 
 Loader.handleAction = (globalState = initialGlobalState, action) => {
-    let tastics = new Entity()
-
     switch (action.type) {
     case 'FRONTASTIC_ROUTE':
         return {

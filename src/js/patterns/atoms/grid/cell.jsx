@@ -1,5 +1,8 @@
 import * as React from 'react'
 
+// TODO: Make class style component
+/* eslint-disable react/prop-types */
+
 const cellStyle = (full, wWidth, gWidth) => {
     const ml = (wWidth - gWidth) / 2
     const w = wWidth

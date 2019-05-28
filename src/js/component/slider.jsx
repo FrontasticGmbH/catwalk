@@ -28,7 +28,6 @@ class Slider extends Component {
     Flickity = null
 
     updateDimensions = () => {
-        const elements = this.carousel.slider.children
         this.carousel.slider.classList.add('slider-is-resizing')
 
         clearTimeout(resizeTimer)

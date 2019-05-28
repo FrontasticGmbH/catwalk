@@ -20,7 +20,8 @@ import { Helmet } from 'react-helmet'
 // @TODO: Fork: http://rowanmanning.com/posts/node-cluster-and-express/
 // @TODO: Supervise forks
 const express = Express()
-const PRODUCTION = true
+// Defined for use in subsequent files only
+const PRODUCTION = true // eslint-disable-line no-unused-vars
 
 export default (ProjectHelmet, tastics = null, port = 8000) => {
     global.tastics = tastics || defaultTastics

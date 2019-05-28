@@ -33,7 +33,6 @@ class ProductSliderTastic extends Component {
 ProductSliderTastic.propTypes = {
     rawData: PropTypes.object.isRequired,
     tastic: PropTypes.object.isRequired,
-    showStrikePrice: PropTypes.bool.isRequired,
 }
 
 ProductSliderTastic.defaultProps = {

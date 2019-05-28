@@ -1,4 +1,3 @@
-import _ from 'lodash'
 
 let Context = function (context = {}) {
     this.environment = 'production'

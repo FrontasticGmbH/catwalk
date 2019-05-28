@@ -10,6 +10,7 @@ import app from './app/app'
 import patterns from './patternLibrary/patternList'
 import { displayName, isReactComponent } from './patternLibrary/functions'
 
+/* eslint-disable react/jsx-no-target-blank */
 class PatternLibrary extends Component {
     constructor (props) {
         super(props)
@@ -32,7 +33,7 @@ class PatternLibrary extends Component {
         scriptjs(
             '//cdnjs.cloudflare.com/ajax/libs/fuse.js/3.4.0/fuse.min.js',
             () => {
-                this.fuse = new Fuse(this.index, { keys: ['id', 'keys', 'name'] })
+                this.fuse = new Fuse(this.index, { keys: ['id', 'keys', 'name'] }) // eslint-disable-line
             }
         )
     }
@@ -110,7 +111,7 @@ class PatternLibrary extends Component {
                         </div>
                     </li>)
                 }))}
-                    <li key={name} className={classnames({
+                    <li key='__search' className={classnames({
                         'c-pl-menu__item': true,
                         'c-pl-menu__item--selected': !!this.state.search,
                     })}>
@@ -177,7 +178,7 @@ class PatternLibrary extends Component {
                     }))}
                     <li className={'c-pl-menu__item' + (this.state.showLinks ? ' c-pl-menu__item--selected' : '')}>
                         <button onClick={() => { this.setState({ showLinks: !this.state.showLinks }) }}>
-                            🔗
+                            <span role='img' aria-label='Anchor Symbol'>🔗</span>
                         </button>
                         <div className='c-pl-menu__content c-pl-menu__content--right'>
                             <ul className='c-pl-content'>
@@ -219,6 +220,7 @@ PatternLibrary.propTypes = {
     width: PropTypes.string.isRequired,
     pattern: PropTypes.string.isRequired,
     tunnels: PropTypes.array.isRequired,
+    search: PropTypes.string,
 }
 
 PatternLibrary.defaultProps = {

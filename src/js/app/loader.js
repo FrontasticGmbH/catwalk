@@ -58,7 +58,7 @@ let Loader = function (store, router, api) {
             lastRoute: this.store.getState().app.route,
         })
 
-        if (typeof PRODUCTION === 'undefined' || !PRODUCTION) {
+        if (typeof PRODUCTION === 'undefined' || !PRODUCTION) { // eslint-disable-line no-undef
             console.groupCollapsed('%c🔀 %c%s', 'color: gray', 'color: darkmagenta', route.route)
             console.info(route)
             console.groupEnd()

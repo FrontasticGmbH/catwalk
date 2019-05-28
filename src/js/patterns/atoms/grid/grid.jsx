@@ -1,6 +1,7 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 
-export default class Grid extends React.Component {
+class Grid extends React.Component {
     state = {
         windowWidth: -1,
         gridWidth: -1,
@@ -69,3 +70,20 @@ export default class Grid extends React.Component {
         )
     }
 }
+
+Grid.propTypes = {
+    debug: PropTypes.bool,
+    style: PropTypes.object,
+    className: PropTypes.string,
+    hideOn: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+    ]),
+    prefix: PropTypes.string,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node,
+    ]),
+}
+
+export default Grid

@@ -105,8 +105,13 @@ let WishlistLoader = function (store, api) {
                 // FIXME: Also remove? See further calls to loadMaster() in this file
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
-
-                notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.update.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
                 this.store.dispatch({
                     type: 'WishlistApi.Wishlist.update.error',
                     error: error,

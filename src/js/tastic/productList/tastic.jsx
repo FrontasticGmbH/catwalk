@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import Grid from '../../patterns/atoms/grid/grid'
-import Cell from '../../patterns/atoms/grid/cell'
 import MoleculesProductTeaser from '../../patterns/molecules/teasers/product-teaser'
 
 class ProductListTastic extends Component {
@@ -15,8 +14,6 @@ class ProductListTastic extends Component {
 
         let showPercent = this.props.tastic.schema.get('showPercent') || true
         let showStrikePrice = this.props.tastic.schema.get('showStrikePrice') || true
-
-        /* TODO: move to proper pattern/tastic in apollo_de *marcel */
 
         return (
             <Grid className='c-product-listing'>
