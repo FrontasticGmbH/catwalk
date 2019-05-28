@@ -83,16 +83,27 @@ class NodeService implements Target
      */
     public function getTree(string $root = null, int $maxDepth = null): Node
     {
-        $nodes = $this->cloneAll($this->nodeGateway->getTree($root, $maxDepth));
+        $nodes = $this->nodeGateway->getTree($root, $maxDepth);
 
         $nodeIndex = [$root => new Node()];
         foreach ($nodes as $node) {
-            $nodeIndex[$node->nodeId] = $node;
+            // Minimize potential large tree data structures
+            $nodeIndex[$node->nodeId] = new Node([
+                'nodeId' => $node->nodeId,
+                'configuration' => $node->configuration,
+                'name' => $node->name,
+                'path' => $node->path,
+            ]);
         }
 
-        foreach ($nodes as $node) {
+        foreach ($nodeIndex as $node) {
+            if (!$node->nodeId) {
+                // Skip virtual root node
+                continue;
+            }
+
             $nodePath = array_filter(explode('/', $node->path));
-            $parentNodeId = end($nodePath);
+            $parentNodeId = end($nodePath) ?: null;
 
             if (isset($nodeIndex[$parentNodeId])) {
                 $nodeIndex[$parentNodeId]->children[] = $node;
