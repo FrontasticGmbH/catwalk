@@ -15,6 +15,7 @@
     },
     "require":      {
         "php": ">=7.2",
+        "ext-json": "*",
 
         "symfony/symfony": "^4.1",
         "symfony/dotenv": "^4.1",
