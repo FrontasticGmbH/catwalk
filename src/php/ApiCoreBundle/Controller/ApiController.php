@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ApiController extends Controller
 {
+    const VERSION_PARAMETER_NAME = 'version';
+    const DEFAULT_VERSION = 'unknown';
+
     public function contextAction(Request $request)
     {
         $contextService = $this->get(ContextService::class);
@@ -24,11 +27,7 @@ class ApiController extends Controller
     public function endpointAction(Request $request): JsonResponse
     {
         try {
-            $requestVerifier = $this->get(RequestVerifier::class);
-            $requestVerifier->ensure($request, $this->getParameter('secret'));
-
-            /* HACK: This request is stateless, so let the ContextService know that we do not need a session. */
-            $request->attributes->set(Session::STATELESS, true);
+            $this->verifyRequest($request);
 
             if (!$request->getContent() ||
                 !($body = json_decode($request->getContent(), true))) {
@@ -41,5 +40,34 @@ class ApiController extends Controller
         } catch (\Throwable $e) {
             return new JsonResponse(Result::fromThrowable($e));
         }
+    }
+
+    public function versionAction(Request $request): JsonResponse
+    {
+        try {
+            $this->verifyRequest($request);
+
+            if ($this->container->hasParameter(self::VERSION_PARAMETER_NAME)) {
+                $version = $this->container->getParameter(self::VERSION_PARAMETER_NAME);
+            } else {
+                $version = self::DEFAULT_VERSION;
+            }
+
+            return new JsonResponse([
+                'ok' => true,
+                'version' => $version,
+            ]);
+        } catch (\Throwable $exception) {
+            return new JsonResponse(Result::fromThrowable($exception));
+        }
+    }
+
+    private function verifyRequest(Request $request): void
+    {
+        $requestVerifier = $this->get(RequestVerifier::class);
+        $requestVerifier->ensure($request, $this->getParameter('secret'));
+
+        /* HACK: This request is stateless, so let the ContextService know that we do not need a session. */
+        $request->attributes->set(Session::STATELESS, true);
     }
 }

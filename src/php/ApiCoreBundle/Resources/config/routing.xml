@@ -12,6 +12,10 @@
         <default key="_controller">Frontastic\Catwalk\ApiCoreBundle\Controller\ApiController::endpointAction</default>
     </route>
 
+    <route id="Frontastic.ApiCoreBundle.Api.version" path="/api/endpoint/version" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\ApiCoreBundle\Controller\ApiController::versionAction</default>
+    </route>
+
     <route id="Frontastic.ApiCoreBundle.App.get" path="/api/{app}/{dataId}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\ApiCoreBundle\Controller\AppController::getAction</default>
     </route>
