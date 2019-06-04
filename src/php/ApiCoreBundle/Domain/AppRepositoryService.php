@@ -148,6 +148,7 @@ class AppRepositoryService
             isset($_SERVER['PWD']) && 'catwalk' == basename($_SERVER['PWD'])) {
             return;
         }
+print_r($_SERVER);
 
         if ($this->entitiesInSync) {
             return;
