@@ -145,10 +145,9 @@ class AppRepositoryService
     {
         // @IMPORTANT: Dont' run this command during symfony:bootstrap of "catwalk"
         if (isset($_SERVER['_']) && in_array(basename($_SERVER['_']), ['ant', 'ansible-playbook']) &&
-            isset($_SERVER['PWD']) && 'catwalk' == basename($_SERVER['PWD'])) {
+            '/var/www/frontastic/paas/catwalk/bin/console' == $_SERVER['SCRIPT_FILENAME']) {
             return;
         }
-print_r($_SERVER);
 
         if ($this->entitiesInSync) {
             return;
