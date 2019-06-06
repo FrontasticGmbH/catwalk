@@ -48,7 +48,8 @@ class ProductController extends Controller
             'productId' => $productId,
         ]));
 
-        if ($request->getRequestUri() !== ($correctUrl = $productRouter->generateUrlFor($product))) {
+        $currentUrl = parse_url($request->getRequestUri(), PHP_URL_PATH);
+        if ($currentUrl !== ($correctUrl = $productRouter->generateUrlFor($product))) {
             // Race condition: this redirect is not handled gracefully by the JS stack
             return new RedirectResponse($correctUrl, 301);
         }
