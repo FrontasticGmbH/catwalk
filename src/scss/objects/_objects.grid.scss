@@ -1,0 +1,32 @@
+/* ==========================================================================
+   # GRID
+========================================================================== */
+
+.o-grid {
+    display: grid;
+    column-gap: 20px;
+    margin: 0 10px;
+    grid-template-columns: [content-start] repeat(12, minmax(0, 1fr)) [content-end];
+
+    @include mq($from: lap) {
+        margin: 0 20px;
+    }
+
+    @include mq($from: desk) {
+        max-width: 1240px;
+        margin: 0 auto;
+    }
+    &.o-grid--debug > *:nth-child(odd) {
+        background-color: rgba(203, 0, 114, 0.65);
+    }
+    &.o-grid--debug > *:nth-child(even) {
+        background-color: rgba(95, 31, 156, 0.65);
+    }
+    &.o-grid--debug .full {
+    }
+
+    .o-grid {
+        margin: 0 auto;
+        width: 100%;
+    }
+}

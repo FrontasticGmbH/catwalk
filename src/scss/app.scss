@@ -137,6 +137,8 @@
 @import '../../node_modules/inuitcss/objects/objects.table';
 // @import "../../node_modules/inuitcss/objects/objects.pack";
 @import 'objects/objects.icons';
+@import 'objects/objects.grid';
+@import 'objects/objects.cell';
 
 $enable-responsive-block-media-reverse: true;
 $responsive-block-until-include: lap;

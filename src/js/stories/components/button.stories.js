@@ -7,6 +7,13 @@ import { linkTo } from '@storybook/addon-links'
 import Button from 'js/patterns/atoms/buttons/button'
 
 storiesOf('Button', module)
+    .add('Default', () => (
+        <div>
+            <p>
+                <Button onClick={action('clicked')}>Default Button</Button>
+            </p>
+        </div>
+    ))
     .add('Primary', () => (
         <div>
             <p>
