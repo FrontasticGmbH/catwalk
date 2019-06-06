@@ -6,7 +6,14 @@
     "unidragger": "2.2.3"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^5.1.1",
+    "@storybook/addon-info": "^5.1.1",
+    "@storybook/addon-links": "^5.1.1",
+    "@storybook/addon-viewport": "^5.1.1",
+    "@storybook/addons": "^5.1.1",
+    "@storybook/react": "^5.1.1",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
+    "storybook-react-router": "^1.0.5",
     "webpack-bundle-analyzer": "^3.1.0"
   },
   "dependencies": {
@@ -110,7 +117,9 @@
     "test": "node bin/test.js --env=jsdom",
     "check": "node node_modules/.bin/eslint --ext .js --ext .jsx -c ../../paas/integration/eslint.config.json src/js/ test/js/",
     "fix": "node node_modules/.bin/eslint --fix --ext .js --ext .jsx -c ../../paas/integration/eslint.config.json src/js/ test/js/",
-    "server:start": "NODE_ENV=development nodemon --legacy-watch --watch src/js/ bin/devServer.js --exec babel-node --presets env,react-app"
+    "server:start": "NODE_ENV=development nodemon --legacy-watch --watch src/js/ bin/devServer.js --exec babel-node --presets env,react-app",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "jest": {
     "collectCoverageFrom": [
