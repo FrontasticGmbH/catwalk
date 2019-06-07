@@ -80,10 +80,8 @@ class Context extends DataObject
     {
         $map  =  [
             'dev' => 'development',
-            // TODO: Does not exist, yet, in application
             'test' => 'testing',
-            // TODO: Does not exist, yet, in framework
-            'stage' => 'staging',
+            'staging' => 'staging',
             'prod' => 'production',
         ];
 
