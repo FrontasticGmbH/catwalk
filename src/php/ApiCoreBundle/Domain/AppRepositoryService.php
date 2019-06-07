@@ -158,9 +158,15 @@ class AppRepositoryService
 
     private function syncEntityClasses()
     {
+        try {
+            $maxSequence = $this->appGateway->getHighestSequence();
+        } catch (ConnectionException $e) {
+            // We have other problems, ignore that here
+            // THis normally happens during cache:clear in catwalk
+            return;
+        }
         $metaData = $this->loadEntitiesMetaData();
 
-        $maxSequence = $this->appGateway->getHighestSequence();
         // Nothing to sync
         if (strcmp($maxSequence, $metaData['~highest_sequence']) <= 0) {
             return;

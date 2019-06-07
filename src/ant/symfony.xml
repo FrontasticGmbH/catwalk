@@ -3,10 +3,8 @@
     <property name="executable.symfony" location="bin/console" />
 
     <target name="symfony:bootstrap" extensionOf="-prepare:after~hook" >
-<!--
         <exec executable="${executable.symfony}" failonerror="true" dir="${basedir}">
             <arg value="cache:clear" />
         </exec>
--->
     </target>
 </project>
