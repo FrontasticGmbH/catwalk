@@ -73,6 +73,7 @@ class Preview extends Component {
                 // Ignore
                 break
             default:
+                // eslint-disable-next-line no-console
                 console.info(message)
                 // Do nothing for other messages
             }

@@ -14,6 +14,7 @@
 export default (globalState, props) => {
     let product = props.data.stream
     if (!product) {
+        // eslint-disable-next-line no-console
         console.warn('No product could be found in streams')
         return { ...props }
     }
@@ -21,6 +22,7 @@ export default (globalState, props) => {
     let selectedVariant = globalState.app.route.get('_variant', 0)
     let variant = (product.variants && product.variants[selectedVariant]) || null
     if (!variant) {
+        // eslint-disable-next-line no-console
         console.warn('Product variants are always required')
         return { ...props }
     }

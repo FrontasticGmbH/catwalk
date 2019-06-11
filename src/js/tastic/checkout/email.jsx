@@ -65,6 +65,7 @@ class Email extends Component {
                     <button
                         className='c-button c-button--primary'
                         onClick={() => {
+                            // eslint-disable-next-line no-console
                             console.log('Login…', this.state)
                         }}
                     >

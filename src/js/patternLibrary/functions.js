@@ -21,6 +21,7 @@ function processPatterns (loader, source = 'Frontastic') {
         let patternComponent = loader(fileName)
 
         if (!patternComponent.default) {
+            // eslint-disable-next-line no-console
             console.error('Pattern witout default export', propertyPath)
             return
         }

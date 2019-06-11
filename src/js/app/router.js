@@ -31,6 +31,7 @@ let Router = function (history, routes = {}, context = null) {
 
         let unknownKeys = _.difference(keys, _.keys(allParameters))
         if (unknownKeys.length) {
+            // eslint-disable-next-line no-console
             console.error('Missing values for ' + route + ': ' + unknownKeys.join(', '))
             return { pathname: '/', search: '' }
         }

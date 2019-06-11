@@ -26,11 +26,13 @@ class ProductListFilterTastic extends Component {
     render () {
         let productList = this.props.rawData.stream[this.props.tastic.configuration.stream]
         if (!productList || !productList.facets || productList.facets.length === 0) {
+            // eslint-disable-next-line no-console
             console.warn('Product list does not contain facets. Won\'t display filter tastic.')
             return null
         }
 
         if (!this.props.facets.isComplete()) {
+            // eslint-disable-next-line no-console
             console.log('Facet configuration not loaded. Will not render facets.')
             return null
         }
@@ -99,6 +101,7 @@ class ProductListFilterTastic extends Component {
         const categoryFacet = this.getCategoryFacet(productList.facets, this.props.facets.data)
 
         if (!categoryFacet) {
+            // eslint-disable-next-line no-console
             console.warn('No category facet found.')
             return null
         }

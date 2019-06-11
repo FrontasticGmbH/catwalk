@@ -38,6 +38,7 @@ class CartTastic extends Component {
                                     })
                                 }}
                                 onAddToWishlist={(lineItem, count) => {
+                                    // eslint-disable-next-line no-console
                                     console.warn('@TODO: Add to wishlist', lineItem, count)
                                 }}
                                 showProductPicture={this.props.tastic.schema.get('showProductPicture')}

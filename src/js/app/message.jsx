@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 class Message extends Component {
     render () {
         if (!this.props.code) {
+            // eslint-disable-next-line no-console
             console.warn(`FormattedMessage is missing an id, and will thus not be translated: ${this.props.message}`)
             return this.props.message
         }

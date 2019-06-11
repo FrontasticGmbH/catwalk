@@ -26,6 +26,7 @@ class Tastic extends Component {
 
         for (let tasticIndex in this.tastics) {
             if (typeof this.tastics[tasticIndex] !== 'function') {
+                // eslint-disable-next-line no-console
                 console.warn('Type of Tastic "' + tasticIndex + '" is "' + (typeof this.tastics[tasticIndex]) + '" ' +
                     'but expected "function". ' +
                     'Maybe you included the JSON definition instead of the JSX component in tastics.js?'

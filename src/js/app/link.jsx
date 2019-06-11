@@ -13,6 +13,7 @@ class SymfonyLink extends Component {
         let path = this.props.path
 
         if (this.props.to || this.props.href) {
+            // eslint-disable-next-line no-console
             console.error("Use route parameter with Symfony route ID to link '" + (this.props.to || this.props.href) + "'")
         }
 

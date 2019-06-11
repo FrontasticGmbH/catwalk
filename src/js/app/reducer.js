@@ -22,10 +22,14 @@ const reducer = (globalState = initialGlobalState, action) => {
     if ((typeof PRODUCTION === 'undefined' || !PRODUCTION) && // eslint-disable-line no-undef
         action.type &&
         (action.type.substr(0, 2) !== '@@') &&
+        // eslint-disable-next-line no-console
         console.groupCollapsed &&
         window) {
+        // eslint-disable-next-line no-console
         console.groupCollapsed('%c🔊 %c%s', 'color: gray', 'color: darkmagenta', action.type)
+        // eslint-disable-next-line no-console
         console.info(action)
+        // eslint-disable-next-line no-console
         console.groupEnd()
     }
 

@@ -20,6 +20,7 @@ class RssFeed extends Component {
         }
 
         if (!this.props.tastic.schema.get('feed-url')) {
+            // eslint-disable-next-line no-console
             console.warn('Missing Feed URL')
             return
         }

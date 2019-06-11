@@ -1,13 +1,12 @@
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, boolean } from '@storybook/addon-knobs'
 
 import Grid from 'js/patterns/atoms/grid/grid'
 import Cell from 'js/patterns/atoms/grid/cell'
-//import HeroSlider from 'js/patterns/organisms/slider/hero-slider
+// import HeroSlider from 'js/patterns/organisms/slider/hero-slider
 
 const debugDefault = true
 
@@ -78,7 +77,7 @@ stories.add('Full width Element w/ slider', () => {
     return (
         <Grid debug={boolean('Debug', debugDefault)}>
             <Cell>12 (default)</Cell>
-            <Cell fullWidth>{/*<HeroSlider />*/}</Cell>
+            <Cell fullWidth>{/* <HeroSlider /> */}</Cell>
             <Cell size={6}>6</Cell>
             <Cell size={6}>6</Cell>
         </Grid>

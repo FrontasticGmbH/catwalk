@@ -2,6 +2,7 @@ import configurationResolver from '../app/configurationResolver'
 
 export default (globalState, props) => {
     if (!props.tastic || !props.data) {
+        // eslint-disable-next-line no-console
         console.error('Could not connect Tastic data.')
         return {
             ...props,

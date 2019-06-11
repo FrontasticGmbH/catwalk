@@ -46,6 +46,7 @@ let Loader = function (store, router, api) {
         try {
             route = new Route(router.match(pathname), query, historyState)
         } catch (error) {
+            // eslint-disable-next-line no-console
             console.error('Routing error', error)
             route = new Route({
                 route: 'Frontastic.Frontend.Master.Error.view',
@@ -59,8 +60,11 @@ let Loader = function (store, router, api) {
         })
 
         if (typeof PRODUCTION === 'undefined' || !PRODUCTION) { // eslint-disable-line no-undef
+            // eslint-disable-next-line no-console
             console.groupCollapsed('%c🔀 %c%s', 'color: gray', 'color: darkmagenta', route.route)
+            // eslint-disable-next-line no-console
             console.info(route)
+            // eslint-disable-next-line no-console
             console.groupEnd()
         }
 

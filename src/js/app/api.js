@@ -51,12 +51,14 @@ let Api = function (router, store) {
                 })
             }
 
+            // eslint-disable-next-line no-console
             console.error('Unhandled Response Type:', response)
             if (error) {
                 error({ status: 500, message: 'Internal Server Error' })
             }
         }).then((response) => {
             if (response && response.json && response.json['__DEBUG']) {
+                // eslint-disable-next-line no-console
                 console.groupCollapsed(
                     '%c💻 %c%s (%s: %s)',
                     'color: gray',
@@ -66,13 +68,16 @@ let Api = function (router, store) {
                     route
                 )
                 _.each(response.json['__DEBUG'], (debugLine) => {
+                    // eslint-disable-next-line no-console
                     console.log(...debugLine)
                 })
+                // eslint-disable-next-line no-console
                 console.groupEnd()
             }
             return response
         }).then((response) => {
             if (!response) {
+                // eslint-disable-next-line no-console
                 console.error('Invalid Response:', response)
                 if (error) {
                     error({ status: 500, message: 'Internal Server Error' })
@@ -93,8 +98,10 @@ let Api = function (router, store) {
                 response.json.message &&
                 (typeof response.json.message === 'string')) {
                 parsedError = response.json
+                // eslint-disable-next-line no-console
                 console.error('Error:', parsedError)
             } else {
+                // eslint-disable-next-line no-console
                 console.error('Unhandled Error:', response)
             }
 
