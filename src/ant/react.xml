@@ -70,8 +70,8 @@
 
             <arg value="--registry" />
             <arg value="https://registry.npmjs.org" />
-	    <arg value="--network-timeout" />
-	    <arg value="1000000000" />
+            <arg value="--network-timeout" />
+            <arg value="1000000000" />
         </exec>
     </target>
 
