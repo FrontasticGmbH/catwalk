@@ -27,7 +27,7 @@ class Image extends Component {
     }
 
     render () {
-        const omitedProps = [
+        const omitedProperties = [
             'context',
             'media',
             'width',
