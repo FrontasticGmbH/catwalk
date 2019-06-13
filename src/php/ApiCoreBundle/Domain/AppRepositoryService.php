@@ -160,7 +160,7 @@ class AppRepositoryService
     {
         try {
             $maxSequence = $this->appGateway->getHighestSequence();
-        } catch (ConnectionException $e) {
+        } catch (\Exception $e) {
             // We have other problems, ignore that here
             // THis normally happens during cache:clear in catwalk
             return;
