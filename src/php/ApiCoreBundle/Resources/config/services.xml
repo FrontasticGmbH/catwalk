@@ -59,8 +59,8 @@
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService">
-            <argument type="service" id="templating" />
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway" />
         </service>
 
         <service id="frontastic.catwalk.api_core_bundle.domain.app_data_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">

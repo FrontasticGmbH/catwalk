@@ -2,25 +2,37 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
-use Symfony\Component\Templating\EngineInterface;
-
+use Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Tools\SchemaTool;
 
 class AppRepositoryService
 {
-    private $templating;
-
     private $entityManager;
 
     private $sourceDir;
 
-    public function __construct(EngineInterface $templating, EntityManager $entityManager, string $sourceDir = '')
-    {
-        $this->templating = $templating;
+    /**
+     * @var \Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway
+     */
+    private $appGateway;
+
+    /**
+     * Internal <alert>STATE</alert> - did we have synced the current auto
+     * generated custom app code, with the current state of the database?
+     *
+     * @var boolean
+     */
+    private $entitiesInSync = false;
+
+    public function __construct(
+        EntityManager $entityManager,
+        AppGateway $appGateway,
+        string $sourceDir = ''
+    ) {
         $this->entityManager = $entityManager;
+        $this->appGateway = $appGateway;
         $this->sourceDir = $sourceDir ?: __DIR__;
     }
 
@@ -59,6 +71,8 @@ class AppRepositoryService
      */
     public function getRepository(string $className): ?DataRepository
     {
+        $this->ensureEntitiesInSync();
+
         $className = $this->getFullyQualifiedClassName($className);
 
         if (!class_exists($className, true)) {
@@ -95,12 +109,15 @@ class AppRepositoryService
             'json' => 'text',
         ];
 
-        // @TODO: Map PHP type information for better autocompletion
+        $templating = new \Twig_Environment(
+            new \Twig_Loader_Filesystem([__DIR__ . '/../Resources/views/App/'])
+        );
 
+        // @TODO: Map PHP type information for better autocompletion
         file_put_contents(
             $this->sourceDir . '/App/' . $className . '.php',
-            $this->templating->render(
-                '@FrontasticCatwalkApiCore/App/dataObject.php.twig',
+            $templating->render(
+                'dataObject.php.twig',
                 [
                     'className' => $className,
                     'properties' => $properties,
@@ -122,5 +139,65 @@ class AppRepositoryService
 
         $schemaTool = new SchemaTool($this->entityManager);
         $schemaTool->updateSchema([$entityMetaData], true);
+    }
+
+    private function ensureEntitiesInSync(): void
+    {
+        // @IMPORTANT: Dont' run this command during symfony:bootstrap of "catwalk"
+        if (isset($_SERVER['_']) && in_array(basename($_SERVER['_']), ['ant', 'ansible-playbook']) &&
+            '/var/www/frontastic/paas/catwalk/bin/console' == $_SERVER['SCRIPT_FILENAME']) {
+            return;
+        }
+
+        if ($this->entitiesInSync) {
+            return;
+        }
+        $this->entitiesInSync = true;
+        $this->syncEntityClasses();
+    }
+
+    private function syncEntityClasses()
+    {
+        try {
+            $maxSequence = $this->appGateway->getHighestSequence();
+        } catch (ConnectionException $e) {
+            // We have other problems, ignore that here
+            // THis normally happens during cache:clear in catwalk
+            return;
+        }
+        $metaData = $this->loadEntitiesMetaData();
+
+        // Nothing to sync
+        if (strcmp($maxSequence, $metaData['~highest_sequence']) <= 0) {
+            return;
+        }
+
+        $metaData['~highest_sequence'] = $maxSequence;
+
+        foreach ($this->appGateway->getAll() as $app) {
+            if (isset($metaData[$app->identifier]) && $metaData[$app->identifier] == $app->sequence) {
+                continue;
+            }
+            $this->update($app);
+            $metaData[$app->identifier] = $app->sequence;
+        }
+
+        $this->updateCodeMetaData($metaData);
+    }
+
+    private function loadEntitiesMetaData(): array
+    {
+        if (false === file_exists($this->sourceDir . '/App/code.meta.php')) {
+            return ['~highest_sequence' => -1];
+        }
+        return include $this->sourceDir . '/App/code.meta.php';
+    }
+
+    private function updateCodeMetaData(array $metaData): void
+    {
+        file_put_contents(
+            $this->sourceDir . '/App/code.meta.php',
+            '<?php return ' . var_export($metaData, true) . ';' . PHP_EOL
+        );
     }
 }
