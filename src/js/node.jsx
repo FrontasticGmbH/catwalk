@@ -77,7 +77,7 @@ class Node extends Component {
                 <Scrollbars
                     autoHide
                     style={{ height: '100vh', width: '100vw' }}
-                    id="scroll-container"
+                    id='scroll-container'
                     ref={(element) => {
                         this.scrollable = element
                     }}

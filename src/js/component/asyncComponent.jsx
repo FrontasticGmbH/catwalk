@@ -1,20 +1,20 @@
-import React from 'react';
+import React from 'react'
 
 const asyncComponent = (component) => {
     return class extends React.Component {
         state = {
-            component: null
+            component: null,
         }
 
-        componentDidMount() {
+        componentDidMount () {
             component.import()
                 .then(component => {
-                    this.setState({component: component.default});
-                });
+                    this.setState({ component: component.default })
+                })
         }
 
-        render() {
-            const InnerComponent = this.state.component;
+        render () {
+            const InnerComponent = this.state.component
 
             if (!InnerComponent) {
                 // @TODO: Is there a sensible way to pre-render height device
@@ -27,9 +27,9 @@ const asyncComponent = (component) => {
                 )
             }
 
-            return <InnerComponent {...this.props}/>;
+            return <InnerComponent {...this.props} />
         }
     }
-};
+}
 
-export default asyncComponent;
+export default asyncComponent
