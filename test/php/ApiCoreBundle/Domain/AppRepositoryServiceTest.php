@@ -12,8 +12,8 @@ class AppRepositoryServiceTest extends IntegrationTest
     protected function getService(): AppRepositoryService
     {
         return new AppRepositoryService(
-            $this->getContainer()->get('templating'),
             $this->getContainer()->get('doctrine.orm.entity_manager'),
+            $this->getContainer()->get(\Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway::class),
             __DIR__
         );
     }
