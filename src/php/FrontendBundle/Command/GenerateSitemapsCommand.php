@@ -121,7 +121,6 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         $this->maxEntries = $input->getOption('max-entries');
         $this->workingDir = uniqid(sprintf('%s/sitemap_', sys_get_temp_dir()));
         $this->excludes = $input->getOption('exclude');
-var_dump($this->excludes);
         $this->filesystem = new Filesystem();
         $this->filesystem->mkdir($this->workingDir);
 
