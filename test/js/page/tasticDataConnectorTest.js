@@ -11,7 +11,10 @@ describe('tasticDataConnector', () => {
             default: 'I am the default',
         })
 
-        const actualResult = tasticDataConnector({}, { tastic: tasticFixture, data: {} })
+        const actualResult = tasticDataConnector(
+            createGlobalStateFixture(),
+            { tastic: tasticFixture, data: {} }
+        )
 
         expect(actualResult.resolved.fixtureField).toBe('I am the default')
     })
@@ -23,7 +26,8 @@ describe('tasticDataConnector', () => {
             type: 'stream',
         }, { fixtureField: 'fooStream' })
 
-        const actualResult = tasticDataConnector({},
+        const actualResult = tasticDataConnector(
+            createGlobalStateFixture(),
             {
                 tastic: tasticFixture,
                 data: {
@@ -44,7 +48,8 @@ describe('tasticDataConnector', () => {
             type: 'tree',
         }, { fixtureField: { node: 'someNode', depth: 23 } })
 
-        const actualResult = tasticDataConnector({},
+        const actualResult = tasticDataConnector(
+            createGlobalStateFixture(),
             {
                 tastic: tasticFixture,
                 data: {
@@ -75,4 +80,10 @@ function createTasticFixture (fieldDefinition, configuration = {}) {
         ],
         configuration: configuration,
     })
+}
+
+function createGlobalStateFixture () {
+    return {
+        app: {},
+    }
 }
