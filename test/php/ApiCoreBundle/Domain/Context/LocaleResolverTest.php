@@ -1,0 +1,71 @@
+<?php
+
+namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+
+use Frontastic\Common\ReplicatorBundle\Domain\Project;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+
+class LocaleDeterminerTest extends TestCase
+{
+    /**
+     * @var LocaleDeterminer
+     */
+    private $localeDeterminer;
+
+    public function setUp()
+    {
+        $this->localeDeterminer = new LocaleDeterminer();
+    }
+
+    public function testLocaleChosenFromSession()
+    {
+        $request = $this->createRequest();
+        $project = $this->createProjectFixture();
+
+        $request->getSession()->set('locale', 'de_DE');
+
+        $this->assertSame(
+            'de_DE',
+            $this->localeDeterminer->determineLocale($request, $project)
+        );
+    }
+
+    public function testLocaleInRequestOverwritesSession()
+    {
+        $request = $this->createRequest();
+        $project = $this->createProjectFixture();
+
+        $request->getSession()->set('locale', 'de_DE');
+        $request->request->set('locale', 'de_CH');
+
+        $this->assertSame(
+            'de_CH',
+            $this->localeDeterminer->determineLocale($request, $project)
+        );
+        $this->assertSame(
+            'de_CH',
+            $request->getSession()->get('locale')
+        );
+    }
+
+    private function createRequest(): Request
+    {
+        $request = new Request();
+        $request->setSession(new Session(new MockArraySessionStorage()));
+
+        return $request;
+    }
+
+    private function createProjectFixture(): Project
+    {
+        $project = new Project([
+            'languages' => ['en_GB', 'en_US', 'de_DE', 'de_CH'],
+            'defaultLanguage' => 'en_GB',
+        ]);
+
+        return $project;
+    }
+}
