@@ -70,6 +70,46 @@ class ContextService
         );
     }
 
+    public function getContext(string $locale = 'en_GB', Session $session = null): Context
+    {
+        $contextCacheHash = $locale . '-' . md5(json_encode($session));
+        if (isset(ContextService::$contextCache[$contextCacheHash])) {
+            return ContextService::$contextCache[$contextCacheHash];
+        }
+
+        $customer = $this->customerService->getCustomer();
+        $project = reset($customer->projects);
+
+        if (!in_array($locale, $project->languages)) {
+            $locale = $project->defaultLanguage;
+        }
+
+        $context = new Context([
+            'environment' => \Frontastic\Catwalk\AppKernel::getEnvironmentFromConfiguration(),
+            'customer' => $customer,
+            'project' => $project,
+            'locale' => $locale,
+            // @TODO: Build currency from locale
+            'currency' => 'EUR',
+            'session' => $session ?: new Session(),
+            'routes' => array_map(
+                function (Route $route): object {
+                    return (object) [
+                        'path' => $route->getPath(),
+                        'requirements' => (object) $route->getRequirements(),
+                    ];
+                },
+                iterator_to_array($this->router->getRouteCollection())
+            ),
+        ]);
+
+        foreach ($this->decorators as $decorator) {
+            $context = $decorator->decorate($context);
+        }
+
+        return ContextService::$contextCache[$contextCacheHash] = $context;
+    }
+
     public function getSession(Request $request): Session
     {
         /* HACK: Is this request is stateless, so let the ContextService know that we do not need a session. */
@@ -131,45 +171,5 @@ class ContextService
             'loggedIn' => false,
             'account' => new Account(['accountId' => $anonymousId]),
         ]);
-    }
-
-    public function getContext(string $locale = 'en_GB', Session $session = null): Context
-    {
-        $contextCacheHash = $locale . '-' . md5(json_encode($session));
-        if (isset(ContextService::$contextCache[$contextCacheHash])) {
-            return ContextService::$contextCache[$contextCacheHash];
-        }
-
-        $customer = $this->customerService->getCustomer();
-        $project = reset($customer->projects);
-
-        if (!in_array($locale, $project->languages)) {
-            $locale = $project->defaultLanguage;
-        }
-
-        $context = new Context([
-            'environment' => \Frontastic\Catwalk\AppKernel::getEnvironmentFromConfiguration(),
-            'customer' => $customer,
-            'project' => $project,
-            'locale' => $locale,
-            // @TODO: Build currency from locale
-            'currency' => 'EUR',
-            'session' => $session ?: new Session(),
-            'routes' => array_map(
-                function (Route $route): object {
-                    return (object) [
-                        'path' => $route->getPath(),
-                        'requirements' => (object) $route->getRequirements(),
-                    ];
-                },
-                iterator_to_array($this->router->getRouteCollection())
-            ),
-        ]);
-
-        foreach ($this->decorators as $decorator) {
-            $context = $decorator->decorate($context);
-        }
-
-        return ContextService::$contextCache[$contextCacheHash] = $context;
     }
 }
