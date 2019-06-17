@@ -11,8 +11,6 @@ import Context from './app/context'
 import history from './app/history'
 
 import Preview from './preview'
-import PatternLibrary from './patternLibrary'
-import Patterns from './patternLibrary/patterns'
 import Node from './node'
 
 export default (mountNode, tastics = null) => {
@@ -49,17 +47,6 @@ export default (mountNode, tastics = null) => {
                             exact
                             path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
                             component={Preview}
-                        />
-
-                        <Route
-                            exact
-                            path={app.getRouter().reactRoute('Frontastic.Frontend.PatternLibrary.overview')}
-                            component={PatternLibrary}
-                        />
-                        <Route
-                            exact
-                            path={app.getRouter().reactRoute('Frontastic.Frontend.PatternLibrary.view')}
-                            component={Patterns}
                         />
 
                         <Route component={Node} />
