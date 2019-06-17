@@ -75,7 +75,7 @@ class ContextService
         $request = $request ?: $this->requestStack->getCurrentRequest();
 
         return $this->getContext(
-            $request ? $request->get('locale', 'en_GB') : 'en_GB',
+            $request ? $request->get('locale', null) : null,
             $request ? $this->getSession($request) : new Session()
         );
     }
