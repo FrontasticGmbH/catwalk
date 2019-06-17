@@ -8,16 +8,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
-class LocaleDeterminerTest extends TestCase
+class LocaleResolverTest extends TestCase
 {
     /**
-     * @var LocaleDeterminer
+     * @var LocaleResolver
      */
     private $localeDeterminer;
 
     public function setUp()
     {
-        $this->localeDeterminer = new LocaleDeterminer();
+        $this->localeDeterminer = new LocaleResolver();
     }
 
     public function testLocaleChosenFromSession()
@@ -48,6 +48,19 @@ class LocaleDeterminerTest extends TestCase
         $this->assertSame(
             'de_CH',
             $request->getSession()->get('locale')
+        );
+    }
+
+    public function testLocaleGuessedFromBrowserPerfectMatch()
+    {
+        $request = $this->createRequest();
+        $project = $this->createProjectFixture();
+
+        $request->headers->set('Accept-Language', 'de-DE');
+
+        $this->assertSame(
+            'de_DE',
+            $this->localeDeterminer->determineLocale($request, $project)
         );
     }
 
