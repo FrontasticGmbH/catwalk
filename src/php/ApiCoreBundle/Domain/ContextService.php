@@ -60,6 +60,16 @@ class ContextService
         $this->decorators[] = $decorator;
     }
 
+    /**
+     * Creates the Context for a given request. Falls back to current request.
+     *
+     * If no $request is provided the method falls back to the current request from the RequestStack. NOTE: This is
+     * not recommended. If possible, please get hold on the Request you want to react on instead of relying on this
+     * magic!
+     *
+     * @param Request|null $request
+     * @return Context
+     */
     public function createContextFromRequest(Request $request = null): Context
     {
         $request = $request ?: $this->requestStack->getCurrentRequest();
@@ -70,6 +80,16 @@ class ContextService
         );
     }
 
+    /**
+     * Get the current context using $locale and $session.
+     *
+     * This method is meant to be used in cases where $locale and $session are known or do not matter. If you need to
+     * create a context for a request, please use {@see ContextService::createContextFromRequest()} instead!
+     *
+     * @param string|null $locale
+     * @param Session|null $session
+     * @return Context
+     */
     public function getContext(string $locale = 'en_GB', Session $session = null): Context
     {
         $contextCacheHash = $locale . '-' . md5(json_encode($session));
