@@ -18,6 +18,10 @@ product_api:
     resource: "@FrontasticCommonProductApiBundle/Resources/config/routing.xml"
     prefix:   /api/product
 
+project_api:
+    resource: "@FrontasticCommonProjectApiBundle/Resources/config/routing.xml"
+    prefix:   /api/project
+
 account_core:
     resource: "@FrontasticCommonAccountApiBundle/Resources/config/routing.xml"
     prefix:   /api/account
