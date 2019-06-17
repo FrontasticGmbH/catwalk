@@ -2,6 +2,8 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver;
+use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -34,6 +36,11 @@ class ContextService
     private $decorators = [];
 
     /**
+     * @var LocaleResolver
+     */
+    private $localeResolver;
+
+    /**
      * @HACK This is a hack to cache getting the same context over and over again.
      */
     static private $contextCache = [];
@@ -49,6 +56,8 @@ class ContextService
         $this->requestStack = $requestStack;
         $this->customerService = $customerService;
         $this->tokenStorage = $tokenStorage;
+
+        $this->localeResolver = new LocaleResolver();
 
         foreach ($decorators as $decorator) {
             $this->addDecorator($decorator);
@@ -75,9 +84,14 @@ class ContextService
         $request = $request ?: $this->requestStack->getCurrentRequest();
 
         return $this->getContext(
-            $request ? $request->get('locale', null) : null,
+            $this->localeResolver->determineLocale($request, $this->getProject()),
             $request ? $this->getSession($request) : new Session()
         );
+    }
+
+    private function getProject(): Project
+    {
+        return reset($this->customerService->getCustomer()->projects);
     }
 
     /**
