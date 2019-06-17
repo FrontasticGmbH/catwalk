@@ -90,7 +90,7 @@ class ContextService
      * @param Session|null $session
      * @return Context
      */
-    public function getContext(string $locale = 'en_GB', Session $session = null): Context
+    public function getContext(string $locale = null, Session $session = null): Context
     {
         $contextCacheHash = $locale . '-' . md5(json_encode($session));
         if (isset(ContextService::$contextCache[$contextCacheHash])) {
