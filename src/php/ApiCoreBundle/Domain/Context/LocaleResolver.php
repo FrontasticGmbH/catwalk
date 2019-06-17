@@ -25,7 +25,10 @@ class LocaleResolver
 
         // 2nd preference: Browser language
         if ($request->headers->has('Accept-Language')) {
-            $locale = $this->determineFromHeader($request->headers->get('Accept-Language'));
+            $locale = $this->determineFromHeader(
+                $request->headers->get('Accept-Language'),
+                $project->languages
+            );
 
             if ($locale !== null) {
                 return $locale;
@@ -35,15 +38,28 @@ class LocaleResolver
         return $project->defaultLanguage;
     }
 
-    private function determineFromHeader(string $acceptHeaderString): ?string
+    private function determineFromHeader(string $acceptHeaderString,  array $availableLocales): ?string
     {
         $acceptHeader = AcceptHeader::fromString($acceptHeaderString);
         foreach ($acceptHeader->all() as $acceptItem) {
-            $value = strtr($acceptItem->getValue(), ['-' => '_']);
+            if (($matchedLocale = $this->getLocaleMatch($acceptItem->getValue(), $availableLocales)) !== null) {
+                return $matchedLocale;
+            }
+        }
+    }
 
-            // We only support full qualified locales
-            if (strpos($value, '_') !== false) {
-                return $value;
+    private function getLocaleMatch(string $localeValue, array $availableLocales): ?string
+    {
+        $localeValue = strtolower(strtr($localeValue, ['-' => '_']));
+
+        if (strpos($localeValue, '_') === false) {
+            // Suffix for correct matching below
+            $localeValue .= '_';
+        }
+
+        foreach  ($availableLocales as $availableLocale) {
+            if (strpos(strtolower($availableLocale), $localeValue) !== false) {
+                return $availableLocale;
             }
         }
     }

@@ -64,6 +64,19 @@ class LocaleResolverTest extends TestCase
         );
     }
 
+    public function testLocaleGuessedFromBrowserSimplified()
+    {
+        $request = $this->createRequest();
+        $project = $this->createProjectFixture();
+
+        $request->headers->set('Accept-Language', 'de');
+
+        $this->assertSame(
+            'de_DE',
+            $this->localeDeterminer->determineLocale($request, $project)
+        );
+    }
+
     private function createRequest(): Request
     {
         $request = new Request();
