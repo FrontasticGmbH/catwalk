@@ -51,7 +51,7 @@ class RenderService
 
         $jsonString = json_encode(
             $this->jsonSerializer->serialize([
-                'context' => $this->contextService->getContext(),
+                'context' => $this->contextService->createContextFromRequest($request),
                 'props' => $props,
                 'queryParameters' => $request->query->all(),
             ])
