@@ -78,6 +78,8 @@ class ContextService
         }
 
         $customer = $this->customerService->getCustomer();
+
+        // By definition there is only 1 project available in the customer
         $project = reset($customer->projects);
 
         if (!in_array($locale, $project->languages)) {
