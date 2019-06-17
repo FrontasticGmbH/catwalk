@@ -83,6 +83,15 @@ class ContextServiceTest extends TestCase
         );
     }
 
+    public function testGetCurrency()
+    {
+        $customer = $this->thisMockCustomer();
+
+        $context = $this->contextService->getContext('de_DE');
+
+        $this->assertSame('EUR', $context->currency);
+    }
+
     /**
      * Regression avoidance test
      */

@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Locale;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
@@ -120,13 +121,14 @@ class ContextService
             $locale = $project->defaultLanguage;
         }
 
+        $localeObject = Locale::createFromPosix($locale);
+
         $context = new Context([
             'environment' => \Frontastic\Catwalk\AppKernel::getEnvironmentFromConfiguration(),
             'customer' => $customer,
             'project' => $project,
             'locale' => $locale,
-            // @TODO: Build currency from locale
-            'currency' => 'EUR',
+            'currency' => $localeObject->currency,
             'session' => $session ?: new Session(),
             'routes' => array_map(
                 function (Route $route): object {
