@@ -77,6 +77,32 @@ class LocaleResolverTest extends TestCase
         );
     }
 
+    public function testLocaleGuessedFromBrowserComplexHeaderFormat()
+    {
+        $request = $this->createRequest();
+        $project = $this->createProjectFixture();
+
+        $request->headers->set('Accept-Language', 'fr-CH, fr;q=0.9, de;q=0.75, *;q=0.5');
+
+        $this->assertSame(
+            'de_DE',
+            $this->localeDeterminer->determineLocale($request, $project)
+        );
+    }
+
+    public function testLocaleGuessedFromBrowserComplexHeaderUnordered()
+    {
+        $request = $this->createRequest();
+        $project = $this->createProjectFixture();
+
+        $request->headers->set('Accept-Language', 'fr-CH, fr;q=0.9, en;q=0.4, de;q=0.75, *;q=0.5');
+
+        $this->assertSame(
+            'de_DE',
+            $this->localeDeterminer->determineLocale($request, $project)
+        );
+    }
+
     private function createRequest(): Request
     {
         $request = new Request();

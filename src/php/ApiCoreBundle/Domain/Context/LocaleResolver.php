@@ -46,6 +46,8 @@ class LocaleResolver
                 return $matchedLocale;
             }
         }
+
+        return null;
     }
 
     private function getLocaleMatch(string $localeValue, array $availableLocales): ?string
@@ -62,5 +64,7 @@ class LocaleResolver
                 return $availableLocale;
             }
         }
+
+        return null;
     }
 }
