@@ -9,7 +9,7 @@ import UrlContext from './urlContext'
 import { ConfigurationSchema, FacetTypeSchemaMap } from 'frontastic-common'
 
 // Try to read initial props from DOM
-let mountNode = null
+let dataNode = null
 let props = {
     route: {},
     node: {
@@ -17,10 +17,10 @@ let props = {
     },
 }
 if (typeof document !== 'undefined') {
-    mountNode = document && document.getElementById('app')
+    dataNode = document && document.getElementById('appData')
 
-    if (mountNode) {
-        const newProps = JSON.parse(mountNode.getAttribute('data-props'))
+    if (dataNode) {
+        const newProps = JSON.parse(dataNode.getAttribute('data-props'))
         if (newProps) {
             // Within storybook, we do have a document and mountnode, but no
             // data-props attribute.

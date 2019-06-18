@@ -13,14 +13,14 @@ import history from './app/history'
 import Preview from './preview'
 import Node from './node'
 
-export default (mountNode, tastics = null) => {
-    if (!mountNode) {
+export default (mountNode, dataNode, tastics = null) => {
+    if (!mountNode || !dataNode) {
         return
     }
 
     window.tastics = tastics || defaultTastics
 
-    let appData = mountNode.getAttribute('data-app')
+    let appData = dataNode.getAttribute('data-app')
     if (appData) {
         let data = JSON.parse(appData)
         store.dispatch({
