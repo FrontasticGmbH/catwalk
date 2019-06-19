@@ -15,6 +15,7 @@
                  decorates="Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProductApiFactoryDecorator.inner"/>
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\FacetService"/>
+            <argument type="service" id="cache.app.simple"/>
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService">
