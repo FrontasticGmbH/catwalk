@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { Router, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
-import defaultTastics from './tastic/tastics'
 import app from './app/app'
 import IntlProvider from './app/intlProvider'
 import store from './app/store'
@@ -18,7 +17,7 @@ export default (mountNode, dataNode, tastics = null) => {
         return
     }
 
-    window.tastics = tastics || defaultTastics
+    window.tastics = tastics || {}
 
     let appData = dataNode.getAttribute('data-app')
     if (appData) {
