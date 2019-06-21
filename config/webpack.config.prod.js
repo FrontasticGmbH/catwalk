@@ -162,7 +162,7 @@ const mainConfig = {
                     cacheDirectory: true,
                     compact: true,
                     presets: ['@babel/preset-env', '@babel/preset-react'],
-                    plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import'],
+                    plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import', 'lodash'],
                 },
             },
             {
