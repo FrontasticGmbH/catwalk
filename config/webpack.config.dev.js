@@ -21,6 +21,7 @@ const publicPath = '/'
 const publicUrl = ''
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl)
+const webpackExcludes = require('./webpackExclude')
 
 const PRODUCTION = false
 
@@ -144,13 +145,15 @@ module.exports = {
                 // On windows it can happen that the frontastic packages are
                 // not linked but copied. In this case babel should still
                 // compile the files in those folders.
-                exclude: /(node_modules(?!\/frontastic-)|bower_components)/,
+                exclude: webpackExcludes(['frontastic-catwalk', 'frontastic-common']),
                 loader: require.resolve('babel-loader'),
                 options: {
                     // This is a feature of `babel-loader` for webpack (not Babel itself).
                     // It enables caching results in ./node_modules/.cache/babel-loader/
                     // directory for faster rebuilds.
                     cacheDirectory: true,
+                    presets: ['@babel/preset-env', '@babel/preset-react'],
+                    plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import'],
                 },
             },
             // "postcss" loader applies autoprefixer to our CSS.
