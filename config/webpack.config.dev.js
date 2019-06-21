@@ -156,11 +156,6 @@ module.exports = {
                     plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import'],
                 },
             },
-            // "postcss" loader applies autoprefixer to our CSS.
-            // "css" loader resolves paths in CSS and adds assets as dependencies.
-            // "style" loader turns CSS into JS modules that inject <style> tags.
-            // In production, we use a plugin to extract that CSS to a file, but
-            // in development "style" loader enables hot editing of CSS.
             {
                 test: /\.css$/,
                 use: [
@@ -206,12 +201,9 @@ module.exports = {
                             ],
                         },
                     },
-                    // @TODO: This (sadly) does not work at all. Currently
-                    // resolved by adding a link catwalk -> paas/catwalk in the
-                    // root and still use relative paths to the entry point.
                     {
                         loader: require.resolve('resolve-url-loader'), // Resolve relative url() paths
-                    }, //
+                    },
                     {
                         loader: require.resolve('sass-loader'), // compiles Sass to CSS
                         options: {

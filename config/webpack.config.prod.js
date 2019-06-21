@@ -185,14 +185,8 @@ const mainConfig = {
                             ],
                         },
                     },
-                    // @TODO: This (sadly) does not work at all. Currently
-                    // resolved by adding a link catwalk -> paas/catwalk in the
-                    // root and still use relative paths to the entry point.
-                    /* {
-                        loader: require.resolve('resolve-url-loader'), // Resolve relative url() paths
-                    }, // */
                 ],
-			},
+            },
             {
                 test: /\.scss$/,
                 use: [
