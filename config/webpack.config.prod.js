@@ -10,6 +10,7 @@ const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const paths = require('./paths')
 const getClientEnvironment = require('./env')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const StatsPlugin = require('stats-webpack-plugin')
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -334,6 +335,12 @@ const mainConfig = {
         new BundleAnalyzerPlugin({
             reportFilename: paths.appBuild + '/bundleSize.html',
             analyzerMode: 'static',
+        }),
+
+        // Webpack dependency graph and other stats as JSON
+        new StatsPlugin('bundleStats.json', {
+            chunkModules: true,
+            exclude: [/node_modules[\\\/]react/]
         }),
 
         // Show packages which are included from multiple locations, which
