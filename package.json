@@ -157,6 +157,11 @@
       "jsx"
     ]
   },
+  "browserslist": [
+    "last 1 version",
+    "> 1%",
+    "not ie <= 8"
+  ],
   "eslintConfig": {
     "extends": "react-app"
   }
