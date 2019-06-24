@@ -13,11 +13,11 @@ class CategoryImageTastic extends Component {
     }
 
     render () {
-        if (!this.props.node.configuration.displayImage) {
+        if (!this.props.node.configuration.displayMedia) {
             return null
         }
 
-        let image = this.props.node.configuration.displayImage
+        let image = this.props.node.configuration.displayMedia
         return (<Image
             media={image.media || {}}
             cropRatio='5:1'
