@@ -152,7 +152,7 @@ module.exports = {
                     // It enables caching results in ./node_modules/.cache/babel-loader/
                     // directory for faster rebuilds.
                     cacheDirectory: true,
-                    presets: ['@babel/preset-env', '@babel/preset-react'],
+                    presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
                     plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import'],
                 },
             },

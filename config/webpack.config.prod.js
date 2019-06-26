@@ -161,7 +161,7 @@ const mainConfig = {
                     // directory for faster rebuilds.
                     cacheDirectory: true,
                     compact: true,
-                    presets: ['@babel/preset-env', '@babel/preset-react'],
+                    presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
                     plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import', 'lodash'],
                 },
             },
