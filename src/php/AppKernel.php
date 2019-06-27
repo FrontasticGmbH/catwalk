@@ -40,8 +40,8 @@ class AppKernel extends \Frontastic\Common\Kernel
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new \Frontastic\Common\DevelopmentBundle\FrontasticCommonDevelopmentBundle();
         } else {
-            if (!function_exists('debug')) {
-                function debug() {};
+            if (!function_exists('\\debug')) {
+                require __DIR__ . '/debug.php';
             }
         }
 
