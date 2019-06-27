@@ -81,7 +81,6 @@ class Node extends Component {
                     ref={(element) => {
                         this.scrollable = element
                     }}
-                    renderTrackHorizontal={false}
                     onScrollStop={(event) => {
                         this.setScrollPosition(this.props.viewKey, this.scrollable.getScrollTop())
                     }}
