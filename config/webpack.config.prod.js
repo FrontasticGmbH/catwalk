@@ -52,6 +52,7 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
 // The development configuration is different and lives in a separate file.
 const mainConfig = {
     name: 'main',
+    target: 'web',
     // Don't attempt to continue if there are any errors.
     mode: 'production',
     bail: true,
@@ -366,11 +367,55 @@ const mainConfig = {
     },
 }
 
-const serverConfig = {
+let serverConfig = {
+    ...mainConfig,
     name: 'server',
     mode: 'production',
     target: 'node',
-    ...mainConfig,
+    entry: [require.resolve('./polyfills'), paths.serverIndexJs],
+    plugins: [
+        // Makes some environment variables available to the JS code, for example:
+        // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
+        // It is absolutely essential that NODE_ENV was set to production here.
+        // Otherwise React will be compiled in the very slow development mode.
+        new webpack.DefinePlugin({
+            PRODUCTION: JSON.stringify(PRODUCTION),
+            'process.env.NODE_ENV': '"production"'
+        }),
+
+        new webpack.ProvidePlugin({
+            'document': 'min-document',
+            'self': 'node-noop',
+            'self.navigator.userAgent': 'empty-string',
+            'navigator.userAgent': 'empty-string',
+            'window': 'node-noop',
+            'location': 'node-noop',
+            'window.location': 'node-noop',
+            'hostname': 'node-noop',
+        }),
+
+        // Ignore files only used during pattern development
+        new webpack.IgnorePlugin(/\.s?css$/),
+
+        // Ignore files only used during pattern development
+        new webpack.IgnorePlugin(/-ui\.jsx$/),
+
+        // Moment.js is an extremely popular library that bundles large locale files
+        // by default due to how Webpack interprets its code. This is a practical
+        // solution that requires the user to opt into importing specific locales.
+        // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+        // You can remove this if you don't use Moment.js:
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+        new webpack.optimize.LimitChunkCountPlugin({
+            maxChunks: 1,
+        }),
+    ],
+    output: {
+        ...mainConfig.output,
+        filename: 'assets/js/server.js',
+    }
 }
+
 
 module.exports = [mainConfig, serverConfig]

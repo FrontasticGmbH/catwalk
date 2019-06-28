@@ -5144,6 +5144,11 @@ emotion@^9.1.2:
     babel-plugin-emotion "^9.2.11"
     create-emotion "^9.2.12"
 
+empty-string@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/empty-string/-/empty-string-1.1.1.tgz#29a7b5e98044276181e2b9be94471927642a3e7f"
+  integrity sha1-Kae16YBEJ2GB4rm+lEcZJ2QqPn8=
+
 encodeurl@~1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/encodeurl/-/encodeurl-1.0.2.tgz#ad3ff4c86ec2d029322f5a02c3a9a606c95b3f59"
@@ -9316,6 +9321,11 @@ node-modules-regexp@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/node-modules-regexp/-/node-modules-regexp-1.0.0.tgz#8d9dbe28964a4ac5712e9131642107c71e90ec40"
   integrity sha1-jZ2+KJZKSsVxLpExZCEHxx6Q7EA=
+
+node-noop@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-noop/-/node-noop-1.0.0.tgz#47a3e7d80cffaa6458364bd22ed85cab3307be79"
+  integrity sha1-R6Pn2Az/qmRYNkvSLthcqzMHvnk=
 
 node-notifier@^5.2.1:
   version "5.4.0"
