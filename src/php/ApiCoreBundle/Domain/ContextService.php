@@ -186,7 +186,7 @@ class ContextService
     {
         $session = $request->getSession();
 
-        if ($session->has('anonymousId')) {
+        if ($session !== null && $session->has('anonymousId')) {
             return new Session([
                 'loggedIn' => false,
                 'account' => new Account(['accountId' => $session->get('anonymousId')]),
@@ -203,7 +203,9 @@ class ContextService
             // Panopticlick)
             'time' => microtime(),
         ]));
-        $session->set('anonymousId', $anonymousId);
+
+        // This was disabled in order to make the maintenance page request listener work.
+        // $session->set('anonymousId', $anonymousId);
 
         return new Session([
             'loggedIn' => false,
