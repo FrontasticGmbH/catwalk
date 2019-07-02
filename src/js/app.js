@@ -2,24 +2,27 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import _ from 'lodash'
 
+import defaultTastics from './tastic/tastics'
 import app from './app/app'
 import IntlProvider from './app/intlProvider'
 import store from './app/store'
 import Context from './app/context'
-import history from './app/history'
 
 import Preview from './preview'
+import PatternLibrary from './patternLibrary'
+import Patterns from './patternLibrary/patterns'
 import Node from './node'
 
-export default (mountNode, dataNode, tastics = null) => {
-    if (!mountNode || !dataNode) {
+export default (mountNode, tastics = null) => {
+    if (!mountNode) {
         return
     }
 
-    window.tastics = tastics || {}
+    window.tastics = tastics || defaultTastics
 
-    let appData = dataNode.getAttribute('data-app')
+    let appData = mountNode.getAttribute('data-app')
     if (appData) {
         let data = JSON.parse(appData)
         store.dispatch({
@@ -40,12 +43,23 @@ export default (mountNode, dataNode, tastics = null) => {
     ReactDOM.hydrate(
         <Provider store={app.getStore()}>
             <IntlProvider>
-                <Router history={history}>
+                <Router history={app.history}>
                     <Switch>
                         <Route
                             exact
                             path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
                             component={Preview}
+                        />
+
+                        <Route
+                            exact
+                            path={app.getRouter().reactRoute('Frontastic.Frontend.PatternLibrary.overview')}
+                            component={PatternLibrary}
+                        />
+                        <Route
+                            exact
+                            path={app.getRouter().reactRoute('Frontastic.Frontend.PatternLibrary.view')}
+                            component={Patterns}
                         />
 
                         <Route component={Node} />

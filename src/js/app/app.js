@@ -1,15 +1,14 @@
 import store from './store'
-import history from './history'
 import Router from './router'
 import Api from './api'
 import Loader from './loader'
 
 import { VisibilityChange, httpParseQuery } from 'frontastic-common'
 
-let App = function (store, history) {
+let App = function (store) {
     this.store = store
-    this.history = history
-    this.router = new Router(this.history, {
+    this.history = null
+    this.router = new Router(null, {
         'Frontastic.ApiBundle.Api.context': '/api/context',
     })
     this.api = new Api(this.router, this.store)
@@ -48,9 +47,16 @@ let App = function (store, history) {
         return this.loader.getLoader(name)
     }
 
-    if (this.history) {
-        this.history.listen(this.loadForLocation)
+    if (typeof window !== 'undefined') {
+        import('history/createBrowserHistory').then((createHistory) => {
+            this.history = createHistory()
+            this.history.listen(this.loadForLocation)
+
+            this.router = new Router(this.history, {
+                'Frontastic.ApiBundle.Api.context': '/api/context',
+            })
+        })
     }
 }
 
-export default new App(store, history)
+export default new App(store)

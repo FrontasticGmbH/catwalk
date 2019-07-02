@@ -36,7 +36,7 @@
     "chroma-js": "^2.0.3",
     "classnames": "^2.2.6",
     "cloudinary-core": "^2.5.0",
-    "core-js": "^3.1.4",
+    "core-js": "2",
     "css-loader": "^3.0.0",
     "d3": "5.9.2",
     "dot-object": "^1.7.0",

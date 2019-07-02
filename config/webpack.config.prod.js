@@ -230,7 +230,7 @@ const mainConfig = {
         ],
     },
     optimization: {
-        minimize: true,
+        minimize: false,
         splitChunks: {
             chunks: 'all',
             minSize: 10 * 1024,
@@ -315,7 +315,7 @@ const mainConfig = {
                 }
                 console.log(message)
             },
-            minify: true,
+            minify: false,
             // For unknown URLs, fallback to the index page
             navigateFallback: publicUrl + '/index.html',
             // Ignores URLs starting from /__ (useful for Firebase):
@@ -387,9 +387,11 @@ let serverConfig = {
             'document': 'min-document',
             'self': 'node-noop',
             'self.navigator.userAgent': 'empty-string',
+            'window.navigator.userAgent': 'empty-string',
             'navigator.userAgent': 'empty-string',
             'window': 'node-noop',
             'location': 'node-noop',
+            'window.location.href': 'empty-string',
             'window.location': 'node-noop',
             'hostname': 'node-noop',
         }),
