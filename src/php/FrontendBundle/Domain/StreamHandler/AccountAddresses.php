@@ -2,10 +2,12 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 use Frontastic\Common\AccountApiBundle\Domain\AccountApi;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 
 class AccountAddresses extends StreamHandler
 {
@@ -21,16 +23,22 @@ class AccountAddresses extends StreamHandler
         return 'account-addresses';
     }
 
-    public function handle(Stream $stream, Context $context, array $parameters = [])
+    public function handleAsync(Stream $stream, Context $context, array $parameters = []): PromiseInterface
     {
         if (!$context->session->loggedIn) {
-            return [];
+            return Promise\promise_for([]);
         }
 
-        // While the account ID is also available in the stream configuration
-        // this makes sure we always fetch the current accounts addresses.
-        return $this->accountApi->getAddresses(
-            $context->session->account->accountId
-        );
+        try {
+            // While the account ID is also available in the stream configuration
+            // this makes sure we always fetch the current accounts addresses.
+            return Promise\promise_for(
+                $this->accountApi->getAddresses(
+                    $context->session->account->accountId
+                )
+            );
+        } catch (\Exception $exception) {
+            return Promise\rejection_for($exception);
+        }
     }
 }

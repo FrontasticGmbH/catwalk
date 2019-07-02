@@ -2,15 +2,17 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
-use Psr\SimpleCache\CacheInterface;
-
+use Frontastic\Common\ProductApiBundle\Domain\Category;
+use Frontastic\Common\ProductApiBundle\Domain\Product;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductTypeQuery;
-use Frontastic\Common\ProductApiBundle\Domain\Product;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result;
-use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query;
+use Frontastic\Common\ProductApiBundle\Domain\ProductType;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
+use Psr\SimpleCache\CacheInterface;
 
 class CachingProductApi implements ProductApi
 {
@@ -31,8 +33,8 @@ class CachingProductApi implements ProductApi
     }
 
     /**
-     * @param \Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery $query
-     * @return \Frontastic\Common\ProductApiBundle\Domain\Category[]
+     * @param CategoryQuery $query
+     * @return Category[]
      */
     public function getCategories(CategoryQuery $query): array
     {
@@ -46,8 +48,8 @@ class CachingProductApi implements ProductApi
     }
 
     /**
-     * @param \Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductTypeQuery $query
-     * @return \Frontastic\Common\ProductApiBundle\Domain\ProductType[]
+     * @param ProductTypeQuery $query
+     * @return ProductType[]
      */
     public function getProductTypes(ProductTypeQuery $query): array
     {
@@ -61,30 +63,44 @@ class CachingProductApi implements ProductApi
     }
 
     /**
-     * @param \Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery $query
-     * @return \Frontastic\Common\ProductApiBundle\Domain\Product
+     * @param ProductQuery $query
+     * @param string $mode One of the QUERY_* connstants. Execute the query synchronously or asynchronously?
+     * @return Product|PromiseInterface|null A product or null when the mode is sync and a promise if the mode is async.
      */
-    public function getProduct(ProductQuery $query): ?Product
+    public function getProduct(ProductQuery $query, string $mode = self::QUERY_SYNC): ?object
     {
         // Do NOT cache product detail information, since it usually is crucial
         // to present the user with up-to-date information on the product
         // detail page.
-        return $this->aggregate->getProduct($query);
+        return $this->aggregate->getProduct($query, $mode);
     }
 
     /**
-     * @param \Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery $query
-     * @return \Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result|\Frontastic\Common\ProductApiBundle\Domain\Product[]
+     * @param ProductQuery $query
+     * @param string $mode One of the QUERY_* connstants. Execute the query synchronously or asynchronously?
+     * @return Result|PromiseInterface A result when the mode is sync and a promise if the mode is async.
      */
-    public function query(ProductQuery $query): Result
+    public function query(ProductQuery $query, string $mode = self::QUERY_SYNC): object
     {
         $cacheKey = 'frontastic.products.' . md5(json_encode($query));
-        if (!($result = $this->cache->get($cacheKey, false))) {
-            $result = $this->aggregate->query($query);
-            $this->cache->set($cacheKey, $result, 600);
+
+        $cacheEntry = $this->cache->get($cacheKey, null);
+        if ($cacheEntry !== null) {
+            $resultPromise = Promise\promise_for($cacheEntry);
+        } else {
+            $resultPromise = $this->aggregate
+                ->query($query, self::QUERY_ASYNC)
+                ->then(function ($result) use ($cacheKey) {
+                    $this->cache->set($cacheKey, $result, 600);
+                    return $result;
+                });
         }
 
-        return $result;
+        if ($mode === self::QUERY_SYNC) {
+            return $resultPromise->wait();
+        }
+
+        return $resultPromise;
     }
 
     /**
