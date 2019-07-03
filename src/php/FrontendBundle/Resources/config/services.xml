@@ -227,6 +227,7 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService">
+            <argument type="service">Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService</argument>
             <argument>%kernel.cache_dir%</argument>
         </service>
 

@@ -2,12 +2,23 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService;
+
 class RouteService
 {
+    /**
+     * @var CustomerService
+     */
+    private $customerService;
+
+    /**
+     * @var string
+     */
     private $cacheDirectory;
 
-    public function __construct(string $cacheDirectory)
+    public function __construct(CustomerService $customerService, string $cacheDirectory)
     {
+        $this->customerService = $customerService;
         $this->cacheDirectory = $cacheDirectory;
     }
 
@@ -71,28 +82,48 @@ class RouteService
             }
 
             $parents = array_filter(explode('/', $node->path));
-            $route = '/' . trim($node->configuration['path'] ?? '', '/');
 
             if (!count($parents)) {
-                $routes[$node->nodeId] = new Route([
-                    'nodeId' => $node->nodeId,
-                    'route' => $route,
-                ]);
+                $routes = array_merge($routes, $this->generateRoutesForNode($node));
                 continue;
             }
 
             $parent = end($parents);
-            if (!isset($routes[$parent])) {
+
+            $parentRoutes = $this->findParentRoutes($parent, $routes);
+
+            if (count($parentRoutes) === 0) {
                 // Just ignore routes without parents – this just might happen
                 // from time to time because of temporary inconsistencies
                 continue;
             }
 
-            $routes[$node->nodeId] = new Route([
-                'nodeId' => $node->nodeId,
-                'route' => rtrim($routes[$parent]->route, '/') . $route,
-            ]);
+            $routes = array_merge($routes, $this->generateRoutesForNode($node, $parentRoutes));
         }
         return $routes;
+    }
+
+    private function findParentRoutes($parentNodeId, array $routes): array
+    {
+        return array_filter(
+            $routes,
+            function (Route $route) use ($parentNodeId) {
+                return $route->nodeId === $parentNodeId;
+            }
+        );
+    }
+
+    private function generateRoutesForNode(Node $node, array $parentRoutes = null): array
+    {
+        $route = '/' . trim($node->configuration['path'] ?? '', '/');
+
+        return [
+            new Route([
+                'nodeId' => $node->nodeId,
+                'route' => $parentRoutes === null
+                    ? $route
+                    : rtrim(reset($parentRoutes)->route, '/') . $route,
+            ])
+        ];
     }
 }
