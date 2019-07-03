@@ -163,7 +163,12 @@ const mainConfig = {
                     cacheDirectory: true,
                     compact: true,
                     presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
-                    plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import', 'lodash'],
+                    plugins: [
+                        '@babel/plugin-proposal-class-properties',
+                        '@babel/plugin-syntax-dynamic-import',
+                        'lodash',
+                        ['babel-plugin-transform-require-ignore', { 'extensions': ['.less', '.sass', '.css'] }],
+                    ],
                 },
             },
             {
@@ -230,7 +235,7 @@ const mainConfig = {
         ],
     },
     optimization: {
-        minimize: false,
+        minimize: true,
         splitChunks: {
             chunks: 'all',
             minSize: 10 * 1024,
@@ -315,7 +320,7 @@ const mainConfig = {
                 }
                 console.log(message)
             },
-            minify: false,
+            minify: true,
             // For unknown URLs, fallback to the index page
             navigateFallback: publicUrl + '/index.html',
             // Ignores URLs starting from /__ (useful for Firebase):
@@ -395,12 +400,6 @@ let serverConfig = {
             'window.location': 'node-noop',
             'hostname': 'node-noop',
         }),
-
-        // Ignore files only used during pattern development
-        new webpack.IgnorePlugin(/\.s?css$/),
-
-        // Ignore files only used during pattern development
-        new webpack.IgnorePlugin(/-ui\.jsx$/),
 
         // Moment.js is an extremely popular library that bundles large locale files
         // by default due to how Webpack interprets its code. This is a practical
