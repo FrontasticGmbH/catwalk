@@ -39,8 +39,6 @@ export default (mountNode, dataNode, tastics = null) => {
         app.getLoader('context').refresh()
     }
 
-    return
-
     if (typeof window !== 'undefined') {
         import('history').then(({ createBrowserHistory }) => {
             const history = createBrowserHistory()

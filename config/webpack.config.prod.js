@@ -393,6 +393,7 @@ let serverConfig = {
             'self': 'node-noop',
             'self.navigator.userAgent': 'empty-string',
             'window.navigator.userAgent': 'empty-string',
+            'window.navigation.userAgent': 'empty-string',
             'navigator.userAgent': 'empty-string',
             'window': 'node-noop',
             'location': 'node-noop',
