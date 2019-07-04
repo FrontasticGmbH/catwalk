@@ -38,7 +38,7 @@ class LocaleResolver
         return $project->defaultLanguage;
     }
 
-    private function determineFromHeader(string $acceptHeaderString,  array $availableLocales): ?string
+    private function determineFromHeader(string $acceptHeaderString, array $availableLocales): ?string
     {
         $acceptHeader = AcceptHeader::fromString($acceptHeaderString);
         foreach ($acceptHeader->all() as $acceptItem) {
@@ -59,7 +59,7 @@ class LocaleResolver
             $localeValue .= '_';
         }
 
-        foreach  ($availableLocales as $availableLocale) {
+        foreach ($availableLocales as $availableLocale) {
             if (strpos(strtolower($availableLocale), $localeValue) !== false) {
                 return $availableLocale;
             }
