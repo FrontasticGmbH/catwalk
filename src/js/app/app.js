@@ -9,7 +9,8 @@ let App = function (store) {
     this.store = store
     this.history = null
     this.router = new Router(null, {
-        'Frontastic.ApiBundle.Api.context': '/api/context',
+        'Frontastic.ApiCoreBundle.Api.context': { path: '/api/context' },
+        'Frontastic.Frontend.Preview.view': { path: '/p/{preview}' },
     })
     this.api = new Api(this.router, this.store)
     this.loader = new Loader(this.store, this.router, this.api)
@@ -45,17 +46,6 @@ let App = function (store) {
 
     this.getLoader = function (name) {
         return this.loader.getLoader(name)
-    }
-
-    if (typeof window !== 'undefined') {
-        import('history/createBrowserHistory').then((createHistory) => {
-            this.history = createHistory()
-            this.history.listen(this.loadForLocation)
-
-            this.router = new Router(this.history, {
-                'Frontastic.ApiBundle.Api.context': '/api/context',
-            })
-        })
     }
 }
 

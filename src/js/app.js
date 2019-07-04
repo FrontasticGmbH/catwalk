@@ -40,33 +40,53 @@ export default (mountNode, tastics = null) => {
         app.getLoader('context').refresh()
     }
 
-    ReactDOM.hydrate(
-        <Provider store={app.getStore()}>
-            <IntlProvider>
-                <Router history={app.history}>
-                    <Switch>
-                        <Route
-                            exact
-                            path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                            component={Preview}
-                        />
+    return
 
-                        <Route
-                            exact
-                            path={app.getRouter().reactRoute('Frontastic.Frontend.PatternLibrary.overview')}
-                            component={PatternLibrary}
-                        />
-                        <Route
-                            exact
-                            path={app.getRouter().reactRoute('Frontastic.Frontend.PatternLibrary.view')}
-                            component={Patterns}
-                        />
+    if (typeof window !== 'undefined') {
+        import('history').then(({ createBrowserHistory }) => {
+            const history = createBrowserHistory()
+            history.listen(app.loadForLocation)
 
-                        <Route component={Node} />
-                    </Switch>
-                </Router>
-            </IntlProvider>
-        </Provider>,
-        mountNode
-    )
+            app.history = history
+            app.router.history = history
+
+            ReactDOM.hydrate(
+                <Provider store={app.getStore()}>
+                    <IntlProvider>
+                        <Router history={app.history}>
+                            <Switch>
+                                <Route
+                                    exact
+                                    path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
+                                    component={Preview}
+                                />
+
+                                <Route component={Node} />
+                            </Switch>
+                        </Router>
+                    </IntlProvider>
+                </Provider>,
+                mountNode
+            )
+        })
+    } else {
+        ReactDOM.hydrate(
+            <Provider store={app.getStore()}>
+                <IntlProvider>
+                    <Router history={app.history}>
+                        <Switch>
+                            <Route
+                                exact
+                                path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
+                                component={Preview}
+                            />
+
+                            <Route component={Node} />
+                        </Switch>
+                    </Router>
+                </IntlProvider>
+            </Provider>,
+            mountNode
+        )
+    }
 }
