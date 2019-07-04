@@ -7,7 +7,7 @@ import ErrorBoundary from '../app/errorBoundary'
 import tasticDataConnector from './tasticDataConnector'
 
 class Tastic extends Component {
-    tastics = window ? window.tastics : global.tastics
+    tastics = (window && window.tastics) || (global && global.tastics) || []
 
     render () {
         let tastic = this.props.tastic

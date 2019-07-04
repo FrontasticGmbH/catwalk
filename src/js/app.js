@@ -4,7 +4,6 @@ import { Router, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import _ from 'lodash'
 
-import defaultTastics from './tastic/tastics'
 import app from './app/app'
 import IntlProvider from './app/intlProvider'
 import store from './app/store'
@@ -15,14 +14,14 @@ import PatternLibrary from './patternLibrary'
 import Patterns from './patternLibrary/patterns'
 import Node from './node'
 
-export default (mountNode, tastics = null) => {
-    if (!mountNode) {
+export default (mountNode, dataNode, tastics = null) => {
+    if (!mountNode || !dataNode) {
         return
     }
 
-    window.tastics = tastics || defaultTastics
+    window.tastics = tastics
 
-    let appData = mountNode.getAttribute('data-app')
+    let appData = dataNode.getAttribute('data-app')
     if (appData) {
         let data = JSON.parse(appData)
         store.dispatch({
