@@ -24,7 +24,9 @@ const reducer = (globalState = initialGlobalState, action) => {
         (action.type.substr(0, 2) !== '@@') &&
         // eslint-disable-next-line no-console
         console.groupCollapsed &&
-        window) {
+        typeof window !== 'undefined' &&
+        window &&
+        window.document) {
         // eslint-disable-next-line no-console
         console.groupCollapsed('%c🔊 %c%s', 'color: gray', 'color: darkmagenta', action.type)
         // eslint-disable-next-line no-console
