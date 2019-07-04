@@ -19,7 +19,7 @@ class Grid extends React.Component {
 
     handleResize = () => {
         this.setState({
-            windowWidth: window ? window.document.body.offsetWidth : 1280,
+            windowWidth: window && window.document && window.document.body ? window.document.body.offsetWidth : 1280,
             gridWidth: this._gridRef.current ? this._gridRef.current.getBoundingClientRect().width : 1280,
         })
     }
