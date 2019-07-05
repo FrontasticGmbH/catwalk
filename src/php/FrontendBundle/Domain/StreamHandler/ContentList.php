@@ -25,6 +25,6 @@ class ContentList extends StreamHandler
 
     public function handle(Stream $stream, Context $context, array $parameters = [])
     {
-        return $this->contentApi->query(new Query($stream->configuration));
+        return $this->contentApi->query(Query::fromArray($stream->configuration));
     }
 }
