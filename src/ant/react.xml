@@ -155,7 +155,6 @@
             <arg value="${basedir}/templates/layout.html.twig" />
         </exec>
 
-    <!--
         <exec executable="yarn" failonerror="true" dir="${basedir}">
             <env key="CI" value="false" />
 
@@ -172,7 +171,6 @@
             <arg value="add" />
             <arg value="${basedir}/bin/server.js" />
         </exec>
-    -->
     </target>
 
     <target name="-inject-into-layout">

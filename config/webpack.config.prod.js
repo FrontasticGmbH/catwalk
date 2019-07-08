@@ -167,7 +167,6 @@ const mainConfig = {
                         '@babel/plugin-proposal-class-properties',
                         '@babel/plugin-syntax-dynamic-import',
                         'lodash',
-                        ['babel-plugin-transform-require-ignore', { 'extensions': ['.less', '.sass', '.css'] }],
                     ],
                 },
             },
@@ -413,6 +412,75 @@ let serverConfig = {
             maxChunks: 1,
         }),
     ],
+    module: {
+        strictExportPresence: true,
+        rules: [
+            // TODO: Disable require.ensure as it's not a standard language feature.
+            // We are waiting for https://github.com/facebookincubator/create-react-app/issues/2176.
+            // { parser: { requireEnsure: false } },
+
+            // ** ADDING/UPDATING LOADERS **
+            // The 'file' loader handles all assets unless explicitly excluded.
+            // The `exclude` list *must* be updated with every change to loader extensions.
+            // When adding a new loader, you must add its `test`
+            // as a new entry in the `exclude` list in the 'file' loader.
+
+            // 'file' loader makes sure those assets end up in the `build` folder.
+            // When you `import` an asset, you get its filename.
+            {
+                exclude: [
+                    /\.html$/,
+                    /\.(js|jsx)$/,
+                    /\.scss$/,
+                    /\.css$/,
+                    /\.json$/,
+                    /\.bmp$/,
+                    /\.gif$/,
+                    /\.jpe?g$/,
+                    /\.png$/,
+                ],
+                loader: require.resolve('file-loader'),
+                options: {
+                    name: 'assets/media/[name].[hash:8].[ext]',
+                },
+            },
+            // 'url' loader works just like 'file' loader but it also embeds
+            // assets smaller than specified size as data URLs to avoid requests.
+            {
+                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+                loader: require.resolve('url-loader'),
+                options: {
+                    limit: 10 * 1024,
+                    name: 'assets/media/[name].[hash:8].[ext]',
+                },
+            },
+            // Process JS with Babel.
+            {
+                test: /\.(js|jsx)$/,
+                // On windows it can happen that the frontastic packages are
+                // not linked but copied. In this case babel should still
+                // compile the files in those folders.
+                exclude: webpackExcludes(['frontastic-catwalk', 'frontastic-common']),
+                loader: require.resolve('babel-loader'),
+                options: {
+                    // This is a feature of `babel-loader` for webpack (not Babel itself).
+                    // It enables caching results in ./node_modules/.cache/babel-loader/
+                    // directory for faster rebuilds.
+                    cacheDirectory: true,
+                    compact: true,
+                    presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
+                    plugins: [
+                        '@babel/plugin-proposal-class-properties',
+                        '@babel/plugin-syntax-dynamic-import',
+                        'lodash',
+                        ['babel-plugin-transform-require-ignore', { 'extensions': ['.less', '.sass', '.css'] }],
+                    ],
+                },
+            },
+            // ** STOP ** Are you adding a new loader?
+            // Remember to add the new extension(s) to the 'file' loader exclusion list.
+        ],
+    },
     output: {
         ...mainConfig.output,
         filename: 'assets/js/server.js',
