@@ -6,7 +6,6 @@ import { StaticRouter, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import _ from 'lodash'
 
-import defaultTastics from './tastic/tastics'
 import app from './app/app'
 import store from './app/store'
 import Context from './app/context'
@@ -24,7 +23,7 @@ const express = Express()
 const PRODUCTION = true // eslint-disable-line no-unused-vars
 
 export default (ProjectHelmet, tastics = null, port = 8000) => {
-    global.tastics = tastics || defaultTastics
+    global.tastics = tastics
 
     // We increase the body data limit because we can recieve quite some data from
     // Catwalk inclduing product lists, etc.

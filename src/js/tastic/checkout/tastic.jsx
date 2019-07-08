@@ -11,7 +11,6 @@ import Entity from '../../app/entity'
 import Summary from '../cart/summary'
 import Email from '../account/login/form'
 import Address from '../account/addresses/edit'
-import Paypal from './paypal'
 
 class Checkout extends Component {
     constructor (props) {
@@ -68,17 +67,7 @@ class Checkout extends Component {
                     <Fragment>
                         {this.props.data.paypalSandboxClientId && this.props.data.paypalProductionClientId ?
                             <div className='c-form__item o-layout__item u-1/2 u-1/2@lap'>
-                                <Paypal
-                                    sandboxClientId={this.props.data.paypalSandboxClientId}
-                                    productionClientId={this.props.data.paypalProductionClientId}
-                                    cart={this.props.cart.data}
-                                    onPaymentSuccess={(payment) => {
-                                    this.setState({
-                                        payment: payment,
-                                    })
-                                }}
-                                    payment={this.state.payment}
-                            />
+                                Paypal
                             </div> : null}
                         <div className='c-form__item o-layout__item u-1/2 u-1/2@lap'>
                             <button

@@ -2,12 +2,13 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
+use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 use Frontastic\Common\ContentApiBundle\Domain\ContentApi;
 use Frontastic\Common\ContentApiBundle\Domain\Query;
-
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
-use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 
 class ContentList extends StreamHandler
 {
@@ -23,8 +24,14 @@ class ContentList extends StreamHandler
         return 'content-list';
     }
 
-    public function handle(Stream $stream, Context $context, array $parameters = [])
+    public function handleAsync(Stream $stream, Context $context, array $parameters = []): PromiseInterface
     {
-        return $this->contentApi->query(Query::fromArray($stream->configuration));
+        try {
+            return Promise\promise_for(
+                $this->contentApi->query(Query::fromArray($stream->configuration))
+            );
+        } catch (\Exception $exception) {
+            return Promise\rejection_for($exception);
+        }
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
-use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQueryFactory;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use GuzzleHttp\Promise\PromiseInterface;
 
 class ProductList extends StreamHandler
 {
@@ -23,7 +23,7 @@ class ProductList extends StreamHandler
         return 'product-list';
     }
 
-    public function handle(Stream $stream, Context $context, array $parameters = [])
+    public function handleAsync(Stream $stream, Context $context, array $parameters = []): PromiseInterface
     {
         $query = ProductQueryFactory::queryFromParameters(
             ['locale' => $context->locale],
@@ -31,6 +31,6 @@ class ProductList extends StreamHandler
             $stream->configuration
         );
 
-        return $this->productApi->query($query);
+        return $this->productApi->query($query, ProductApi::QUERY_ASYNC);
     }
 }

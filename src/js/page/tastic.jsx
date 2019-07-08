@@ -7,7 +7,7 @@ import ErrorBoundary from '../app/errorBoundary'
 import tasticDataConnector from './tasticDataConnector'
 
 class Tastic extends Component {
-    tastics = window ? window.tastics : global.tastics
+    tastics = (window && window.tastics) || (global && global.tastics) || []
 
     render () {
         let tastic = this.props.tastic
@@ -23,16 +23,6 @@ class Tastic extends Component {
             </div>)
         }
         let Tastic = this.tastics[tastic.tasticType]
-
-        for (let tasticIndex in this.tastics) {
-            if (typeof this.tastics[tasticIndex] !== 'function') {
-                // eslint-disable-next-line no-console
-                console.warn('Type of Tastic "' + tasticIndex + '" is "' + (typeof this.tastics[tasticIndex]) + '" ' +
-                    'but expected "function". ' +
-                    'Maybe you included the JSON definition instead of the JSX component in tastics.js?'
-                )
-            }
-        }
 
         return (<ErrorBoundary>
             <div className={'e-tastic ' +

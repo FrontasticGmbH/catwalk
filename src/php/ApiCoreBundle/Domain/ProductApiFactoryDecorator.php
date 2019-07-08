@@ -2,6 +2,8 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
+use Psr\SimpleCache\CacheInterface;
+
 use Frontastic\Catwalk\FrontendBundle\Domain\FacetService;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory;
@@ -19,17 +21,25 @@ class ProductApiFactoryDecorator implements ProductApiFactory
      */
     private $facetService;
 
-    public function __construct(ProductApiFactory $productApiFactory, FacetService $facetService)
+    /**
+     * @var \Psr\SimpleCache\CacheInterface
+     */
+    private $cache;
+
+    const FACETS_CACHE_KEY = 'frontastic.facets';
+
+    public function __construct(ProductApiFactory $productApiFactory, FacetService $facetService, CacheInterface $cache)
     {
         $this->productApiFactory = $productApiFactory;
         $this->facetService = $facetService;
+        $this->cache = $cache;
     }
 
     public function factor(Customer $customer): ProductApi
     {
         $api = $this->productApiFactory->factor($customer);
         $this->setCommercetoolsOptions($api);
-        return $api;
+        return new CachingProductApi($api, $this->cache);
     }
 
     private function setCommercetoolsOptions(ProductApi $api): void
@@ -43,7 +53,10 @@ class ProductApiFactoryDecorator implements ProductApiFactory
             return;
         }
 
-        $enabledFacets = $this->facetService->getEnabled();
+        if (!($enabledFacets = $this->cache->get(self::FACETS_CACHE_KEY, false))) {
+            $enabledFacets = $this->facetService->getEnabled();
+            $this->cache->set(self::FACETS_CACHE_KEY, $enabledFacets, 600);
+        }
 
         $facetConfig = [];
         foreach ($enabledFacets as $facet) {
@@ -63,6 +76,6 @@ class ProductApiFactoryDecorator implements ProductApiFactory
     {
         $api = $this->productApiFactory->factorFromConfiguration($config);
         $this->setCommercetoolsOptions($api);
-        return $api;
+        return new CachingProductApi($api, $this->cache);
     }
 }

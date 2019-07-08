@@ -7,17 +7,12 @@
 {% block main %}
 {% spaceless %}
 {% set response = frontastic_render(app.request, completeInformation({ previewId: previewId, node: node, page: page, data: data })) %}
-<div id="app"
-     data-props="{{ completeInformation({ previewId: previewId, node: node, page: page, data: data })|frontastic_json_serialize|json_encode() }}"
-     data-app="{{ frontastic_context()|json_encode() }}"
->
-    {% if response.status < 400 %}
-        {% if response.body.app is defined %}
-            {{ response.body.app|raw }}
-        {% else %}
-            {{ response.body|raw }}
-        {% endif %}
-    {% endif %}
-</div>
+    <div id="app">
+        {% if response.status < 400 %}{{ response.body.app|raw }}{% endif %}
+    </div>
+    <div id="appData"
+         data-props="{{ completeInformation({ previewId: previewId, node: node, page: page, data: data })|frontastic_json_serialize|json_encode() }}"
+         data-app="{{ frontastic_context()|json_encode() }}"
+     />
 {% endspaceless %}
 {% endblock %}

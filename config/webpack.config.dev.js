@@ -21,6 +21,7 @@ const publicPath = '/'
 const publicUrl = ''
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl)
+const webpackExcludes = require('./webpackExclude')
 
 const PRODUCTION = false
 
@@ -94,7 +95,7 @@ module.exports = {
         // https://github.com/facebookincubator/create-react-app/issues/290
         // `web` extension prefixes have been added for better support
         // for React Native Web.
-        extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
+        extensions: ['.web.js', '.js', '.jsx', '.json', '.web.jsx'],
         alias: {
         },
     },
@@ -144,20 +145,17 @@ module.exports = {
                 // On windows it can happen that the frontastic packages are
                 // not linked but copied. In this case babel should still
                 // compile the files in those folders.
-                exclude: /(node_modules(?!\/frontastic-)|bower_components)/,
+                exclude: webpackExcludes(['frontastic-catwalk', 'frontastic-common']),
                 loader: require.resolve('babel-loader'),
                 options: {
                     // This is a feature of `babel-loader` for webpack (not Babel itself).
                     // It enables caching results in ./node_modules/.cache/babel-loader/
                     // directory for faster rebuilds.
                     cacheDirectory: true,
+                    presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
+                    plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import'],
                 },
             },
-            // "postcss" loader applies autoprefixer to our CSS.
-            // "css" loader resolves paths in CSS and adds assets as dependencies.
-            // "style" loader turns CSS into JS modules that inject <style> tags.
-            // In production, we use a plugin to extract that CSS to a file, but
-            // in development "style" loader enables hot editing of CSS.
             {
                 test: /\.css$/,
                 use: [
@@ -176,15 +174,7 @@ module.exports = {
                             ident: 'postcss',
                             plugins: () => [
                                 require('postcss-flexbugs-fixes'),
-                                autoprefixer({
-                                    browsers: [
-                                        '>1%',
-                                        'last 4 versions',
-                                        'Firefox ESR',
-                                        'not ie < 9', // React doesn't support IE8 anyway
-                                    ],
-                                    flexbox: 'no-2009',
-                                }),
+                                autoprefixer(),
                             ],
                         },
                     },
@@ -207,24 +197,13 @@ module.exports = {
                             ident: 'postcss',
                             plugins: () => [
                                 require('postcss-flexbugs-fixes'),
-                                autoprefixer({
-                                    browsers: [
-                                        '>1%',
-                                        'last 4 versions',
-                                        'Firefox ESR',
-                                        'not ie < 9', // React doesn't support IE8 anyway
-                                    ],
-                                    flexbox: 'no-2009',
-                                }),
+                                autoprefixer(),
                             ],
                         },
                     },
-                    // @TODO: This (sadly) does not work at all. Currently
-                    // resolved by adding a link catwalk -> paas/catwalk in the
-                    // root and still use relative paths to the entry point.
                     {
                         loader: require.resolve('resolve-url-loader'), // Resolve relative url() paths
-                    }, //
+                    },
                     {
                         loader: require.resolve('sass-loader'), // compiles Sass to CSS
                         options: {

@@ -24,7 +24,7 @@ class Slider extends Component {
     constructor (props) {
         super(props)
 
-        if (typeof window !== 'undefined' && window) {
+        if (typeof window !== 'undefined' && window && window.document) {
             this.Flickity = require('react-flickity-component')
             // we need to import the flickity-as-nav-for plugin in order to make asNavFor feature (see below) work.
             require('flickity-as-nav-for')

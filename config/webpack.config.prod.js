@@ -10,6 +10,7 @@ const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const paths = require('./paths')
 const getClientEnvironment = require('./env')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const StatsPlugin = require('stats-webpack-plugin')
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -24,6 +25,7 @@ const shouldUseRelativeAssetPaths = publicPath === './'
 const publicUrl = publicPath.slice(0, -1)
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl)
+const webpackExcludes = require('./webpackExclude')
 
 const PRODUCTION = true
 
@@ -50,6 +52,7 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
 // The development configuration is different and lives in a separate file.
 const mainConfig = {
     name: 'main',
+    target: 'web',
     // Don't attempt to continue if there are any errors.
     mode: 'production',
     bail: true,
@@ -94,7 +97,7 @@ const mainConfig = {
         // https://github.com/facebookincubator/create-react-app/issues/290
         // `web` extension prefixes have been added for better support
         // for React Native Web.
-        extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
+        extensions: ['.web.js', '.js', '.jsx', '.json', '.web.jsx'],
         alias: {
             // Support React Native Web
             // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
@@ -148,19 +151,23 @@ const mainConfig = {
             // Process JS with Babel.
             {
                 test: /\.(js|jsx)$/,
-                exclude: /(node_modules|bower_components)/,
+                // On windows it can happen that the frontastic packages are
+                // not linked but copied. In this case babel should still
+                // compile the files in those folders.
+                exclude: webpackExcludes(['frontastic-catwalk', 'frontastic-common']),
                 loader: require.resolve('babel-loader'),
                 options: {
+                    // This is a feature of `babel-loader` for webpack (not Babel itself).
+                    // It enables caching results in ./node_modules/.cache/babel-loader/
+                    // directory for faster rebuilds.
+                    cacheDirectory: true,
                     compact: true,
-                },
-            },
-            // Process libraries JS with Babel.
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: require.resolve('babel-loader'),
-                options: {
-                    compact: true,
+                    presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
+                    plugins: [
+                        '@babel/plugin-proposal-class-properties',
+                        '@babel/plugin-syntax-dynamic-import',
+                        'lodash',
+                    ],
                 },
             },
             {
@@ -180,26 +187,12 @@ const mainConfig = {
                             ident: 'postcss',
                             plugins: () => [
                                 require('postcss-flexbugs-fixes'),
-                                autoprefixer({
-                                    browsers: [
-                                        '>1%',
-                                        'last 4 versions',
-                                        'Firefox ESR',
-                                        'not ie < 9', // React doesn't support IE8 anyway
-                                    ],
-                                    flexbox: 'no-2009',
-                                }),
+                                autoprefixer(),
                             ],
                         },
                     },
-                    // @TODO: This (sadly) does not work at all. Currently
-                    // resolved by adding a link catwalk -> paas/catwalk in the
-                    // root and still use relative paths to the entry point.
-                    /* {
-                        loader: require.resolve('resolve-url-loader'), // Resolve relative url() paths
-                    }, // */
                 ],
-			},
+            },
             {
                 test: /\.scss$/,
                 use: [
@@ -217,15 +210,7 @@ const mainConfig = {
                             ident: 'postcss',
                             plugins: () => [
                                 require('postcss-flexbugs-fixes'),
-                                autoprefixer({
-                                    browsers: [
-                                        '>1%',
-                                        'last 4 versions',
-                                        'Firefox ESR',
-                                        'not ie < 9', // React doesn't support IE8 anyway
-                                    ],
-                                    flexbox: 'no-2009',
-                                }),
+                                autoprefixer(),
                             ],
                         },
                     },
@@ -357,6 +342,12 @@ const mainConfig = {
             analyzerMode: 'static',
         }),
 
+        // Webpack dependency graph and other stats as JSON
+        new StatsPlugin('bundleStats.json', {
+            chunkModules: true,
+            exclude: [/node_modules[\\\/]react/]
+        }),
+
         // Show packages which are included from multiple locations, which
         // increases the build size.
         new DuplicatePackageCheckerPlugin({
@@ -380,11 +371,121 @@ const mainConfig = {
     },
 }
 
-const serverConfig = {
+let serverConfig = {
+    ...mainConfig,
     name: 'server',
     mode: 'production',
     target: 'node',
-    ...mainConfig,
+    entry: [require.resolve('./polyfills'), paths.serverIndexJs],
+    plugins: [
+        // Makes some environment variables available to the JS code, for example:
+        // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
+        // It is absolutely essential that NODE_ENV was set to production here.
+        // Otherwise React will be compiled in the very slow development mode.
+        new webpack.DefinePlugin({
+            PRODUCTION: JSON.stringify(PRODUCTION),
+            'process.env.NODE_ENV': '"production"'
+        }),
+
+        new webpack.ProvidePlugin({
+            'document': 'min-document',
+            'self': 'node-noop',
+            'self.navigator.userAgent': 'empty-string',
+            'window.navigator.userAgent': 'empty-string',
+            'window.navigation.userAgent': 'empty-string',
+            'navigator.userAgent': 'empty-string',
+            'window': 'node-noop',
+            'location': 'node-noop',
+            'window.location.href': 'empty-string',
+            'window.location': 'node-noop',
+            'hostname': 'node-noop',
+        }),
+
+        // Moment.js is an extremely popular library that bundles large locale files
+        // by default due to how Webpack interprets its code. This is a practical
+        // solution that requires the user to opt into importing specific locales.
+        // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+        // You can remove this if you don't use Moment.js:
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+        new webpack.optimize.LimitChunkCountPlugin({
+            maxChunks: 1,
+        }),
+    ],
+    module: {
+        strictExportPresence: true,
+        rules: [
+            // TODO: Disable require.ensure as it's not a standard language feature.
+            // We are waiting for https://github.com/facebookincubator/create-react-app/issues/2176.
+            // { parser: { requireEnsure: false } },
+
+            // ** ADDING/UPDATING LOADERS **
+            // The 'file' loader handles all assets unless explicitly excluded.
+            // The `exclude` list *must* be updated with every change to loader extensions.
+            // When adding a new loader, you must add its `test`
+            // as a new entry in the `exclude` list in the 'file' loader.
+
+            // 'file' loader makes sure those assets end up in the `build` folder.
+            // When you `import` an asset, you get its filename.
+            {
+                exclude: [
+                    /\.html$/,
+                    /\.(js|jsx)$/,
+                    /\.scss$/,
+                    /\.css$/,
+                    /\.json$/,
+                    /\.bmp$/,
+                    /\.gif$/,
+                    /\.jpe?g$/,
+                    /\.png$/,
+                ],
+                loader: require.resolve('file-loader'),
+                options: {
+                    name: 'assets/media/[name].[hash:8].[ext]',
+                },
+            },
+            // 'url' loader works just like 'file' loader but it also embeds
+            // assets smaller than specified size as data URLs to avoid requests.
+            {
+                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+                loader: require.resolve('url-loader'),
+                options: {
+                    limit: 10 * 1024,
+                    name: 'assets/media/[name].[hash:8].[ext]',
+                },
+            },
+            // Process JS with Babel.
+            {
+                test: /\.(js|jsx)$/,
+                // On windows it can happen that the frontastic packages are
+                // not linked but copied. In this case babel should still
+                // compile the files in those folders.
+                exclude: webpackExcludes(['frontastic-catwalk', 'frontastic-common']),
+                loader: require.resolve('babel-loader'),
+                options: {
+                    // This is a feature of `babel-loader` for webpack (not Babel itself).
+                    // It enables caching results in ./node_modules/.cache/babel-loader/
+                    // directory for faster rebuilds.
+                    cacheDirectory: true,
+                    compact: true,
+                    presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
+                    plugins: [
+                        '@babel/plugin-proposal-class-properties',
+                        '@babel/plugin-syntax-dynamic-import',
+                        'lodash',
+                        ['babel-plugin-transform-require-ignore', { 'extensions': ['.less', '.sass', '.css'] }],
+                    ],
+                },
+            },
+            // ** STOP ** Are you adding a new loader?
+            // Remember to add the new extension(s) to the 'file' loader exclusion list.
+        ],
+    },
+    output: {
+        ...mainConfig.output,
+        filename: 'assets/js/server.js',
+    }
 }
+
 
 module.exports = [mainConfig, serverConfig]

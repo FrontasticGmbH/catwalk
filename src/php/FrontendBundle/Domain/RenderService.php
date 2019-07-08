@@ -37,18 +37,6 @@ class RenderService
 
     public function render(Request $request, array $props = []): Response
     {
-        if (!$this->isBot()) {
-            return new Response([
-                'body' => [
-                    'app' => null,
-                    'helmet' => [
-                        'meta' => '',
-                        'title' => '',
-                    ],
-                ],
-            ]);
-        }
-
         $jsonString = json_encode(
             $this->jsonSerializer->serialize([
                 'context' => $this->contextService->createContextFromRequest($request),
@@ -81,13 +69,5 @@ class RenderService
         ];
 
         return $response;
-    }
-
-    private function isBot(): bool
-    {
-        return (
-            isset($_SERVER['HTTP_USER_AGENT']) &&
-            preg_match('(bot|crawl|slurp|spider|mediapartners)i', $_SERVER['HTTP_USER_AGENT'])
-        );
     }
 }
