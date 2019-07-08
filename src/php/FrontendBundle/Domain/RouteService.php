@@ -113,17 +113,66 @@ class RouteService
         );
     }
 
-    private function generateRoutesForNode(Node $node, array $parentRoutes = null): array
+    private function generateRoutesForNode(Node $node, array $parentRoutes = []): array
     {
-        $route = '/' . trim($node->configuration['path'] ?? '', '/');
+        $project = reset($this->customerService->getCustomer()->projects);
 
-        return [
-            new Route([
+        $locales = $project->languages;
+        $defaultLocale = $project->defaultLanguage;
+
+        $routes = [];
+        foreach ($locales as $locale) {
+            $relativeRoute = '/' . trim(
+                $this->relativeRouteFor($node, $locale, $defaultLocale),
+                '/'
+            );
+
+            $parentPath = $this->determineParentPath($parentRoutes ?? [], $locale, $defaultLocale);
+
+            $routes[] = new Route([
                 'nodeId' => $node->nodeId,
-                'route' => $parentRoutes === null
-                    ? $route
-                    : rtrim(reset($parentRoutes)->route, '/') . $route,
-            ])
-        ];
+                'route' => rtrim($parentPath, '/') . $relativeRoute,
+                'locale' => $locale,
+            ]);
+        }
+
+        return $routes;
+    }
+
+    private function relativeRouteFor(Node $node, string $locale, string $defaultLocale): string
+    {
+        if (is_string($node->configuration['path'])) {
+            return $node->configuration['path'];
+        }
+
+        if (isset($node->configuration['path'][$locale])) {
+            return $node->configuration['path'][$locale];
+        }
+
+        if (isset($node->configuration['path'][$defaultLocale])) {
+            return $node->configuration['path'][$defaultLocale];
+        }
+
+        return '';
+    }
+
+    /**
+     * @param Route[] $parentRoutes
+     * @param string $locale
+     * @param string $defaultLocale
+     */
+    private function determineParentPath(array $parentRoutes, string $locale, string $defaultLocale): string
+    {
+        foreach ($parentRoutes as $route) {
+            if ($route->locale === $locale) {
+                return $route->route;
+            }
+        }
+        foreach ($parentRoutes as $route) {
+            if ($route->locale === $defaultLocale) {
+                return $route->route;
+            }
+        }
+        return '';
     }
 }
