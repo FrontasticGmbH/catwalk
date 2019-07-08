@@ -164,7 +164,7 @@
         </exec>
 
         <copy todir="${basedir}/bin/" >
-            <fileset dir="${builddir}/bin/" includes="server.js"/>
+            <fileset dir="${builddir}/assets/js" includes="server.js"/>
         </copy>
 
         <exec executable="git" failonerror="true" dir="${basedir}">
