@@ -234,6 +234,12 @@
             <tag name="routing.loader" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\EventListener\Http2LinkListener">
+            <argument>%kernel.root_dir%</argument>
+
+            <tag name="kernel.event_listener" event="kernel.request" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway">
             <argument type="service">
                 <service class="Doctrine\ORM\DocumentRepository">
