@@ -32,6 +32,11 @@ class CachingProductApi implements ProductApi
         $this->cache = $cache;
     }
 
+    public function getAggregate(): ProductApi
+    {
+        return $this->aggregate;
+    }
+
     /**
      * @param CategoryQuery $query
      * @return Category[]
