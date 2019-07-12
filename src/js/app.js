@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import _ from 'lodash'
 
 import app from './app/app'
 import IntlProvider from './app/intlProvider'
@@ -10,8 +9,6 @@ import store from './app/store'
 import Context from './app/context'
 
 import Preview from './preview'
-import PatternLibrary from './patternLibrary'
-import Patterns from './patternLibrary/patterns'
 import Node from './node'
 
 export default (mountNode, dataNode, tastics = null) => {
