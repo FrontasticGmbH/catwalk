@@ -24,7 +24,7 @@
         "babel-plugin-lodash": "^3.3.4",
         "babel-plugin-transform-require-ignore": "^0.1.1",
         "duplicate-package-checker-webpack-plugin": "^3.0.0",
-        "eslint-plugin-react-hooks": "^1.6.0",
+        "eslint-plugin-react-hooks": "^1.6.1",
         "mime": "1",
         "nodemon-webpack-plugin": "^4.0.8",
         "stats-webpack-plugin": "^0.7.0",
