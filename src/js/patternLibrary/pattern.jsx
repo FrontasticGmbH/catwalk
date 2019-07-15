@@ -30,6 +30,7 @@ class Pattern extends Component {
             let Component = this.props.pattern.component
             let testProps = Component.testProps || {}
 
+            // eslint-disable-next-line react/forbid-foreign-prop-types
             if (Component.propTypes && Component.propTypes.onChange && Component.propTypes.value) {
                 // Component has onChange listener as well as value prop.
 

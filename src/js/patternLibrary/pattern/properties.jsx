@@ -5,7 +5,7 @@ import _ from 'lodash'
 class Properties extends Component {
     render () {
         return (<ul className='c-patterns__properties'>
-            {_.toArray(_.map(this.props.component.propTypes, (definition, name) => {
+            {_.toArray(_.map(this.props.component.propTypes, (definition, name) => { // eslint-disable-line react/forbid-foreign-prop-types
                 // @TODO: Convert PropTypes back into something readable, if possible
                 return (<li key={name}>{name}</li>)
             }))}
