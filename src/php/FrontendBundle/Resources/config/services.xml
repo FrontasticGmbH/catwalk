@@ -200,7 +200,7 @@
             <factory
                 service="Frontastic\Common\ContentApiBundle\Domain\ContentApiFactory"
                 method="factor" />
-            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
+            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').project</argument>
         </service>
 
         <service id="frontastic.catwalk.cart_api" class="Frontastic\Common\AccountApiBundle\Domain\CartApi">
