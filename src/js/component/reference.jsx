@@ -10,6 +10,13 @@ import { isReferenceAbsoluteHttpOrMailtoLink } from '../app/referenceHelper'
 class Reference extends Component {
     render () {
         const { reference, children } = this.props
+
+        if (!reference) {
+            // eslint-disable-next-line no-console
+            console.warn('The reference given is not a proper reference, so we just returning null here.', reference)
+            return null
+        }
+
         if (!reference.type) {
             return <Fragment>{children}</Fragment>
         }
