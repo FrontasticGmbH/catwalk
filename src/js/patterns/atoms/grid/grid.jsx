@@ -25,7 +25,9 @@ class Grid extends React.Component {
     }
 
     componentWillMount () {
-        this.handleResize()
+        if(!isServer) {
+            this.handleResize()
+        }
     }
     componentDidMount () {
         if (window) {
