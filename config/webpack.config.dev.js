@@ -1,5 +1,3 @@
-'use strict'
-
 const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
@@ -72,8 +70,9 @@ module.exports = {
         // This is the URL that app is served from. We use "/" in development.
         publicPath: publicPath,
         // Point sourcemap entries to original disk location (format as URL on Windows)
-        devtoolModuleFilenameTemplate: info =>
-            path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
+        devtoolModuleFilenameTemplate: (info) => {
+            return path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')
+        },
     },
     resolve: {
         // This allows you to set a fallback for where Webpack should look for modules.
@@ -81,10 +80,11 @@ module.exports = {
         // if there are any conflicts. This matches Node resolution mechanism.
         // https://github.com/facebookincubator/create-react-app/issues/253
         modules: [
-            'node_modules/frontastic-catwalk/node_modules',
-            'node_modules/frontastic-common/node_modules',
+            // 'node_modules/frontastic-catwalk/node_modules',
+            // 'node_modules/frontastic-common/node_modules',
+            path.resolve(__dirname, '../../../node_modules'),
             path.resolve(__dirname, '../node_modules'),
-            paths.appNodeModules
+            paths.appNodeModules,
         ].concat(
             // It is guaranteed to exist because we tweak it in `env.js`
             process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
@@ -96,8 +96,7 @@ module.exports = {
         // `web` extension prefixes have been added for better support
         // for React Native Web.
         extensions: ['.web.js', '.js', '.jsx', '.json', '.web.jsx'],
-        alias: {
-        },
+        alias: {},
     },
     module: {
         strictExportPresence: true,
@@ -172,10 +171,9 @@ module.exports = {
                             // Necessary for external CSS imports to work
                             // https://github.com/facebookincubator/create-react-app/issues/2677
                             ident: 'postcss',
-                            plugins: () => [
-                                require('postcss-flexbugs-fixes'),
-                                autoprefixer(),
-                            ],
+                            plugins: () => {
+                                return [require('postcss-flexbugs-fixes'), autoprefixer()]
+                            },
                         },
                     },
                 ],
@@ -184,10 +182,10 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     {
-                        loader: "style-loader" // creates style nodes from JS strings
+                        loader: 'style-loader', // creates style nodes from JS strings
                     },
                     {
-                        loader: require.resolve('css-loader') // translates CSS into CommonJS
+                        loader: require.resolve('css-loader'), // translates CSS into CommonJS
                     },
                     {
                         loader: require.resolve('postcss-loader'),
@@ -195,10 +193,9 @@ module.exports = {
                             // Necessary for external CSS imports to work
                             // https://github.com/facebookincubator/create-react-app/issues/2677
                             ident: 'postcss',
-                            plugins: () => [
-                                require('postcss-flexbugs-fixes'),
-                                autoprefixer(),
-                            ],
+                            plugins: () => {
+                                return [require('postcss-flexbugs-fixes'), autoprefixer()]
+                            },
                         },
                     },
                     {
@@ -208,10 +205,10 @@ module.exports = {
                         loader: require.resolve('sass-loader'), // compiles Sass to CSS
                         options: {
                             sourceMap: true,
-                            sourceMapContents: false
-                        }
+                            sourceMapContents: false,
+                        },
                     },
-                ]
+                ],
             },
             // ** STOP ** Are you adding a new loader?
             // Remember to add the new extension(s) to the "file" loader exclusion list.
@@ -224,7 +221,7 @@ module.exports = {
         // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
         new webpack.DefinePlugin({
             PRODUCTION: JSON.stringify(PRODUCTION),
-            'process.env.NODE_ENV': '"development"'
+            'process.env.NODE_ENV': '"development"',
         }),
         // This is necessary to emit hot updates (currently CSS only):
         new webpack.HotModuleReplacementPlugin(),
@@ -236,7 +233,7 @@ module.exports = {
         // to restart the development server for Webpack to discover it. This plugin
         // makes the discovery automatic so you don't have to restart.
         // See https://github.com/facebookincubator/create-react-app/issues/186
-        //new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+        // new WatchMissingNodeModulesPlugin(paths.appNodeModules),
         // Moment.js is an extremely popular library that bundles large locale files
         // by default due to how Webpack interprets its code. This is a practical
         // solution that requires the user to opt into importing specific locales.
