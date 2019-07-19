@@ -5,56 +5,9 @@
         <tool-exists executable="yarn" />
 
         <!-- Ensure the base packages are linked to link-folder -->
-        <exec executable="yarn" failonerror="true" dir="${frontastic_basedir}/paas/libraries/common/">
-            <env key="CI" value="true" />
 
-            <arg value="link" />
 
-            <arg value="--link-folder" />
-            <arg value="../../../.yarn-links" />
-
-            <arg value="--registry" />
-            <arg value="https://registry.npmjs.org" />
-        </exec>
-
-        <exec executable="yarn" failonerror="true" dir="${frontastic_basedir}/paas/catwalk">
-            <env key="CI" value="true" />
-
-            <arg value="link" />
-
-            <arg value="--link-folder" />
-            <arg value="../../.yarn-links" />
-
-            <arg value="--registry" />
-            <arg value="https://registry.npmjs.org" />
-        </exec>
-
-        <!-- Link the base packages to our local node_modules -->
-        <exec executable="yarn" failonerror="true" dir="${basedir}">
-            <env key="CI" value="true" />
-
-            <arg value="--link-folder" />
-            <arg value="${relative_path}/.yarn-links" />
-
-            <arg value="--registry" />
-            <arg value="https://registry.npmjs.org" />
-
-            <arg value="link" />
-            <arg value="frontastic-common" />
-        </exec>
-
-        <exec executable="yarn" failonerror="true" dir="${basedir}">
-            <env key="CI" value="true" />
-
-            <arg value="--link-folder" />
-            <arg value="${relative_path}/.yarn-links" />
-
-            <arg value="--registry" />
-            <arg value="https://registry.npmjs.org" />
-
-            <arg value="link" />
-            <arg value="frontastic-catwalk" />
-        </exec>
+        <echo>============ ALAAAAAAAAARM: Toby needs to fix this. In the meantime, please run a `yarn install` in the root folder</echo>
 
         <!-- Perform install of remainder packages -->
         <exec executable="yarn" failonerror="true" dir="${basedir}">
@@ -63,8 +16,7 @@
             <arg value="--network-timeout" />
             <arg value="1000000000" />
 
-            <arg value="--link-folder" />
-            <arg value="${relative_path}/.yarn-links" />
+
 
             <arg value="install" />
 
