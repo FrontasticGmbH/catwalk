@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="React">
+    <target name="react:bootstrap" unless="${production}" extensionOf="-prepare:before~hook">
+        <tool-exists executable="yarn" />
+
+        <!-- Perform global js-install -->
+        <!-- This is actually a global task but since Catwalk is used everywhere, we are doing it here -->
+        <exec executable="yarn" failonerror="true" dir="${frontastic_basedir}">
+            <env key="CI" value="true" />
+
+            <arg value="--network-timeout" />
+            <arg value="1000000000" />
+
+            <arg value="install" />
+        </exec>
+    </target>
+</project>

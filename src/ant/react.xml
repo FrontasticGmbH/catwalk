@@ -1,32 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="React">
-    <target name="react:bootstrap" unless="${production}" extensionOf="-prepare:before~hook">
-        <property name="relative_path" value="${frontastic_basedir}" relative="yes" />
-        <tool-exists executable="yarn" />
-
-        <!-- Ensure the base packages are linked to link-folder -->
-
-
-        <echo>============ ALAAAAAAAAARM: Toby needs to fix this. In the meantime, please run a `yarn install` in the root folder</echo>
-
-        <!-- Perform install of remainder packages -->
-        <exec executable="yarn" failonerror="true" dir="${basedir}">
-            <env key="CI" value="true" />
-
-            <arg value="--network-timeout" />
-            <arg value="1000000000" />
-
-
-
-            <arg value="install" />
-
-            <arg value="--registry" />
-            <arg value="https://registry.npmjs.org" />
-            <arg value="--network-timeout" />
-            <arg value="1000000000" />
-        </exec>
-    </target>
-
     <target name="react:start">
         <tool-exists executable="yarn" />
 
