@@ -205,7 +205,7 @@ class ContextService
             'time' => microtime(),
         ]));
 
-        if($session instanceof SessionInterface) {
+        if ($session instanceof SessionInterface) {
             // This was disabled in order to make the maintenance page request listener work.
             $session->set('anonymousId', $anonymousId);
         }
