@@ -2,6 +2,8 @@ import { connect } from 'react-redux'
 import { IntlProvider, addLocaleData } from 'react-intl'
 import dot from 'dot-object'
 
+import ComponentInjector from './injector'
+
 import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
 
@@ -15,7 +17,7 @@ const messages = {
     de: deMessages,
 }
 
-export default connect(
+export default ComponentInjector.return('App.IntlProvider', connect(
     (globalState) => {
         let language = globalState.app.context.getLanguage()
 
@@ -24,4 +26,4 @@ export default connect(
             messages: dot.dot(messages[language] || {}),
         }
     }
-)(IntlProvider)
+)(IntlProvider))
