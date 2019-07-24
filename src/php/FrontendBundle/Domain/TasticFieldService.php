@@ -13,7 +13,7 @@ class TasticFieldService
     private $tasticDefinitionService;
 
     /**
-     * @var TasticFieldHandler[]
+     * @var TasticFieldHandlerV2[]
      */
     private $fieldHandlers = [];
 
@@ -26,7 +26,9 @@ class TasticFieldService
      * @var bool
      */
     private $debug;
-
+    /**
+    * @param TasticFieldHandler[]|TasticFieldHandlerV2[] $fieldHandlers
+    */
     public function __construct(
         TasticService $tasticDefinitionService,
         iterable $fieldHandlers = [],
@@ -40,17 +42,22 @@ class TasticFieldService
     }
 
     /**
+     * @param TasticFieldHandler|TasticFieldHandlerV2 $fieldHandler
      * @todo Should we allow multiple field handlers to work as a filter chain?
      */
-    private function addFieldHandler(TasticFieldHandler $fieldHandler)
+    private function addFieldHandler($fieldHandler)
     {
+        if ($fieldHandler instanceof TasticFieldHandler) {
+            $fieldHandler = new TasticFieldHandlerAdapterV2($fieldHandler);
+        }
+
         if (isset($this->fieldHandlers[$fieldHandler->getType()])) {
             throw new \LogicException('Duplicate field handler: "'. $fieldHandler->getType() . '"');
         }
         $this->fieldHandlers[$fieldHandler->getType()] = $fieldHandler;
     }
 
-    public function getFieldData(Context $context, Page $page): array
+    public function getFieldData(Context $context, Node $node, Page $page): array
     {
         $tasticDefinitionMap = $this->getTasticDefinitionMap();
 
@@ -69,6 +76,8 @@ class TasticFieldService
                     foreach ($definition->configurationSchema['schema'] as $fieldSet) {
                         foreach ($fieldSet['fields'] as $fieldDefinition) {
                             $fieldData = $this->setHandledFieldData(
+                                $node,
+                                $page,
                                 $context,
                                 $fieldData,
                                 $tastic,
@@ -84,6 +93,8 @@ class TasticFieldService
     }
 
     private function setHandledFieldData(
+        Node $node,
+        Page $page,
         Context $context,
         array $fieldData,
         Tastic $tastic,
@@ -92,6 +103,7 @@ class TasticFieldService
         $type = $this->getFieldType($fieldDefinition);
 
         $field = $fieldDefinition['field'];
+        $fieldHandler = $this->fieldHandlers[$type];
 
         if (!isset($fieldData[$tastic->tasticId])) {
             $fieldData[$tastic->tasticId] = [];
@@ -101,7 +113,9 @@ class TasticFieldService
             $fieldData[$tastic->tasticId][$field] = $this->resolveFieldData(
                 $fieldDefinition,
                 $this->getFieldValue($fieldDefinition, $tastic->configuration),
-                $context
+                $context,
+                $node,
+                $page
             );
         } catch (\Throwable $e) {
             $fieldData[$tastic->tasticId][$field] = (object)[
@@ -118,7 +132,7 @@ class TasticFieldService
         return $fieldData;
     }
 
-    private function resolveFieldData(array $fieldDefinition, $fieldData, Context $context)
+    private function resolveFieldData(array $fieldDefinition, $fieldData, Context $context, Node $node, Page $page)
     {
         $type = $this->getFieldType($fieldDefinition);
 
@@ -131,7 +145,9 @@ class TasticFieldService
                     $resolvedGroupValue[$groupIndex][$subFieldDefinition['field']] = $this->resolveFieldData(
                         $subFieldDefinition,
                         $this->getFieldValue($subFieldDefinition, $groupValue),
-                        $context
+                        $context,
+                        $node,
+                        $page
                     );
                 }
             }
@@ -142,7 +158,7 @@ class TasticFieldService
             return $fieldData;
         }
 
-        return $this->fieldHandlers[$type]->handle($context, $fieldData);
+        return $this->fieldHandlers[$type]->handle($context, $node, $page, $fieldData);
     }
 
     /**
