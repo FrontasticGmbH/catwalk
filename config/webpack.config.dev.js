@@ -80,9 +80,9 @@ module.exports = {
         // if there are any conflicts. This matches Node resolution mechanism.
         // https://github.com/facebookincubator/create-react-app/issues/253
         modules: [
-            path.resolve(__dirname, '../../../node_modules'), // global node_modules
-            path.resolve(__dirname, '../node_modules'), // node_modules of catwalk
             paths.appNodeModules, // the node modules of the project
+            path.resolve(__dirname, '../node_modules'), // node_modules of catwalk
+            path.resolve(__dirname, '../../../node_modules'), // global node_modules
         ].concat(
             // It is guaranteed to exist because we tweak it in `env.js`
             process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
