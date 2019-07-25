@@ -28,7 +28,7 @@ class ContentList extends StreamHandler
     {
         try {
             return Promise\promise_for(
-                $this->contentApi->query(Query::fromArray($stream->configuration))
+                $this->contentApi->query(Query::fromArray($stream->configuration), $context->locale)
             );
         } catch (\Exception $exception) {
             return Promise\rejection_for($exception);

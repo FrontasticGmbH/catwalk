@@ -8,6 +8,7 @@ use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Routing\Route;
 
@@ -204,8 +205,10 @@ class ContextService
             'time' => microtime(),
         ]));
 
-        // This was disabled in order to make the maintenance page request listener work.
-        // $session->set('anonymousId', $anonymousId);
+        if ($session instanceof SessionInterface) {
+            // This was disabled in order to make the maintenance page request listener work.
+            $session->set('anonymousId', $anonymousId);
+        }
 
         return new Session([
             'loggedIn' => false,

@@ -282,7 +282,7 @@ const mainConfig = {
             // Options similar to the same options in webpackOptions.output
             // both options are optional
             filename: 'assets/css/[name].[chunkhash:8].css',
-            chunkFilename: 'assets/css/[id].[chunkhash:8].css'
+            chunkFilename: 'assets/css/[name].[chunkhash:8].css'
         }),
 
         // Generate a manifest file which contains a mapping of all asset filenames

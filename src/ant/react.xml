@@ -68,6 +68,7 @@
                 <include name="**/main.*.js" />
                 <include name="**/*~main.*.chunk.js" />
                 <include name="**/main.*.css" />
+                <include name="**/*~main.*.css" />
             </fileset>
         </foreach>
 
