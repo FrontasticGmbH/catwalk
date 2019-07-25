@@ -80,11 +80,9 @@ module.exports = {
         // if there are any conflicts. This matches Node resolution mechanism.
         // https://github.com/facebookincubator/create-react-app/issues/253
         modules: [
-            // 'node_modules/frontastic-catwalk/node_modules',
-            // 'node_modules/frontastic-common/node_modules',
-            path.resolve(__dirname, '../../../node_modules'),
-            path.resolve(__dirname, '../node_modules'),
-            paths.appNodeModules,
+            path.resolve(__dirname, '../../../node_modules'), // global node_modules
+            path.resolve(__dirname, '../node_modules'), // node_modules of catwalk
+            paths.appNodeModules, // the node modules of the project
         ].concat(
             // It is guaranteed to exist because we tweak it in `env.js`
             process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
@@ -144,15 +142,17 @@ module.exports = {
                 // On windows it can happen that the frontastic packages are
                 // not linked but copied. In this case babel should still
                 // compile the files in those folders.
-                exclude: webpackExcludes(['frontastic-catwalk', 'frontastic-common']),
-                loader: require.resolve('babel-loader'),
-                options: {
-                    // This is a feature of `babel-loader` for webpack (not Babel itself).
-                    // It enables caching results in ./node_modules/.cache/babel-loader/
-                    // directory for faster rebuilds.
-                    cacheDirectory: true,
-                    presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
-                    plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import'],
+                // exclude: webpackExcludes(['frontastic-catwalk', 'frontastic-common']),
+                use: {
+                    loader: require.resolve('babel-loader'),
+                    options: {
+                        // This is a feature of `babel-loader` for webpack (not Babel itself).
+                        // It enables caching results in ./node_modules/.cache/babel-loader/
+                        // directory for faster rebuilds.
+                        cacheDirectory: true,
+                        presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
+                        plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import'],
+                    },
                 },
             },
             {

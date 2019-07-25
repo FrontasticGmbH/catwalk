@@ -12,6 +12,7 @@
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "@babel/preset-env": "^7.5.4",
         "@babel/preset-react": "^7.0.0",
+        "@rehooks/component-size": "^1.0.3",
         "@storybook/addon-actions": "^5.1.1",
         "@storybook/addon-info": "^5.1.1",
         "@storybook/addon-knobs": "^5.1.1",
