@@ -9,6 +9,7 @@ import tasticDataConnector from './tasticDataConnector'
 class Tastic extends Component {
     render () {
         const tastics = (window && window.tastics) || (global && global.tastics) || []
+        const tastic = this.props.tastic
 
         if (!tastics[tastic.tasticType]) {
             if (!this.props.isDebug) {
