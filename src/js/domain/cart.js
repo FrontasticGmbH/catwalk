@@ -7,6 +7,7 @@ class Cart {
         this.custom = cart.custom || {}
         this.lineItems = cart.lineItems || []
         this.sum = +cart.sum || 0
+        this.currency = cart.currency || null
         this.email = cart.email || null
         this.birthday = cart.birthday || null
         this.shippingMethod = cart.shippingMethod || null
