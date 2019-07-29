@@ -20,6 +20,7 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new \QafooLabs\Bundle\NoFrameworkBundle\QafooLabsNoFrameworkBundle(),
+            new \KPhoen\RulerZBundle\KPhoenRulerZBundle(),
 
             new \Frontastic\Common\CoreBundle\FrontasticCommonCoreBundle(),
             new \Frontastic\Common\ReplicatorBundle\FrontasticCommonReplicatorBundle(),
