@@ -84,8 +84,15 @@ class Cart {
     }
 
     hasCompletePayments () {
+        let paymentPaid = false
+        this.payments.forEach(function (payment) {
+            if ("paid" === payment.paymentStatus){
+                paymentPaid = true
+            }
+        })
+
         return (
-            !!this.payments.length &&
+            paymentPaid &&
             (this.getPayedAmount() >= this.sum)
         )
     }
