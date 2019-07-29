@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import Markdown from '../../component/markdown'
-import {FormattedDate, FormattedTime} from "react-intl";
+import { FormattedDate, FormattedTime } from 'react-intl'
 
 class ContentTastic extends Component {
     render () {
@@ -24,7 +24,7 @@ class ContentTastic extends Component {
                         <Markdown text={attribute.content} />
                     </div>)
                 case 'DateTime':
-                    const date = new Date(attribute.content);
+                    const date = new Date(attribute.content)
                     return (<div className={className} key={attribute.attributeId}>
                         <FormattedDate value={date} /> <FormattedTime value={date} />
                     </div>)
