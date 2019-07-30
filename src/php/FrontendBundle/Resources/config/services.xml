@@ -410,5 +410,15 @@
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\SitemapService">
             <argument type="tagged" tag="frontend.sitemapExtension" />
         </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\ArrayContains">
+            <tag name="rulerz.operator" target="native" operator="contains" inline="true" />
+        </service>
+        <service id="Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\CategoriesContain">
+            <argument type="service" id="frontastic.catwalk.product_api" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+
+            <tag name="rulerz.operator" target="native" operator="categoriescontain" />
+        </service>
     </services>
 </container>
