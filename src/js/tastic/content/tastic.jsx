@@ -30,6 +30,7 @@ class ContentTastic extends Component {
                     </div>)
                 case 'LIST':
                     if (!_.isArray(attribute.content)) {
+                        // eslint-disable-next-line no-console
                         console.warn('LIST content provided but content is not an array, ignoring.')
                         return null
                     }
@@ -55,6 +56,7 @@ class ContentTastic extends Component {
                 default:
                     let content = attribute.content
                     if (!React.isValidElement(content)) {
+                        // eslint-disable-next-line no-console
                         console.warn('Retrieved not renderable content: "' + content + '". Skipping it.')
                         return null
                     }
