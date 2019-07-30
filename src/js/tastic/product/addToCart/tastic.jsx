@@ -105,7 +105,7 @@ class ProductAddToCartTastic extends Component {
                                     {showPriceInVariants ?
                                         ' – ' + (variant.price / 100).toLocaleString(
                                             (this.props.context.locale).replace('_', '-'),
-                                            { style: 'currency', currency: variant.currency }
+                                            { style: 'currency', currency: variant.currency || this.props.context.currency }
                                         )
                                     : null}
                                 </option>)
