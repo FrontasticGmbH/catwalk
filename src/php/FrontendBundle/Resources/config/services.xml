@@ -136,6 +136,7 @@
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldService">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
             <argument type="tagged" tag="frontend.tasticFieldHandler" />
+            <argument>%kernel.debug%</argument>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\TreeFieldHandler" class="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\TreeFieldHandler">
