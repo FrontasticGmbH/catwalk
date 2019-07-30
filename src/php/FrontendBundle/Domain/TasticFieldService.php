@@ -102,7 +102,7 @@ class TasticFieldService
                 $context,
                 ($tastic->configuration->$field !== null
                     ? $tastic->configuration->$field
-                    : $fieldDefinition['default']
+                    : $fieldDefinition['default'] ?? null
                 )
             );
         } catch (\Throwable $e) {
