@@ -17,43 +17,23 @@ class MoleculesStreamTeaser extends Component {
         let variant = this.props.variant || product.variants[0]
 
         return (<article className='c-teaser o-block' itemScope itemType='http://schema.org/Product'>
-            <Link itemProp='url' className='c-teaser__full-link'
-                to={this.props.product._url || ''}
-            >
-                <figure className='c-teaser__figure o-block__figure'>
-                    <RemoteImage
-                        className='c-teaser__image'
-                        url={variant.images[0] || NoImage}
-                        alt={product.name}
-                        cropRatio='1:1'
-                        itemProp='image'
-                        options={{ crop: 'pad', background: 'white' }}
-                    />
-                </figure>
-                <div className='o-block__body'>
+
+
+            <img
+                loading='lazy'
+                width={100}
+                height={200}
+                alt={this.props.alt}
+                src={variant.images[0] || NoImage}
+            />
+
+            <div className='o-block__body'>
                     <div className='c-teaser__body'>
                         <div className='c-teaser__caption'>
-                            <h3 className='c-teaser__title c-heading-teaser' itemProp='name'>
-                                {product.name}
-                            </h3>
-                            {variant.attributes.designer ?
-                                <div className='c-heading-teaser-subheading'>{variant.attributes.designer}</div>
-                            : null}
+                            {product.name}
                         </div>
-                        {/*<div className='c-teaser__prices' itemScope itemType='http://schema.org/Offer'>
-                            <AtomsPrice className='c-teaser__price'
-                                value={variant.discountedPrice || variant.price || 0}
-                                highlight={variant.discountedPrice && (this.props.showPercent || this.props.showStrikePrice)} />
-                            {variant.discountedPrice && this.props.showStrikePrice ? <span>
-                                &nbsp;<AtomsPrice className='c-teaser__price' old value={variant.price || 0} />
-                            </span> : null}
-                            {variant.discountedPrice && this.props.showPercent ? <span className='c-highlight'>
-                                &nbsp;-&thinsp;{100 - Math.ceil(variant.discountedPrice / variant.price * 100)}&thinsp;%
-                            </span> : null}
-                        </div>*/}
                     </div>
                 </div>
-            </Link>
         </article>)
     }
 }
