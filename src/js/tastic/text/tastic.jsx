@@ -4,7 +4,7 @@ import {withTranslatedTasticData} from "../../component/withTranslatedTasticData
 
 class TextTastic extends Component {
     render () {
-        const {text} = this.props
+        const {text} = this.props.data
         return <div className='text'>{text}</div>
     }
 }
