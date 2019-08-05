@@ -131,15 +131,7 @@ class ContextService
             'locale' => $locale,
             'currency' => $localeObject->currency,
             'session' => $session ?: new Session(),
-            'routes' => array_map(
-                function (Route $route): object {
-                    return (object) [
-                        'path' => $route->getPath(),
-                        'requirements' => (object) $route->getRequirements(),
-                    ];
-                },
-                iterator_to_array($this->router->getRouteCollection())
-            ),
+            'routes' => $this->getRoutes($locale),
         ]);
 
         foreach ($this->decorators as $decorator) {
@@ -214,5 +206,32 @@ class ContextService
             'loggedIn' => false,
             'account' => new Account(['accountId' => $anonymousId]),
         ]);
+    }
+
+    private function getRoutes(string $locale): array
+    {
+        $routes = array_map(
+            function (Route $route): object {
+                return (object)[
+                    'path' => $route->getPath(),
+                    'requirements' => (object)$route->getRequirements(),
+                ];
+            },
+            iterator_to_array($this->router->getRouteCollection())
+        );
+
+        $localeSuffix = '.' . $locale;
+        $localeSuffixLength = strlen($localeSuffix);
+
+        foreach ($routes as $id => $route) {
+            if (substr_compare($id, $localeSuffix, -$localeSuffixLength) === 0) {
+                $rawId = substr($id, 0, strlen($id) - $localeSuffixLength);
+                if (!isset($routes[$rawId])) {
+                    $routes[$rawId] = $route;
+                }
+            }
+        }
+
+        return $routes;
     }
 }
