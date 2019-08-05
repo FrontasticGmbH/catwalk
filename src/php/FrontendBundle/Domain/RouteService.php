@@ -70,9 +70,12 @@ class RouteService
     {
         $routes = [];
 
-        usort($nodes, function (Node $a, Node $b) {
-            return (strlen($a->path) - strlen($b->path));
-        });
+        usort(
+            $nodes,
+            function (Node $a, Node $b) {
+                return (strlen($a->path) - strlen($b->path));
+            }
+        );
 
         foreach ($nodes as $node) {
             if (empty($node->configuration['path'])) {
@@ -117,17 +120,14 @@ class RouteService
     {
         $project = reset($this->customerService->getCustomer()->projects);
 
-        $locales = $project->languages;
-        $defaultLocale = $project->defaultLanguage;
-
         $routes = [];
-        foreach ($locales as $locale) {
+        foreach ($project->languages as $locale) {
             $relativeRoute = '/' . trim(
-                $this->relativeRouteFor($node, $locale, $defaultLocale),
-                '/'
-            );
+                    $this->relativeRouteFor($node, $locale),
+                    '/'
+                );
 
-            $parentPath = $this->determineParentPath($parentRoutes ?? [], $locale, $defaultLocale);
+            $parentPath = $this->determineParentPath($parentRoutes, $locale);
 
             $routes[] = new Route([
                 'nodeId' => $node->nodeId,
@@ -139,37 +139,24 @@ class RouteService
         return $routes;
     }
 
-    private function relativeRouteFor(Node $node, string $locale, string $defaultLocale): string
+    private function relativeRouteFor(Node $node, string $locale): string
     {
-        if (is_string($node->configuration['path'])) {
-            return $node->configuration['path'];
+        if (isset($node->configuration['pathTranslations'][$locale])) {
+            return $node->configuration['pathTranslations'][$locale];
         }
 
-        if (isset($node->configuration['path'][$locale])) {
-            return $node->configuration['path'][$locale];
-        }
-
-        if (isset($node->configuration['path'][$defaultLocale])) {
-            return $node->configuration['path'][$defaultLocale];
-        }
-
-        return '';
+        return $node->configuration['path'] ?? '';
     }
 
     /**
      * @param Route[] $parentRoutes
      * @param string $locale
-     * @param string $defaultLocale
+     * @return string
      */
-    private function determineParentPath(array $parentRoutes, string $locale, string $defaultLocale): string
+    private function determineParentPath(array $parentRoutes, string $locale): string
     {
         foreach ($parentRoutes as $route) {
             if ($route->locale === $locale) {
-                return $route->route;
-            }
-        }
-        foreach ($parentRoutes as $route) {
-            if ($route->locale === $defaultLocale) {
                 return $route->route;
             }
         }
