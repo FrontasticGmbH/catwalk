@@ -26,7 +26,6 @@ export const translateTasticData = (data, tasticSchema, context) => {
         }
     })
 
-    console.warn(translatedData)
     return translatedData
 }
 
