@@ -37,9 +37,9 @@ class RouteServiceTest extends TestCase
                             'languages' => [
                                 'en_GB',
                                 'de_DE',
-                            ]
-                        ])
-                    ]
+                            ],
+                        ]),
+                    ],
                 ])
             ));
     }
@@ -53,28 +53,28 @@ class RouteServiceTest extends TestCase
             'path' => '/',
             'configuration' => [
                 'path' => '/',
-            ]
+            ],
         ]);
         $nodes[] = new Node([
             'nodeId' => 'n2',
             'path' => '/n1',
             'configuration' => [
                 'path' => 'node2',
-            ]
+            ],
         ]);
         $nodes[] = new Node([
             'nodeId' => 'n3',
             'path' => '/n1',
             'configuration' => [
                 'path' => 'node3',
-            ]
+            ],
         ]);
         $nodes[] = new Node([
             'nodeId' => 'n4',
             'path' => '/n1/n3',
             'configuration' => [
                 'path' => 'node4',
-            ]
+            ],
         ]);
 
         $actualRoutes = $this->routeService->generateRoutes($nodes);
@@ -134,31 +134,28 @@ class RouteServiceTest extends TestCase
             'nodeId' => 'n1',
             'path' => '/',
             'configuration' => [
-                'path' => [
-                    'en_GB' => '/',
-                    'de_DE' => '/'
-                ],
-            ]
+                'path' => '/',
+            ],
         ]);
         $nodes[] = new Node([
             'nodeId' => 'n2',
             'path' => '/n1',
             'configuration' => [
-                'path' => [
-                    'en_GB' => 'fork',
-                    'de_DE' => 'gabel'
+                'path' => 'fork',
+                'pathTranslations' => [
+                    'de_DE' => 'gabel',
                 ],
-            ]
+            ],
         ]);
         $nodes[] = new Node([
             'nodeId' => 'n3',
             'path' => '/n1/n2',
             'configuration' => [
-                'path' => [
-                    'en_GB' => 'knife',
-                    'de_DE' => 'messer'
+                'path' => 'knife',
+                'pathTranslations' => [
+                    'de_DE' => 'messer',
                 ],
-            ]
+            ],
         ]);
 
         $actualRoutes = $this->routeService->generateRoutes($nodes);
@@ -168,32 +165,32 @@ class RouteServiceTest extends TestCase
                 new Route([
                     'nodeId' => 'n1',
                     'route' => '/',
-                    'locale' => 'en_GB'
+                    'locale' => 'en_GB',
                 ]),
                 new Route([
                     'nodeId' => 'n1',
                     'route' => '/',
-                    'locale' => 'de_DE'
+                    'locale' => 'de_DE',
                 ]),
                 new Route([
                     'nodeId' => 'n2',
                     'route' => '/fork',
-                    'locale' => 'en_GB'
+                    'locale' => 'en_GB',
                 ]),
                 new Route([
                     'nodeId' => 'n2',
                     'route' => '/gabel',
-                    'locale' => 'de_DE'
+                    'locale' => 'de_DE',
                 ]),
                 new Route([
                     'nodeId' => 'n3',
                     'route' => '/fork/knife',
-                    'locale' => 'en_GB'
+                    'locale' => 'en_GB',
                 ]),
                 new Route([
                     'nodeId' => 'n3',
                     'route' => '/gabel/messer',
-                    'locale' => 'de_DE'
+                    'locale' => 'de_DE',
                 ]),
             ],
             $actualRoutes
@@ -208,29 +205,25 @@ class RouteServiceTest extends TestCase
             'nodeId' => 'n1',
             'path' => '/',
             'configuration' => [
-                'path' => [
-                    'en_GB' => '/',
-                ],
-            ]
+                'path' => '/',
+            ],
         ]);
         $nodes[] = new Node([
             'nodeId' => 'n2',
             'path' => '/n1',
             'configuration' => [
-                'path' => [
-                    'en_GB' => 'fork',
-                ],
-            ]
+                'path' => 'fork',
+            ],
         ]);
         $nodes[] = new Node([
             'nodeId' => 'n3',
             'path' => '/n1/n2',
             'configuration' => [
-                'path' => [
-                    'en_GB' => 'knife',
-                    'de_DE' => 'messer'
+                'path' => 'knife',
+                'pathTranslations' => [
+                    'de_DE' => 'messer',
                 ],
-            ]
+            ],
         ]);
 
         $actualRoutes = $this->routeService->generateRoutes($nodes);
@@ -240,32 +233,32 @@ class RouteServiceTest extends TestCase
                 new Route([
                     'nodeId' => 'n1',
                     'route' => '/',
-                    'locale' => 'en_GB'
+                    'locale' => 'en_GB',
                 ]),
                 new Route([
                     'nodeId' => 'n1',
                     'route' => '/',
-                    'locale' => 'de_DE'
+                    'locale' => 'de_DE',
                 ]),
                 new Route([
                     'nodeId' => 'n2',
                     'route' => '/fork',
-                    'locale' => 'en_GB'
+                    'locale' => 'en_GB',
                 ]),
                 new Route([
                     'nodeId' => 'n2',
                     'route' => '/fork',
-                    'locale' => 'de_DE'
+                    'locale' => 'de_DE',
                 ]),
                 new Route([
                     'nodeId' => 'n3',
                     'route' => '/fork/knife',
-                    'locale' => 'en_GB'
+                    'locale' => 'en_GB',
                 ]),
                 new Route([
                     'nodeId' => 'n3',
                     'route' => '/fork/messer',
-                    'locale' => 'de_DE'
+                    'locale' => 'de_DE',
                 ]),
             ],
             $actualRoutes
@@ -281,24 +274,24 @@ class RouteServiceTest extends TestCase
             'path' => '/',
             'configuration' => [
                 'path' => '/',
-            ]
+            ],
         ]);
         $nodes[] = new Node([
             'nodeId' => 'n2',
             'path' => '/n1',
             'configuration' => [
-                'path' => [
-                    'en_GB' => 'fork',
-                    'de_DE' => 'gabel'
+                'path' => 'fork',
+                'pathTranslations' => [
+                    'de_DE' => 'gabel',
                 ],
-            ]
+            ],
         ]);
         $nodes[] = new Node([
             'nodeId' => 'n3',
             'path' => '/n1/n2',
             'configuration' => [
                 'path' => 'knife',
-            ]
+            ],
         ]);
 
         $actualRoutes = $this->routeService->generateRoutes($nodes);
@@ -308,32 +301,32 @@ class RouteServiceTest extends TestCase
                 new Route([
                     'nodeId' => 'n1',
                     'route' => '/',
-                    'locale' => 'en_GB'
+                    'locale' => 'en_GB',
                 ]),
                 new Route([
                     'nodeId' => 'n1',
                     'route' => '/',
-                    'locale' => 'de_DE'
+                    'locale' => 'de_DE',
                 ]),
                 new Route([
                     'nodeId' => 'n2',
                     'route' => '/fork',
-                    'locale' => 'en_GB'
+                    'locale' => 'en_GB',
                 ]),
                 new Route([
                     'nodeId' => 'n2',
-                    'route' => '/fork',
-                    'locale' => 'de_DE'
+                    'route' => '/gabel',
+                    'locale' => 'de_DE',
                 ]),
                 new Route([
                     'nodeId' => 'n3',
                     'route' => '/fork/knife',
-                    'locale' => 'en_GB'
+                    'locale' => 'en_GB',
                 ]),
                 new Route([
                     'nodeId' => 'n3',
-                    'route' => '/fork/messer',
-                    'locale' => 'de_DE'
+                    'route' => '/gabel/knife',
+                    'locale' => 'de_DE',
                 ]),
             ],
             $actualRoutes

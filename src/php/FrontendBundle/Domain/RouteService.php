@@ -23,7 +23,7 @@ class RouteService
     }
 
     /**
-     * @return \Frontastic\Catwalk\FrontendBundle\Domain\Route[]
+     * @return Route[]
      */
     public function getRoutes(): array
     {
@@ -55,7 +55,7 @@ class RouteService
     }
 
     /**
-     * @param \Frontastic\Catwalk\FrontendBundle\Domain\Node[] $nodes
+     * @param Node[] $nodes
      */
     public function rebuildRoutes(array $nodes): void
     {
@@ -63,8 +63,8 @@ class RouteService
     }
 
     /**
-     * @param \Frontastic\Catwalk\FrontendBundle\Domain\Node[] $nodes
-     * @return \Frontastic\Catwalk\FrontendBundle\Domain\Route[]
+     * @param Node[] $nodes
+     * @return Route[]
      */
     public function generateRoutes(array $nodes): array
     {
@@ -122,7 +122,9 @@ class RouteService
 
         $routes = [];
         foreach ($project->languages as $locale) {
-            $relativeRoute = '/' . trim(
+            $relativeRoute =
+                '/' .
+                trim(
                     $this->relativeRouteFor($node, $locale),
                     '/'
                 );
