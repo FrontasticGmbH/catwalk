@@ -13,7 +13,7 @@ import PropTypes from 'prop-types'
  * // The following tastic has a tastic field "text" that is translatable.
  * class TextTastic extends Component {
  *  render () {
- *      const {text} = this.props
+ *      const {text} = this.props.data
  *      return <div className='text'>{text}</div>
  *  }
  * }
