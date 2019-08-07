@@ -58,7 +58,7 @@ const translateTasticGroupField = (groupData, groupSchema, context) => {
 }
 
 const isTranslatableString = (fieldSchema) => {
-    if (fieldSchema.type !== 'string') {
+    if (!['string', 'text'].includes(fieldSchema.type)) {
         return false
     }
 
