@@ -113,24 +113,6 @@ let serverConfig = {
         // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
         // You can remove this if you don't use Moment.js:
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-
-        new NodemonPlugin({
-            // What to watch.
-            watch: [paths.appSrc, paths.appSrc + '../../catwalk/src'],
-
-            // Files to ignore.
-            ignore: ['*.js.map'],
-
-            // Detailed log.
-            verbose: true,
-
-            // If using more than one entry, you can specify
-            // which output file will be restarted.
-            script: 'build/assets/js/devServer.js',
-
-            // Extensions to watch
-            ext: 'js,jsx',
-        }),
     ],
     output: {
         ...baseConfig.output,
