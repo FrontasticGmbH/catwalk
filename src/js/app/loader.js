@@ -69,6 +69,7 @@ let Loader = function (store, router, api) {
         }
 
         this.loaders.cart.get()
+        this.loaders.wishlist.get()
 
         switch (route.route) {
         case 'Frontastic.Frontend.Master.Checkout.finished':
@@ -99,7 +100,7 @@ let Loader = function (store, router, api) {
             break
         default:
             if (route.route.substr(0, 5) === 'node_') {
-                route.parameters.nodeId = route.route.substr(5)
+                route.parameters.nodeId = route.route.substr(5).split('.')[0]
                 this.loaders.node.loadNode(route.parameters)
             }
         }

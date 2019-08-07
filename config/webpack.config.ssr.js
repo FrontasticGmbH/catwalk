@@ -1,5 +1,3 @@
-'use strict'
-
 const baseConfig = require('./webpack.config.dev.js')
 const paths = require('./paths')
 const webpack = require('webpack')
@@ -60,20 +58,21 @@ let serverConfig = {
                 // On windows it can happen that the frontastic packages are
                 // not linked but copied. In this case babel should still
                 // compile the files in those folders.
-                exclude: webpackExcludes(['frontastic-catwalk', 'frontastic-common']),
-                loader: require.resolve('babel-loader'),
-                options: {
-                    // This is a feature of `babel-loader` for webpack (not Babel itself).
-                    // It enables caching results in ./node_modules/.cache/babel-loader/
-                    // directory for faster rebuilds.
-                    cacheDirectory: true,
-                    presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
-                    plugins: [
-                        '@babel/plugin-proposal-class-properties',
-                        '@babel/plugin-syntax-dynamic-import',
-                        'lodash',
-                        ['babel-plugin-transform-require-ignore', { 'extensions': ['.less', '.sass', '.css'] }],
-                    ],
+                use: {
+                    loader: require.resolve('babel-loader'),
+                    options: {
+                        // This is a feature of `babel-loader` for webpack (not Babel itself).
+                        // It enables caching results in ./node_modules/.cache/babel-loader/
+                        // directory for faster rebuilds.
+                        cacheDirectory: true,
+                        presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
+                        plugins: [
+                            '@babel/plugin-proposal-class-properties',
+                            '@babel/plugin-syntax-dynamic-import',
+                            'lodash',
+                            ['babel-plugin-transform-require-ignore', { extensions: ['.less', '.sass', '.css'] }],
+                        ],
+                    },
                 },
             },
             // ** STOP ** Are you adding a new loader?
@@ -87,23 +86,23 @@ let serverConfig = {
         // Otherwise React will be compiled in the very slow development mode.
         new webpack.DefinePlugin({
             PRODUCTION: JSON.stringify(false),
-            'process.env.NODE_ENV': '"development"'
+            'process.env.NODE_ENV': '"development"',
         }),
 
         new webpack.IgnorePlugin(/^\.css$/, /\.scss$/),
 
         new webpack.ProvidePlugin({
-            'document': 'min-document',
-            'self': 'node-noop',
+            document: 'min-document',
+            self: 'node-noop',
             'self.navigator.userAgent': 'empty-string',
             'window.navigator.userAgent': 'empty-string',
             'window.navigation.userAgent': 'empty-string',
             'navigator.userAgent': 'empty-string',
-            'window': 'node-noop',
-            'location': 'node-noop',
+            window: 'node-noop',
+            location: 'node-noop',
             'window.location.href': 'empty-string',
             'window.location': 'node-noop',
-            'hostname': 'node-noop',
+            hostname: 'node-noop',
         }),
 
         // Moment.js is an extremely popular library that bundles large locale files
@@ -115,30 +114,26 @@ let serverConfig = {
 
         new NodemonPlugin({
             // What to watch.
-            watch: [
-                paths.appSrc,
-                paths.appSrc + '../../catwalk/src',
-            ],
-         
+            watch: [paths.appSrc, paths.appSrc + '../../catwalk/src'],
+
             // Files to ignore.
             ignore: ['*.js.map'],
-         
+
             // Detailed log.
             verbose: true,
-         
+
             // If using more than one entry, you can specify
             // which output file will be restarted.
             script: 'build/assets/js/devServer.js',
-         
+
             // Extensions to watch
-            ext: 'js,jsx'
-        })
+            ext: 'js,jsx',
+        }),
     ],
     output: {
         ...baseConfig.output,
         filename: 'assets/js/devServer.js',
-    }
+    },
 }
-
 
 module.exports = serverConfig

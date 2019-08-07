@@ -4,8 +4,16 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher;
 
 use Kore\DataObject\DataObject;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields) FIXME: Refactor
+ */
 class PageMatcherContext extends DataObject
 {
+    /**
+     * @var object|null
+     */
+    public $entity;
+
     /**
      * @var string|null
      */

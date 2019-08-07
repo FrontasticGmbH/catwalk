@@ -59,6 +59,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\MasterService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway" />
+            <argument type="service" id="rulerz" />
 
             <tag name="endpoint.target" channel="page-matcher" />
         </service>
@@ -135,6 +136,7 @@
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldService">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
             <argument type="tagged" tag="frontend.tasticFieldHandler" />
+            <argument>%kernel.debug%</argument>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\TreeFieldHandler" class="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\TreeFieldHandler">
@@ -225,6 +227,7 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService" />
             <argument>%kernel.cache_dir%</argument>
         </service>
 
@@ -408,6 +411,16 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\SitemapService">
             <argument type="tagged" tag="frontend.sitemapExtension" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\ArrayContains">
+            <tag name="rulerz.operator" target="native" operator="contains" inline="true" />
+        </service>
+        <service id="Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\CategoriesContain">
+            <argument type="service" id="frontastic.catwalk.product_api" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+
+            <tag name="rulerz.operator" target="native" operator="categoriescontain" />
         </service>
     </services>
 </container>

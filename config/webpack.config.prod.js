@@ -1,5 +1,3 @@
-'use strict'
-
 const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
@@ -44,7 +42,7 @@ const cssFilename = 'assets/css/[name].[contenthash:8].css'
 // To have this structure working with relative paths, we have to use custom options.
 const extractTextPluginOptions = shouldUseRelativeAssetPaths
     ? // Making sure that the publicPath goes back to to build folder.
-        { publicPath: Array(cssFilename.split('/').length).join('../') }
+    { publicPath: Array(cssFilename.split('/').length).join('../') }
     : {}
 
 // This is the production configuration.
@@ -72,10 +70,9 @@ const mainConfig = {
         // We inferred the 'public path' (such as / or /my-project) from homepage.
         publicPath: publicPath,
         // Point sourcemap entries to original disk location (format as URL on Windows)
-        devtoolModuleFilenameTemplate: info =>
-            path
-                .relative(paths.appSrc, info.absoluteResourcePath)
-                .replace(/\\/g, '/'),
+        devtoolModuleFilenameTemplate: (info) => {
+            return path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/')
+        },
     },
     resolve: {
         // This allows you to set a fallback for where Webpack should look for modules.
@@ -83,10 +80,11 @@ const mainConfig = {
         // if there are any conflicts. This matches Node resolution mechanism.
         // https://github.com/facebookincubator/create-react-app/issues/253
         modules: [
-            'node_modules/frontastic-catwalk/node_modules',
-            'node_modules/frontastic-common/node_modules',
+            // 'node_modules/frontastic-catwalk/node_modules',
+            // 'node_modules/frontastic-common/node_modules',
+            paths.appNodeModules,
             path.resolve(__dirname, '../node_modules'),
-            paths.appNodeModules
+            path.resolve(__dirname, '../../../node_modules'),
         ].concat(
             // It is guaranteed to exist because we tweak it in `env.js`
             process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
@@ -103,8 +101,7 @@ const mainConfig = {
             // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
             'react-native': 'react-native-web',
         },
-        plugins: [
-        ],
+        plugins: [],
     },
     module: {
         strictExportPresence: true,
@@ -154,20 +151,22 @@ const mainConfig = {
                 // On windows it can happen that the frontastic packages are
                 // not linked but copied. In this case babel should still
                 // compile the files in those folders.
-                exclude: webpackExcludes(['frontastic-catwalk', 'frontastic-common']),
-                loader: require.resolve('babel-loader'),
-                options: {
-                    // This is a feature of `babel-loader` for webpack (not Babel itself).
-                    // It enables caching results in ./node_modules/.cache/babel-loader/
-                    // directory for faster rebuilds.
-                    cacheDirectory: true,
-                    compact: true,
-                    presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
-                    plugins: [
-                        '@babel/plugin-proposal-class-properties',
-                        '@babel/plugin-syntax-dynamic-import',
-                        'lodash',
-                    ],
+                use: {
+                    // exclude: webpackExcludes(['frontastic-catwalk', 'frontastic-common']),
+                    loader: require.resolve('babel-loader'),
+                    options: {
+                        // This is a feature of `babel-loader` for webpack (not Babel itself).
+                        // It enables caching results in ./node_modules/.cache/babel-loader/
+                        // directory for faster rebuilds.
+                        cacheDirectory: true,
+                        compact: true,
+                        presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
+                        plugins: [
+                            '@babel/plugin-proposal-class-properties',
+                            '@babel/plugin-syntax-dynamic-import',
+                            'lodash',
+                        ],
+                    },
                 },
             },
             {
@@ -177,7 +176,7 @@ const mainConfig = {
                         loader: MiniCssExtractPlugin.loader,
                     },
                     {
-                        loader: require.resolve('css-loader') // translates CSS into CommonJS
+                        loader: require.resolve('css-loader'), // translates CSS into CommonJS
                     },
                     {
                         loader: require.resolve('postcss-loader'),
@@ -185,10 +184,9 @@ const mainConfig = {
                             // Necessary for external CSS imports to work
                             // https://github.com/facebookincubator/create-react-app/issues/2677
                             ident: 'postcss',
-                            plugins: () => [
-                                require('postcss-flexbugs-fixes'),
-                                autoprefixer(),
-                            ],
+                            plugins: () => {
+                                return [require('postcss-flexbugs-fixes'), autoprefixer()]
+                            },
                         },
                     },
                 ],
@@ -200,7 +198,7 @@ const mainConfig = {
                         loader: MiniCssExtractPlugin.loader,
                     },
                     {
-                        loader: require.resolve('css-loader') // translates CSS into CommonJS
+                        loader: require.resolve('css-loader'), // translates CSS into CommonJS
                     },
                     {
                         loader: require.resolve('postcss-loader'),
@@ -208,10 +206,9 @@ const mainConfig = {
                             // Necessary for external CSS imports to work
                             // https://github.com/facebookincubator/create-react-app/issues/2677
                             ident: 'postcss',
-                            plugins: () => [
-                                require('postcss-flexbugs-fixes'),
-                                autoprefixer(),
-                            ],
+                            plugins: () => {
+                                return [require('postcss-flexbugs-fixes'), autoprefixer()]
+                            },
                         },
                     },
                     // @TODO: This (sadly) does not work at all. Currently
@@ -224,10 +221,10 @@ const mainConfig = {
                         loader: require.resolve('sass-loader'), // compiles Sass to CSS
                         options: {
                             sourceMap: true, // resolve-url-loader requires a sourceMap, will be skipped afterwards
-                            sourceMapContents: false
-                        }
+                            sourceMapContents: false,
+                        },
                     },
-                ]
+                ],
             },
             // ** STOP ** Are you adding a new loader?
             // Remember to add the new extension(s) to the 'file' loader exclusion list.
@@ -267,7 +264,7 @@ const mainConfig = {
         // Otherwise React will be compiled in the very slow development mode.
         new webpack.DefinePlugin({
             PRODUCTION: JSON.stringify(PRODUCTION),
-            'process.env.NODE_ENV': '"production"'
+            'process.env.NODE_ENV': '"production"',
         }),
 
         // Ignore files only used during pattern development
@@ -282,7 +279,7 @@ const mainConfig = {
             // Options similar to the same options in webpackOptions.output
             // both options are optional
             filename: 'assets/css/[name].[chunkhash:8].css',
-            chunkFilename: 'assets/css/[name].[chunkhash:8].css'
+            chunkFilename: 'assets/css/[name].[chunkhash:8].css',
         }),
 
         // Generate a manifest file which contains a mapping of all asset filenames
@@ -301,10 +298,7 @@ const mainConfig = {
             // about it being stale, and the cache-busting can be skipped.
             dontCacheBustUrlsMatching: /\.\w{8}\./,
             filename: 'service-worker.js',
-            staticFileGlobs: [
-                'public/assets/*.png',
-                'public/assets/*.svg',
-            ],
+            staticFileGlobs: ['public/assets/*.png', 'public/assets/*.svg'],
             stripPrefix: 'public',
             mergeStaticsConfig: true,
             logger (message) {
@@ -345,7 +339,7 @@ const mainConfig = {
         // Webpack dependency graph and other stats as JSON
         new StatsPlugin('bundleStats.json', {
             chunkModules: true,
-            exclude: [/node_modules[\\\/]react/]
+            exclude: [/node_modules[\\\/]react/],
         }),
 
         // Show packages which are included from multiple locations, which
@@ -384,21 +378,21 @@ let serverConfig = {
         // Otherwise React will be compiled in the very slow development mode.
         new webpack.DefinePlugin({
             PRODUCTION: JSON.stringify(PRODUCTION),
-            'process.env.NODE_ENV': '"production"'
+            'process.env.NODE_ENV': '"production"',
         }),
 
         new webpack.ProvidePlugin({
-            'document': 'min-document',
-            'self': 'node-noop',
+            document: 'min-document',
+            self: 'node-noop',
             'self.navigator.userAgent': 'empty-string',
             'window.navigator.userAgent': 'empty-string',
             'window.navigation.userAgent': 'empty-string',
             'navigator.userAgent': 'empty-string',
-            'window': 'node-noop',
-            'location': 'node-noop',
+            window: 'node-noop',
+            location: 'node-noop',
             'window.location.href': 'empty-string',
             'window.location': 'node-noop',
-            'hostname': 'node-noop',
+            hostname: 'node-noop',
         }),
 
         // Moment.js is an extremely popular library that bundles large locale files
@@ -473,7 +467,7 @@ let serverConfig = {
                         '@babel/plugin-proposal-class-properties',
                         '@babel/plugin-syntax-dynamic-import',
                         'lodash',
-                        ['babel-plugin-transform-require-ignore', { 'extensions': ['.less', '.sass', '.css'] }],
+                        ['babel-plugin-transform-require-ignore', { extensions: ['.less', '.sass', '.css'] }],
                     ],
                 },
             },
@@ -484,8 +478,7 @@ let serverConfig = {
     output: {
         ...mainConfig.output,
         filename: 'assets/js/server.js',
-    }
+    },
 }
-
 
 module.exports = [mainConfig, serverConfig]

@@ -5,12 +5,14 @@
     "resolutions": {
         "unidragger": "2.2.3"
     },
+    "dependencies": {},
     "devDependencies": {
-        "@babel/core": "7.4.5",
-        "@babel/plugin-proposal-class-properties": "^7.4.4",
+        "@babel/core": "7.5.4",
+        "@babel/plugin-proposal-class-properties": "^7.5.0",
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-        "@babel/preset-env": "^7.4.5",
+        "@babel/preset-env": "^7.5.4",
         "@babel/preset-react": "^7.0.0",
+        "@rehooks/component-size": "^1.0.3",
         "@storybook/addon-actions": "^5.1.1",
         "@storybook/addon-info": "^5.1.1",
         "@storybook/addon-knobs": "^5.1.1",
@@ -18,22 +20,12 @@
         "@storybook/addon-viewport": "^5.1.1",
         "@storybook/addons": "^5.1.1",
         "@storybook/react": "^5.1.1",
+        "autoprefixer": "9.6.0",
         "babel-eslint": "10.0.2",
         "babel-jest": "24.8.0",
         "babel-loader": "8.0.6",
         "babel-plugin-lodash": "^3.3.4",
         "babel-plugin-transform-require-ignore": "^0.1.1",
-        "duplicate-package-checker-webpack-plugin": "^3.0.0",
-        "eslint-plugin-react-hooks": "^1.6.1",
-        "mime": "1",
-        "nodemon-webpack-plugin": "^4.0.8",
-        "stats-webpack-plugin": "^0.7.0",
-        "storybook-react-router": "^1.0.5",
-        "webpack-bundle-analyzer": "^3.1.0",
-        "webpack-cli": "^3.3.5"
-    },
-    "dependencies": {
-        "autoprefixer": "9.6.0",
         "body-scroll-lock": "^2.6.1",
         "case-sensitive-paths-webpack-plugin": "2.2.0",
         "chalk": "2.4.2",
@@ -45,6 +37,7 @@
         "d3": "5.9.2",
         "dot-object": "^1.7.0",
         "dotenv": "8.0.0",
+        "duplicate-package-checker-webpack-plugin": "^3.0.0",
         "empty-string": "^1.1.1",
         "eslint": "5.16.0",
         "eslint-config-react": "^1.1.7",
@@ -58,6 +51,7 @@
         "eslint-plugin-node": "^9.1.0",
         "eslint-plugin-promise": "^4.1.1",
         "eslint-plugin-react": "7.13.0",
+        "eslint-plugin-react-hooks": "^1.6.1",
         "eslint-plugin-standard": "^4.0.0",
         "exports-loader": "^0.7.0",
         "fast-levenshtein": "^2.0.6",
@@ -74,10 +68,12 @@
         "jest": "24.8.0",
         "lodash": "^4.17.10",
         "markdown": "^0.5.0",
+        "mime": "1",
         "min-document": "^2.19.0",
         "mini-css-extract-plugin": "^0.7.0",
         "node-noop": "^1.0.0",
         "node-sass": "^4.9.2",
+        "nodemon-webpack-plugin": "^4.0.8",
         "npm": "^6.1.0",
         "object-assign": "4.1.1",
         "path-to-regexp": "3.0.0",
@@ -88,13 +84,13 @@
         "prop-types": "^15.6.2",
         "qrcode.react": "^0.9.3",
         "rc-slider": "^8.6.1",
-        "react": "^16.8.4",
+        "react": "^16.8.6",
         "react-addons-css-transition-group": "^15.6.2",
         "react-custom-scrollbars": "^4.2.1",
         "react-dev-utils": "^9.0.1",
         "react-dnd": "^8.0.2",
         "react-dnd-html5-backend": "^8.0.2",
-        "react-dom": "^16.8.4",
+        "react-dom": "^16.8.6",
         "react-flickity-component": "^3.1.0",
         "react-helmet": "^5.2.0",
         "react-instagram-embed": "^1.4.0",
@@ -114,11 +110,16 @@
         "sass-loader": "^7.0.3",
         "scheduler": "^0.14.0",
         "scriptjs": "^2.5.9",
+        "shortid": "^2.2.14",
         "smooth-scroll": "^16.1.0",
+        "stats-webpack-plugin": "^0.7.0",
+        "storybook-react-router": "^1.0.5",
         "style-loader": "^0.23.1",
         "sw-precache-webpack-plugin": "0.11.5",
         "url-loader": "^2.0.0",
-        "webpack": "4.35.0",
+        "webpack": "4.35.3",
+        "webpack-bundle-analyzer": "^3.1.0",
+        "webpack-cli": "^3.3.5",
         "webpack-dev-server": "3.7.2",
         "webpack-manifest-plugin": "2.0.4",
         "webpack-node-externals": "^1.7.2",
@@ -135,6 +136,16 @@
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook"
     },
+    "babel": {
+        "plugins": [
+            "@babel/plugin-proposal-class-properties",
+            "@babel/plugin-syntax-dynamic-import"
+        ],
+        "presets": [
+            "@babel/preset-env",
+            "@babel/preset-react"
+        ]
+    },
     "jest": {
         "collectCoverageFrom": [
             "<rootDir>/src/js/**/*.{js,jsx}"
@@ -148,7 +159,7 @@
         "testEnvironment": "node",
         "testURL": "http://localhost",
         "transform": {
-            "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
+            "^.+\\.(js|jsx)$": "babel-jest",
             "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
             "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
         },

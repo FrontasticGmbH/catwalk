@@ -7,12 +7,11 @@ import ErrorBoundary from '../app/errorBoundary'
 import tasticDataConnector from './tasticDataConnector'
 
 class Tastic extends Component {
-    tastics = (window && window.tastics) || (global && global.tastics) || []
-
     render () {
-        let tastic = this.props.tastic
+        const tastics = (window && window.tastics) || (global && global.tastics) || []
+        const tastic = this.props.tastic
 
-        if (!this.tastics[tastic.tasticType]) {
+        if (!tastics[tastic.tasticType]) {
             if (!this.props.isDebug) {
                 return null
             }
@@ -22,7 +21,7 @@ class Tastic extends Component {
                 <p>Did you just implement it? Please don't forget to register it in the <code>tastic/tastics.js</code>!</p>
             </div>)
         }
-        let Tastic = this.tastics[tastic.tasticType]
+        let Tastic = tastics[tastic.tasticType]
 
         return (<ErrorBoundary>
             <div className={'e-tastic ' +

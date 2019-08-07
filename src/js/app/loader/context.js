@@ -61,7 +61,12 @@ let Loader = function (store, api) {
                     />,
                     'success'
                 )
+                this.store.dispatch({
+                    type: 'Frontastic.AccountApi.Api.register.success',
+                    data: json,
+                })
                 this.refresh()
+
                 if (redirect) {
                     app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
                 }

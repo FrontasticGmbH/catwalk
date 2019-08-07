@@ -51,7 +51,7 @@ class Loader extends BaseLoader
     {
         foreach ($this->routeService->getRoutes() as $route) {
             $routes->add(
-                'node_' . $route->nodeId,
+                'node_' . $route->nodeId . '.' . $route->locale,
                 new Route(
                     $route->route,
                     array(

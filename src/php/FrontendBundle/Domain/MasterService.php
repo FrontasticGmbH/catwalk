@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
+use RulerZ\RulerZ;
 
 class MasterService implements Target
 {
@@ -12,6 +13,11 @@ class MasterService implements Target
      * @var MasterPageMatcherRulesGateway
      */
     private $rulesGateway;
+
+    /**
+     * @var RulerZ
+     */
+    private $rulerz;
 
     protected $validContexts = [
         'cart',
@@ -29,9 +35,10 @@ class MasterService implements Target
         'error',
     ];
 
-    public function __construct(MasterPageMatcherRulesGateway $rulesGateway)
+    public function __construct(MasterPageMatcherRulesGateway $rulesGateway, RulerZ $rulerz)
     {
         $this->rulesGateway = $rulesGateway;
+        $this->rulerz = $rulerz;
     }
 
     public function matchNodeId(PageMatcherContext $context)
@@ -39,11 +46,11 @@ class MasterService implements Target
         $rules = $this->rulesGateway->get();
 
         if ($context->productId !== null) {
-            return $this->pickNode($rules->rules['product'] ?? null, $context->productId);
+            return $this->pickNode($rules->rules['product'] ?? null, $context->productId, $context->entity);
         }
 
         if ($context->categoryId !== null) {
-            return $this->pickNode($rules->rules['category'] ?? null, $context->categoryId);
+            return $this->pickNode($rules->rules['category'] ?? null, $context->categoryId, $context->entity);
         }
 
         foreach ($this->validContexts as $contextAttribute) {
@@ -53,7 +60,7 @@ class MasterService implements Target
                     throw new \OutOfBoundsException('No page defined for ' . $ruleName . ' yet.');
                 }
 
-                return $this->pickNode($rules->rules[$ruleName], null);
+                return $this->pickNode($rules->rules[$ruleName], null, null);
             }
         }
 
@@ -100,12 +107,24 @@ class MasterService implements Target
         $this->rulesGateway->store($rules);
     }
 
-    private function pickNode(array $rules, $itemId): string
+    private function pickNode(array $rules, $itemId, $entity): string
     {
         if (isset($rules['byId'])) {
             foreach ($rules['byId'] as $rule) {
                 if ($rule['itemId'] === $itemId) {
                     return $rule['nodeId'];
+                }
+            }
+        }
+        if (isset($rules['byCriterion'])) {
+            foreach ($rules['byCriterion'] as $rule) {
+                try {
+                    if ($this->rulerz->satisfies($entity, $rule['criterion'])) {
+                        return $rule['nodeId'];
+                    }
+                } catch (\Exception $exception) {
+                    // Silently ignore errors in the rule. If a rule can not be checked it makes more sense to ignore
+                    // the rule than to report an error on every master page.
                 }
             }
         }
@@ -125,6 +144,14 @@ class MasterService implements Target
                 }
             )
         );
+        $rules->rules[$pageType]['byCriterion'] = array_values(
+            array_filter(
+                $rules->rules[$pageType]['byCriterion'] ?? [],
+                function ($rule) use ($update) {
+                    return $rule['nodeId'] !== $update['rule']['nodeId'];
+                }
+            )
+        );
 
         if ($update['deleted']) {
             // Nothing to do since the rule was removed, above
@@ -132,6 +159,11 @@ class MasterService implements Target
             $rules->rules[$pageType]['byId'][] = [
                 'nodeId' => $update['rule']['nodeId'],
                 'itemId' => $update['rule']['itemId'],
+            ];
+        } elseif (isset($update['rule']['criterion'])) {
+            $rules->rules[$pageType]['byCriterion'][] = [
+                'nodeId' => $update['rule']['nodeId'],
+                'criterion' => $update['rule']['criterion'],
             ];
         } else {
             $rules->rules[$pageType]['default'] = $update['rule']['nodeId'];

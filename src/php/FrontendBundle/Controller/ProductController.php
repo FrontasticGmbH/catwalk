@@ -7,7 +7,6 @@ use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
-use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Product;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
@@ -59,7 +58,10 @@ class ProductController extends Controller
         }
 
         $node = $nodeService->get(
-            $masterService->matchNodeId(new PageMatcherContext(['productId' => $productId]))
+            $masterService->matchNodeId(new PageMatcherContext([
+                'entity' => $product,
+                'productId' => $productId,
+            ]))
         );
         $node->streams = $masterService->completeDefaultQuery(
             $node->streams,

@@ -5,8 +5,10 @@ class Cart {
         this.cartId = cart.cartId || null
         this.cartVersion = cart.cartVersion || 0
         this.custom = cart.custom || {}
+        this.discountCodes = cart.discountCodes || null
         this.lineItems = cart.lineItems || []
         this.sum = +cart.sum || 0
+        this.currency = cart.currency || null
         this.email = cart.email || null
         this.birthday = cart.birthday || null
         this.shippingMethod = cart.shippingMethod || null

@@ -15,6 +15,7 @@ import Preview from './preview'
 import Node from './node'
 
 import { Helmet } from 'react-helmet'
+import IntlProvider from './app/intlProvider'
 
 // @TODO: Fork: http://rowanmanning.com/posts/node-cluster-and-express/
 // @TODO: Supervise forks
@@ -69,16 +70,17 @@ export default (ProjectHelmet, tastics = null, port = 8000) => {
         response.send({
             app: renderToString(
                 <Provider store={store}>
-                    <StaticRouter location={request.url} context={{}}>
-                        <Switch>
-                            <Route exact
-                                path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                                component={Preview}
-                            />
-
-                            <Route component={Node} />
-                        </Switch>
-                    </StaticRouter>
+                    <IntlProvider defaultLocale='en' locale='de'>
+                        <StaticRouter location={request.url} context={{}}>
+                            <Switch>
+                                <Route exact
+                                    path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
+                                    component={Preview}
+                                />
+                                <Route component={Node} />
+                            </Switch>
+                        </StaticRouter>
+                    </IntlProvider>
                 </Provider>
             ),
             helmet: {
