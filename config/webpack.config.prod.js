@@ -382,17 +382,19 @@ let serverConfig = {
         }),
 
         new webpack.ProvidePlugin({
-            document: 'min-document',
-            self: 'node-noop',
-            'self.navigator.userAgent': 'empty-string',
-            'window.navigator.userAgent': 'empty-string',
-            'window.navigation.userAgent': 'empty-string',
+            'document': 'min-document',
+            'Element.prototype': 'node-noop',
+            'hostname': 'node-noop',
+            'location': 'node-noop',
             'navigator.userAgent': 'empty-string',
-            window: 'node-noop',
-            location: 'node-noop',
+            'navigator.userAgent': 'empty-string',
+            'self.navigator.userAgent': 'empty-string',
+            'self': 'node-noop',
+            'window.Element.prototype': 'empty-string',
             'window.location.href': 'empty-string',
             'window.location': 'node-noop',
-            hostname: 'node-noop',
+            'window.navigation.userAgent': 'empty-string',
+            'window.navigator.userAgent': 'empty-string',
         }),
 
         // Moment.js is an extremely popular library that bundles large locale files
