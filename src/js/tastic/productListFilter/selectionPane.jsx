@@ -86,7 +86,7 @@ class SelectionPane extends Component {
                                 {_.map(
                                     viewModel,
                                     (facetData) => {
-                                        if (facetData.config.attributeType === 'categoryId') {
+                                        if (!this.attributeTypeMap[facetData.config.attributeType]) {
                                             return null
                                         }
 
@@ -124,7 +124,7 @@ class SelectionPane extends Component {
     }
 
     renderFacetPane = (facetData) => {
-        if (facetData.config.attributeType === 'categoryId') {
+        if (!this.attributeTypeMap[facetData.config.attributeType]) {
             return null
         }
 
