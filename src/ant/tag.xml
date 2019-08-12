@@ -11,8 +11,6 @@
                 replace="version=${buildVersion}"
                 byline="true"/>
 
-        <fail>XXX</fail>
-
         <exec executable="git" failonerror="true" dir="${frontastic_basedir}">
             <arg value="add" />
             <arg value="${frontastic_basedir}/environment" />
