@@ -43,9 +43,9 @@ let CartLoader = function (store, api) {
         })
     }
 
-  /**
-   * Product is here for historical reasons, please submit null as first value.
-   */
+    /**
+     * Product is here for historical reasons, please submit null as first value.
+     */
     this.add = (product = null, variant, count, option = null) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
