@@ -43,7 +43,10 @@ let CartLoader = function (store, api) {
         })
     }
 
-    this.add = (product, variant, count, option = null) => {
+  /**
+   * Product is here for historical reasons, please submit null as first value.
+   */
+    this.add = (product = null, variant, count, option = null) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
         })
@@ -52,7 +55,7 @@ let CartLoader = function (store, api) {
             'POST',
             'Frontastic.CartApi.Cart.add',
             { ownErrorHandler: true },
-            { product, variant, count, option },
+            { variant, count, option },
             (data) => {
                 this.store.dispatch({
                     type: 'CartApi.Cart.add.success',
