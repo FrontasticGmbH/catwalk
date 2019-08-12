@@ -52,7 +52,7 @@ let Api = function (router, store) {
             }
 
             // eslint-disable-next-line no-console
-            console.error('Unhandled Response Type:', response)
+            console.trace('Unhandled Response Type:', response)
             if (error) {
                 error({ status: 500, message: 'Internal Server Error' })
             }
