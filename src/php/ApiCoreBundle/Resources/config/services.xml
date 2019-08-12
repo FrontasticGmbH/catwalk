@@ -16,6 +16,7 @@
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProductApiFactoryDecorator.inner"/>
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\FacetService"/>
             <argument type="service" id="cache.app.simple"/>
+            <argument>%kernel.debug%</argument>
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService">

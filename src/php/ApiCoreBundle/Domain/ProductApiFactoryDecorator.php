@@ -26,20 +26,30 @@ class ProductApiFactoryDecorator implements ProductApiFactory
      */
     private $cache;
 
+    /**
+     * @var bool
+     */
+    private $debug = false;
+
     const FACETS_CACHE_KEY = 'frontastic.facets';
 
-    public function __construct(ProductApiFactory $productApiFactory, FacetService $facetService, CacheInterface $cache)
-    {
+    public function __construct(
+        ProductApiFactory $productApiFactory,
+        FacetService $facetService,
+        CacheInterface $cache,
+        bool $debug = false
+    ) {
         $this->productApiFactory = $productApiFactory;
         $this->facetService = $facetService;
         $this->cache = $cache;
+        $this->debug = $debug;
     }
 
     public function factor(Customer $customer): ProductApi
     {
         $api = $this->productApiFactory->factor($customer);
         $this->setCommercetoolsOptions($api);
-        return new CachingProductApi($api, $this->cache);
+        return new CachingProductApi($api, $this->cache, $this->debug);
     }
 
     private function setCommercetoolsOptions(ProductApi $api): void
