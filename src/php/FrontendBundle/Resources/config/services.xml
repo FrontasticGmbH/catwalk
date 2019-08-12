@@ -391,6 +391,10 @@
             <tag name="kernel.event_listener" event="kernel.response" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\EventListener\CacheDirectives">
+            <tag name="kernel.event_listener" event="kernel.response" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ContentSecurityPolicy">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
 
