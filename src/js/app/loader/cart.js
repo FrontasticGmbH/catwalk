@@ -229,6 +229,37 @@ let CartLoader = function (store, api) {
         })
     }
 
+    this.removeDiscount = (discountId) => {
+        if (!discountId) {
+            return
+        }
+
+        // TS, 2019-08-02: Permitted adjustment. Maybe merge upstream?
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.CartApi.Cart.removeDiscount',
+                { ownErrorHandler: true },
+                { discountId: discountId },
+                (data) => {
+                    this.store.dispatch({
+                        type: 'CartApi.Cart.update.success',
+                        data: data,
+                    })
+                    resolve()
+                },
+                (error) => {
+                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                    this.store.dispatch({
+                        type: 'CartApi.Cart.update.error',
+                        error: error,
+                    })
+                    reject(error)
+                }
+            )
+        })
+    }
+
     this.checkout = (cartInformation) => {
         this.api.request(
             'POST',
