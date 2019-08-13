@@ -5,7 +5,7 @@ class Cart {
         this.cartId = cart.cartId || null
         this.cartVersion = cart.cartVersion || 0
         this.custom = cart.custom || {}
-        this.discountCodes = cart.discountCodes || null
+        this.discountCodes = cart.discountCodes || []
         this.lineItems = cart.lineItems || []
         this.sum = +cart.sum || 0
         this.currency = cart.currency || null
