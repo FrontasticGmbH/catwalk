@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="React">
+<project name="React Bootstrap">
     <target name="react:bootstrap" unless="${production}" extensionOf="-prepare:before~hook">
         <tool-exists executable="yarn" />
 
