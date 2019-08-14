@@ -23,7 +23,7 @@ class Tastic extends Component {
         }
         let Tastic = tastics[tastic.tasticType]
 
-        return (<ErrorBoundary>
+        return (<ErrorBoundary isDebug={this.props.isDebug}>
             <div className={'e-tastic ' +
                     'e-tastic__' + tastic.tasticType + ' ' +
                     (tastic.schema.get('mobile') ? '' : 'e-tastic--hidden-hand ') +

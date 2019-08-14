@@ -18,6 +18,11 @@ class ErrorBoundary extends Component {
 
     render () {
         if (this.state.error) {
+            if(!this.props.isDebug) {
+                // in production we don't want to render the error message
+                return null;
+            }
+
             return (<div className='tastic e-tastic--errored'>
                 <p>{this.state.error.toString()}</p>
             </div>)
@@ -29,6 +34,7 @@ class ErrorBoundary extends Component {
 
 ErrorBoundary.propTypes = {
     children: PropTypes.any,
+    isDebug: PropTypes.bool.isRequired,
 }
 
 ErrorBoundary.defaultProps = {
