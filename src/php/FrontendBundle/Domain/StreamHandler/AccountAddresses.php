@@ -37,7 +37,7 @@ class AccountAddresses extends StreamHandler
                     $context->session->account->accountId
                 )
             );
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             return Promise\rejection_for($exception);
         }
     }
