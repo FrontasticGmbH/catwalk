@@ -23,7 +23,30 @@ let Loader = function (store, api) {
     }
 
     this.loadNode = (parameters) => {
-        this.api.trigger('Frontastic.Frontend.Node.view', parameters, parameters.nodeId)
+        this.api.request(
+            'GET',
+            'Frontastic.Frontend.Node.view',
+            parameters,
+            null,
+            (data, parameters) => {
+                this.store.dispatch({
+                    type: 'Frontend.Node.view.success',
+                    id: parameters.nodeId,
+                    cacheKey: UrlContext.getActionHash(parameters),
+                    data: data,
+                    parameters: parameters,
+                })
+            },
+            (error) => {
+                this.store.dispatch({
+                    type: 'Frontend.Node.view.success.error',
+                    id: parameters.nodeId,
+                    cacheKey: UrlContext.getActionHash(parameters),
+                    error: error,
+                })
+
+            }
+        )
     }
 
     this.reloadPreview = (parameters) => {
