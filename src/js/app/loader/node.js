@@ -1,7 +1,10 @@
 import _ from 'lodash'
+import node from '../../node'
 
 import Entity from '../entity'
 import UrlContext from '../urlContext'
+
+import extractErrors from './node/errorExtractor'
 
 /**
  * Loader classes like this consolidate all loading monitors for a domain
@@ -36,6 +39,11 @@ let Loader = function (store, api) {
                     data: data,
                     parameters: parameters,
                 })
+
+                const nodeDataErrors = extractErrors(data.data)
+                if (nodeDataErrors.length > 0) {
+                    console.log('Errors in node data', nodeDataErrors)
+                }
             },
             (error) => {
                 this.store.dispatch({
@@ -44,7 +52,6 @@ let Loader = function (store, api) {
                     cacheKey: UrlContext.getActionHash(parameters),
                     error: error,
                 })
-
             }
         )
     }
