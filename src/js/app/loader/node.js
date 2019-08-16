@@ -45,7 +45,7 @@ let Loader = function (store, api) {
                         const nodeDataErrors = extractErrors(data.data)
                         if (nodeDataErrors.length > 0) {
                             console.log('Errors in node data, attempting to retry', nodeDataErrors)
-                            setTimeout(retry, 3000)
+                            setTimeout(retry, 100)
                         }
                     },
                     (error) => {
