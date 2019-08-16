@@ -3,6 +3,7 @@ import node from '../../node'
 
 import Entity from '../entity'
 import UrlContext from '../urlContext'
+import withRetries from '../withRetries'
 
 import extractErrors from './node/errorExtractor'
 
@@ -26,32 +27,41 @@ let Loader = function (store, api) {
     }
 
     this.loadNode = (parameters) => {
-        this.api.request(
-            'GET',
-            'Frontastic.Frontend.Node.view',
-            parameters,
-            null,
-            (data, parameters) => {
-                this.store.dispatch({
-                    type: 'Frontend.Node.view.success',
-                    id: parameters.nodeId,
-                    cacheKey: UrlContext.getActionHash(parameters),
-                    data: data,
-                    parameters: parameters,
-                })
+        withRetries(
+            (retry) => {
+                this.api.request(
+                    'GET',
+                    'Frontastic.Frontend.Node.view',
+                    parameters,
+                    null,
+                    (data, parameters) => {
+                        this.store.dispatch({
+                            type: 'Frontend.Node.view.success',
+                            id: parameters.nodeId,
+                            cacheKey: UrlContext.getActionHash(parameters),
+                            data: data,
+                            parameters: parameters,
+                        })
 
-                const nodeDataErrors = extractErrors(data.data)
-                if (nodeDataErrors.length > 0) {
-                    console.log('Errors in node data', nodeDataErrors)
-                }
+                        const nodeDataErrors = extractErrors(data.data)
+                        if (nodeDataErrors.length > 0) {
+                            console.log('Errors in node data, attempting to retry', nodeDataErrors)
+                            setTimeout(retry, 3000)
+                        }
+                    },
+                    (error) => {
+                        this.store.dispatch({
+                            type: 'Frontend.Node.view.success.error',
+                            id: parameters.nodeId,
+                            cacheKey: UrlContext.getActionHash(parameters),
+                            error: error,
+                        })
+                    }
+                )
             },
-            (error) => {
-                this.store.dispatch({
-                    type: 'Frontend.Node.view.success.error',
-                    id: parameters.nodeId,
-                    cacheKey: UrlContext.getActionHash(parameters),
-                    error: error,
-                })
+            2,
+            () => {
+                console.error('Giving up retrying to fetch data for node', parameters)
             }
         )
     }
