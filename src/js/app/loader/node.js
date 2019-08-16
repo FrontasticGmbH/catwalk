@@ -1,10 +1,9 @@
 import _ from 'lodash'
-import node from '../../node'
 
 import Entity from '../entity'
 import UrlContext from '../urlContext'
-import withRetries from '../withRetries'
 
+import withRetries from '../withRetries'
 import extractErrors from './node/errorExtractor'
 
 /**
