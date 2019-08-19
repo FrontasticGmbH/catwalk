@@ -36,7 +36,7 @@ class Content extends StreamHandler
                     $context->locale
                 )
             );
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             return Promise\rejection_for($exception);
         }
     }

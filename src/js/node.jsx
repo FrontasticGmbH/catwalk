@@ -135,7 +135,7 @@ export default connect(
         }
 
         return {
-            viewKey: globalState.node.currentCacheKey + '-' + (page && page.data.pageId),
+            viewKey: globalState.node.currentCacheKey + '-' + (page && page.data && page.data.pageId),
             node: globalState.node.nodes[globalState.node.currentNodeId] ||
                 globalState.node.last.node || new Entity(),
             data: globalState.node.nodeData[globalState.node.currentCacheKey] ||

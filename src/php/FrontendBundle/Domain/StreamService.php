@@ -77,7 +77,7 @@ class StreamService
 
         try {
             return $this->streamHandlers[$stream->type]->handleAsync($stream, $context, $parameters);
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             return Promise\rejection_for($exception);
         }
     }

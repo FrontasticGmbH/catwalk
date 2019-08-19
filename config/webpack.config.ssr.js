@@ -92,17 +92,19 @@ let serverConfig = {
         new webpack.IgnorePlugin(/^\.css$/, /\.scss$/),
 
         new webpack.ProvidePlugin({
-            document: 'min-document',
-            self: 'node-noop',
-            'self.navigator.userAgent': 'empty-string',
-            'window.navigator.userAgent': 'empty-string',
-            'window.navigation.userAgent': 'empty-string',
+            'document': 'min-document',
+            'Element.prototype': 'node-noop',
+            'hostname': 'node-noop',
+            'location': 'node-noop',
             'navigator.userAgent': 'empty-string',
-            window: 'node-noop',
-            location: 'node-noop',
+            'navigator.userAgent': 'empty-string',
+            'self.navigator.userAgent': 'empty-string',
+            'self': 'node-noop',
+            'window.Element.prototype': 'empty-string',
             'window.location.href': 'empty-string',
             'window.location': 'node-noop',
-            hostname: 'node-noop',
+            'window.navigation.userAgent': 'empty-string',
+            'window.navigator.userAgent': 'empty-string',
         }),
 
         // Moment.js is an extremely popular library that bundles large locale files
@@ -111,24 +113,6 @@ let serverConfig = {
         // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
         // You can remove this if you don't use Moment.js:
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-
-        new NodemonPlugin({
-            // What to watch.
-            watch: [paths.appSrc, paths.appSrc + '../../catwalk/src'],
-
-            // Files to ignore.
-            ignore: ['*.js.map'],
-
-            // Detailed log.
-            verbose: true,
-
-            // If using more than one entry, you can specify
-            // which output file will be restarted.
-            script: 'build/assets/js/devServer.js',
-
-            // Extensions to watch
-            ext: 'js,jsx',
-        }),
     ],
     output: {
         ...baseConfig.output,

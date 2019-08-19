@@ -5,7 +5,9 @@
     "resolutions": {
         "unidragger": "2.2.3"
     },
-    "dependencies": {},
+    "dependencies": {
+        "babel-polyfill": "^6.26.0"
+    },
     "devDependencies": {
         "@babel/core": "7.5.4",
         "@babel/plugin-proposal-class-properties": "^7.5.0",

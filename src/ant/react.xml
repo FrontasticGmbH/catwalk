@@ -31,7 +31,14 @@
     </target>
 
     <target name="-check-is-project" unless="${production}">
-        <available property="is-project" file="${basedir}/config/project.yml" />
+        <condition property="is-project">
+            <and>
+                <available property="is-project" file="${basedir}/config/project.yml" />
+                <not>
+                    <contains string="${basedir}" substring="_developer"/>
+                </not>
+            </and>
+        </condition>
     </target>
 
     <target name="react:package" depends="-check-is-project" if="${is-project}" extensionOf="-package:before~hook">

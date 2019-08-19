@@ -23,7 +23,7 @@ abstract class StreamHandler
     {
         try {
             return Promise\promise_for($this->handle($stream, $context, $parameters));
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             return Promise\rejection_for($exception);
         }
     }

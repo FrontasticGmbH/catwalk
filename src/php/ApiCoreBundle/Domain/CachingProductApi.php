@@ -26,10 +26,16 @@ class CachingProductApi implements ProductApi
      */
     private $cache;
 
-    public function __construct(ProductApi $aggregate, CacheInterface $cache)
+    /**
+     * @bool
+     */
+    private $debug;
+
+    public function __construct(ProductApi $aggregate, CacheInterface $cache, $debug = false)
     {
         $this->aggregate = $aggregate;
         $this->cache = $cache;
+        $this->debug = $debug;
     }
 
     public function getAggregate(): ProductApi
@@ -44,7 +50,7 @@ class CachingProductApi implements ProductApi
     public function getCategories(CategoryQuery $query): array
     {
         $cacheKey = 'frontastic.categories.' . md5(json_encode($query));
-        if (!($result = $this->cache->get($cacheKey, false))) {
+        if ($this->debug || !($result = $this->cache->get($cacheKey, false))) {
             $result = $this->aggregate->getCategories($query);
             $this->cache->set($cacheKey, $result, 600);
         }
@@ -59,7 +65,7 @@ class CachingProductApi implements ProductApi
     public function getProductTypes(ProductTypeQuery $query): array
     {
         $cacheKey = 'frontastic.types.' . md5(json_encode($query));
-        if (!($result = $this->cache->get($cacheKey, false))) {
+        if ($this->debug || !($result = $this->cache->get($cacheKey, false))) {
             $result = $this->aggregate->getProductTypes($query);
             $this->cache->set($cacheKey, $result, 600);
         }
@@ -90,7 +96,7 @@ class CachingProductApi implements ProductApi
         $cacheKey = 'frontastic.products.' . md5(json_encode($query));
 
         $cacheEntry = $this->cache->get($cacheKey, null);
-        if ($cacheEntry !== null) {
+        if (!$this->debug && $cacheEntry !== null) {
             $resultPromise = Promise\promise_for($cacheEntry);
         } else {
             $resultPromise = $this->aggregate
