@@ -110,6 +110,8 @@ class TasticFieldService
             ];
             if ($this->debug) {
                 $fieldData[$tastic->tasticId][$field]->trace = $e->getTrace();
+                $fieldData[$tastic->tasticId][$field]->file = $e->getFile();
+                $fieldData[$tastic->tasticId][$field]->line = $e->getLine();
             }
         }
 
