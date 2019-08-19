@@ -24,6 +24,7 @@ let CartLoader = function (store, api) {
     this.get = (parameters = {}) => {
         this.api.triggerContinuously(
             'Frontastic.CartApi.Cart.get',
+            // Own error handler without error handler => Ignore all errors
             _.extend(
                 { ownErrorHandler: true },
                 parameters
