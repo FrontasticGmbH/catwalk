@@ -80,7 +80,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $this->fieldService->getFieldData($this->context, $pageFixture);
+        $this->fieldService->getFieldData($this->context, $this->nodeFixture(), $pageFixture);
     }
 
     public function testGetFieldDataIncludesDataForHandledFields()
@@ -112,7 +112,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $actualResult = $this->fieldService->getFieldData($this->context, $pageFixture);
+        $actualResult = $this->fieldService->getFieldData($this->context, $this->nodeFixture(), $pageFixture);
 
         $this->assertEquals(
             [
@@ -151,7 +151,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $this->fieldService->getFieldData($this->context, $pageFixture);
+        $this->fieldService->getFieldData($this->context, $this->nodeFixture(), $pageFixture);
     }
 
     public function testGetFieldDataDoesNotIncludeDataForUnhandledFields()
@@ -183,7 +183,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $actualResult = $this->fieldService->getFieldData($this->context, $pageFixture);
+        $actualResult = $this->fieldService->getFieldData($this->context, $this->nodeFixture(), $pageFixture);
 
         $this->assertEquals(
             [],
@@ -221,7 +221,12 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $this->fieldService->getFieldData($this->context, $pageFixture);
+        $this->fieldService->getFieldData($this->context, $this->nodeFixture(), $pageFixture);
+    }
+
+    private function nodeFixture(): Node
+    {
+        return new Node();
     }
 
     private function pageFixture(array $tastics): Page

@@ -25,8 +25,11 @@ class TasticFieldService
     /**
      * @param TasticFieldHandler[]|TasticFieldHandlerV2[] $fieldHandlers
      */
-    public function __construct(TasticService $tasticDefinitionService, iterable $fieldHandlers = [], bool $debug = false)
-    {
+    public function __construct(
+        TasticService $tasticDefinitionService,
+        iterable $fieldHandlers = [],
+        bool $debug = false
+    ) {
         $this->tasticDefinitionService = $tasticDefinitionService;
         foreach ($fieldHandlers as $fieldHandler) {
             $this->addFieldHandler($fieldHandler);
