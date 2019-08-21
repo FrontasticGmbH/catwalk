@@ -43,7 +43,7 @@ class MoleculesLineItem extends Component {
                             }
 
                             return (<li key={attribute}>
-                                <strong>{this.ucFirst(attribute)}</strong>: {lineItem.variant.attributes[attribute]}
+                                <strong>{this.ucFirst(attribute)}</strong>: {lineItem.variant.attributes[attribute].label || lineItem.variant.attributes[attribute]}
                             </li>)
                         })}
                     </ul>}

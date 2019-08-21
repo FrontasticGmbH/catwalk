@@ -37,7 +37,7 @@ class MoleculesProductTeaser extends Component {
                                 {product.name}
                             </h3>
                             {variant.attributes.designer ?
-                                <div className='c-heading-teaser-subheading'>{variant.attributes.designer}</div>
+                                <div className='c-heading-teaser-subheading'>{variant.attributes.designer.label || variant.attributes.designer}</div>
                             : null}
                         </div>
                         <div className='c-teaser__prices' itemScope itemType='http://schema.org/Offer'>

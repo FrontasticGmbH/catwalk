@@ -49,7 +49,7 @@ class ProductAddToCartTastic extends Component {
                     attributeValues[attribute] = []
                 }
 
-                attributeValues[attribute].push(variant.attributes[attribute])
+                attributeValues[attribute].push(variant.attributes[attribute].label || variant.attributes[attribute])
             }
         }
 

@@ -13,7 +13,7 @@ class ProductBrandTastic extends Component {
         let BrandHtmlComponent = this.props.tastic.schema.get('level')
         return (<div className='c-page-section'>
             <BrandHtmlComponent className='c-heading-zeta'>
-                {this.props.variant.attributes.designer}
+                {this.props.variant.attributes.designer.label || this.props.variant.attributes.designer}
             </BrandHtmlComponent>
         </div>)
     }
