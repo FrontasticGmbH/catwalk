@@ -154,6 +154,43 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
         $this->fieldService->getFieldData($this->context, $pageFixture);
     }
 
+    public function testGetFieldDataDoesNotIncludeDataForUnhandledFields()
+    {
+        $this->fieldHandlerMock->expects($this->any())
+            ->method('handle')
+            ->will($this->returnValue('I handled this'));
+
+        $pageFixture = $this->pageFixture([
+            new Tastic([
+                'tasticId' => 'id-of-the-tastic',
+                'tasticType' => 'a-tastic-type',
+                'configuration' => new Tastic\Configuration([
+                    'handled-field' => 'The Field Value'
+                ]),
+            ]),
+        ]);
+
+        $tasticDefinitionFixture = $this->tasticDefinitionFixture(
+            [
+                [
+                    'field' => 'unhandled-field',
+                    'type' => 'unhandled-type',
+                ]
+            ]
+        );
+
+        $this->tasticDefinitionServiceMock->expects($this->any())
+            ->method('getTasticsMappedByType')
+            ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
+
+        $actualResult = $this->fieldService->getFieldData($this->context, $pageFixture);
+
+        $this->assertEquals(
+            [],
+            $actualResult
+        );
+    }
+
     public function testGetFieldDataUsesDefaultValueForHandledFieldsWithoutValue()
     {
         $this->fieldHandlerMock->expects($this->once())
@@ -185,73 +222,6 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
         $this->fieldService->getFieldData($this->context, $pageFixture);
-    }
-
-    public function testGroupFieldsAreHandledCorrectly()
-    {
-        $this->fieldHandlerMock->expects($this->exactly(3))
-            ->method('handle')
-            ->will($this->returnValue('I handled this'));
-
-        $pageFixture = $this->pageFixture([
-            new Tastic([
-                'tasticId' => 'id-of-the-tastic',
-                'tasticType' => 'a-tastic-type',
-                'configuration' => new Tastic\Configuration([
-                    'group-field' => [
-                        [
-                            'handled-field' => 'The Field Value',
-                        ],
-                        [
-                            'handled-field' => 'The 2nd Field Value',
-                        ],
-                        [
-                            'handled-field' => 'The 3rd Field Value',
-                        ]
-                    ]
-                ]),
-            ]),
-        ]);
-
-        $tasticDefinitionFixture = $this->tasticDefinitionFixture(
-            [
-                [
-                    'field' => 'group-field',
-                    'type' => 'group',
-                    'fields' => [
-                        [
-                            'field' => 'handled-field',
-                            'type' => 'handled-type',
-                        ]
-                    ]
-                ]
-            ]
-        );
-
-        $this->tasticDefinitionServiceMock->expects($this->any())
-            ->method('getTasticsMappedByType')
-            ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
-
-        $actualResult = $this->fieldService->getFieldData($this->context, $pageFixture);
-
-        $this->assertEquals(
-            [
-                'id-of-the-tastic' => [
-                    'group-field' => [
-                        [
-                            'handled-field' => 'I handled this',
-                        ],
-                        [
-                            'handled-field' => 'I handled this',
-                        ],
-                        [
-                            'handled-field' => 'I handled this',
-                        ],
-                    ]
-                ]
-            ],
-            $actualResult
-        );
     }
 
     private function pageFixture(array $tastics): Page

@@ -100,7 +100,10 @@ class TasticFieldService
         Tastic $tastic,
         array $fieldDefinition
     ): array {
-        $type = $this->getFieldType($fieldDefinition);
+        $type = $fieldDefinition['streamType'] ?? $fieldDefinition['type'];
+        if (!isset($this->fieldHandlers[$type])) {
+            return $fieldData;
+        }
 
         $field = $fieldDefinition['field'];
         $fieldHandler = $this->fieldHandlers[$type];
@@ -110,12 +113,12 @@ class TasticFieldService
         }
 
         try {
-            $fieldData[$tastic->tasticId][$field] = $this->resolveFieldData(
-                $fieldDefinition,
-                $this->getFieldValue($fieldDefinition, $tastic->configuration),
+            $fieldData[$tastic->tasticId][$field] = $this->fieldHandlers[$type]->handle(
                 $context,
-                $node,
-                $page
+                ($tastic->configuration->$field !== null
+                    ? $tastic->configuration->$field
+                    : ($fieldDefinition['default'] ?? null)
+                )
             );
         } catch (\Throwable $e) {
             $fieldData[$tastic->tasticId][$field] = (object)[
@@ -132,35 +135,6 @@ class TasticFieldService
         return $fieldData;
     }
 
-    private function resolveFieldData(array $fieldDefinition, $fieldData, Context $context, Node $node, Page $page)
-    {
-        $type = $this->getFieldType($fieldDefinition);
-
-        if ($type === 'group') {
-            $resolvedGroupValue = [];
-            /* @var array $fieldData */
-            foreach ($fieldData as $groupIndex => $groupValue) {
-                $resolvedGroupValue[$groupIndex] = [];
-                foreach ($fieldDefinition['fields'] as $subFieldDefinition) {
-                    $resolvedGroupValue[$groupIndex][$subFieldDefinition['field']] = $this->resolveFieldData(
-                        $subFieldDefinition,
-                        $this->getFieldValue($subFieldDefinition, $groupValue),
-                        $context,
-                        $node,
-                        $page
-                    );
-                }
-            }
-            return $resolvedGroupValue;
-        }
-
-        if (!isset($this->fieldHandlers[$type])) {
-            return $fieldData;
-        }
-
-        return $this->fieldHandlers[$type]->handle($context, $node, $page, $fieldData);
-    }
-
     /**
      * @return \Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic[]
      */
@@ -170,26 +144,5 @@ class TasticFieldService
             $this->tasticDefinionMapCache = $this->tasticDefinitionService->getTasticsMappedByType();
         }
         return $this->tasticDefinionMapCache;
-    }
-
-    private function getFieldType(array $fieldDefinition): string
-    {
-        return $fieldDefinition['streamType'] ?? $fieldDefinition['type'];
-    }
-
-    private function getFieldValue($fieldDefinition, $configuration)
-    {
-        $field = $fieldDefinition['field'];
-
-        if (is_object($configuration)) {
-            return ($configuration->$field !== null
-                ? $configuration->$field
-                : ($fieldDefinition['default'] ?? null)
-            );
-        }
-        return (isset($configuration[$field]) && $configuration[$field] !== null
-            ? $configuration[$field]
-            : ($fieldDefinition['default'] ?? null)
-        );
     }
 }
