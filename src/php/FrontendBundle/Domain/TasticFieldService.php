@@ -23,22 +23,14 @@ class TasticFieldService
     private $tasticDefinionMapCache;
 
     /**
-     * @var bool
+     * @param TasticFieldHandler[]|TasticFieldHandlerV2[] $fieldHandlers
      */
-    private $debug;
-    /**
-    * @param TasticFieldHandler[]|TasticFieldHandlerV2[] $fieldHandlers
-    */
-    public function __construct(
-        TasticService $tasticDefinitionService,
-        iterable $fieldHandlers = [],
-        bool $debug = false
-    ) {
+    public function __construct(TasticService $tasticDefinitionService, iterable $fieldHandlers = [], bool $debug = false)
+    {
         $this->tasticDefinitionService = $tasticDefinitionService;
         foreach ($fieldHandlers as $fieldHandler) {
             $this->addFieldHandler($fieldHandler);
         }
-        $this->debug = $debug;
     }
 
     /**
@@ -75,14 +67,18 @@ class TasticFieldService
                     $definition = $tasticDefinitionMap[$tastic->tasticType];
                     foreach ($definition->configurationSchema['schema'] as $fieldSet) {
                         foreach ($fieldSet['fields'] as $fieldDefinition) {
-                            $fieldData = $this->setHandledFieldData(
-                                $node,
-                                $page,
-                                $context,
-                                $fieldData,
-                                $tastic,
-                                $fieldDefinition
-                            );
+                            try {
+                                $fieldData = $this->setHandledFieldData(
+                                    $node,
+                                    $page,
+                                    $context,
+                                    $fieldData,
+                                    $tastic,
+                                    $fieldDefinition
+                                );
+                            } catch (\Throwable $throwable) {
+                                // debug($throwable->getMessage());
+                            }
                         }
                     }
                 }
@@ -112,25 +108,15 @@ class TasticFieldService
             $fieldData[$tastic->tasticId] = [];
         }
 
-        try {
-            $fieldData[$tastic->tasticId][$field] = $this->fieldHandlers[$type]->handle(
-                $context,
-                ($tastic->configuration->$field !== null
-                    ? $tastic->configuration->$field
-                    : ($fieldDefinition['default'] ?? null)
-                )
-            );
-        } catch (\Throwable $e) {
-            $fieldData[$tastic->tasticId][$field] = (object)[
-                'ok' => false,
-                'message' => $e->getMessage(),
-            ];
-            if ($this->debug) {
-                $fieldData[$tastic->tasticId][$field]->trace = $e->getTrace();
-                $fieldData[$tastic->tasticId][$field]->file = $e->getFile();
-                $fieldData[$tastic->tasticId][$field]->line = $e->getLine();
-            }
-        }
+        $fieldData[$tastic->tasticId][$field] = $fieldHandler->handle(
+            $context,
+            $node,
+            $page,
+            ($tastic->configuration->$field !== null
+                ? $tastic->configuration->$field
+                : $fieldDefinition['default'] ?? null
+            )
+        );
 
         return $fieldData;
     }
