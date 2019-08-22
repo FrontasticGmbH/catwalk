@@ -1,4 +1,4 @@
-import { getTranslation } from 'frontastic-common'
+import getTranslation from '../getTranslation'
 
 function generateTitle (node, context) {
     if (node.configuration.seoTitle) {

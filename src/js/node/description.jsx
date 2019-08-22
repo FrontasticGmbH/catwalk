@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 import { Helmet } from 'react-helmet'
 
-import { getTranslation } from 'frontastic-common'
 import ComponentInjector from '../app/injector'
+import getTranslation from '../getTranslation'
 
 class Description extends Component {
     render () {
