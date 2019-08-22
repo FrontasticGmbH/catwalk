@@ -14,13 +14,19 @@ class StreamService
     private $streamHandlers = [];
 
     /**
+     * @var bool
+     */
+    private $debug = false;
+
+    /**
      * @param StreamHandler[]
      */
-    public function __construct(iterable $streamHandlers = [])
+    public function __construct(iterable $streamHandlers = [], bool $debug = false)
     {
         foreach ($streamHandlers as $streamHandler) {
             $this->addStreamHandler($streamHandler);
         }
+        $this->debug = $debug;
     }
 
     public function addStreamHandler(StreamHandler $streamHandler)
@@ -46,10 +52,16 @@ class StreamService
                     (isset($parameterMap[$stream->streamId]) ? $parameterMap[$stream->streamId] : [])
                 )
                 ->otherwise(function (\Throwable $exception) {
-                    return [
+                    $errorResult = [
                         'ok' => false,
                         'message' => $exception->getMessage(),
                     ];
+                    if ($this->debug) {
+                        $errorResult['trace'] = $exception->getTrace();
+                        $errorResult['file'] = $exception->getFile();
+                        $errorResult['line'] = $exception->getLine();
+                    }
+                    return $errorResult;
                 });
         }
 
