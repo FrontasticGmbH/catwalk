@@ -32,7 +32,7 @@ class ProductDescriptionTastic extends Component {
                         }
 
                         return (<li key={attribute}>
-                            <strong>{this.ucFirst(attribute)}</strong>: {this.props.variant.attributes[attribute]}
+                            <strong>{this.ucFirst(attribute)}</strong>: {this.props.variant.attributes[attribute].label || this.props.variant.attributes[attribute]}
                         </li>)
                     })}
                 </ul>

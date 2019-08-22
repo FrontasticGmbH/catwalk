@@ -80,7 +80,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $this->fieldService->getFieldData($this->context, $pageFixture);
+        $this->fieldService->getFieldData($this->context, $this->nodeFixture(), $pageFixture);
     }
 
     public function testGetFieldDataIncludesDataForHandledFields()
@@ -112,7 +112,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $actualResult = $this->fieldService->getFieldData($this->context, $pageFixture);
+        $actualResult = $this->fieldService->getFieldData($this->context, $this->nodeFixture(), $pageFixture);
 
         $this->assertEquals(
             [
@@ -151,7 +151,44 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $this->fieldService->getFieldData($this->context, $pageFixture);
+        $this->fieldService->getFieldData($this->context, $this->nodeFixture(), $pageFixture);
+    }
+
+    public function testGetFieldDataDoesNotIncludeDataForUnhandledFields()
+    {
+        $this->fieldHandlerMock->expects($this->any())
+            ->method('handle')
+            ->will($this->returnValue('I handled this'));
+
+        $pageFixture = $this->pageFixture([
+            new Tastic([
+                'tasticId' => 'id-of-the-tastic',
+                'tasticType' => 'a-tastic-type',
+                'configuration' => new Tastic\Configuration([
+                    'handled-field' => 'The Field Value'
+                ]),
+            ]),
+        ]);
+
+        $tasticDefinitionFixture = $this->tasticDefinitionFixture(
+            [
+                [
+                    'field' => 'unhandled-field',
+                    'type' => 'unhandled-type',
+                ]
+            ]
+        );
+
+        $this->tasticDefinitionServiceMock->expects($this->any())
+            ->method('getTasticsMappedByType')
+            ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
+
+        $actualResult = $this->fieldService->getFieldData($this->context, $this->nodeFixture(), $pageFixture);
+
+        $this->assertEquals(
+            [],
+            $actualResult
+        );
     }
 
     public function testGetFieldDataUsesDefaultValueForHandledFieldsWithoutValue()
@@ -184,74 +221,12 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             ->method('getTasticsMappedByType')
             ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
 
-        $this->fieldService->getFieldData($this->context, $pageFixture);
+        $this->fieldService->getFieldData($this->context, $this->nodeFixture(), $pageFixture);
     }
 
-    public function testGroupFieldsAreHandledCorrectly()
+    private function nodeFixture(): Node
     {
-        $this->fieldHandlerMock->expects($this->exactly(3))
-            ->method('handle')
-            ->will($this->returnValue('I handled this'));
-
-        $pageFixture = $this->pageFixture([
-            new Tastic([
-                'tasticId' => 'id-of-the-tastic',
-                'tasticType' => 'a-tastic-type',
-                'configuration' => new Tastic\Configuration([
-                    'group-field' => [
-                        [
-                            'handled-field' => 'The Field Value',
-                        ],
-                        [
-                            'handled-field' => 'The 2nd Field Value',
-                        ],
-                        [
-                            'handled-field' => 'The 3rd Field Value',
-                        ]
-                    ]
-                ]),
-            ]),
-        ]);
-
-        $tasticDefinitionFixture = $this->tasticDefinitionFixture(
-            [
-                [
-                    'field' => 'group-field',
-                    'type' => 'group',
-                    'fields' => [
-                        [
-                            'field' => 'handled-field',
-                            'type' => 'handled-type',
-                        ]
-                    ]
-                ]
-            ]
-        );
-
-        $this->tasticDefinitionServiceMock->expects($this->any())
-            ->method('getTasticsMappedByType')
-            ->will($this->returnValue(['a-tastic-type' => $tasticDefinitionFixture]));
-
-        $actualResult = $this->fieldService->getFieldData($this->context, $pageFixture);
-
-        $this->assertEquals(
-            [
-                'id-of-the-tastic' => [
-                    'group-field' => [
-                        [
-                            'handled-field' => 'I handled this',
-                        ],
-                        [
-                            'handled-field' => 'I handled this',
-                        ],
-                        [
-                            'handled-field' => 'I handled this',
-                        ],
-                    ]
-                ]
-            ],
-            $actualResult
-        );
+        return new Node();
     }
 
     private function pageFixture(array $tastics): Page

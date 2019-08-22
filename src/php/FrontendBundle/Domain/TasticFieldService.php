@@ -13,7 +13,7 @@ class TasticFieldService
     private $tasticDefinitionService;
 
     /**
-     * @var TasticFieldHandler[]
+     * @var TasticFieldHandlerV2[]
      */
     private $fieldHandlers = [];
 
@@ -23,10 +23,8 @@ class TasticFieldService
     private $tasticDefinionMapCache;
 
     /**
-     * @var bool
+     * @param TasticFieldHandler[]|TasticFieldHandlerV2[] $fieldHandlers
      */
-    private $debug;
-
     public function __construct(
         TasticService $tasticDefinitionService,
         iterable $fieldHandlers = [],
@@ -36,21 +34,25 @@ class TasticFieldService
         foreach ($fieldHandlers as $fieldHandler) {
             $this->addFieldHandler($fieldHandler);
         }
-        $this->debug = $debug;
     }
 
     /**
+     * @param TasticFieldHandler|TasticFieldHandlerV2 $fieldHandler
      * @todo Should we allow multiple field handlers to work as a filter chain?
      */
-    private function addFieldHandler(TasticFieldHandler $fieldHandler)
+    private function addFieldHandler($fieldHandler)
     {
+        if ($fieldHandler instanceof TasticFieldHandler) {
+            $fieldHandler = new TasticFieldHandlerAdapterV2($fieldHandler);
+        }
+
         if (isset($this->fieldHandlers[$fieldHandler->getType()])) {
             throw new \LogicException('Duplicate field handler: "'. $fieldHandler->getType() . '"');
         }
         $this->fieldHandlers[$fieldHandler->getType()] = $fieldHandler;
     }
 
-    public function getFieldData(Context $context, Page $page): array
+    public function getFieldData(Context $context, Node $node, Page $page): array
     {
         $tasticDefinitionMap = $this->getTasticDefinitionMap();
 
@@ -68,12 +70,18 @@ class TasticFieldService
                     $definition = $tasticDefinitionMap[$tastic->tasticType];
                     foreach ($definition->configurationSchema['schema'] as $fieldSet) {
                         foreach ($fieldSet['fields'] as $fieldDefinition) {
-                            $fieldData = $this->setHandledFieldData(
-                                $context,
-                                $fieldData,
-                                $tastic,
-                                $fieldDefinition
-                            );
+                            try {
+                                $fieldData = $this->setHandledFieldData(
+                                    $node,
+                                    $page,
+                                    $context,
+                                    $fieldData,
+                                    $tastic,
+                                    $fieldDefinition
+                                );
+                            } catch (\Throwable $throwable) {
+                                // debug($throwable->getMessage());
+                            }
                         }
                     }
                 }
@@ -84,65 +92,36 @@ class TasticFieldService
     }
 
     private function setHandledFieldData(
+        Node $node,
+        Page $page,
         Context $context,
         array $fieldData,
         Tastic $tastic,
         array $fieldDefinition
     ): array {
-        $type = $this->getFieldType($fieldDefinition);
+        $type = $fieldDefinition['streamType'] ?? $fieldDefinition['type'];
+        if (!isset($this->fieldHandlers[$type])) {
+            return $fieldData;
+        }
 
         $field = $fieldDefinition['field'];
+        $fieldHandler = $this->fieldHandlers[$type];
 
         if (!isset($fieldData[$tastic->tasticId])) {
             $fieldData[$tastic->tasticId] = [];
         }
 
-        try {
-            $fieldData[$tastic->tasticId][$field] = $this->resolveFieldData(
-                $fieldDefinition,
-                $this->getFieldValue($fieldDefinition, $tastic->configuration),
-                $context
-            );
-        } catch (\Throwable $e) {
-            $fieldData[$tastic->tasticId][$field] = (object)[
-                'ok' => false,
-                'message' => $e->getMessage(),
-            ];
-            if ($this->debug) {
-                $fieldData[$tastic->tasticId][$field]->trace = $e->getTrace();
-                $fieldData[$tastic->tasticId][$field]->file = $e->getFile();
-                $fieldData[$tastic->tasticId][$field]->line = $e->getLine();
-            }
-        }
+        $fieldData[$tastic->tasticId][$field] = $fieldHandler->handle(
+            $context,
+            $node,
+            $page,
+            ($tastic->configuration->$field !== null
+                ? $tastic->configuration->$field
+                : $fieldDefinition['default'] ?? null
+            )
+        );
 
         return $fieldData;
-    }
-
-    private function resolveFieldData(array $fieldDefinition, $fieldData, Context $context)
-    {
-        $type = $this->getFieldType($fieldDefinition);
-
-        if ($type === 'group') {
-            $resolvedGroupValue = [];
-            /* @var array $fieldData */
-            foreach ($fieldData as $groupIndex => $groupValue) {
-                $resolvedGroupValue[$groupIndex] = [];
-                foreach ($fieldDefinition['fields'] as $subFieldDefinition) {
-                    $resolvedGroupValue[$groupIndex][$subFieldDefinition['field']] = $this->resolveFieldData(
-                        $subFieldDefinition,
-                        $this->getFieldValue($subFieldDefinition, $groupValue),
-                        $context
-                    );
-                }
-            }
-            return $resolvedGroupValue;
-        }
-
-        if (!isset($this->fieldHandlers[$type])) {
-            return $fieldData;
-        }
-
-        return $this->fieldHandlers[$type]->handle($context, $fieldData);
     }
 
     /**
@@ -154,26 +133,5 @@ class TasticFieldService
             $this->tasticDefinionMapCache = $this->tasticDefinitionService->getTasticsMappedByType();
         }
         return $this->tasticDefinionMapCache;
-    }
-
-    private function getFieldType(array $fieldDefinition): string
-    {
-        return $fieldDefinition['streamType'] ?? $fieldDefinition['type'];
-    }
-
-    private function getFieldValue($fieldDefinition, $configuration)
-    {
-        $field = $fieldDefinition['field'];
-
-        if (is_object($configuration)) {
-            return ($configuration->$field !== null
-                ? $configuration->$field
-                : ($fieldDefinition['default'] ?? null)
-            );
-        }
-        return (isset($configuration[$field]) && $configuration[$field] !== null
-            ? $configuration[$field]
-            : ($fieldDefinition['default'] ?? null)
-        );
     }
 }
