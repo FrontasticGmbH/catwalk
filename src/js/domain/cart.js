@@ -35,7 +35,8 @@ class Cart {
 
     getDiscount () {
         return _.sum(this.lineItems.map((lineItem) => {
-            return (lineItem.price * lineItem.count) - lineItem.totalPrice
+            const basePrice = (lineItem.discountedPrice || lineItem.price)
+            return basePrice - lineItem.totalPrice
         }))
     }
 

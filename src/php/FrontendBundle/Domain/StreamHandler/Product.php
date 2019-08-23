@@ -39,6 +39,9 @@ class Product extends StreamHandler
             ProductApi::QUERY_ASYNC
         );
 
+
+        $res = $this->productApi->getProduct($query, ProductApi::QUERY_ASYNC);
+
         return $res;
     }
 }
