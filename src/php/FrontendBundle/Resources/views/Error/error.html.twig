@@ -12,10 +12,5 @@
 {% endblock %}
 
 {% block main %}
-    <div id="app"
-         data-props="{{ pageData|frontastic_json_serialize|json_encode }}"
-         data-app="{{ frontastic_context()|json_encode }}"
-    >
-        {% if response.status < 400 %}{{ response.body.app|raw }}{% endif %}
-    </div>
+{%  include 'FrontasticCatwalkFrontendBundle::frontastic_render.html.twig' with { response: response, pageData: pageData } %}
 {% endblock %}
