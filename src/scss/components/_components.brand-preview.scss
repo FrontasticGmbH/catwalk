@@ -1,0 +1,54 @@
+/* ==========================================================================
+   # BRAND CONTENFUL TASTIC
+========================================================================== */
+
+.contentful-brand-company-preview {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-gap: 16px;
+    margin: 8px 0;
+    padding: 12px;
+
+    .fist-row {
+        display: grid;
+        //grid-template-columns: 50% 50%;
+        align-items: center;
+        text-align: center;
+    }
+
+
+    .second-row {
+
+    }
+
+    .bc-logo {
+        background: #fff;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        height: 100px;
+        width: 160px;
+        margin: 0 auto;
+    }
+
+    .bc-contact {
+        font-style: italic;
+        margin: 24px 0 12px 0;
+    }
+
+    .bc-name {
+
+    }
+
+    .bc-website {
+        font-size: 12px;
+        color: #666;
+    }
+
+    .bc-description {
+        text-align: justify;
+        text-indent: 3em;
+    }
+
+
+}

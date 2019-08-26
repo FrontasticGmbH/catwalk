@@ -12,6 +12,12 @@
                     "type": "stream",
                     "streamType": "content",
                     "default": null
+                },
+                {
+                    "label": "Show company logo",
+                    "field": "showLogo",
+                    "type": "boolean",
+                    "default": true
                 }
             ]
         }

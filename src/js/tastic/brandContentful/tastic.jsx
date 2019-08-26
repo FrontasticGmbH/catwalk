@@ -1,70 +1,64 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Translatable from '../../component/translatable'
 import _ from 'lodash'
 
-import Markdown from '../../component/markdown'
-import { FormattedDate, FormattedTime } from 'react-intl'
-
 class BrandContentfulTastic extends Component {
+    haveAllTheAttributes = (attributes) => {
+        const { companyName, logo, companyDescription, website } = attributes
+
+        const hasCompanyName = !_.isEmpty(companyName) && !_.isEmpty(companyName.content)
+        const hasLogo = !_.isEmpty(logo) && !_.isEmpty(logo.content) && !_.isEmpty(logo.content.url)
+        const hasCompanyDescription = !_.isEmpty(companyDescription) && !_.isEmpty(companyDescription.content)
+        const hasWebsite = !_.isEmpty(website) && !_.isEmpty(website.content)
+
+        return hasCompanyName && hasLogo && hasCompanyDescription && hasWebsite
+    }
+
     render () {
         let content = this.props.rawData.stream[this.props.tastic.configuration.stream]
-        if (!content) {
+
+        if (!content || !content.attributes || !this.haveAllTheAttributes(content.attributes)) {
             return null
         }
 
-        return [ <div>... BrandContentfulTastic ...</div>,
-            <div className='s-text'>
-            {_.map(content.attributes, (attribute) => {
-                let className = `e-content e-content__${attribute.type} e-content__${attribute.type}--${attribute.attributeId}`
+        const showLogo = this.props.tastic.schema.get('showLogo') || false
+        const { companyName, logo, companyDescription, website } = content.attributes
+        const descriptionTeaser = companyDescription.content.length > 350
+            ? `${companyDescription.content.substr(0, 350)}...`
+            : companyDescription.content
 
-                switch (attribute.type) {
-                case 'Symbol':
-                    return <h1 className={className} key={attribute.attributeId}>{attribute.content}</h1>
-                case 'Text':
-                    return (<div className={className} key={attribute.attributeId}>
-                        <Markdown text={attribute.content} />
-                    </div>)
-                case 'DateTime':
-                    const date = new Date(attribute.content)
-                    return (<div className={className} key={attribute.attributeId}>
-                        <FormattedDate value={date} /> <FormattedTime value={date} />
-                    </div>)
-                case 'LIST':
-                    if (!_.isArray(attribute.content)) {
-                        // eslint-disable-next-line no-console
-                        console.warn('LIST content provided but content is not an array, ignoring.')
-                        return null
-                    }
+        return (
+            <div className='contentful-brand-company-preview'>
 
-                    const contentList = attribute.content.map(listItem => {
-                        return <li>{listItem.id}</li>
-                    })
-                    return (<div className={className} key={attribute.attributeId}>
-                        {contentList.length ? <ul>{contentList}</ul> : null}
-                    </div>)
-                case 'Asset':
-                    if (!attribute.content) {
-                        return null
-                    }
+                <div className='fist-row'>
+                    {showLogo && <div
+                        className='bc-logo'
+                        style={{ backgroundImage: `url(${logo.content.url})` }}
+                    />}
 
-                    return (<div className={className} key={attribute.attributeId}>
-                        {attribute.content.handle}
-                    </div>)
-                case 'Status':
-                case 'ID':
-                    // do not display the status of this content here
-                    return null
-                default:
-                    let content = attribute.content
-                    if (!React.isValidElement(content)) {
-                        // eslint-disable-next-line no-console
-                        console.warn('Retrieved not renderable content: "' + content + '". Skipping it.')
-                        return null
-                    }
-                    return <div className={className} key={attribute.attributeId}>{content}</div>
-                }
-            })}
-        </div>]
+                    <div className='bc-contact'>
+                        <div className='bc-name'>{companyName.content}</div>
+                        <div className='bc-website'>
+                            <a
+                                href={website.content}
+                                rel='noopener noreferrer'
+                                target='_blank'
+                            >
+                                {website.content}
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p className=' second-row bc-description'>
+                    <Translatable value={descriptionTeaser} />
+                </p>
+
+            </div>
+
+        )
     }
 }
 
