@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 import app from '../../app/app'
 
-class MiniCart extends Component {
+class LanguageSelector extends Component {
     render () {
         if (this.props.context.project.languages.length <= 1) {
             return null
@@ -30,11 +30,11 @@ class MiniCart extends Component {
     }
 }
 
-MiniCart.propTypes = {
+LanguageSelector.propTypes = {
     context: PropTypes.object.isRequired,
 }
 
-MiniCart.defaultProps = {}
+LanguageSelector.defaultProps = {}
 
 export default connect(
     (globalState, props) => {
@@ -42,4 +42,4 @@ export default connect(
             context: globalState.app.context,
         }
     }
-)(MiniCart)
+)(LanguageSelector)
