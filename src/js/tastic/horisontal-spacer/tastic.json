@@ -1,0 +1,18 @@
+{
+    "tasticType": "horizontal-spacer",
+    "name": "Horizontal Spacer",
+    "icon": "photo_size_select_small",
+    "schema": [
+        {
+            "name": "Space Size",
+            "fields": [
+                {
+                    "label": "Space in px",
+                    "field": "spaceInPx",
+                    "type": "integer",
+                    "default": 24
+                }
+            ]
+        }
+    ]
+}
