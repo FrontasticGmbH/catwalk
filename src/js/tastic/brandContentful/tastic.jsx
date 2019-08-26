@@ -22,11 +22,8 @@ class BrandContentfulTastic extends Component {
             return null
         }
 
-        const showLogo = this.props.tastic.schema.get('showLogo') || false
-        const { companyName, logo, companyDescription, website } = content.attributes
-        const descriptionTeaser = companyDescription.content.length > 350
-            ? `${companyDescription.content.substr(0, 350)}...`
-            : companyDescription.content
+        let showLogo = this.props.tastic.schema.get('showLogo') || false
+        let  { companyName, logo, companyDescription, website } = content.attributes
 
         return (
             <div className='contentful-brand-company-preview'>
@@ -52,8 +49,8 @@ class BrandContentfulTastic extends Component {
 
                 </div>
 
-                <p className=' second-row bc-description'>
-                    <Translatable value={descriptionTeaser} />
+                <p className='second-row bc-description'>
+                    <Translatable value={`${companyDescription.content.substr(0, 300)}...`} />
                 </p>
 
             </div>
