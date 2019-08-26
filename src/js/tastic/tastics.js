@@ -11,6 +11,7 @@ import Cart from './cart/tastic.jsx'
 import Checkout from './checkout/tastic.jsx'
 import Content from './content/tastic.jsx'
 import ContentList from './contentList/tastic.jsx'
+import BrandContentful from './brandContentful/tastic.jsx'
 import CategoryDescription from './categoryDescription/tastic.jsx'
 import CategoryImage from './categoryImage/tastic.jsx'
 import DatavisBarChart from './datavis/barChart/tastic.jsx'
@@ -50,6 +51,7 @@ export default (() => {
         'checkout': Checkout,
         'content': Content,
         'contentList': ContentList,
+        'brand-contentful': BrandContentful,
         'categoryDescription': CategoryDescription,
         'categoryImage': CategoryImage,
         'datavis-barChart': DatavisBarChart,
