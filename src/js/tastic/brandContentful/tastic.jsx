@@ -23,7 +23,7 @@ class BrandContentfulTastic extends Component {
         }
 
         let showLogo = this.props.tastic.schema.get('showLogo') || false
-        let  { companyName, logo, companyDescription, website } = content.attributes
+        let { companyName, logo, companyDescription, website } = content.attributes
 
         return (
             <div className='contentful-brand-company-preview'>
