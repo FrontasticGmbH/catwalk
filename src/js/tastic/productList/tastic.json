@@ -29,7 +29,7 @@
                     "label": "Interstitials",
                     "field": "interstitials",
                     "type": "group",
-                    "minimum": 0,
+                    "min": 0,
                     "itemLabelField": "position",
                     "fields": [
                         {
