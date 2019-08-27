@@ -19,6 +19,9 @@ class CronCommand extends ContainerAwareCommand
             ->setDescription('Runs project specific cron jobs');
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity) Batch code
+     */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $projectDir = dirname(dirname(realpath($_SERVER['SCRIPT_NAME'])));
