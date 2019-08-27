@@ -24,8 +24,20 @@
                     "type": "string"
                 },
                 {
-                    "label": "Turned On",
+                    "label": "Turned On (production)",
                     "field": "on",
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "label": "Turned On (staging)",
+                    "field": "onStaging",
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "label": "Turned On (development)",
+                    "field": "onDevelopment",
                     "type": "boolean",
                     "default": false
                 },
