@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Translatable from '../../component/translatable'
 import _ from 'lodash'
 
 class BrandContentfulTastic extends Component {
@@ -50,7 +49,7 @@ class BrandContentfulTastic extends Component {
                 </div>
 
                 <p className='second-row bc-description'>
-                    <Translatable value={`${companyDescription.content.substr(0, 300)}...`} />
+                    {companyDescription.content.substr(0, 300)}...
                 </p>
 
             </div>
