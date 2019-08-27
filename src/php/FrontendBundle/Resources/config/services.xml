@@ -14,6 +14,8 @@
 
         <prototype namespace="Frontastic\Catwalk\FrontendBundle\Command\" resource="../../Command" autoconfigure="true" />
 
+        <service id="logger" alias="monolog.logger" public="true" />
+
         <service id="Frontastic\Catwalk\FrontendBundle\Routing\UrlGenerator">
             <argument type="collection">
                 <argument
