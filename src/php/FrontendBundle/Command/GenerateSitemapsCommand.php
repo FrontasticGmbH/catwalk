@@ -214,6 +214,11 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 continue;
             }
 
+            if (!isset($routes[$node->nodeId])) {
+                // there is no route for this node, maybe some parent nodes in the tree of this node has been deleted.
+                continue;
+            }
+
             $entries[] = [
                 'uri' => $routes[$node->nodeId]->route,
                 'changed' => strtotime($node->metaData['changed'])
