@@ -95,6 +95,32 @@ let WishlistLoader = function (store, api) {
         )
     }
 
+    this.addMultiple = (lineItems) => {
+        this.store.dispatch({
+            type: 'WishlistApi.Wishlist.loading',
+        })
+
+        this.api.request(
+            'POST',
+            'Frontastic.WishlistApi.Wishlist.addMultiple',
+            { ownErrorHandler: true },
+            { lineItems },
+            (data) => {
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.add.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.add.error',
+                    error: error,
+                })
+            }
+        )
+    }
+
     this.updateLineItem = (wishlist, update) => {
         this.api.request(
             'POST',
