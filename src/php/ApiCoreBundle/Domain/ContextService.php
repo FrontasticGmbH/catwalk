@@ -3,18 +3,16 @@
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver;
+use Frontastic\Common\AccountApiBundle\Domain\Account;
+use Frontastic\Common\AccountApiBundle\Domain\Session;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Locale;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Routing\Route;
-
-use Frontastic\Common\ReplicatorBundle\Domain\Customer;
-use Frontastic\Common\AccountApiBundle\Domain\Session;
-use Frontastic\Common\AccountApiBundle\Domain\Account;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Yes, context encapsulates quite some stuff
@@ -86,7 +84,9 @@ class ContextService
         $request = $request ?: $this->requestStack->getCurrentRequest();
 
         return $this->getContext(
-            $request ? $this->localeResolver->determineLocale($request, $this->getProject()) : $this->getProject()->defaultLanguage,
+            $request
+                ? $this->localeResolver->determineLocale($request, $this->getProject())
+                : $this->getProject()->defaultLanguage,
             $request ? $this->getSession($request) : new Session()
         );
     }
