@@ -76,22 +76,6 @@ let Loader = function (store, router, api) {
             this.loaders.cart.getOrder(route.parameters)
             this.loaders.node.loadMaster(route.route, route.parameters)
             break
-        case 'Frontastic.Frontend.Master.Category.view':
-        case 'Frontastic.Frontend.Master.Product.view':
-        case 'Frontastic.Frontend.Master.Search.search':
-        case 'Frontastic.Frontend.Master.Checkout.cart':
-        case 'Frontastic.Frontend.Master.Checkout.checkout':
-        case 'Frontastic.Frontend.Master.Account.index':
-        case 'Frontastic.Frontend.Master.Account.forgotPassword':
-        case 'Frontastic.Frontend.Master.Account.confirm':
-        case 'Frontastic.Frontend.Master.Account.profile':
-        case 'Frontastic.Frontend.Master.Account.addresses':
-        case 'Frontastic.Frontend.Master.Account.orders':
-        case 'Frontastic.Frontend.Master.Account.wishlists':
-        case 'Frontastic.Frontend.Master.Account.vouchers':
-        case 'Frontastic.Frontend.Master.Error.view':
-            this.loaders.node.loadMaster(route.route, route.parameters)
-            break
         case 'Frontastic.Frontend.Preview.view':
             this.loaders.node.reloadPreview(route.parameters)
             break
@@ -102,6 +86,8 @@ let Loader = function (store, router, api) {
             if (route.route.substr(0, 5) === 'node_') {
                 route.parameters.nodeId = route.route.substr(5).split('.')[0]
                 this.loaders.node.loadNode(route.parameters)
+            } else if (route.route.includes('.Master.')) {
+                this.loaders.node.loadMaster(route.route, route.parameters)
             }
         }
     }
