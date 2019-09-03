@@ -23,7 +23,7 @@ const express = Express()
 // Defined for use in subsequent files only
 const PRODUCTION = true // eslint-disable-line no-unused-vars
 
-export default (ProjectHelmet, tastics = null, port = 8000) => {
+export default (tastics = null, port = 8000) => {
     global.tastics = tastics
 
     // We increase the body data limit because we can recieve quite some data from
@@ -67,6 +67,9 @@ export default (ProjectHelmet, tastics = null, port = 8000) => {
         app.getRouter().setContext(context)
         app.getRouter().setRoutes(context.routes)
 
+        Helmet.canUseDOM = false
+
+
         response.send({
             app: renderToString(
                 <Provider store={store}>
@@ -97,18 +100,7 @@ export default (ProjectHelmet, tastics = null, port = 8000) => {
                         return !value
                     }
                 )),
-                ...(_.omitBy(
-                    _.mapValues(
-                        ProjectHelmet.renderStatic(),
-                        (value, key) => {
-                            return value.toString()
-                        }
-                    ),
-                    (value) => {
-                        return !value
-                    }
-                )),
-            },
+            }
         })
     }
 
