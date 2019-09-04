@@ -69,7 +69,6 @@ export default (tastics = null, port = 8000) => {
 
         Helmet.canUseDOM = false
 
-
         response.send({
             app: renderToString(
                 <Provider store={store}>
@@ -100,7 +99,7 @@ export default (tastics = null, port = 8000) => {
                         return !value
                     }
                 )),
-            }
+            },
         })
     }
 
