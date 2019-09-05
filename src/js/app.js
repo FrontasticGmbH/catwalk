@@ -11,7 +11,10 @@ import Context from './app/context'
 import Preview from './preview'
 import Node from './node'
 
-export default (mountNode, dataNode, tastics = null) => {
+import diffLog from './app/htmlDiff/differ'
+import printLog from './app/htmlDiff/printLog'
+
+function appCreator (mountNode, dataNode, tastics = null) {
     if (!mountNode || !dataNode) {
         return
     }
@@ -69,43 +72,86 @@ export default (mountNode, dataNode, tastics = null) => {
             app.history = history
             app.router.history = history
 
-            ReactDOM.hydrate(
-                <Provider store={app.getStore()}>
-                    <IntlProvider>
-                        <Router history={app.history}>
-                            <Switch>
-                                <Route
-                                    exact
-                                    path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                                    component={Preview}
-                                />
+            hydrate(app, mountNode)
 
-                                <Route component={Node} />
-                            </Switch>
-                        </Router>
-                    </IntlProvider>
-                </Provider>,
-                mountNode
-            )
         })
     } else {
-        ReactDOM.hydrate(
-            <Provider store={app.getStore()}>
-                <IntlProvider>
-                    <Router history={app.history}>
-                        <Switch>
-                            <Route
-                                exact
-                                path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                                component={Preview}
-                            />
-
-                            <Route component={Node} />
-                        </Switch>
-                    </Router>
-                </IntlProvider>
-            </Provider>,
-            mountNode
-        )
+        hydrate(app, mountNode)
     }
 }
+
+function hydrate (app, mountNode) {
+    const isDevelopment = app.getRouter().getContext().isDevelopment()
+
+    let beforeHydrateHtml = null
+    let afterHydrateHtml = null
+
+    if (isDevelopment) {
+        beforeHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
+        consoleCaptureStart()
+    }
+
+    ReactDOM.hydrate(
+        <Provider store={app.getStore()}>
+            <IntlProvider>
+                <Router history={app.history}>
+                    <Switch>
+                        <Route
+                            exact
+                            path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
+                            component={Preview}
+                        />
+
+                        <Route component={Node} />
+                    </Switch>
+                </Router>
+            </IntlProvider>
+        </Provider>,
+        mountNode,
+        () => {
+            if (isDevelopment) {
+                afterHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
+                if (hasHydrationWarning(consoleCaptureStop())) {
+                    const log = diffLog(beforeHydrateHtml, afterHydrateHtml)
+
+                    printLog(log)
+                } else {
+                    console.log('No hydration issue')
+                }
+            }
+        }
+    )
+}
+
+function consoleCaptureStart () {
+    console.stderror = console.error.bind(console)
+    console.errors = []
+    console.error = function () {
+        console.errors.push(Array.from(arguments));
+        console.stderror.apply(console, arguments);
+    }
+}
+
+function consoleCaptureStop () {
+    if (!console.errors) {
+        return []
+    }
+
+    console.error = console.stderror.bind(console)
+    delete console.stderror
+
+    const errors = console.errors
+    delete console.errors
+
+    return errors
+}
+
+function hasHydrationWarning (errors) {
+    return errors.map((error) => {
+        return (error && error.length && !!error[0].match(/^Warning: /))
+    }).reduce((accumulator, currentValue) => {
+        return accumulator || currentValue
+    })
+}
+
+export default appCreator
