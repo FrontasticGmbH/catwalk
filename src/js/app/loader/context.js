@@ -16,35 +16,39 @@ let Loader = function (store, api) {
     this.api = api
 
     this.refresh = (parameters) => {
-        this.api.request(
-            'GET',
-            'Frontastic.ApiCoreBundle.Api.context',
-            parameters,
-            null,
-            (data) => {
-                let context = new Context(data)
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'GET',
+                'Frontastic.ApiCoreBundle.Api.context',
+                parameters,
+                null,
+                (data) => {
+                    let context = new Context(data)
 
-                app.getRouter().setContext(context)
-                app.getRouter().setRoutes(context.routes)
+                    app.getRouter().setContext(context)
+                    app.getRouter().setRoutes(context.routes)
 
-                this.store.dispatch({
-                    type: 'ApiBundle.Api.context.success',
-                    data: data,
-                })
-                app.loadForLocation(window.location)
+                    this.store.dispatch({
+                        type: 'ApiBundle.Api.context.success',
+                        data: data,
+                    })
+                    app.loadForLocation(window.location)
 
-                // Restart continuous updates
-                app.api.clearContinuousRequests()
-                app.getLoader('wishlist').get()
-                app.getLoader('cart').get()
-            },
-            (error) => {
-                this.store.dispatch({
-                    type: 'ApiBundle.Api.context.error',
-                    data: error,
-                })
-            }
-        )
+                    // Restart continuous updates
+                    app.api.clearContinuousRequests()
+                    app.getLoader('wishlist').get()
+                    app.getLoader('cart').get()
+                    resolve()
+                },
+                (error) => {
+                    this.store.dispatch({
+                        type: 'ApiBundle.Api.context.error',
+                        data: error,
+                    })
+                    reject(error)
+                }
+            )
+        })
     }
 
     this.register = (user, redirect = true) => {
