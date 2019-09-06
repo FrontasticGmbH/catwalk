@@ -45,6 +45,10 @@ class MasterService implements Target
     {
         $rules = $this->rulesGateway->get();
 
+
+        // The following if statements actually check the *type* of the master page.
+        // Master pages always render a page for a single product/category/content…, and thus there will be a contentId.
+
         if ($context->productId !== null) {
             return $this->pickNode($rules->rules['product'] ?? null, $context->productId, $context->entity);
         }
@@ -53,6 +57,11 @@ class MasterService implements Target
             return $this->pickNode($rules->rules['category'] ?? null, $context->categoryId, $context->entity);
         }
 
+        if ($context->contentId !== null) {
+            return $this->pickNode($rules->rules['content'] ?? null, $context->contentId, $context->entity);
+        }
+
+        // This means we are not on a entity-master page
         foreach ($this->validContexts as $contextAttribute) {
             $ruleName = $this->propertyToRuleName($contextAttribute);
             if ($context->$contextAttribute !== null) {

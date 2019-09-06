@@ -25,6 +25,11 @@ class PageMatcherContext extends DataObject
     public $productId;
 
     /**
+     * @var string|null
+     */
+    public $contentId;
+
+    /**
      * @var ?string
      */
     public $search;
