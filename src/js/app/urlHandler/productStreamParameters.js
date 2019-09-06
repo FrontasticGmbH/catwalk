@@ -64,6 +64,18 @@ let ProductStreamParameters = function (parameters, isReadOnly = true) {
     }
 
     /**
+     * @param {int} limit
+     */
+    this.setLimit = (limit = 0) => {
+        this.assertWriteMode()
+        if (limit === 0) {
+            delete this.parameters.limit
+        } else {
+            this.parameters.limit = limit
+        }
+    }
+
+    /**
      * @param {string} attributeId
      * @param {string} order
      */

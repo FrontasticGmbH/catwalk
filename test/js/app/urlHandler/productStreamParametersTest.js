@@ -42,6 +42,24 @@ test('it removes offset correctly', () => {
     expect(parameters.getParameters()).toEqual({})
 })
 
+test('it sets limit correctly', () => {
+    let parameters = new ProductStreamParameters({}, false)
+
+    parameters.setLimit(2338)
+
+    expect(parameters.getParameters()).toEqual({
+        limit: 2338,
+    })
+})
+
+test('it removes limit correctly', () => {
+    let parameters = new ProductStreamParameters({}, false)
+
+    parameters.setLimit()
+
+    expect(parameters.getParameters()).toEqual({})
+})
+
 test('it detects filters as non-crawlable', () => {
     let parameters = new ProductStreamParameters({}, false)
 
