@@ -11,6 +11,7 @@ import Entity from '../../app/entity'
 import Summary from '../cart/summary'
 import Email from '../account/login/form'
 import Address from '../account/addresses/edit'
+import emptyEntity from '../../helper/emptyEntity'
 
 class Checkout extends Component {
     constructor (props) {
@@ -127,7 +128,7 @@ Checkout.defaultProps = {}
 export default connect(
     (globalState, props) => {
         return {
-            cart: globalState.cart.cart || new Entity(),
+            cart: globalState.cart.cart || emptyEntity,
         }
     }
 )(Checkout)

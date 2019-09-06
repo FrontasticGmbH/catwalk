@@ -1,4 +1,5 @@
 import Entity from '../entity'
+import emptyEntity from '../../helper/emptyEntity'
 import _ from 'lodash'
 
 import { ConfigurationSchema, FacetTypeSchemaMap } from 'frontastic-common'
@@ -28,7 +29,7 @@ const initialGlobalState = {
 }
 
 Loader.handleAction = (globalState = initialGlobalState, action) => {
-    let facets = new Entity()
+    let facets = emptyEntity
 
     switch (action.type) {
     case 'FRONTASTIC_ROUTE':

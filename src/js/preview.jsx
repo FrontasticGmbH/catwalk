@@ -7,6 +7,7 @@ import app from './app/app'
 import Page from './page/page'
 import Entity from './app/entity'
 import Loading from './app/loading'
+import emptyEntity from './helper/emptyEntity'
 
 class Preview extends Component {
     constructor (props) {
@@ -130,7 +131,7 @@ export default connect(
                 globalState.node.last.data,
             page: globalState.node.pages[globalState.node.previewId] ||
                 globalState.node.last.page,
-            tastics: globalState.tastic.tastics || new Entity(),
+            tastics: globalState.tastic.tastics || emptyEntity,
             context: globalState.app.context,
         }
     }

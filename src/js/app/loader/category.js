@@ -1,4 +1,5 @@
 import Entity from '../entity'
+import emptyEntity from '../../helper/emptyEntity'
 
 /**
  * Loader classes like this consolidate all loading monitors for a domain
@@ -25,7 +26,7 @@ const initialGlobalState = {
 }
 
 Loader.handleAction = (globalState = initialGlobalState, action) => {
-    let categories = new Entity()
+    let categories = emptyEntity
 
     switch (action.type) {
     case 'FRONTASTIC_ROUTE':

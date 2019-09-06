@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 
 import app from '../../app/app'
-import Entity from '../../app/entity'
+import emptyEntity from '../../helper/emptyEntity'
 import Markdown from '../../component/markdown'
 
 import Image from '../../image'
@@ -75,7 +75,7 @@ export default connect(
         }
 
         return {
-            teaser: teaser || new Entity(),
+            teaser: teaser || emptyEntity,
             ...props,
         }
     }

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 
 import Entity from '../../app/entity'
+import emptyEntity from '../../helper/emptyEntity'
 
 import Summary from '../cart/summary'
 import MoleculesLineItem from '../../patterns/molecules/cart/line-item'
@@ -52,7 +53,7 @@ export default connect(
         }
 
         return {
-            order: order || new Entity(),
+            order: order || emptyEntity,
         }
     }
 )(Ordered)

@@ -6,6 +6,7 @@ import _ from 'lodash'
 import { ConfigurationSchema } from 'frontastic-common'
 
 import Entity from './app/entity'
+import emptyEntity from './helper/emptyEntity'
 import Loading from './app/loading'
 import MetaData from './node/metaData'
 
@@ -137,11 +138,11 @@ export default connect(
         return {
             viewKey: globalState.node.currentCacheKey + '-' + (page && page.data && page.data.pageId),
             node: globalState.node.nodes[globalState.node.currentNodeId] ||
-                globalState.node.last.node || new Entity(),
+                globalState.node.last.node || emptyEntity,
             data: globalState.node.nodeData[globalState.node.currentCacheKey] ||
-                globalState.node.last.data || new Entity(),
-            page: page || new Entity(),
-            tastics: globalState.tastic.tastics || new Entity(),
+                globalState.node.last.data || emptyEntity,
+            page: page || emptyEntity,
+            tastics: globalState.tastic.tastics || emptyEntity,
         }
     }
 )(Node)
