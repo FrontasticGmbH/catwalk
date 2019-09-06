@@ -6,41 +6,39 @@ import _ from 'lodash'
 import ErrorBoundary from '../app/errorBoundary'
 import tasticDataConnector from './tasticDataConnector'
 
-class Tastic extends Component {
-    render () {
-        const tastics = (window && window.tastics) || (global && global.tastics) || []
-        const tastic = this.props.tastic
+const TasticWrapper = (props) => {
+    const tastics = (window && window.tastics) || (global && global.tastics) || []
+    const tastic = props.tastic
 
-        if (!tastics[tastic.tasticType]) {
-            if (!this.props.isDebug) {
-                return null
-            }
-
-            return (<div className='alert alert-warning'>
-                <p>Tastic <code>{tastic.tasticType}</code> not yet implemented.</p>
-                <p>Did you just implement it? Please don't forget to register it in the <code>tastic/tastics.js</code>!</p>
-            </div>)
+    if (!tastics[tastic.tasticType]) {
+        if (!props.isDebug) {
+            return null
         }
-        let Tastic = tastics[tastic.tasticType]
 
-        return (<ErrorBoundary isDebug={this.props.isDebug}>
-            <div className={'e-tastic ' +
-                    'e-tastic__' + tastic.tasticType + ' ' +
-                    (tastic.schema.get('mobile') ? '' : 'e-tastic--hidden-hand ') +
-                    (tastic.schema.get('tablet') ? '' : 'e-tastic--hidden-lap ') +
-                    (tastic.schema.get('desktop') ? '' : 'e-tastic--hidden-desk ')
-                }
-                style={{
-                    outline: (_.isEqual(tastic.tasticId, this.props.highlight) ? '2px dashed #d73964' : null),
-                }}
-                id={tastic.tasticId}>
-                <Tastic tastic={tastic} node={this.props.node} page={this.props.page} rawData={this.props.data} data={this.props.resolved} />
-            </div>
-        </ErrorBoundary>)
+        return (<div className='alert alert-warning'>
+            <p>Tastic <code>{tastic.tasticType}</code> not yet implemented.</p>
+            <p>Did you just implement it? Please don't forget to register it in the <code>tastic/tastics.js</code>!</p>
+        </div>)
     }
+    let Tastic = tastics[tastic.tasticType]
+
+    return (<ErrorBoundary isDebug={props.isDebug}>
+        <div className={'e-tastic ' +
+                'e-tastic__' + tastic.tasticType + ' ' +
+                (tastic.schema.get('mobile') ? '' : 'e-tastic--hidden-hand ') +
+                (tastic.schema.get('tablet') ? '' : 'e-tastic--hidden-lap ') +
+                (tastic.schema.get('desktop') ? '' : 'e-tastic--hidden-desk ')
+            }
+            style={{
+                outline: (_.isEqual(tastic.tasticId, props.highlight) ? '2px dashed #d73964' : null),
+            }}
+            id={tastic.tasticId}>
+            <Tastic tastic={tastic} node={props.node} page={props.page} rawData={props.data} data={props.resolved} />
+        </div>
+    </ErrorBoundary>)
 }
 
-Tastic.propTypes = {
+TasticWrapper.propTypes = {
     node: PropTypes.object.isRequired,
     page: PropTypes.object.isRequired,
     tastic: PropTypes.object.isRequired,
@@ -50,8 +48,8 @@ Tastic.propTypes = {
     isDebug: PropTypes.bool,
 }
 
-Tastic.defaultProps = {
+TasticWrapper.defaultProps = {
     isDebug: false,
 }
 
-export default connect(tasticDataConnector)(Tastic)
+export default connect(tasticDataConnector)(TasticWrapper)
