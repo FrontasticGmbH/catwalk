@@ -176,11 +176,17 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         $sitemaps = [];
         foreach ($sitemapService->getExtensions() as $extension) {
             $entries = [];
-            foreach ($extension->getUrls() as $url) {
-                $entries[] = [
-                    'uri' => $url,
-                    'changed' => time()
-                ];
+            foreach ($extension->getEntries() as $entry) {
+                if (!isset($entry['uri'])) {
+                    $output->writeln('<error>uri needs to be set for entries returned by extension point!</error>');
+                    exit(1);
+                }
+
+                if (!isset($entry['changed'])) {
+                    $entry['changed'] = time();
+                }
+
+                $entries[] = $entry;
             }
 
             $output->writeln("Generating {$extension->getName()} sitemaps…");

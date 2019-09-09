@@ -6,5 +6,13 @@ interface SitemapExtension
 {
     public function getName(): string;
 
-    public function getUrls(): array;
+    /**
+     * Returns an array of arrays with the following structure:
+     *   [
+     *     'uri' => string,
+     *     'images' => string[], // optional
+     *   ]
+     * @return array
+     */
+    public function getEntries(): array;
 }
