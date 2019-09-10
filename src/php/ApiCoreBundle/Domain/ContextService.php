@@ -50,14 +50,14 @@ class ContextService
         RequestStack $requestStack,
         CustomerService $customerService,
         TokenStorage $tokenStorage,
+        LocaleResolver $localeResolver,
         iterable $decorators
     ) {
         $this->router = $router;
         $this->requestStack = $requestStack;
         $this->customerService = $customerService;
         $this->tokenStorage = $tokenStorage;
-
-        $this->localeResolver = new LocaleResolver();
+        $this->localeResolver = $localeResolver;
 
         foreach ($decorators as $decorator) {
             $this->addDecorator($decorator);
