@@ -121,7 +121,7 @@ class ContextService
         // By definition there is only 1 project available in the customer
         $project = reset($customer->projects);
 
-        if (!in_array($locale, $project->languages)) {
+        if ($locale === null) {
             $locale = $project->defaultLanguage;
         }
 
