@@ -18,7 +18,7 @@ class UndeletedFilter extends SQLFilter
         Redirect::class => 'rd',
     ];
 
-    const APP_DATA_NAMESPACE = 'Frontastic\\ApiCoreBundle\\Domain\\App';
+    const APP_DATA_NAMESPACE = 'Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\App';
 
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
     {
