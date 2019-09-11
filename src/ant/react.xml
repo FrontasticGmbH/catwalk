@@ -49,6 +49,23 @@
 
             <arg value="run" />
             <arg value="build" />
+            <arg value="server" />
+        </exec>
+
+        <copy todir="${basedir}/bin/" >
+            <fileset dir="${builddir}/assets/js" includes="server.js"/>
+        </copy>
+
+        <exec executable="git" failonerror="true" dir="${basedir}">
+            <arg value="add" />
+            <arg value="${basedir}/bin/server.js" />
+        </exec>
+
+        <exec executable="yarn" failonerror="true" dir="${basedir}">
+            <env key="CI" value="false" />
+
+            <arg value="run" />
+            <arg value="build" />
             <arg value="main" />
         </exec>
 
@@ -86,23 +103,6 @@
             <arg value="${basedir}/public/assets/css/*" />
             <arg value="${basedir}/public/assets/media/*" />
             <arg value="${basedir}/templates/layout.html.twig" />
-        </exec>
-
-        <exec executable="yarn" failonerror="true" dir="${basedir}">
-            <env key="CI" value="false" />
-
-            <arg value="run" />
-            <arg value="build" />
-            <arg value="server" />
-        </exec>
-
-        <copy todir="${basedir}/bin/" >
-            <fileset dir="${builddir}/assets/js" includes="server.js"/>
-        </copy>
-
-        <exec executable="git" failonerror="true" dir="${basedir}">
-            <arg value="add" />
-            <arg value="${basedir}/bin/server.js" />
         </exec>
     </target>
 
