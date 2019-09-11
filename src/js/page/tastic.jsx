@@ -40,7 +40,7 @@ const TasticWrapper = (props) => {
         // Warning - the dependencies of this useMemo might differ from those that are actually in use,
         // because it makes assumptions about the implementation details of configurationResolver.
         // @TODO This should be improved in the future.
-    }, props.tastic.schema, props.data.stream, additionalData, ...streams)
+    }, [props.tastic.schema, props.data.stream, additionalData, ...streams])
 
   if (!tastics[tastic.tasticType]) {
         if (!props.isDebug) {
