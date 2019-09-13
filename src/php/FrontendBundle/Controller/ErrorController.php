@@ -2,6 +2,11 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Debug\Exception\FlattenException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Cell;
 use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
@@ -13,8 +18,6 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Region;
 use Frontastic\Catwalk\FrontendBundle\Domain\Tastic;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Debug\Exception\FlattenException;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Due to node faking. Keep
@@ -89,5 +92,34 @@ class ErrorController extends Controller
                 ],
             ];
         }
+    }
+
+    public function recordFrontendErrorAction(Request $request): JsonResponse
+    {
+        // Try to keep this method as resilient as possible, which also means
+        // to keep the amount of dependencies as minimal as possible.
+        //
+        // @TODO: It would be really nice to use the source maps to show the
+        // real error location.
+        $error = json_decode($request->getContent());
+        if (!$error) {
+            return new JsonResponse(false);
+        }
+
+        $error->time = date('r');
+        $error->stack = array_slice(
+            array_map('trim', preg_split('(\r|\n|\r\n)', $error->stack ?? '')),
+            1
+        );
+        $error->browser = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown Browser';
+        $error->clientIp = $request->getClientIp();
+
+        file_put_contents(
+            $this->getParameter('kernel.logs_dir') . '/javascript.log',
+            json_encode($error) . PHP_EOL,
+            FILE_APPEND
+        );
+
+        return new JsonResponse($error);
     }
 }

@@ -16,6 +16,31 @@ export default (mountNode, dataNode, tastics = null) => {
         return
     }
 
+    window.onerror = (message, url, line, column = null, error = null) => {
+        try {
+            fetch(
+                '/_recordFrontendError',
+                {
+                    method: 'POST',
+                    headers: new Headers({
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify({
+                        message,
+                        url,
+                        line,
+                        stack: error && error.stack,
+                    }),
+                    credentials: 'same-origin',
+                    cache: 'default',
+                }
+            )
+        } catch (e) {
+            // Ignore errors during recording errors
+        }
+    }
+
     window.tastics = tastics
 
     let appData = dataNode.getAttribute('data-app')

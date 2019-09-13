@@ -31,6 +31,10 @@
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CategoryController::allAction</default>
     </route>
 
+    <route id="Frontastic.Frontend.Master.Error.recordFrontendError" path="/_recordFrontendError" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::recordFrontendErrorAction</default>
+    </route>
+
     <route id="Frontastic.Frontend.Master.Error.view" path="/__error" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::errorAction</default>
     </route>
