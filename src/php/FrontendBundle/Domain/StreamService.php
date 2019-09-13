@@ -45,7 +45,7 @@ class StreamService
                     $context,
                     (isset($parameterMap[$stream->streamId]) ? $parameterMap[$stream->streamId] : [])
                 )
-                ->otherwise(function (\Exception $exception) {
+                ->otherwise(function (\Throwable $exception) {
                     return [
                         'ok' => false,
                         'message' => $exception->getMessage(),
