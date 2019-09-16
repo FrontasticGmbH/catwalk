@@ -38,7 +38,8 @@ class ErrorController extends Controller
 
     public function errorAction(Context $context, FlattenException $exception = null)
     {
-        syslog(LOG_ERR, $exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
+        // Do not log a FlattenException this way – it has different methods
+        // syslog(LOG_ERR, $exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
 
         $masterService = $this->get(MasterService::class);
         $nodeService = $this->get(NodeService::class);
