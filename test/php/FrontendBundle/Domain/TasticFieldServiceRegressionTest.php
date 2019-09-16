@@ -32,10 +32,70 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         $this->node = new Node();
     }
 
-    public function provideRegressionTestData()
+    private function mergeTwoRegressionProvider(array $dataOne, array $dataTwo)
     {
+        /** @var Page $pageFixture */
+        $pageFixture = $dataOne['pageFixture'];
+        $tasticsOne = $pageFixture->regions[0]->elements[0]->tastics;
+
+        /** @var Page $pageFixture */
+        $pageFixture = $dataTwo['pageFixture'];
+        $tasticsTwo = $pageFixture->regions[0]->elements[0]->tastics;
+
         return [
-            $this->provideProductListRegressionTestData(),
+            'pageFixture' => $this->pageFixture(array_merge($tasticsOne, $tasticsTwo)),
+            'streamFixtures' => array_merge($dataOne['streamFixtures'], $dataTwo['streamFixtures']),
+            'tasticDefinitionFixture' => array_merge(
+                $dataOne['tasticDefinitionFixture'],
+                $dataTwo['tasticDefinitionFixture']
+            ),
+            'expectedResult' => array_merge(
+                $dataOne['expectedResult'],
+                $dataTwo['expectedResult']
+            ),
+        ];
+    }
+
+    private function provideBreadcrumbRegressionTestData(): array
+    {
+        $tasticDefinition = json_decode(
+            file_get_contents(__DIR__ . '/regression-fixture-data/breadcrumb_tastic-schema.json'),
+            true
+        );
+
+        $tasticConfiguration = json_decode(
+            file_get_contents(__DIR__ . '/regression-fixture-data/breadcrumb_tastic-configuration.json'),
+            true
+        );
+
+        $pageFixture = $this->pageFixture([
+            new Tastic([
+                'tasticId' => 'some-breadcrumb-tastic-id',
+                'tasticType' => $tasticDefinition['tasticType'],
+                'configuration' => (object)$tasticConfiguration,
+            ])
+        ]);
+
+        $breadcrumbStreamFixtures = [
+            'breadcrumb' => ['some-node', 'some-other-node', 'some-additional-node'],
+        ];
+
+        $streamFixtures = [
+            'breadcrumb' => [
+                ['fieldValue' => null, 'returnValue' => $breadcrumbStreamFixtures],
+            ],
+        ];
+
+        $expected = [];
+        $expected['some-breadcrumb-tastic-id']['breadcrumb'] = $breadcrumbStreamFixtures;
+
+        return [
+            'pageFixture' => $pageFixture,
+            'streamFixtures' => $streamFixtures,
+            'tasticDefinitionFixture' => [$tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
+                $tasticDefinition['schema'][0]['fields']
+            )],
+            'expectedResult' => $expected,
         ];
     }
 
@@ -55,7 +115,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             new Tastic([
                 'tasticId' => 'some-tastic-id',
                 'tasticType' => $productListTasticDefinition['tasticType'],
-                'configuration' => (object) $productListTasticConfiguration,
+                'configuration' => (object)$productListTasticConfiguration,
             ])
         ]);
 
@@ -82,7 +142,24 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    public function provideRegressionTestData()
+    {
+        return [
+            $this->provideProductListRegressionTestData(),
+            $this->provideBreadcrumbRegressionTestData(),
+            $this->mergeTwoRegressionProvider(
+                $this->provideProductListRegressionTestData(),
+                $this->provideBreadcrumbRegressionTestData()
+            )
+        ];
+    }
+
     /**
+     * @param Page $pageFixture
+     * @param array $streamFixtures
+     * @param array $tasticDefinitionFixture
+     * @param array $expectedResult
+     *
      * @dataProvider provideRegressionTestData
      */
     public function testGetFieldDataIncludesDataRegressionTestCases(
@@ -90,7 +167,8 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         array $streamFixtures,
         array $tasticDefinitionFixture,
         array $expectedResult
-    ) {
+    )
+    {
         $fieldHandlerMocks = [];
 
         foreach ($streamFixtures as $type => $handleCalls) {
@@ -143,7 +221,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
 
     private function tasticDefinitionFixture(array $fields): object
     {
-        return (object) [
+        return (object)[
             'configurationSchema' => [
                 'schema' => [
                     [
