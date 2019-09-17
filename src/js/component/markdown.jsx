@@ -30,7 +30,7 @@ class Markdown extends Component {
             this.props.context.project.defaultLanguage
         )
 
-        return (<div className='c-markdown s-text' ref='markdown' dangerouslySetInnerHTML={{
+        return (<div className={this.props.className} ref='markdown' dangerouslySetInnerHTML={{
             __html: markdown.toHTML(text.text || ''),
         }} />)
     }
@@ -38,6 +38,7 @@ class Markdown extends Component {
 
 Markdown.propTypes = {
     context: PropTypes.object.isRequired,
+    className: PropTypes.string,
     text: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.string,
@@ -45,6 +46,7 @@ Markdown.propTypes = {
 }
 
 Markdown.defaultProps = {
+    className: 'c-markdown s-text',
 }
 
 export default connect(

@@ -1,0 +1,31 @@
+/* ==========================================================================
+   #MARKDOWN
+========================================================================== */
+
+.c-markdown--align-center {
+    text-align: center;
+}
+
+.c-markdown--align-right {
+    text-align: right;
+}
+
+.c-markdown--align-justify {
+    text-align: justify;
+}
+
+.c-markdown--padding-none {
+    padding: 0px;
+}
+
+.c-markdown--padding-small {
+    padding: $inuit-global-spacing-unit-small;
+}
+
+.c-markdown--padding-middle {
+    padding: $inuit-global-spacing-unit-large;
+}
+
+.c-markdown--padding-large {
+    padding: $inuit-global-spacing-unit-huge;
+}
