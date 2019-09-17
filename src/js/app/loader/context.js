@@ -36,8 +36,6 @@ let Loader = function (store, api) {
 
                     // Restart continuous updates
                     app.api.clearContinuousRequests()
-                    app.getLoader('wishlist').get()
-                    app.getLoader('cart').get()
                     resolve()
                 },
                 (error) => {
