@@ -11,9 +11,6 @@ import Context from './app/context'
 import Preview from './preview'
 import Node from './node'
 
-import diffLog from './app/htmlDiff/differ'
-import printLog from './app/htmlDiff/printLog'
-
 function appCreator (mountNode, dataNode, tastics = null) {
     if (!mountNode || !dataNode) {
         return
@@ -85,8 +82,7 @@ function hydrate (app, mountNode) {
 
     let beforeHydrateHtml = null
     let afterHydrateHtml = null
-
-    if (isDevelopment) {
+    if (isDevelopment && !isIE()) {
         beforeHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
         consoleCaptureStart()
     }
@@ -109,7 +105,10 @@ function hydrate (app, mountNode) {
         </Provider>,
         mountNode,
         () => {
-            if (isDevelopment) {
+            if (isDevelopment && !isIE()) {
+                const diffLog = require('./app/htmlDiff/differ').default
+                const printLog = require( './app/htmlDiff/printLog').default
+                
                 afterHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
                 if (hasHydrationWarning(consoleCaptureStop())) {
                     const log = diffLog(beforeHydrateHtml, afterHydrateHtml)
@@ -121,6 +120,10 @@ function hydrate (app, mountNode) {
             }
         }
     )
+}
+
+function isIE () {
+ return ((window && window.navigator) && window.navigator.userAgent.indexOf("MSIE ") ==! -1 || !!window.navigator.userAgent.match(/Trident.*rv\:11\./))
 }
 
 function consoleCaptureStart () {
@@ -151,7 +154,7 @@ function hasHydrationWarning (errors) {
         return (error && error.length && !!error[0].match(/^Warning: /))
     }).reduce((accumulator, currentValue) => {
         return accumulator || currentValue
-    })
+    }, false)
 }
 
 export default appCreator
