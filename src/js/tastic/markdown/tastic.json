@@ -12,6 +12,30 @@
                     "type": "markdown",
                     "default": "* Enter\n* some\n* Markdown",
                     "translatable": true
+                },
+                {
+                    "label": "Alignment",
+                    "field": "align",
+                    "type": "enum",
+                    "default": "left",
+                    "values": [
+                        { "value": "left", "name": "Left" },
+                        { "value": "center", "name": "Center" },
+                        { "value": "right", "name": "Right" },
+                        { "value": "justify", "name": "Justify" }
+                    ]
+                },
+                {
+                    "label": "Padding",
+                    "field": "padding",
+                    "type": "enum",
+                    "default": "none",
+                    "values": [
+                        { "value": "none", "name": "No Padding" },
+                        { "value": "small", "name": "Small" },
+                        { "value": "middle", "name": "Middle" },
+                        { "value": "large", "name": "Large" }
+                    ]
                 }
             ]
         }
