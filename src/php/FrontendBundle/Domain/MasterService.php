@@ -131,7 +131,7 @@ class MasterService implements Target
                     if ($this->rulerz->satisfies($entity, $rule['criterion'])) {
                         return $rule['nodeId'];
                     }
-                } catch (\Exception $exception) {
+                } catch (\Throwable $exception) {
                     // Silently ignore errors in the rule. If a rule can not be checked it makes more sense to ignore
                     // the rule than to report an error on every master page.
                 }
