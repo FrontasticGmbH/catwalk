@@ -6,7 +6,10 @@ doctrine:
         dbname:   "%env(database_name)%"
         user:     "%env(database_user)%"
         password: "%env(database_password)%"
-        charset:    "UTF8"
+        charset:  "utf8mb4"
+        default_table_options:
+            charset: "utf8mb4"
+            collate: "utf8mb4_unicode_ci"
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
