@@ -56,6 +56,93 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    private function provideBreadcrumbInGroupRegressionTestData(): array
+    {
+        $tasticDefinition = json_decode(
+            file_get_contents(__DIR__ . '/regression-fixture-data/breadcrumb-in-group_tastic-schema.json'),
+            true
+        );
+
+        $tasticConfiguration = json_decode(
+            file_get_contents(__DIR__ . '/regression-fixture-data/breadcrumb-in-group_tastic-configuration.json'),
+            true
+        );
+
+        $pageFixture = $this->pageFixture([
+            new Tastic([
+                'tasticId' => 'some-breadcrumb-in-group-tastic-id',
+                'tasticType' => $tasticDefinition['tasticType'],
+                'configuration' => (object)$tasticConfiguration,
+            ])
+        ]);
+
+        $breadcrumbStreamFixtures = [
+            'breadcrumb' => ['some-group-node', 'some-other-group-node', 'some-additional-group-node'],
+        ];
+
+        $streamFixtures = [
+            'breadcrumb' => [
+                ['fieldValue' => null, 'returnValue' => $breadcrumbStreamFixtures],
+            ],
+        ];
+
+        $expected = [];
+        $expected['some-breadcrumb-in-group-tastic-id']['breadcrumb'] = $breadcrumbStreamFixtures;
+
+        return [
+            'pageFixture' => $pageFixture,
+            'streamFixtures' => $streamFixtures,
+            'tasticDefinitionFixture' => [$tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
+                $tasticDefinition['schema'][0]['fields']
+            )],
+            'expectedResult' => $expected,
+        ];
+    }
+
+    private function provideBreadcrumbInTopFieldsRegressionTestData(): array
+    {
+        $tasticDefinition = json_decode(
+            file_get_contents(__DIR__ . '/regression-fixture-data/breadcrumb-in-top-fields_tastic-schema.json'),
+            true
+        );
+
+        $tasticConfiguration = json_decode(
+            file_get_contents(__DIR__ . '/regression-fixture-data/breadcrumb-in-top-fields_tastic-configuration.json'),
+            true
+        );
+
+        $pageFixture = $this->pageFixture([
+            new Tastic([
+                'tasticId' => 'some-breadcrumb-in-top-fields-tastic-id',
+                'tasticType' => $tasticDefinition['tasticType'],
+                'configuration' => (object)$tasticConfiguration,
+            ])
+        ]);
+
+        $breadcrumbStreamFixtures = [
+            'breadcrumb' => ['some-top-node', 'some-other-top-node', 'some-additional-top-node'],
+        ];
+
+        $streamFixtures = [
+            'breadcrumb' => [
+                ['fieldValue' => null, 'returnValue' => $breadcrumbStreamFixtures],
+            ],
+        ];
+
+        $expected = [];
+        $expected['some-breadcrumb-in-top-fields-tastic-id']['breadcrumb'] = $breadcrumbStreamFixtures;
+
+        return [
+            'pageFixture' => $pageFixture,
+            'streamFixtures' => $streamFixtures,
+            'tasticDefinitionFixture' => [$tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
+                $tasticDefinition['schema'][0]['fields']
+            )],
+            'expectedResult' => $expected,
+        ];
+    }
+
+
     private function provideBreadcrumbRegressionTestData(): array
     {
         $tasticDefinition = json_decode(
@@ -150,7 +237,9 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             $this->mergeTwoRegressionProvider(
                 $this->provideProductListRegressionTestData(),
                 $this->provideBreadcrumbRegressionTestData()
-            )
+            ),
+            $this->provideBreadcrumbInTopFieldsRegressionTestData(),
+            $this->provideBreadcrumbInGroupRegressionTestData(),
         ];
     }
 
