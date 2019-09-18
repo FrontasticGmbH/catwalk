@@ -190,7 +190,8 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator">
-             <tag name="kernel.event_listener" event="kernel.response" />
+            <tag name="kernel.event_listener" event="kernel.response" />
+            <tag name="kernel.event_listener" event="kernel.exception" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\PreviewService">
