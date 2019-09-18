@@ -89,7 +89,7 @@ class Preview extends Component {
             return <Loading large entity={this.props.tastics} />
         }
 
-        if (!this.props.node) {
+        if (!this.props.node || !this.props.page) {
             return <Loading large />
         }
 
@@ -110,9 +110,9 @@ class Preview extends Component {
 
 Preview.propTypes = {
     previewId: PropTypes.string.isRequired,
-    node: PropTypes.object.isRequired,
+    node: PropTypes.object,
     data: PropTypes.object.isRequired,
-    page: PropTypes.object.isRequired,
+    page: PropTypes.object,
     tastics: PropTypes.object.isRequired,
     context: PropTypes.object.isRequired,
 }
