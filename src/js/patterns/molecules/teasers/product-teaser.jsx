@@ -40,6 +40,7 @@ class MoleculesProductTeaser extends Component {
                                 <div className='c-heading-teaser-subheading'>{variant.attributes.designer.label || variant.attributes.designer}</div>
                             : null}
                         </div>
+                        {variant.price &&
                         <div className='c-teaser__prices' itemScope itemType='http://schema.org/Offer'>
                             <AtomsPrice className='c-teaser__price'
                                 value={variant.discountedPrice || variant.price}
@@ -50,7 +51,7 @@ class MoleculesProductTeaser extends Component {
                             {variant.discountedPrice && this.props.showPercent ? <span className='c-highlight'>
                                 &nbsp;-&thinsp;{100 - Math.ceil(variant.discountedPrice / variant.price * 100)}&thinsp;%
                             </span> : null}
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </Link>
