@@ -225,7 +225,7 @@ class ContextService
         $language = null;
         $localeParts = explode('_', $locale);
         if (count($localeParts) === 2) {
-            $language = $locale[0];
+            $language = $localeParts[0];
         }
 
         foreach ($routes as $id => $route) {
