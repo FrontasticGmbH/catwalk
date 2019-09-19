@@ -90,7 +90,8 @@ class Image extends Component {
                             this.props.width,
                             this.props.height,
                             this.props.cropRatio,
-                            this.props.options
+                            this.props.options,
+                            factor
                         ),
                         factor + 'x',
                     ].join(' ')
