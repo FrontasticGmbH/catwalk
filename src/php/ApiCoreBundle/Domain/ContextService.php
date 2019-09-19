@@ -229,8 +229,8 @@ class ContextService
         }
 
         foreach ($routes as $id => $route) {
-            $routeLocale = $route['_locale'];
-            $canonicalRoute = $route['_canonical_route'];
+            $routeLocale = $route->_locale;
+            $canonicalRoute = $route->_canonical_route;
 
             if ($routeLocale === null || $canonicalRoute === null) {
                 continue;
