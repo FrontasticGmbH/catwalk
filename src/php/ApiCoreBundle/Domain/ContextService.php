@@ -214,21 +214,35 @@ class ContextService
             function (Route $route): object {
                 return (object)[
                     'path' => $route->getPath(),
+                    '_locale' => $route->getDefault('_locale'),
+                    '_canonical_route' => $route->getDefault('_canonical_route'),
                     'requirements' => (object)$route->getRequirements(),
                 ];
             },
             iterator_to_array($this->router->getRouteCollection())
         );
 
-        $localeSuffix = '.' . $locale;
-        $localeSuffixLength = strlen($localeSuffix);
+        $language = null;
+        $localeParts = explode('_', $locale);
+        if (count($localeParts) === 2) {
+            $language = $locale[0];
+        }
 
         foreach ($routes as $id => $route) {
-            if (substr_compare($id, $localeSuffix, -$localeSuffixLength) === 0) {
-                $rawId = substr($id, 0, strlen($id) - $localeSuffixLength);
-                if (!isset($routes[$rawId])) {
-                    $routes[$rawId] = $route;
-                }
+            $routeLocale = $route['_locale'];
+            $canonicalRoute = $route['_canonical_route'];
+
+            if ($routeLocale === null || $canonicalRoute === null) {
+                continue;
+            }
+
+            if ($routeLocale === $locale && !isset($routes[$canonicalRoute])) {
+                $routes[$canonicalRoute] = $route;
+            }
+
+            $localeRoute = $canonicalRoute . '.' . $locale;
+            if ($routeLocale === $language && !isset($routes[$canonicalRoute]) && !isset($routes[$localeRoute])) {
+                $routes[$canonicalRoute] = $route;
             }
         }
 
