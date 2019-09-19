@@ -142,12 +142,8 @@ Image.defaultProps = {
     className: '',
 }
 
-export default sizer({
-    getSize: MediaApi.getElementDimensions,
-})(
-    connect((globalState) => {
-        return {
-            context: globalState.app.context,
-        }
-    })(Image)
-)
+export default connect((globalState) => {
+    return {
+        context: globalState.app.context,
+    }
+})(sizer({ getSize: MediaApi.getElementDimensions })(Image))
