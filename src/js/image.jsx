@@ -26,6 +26,17 @@ class Image extends Component {
         return this.props.title || this.props.media.name
     }
 
+    getInputImageDimensions = () => {
+        if ((this.props.forceWidth || this.props.forceHeight) && this.props.media && this.props.media.width && this.props.media.height) {
+            return [
+                this.props.forceWidth || (this.props.forceHeight / this.props.media.height) * this.props.media.width,
+                this.props.forceHeight || (this.props.forceWidth / this.props.media.width) * this.props.media.height,
+            ]
+        }
+
+        return [this.props.width, this.props.height]
+    }
+
     render () {
         const omitedProperties = [
             'context',
@@ -43,10 +54,12 @@ class Image extends Component {
             'dispatch',
         ]
 
-        let [width, height] = this.mediaApi.getImageDimensions(
+        const [inputWidth, inputHeight] = this.getInputImageDimensions()
+
+        const [width, height] = this.mediaApi.getImageDimensions(
             this.props.media,
-            this.props.width,
-            this.props.height,
+            inputWidth,
+            inputHeight,
             this.props.cropRatio
         )
 
@@ -77,8 +90,8 @@ class Image extends Component {
                 src={this.mediaApi.getImageLink(
                     this.props.media,
                     this.props.context.project.configuration,
-                    this.props.width,
-                    this.props.height,
+                    inputWidth,
+                    inputHeight,
                     this.props.cropRatio,
                     this.props.options
                 )}
@@ -87,8 +100,8 @@ class Image extends Component {
                         this.mediaApi.getImageLink(
                             this.props.media,
                             this.props.context.project.configuration,
-                            this.props.width,
-                            this.props.height,
+                            inputWidth,
+                            inputHeight,
                             this.props.cropRatio,
                             this.props.options,
                             factor
@@ -132,22 +145,9 @@ Image.defaultProps = {
 export default sizer({
     getSize: MediaApi.getElementDimensions,
 })(
-    connect((globalState, props) => {
-        let inferredProps = {
-            ...props,
+    connect((globalState) => {
+        return {
             context: globalState.app.context,
         }
-
-        if (props.forceWidth && props.media && props.media.width && props.media.height) {
-            inferredProps.width = props.forceWidth
-            inferredProps.height = props.forceHeight || (props.forceWidth / props.media.width) * props.media.height
-        }
-
-        if (props.forceHeight && props.media && props.media.width && props.media.height) {
-            inferredProps.width = props.forceWidth || (props.forceHeight / props.media.height) * props.media.width
-            inferredProps.height = props.forceHeight
-        }
-
-        return inferredProps
     })(Image)
 )
