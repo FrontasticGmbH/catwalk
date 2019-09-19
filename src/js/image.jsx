@@ -56,7 +56,7 @@ class Image extends Component {
                     style={this.props.style}
                     width={width}
                     height={height}
-                    alt={this.props.title || this.props.media.name}
+                    alt={this.getAltText()}
                     src={NoImage}
                     {..._.omit(this.props, omitedProperties)}
                 />
@@ -73,7 +73,7 @@ class Image extends Component {
                 }}
                 width={width}
                 height={height}
-                alt={this.props.title || this.props.media.name}
+                alt={this.getAltText()}
                 src={this.mediaApi.getImageLink(
                     this.props.media,
                     this.props.context.project.configuration,
