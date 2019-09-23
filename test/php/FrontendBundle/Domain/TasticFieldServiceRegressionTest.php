@@ -59,12 +59,12 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
     private function provideBreadcrumbInGroupRegressionTestData(): array
     {
         $tasticDefinition = json_decode(
-            file_get_contents(__DIR__ . '/regression-fixture-data/breadcrumb-in-group_tastic-schema.json'),
+            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/breadcrumb-in-group_tastic-schema.json'),
             true
         );
 
         $tasticConfiguration = json_decode(
-            file_get_contents(__DIR__ . '/regression-fixture-data/breadcrumb-in-group_tastic-configuration.json'),
+            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/breadcrumb-in-group_tastic-configuration.json'),
             true
         );
 
@@ -102,12 +102,12 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
     private function provideBreadcrumbInTopFieldsRegressionTestData(): array
     {
         $tasticDefinition = json_decode(
-            file_get_contents(__DIR__ . '/regression-fixture-data/breadcrumb-in-top-fields_tastic-schema.json'),
+            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/breadcrumb-in-top-fields_tastic-schema.json'),
             true
         );
 
         $tasticConfiguration = json_decode(
-            file_get_contents(__DIR__ . '/regression-fixture-data/breadcrumb-in-top-fields_tastic-configuration.json'),
+            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/breadcrumb-in-top-fields_tastic-configuration.json'),
             true
         );
 
@@ -146,12 +146,12 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
     private function provideBreadcrumbRegressionTestData(): array
     {
         $tasticDefinition = json_decode(
-            file_get_contents(__DIR__ . '/regression-fixture-data/breadcrumb_tastic-schema.json'),
+            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/breadcrumb_tastic-schema.json'),
             true
         );
 
         $tasticConfiguration = json_decode(
-            file_get_contents(__DIR__ . '/regression-fixture-data/breadcrumb_tastic-configuration.json'),
+            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/breadcrumb_tastic-configuration.json'),
             true
         );
 
@@ -189,12 +189,12 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
     private function provideProductListRegressionTestData(): array
     {
         $productListTasticDefinition = json_decode(
-            file_get_contents(__DIR__ . '/regression-fixture-data/custom-product-list_tastic-schema.json'),
+            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/custom-product-list_tastic-schema.json'),
             true
         );
 
         $productListTasticConfiguration = json_decode(
-            file_get_contents(__DIR__ . '/regression-fixture-data/custom-product-list_tastic-configuration.json'),
+            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/custom-product-list_tastic-configuration.json'),
             true
         );
 
