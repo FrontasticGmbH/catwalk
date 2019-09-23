@@ -1,0 +1,28 @@
+{
+  "tasticType": "breadCrumb",
+  "name": "Bread Crumb",
+  "icon": "nav",
+  "schema": [
+    {
+      "name": "Breadcrumb",
+      "fields": [
+        {
+          "label": "Some Group",
+          "field": "someGroup",
+          "type": "group",
+          "minimum": 0,
+          "itemLabelField": "position",
+          "fields": [
+            {
+              "label": "Stream",
+              "field": "breadcrumb",
+              "type": "stream",
+              "streamType": "breadcrumb",
+              "default": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

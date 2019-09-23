@@ -1,0 +1,111 @@
+{
+  "tasticType": "productList",
+  "name": "Product List",
+  "icon": "list",
+  "schema": [
+    {
+      "name": "Stream Selection",
+      "fields": [
+        {
+          "label": "Stream",
+          "field": "stream",
+          "type": "stream",
+          "streamType": "custom-product-list",
+          "default": null
+        },
+        {
+          "label": "Show percentual reducement",
+          "field": "showPercent",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "label": "Show strike price",
+          "field": "showStrikePrice",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "label": "Interstitials",
+          "field": "interstitials",
+          "type": "group",
+          "minimum": 0,
+          "itemLabelField": "position",
+          "fields": [
+            {
+              "label": "Page",
+              "description": "Leave empty to show interstitial on all pages",
+              "field": "page",
+              "translatable": false,
+              "type": "integer",
+              "default": null,
+              "required": false
+            },
+            {
+              "label": "Position",
+              "description": "Position in listing to show interstitial – for row type interstitial it should be divisible by number of products per row (on all divices).",
+              "field": "position",
+              "translatable": false,
+              "type": "integer",
+              "required": true
+            },
+            {
+              "label": "Link-Target",
+              "field": "target",
+              "translatable": false,
+              "type": "reference"
+            },
+            {
+              "label": "Image",
+              "field": "image",
+              "translatable": false,
+              "type": "media",
+              "required": true
+            },
+            {
+              "label": "Image (Tablet)",
+              "description": "If not specified the main image will be used.",
+              "field": "tabletImage",
+              "translatable": false,
+              "type": "media",
+              "required": false
+            },
+            {
+              "label": "Image (Mobile)",
+              "description": "If not specified the main image will be used.",
+              "field": "mobileImage",
+              "translatable": false,
+              "type": "media",
+              "required": false
+            },
+            {
+              "label": "Description",
+              "description": "Used as an alternate text and title for the interstitial.",
+              "field": "description",
+              "translatable": true,
+              "type": "string",
+              "required": true
+            },
+            {
+              "label": "Type",
+              "field": "type",
+              "translatable": false,
+              "type": "enum",
+              "required": true,
+              "values": [
+                {
+                  "value": "row",
+                  "name": "Row"
+                },
+                {
+                  "value": "tile",
+                  "name": "Tile"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
