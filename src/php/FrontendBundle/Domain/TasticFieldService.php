@@ -69,25 +69,54 @@ class TasticFieldService
                     /** @var \Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic $definition */
                     $definition = $tasticDefinitionMap[$tastic->tasticType];
                     foreach ($definition->configurationSchema['schema'] as $fieldSet) {
-                        foreach ($fieldSet['fields'] as $fieldDefinition) {
-                            try {
-                                $fieldData = $this->setHandledFieldData(
-                                    $node,
-                                    $page,
-                                    $context,
-                                    $fieldData,
-                                    $tastic,
-                                    $fieldDefinition
-                                );
-                            } catch (\Throwable $throwable) {
-                                // debug($throwable->getMessage());
-                            }
-                        }
+                        $fieldData = $this->handleFieldSet($context, $node, $page, $fieldSet, $fieldData, $tastic);
                     }
                 }
             }
         }
 
+        return $fieldData;
+    }
+
+    /**
+     * Handles the fieldsets and takes care of recursively handling groups inside these fieldsets. While looping over
+     * the structure the fieldData array gets filled if neccessary and will be returned afterwards.
+     *
+     * @param Context $context
+     * @param Node $node
+     * @param Page $page
+     * @param $fieldSet
+     * @param array $fieldData
+     * @param Tastic $tastic
+     * @return array
+     */
+    private function handleFieldSet(
+        Context $context,
+        Node $node,
+        Page $page,
+        array $fieldSet,
+        array $fieldData,
+        Tastic $tastic
+    ): array {
+        foreach ($fieldSet['fields'] as $fieldDefinition) {
+            // check if field is of type group and then recursively handle the group's fieldset.
+            if (isset($fieldDefinition['type']) && $fieldDefinition['type'] === 'group') {
+                $fieldData = $this->handleFieldSet($context, $node, $page, $fieldDefinition, $fieldData, $tastic);
+            } else {
+                try {
+                    $fieldData = $this->setHandledFieldData(
+                        $node,
+                        $page,
+                        $context,
+                        $fieldData,
+                        $tastic,
+                        $fieldDefinition
+                    );
+                } catch (\Throwable $throwable) {
+                    // debug($throwable->getMessage());
+                }
+            }
+        }
         return $fieldData;
     }
 
