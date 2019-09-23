@@ -93,7 +93,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             'pageFixture' => $pageFixture,
             'streamFixtures' => $streamFixtures,
             'tasticDefinitionFixture' => [$tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
-                $tasticDefinition['schema'][0]['fields']
+                $tasticDefinition['schema']
             )],
             'expectedResult' => $expected,
         ];
@@ -136,7 +136,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             'pageFixture' => $pageFixture,
             'streamFixtures' => $streamFixtures,
             'tasticDefinitionFixture' => [$tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
-                $tasticDefinition['schema'][0]['fields']
+                $tasticDefinition['schema']
             )],
             'expectedResult' => $expected,
         ];
@@ -180,7 +180,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             'pageFixture' => $pageFixture,
             'streamFixtures' => $streamFixtures,
             'tasticDefinitionFixture' => [$tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
-                $tasticDefinition['schema'][0]['fields']
+                $tasticDefinition['schema']
             )],
             'expectedResult' => $expected,
         ];
@@ -223,7 +223,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             'pageFixture' => $pageFixture,
             'streamFixtures' => $streamFixtures,
             'tasticDefinitionFixture' => [$productListTasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
-                $productListTasticDefinition['schema'][0]['fields']
+                $productListTasticDefinition['schema']
             )],
             'expectedResult' => $expected,
         ];
@@ -308,15 +308,11 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    private function tasticDefinitionFixture(array $fields): object
+    private function tasticDefinitionFixture(array $schema): object
     {
         return (object)[
             'configurationSchema' => [
-                'schema' => [
-                    [
-                        'fields' => $fields,
-                    ]
-                ]
+                'schema' => $schema,
             ]
         ];
     }
