@@ -123,7 +123,7 @@ export default connect(
     (globalState, props) => {
         let page = null
         if (globalState.node.pages[globalState.node.currentNodeId] &&
-             globalState.node.nodeData[globalState.node.currentCacheKey]) {
+            globalState.node.nodeData[globalState.node.currentCacheKey]) {
             page = globalState.node.pages[globalState.node.currentNodeId]
         } else if (globalState.node.last.page) {
             page = new Entity({
