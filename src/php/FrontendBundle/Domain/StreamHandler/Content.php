@@ -30,11 +30,10 @@ class Content extends StreamHandler
         }
 
         try {
-            return Promise\promise_for(
-                $this->contentApi->getContent(
-                    $stream->configuration['content'],
-                    $context->locale
-                )
+            return $this->contentApi->getContent(
+                $stream->configuration['content'],
+                $context->locale,
+                ContentApi::QUERY_ASYNC
             );
         } catch (\Throwable $exception) {
             return Promise\rejection_for($exception);

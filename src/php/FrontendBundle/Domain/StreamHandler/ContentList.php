@@ -27,8 +27,10 @@ class ContentList extends StreamHandler
     public function handleAsync(Stream $stream, Context $context, array $parameters = []): PromiseInterface
     {
         try {
-            return Promise\promise_for(
-                $this->contentApi->query(Query::fromArray($stream->configuration), $context->locale)
+            return $this->contentApi->query(
+                Query::fromArray($stream->configuration),
+                $context->locale,
+                ContentApi::QUERY_ASYNC
             );
         } catch (\Exception $exception) {
             return Promise\rejection_for($exception);
