@@ -1,0 +1,17 @@
+<header class='c-page-head'>
+    {% if page.regions.head is defined %}
+        {% include '@Tastic/region.html.twig' with { node: node, page: page, data: data, region: page.regions.head } %}
+    {% endif %}
+</header>
+<main class='c-page-body'>
+    <div class='c-page-wrapper o-wrapper'>
+        {% if page.regions.main is defined %}
+            {% include '@Tastic/region.html.twig' with { node: node, page: page, data: data, region: page.regions.main } %}
+        {% endif %}
+    </div>
+</main>
+<footer class='c-page-foot'>
+    {% if page.regions.footer is defined %}
+        {% include '@Tastic/region.html.twig' with { node: node, page: page, data: data, region: page.regions.footer } %}
+    {% endif %}
+</footer>
