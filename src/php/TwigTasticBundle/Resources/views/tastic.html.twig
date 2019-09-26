@@ -1,4 +1,3 @@
-{# @TODO: Resolve tastic data nicely (see tasticDataConnector in JS) #}
 <div class="{{classnames(
     'e-tastic',
     'e-tastic__' ~ tastic.tasticType,
@@ -8,5 +7,16 @@
         'e-tastic--hidden-desktop': not cell.configuration.desktop,
     }
 )}}" id='{{tastic.tasticId}}'>
-    {% include ['@Tastic/tastic/' ~ tastic.tasticType ~ '.html.twig', '@Tastic/missingTastic.html.twig'] with { node: node, page: page, data: data, region: region, cell: cell, tastic: tastic } %}
+    {% include [
+        '@Tastic/tastic/' ~ tastic.tasticType ~ '.html.twig',
+        '@Tastic/missingTastic.html.twig'
+    ] with {
+        node: node,
+        page: page,
+        rawData: data,
+        region: region,
+        cell: cell,
+        tastic: tastic,
+        data: completeTasticData(frontastic.tastics, tastic, data)
+    } %}
 </div>
