@@ -9,5 +9,9 @@
 
     <services>
         <defaults public="true" />
+
+        <service id="Frontastic\Catwalk\TwigTasticBundle\Twig\TasticExtension">
+            <tag name="twig.extension" />
+        </service>
     </services>
 </container>
