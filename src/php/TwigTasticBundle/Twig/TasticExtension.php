@@ -14,6 +14,10 @@ class TasticExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * Mimics the bahaviour of https://www.npmjs.com/package/classnames but in
+     * pure elegance 💃
+     */
     public function classnames(): string
     {
         return join(
