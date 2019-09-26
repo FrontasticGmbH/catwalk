@@ -27,7 +27,7 @@ let Loader = function (store, api) {
 
     this.loadNode = (parameters) => {
         withRetries(
-            (retry) => {
+            (retry, tryCount) => {
                 this.api.request(
                     'GET',
                     'Frontastic.Frontend.Node.view',
@@ -40,6 +40,7 @@ let Loader = function (store, api) {
                             cacheKey: UrlContext.getActionHash(parameters),
                             data: data,
                             parameters: parameters,
+                            isRetry: tryCount < 2,
                         })
 
                         const nodeDataErrors = extractErrors(data.data)

@@ -16,7 +16,7 @@ const withRetries = (callback, tryCount, giveUpCallback = null) => {
         withRetries(callback, tryCount - 1, giveUpCallback)
     }
 
-    callback(retry)
+    callback(retry, tryCount)
 }
 
 export default withRetries
