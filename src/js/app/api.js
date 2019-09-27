@@ -113,7 +113,7 @@ let Api = function (router, store) {
             if (parameters && !parameters.hasError && !parameters.ownErrorHandler) {
                 this.trigger('Frontastic.Frontend.Master.Error.view', { hasError: true }, 'error')
             }
-        })
+        }).catch(error)
     }
 
     this.requestContinuosly = function (method, route, parameters, success, error) {
