@@ -1,4 +1,4 @@
-<div class='o-region'>
+<div class='o-region o-grid'>
     {% for cell in region.elements %}
         {% include '@Tastic/cell.html.twig' with { node: node, page: page, data: data, region: region, cell: cell } %}
     {% endfor %}
