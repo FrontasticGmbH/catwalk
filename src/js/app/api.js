@@ -20,7 +20,7 @@ let Api = function (router, store) {
         return JSON.stringify(body)
     }
 
-    this.request = function (method, route, parameters = {}, body = null, success = null, error = null) { // eslint-disable-line
+    this.request = function (method, route, parameters = {}, body = null, success = null, error = null, signal = null) { // eslint-disable-line
         if (this.router.context.environment === 'local') {
             // Do not try to fetch any data when running in local environment
             return
@@ -38,6 +38,7 @@ let Api = function (router, store) {
                 body: stringifyBody(body),
                 credentials: 'same-origin',
                 cache: 'default',
+                signal,
             }
         ).then((response) => {
             let contentType = response.headers.get('Content-Type')
