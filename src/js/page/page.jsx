@@ -15,20 +15,32 @@ class PageView extends Component {
 
         this.state = {
             page: new Page(props.page || {}, _.keys(props.page.regions), props.tastics || []),
+            tastics: this.props.tastics
         }
     }
 
-    UNSAFE_componentWillUpdate (nextProps) { // eslint-disable-line camelcase
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if ((prevState.pageId !== nextProps.page.pageId) ||
+        (prevState.tastics.length !== nextProps.tastics.length)) {
+            return {
+                page: new Page(nextProps.page || {}, _.keys(nextProps.page.regions), nextProps.tastics || []),
+            }
+        }
+        return null;
+    }
+
+    /* UNSAFE_componentWillUpdate (nextProps) { // eslint-disable-line camelcase
         // Only re-create the page when its ID changes (thus a different page
         // should be shown). The page ID will change for every preview page
         // update.
+        
         if ((this.props.page.pageId !== nextProps.page.pageId) ||
             (this.props.tastics.length !== nextProps.tastics.length)) {
             this.setState({
                 page: new Page(nextProps.page || {}, _.keys(nextProps.page.regions), nextProps.tastics || []),
             })
         }
-    }
+    } */
 
     getLayout () {
         if (!this.state.page.layoutId) {
@@ -40,7 +52,7 @@ class PageView extends Component {
 
     render () {
         let Layout = this.getLayout()
-
+        console.log('this.state.page', this.state.page)
         return <Layout
             node={this.props.node}
             page={this.state.page}
