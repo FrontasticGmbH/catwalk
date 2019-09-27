@@ -15,7 +15,7 @@ class PageView extends Component {
 
         this.state = {
             page: new Page(props.page || {}, _.keys(props.page.regions), props.tastics || []),
-            tastics: this.props.tastics
+            tastics: props.tastics
         }
     }
 
