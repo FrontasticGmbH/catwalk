@@ -20,7 +20,7 @@ class PageView extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if ((prevState.pageId !== nextProps.page.pageId) ||
+        if ((prevState.page.pageId !== nextProps.page.pageId) ||
         (prevState.tastics.length !== nextProps.tastics.length)) {
             return {
                 page: new Page(nextProps.page || {}, _.keys(nextProps.page.regions), nextProps.tastics || []),
