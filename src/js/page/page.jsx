@@ -52,7 +52,6 @@ class PageView extends Component {
 
     render () {
         let Layout = this.getLayout()
-        console.log('this.state.page', this.state.page)
         return <Layout
             node={this.props.node}
             page={this.state.page}
