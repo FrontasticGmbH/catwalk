@@ -15,7 +15,9 @@ class PageView extends Component {
 
         this.state = {
             page: new Page(props.page || {}, _.keys(props.page.regions), props.tastics || []),
+            // BEGIN: Cameron Crosby 2019-09-27: remove UNSAFE_componentWillUpdate to stop wrong pg
             tastics: props.tastics
+             // END: Cameron Crosby 2019-09-27
         }
     }
 
