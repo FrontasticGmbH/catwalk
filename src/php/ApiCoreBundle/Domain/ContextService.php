@@ -215,7 +215,7 @@ class ContextService
                 return (object)[
                     'path' => $route->getPath(),
                     '_locale' => $route->getDefault('_locale'),
-                    '_canonical_route' => $route->getDefault('_canonical_route'),
+                    '_frontastic_canonical_route' => $route->getDefault('_frontastic_canonical_route'),
                     'requirements' => (object)$route->getRequirements(),
                 ];
             },
@@ -226,7 +226,7 @@ class ContextService
 
         foreach ($routes as $id => $route) {
             $routeLocale = $route->_locale;
-            $canonicalRoute = $route->_canonical_route;
+            $canonicalRoute = $route->_frontastic_canonical_route;
 
             if ($routeLocale === null || $canonicalRoute === null) {
                 continue;
