@@ -19,6 +19,7 @@ class PageView extends Component {
         }
     }
 
+    // BEGIN: Cameron Crosby 2019-09-27: remove UNSAFE_componentWillUpdate to stop wrong pg
     static getDerivedStateFromProps(nextProps, prevState) {
         if ((prevState.page.pageId !== nextProps.page.pageId) ||
         (prevState.tastics.length !== nextProps.tastics.length)) {
@@ -41,6 +42,7 @@ class PageView extends Component {
             })
         }
     } */
+    // END: Cameron Crosby 2019-09-27
 
     getLayout () {
         if (!this.state.page.layoutId) {
