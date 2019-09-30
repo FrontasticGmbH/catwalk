@@ -25,6 +25,7 @@ class PageView extends Component {
         (prevState.tastics.length !== nextProps.tastics.length)) {
             return {
                 page: new Page(nextProps.page || {}, _.keys(nextProps.page.regions), nextProps.tastics || []),
+                tastics: nextProps.tastics
             }
         }
         return null;
