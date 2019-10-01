@@ -24,6 +24,12 @@ class NodeController extends Controller
 
         $node = $nodeService->get($nodeId);
 
+        if (isset($node->configuration['separateTidewaysTransaction'])) {
+            if ($node->configuration['separateTidewaysTransaction'] === true) {
+                \Tideways\Profiler::setTransactionName('Node: ' . $request->getPathInfo());
+            }
+        }
+
         $page = $pageService->fetchForNode($node);
 
         return [
