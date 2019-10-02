@@ -176,7 +176,7 @@
                 <service class="Frontastic\Common\HttpClient\StatsD">
                     <argument>catwalk.node</argument>
                     <argument type="service" id="Domnikl\Statsd\Client"/>
-                    <argument type="service" id="Frontastic\Common\HttpClient\Stream" />
+                    <argument type="service" id="Frontastic\Common\HttpClient" />
                 </service>
             </argument>
             <argument>%frontastic.nodejs.renderer%</argument>
