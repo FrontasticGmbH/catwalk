@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
+use Frontastic\Common\HttpClient;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,7 +38,7 @@ class AnnounceReleaseCommand extends ContainerAwareCommand
             return;
         }
 
-        $response = $this->getContainer()->get('Frontastic\Common\HttpClient\Stream')
+        $response = $this->getContainer()->get(HttpClient::class)
             ->request(
                 'POST',
                 self::TIDEWAYS_URL,

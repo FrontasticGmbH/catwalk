@@ -21,7 +21,7 @@
         </service>
 
         <service id="Frontastic\Common\HttpClient\Signing">
-            <argument type="service" id="Frontastic\Common\HttpClient\Stream"/>
+            <argument type="service" id="Frontastic\Common\HttpClient"/>
             <argument>%env(secret)%</argument>
         </service>
     </services>

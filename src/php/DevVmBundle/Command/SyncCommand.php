@@ -2,6 +2,7 @@
 namespace Frontastic\Catwalk\DevVmBundle\Command;
 
 use Frontastic\Catwalk\DevVmBundle\Domain\Archive;
+use Frontastic\Common\HttpClient;
 use Frontastic\Common\HttpClient\Signing;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -76,7 +77,7 @@ class SyncCommand extends ContainerAwareCommand
 
         /** @var \Frontastic\Common\HttpClient\Signing $httpClient */
         $httpClient = new Signing(
-            $this->getContainer()->get('Frontastic\Common\HttpClient\Stream'),
+            $this->getContainer()->get(HttpClient::class),
             $customerSecret
         );
 
