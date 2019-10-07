@@ -1,0 +1,22 @@
+{# @TODO: Add reference handling (data.link) #}
+{# @TODO: Add reference handling (data.link) #}
+<div class="c-hero">
+    <figure
+        class="{{classnames(
+            'c-hero__figure',
+            'o-ratio',
+            'o-ratio--' ~ data.image.ratio
+        )}}">
+        {% include '@Tastic/components/image.html.twig' with { image: data.image.media, crop: data.size } %}
+        {% if data.caption %}
+        <figcaption class="{{classnames(
+            'c-hero__caption',
+            'c-hero__caption--' ~ data.size,
+            'c-hero__caption--' ~ data.verticalAlign,
+            'c-hero__caption--' ~ data.horizontalAlign
+        )}}">
+            {{translate(data.caption)}}
+        </figcaption>
+        {% endif %}
+    </figure>
+</div>
