@@ -222,11 +222,7 @@ class ContextService
             iterator_to_array($this->router->getRouteCollection())
         );
 
-        $language = null;
-        $localeParts = explode('_', $locale);
-        if (count($localeParts) === 2) {
-            $language = $localeParts[0];
-        }
+        $language = $this->getLanguageFromLocaleWithTerritory($locale);
 
         foreach ($routes as $id => $route) {
             $routeLocale = $route->_locale;
@@ -247,5 +243,15 @@ class ContextService
         }
 
         return $routes;
+    }
+
+    private function getLanguageFromLocaleWithTerritory(string $locale): ?string
+    {
+        $localeParts = explode('_', $locale);
+        if (count($localeParts) === 2) {
+            return $localeParts[0];
+        }
+
+        return null;
     }
 }
