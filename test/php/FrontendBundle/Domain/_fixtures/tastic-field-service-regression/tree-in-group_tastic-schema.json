@@ -1,0 +1,48 @@
+{
+  "tasticType": "catwalk-header",
+  "name": "Catwalk Header",
+  "icon": "menu",
+  "category": "Catwalk Frontend",
+  "schema": [
+    {
+      "name": "Top Categories",
+      "fields": [
+        {
+          "label": "Top Categories",
+          "field": "topCategories",
+          "type": "group",
+          "itemLabelField": "name",
+          "fields": [
+            {
+              "label": "Name",
+              "field": "name",
+              "translatable": false,
+              "required": true,
+              "type": "string"
+            },
+            {
+              "label": "Navigation Tree",
+              "field": "tree",
+              "type": "tree",
+              "default": {
+                "node": null,
+                "depth": 1
+              }
+            },
+            {
+              "label": "Link",
+              "field": "reference",
+              "required": true,
+              "type": "reference"
+            },
+            {
+              "label": "Mobile Nav Background",
+              "field": "mobileNavBackgroundImage",
+              "type": "media"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

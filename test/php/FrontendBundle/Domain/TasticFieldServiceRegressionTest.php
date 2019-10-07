@@ -56,6 +56,43 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    private function provideTreeInGroupRegressionTestData(): array
+    {
+        $tasticDefinition = json_decode(
+            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/tree-in-group_tastic-schema.json'),
+            true
+        );
+
+        $pageFixture = $this->pageFixture([
+            new Tastic([
+                'tasticId' => 'some-tree-in-group-tastic-id',
+                'tasticType' => $tasticDefinition['tasticType'],
+            ])
+        ]);
+
+        $treeStreamFixture = [
+            'tree' => ['children' => ['some-child'], 'some-node-information', 'some-additional-node-information'],
+        ];
+
+        $streamFixtures = [
+            'tree' => [
+                ['fieldValue' => ['node' => null, 'depth' => 1], 'returnValue' => $treeStreamFixture],
+            ],
+        ];
+
+        $expected = [];
+        $expected['some-tree-in-group-tastic-id']['tree'] = $treeStreamFixture;
+
+        return [
+            'pageFixture' => $pageFixture,
+            'streamFixtures' => $streamFixtures,
+            'tasticDefinitionFixture' => [$tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
+                $tasticDefinition['schema']
+            )],
+            'expectedResult' => $expected,
+        ];
+    }
+
     private function provideBreadcrumbInGroupRegressionTestData(): array
     {
         $tasticDefinition = json_decode(
@@ -63,16 +100,10 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             true
         );
 
-        $tasticConfiguration = json_decode(
-            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/breadcrumb-in-group_tastic-configuration.json'),
-            true
-        );
-
         $pageFixture = $this->pageFixture([
             new Tastic([
                 'tasticId' => 'some-breadcrumb-in-group-tastic-id',
-                'tasticType' => $tasticDefinition['tasticType'],
-                'configuration' => (object)$tasticConfiguration,
+                'tasticType' => $tasticDefinition['tasticType']
             ])
         ]);
 
@@ -106,16 +137,10 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             true
         );
 
-        $tasticConfiguration = json_decode(
-            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/breadcrumb-in-top-fields_tastic-configuration.json'),
-            true
-        );
-
         $pageFixture = $this->pageFixture([
             new Tastic([
                 'tasticId' => 'some-breadcrumb-in-top-fields-tastic-id',
                 'tasticType' => $tasticDefinition['tasticType'],
-                'configuration' => (object)$tasticConfiguration,
             ])
         ]);
 
@@ -150,16 +175,10 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             true
         );
 
-        $tasticConfiguration = json_decode(
-            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/breadcrumb_tastic-configuration.json'),
-            true
-        );
-
         $pageFixture = $this->pageFixture([
             new Tastic([
                 'tasticId' => 'some-breadcrumb-tastic-id',
                 'tasticType' => $tasticDefinition['tasticType'],
-                'configuration' => (object)$tasticConfiguration,
             ])
         ]);
 
@@ -193,16 +212,10 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             true
         );
 
-        $productListTasticConfiguration = json_decode(
-            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/custom-product-list_tastic-configuration.json'),
-            true
-        );
-
         $pageFixture = $this->pageFixture([
             new Tastic([
                 'tasticId' => 'some-tastic-id',
                 'tasticType' => $productListTasticDefinition['tasticType'],
-                'configuration' => (object)$productListTasticConfiguration,
             ])
         ]);
 
@@ -240,6 +253,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             ),
             $this->provideBreadcrumbInTopFieldsRegressionTestData(),
             $this->provideBreadcrumbInGroupRegressionTestData(),
+            $this->provideTreeInGroupRegressionTestData(),
         ];
     }
 
@@ -273,6 +287,56 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
                 $fieldHandler->expects($this->once())
                     ->method('handle')
                     ->with($this->context, $this->node, $pageFixture, $handleCall['fieldValue'])
+                    ->will($this->returnValue($handleCall['returnValue']));
+            }
+
+            $fieldHandlerMocks[] = $fieldHandler;
+        }
+
+        $fieldService = new TasticFieldService(
+            $this->tasticDefinitionServiceMock,
+            $fieldHandlerMocks
+        );
+
+        $this->tasticDefinitionServiceMock->expects($this->any())
+            ->method('getTasticsMappedByType')
+            ->will($this->returnValue($tasticDefinitionFixture));
+
+        $actualResult = $fieldService->getFieldData($this->context, $this->node, $pageFixture);
+
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    /**
+     * @param Page $pageFixture
+     * @param array $streamFixtures
+     * @param array $tasticDefinitionFixture
+     * @param array $expectedResult
+     *
+     * @dataProvider provideRegressionTestData
+     */
+    public function testGetFieldDataIncludesDataRegressionWithOldFieldHandlerAdapterTestCases(
+        Page $pageFixture,
+        array $streamFixtures,
+        array $tasticDefinitionFixture,
+        array $expectedResult
+    )
+    {
+        $fieldHandlerMocks = [];
+
+        foreach ($streamFixtures as $type => $handleCalls) {
+            $fieldHandler = $this->getMockBuilder(TasticFieldHandler::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+            $fieldHandler->expects($this->any())
+                ->method('getType')
+                ->will($this->returnValue($type));
+
+            foreach ($handleCalls as $handleCall) {
+                $fieldHandler->expects($this->once())
+                    ->method('handle')
+                    ->with($this->context, $handleCall['fieldValue'])
                     ->will($this->returnValue($handleCall['returnValue']));
             }
 
