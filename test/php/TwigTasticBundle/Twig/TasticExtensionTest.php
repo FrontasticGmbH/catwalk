@@ -2,6 +2,8 @@
 
 namespace Frontastic\Catwalk\TwigTasticBundle\Twig;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+
 class TasticExtensionTest extends \PHPUnit\Framework\TestCase
 {
     public function getClassNameData()
@@ -16,7 +18,7 @@ class TasticExtensionTest extends \PHPUnit\Framework\TestCase
             [[null, false, 'bar', 0, ['c-test' => null], ''], 'bar'],
         );
     }
-    
+
     /**
      * @dataProvider getClassNameData
      */
@@ -24,7 +26,7 @@ class TasticExtensionTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame(
             $className,
-            call_user_func_array([new TasticExtension, 'classnames'], $parameters)
+            call_user_func_array([new TasticExtension(new Context()), 'classnames'], $parameters)
         );
     }
 }
