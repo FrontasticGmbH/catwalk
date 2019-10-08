@@ -2,10 +2,12 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-use Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway;
-use Frontastic\Common\ReplicatorBundle\Domain\Target;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
+
+use Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway;
+use Frontastic\Common\ReplicatorBundle\Domain\Target;
 
 class RedirectService implements Target
 {
@@ -72,7 +74,11 @@ class RedirectService implements Target
                 $targetUrl = $redirect->target;
                 break;
             case Redirect::TARGET_TYPE_NODE:
-                $targetUrl = $this->router->generate('node_' . $redirect->target);
+                try {
+                    $targetUrl = $this->router->generate('node_' . $redirect->target);
+                } catch (RouteNotFoundException $e) {
+                    $targetUrl = '/';
+                }
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown redirect target type $redirect->targetType");
