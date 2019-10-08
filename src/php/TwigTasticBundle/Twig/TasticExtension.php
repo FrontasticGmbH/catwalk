@@ -82,7 +82,7 @@ class TasticExtension extends AbstractExtension
 
             if ($field->type === 'stream') {
                 $values[$name] = $data->stream->{$tastic->configuration->$name} ?? null;
-            } else if (isset($data->$name)) {
+            } elseif (isset($data->$name)) {
                 $values[$name] = $data->$name;
             }
 

@@ -40,7 +40,8 @@ class NodeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
         ];
     }
 
-    public function getGlobals() {
+    public function getGlobals()
+    {
         $request = $this->container->get('request_stack')->getCurrentRequest();
 
         return [
