@@ -77,7 +77,7 @@ class RedirectService implements Target
                 try {
                     $targetUrl = $this->router->generate('node_' . $redirect->target);
                 } catch (RouteNotFoundException $e) {
-                    $targetUrl = '/';
+                    return null;
                 }
                 break;
             default:
