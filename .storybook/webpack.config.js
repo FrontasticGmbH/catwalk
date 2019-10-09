@@ -6,7 +6,8 @@ module.exports = async ({ config, mode }) => {
         path.resolve(__dirname, '../'),
         path.resolve(__dirname, '../src'),
         path.resolve(__dirname, '../node_modules'),
-        path.resolve(__dirname, '../../libraries/common')
+        path.resolve(__dirname, '../../../node_modules'),
+        //path.resolve(__dirname, '../../libraries/common')
     )
     config.module.rules.push(
         {
@@ -14,6 +15,9 @@ module.exports = async ({ config, mode }) => {
             exclude: /node_modules/,
             use: {
                 loader: 'babel-loader',
+                options: {
+                    rootMode: "upward"
+                }
             },
         },
 
@@ -59,7 +63,7 @@ module.exports = async ({ config, mode }) => {
     )
     config.resolve.alias = {
         ...(config.resolve.alias || {}),
-        'frontastic-common': path.resolve(__dirname, '../../libraries/common'),
+        //'frontastic-common': path.resolve(__dirname, '../../libraries/common'),
     }
 
     return config
