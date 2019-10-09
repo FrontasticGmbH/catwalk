@@ -145,6 +145,7 @@ class RedirectService implements Target
         $redirect->query = $data['query'];
         $redirect->targetType = $data['target']['targetType'];
         $redirect->target = $data['target']['target'];
+        $redirect->language = $data['language'] ?? null;
         $redirect->metaData = $data['metaData'];
         $redirect->isDeleted = (bool)$data['isDeleted'];
 
