@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, boolean } from '@storybook/addon-knobs'
 
@@ -10,59 +9,63 @@ import Cell from 'js/patterns/atoms/grid/cell'
 
 const debugDefault = true
 
-const stories = storiesOf('Layout/Grid', module).addDecorator(withInfo)
-stories.addDecorator(withKnobs)
+// const stories = storiesOf('Layout/Grid', module).addDecorator(withInfo)
+// stories.addDecorator(withKnobs)
+//
+// stories.add('Basic Grid', () => {
+export default {
+    component: Grid,
+    title: 'Layout|Grid',
+}
 
-stories.add('Basic Grid', () => {
-    return (
-        <Grid debug={boolean('Debug', debugDefault)}>
-            <Cell size={`1/1`}>1/1</Cell>
+export const normal = () => {
+    return <Grid debug={boolean('Debug', debugDefault)}>
+        <Cell size={`1/1`}>1/1</Cell>
 
-            <Cell size={`1/2`}>1/2</Cell>
-            <Cell size={`1/2`}>1/2</Cell>
+        <Cell size={`1/2`}>1/2</Cell>
+        <Cell size={`1/2`}>1/2</Cell>
 
-            <Cell size={`1/3`}>1/3</Cell>
-            <Cell size={`1/3`}>1/3</Cell>
-            <Cell size={`1/3`}>1/3</Cell>
+        <Cell size={`1/3`}>1/3</Cell>
+        <Cell size={`1/3`}>1/3</Cell>
+        <Cell size={`1/3`}>1/3</Cell>
 
-            <Cell size={`1/3`}>1/3</Cell>
-            <Cell size={`1/3`}>1/3</Cell>
-            <Cell size={`1/3`}>1/3</Cell>
+        <Cell size={`1/3`}>1/3</Cell>
+        <Cell size={`1/3`}>1/3</Cell>
+        <Cell size={`1/3`}>1/3</Cell>
 
-            <Cell size={`1/3`}>1/3</Cell>
-            <Cell size={`2/3`}>2/3</Cell>
+        <Cell size={`1/3`}>1/3</Cell>
+        <Cell size={`2/3`}>2/3</Cell>
 
-            <Cell size={`1/4`}>1/4</Cell>
-            <Cell size={`1/4`}>1/4</Cell>
-            <Cell size={`1/4`}>1/4</Cell>
-            <Cell size={`1/4`}>1/4</Cell>
+        <Cell size={`1/4`}>1/4</Cell>
+        <Cell size={`1/4`}>1/4</Cell>
+        <Cell size={`1/4`}>1/4</Cell>
+        <Cell size={`1/4`}>1/4</Cell>
 
-            <Cell size={`1/4`}>1/4</Cell>
-            <Cell size={`1/4`}>1/4</Cell>
-            <Cell size={`1/2`}>1/2</Cell>
+        <Cell size={`1/4`}>1/4</Cell>
+        <Cell size={`1/4`}>1/4</Cell>
+        <Cell size={`1/2`}>1/2</Cell>
 
-            <Cell size={`1/6`}>1/6</Cell>
-            <Cell size={`1/6`}>1/6</Cell>
-            <Cell size={`1/6`}>1/6</Cell>
-            <Cell size={`1/6`}>1/6</Cell>
-            <Cell size={`1/6`}>1/6</Cell>
-            <Cell size={`1/6`}>1/6</Cell>
+        <Cell size={`1/6`}>1/6</Cell>
+        <Cell size={`1/6`}>1/6</Cell>
+        <Cell size={`1/6`}>1/6</Cell>
+        <Cell size={`1/6`}>1/6</Cell>
+        <Cell size={`1/6`}>1/6</Cell>
+        <Cell size={`1/6`}>1/6</Cell>
 
-            <Cell size={`1/4`}>1/4</Cell>
-            <Cell size={`1/4`}>1/4</Cell>
-            <Cell size={`1/6`}>1/6</Cell>
-            <Cell size={`1/6`}>1/6</Cell>
-            <Cell size={`1/6`}>1/6</Cell>
+        <Cell size={`1/4`}>1/4</Cell>
+        <Cell size={`1/4`}>1/4</Cell>
+        <Cell size={`1/6`}>1/6</Cell>
+        <Cell size={`1/6`}>1/6</Cell>
+        <Cell size={`1/6`}>1/6</Cell>
 
-            <Cell size={`1/6`}>1/6</Cell>
-            <Cell size={`1/6`}>1/6</Cell>
-            <Cell size={`1/6`}>1/6</Cell>
-            <Cell size={`1/2`}>1/2</Cell>
-        </Grid>
-    )
-})
+        <Cell size={`1/6`}>1/6</Cell>
+        <Cell size={`1/6`}>1/6</Cell>
+        <Cell size={`1/6`}>1/6</Cell>
+        <Cell size={`1/2`}>1/2</Cell>
+    </Grid>
+}
 
-stories.add('Full width Element', () => {
+export const fullwidth = () => {
     return (
         <Grid debug={boolean('Debug', debugDefault)}>
             <Cell>12 (default)</Cell>
@@ -71,9 +74,9 @@ stories.add('Full width Element', () => {
             <Cell size={6}>6</Cell>
         </Grid>
     )
-})
+}
 
-stories.add('Full width Element w/ slider', () => {
+export const fullWidthWithSlider = () => {
     return (
         <Grid debug={boolean('Debug', debugDefault)}>
             <Cell>12 (default)</Cell>
@@ -82,9 +85,9 @@ stories.add('Full width Element w/ slider', () => {
             <Cell size={6}>6</Cell>
         </Grid>
     )
-})
+}
 
-stories.add('Hide Elements from devices', () => {
+export const hideElementsFromDevices = () => {
     return (
         <Grid debug={boolean('Debug', debugDefault)}>
             <Cell hideOn={['lap', 'desk']}>Hand only</Cell>
@@ -93,4 +96,4 @@ stories.add('Hide Elements from devices', () => {
             <Cell hideOn={['hand', 'desk']}>Lap only</Cell>
         </Grid>
     )
-})
+}
