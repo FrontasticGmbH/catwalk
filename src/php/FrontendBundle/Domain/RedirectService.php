@@ -11,7 +11,7 @@ use Frontastic\Common\ReplicatorBundle\Domain\Target;
 
 class RedirectService implements Target
 {
-    public const REDIRECT_COUNT_PARAMETER_KEY = 'frontastic_redirect_counter';
+    public const REDIRECT_COUNT_PARAMETER_KEY = '_frc';
 
     private const MAXIMUM_REDIRECT_COUNT = 3;
 
