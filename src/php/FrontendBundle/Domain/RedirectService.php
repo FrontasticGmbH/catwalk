@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -25,10 +26,16 @@ class RedirectService implements Target
      */
     private $router;
 
-    public function __construct(RedirectGateway $redirectGateway, Router $router)
+    /**
+     * @var Context
+     */
+    private $context;
+
+    public function __construct(RedirectGateway $redirectGateway, Router $router, Context $context)
     {
         $this->redirectGateway = $redirectGateway;
         $this->router = $router;
+        $this->context = $context;
     }
 
     public function lastUpdate(): string
@@ -69,19 +76,38 @@ class RedirectService implements Target
             return null;
         }
 
+        $targetUrl = null;
         switch ($redirect->targetType) {
             case Redirect::TARGET_TYPE_LINK:
                 $targetUrl = $redirect->target;
                 break;
             case Redirect::TARGET_TYPE_NODE:
-                try {
-                    $targetUrl = $this->router->generate('node_' . $redirect->target);
-                } catch (RouteNotFoundException $e) {
-                    return null;
+                $locales = [
+                    $redirect->language,
+                    $this->context->locale,
+                    $this->getLanguageFromLocaleWithTerritory($this->context->locale),
+                    $this->context->project->defaultLanguage,
+                    $this->getLanguageFromLocaleWithTerritory($this->context->project->defaultLanguage),
+                ];
+                foreach ($locales as $locale) {
+                    if ($locale === null) {
+                        continue;
+                    }
+
+                    try {
+                        $targetUrl = $this->router->generate('node_' . $redirect->target . '.' . $locale);
+                        break;
+                    } catch (RouteNotFoundException $e) {
+                        // Ignore
+                    }
                 }
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown redirect target type $redirect->targetType");
+        }
+
+        if ($targetUrl === null) {
+            return null;
         }
 
         $additionalParameters = new ParameterBag(
@@ -186,5 +212,15 @@ class RedirectService implements Target
             $url .= '#' . $urlComponents['fragment'];
         }
         return $url;
+    }
+
+    private function getLanguageFromLocaleWithTerritory(string $locale): ?string
+    {
+        $localeParts = explode('_', $locale);
+        if (count($localeParts) === 2) {
+            return $localeParts[0];
+        }
+
+        return null;
     }
 }
