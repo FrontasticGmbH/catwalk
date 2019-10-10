@@ -40,6 +40,11 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     exception_controller: Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::errorAction
+    paths:
+        "%kernel.project_dir%/templates/": FrontasticCatwalkFrontendBundle
+        "%frontastic.paas_catwalk_dir%/src/php/FrontendBundle/Resources/views/": FrontasticCatwalkFrontendBundle
+        "%kernel.project_dir%/templates/Tastic/": Tastic
+        "%frontastic.paas_catwalk_dir%/src/php/TwigTasticBundle/Resources/views/": Tastic
 
 swiftmailer:
   # url:        "%env(mailer_url)%"

@@ -1,0 +1,15 @@
+{% extends "layout.html.twig" %}
+
+{% set pageData = completeInformation({ node: node, page: page, data: data }) %}
+
+{% block meta %}
+<!-- @TODO: How? -->
+{% endblock %}
+
+{% block title %}
+<!-- @TODO: How? -->
+{% endblock %}
+
+{% block main %}
+{% include '@Tastic/node.html.twig' with pageData %}
+{% endblock %}

@@ -1,0 +1,13 @@
+<div class="{{classnames(
+     'o-cell',
+     'o-cell--' ~ cell.configuration.size,
+     {
+        'o-cell--hidden-mobile': not cell.configuration.mobile,
+        'o-cell--hidden-tablet': not cell.configuration.tablet,
+        'o-cell--hidden-desktop': not cell.configuration.desktop,
+    }
+)}}">
+    {% for tastic in cell.tastics %}
+        {% include '@Tastic/tastic.html.twig' with { node: node, page: page, data: data, region: region, cell: cell, tastic: tastic } %}
+    {% endfor %}
+</div>
