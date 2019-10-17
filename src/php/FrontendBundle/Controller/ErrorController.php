@@ -36,6 +36,27 @@ class ErrorController extends Controller
             "Es kann eventuell helfen auf die [Startseite](/) zurück zu kehren.",
     ];
 
+    private function getExceptionTastic(FlattenException $exception): Tastic
+    {
+        return new Tastic([
+            'tasticId' => '1',
+            'tasticType' => 'markdown',
+            'configuration' => new Tastic\Configuration([
+                'text' => "# Exception\n" .
+                    "\n⚠ `". $exception->getMessage() . "`\n" .
+                    "\n```\n" . implode(
+                        "\n",
+                        array_map(
+                            function (array $traceLine): string {
+                                return $traceLine['file'] . ' +' . $traceLine['line'];
+                            },
+                            $exception->getTrace()
+                        )
+                    ) . "\n```\n",
+            ]),
+        ]);
+    }
+
     public function errorAction(Context $context, FlattenException $exception = null)
     {
         // Do not log a FlattenException this way – it has different methods
@@ -57,12 +78,20 @@ class ErrorController extends Controller
             );
             $page = $pageService->fetchForNode($node);
 
+            if (!$context->isProduction()) {
+                array_push(
+                    $page->regions['head']->elements[0]->tastics,
+                    $this->getExceptionTastic($exception)
+                );
+            }
+
             return [
                 'node' => $node,
                 'page' => $page,
                 'data' => $dataProvider->fetchDataFor($node, $context, [], $page),
             ];
         } catch (\Throwable $e) {
+            echo $e;
             return [
                 'node' => new Node(),
                 'page' => new Page([
@@ -73,7 +102,7 @@ class ErrorController extends Controller
                             'elements' => [
                                 new Cell([
                                     'cellId' => '1',
-                                    'tastics' => [
+                                    'tastics' => array_filter([
                                         new Tastic([
                                             'tasticId' => '1',
                                             'tasticType' => 'markdown',
@@ -81,7 +110,8 @@ class ErrorController extends Controller
                                                 'text' => $this->errorTexts,
                                             ]),
                                         ]),
-                                    ],
+                                        $context->isProduction() ? null : $this->getExceptionTastic($exception),
+                                    ]),
                                 ]),
                             ],
                         ]),
