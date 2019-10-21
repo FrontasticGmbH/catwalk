@@ -6,7 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 use Frontastic\Common\ContentApiBundle\Domain\ContentApi;
-use Frontastic\Common\ContentApiBundle\Domain\Query;
+use Frontastic\Common\ContentApiBundle\Domain\ContentQueryFactory;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 
@@ -28,7 +28,7 @@ class ContentList extends StreamHandler
     {
         try {
             return $this->contentApi->query(
-                Query::fromArray($stream->configuration),
+                ContentQueryFactory::queryFromParameters($stream->configuration),
                 $context->locale,
                 ContentApi::QUERY_ASYNC
             );
