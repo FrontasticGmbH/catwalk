@@ -178,8 +178,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             $entries = [];
             foreach ($extension->getEntries() as $entry) {
                 if (!isset($entry['uri'])) {
-                    $output->writeln('<error>uri needs to be set for entries returned by extension point!</error>');
-                    exit(1);
+                    throw new \DomainException('uri needs to be set for entries returned by extension point!');
                 }
 
                 if (!isset($entry['changed'])) {

@@ -41,6 +41,11 @@ class Redirect extends DataObject
     public $target;
 
     /**
+     * @var string|null
+     */
+    public $language = null;
+
+    /**
      * @var \Frontastic\Backstage\UserBundle\Domain\MetaData
      */
     public $metaData;

@@ -12,7 +12,7 @@ use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
-class NodeExtension extends \Twig_Extension
+class NodeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
@@ -40,15 +40,12 @@ class NodeExtension extends \Twig_Extension
         ];
     }
 
-    public function completeInformation(array $variables): array
+    public function getGlobals()
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
 
-        return array_merge(
-            [
-                'node' => null,
-                'page' => null,
-                'data' => null,
+        return [
+            'frontastic' => [
                 'tastics' => $this->container->get(TasticService::class)->getAll(),
                 'facets' => $this->container->get(FacetService::class)->getEnabled(),
                 'categories' => $this->getCategories(),
@@ -66,6 +63,18 @@ class NodeExtension extends \Twig_Extension
                     ),
                 ],
             ],
+        ];
+    }
+
+    public function completeInformation(array $variables): array
+    {
+        return array_merge(
+            [
+                'node' => null,
+                'page' => null,
+                'data' => null,
+            ],
+            $this->getGlobals()['frontastic'],
             $variables
         );
     }

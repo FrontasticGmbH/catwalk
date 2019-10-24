@@ -2,9 +2,12 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway;
+use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Router;
 
 class RedirectServiceTest extends TestCase
@@ -25,7 +28,13 @@ class RedirectServiceTest extends TestCase
 
         $this->redirectService = new RedirectService(
             $this->redirectGatewayMock,
-            $this->routerMock
+            $this->routerMock,
+            new Context([
+                'project' => new Project([
+                    'defaultLanguage' => 'fr_FR',
+                ]),
+                'locale' => 'en_GB',
+            ])
         );
     }
 
@@ -46,7 +55,7 @@ class RedirectServiceTest extends TestCase
         $path = '/foo/bar/baz';
         $target = 'https://frontastic.io/nice-page';
         $queryParameters = new ParameterBag([
-            RedirectService::REDIRECT_COUNT_PARAMETER_KEY => 10
+            RedirectService::REDIRECT_COUNT_PARAMETER_KEY => 10,
         ]);
 
         \Phake::when($this->redirectGatewayMock)->getByPath($path)->thenReturn([
@@ -149,11 +158,12 @@ class RedirectServiceTest extends TestCase
         ]);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $targetWithCounter =
-            sprintf('%s&key1=value1&key2=value2&%s=3%s',
-                $target,
-                RedirectService::REDIRECT_COUNT_PARAMETER_KEY,
-                $targetFragment);
+        $targetWithCounter = sprintf(
+            '%s&key1=value1&key2=value2&%s=3%s',
+            $target,
+            RedirectService::REDIRECT_COUNT_PARAMETER_KEY,
+            $targetFragment
+        );
 
         $this->assertEquals($targetWithCounter, $url);
     }
@@ -181,7 +191,32 @@ class RedirectServiceTest extends TestCase
         $this->assertEquals($targetWithCounter, $url);
     }
 
-    public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirect()
+    public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithRedirectLanguage()
+    {
+        $path = '/foo/bar/baz';
+        $nodeId = '123';
+        $nodeUrl = '/node/123';
+        $queryParameters = new ParameterBag();
+
+        \Phake::when($this->redirectGatewayMock)->getByPath($path)->thenReturn([
+            new Redirect([
+                'redirectId' => '1',
+                'path' => $path,
+                'targetType' => Redirect::TARGET_TYPE_NODE,
+                'target' => $nodeId,
+                'language' => 'es_ES',
+            ]),
+        ]);
+
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.es_ES')->thenReturn($nodeUrl);
+
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $nodeUrlWithCounter = sprintf('%s?%s=1', $nodeUrl, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
+
+        $this->assertEquals($nodeUrlWithCounter, $url);
+    }
+
+    public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithContextLocale()
     {
         $path = '/foo/bar/baz';
         $nodeId = '123';
@@ -197,12 +232,125 @@ class RedirectServiceTest extends TestCase
             ]),
         ]);
 
-        \Phake::when($this->routerMock)->generate('node_' . $nodeId)->thenReturn($nodeUrl);
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en_GB')->thenReturn($nodeUrl);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
         $nodeUrlWithCounter = sprintf('%s?%s=1', $nodeUrl, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
 
         $this->assertEquals($nodeUrlWithCounter, $url);
+    }
+
+    public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithContextLanguage()
+    {
+        $path = '/foo/bar/baz';
+        $nodeId = '123';
+        $nodeUrl = '/node/123';
+        $queryParameters = new ParameterBag();
+
+        \Phake::when($this->redirectGatewayMock)->getByPath($path)->thenReturn([
+            new Redirect([
+                'redirectId' => '1',
+                'path' => $path,
+                'targetType' => Redirect::TARGET_TYPE_NODE,
+                'target' => $nodeId,
+            ]),
+        ]);
+
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en_GB')
+            ->thenThrow(new RouteNotFoundException());
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en')->thenReturn($nodeUrl);
+
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $nodeUrlWithCounter = sprintf('%s?%s=1', $nodeUrl, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
+
+        $this->assertEquals($nodeUrlWithCounter, $url);
+    }
+
+    public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithDefaultLocale()
+    {
+        $path = '/foo/bar/baz';
+        $nodeId = '123';
+        $nodeUrl = '/node/123';
+        $queryParameters = new ParameterBag();
+
+        \Phake::when($this->redirectGatewayMock)->getByPath($path)->thenReturn([
+            new Redirect([
+                'redirectId' => '1',
+                'path' => $path,
+                'targetType' => Redirect::TARGET_TYPE_NODE,
+                'target' => $nodeId,
+            ]),
+        ]);
+
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en_GB')
+            ->thenThrow(new RouteNotFoundException());
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en')
+            ->thenThrow(new RouteNotFoundException());
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.fr_FR')->thenReturn($nodeUrl);
+
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $nodeUrlWithCounter = sprintf('%s?%s=1', $nodeUrl, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
+
+        $this->assertEquals($nodeUrlWithCounter, $url);
+    }
+
+    public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithDefaultLanguage()
+    {
+        $path = '/foo/bar/baz';
+        $nodeId = '123';
+        $nodeUrl = '/node/123';
+        $queryParameters = new ParameterBag();
+
+        \Phake::when($this->redirectGatewayMock)->getByPath($path)->thenReturn([
+            new Redirect([
+                'redirectId' => '1',
+                'path' => $path,
+                'targetType' => Redirect::TARGET_TYPE_NODE,
+                'target' => $nodeId,
+            ]),
+        ]);
+
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en_GB')
+            ->thenThrow(new RouteNotFoundException());
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en')
+            ->thenThrow(new RouteNotFoundException());
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.fr_FR')
+            ->thenThrow(new RouteNotFoundException());
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.fr')->thenReturn($nodeUrl);
+
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $nodeUrlWithCounter = sprintf('%s?%s=1', $nodeUrl, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
+
+        $this->assertEquals($nodeUrlWithCounter, $url);
+    }
+
+    public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithUnmatchedLocale()
+    {
+        $path = '/foo/bar/baz';
+        $nodeId = '123';
+        $nodeUrl = '/node/123';
+        $queryParameters = new ParameterBag();
+
+        \Phake::when($this->redirectGatewayMock)->getByPath($path)->thenReturn([
+            new Redirect([
+                'redirectId' => '1',
+                'path' => $path,
+                'targetType' => Redirect::TARGET_TYPE_NODE,
+                'target' => $nodeId,
+            ]),
+        ]);
+
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en_GB')
+            ->thenThrow(new RouteNotFoundException());
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en')
+            ->thenThrow(new RouteNotFoundException());
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.fr_FR')
+            ->thenThrow(new RouteNotFoundException());
+        \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.fr')
+            ->thenThrow(new RouteNotFoundException());
+
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $this->assertNull($url);
     }
 
     public function testGetRedirectForRequestWithoutRedirectMatchingParameters()

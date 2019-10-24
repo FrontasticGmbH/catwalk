@@ -57,7 +57,7 @@ class Loader extends BaseLoader
                     array(
                         '_controller' => sprintf('%s::viewAction', $this->nodeControllerClass),
                         '_locale' => $route->locale,
-                        '_canonical_route' => 'node_' . $route->nodeId,
+                        '_frontastic_canonical_route' => 'node_' . $route->nodeId,
                         'nodeId' => $route->nodeId,
                     ),
                     [],

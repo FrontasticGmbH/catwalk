@@ -14,6 +14,7 @@
         <field name="query" column="rd_query" type="string" />
         <field name="targetType" column="rd_target_type" type="string" />
         <field name="target" column="rd_target" type="string" />
+        <field name="language" column="rd_language" type="string" />
         <field name="metaData" column="rd_meta_data" type="object" />
         <field name="isDeleted" column="rd_is_deleted" type="boolean" />
     </entity>

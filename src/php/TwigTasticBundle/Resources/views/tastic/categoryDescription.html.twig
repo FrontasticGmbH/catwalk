@@ -1,0 +1,5 @@
+{% if node.configuration.displayDescription is defined and node.configuration.displayDescription is not empty %}
+<div class="{{classnames('s-text', 'c-markdown')}}">
+    {{node.configuration.displayDescription|markdown}}
+</div>
+{% endif %}

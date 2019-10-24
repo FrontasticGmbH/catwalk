@@ -1,0 +1,22 @@
+<div class="{{classnames(
+    'e-tastic',
+    'e-tastic__' ~ tastic.tasticType,
+    {
+        'e-tastic--hidden-mobile': not cell.configuration.mobile,
+        'e-tastic--hidden-tablet': not cell.configuration.tablet,
+        'e-tastic--hidden-desktop': not cell.configuration.desktop,
+    }
+)}}" id='{{tastic.tasticId}}'>
+    {% include [
+        '@Tastic/tastic/' ~ tastic.tasticType ~ '.html.twig',
+        '@Tastic/missingTastic.html.twig'
+    ] with {
+        node: node,
+        page: page,
+        rawData: data,
+        region: region,
+        cell: cell,
+        tastic: tastic,
+        data: completeTasticData(frontastic.tastics, tastic, data)
+    } %}
+</div>
