@@ -75,7 +75,7 @@ class Reference extends Component {
     }
 }
 
-Reference.propTypes = {
+export const ReferencePropType = {
     reference: PropTypes.object.isRequired,
     children: PropTypes.any,
     className: PropTypes.string,
@@ -84,6 +84,8 @@ Reference.propTypes = {
     onMouseEnter: PropTypes.func,
     onClick: PropTypes.func,
 }
+
+Reference.propTypes = ReferencePropType
 
 Reference.defaultProps = {}
 
