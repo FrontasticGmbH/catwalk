@@ -2,8 +2,8 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 
 class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -62,7 +62,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             new Tastic([
                 'tasticType' => 'a-tastic-type',
                 'configuration' => new Tastic\Configuration([
-                    'handled-field' => 'The Field Value'
+                    'handled-field' => 'The Field Value',
                 ]),
             ]),
         ]);
@@ -72,7 +72,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
                 [
                     'field' => 'handled-field',
                     'type' => 'handled-type',
-                ]
+                ],
             ]
         );
 
@@ -94,7 +94,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
                 'tasticId' => 'id-of-the-tastic',
                 'tasticType' => 'a-tastic-type',
                 'configuration' => new Tastic\Configuration([
-                    'handled-field' => 'The Field Value'
+                    'handled-field' => 'The Field Value',
                 ]),
             ]),
         ]);
@@ -104,7 +104,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
                 [
                     'field' => 'handled-field',
                     'type' => 'handled-type',
-                ]
+                ],
             ]
         );
 
@@ -118,7 +118,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             [
                 'id-of-the-tastic' => [
                     'handled-field' => 'I handled this',
-                ]
+                ],
             ],
             $actualResult
         );
@@ -133,7 +133,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
             new Tastic([
                 'tasticType' => 'a-tastic-type',
                 'configuration' => new Tastic\Configuration([
-                    'handled-field' => 'The Field Value'
+                    'handled-field' => 'The Field Value',
                 ]),
             ]),
         ]);
@@ -143,7 +143,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
                 [
                     'field' => 'unhandled-field',
                     'type' => 'unhandled-type',
-                ]
+                ],
             ]
         );
 
@@ -165,7 +165,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
                 'tasticId' => 'id-of-the-tastic',
                 'tasticType' => 'a-tastic-type',
                 'configuration' => new Tastic\Configuration([
-                    'handled-field' => 'The Field Value'
+                    'handled-field' => 'The Field Value',
                 ]),
             ]),
         ]);
@@ -175,7 +175,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
                 [
                     'field' => 'unhandled-field',
                     'type' => 'unhandled-type',
-                ]
+                ],
             ]
         );
 
@@ -212,8 +212,8 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
                 [
                     'field' => 'handled-field',
                     'type' => 'handled-type',
-                    'default' => 'The Default Value'
-                ]
+                    'default' => 'The Default Value',
+                ],
             ]
         );
 
@@ -237,23 +237,23 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
                     'elements' => [
                         new Cell([
                             'tastics' => $tastics,
-                        ])
-                    ]
-                ])
-            ]
+                        ]),
+                    ],
+                ]),
+            ],
         ]);
     }
 
     private function tasticDefinitionFixture(array $fields): object
     {
-        return (object) [
+        return (object)[
             'configurationSchema' => [
                 'schema' => [
                     [
                         'fields' => $fields,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 
 class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
 {
@@ -67,7 +67,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             new Tastic([
                 'tasticId' => 'some-tree-in-group-tastic-id',
                 'tasticType' => $tasticDefinition['tasticType'],
-            ])
+            ]),
         ]);
 
         $treeStreamFixture = [
@@ -86,9 +86,11 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         return [
             'pageFixture' => $pageFixture,
             'streamFixtures' => $streamFixtures,
-            'tasticDefinitionFixture' => [$tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
-                $tasticDefinition['schema']
-            )],
+            'tasticDefinitionFixture' => [
+                $tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
+                    $tasticDefinition['schema']
+                ),
+            ],
             'expectedResult' => $expected,
         ];
     }
@@ -96,15 +98,16 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
     private function provideBreadcrumbInGroupRegressionTestData(): array
     {
         $tasticDefinition = json_decode(
-            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/breadcrumb-in-group_tastic-schema.json'),
+            file_get_contents(__DIR__ .
+                '/_fixtures/tastic-field-service-regression/breadcrumb-in-group_tastic-schema.json'),
             true
         );
 
         $pageFixture = $this->pageFixture([
             new Tastic([
                 'tasticId' => 'some-breadcrumb-in-group-tastic-id',
-                'tasticType' => $tasticDefinition['tasticType']
-            ])
+                'tasticType' => $tasticDefinition['tasticType'],
+            ]),
         ]);
 
         $breadcrumbStreamFixtures = [
@@ -123,9 +126,11 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         return [
             'pageFixture' => $pageFixture,
             'streamFixtures' => $streamFixtures,
-            'tasticDefinitionFixture' => [$tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
-                $tasticDefinition['schema']
-            )],
+            'tasticDefinitionFixture' => [
+                $tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
+                    $tasticDefinition['schema']
+                ),
+            ],
             'expectedResult' => $expected,
         ];
     }
@@ -133,7 +138,8 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
     private function provideBreadcrumbInTopFieldsRegressionTestData(): array
     {
         $tasticDefinition = json_decode(
-            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/breadcrumb-in-top-fields_tastic-schema.json'),
+            file_get_contents(__DIR__ .
+                '/_fixtures/tastic-field-service-regression/breadcrumb-in-top-fields_tastic-schema.json'),
             true
         );
 
@@ -141,7 +147,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             new Tastic([
                 'tasticId' => 'some-breadcrumb-in-top-fields-tastic-id',
                 'tasticType' => $tasticDefinition['tasticType'],
-            ])
+            ]),
         ]);
 
         $breadcrumbStreamFixtures = [
@@ -160,13 +166,14 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         return [
             'pageFixture' => $pageFixture,
             'streamFixtures' => $streamFixtures,
-            'tasticDefinitionFixture' => [$tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
-                $tasticDefinition['schema']
-            )],
+            'tasticDefinitionFixture' => [
+                $tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
+                    $tasticDefinition['schema']
+                ),
+            ],
             'expectedResult' => $expected,
         ];
     }
-
 
     private function provideBreadcrumbRegressionTestData(): array
     {
@@ -179,7 +186,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             new Tastic([
                 'tasticId' => 'some-breadcrumb-tastic-id',
                 'tasticType' => $tasticDefinition['tasticType'],
-            ])
+            ]),
         ]);
 
         $breadcrumbStreamFixtures = [
@@ -198,9 +205,11 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         return [
             'pageFixture' => $pageFixture,
             'streamFixtures' => $streamFixtures,
-            'tasticDefinitionFixture' => [$tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
-                $tasticDefinition['schema']
-            )],
+            'tasticDefinitionFixture' => [
+                $tasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
+                    $tasticDefinition['schema']
+                ),
+            ],
             'expectedResult' => $expected,
         ];
     }
@@ -208,7 +217,8 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
     private function provideProductListRegressionTestData(): array
     {
         $productListTasticDefinition = json_decode(
-            file_get_contents(__DIR__ . '/_fixtures/tastic-field-service-regression/custom-product-list_tastic-schema.json'),
+            file_get_contents(__DIR__ .
+                '/_fixtures/tastic-field-service-regression/custom-product-list_tastic-schema.json'),
             true
         );
 
@@ -216,7 +226,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             new Tastic([
                 'tasticId' => 'some-tastic-id',
                 'tasticType' => $productListTasticDefinition['tasticType'],
-            ])
+            ]),
         ]);
 
         $productListStreamFixtures = [
@@ -235,9 +245,11 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         return [
             'pageFixture' => $pageFixture,
             'streamFixtures' => $streamFixtures,
-            'tasticDefinitionFixture' => [$productListTasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
-                $productListTasticDefinition['schema']
-            )],
+            'tasticDefinitionFixture' => [
+                $productListTasticDefinition['tasticType'] => $this->tasticDefinitionFixture(
+                    $productListTasticDefinition['schema']
+                ),
+            ],
             'expectedResult' => $expected,
         ];
     }
@@ -270,8 +282,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         array $streamFixtures,
         array $tasticDefinitionFixture,
         array $expectedResult
-    )
-    {
+    ) {
         $fieldHandlerMocks = [];
 
         foreach ($streamFixtures as $type => $handleCalls) {
@@ -320,8 +331,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         array $streamFixtures,
         array $tasticDefinitionFixture,
         array $expectedResult
-    )
-    {
+    ) {
         $fieldHandlerMocks = [];
 
         foreach ($streamFixtures as $type => $handleCalls) {
@@ -365,10 +375,10 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
                     'elements' => [
                         new Cell([
                             'tastics' => $tastics,
-                        ])
-                    ]
-                ])
-            ]
+                        ]),
+                    ],
+                ]),
+            ],
         ]);
     }
 
@@ -377,7 +387,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
         return (object)[
             'configurationSchema' => [
                 'schema' => $schema,
-            ]
+            ],
         ];
     }
 }
