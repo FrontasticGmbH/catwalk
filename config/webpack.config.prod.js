@@ -221,7 +221,6 @@ const mainConfig = {
                         loader: require.resolve('sass-loader'), // compiles Sass to CSS
                         options: {
                             sourceMap: true, // resolve-url-loader requires a sourceMap, will be skipped afterwards
-                            sourceMapContents: false,
                         },
                     },
                 ],

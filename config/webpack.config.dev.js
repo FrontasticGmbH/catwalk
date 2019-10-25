@@ -205,7 +205,6 @@ module.exports = {
                         loader: require.resolve('sass-loader'), // compiles Sass to CSS
                         options: {
                             sourceMap: true,
-                            sourceMapContents: false,
                         },
                     },
                 ],
