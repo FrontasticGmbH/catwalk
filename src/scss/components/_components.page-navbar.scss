@@ -10,7 +10,7 @@ $color-page-navbar-button-bg-active: $color-brand !default;
 $color-page-navbar-button-active: $color-text-invert !default;
 $border-radius-page-navbar-button: 1rem !default;
 $border-width-page-navbar-button: 2px !default;
-$transition-page-navbar-button: 150ms !default
+$transition-page-navbar-button: 150ms !default;
 
 @media (max-width: map-get($breakpoints, lap)) {
 	.c-page-navbar {
