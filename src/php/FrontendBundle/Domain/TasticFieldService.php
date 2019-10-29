@@ -2,8 +2,9 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 
 class TasticFieldService
 {
@@ -18,27 +19,60 @@ class TasticFieldService
     private $fieldHandlers = [];
 
     /**
-     * @var \Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic[string]|null
+     * @var Tastic[string]|null
      */
-    private $tasticDefinionMapCache;
+    private $tasticDefinitionMapCache;
 
     /**
      * @param TasticFieldHandler[]|TasticFieldHandlerV2[] $fieldHandlers
      */
-    public function __construct(
-        TasticService $tasticDefinitionService,
-        iterable $fieldHandlers = [],
-        bool $debug = false
-    ) {
+    public function __construct(TasticService $tasticDefinitionService, iterable $fieldHandlers = [])
+    {
         $this->tasticDefinitionService = $tasticDefinitionService;
         foreach ($fieldHandlers as $fieldHandler) {
             $this->addFieldHandler($fieldHandler);
         }
     }
 
+    public function getFieldData(Context $context, Node $node, Page $page): array
+    {
+        $tasticDefinitionMap = $this->getTasticDefinitionMap();
+
+        $handledFieldData = [];
+
+        foreach ($page->regions as $region) {
+            foreach ($region->elements as $element) {
+                foreach ($element->tastics as $tastic) {
+                    if (!isset($tasticDefinitionMap[$tastic->tasticType])) {
+                        continue;
+                    }
+
+                    /** @var Tastic $definition */
+                    $definition = $tasticDefinitionMap[$tastic->tasticType];
+                    $currentTasticFieldData = [];
+                    foreach ($definition->configurationSchema['schema'] as $fieldSet) {
+                        $currentTasticFieldData =
+                            $this->handleFieldDefinitions(
+                                $context,
+                                $node,
+                                $page,
+                                $fieldSet['fields'],
+                                $currentTasticFieldData,
+                                (array)$tastic->configuration
+                            );
+                    }
+                    if (!empty($currentTasticFieldData)) {
+                        $handledFieldData[$tastic->tasticId] = $currentTasticFieldData;
+                    }
+                }
+            }
+        }
+
+        return $handledFieldData;
+    }
+
     /**
      * @param TasticFieldHandler|TasticFieldHandlerV2 $fieldHandler
-     * @todo Should we allow multiple field handlers to work as a filter chain?
      */
     private function addFieldHandler($fieldHandler)
     {
@@ -47,120 +81,77 @@ class TasticFieldService
         }
 
         if (isset($this->fieldHandlers[$fieldHandler->getType()])) {
-            throw new \LogicException('Duplicate field handler: "'. $fieldHandler->getType() . '"');
+            throw new \LogicException('Duplicate field handler: "' . $fieldHandler->getType() . '"');
         }
         $this->fieldHandlers[$fieldHandler->getType()] = $fieldHandler;
     }
 
-    public function getFieldData(Context $context, Node $node, Page $page): array
-    {
-        $tasticDefinitionMap = $this->getTasticDefinitionMap();
-
-        $fieldData = [];
-
-        foreach ($page->regions as $region) {
-            /** @var Cell $element */
-            foreach ($region->elements as $element) {
-                foreach ($element->tastics as $tastic) {
-                    if (!isset($tasticDefinitionMap[$tastic->tasticType])) {
-                        continue;
-                    }
-
-                    /** @var \Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic $definition */
-                    $definition = $tasticDefinitionMap[$tastic->tasticType];
-                    foreach ($definition->configurationSchema['schema'] as $fieldSet) {
-                        $fieldData = $this->handleFieldSet($context, $node, $page, $fieldSet, $fieldData, $tastic);
-                    }
-                }
-            }
-        }
-
-        return $fieldData;
-    }
-
     /**
-     * Handles the fieldsets and takes care of recursively handling groups inside these fieldsets. While looping over
-     * the structure the fieldData array gets filled if neccessary and will be returned afterwards.
-     *
-     * @param Context $context
-     * @param Node $node
-     * @param Page $page
-     * @param $fieldSet
-     * @param array $fieldData
-     * @param Tastic $tastic
-     * @return array
+     * Handles the field definitions and takes care of recursively handling groups inside these fields. While
+     * looping over the structure, the handledFieldData array gets filled if necessary and will be returned afterwards.
      */
-    private function handleFieldSet(
+    private function handleFieldDefinitions(
         Context $context,
         Node $node,
         Page $page,
-        array $fieldSet,
-        array $fieldData,
-        Tastic $tastic
+        array $fieldDefinitions,
+        array $handledFieldData,
+        array $configuration
     ): array {
-        foreach ($fieldSet['fields'] as $fieldDefinition) {
+        foreach ($fieldDefinitions as $fieldDefinition) {
+            if (!array_key_exists('field', $fieldDefinition) ||
+                !array_key_exists('type', $fieldDefinition)) {
+                continue;
+            }
+
+            $fieldName = $fieldDefinition['field'];
+            $fieldType = $fieldDefinition['type'];
+
+            $fieldValue = array_key_exists($fieldName, $configuration)
+                ? $configuration[$fieldName]
+                : $fieldDefinition['default'] ?? null;
+
             // check if field is of type group and then recursively handle the group's fieldset.
-            if (isset($fieldDefinition['type']) && $fieldDefinition['type'] === 'group') {
-                $fieldData = $this->handleFieldSet($context, $node, $page, $fieldDefinition, $fieldData, $tastic);
-            } else {
-                try {
-                    $fieldData = $this->setHandledFieldData(
+            if ($fieldType === 'group') {
+                if (!is_array($fieldValue) || !array_key_exists('fields', $fieldDefinition)) {
+                    continue;
+                }
+                $handledFieldData[$fieldName] = [];
+                foreach ($fieldValue as $groupElementConfiguration) {
+                    $handledFieldData[$fieldName][] = $this->handleFieldDefinitions(
+                        $context,
                         $node,
                         $page,
-                        $context,
-                        $fieldData,
-                        $tastic,
-                        $fieldDefinition
+                        $fieldDefinition['fields'],
+                        [],
+                        $groupElementConfiguration
                     );
+                }
+            } else {
+                try {
+                    $streamType = $fieldDefinition['streamType'] ?? $fieldType;
+                    if (!array_key_exists($streamType, $this->fieldHandlers)) {
+                        continue;
+                    }
+
+                    $handledFieldData[$fieldName] =
+                        $this->fieldHandlers[$streamType]->handle($context, $node, $page, $fieldValue);
                 } catch (\Throwable $throwable) {
                     // debug($throwable->getMessage());
                 }
             }
         }
-        return $fieldData;
-    }
-
-    private function setHandledFieldData(
-        Node $node,
-        Page $page,
-        Context $context,
-        array $fieldData,
-        Tastic $tastic,
-        array $fieldDefinition
-    ): array {
-        $type = $fieldDefinition['streamType'] ?? $fieldDefinition['type'];
-        if (!isset($this->fieldHandlers[$type])) {
-            return $fieldData;
-        }
-
-        $field = $fieldDefinition['field'];
-        $fieldHandler = $this->fieldHandlers[$type];
-
-        if (!isset($fieldData[$tastic->tasticId])) {
-            $fieldData[$tastic->tasticId] = [];
-        }
-
-        $fieldData[$tastic->tasticId][$field] = $fieldHandler->handle(
-            $context,
-            $node,
-            $page,
-            ($tastic->configuration->$field !== null
-                ? $tastic->configuration->$field
-                : $fieldDefinition['default'] ?? null
-            )
-        );
-
-        return $fieldData;
+        return $handledFieldData;
     }
 
     /**
-     * @return \Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic[]
+     * @return Tastic[]
      */
     private function getTasticDefinitionMap(): array
     {
-        if ($this->tasticDefinionMapCache === null) {
-            $this->tasticDefinionMapCache = $this->tasticDefinitionService->getTasticsMappedByType();
+        if ($this->tasticDefinitionMapCache === null) {
+            $this->tasticDefinitionMapCache = $this->tasticDefinitionService->getTasticsMappedByType();
         }
-        return $this->tasticDefinionMapCache;
+        return $this->tasticDefinitionMapCache;
     }
 }
