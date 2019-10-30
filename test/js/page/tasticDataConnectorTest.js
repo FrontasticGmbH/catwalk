@@ -79,7 +79,7 @@ describe('tasticDataConnector', () => {
         })
 
         const breadcrumbStreamData = {
-            breadcrumb: ['some-group-node', 'some-other-group-node', 'some-additional-group-node']
+            breadcrumb: ['some-group-node', 'some-other-group-node', 'some-additional-group-node'],
         }
 
         const actualResult = tasticDataConnector(

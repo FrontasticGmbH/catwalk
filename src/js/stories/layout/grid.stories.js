@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { withInfo } from '@storybook/addon-info'
-import { withKnobs, boolean } from '@storybook/addon-knobs'
+import { boolean } from '@storybook/addon-knobs'
 
 import Grid from 'js/patterns/atoms/grid/grid'
 import Cell from 'js/patterns/atoms/grid/cell'

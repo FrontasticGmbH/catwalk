@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import app from './app/app'
 
 import Page from './page/page'
-import Entity from './app/entity'
 import Loading from './app/loading'
 import emptyEntity from './helper/emptyEntity'
 

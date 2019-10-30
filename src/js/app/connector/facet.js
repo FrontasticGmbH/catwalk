@@ -1,4 +1,3 @@
-import Entity from '../entity'
 import emptyEntity from '../../helper/emptyEntity'
 
 const connector = (globalState) => {

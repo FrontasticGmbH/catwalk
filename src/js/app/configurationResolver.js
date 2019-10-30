@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 /**
  * @param {ConfigurationSchema} schema
  * @param {object} streamData
