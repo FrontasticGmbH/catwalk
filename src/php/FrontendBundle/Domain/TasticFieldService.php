@@ -99,48 +99,65 @@ class TasticFieldService
         array $configuration
     ): array {
         foreach ($fieldDefinitions as $fieldDefinition) {
-            if (!array_key_exists('field', $fieldDefinition) ||
-                !array_key_exists('type', $fieldDefinition)) {
-                continue;
+            $handledFieldData = $this->handleFieldDefinition(
+                $context,
+                $node,
+                $page,
+                $fieldDefinition,
+                $handledFieldData,
+                $configuration
+            );
+        }
+        return $handledFieldData;
+    }
+
+    private function handleFieldDefinition(
+        Context $context,
+        Node $node,
+        Page $page,
+        array $fieldDefinition,
+        array $handledFieldData,
+        array $configuration
+    ): array {
+        if (!array_key_exists('field', $fieldDefinition) ||
+            !array_key_exists('type', $fieldDefinition)) {
+            return $handledFieldData;
+        }
+
+        $fieldName = $fieldDefinition['field'];
+        $fieldType = $fieldDefinition['type'];
+        $fieldValue = $this->getFieldValue($fieldDefinition, $configuration);
+
+        // check if field is of type group and then recursively handle the group's fieldset.
+        if ($fieldType === 'group') {
+            if (!is_array($fieldValue) || !array_key_exists('fields', $fieldDefinition)) {
+                return $handledFieldData;
             }
-
-            $fieldName = $fieldDefinition['field'];
-            $fieldType = $fieldDefinition['type'];
-
-            $fieldValue = array_key_exists($fieldName, $configuration)
-                ? $configuration[$fieldName]
-                : $fieldDefinition['default'] ?? null;
-
-            // check if field is of type group and then recursively handle the group's fieldset.
-            if ($fieldType === 'group') {
-                if (!is_array($fieldValue) || !array_key_exists('fields', $fieldDefinition)) {
-                    continue;
+            $handledFieldData[$fieldName] = [];
+            foreach ($fieldValue as $groupElementConfiguration) {
+                $handledFieldData[$fieldName][] = $this->handleFieldDefinitions(
+                    $context,
+                    $node,
+                    $page,
+                    $fieldDefinition['fields'],
+                    [],
+                    $groupElementConfiguration
+                );
+            }
+        } else {
+            try {
+                $streamType = $fieldDefinition['streamType'] ?? $fieldType;
+                if (!array_key_exists($streamType, $this->fieldHandlers)) {
+                    return $handledFieldData;
                 }
-                $handledFieldData[$fieldName] = [];
-                foreach ($fieldValue as $groupElementConfiguration) {
-                    $handledFieldData[$fieldName][] = $this->handleFieldDefinitions(
-                        $context,
-                        $node,
-                        $page,
-                        $fieldDefinition['fields'],
-                        [],
-                        $groupElementConfiguration
-                    );
-                }
-            } else {
-                try {
-                    $streamType = $fieldDefinition['streamType'] ?? $fieldType;
-                    if (!array_key_exists($streamType, $this->fieldHandlers)) {
-                        continue;
-                    }
 
-                    $handledFieldData[$fieldName] =
-                        $this->fieldHandlers[$streamType]->handle($context, $node, $page, $fieldValue);
-                } catch (\Throwable $throwable) {
-                    // debug($throwable->getMessage());
-                }
+                $handledFieldData[$fieldName] =
+                    $this->fieldHandlers[$streamType]->handle($context, $node, $page, $fieldValue);
+            } catch (\Throwable $throwable) {
+                // debug($throwable->getMessage());
             }
         }
+
         return $handledFieldData;
     }
 
@@ -153,5 +170,19 @@ class TasticFieldService
             $this->tasticDefinitionMapCache = $this->tasticDefinitionService->getTasticsMappedByType();
         }
         return $this->tasticDefinitionMapCache;
+    }
+
+    /**
+     * @param $fieldDefinition
+     * @param array $configuration
+     * @return mixed|null
+     */
+    private function getFieldValue(array $fieldDefinition, array $configuration)
+    {
+        $fieldName = $fieldDefinition['field'];
+
+        return array_key_exists($fieldName, $configuration)
+            ? $configuration[$fieldName]
+            : $fieldDefinition['default'] ?? null;
     }
 }
