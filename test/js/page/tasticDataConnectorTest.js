@@ -2,6 +2,9 @@ import { Tastic } from 'frontastic-common'
 
 import tasticDataConnector from '../../../src/js/page/tasticDataConnector'
 
+import BreadcrumbInGroupTasticSchema
+    from '../../php/FrontendBundle/Domain/_fixtures/tastic-field-service-regression/breadcrumb-in-group_tastic-schema.json'
+
 describe('tasticDataConnector', () => {
     it('resolves simple field values, even without stream/tastic data', () => {
         const tasticFixture = createTasticFixture({
@@ -63,6 +66,43 @@ describe('tasticDataConnector', () => {
         )
 
         expect(actualResult.resolved.fixtureField).toEqual(['some', 'values'])
+    })
+
+    it('resolves custom fields from PHP regression test', () => {
+        const tasticFixture = new Tastic({
+            tasticId: 'some-breadcrumb-in-group-tastic-id',
+            tasticType: BreadcrumbInGroupTasticSchema.tasticType,
+            schema: BreadcrumbInGroupTasticSchema.schema,
+            configuration: {
+                someGroup: [],
+            },
+        })
+
+        const breadcrumbStreamData = {
+            breadcrumb: ['some-group-node', 'some-other-group-node', 'some-additional-group-node']
+        }
+
+        const actualResult = tasticDataConnector(
+            createGlobalStateFixture(),
+            {
+                tastic: tasticFixture,
+                data: {
+                    tastic: {
+                        'some-breadcrumb-in-group-tastic-id': {
+                            someGroup: [
+                                {
+                                    breadcrumb: breadcrumbStreamData,
+                                },
+                            ],
+                        },
+                    },
+                },
+            }
+        )
+
+        expect(actualResult.resolved.someGroup).toEqual([
+            { breadcrumb: breadcrumbStreamData },
+        ])
     })
 })
 
