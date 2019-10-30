@@ -67,6 +67,9 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             new Tastic([
                 'tasticId' => 'some-tree-in-group-tastic-id',
                 'tasticType' => $tasticDefinition['tasticType'],
+                'configuration' => new Tastic\Configuration([
+                    'topCategories' => [[]],
+                ]),
             ]),
         ]);
 
@@ -80,8 +83,15 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
-        $expected = [];
-        $expected['some-tree-in-group-tastic-id']['tree'] = $treeStreamFixture;
+        $expected = [
+            'some-tree-in-group-tastic-id' => [
+                'topCategories' => [
+                    [
+                        'tree' => $treeStreamFixture,
+                    ],
+                ],
+            ],
+        ];
 
         return [
             'pageFixture' => $pageFixture,
@@ -107,6 +117,9 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             new Tastic([
                 'tasticId' => 'some-breadcrumb-in-group-tastic-id',
                 'tasticType' => $tasticDefinition['tasticType'],
+                'configuration' => new Tastic\Configuration([
+                    'someGroup' => [[]],
+                ]),
             ]),
         ]);
 
@@ -120,8 +133,15 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
-        $expected = [];
-        $expected['some-breadcrumb-in-group-tastic-id']['breadcrumb'] = $breadcrumbStreamFixtures;
+        $expected = [
+            'some-breadcrumb-in-group-tastic-id' => [
+                'someGroup' => [
+                    [
+                        'breadcrumb' => $breadcrumbStreamFixtures,
+                    ],
+                ],
+            ],
+        ];
 
         return [
             'pageFixture' => $pageFixture,
