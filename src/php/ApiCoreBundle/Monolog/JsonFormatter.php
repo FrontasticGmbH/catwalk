@@ -25,7 +25,7 @@ class JsonFormatter implements FormatterInterface
         return json_encode((object)[
             'logSource' => self::LOG_SOURCE,
             // In catwalk there is always just 1 project, the current one
-            'project' => $this->customerService->getCustomer()->projects[0]->projectId,
+            'project' => $this->getProjectId(),
 
             '@timestamp' => (isset($record['datetime']) && ($record['datetime'] instanceof \DateTimeInterface)
                 ? ($record['datetime']->format('c'))
@@ -47,5 +47,20 @@ class JsonFormatter implements FormatterInterface
         }
 
         return $message;
+    }
+
+    /**
+     * Trying to get the project id. If we encounter an error (most likely we are not in a project folder then), we will
+     * return 'catwalk' as projectId here.
+     *
+     * @return string
+     */
+    private function getProjectId(): string
+    {
+        try {
+            return $this->customerService->getCustomer()->projects[0]->projectId;
+        } catch (\Throwable $e) {
+            return 'catwalk';
+        }
     }
 }
