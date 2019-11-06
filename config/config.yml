@@ -66,16 +66,18 @@ sensio_framework_extra:
 
 monolog:
     handlers:
-        syslog:
+        file:
             type:                stream
-            path:                "%kernel.logs_dir%/frontend.log"
-            level:               ERROR
+            path:                "%kernel.logs_dir%/../json.log"
+            level:               DEBUG
             bubble:              false
+            formatter:           Frontastic\Catwalk\ApiCoreBundle\Monolog\JsonFormatter
+
         main:
             type:                fingers_crossed
             action_level:        WARNING
             buffer_size:         100
-            handler:             syslog
+            handler:             file
 
 doctrine:
     orm:

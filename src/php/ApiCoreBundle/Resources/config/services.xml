@@ -118,5 +118,10 @@
         </service>
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools\ClientFactory" autowire="true">
         </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Monolog\JsonFormatter">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService" />
+        </service>
+
     </services>
 </container>
