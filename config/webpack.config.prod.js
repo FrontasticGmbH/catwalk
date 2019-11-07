@@ -403,6 +403,8 @@ let serverConfig = {
         // You can remove this if you don't use Moment.js:
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
+        new webpack.IgnorePlugin(/\.css$/),
+
         new webpack.optimize.LimitChunkCountPlugin({
             maxChunks: 1,
         }),
