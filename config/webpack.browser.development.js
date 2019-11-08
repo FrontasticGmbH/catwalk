@@ -1,7 +1,6 @@
 const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 // @TODO: This plugin is incompatible with Webpack 4, thus we disable it for
 // now. Re-enable as soon as it works again:
@@ -19,15 +18,16 @@ const publicPath = '/'
 const publicUrl = ''
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl)
-const webpackExcludes = require('./webpackExclude')
+const ie11packages = require('./ie11packages')
 
 const PRODUCTION = false
+const SERVER = false
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
 module.exports = {
-    mode: 'development',
+    mode: PRODUCTION ? 'production' : 'development',
     // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
     // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
     devtool: 'cheap-module-source-map',
@@ -96,18 +96,70 @@ module.exports = {
         extensions: ['.web.js', '.js', '.jsx', '.json', '.web.jsx'],
         alias: {},
     },
+    plugins: [
+        // Add module names to factory functions so they appear in browser profiler.
+        new webpack.NamedModulesPlugin(),
+        // Makes some environment variables available to the JS code, for example:
+        // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
+        new webpack.DefinePlugin({
+            PRODUCTION: JSON.stringify(PRODUCTION),
+            'process.env.NODE_ENV': '"development"',
+        }),
+        // This is necessary to emit hot updates (currently CSS only):
+        new webpack.HotModuleReplacementPlugin(),
+        // Watcher doesn't work well if you mistype casing in a path so we use
+        // a plugin that prints an error when you attempt to do this.
+        // See https://github.com/facebookincubator/create-react-app/issues/240
+        new CaseSensitivePathsPlugin(),
+        // If you require a missing module and then `npm install` it, you still have
+        // to restart the development server for Webpack to discover it. This plugin
+        // makes the discovery automatic so you don't have to restart.
+        // See https://github.com/facebookincubator/create-react-app/issues/186
+        // new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+        // Moment.js is an extremely popular library that bundles large locale files
+        // by default due to how Webpack interprets its code. This is a practical
+        // solution that requires the user to opt into importing specific locales.
+        // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+        // You can remove this if you don't use Moment.js:
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        // Show packages which are included from multiple locations, which
+        // increases the build size.
+        new DuplicatePackageCheckerPlugin({
+            // Also show module that is requiring each duplicate package (default: false)
+            verbose: true,
+            // Emit errors instead of warnings (default: false)
+            emitError: true,
+            // Show help message if duplicate packages are found (default: true)
+            showHelp: true,
+            // Warn also if major versions differ (default: true)
+            strict: true,
+        }),
+    ],
+    // Some libraries import Node modules but don't use them in the browser.
+    // Tell Webpack to provide empty mocks for them so importing them works.
+    node: {
+        dgram: 'empty',
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty',
+    },
+    // Turn off performance hints during development because we don't do any
+    // splitting or minification in interest of speed. These warnings become
+    // cumbersome.
+    performance: {
+        hints: false,
+    },
     module: {
         strictExportPresence: true,
         rules: [
             // ** ADDING/UPDATING LOADERS **
-            // The "file" loader handles all assets unless explicitly excluded.
+            // The 'file' loader handles all assets unless explicitly excluded.
             // The `exclude` list *must* be updated with every change to loader extensions.
             // When adding a new loader, you must add its `test`
-            // as a new entry in the `exclude` list for "file" loader.
+            // as a new entry in the `exclude` list in the 'file' loader.
 
-            // "file" loader makes sure those assets get served by WebpackDevServer.
-            // When you `import` an asset, you get its (virtual) filename.
-            // In production, they would get copied to the `build` folder.
+            // 'file' loader makes sure those assets end up in the `build` folder.
+            // When you `import` an asset, you get its filename.
             {
                 exclude: [
                     /\.html$/,
@@ -125,34 +177,44 @@ module.exports = {
                     name: 'webpack/media/[name].[hash:8].[ext]',
                 },
             },
-            // "url" loader works like "file" loader except that it embeds assets
-            // smaller than specified limit in bytes as data URLs to avoid requests.
-            // A missing `test` is equivalent to a match.
+            // 'url' loader works just like 'file' loader but it also embeds
+            // assets smaller than specified size as data URLs to avoid requests.
             {
                 test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
                 loader: require.resolve('url-loader'),
                 options: {
-                    limit: 10000,
+                    limit: 10 * 1024,
                     name: 'webpack/media/[name].[hash:8].[ext]',
                 },
             },
             // Process JS with Babel.
             {
                 test: /\.(js|jsx)$/,
+                // exclude: /node_modules/,
+                //
+                // HACK - primarily for IE11.
+                // Some packages we use don't come transpiled for older JS versions
+                // and IE11 would complain. So we're blacklisting all node_modules
+                // except those in the list (domino is a special case that will cause
+                // more problems in strict mode if we transpile the whole thing).
+                // Unfortunately, this list is not very scalable right now and needs to
+                // be upgraded every time a package gets added that crashes IE11.
+                // Also, we're using a negated exclude list, so we don't have to
+                // specify all frontastic related packages, even though webpack recommends
+                // an include based whitelist. *Marcel
+                exclude: ie11packages,
                 // On windows it can happen that the frontastic packages are
                 // not linked but copied. In this case babel should still
                 // compile the files in those folders.
                 // exclude: webpackExcludes(['frontastic-catwalk', 'frontastic-common']),
-                use: {
-                    loader: require.resolve('babel-loader'),
-                    options: {
-                        // This is a feature of `babel-loader` for webpack (not Babel itself).
-                        // It enables caching results in ./node_modules/.cache/babel-loader/
-                        // directory for faster rebuilds.
-                        cacheDirectory: true,
-                        presets: [['@babel/preset-env', { modules: false }], '@babel/preset-react'],
-                        plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-syntax-dynamic-import'],
-                    },
+                loader: require.resolve('babel-loader'),
+                options: {
+                    // This is a feature of `babel-loader` for webpack (not Babel itself).
+                    // It enables caching results in ./node_modules/.cache/babel-loader/
+                    // directory for faster rebuilds.
+                    cacheDirectory: true,
+                    // uses the babel.config.js in the project root
+                    rootMode: 'upward',
                 },
             },
             {
@@ -210,48 +272,9 @@ module.exports = {
                 ],
             },
             // ** STOP ** Are you adding a new loader?
-            // Remember to add the new extension(s) to the "file" loader exclusion list.
+            // Remember to add the new extension(s) to the 'file' loader exclusion list.
         ],
     },
-    plugins: [
-        // Add module names to factory functions so they appear in browser profiler.
-        new webpack.NamedModulesPlugin(),
-        // Makes some environment variables available to the JS code, for example:
-        // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
-        new webpack.DefinePlugin({
-            PRODUCTION: JSON.stringify(PRODUCTION),
-            'process.env.NODE_ENV': '"development"',
-        }),
-        // This is necessary to emit hot updates (currently CSS only):
-        new webpack.HotModuleReplacementPlugin(),
-        // Watcher doesn't work well if you mistype casing in a path so we use
-        // a plugin that prints an error when you attempt to do this.
-        // See https://github.com/facebookincubator/create-react-app/issues/240
-        new CaseSensitivePathsPlugin(),
-        // If you require a missing module and then `npm install` it, you still have
-        // to restart the development server for Webpack to discover it. This plugin
-        // makes the discovery automatic so you don't have to restart.
-        // See https://github.com/facebookincubator/create-react-app/issues/186
-        // new WatchMissingNodeModulesPlugin(paths.appNodeModules),
-        // Moment.js is an extremely popular library that bundles large locale files
-        // by default due to how Webpack interprets its code. This is a practical
-        // solution that requires the user to opt into importing specific locales.
-        // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-        // You can remove this if you don't use Moment.js:
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        // Show packages which are included from multiple locations, which
-        // increases the build size.
-        new DuplicatePackageCheckerPlugin({
-            // Also show module that is requiring each duplicate package (default: false)
-            verbose: true,
-            // Emit errors instead of warnings (default: false)
-            emitError: true,
-            // Show help message if duplicate packages are found (default: true)
-            showHelp: true,
-            // Warn also if major versions differ (default: true)
-            strict: true,
-        }),
-    ],
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
     node: {
@@ -259,11 +282,5 @@ module.exports = {
         fs: 'empty',
         net: 'empty',
         tls: 'empty',
-    },
-    // Turn off performance hints during development because we don't do any
-    // splitting or minification in interest of speed. These warnings become
-    // cumbersome.
-    performance: {
-        hints: false,
     },
 }
