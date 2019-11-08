@@ -1,4 +1,4 @@
-const baseConfig = require('./webpack.config.dev.js')
+const baseConfig = require('./webpack.browser.development')
 const paths = require('./paths')
 const webpack = require('webpack')
 const NodemonPlugin = require('nodemon-webpack-plugin')

@@ -45,9 +45,9 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
     { publicPath: Array(cssFilename.split('/').length).join('../') }
     : {}
 
-const mainConfig = require('./webpack.client.production.js')
+const mainConfig = require('./webpack.browser.production.js')
 
-module.export = {
+module.exports = {
     ...mainConfig,
     name: 'server',
     mode: 'production',
