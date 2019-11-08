@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Twig;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 
@@ -82,15 +83,22 @@ class NodeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     private function getCategories(): array
     {
         if (!($categories = $this->cache->get(self::CATEGORY_CACHE_KEY, false))) {
-            $context = $this->container->get(Context::class);
-            $categories = $this->container->get(ProductApi::class)->getCategories(
-                new CategoryQuery([
-                    'locale' => $context->locale,
-                    'limit' => 100,
-                ])
-            );
+            try {
+                $context = $this->container->get(Context::class);
+                $categories = $this->container->get(ProductApi::class)->getCategories(
+                    new CategoryQuery([
+                        'locale' => $context->locale,
+                        'limit' => 100,
+                    ])
+                );
+                $this->cache->set(self::CATEGORY_CACHE_KEY, $categories, 3600);
+            } catch (\Throwable $e) {
+                $categories = [];
 
-            $this->cache->set(self::CATEGORY_CACHE_KEY, $categories, 3600);
+                /** @var LoggerInterface $logger */
+                $logger = $this->container->get('logger');
+                $logger->warning($e->getMessage(), ['exception' => $e]);
+            }
         }
 
         return $categories;
