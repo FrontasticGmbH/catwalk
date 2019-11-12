@@ -3,13 +3,13 @@ const autoprefixer = require('autoprefixer')
 
 module.exports = (config) => {
     return merge.smart(
+        config,
         {
             module: {
                 rules: [
                     {
                         test: /\.css$/,
                         use: [
-                            require.resolve('style-loader'),
                             {
                                 loader: require.resolve('css-loader'),
                                 options: {
@@ -30,10 +30,6 @@ module.exports = (config) => {
                     {
                         test: /\.scss$/,
                         use: [
-                            {
-                                // Creates style nodes from JS strings
-                                loader: 'style-loader',
-                            },
                             {
                                 // Translates CSS into CommonJS
                                 loader: require.resolve('css-loader'),
@@ -63,6 +59,5 @@ module.exports = (config) => {
                 ],
             },
         },
-        config,
     )
 }
