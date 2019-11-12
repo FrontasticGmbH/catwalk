@@ -7,7 +7,21 @@ module.exports = (config) => {
         {
             plugins: [
                 new webpack.IgnorePlugin(/^\.css$/, /\.scss$/),
-            ]
+            ],
+            module: {
+                rules: [
+                    {
+                        test: [
+                            /\.css$/,
+                            /\.scss$/,
+                            /\.less/,
+                        ],
+                        use: [
+                            {loader: 'ignore-loader'},
+                        ],
+                    },
+                ],
+            },
         },
     )
 }

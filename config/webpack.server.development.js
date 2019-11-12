@@ -3,7 +3,6 @@ const SERVER = true
 
 let config = require('./webpack.js')(PRODUCTION, SERVER)
 
-config = require('./webpack/namedModules.js')(config)
 config = require('./webpack/ignoreScss.js')(config)
 config = require('./webpack/provideDomOnServer.js')(config)
 
