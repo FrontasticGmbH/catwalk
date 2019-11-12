@@ -14,6 +14,7 @@ const publicPath = '/'
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
 const publicUrl = ''
 
+// @TODO: Make this more readable and especially extensible:
 const ie11packages = require('./ie11packages')
 
 module.exports = (PRODUCTION, SERVER) => {
