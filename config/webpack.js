@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const paths = require('./paths')
 const path = require('path')
+const env = require('./env')
 
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
@@ -27,6 +28,11 @@ module.exports = (PRODUCTION, SERVER) => {
     const assetBaseDir = PRODUCTION ? 'assets/' : 'webpack/'
 
     return {
+        // Configure build target
+        target: SERVER ? 'node' : 'web',
+        // Fail out on the first error instead of tolerating it.
+        bail: !!PRODUCTION,
+        // General webpack mode, which can effect different settings
         mode: PRODUCTION ? 'production' : 'development',
         // You may want 'eval' instead if you prefer to see the compiled output
         // in DevTools.  See the discussion in
@@ -50,12 +56,14 @@ module.exports = (PRODUCTION, SERVER) => {
             // Add /* filename */ comments to generated require()s in the output.
             pathinfo: true,
             filename: assetBaseDir + 'js/[name].[hash:8].js',
-            chunkFilename: assetBaseDir + 'assets/js/[name].[hash:8].chunk.js',
+            chunkFilename: assetBaseDir + 'js/[name].[hash:8].chunk.js',
             // This is the URL that app is served from. We use "/" in development.
             publicPath: publicPath,
             // Point sourcemap entries to original disk location (format as URL on Windows)
             devtoolModuleFilenameTemplate: (info) => {
-                return path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')
+                return PRODUCTION ?
+                    path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/') :
+                    path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')
             },
         },
         resolve: {
