@@ -87,7 +87,6 @@ module.exports = (PRODUCTION, SERVER) => {
         plugins: [
             // Makes some environment variables available to the JS code, for example:
             new webpack.DefinePlugin({
-                SERVER: JSON.stringify(SERVER),
                 PRODUCTION: JSON.stringify(PRODUCTION),
                 'process.env.NODE_ENV': PRODUCTION ? '"production"' : '"development"',
             }),
