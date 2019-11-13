@@ -10,6 +10,7 @@ config = require('./webpack/buildStatistics.js')(config)
 config = require('./webpack/manifest.js')(config)
 config = require('./webpack/serviceWorker.js')(config)
 config = require('./webpack/extractCss.js')(config)
+config = require('./webpack/svgr.js')(config)
 
 config.optimization = {
     minimize: true,
