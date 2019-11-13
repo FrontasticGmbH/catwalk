@@ -32,6 +32,14 @@ let Context = function (context = {}) {
         return this.environment === 'development' || this.environment === 'dev'
     }
 
+    this.isStaging = function () {
+        return this.environment === 'staging'
+    }
+
+    this.isProduction = function () {
+        return this.environment === 'production' || this.environment === 'prod'
+    }
+
     this.getLanguage = function () {
         return this.locale.substr(0, this.locale.indexOf('_'))
     }
