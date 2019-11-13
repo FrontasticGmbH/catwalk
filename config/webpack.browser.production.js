@@ -1,3 +1,5 @@
+const paths = require('./paths')
+
 const PRODUCTION = true
 const SERVER = false
 
@@ -35,6 +37,13 @@ config.optimization = {
             },
         },
     },
+}
+
+try {
+    let projectWebpack = require(paths.appSrc + '/../config/webpack.browser.production.js')
+    config = projectWebpack(config)
+} catch (e) {
+    console.info('No build specific project webpack extension found in config/webpack.browser.production.js – skip.')
 }
 
 module.exports = config

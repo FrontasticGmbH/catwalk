@@ -28,7 +28,7 @@ module.exports = (PRODUCTION, SERVER) => {
 
     const assetBaseDir = PRODUCTION ? 'assets/' : 'webpack/'
 
-    return {
+    let config = {
         // Configure build target
         target: SERVER ? 'node' : 'web',
         // Fail out on the first error instead of tolerating it.
@@ -192,4 +192,13 @@ module.exports = (PRODUCTION, SERVER) => {
             tls: 'empty',
         },
     }
+
+    try {
+        let projectWebpack = require(paths.appSrc + '/../config/webpack.js')
+        config = projectWebpack(config)
+    } catch (e) {
+        console.info('No project webpack extension found in config/webpack.js – skip.')
+    }
+
+    return config
 }

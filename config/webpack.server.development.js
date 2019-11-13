@@ -1,3 +1,5 @@
+const paths = require('./paths')
+
 const PRODUCTION = false
 const SERVER = true
 
@@ -7,5 +9,12 @@ config = require('./webpack/ignoreScss.js')(config)
 config = require('./webpack/provideDomOnServer.js')(config)
 
 config.output.filename = 'assets/js/devServer.js'
+
+try {
+    let projectWebpack = require(paths.appSrc + '/../config/webpack.server.development.js')
+    config = projectWebpack(config)
+} catch (e) {
+    console.info('No build specific project webpack extension found in config/webpack.server.development.js – skip.')
+}
 
 module.exports = config
