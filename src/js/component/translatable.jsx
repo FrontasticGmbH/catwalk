@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getTranslation } from 'frontastic-common'
@@ -18,6 +18,7 @@ class Translatable extends Component {
         // For now, we are disabling the rendering of the <span /> to reduce dom size.
         // In the future, this will depend on the debug flag.
         return value.text
+        /*
         if (value.locale !== this.props.currentLocale) {
             // Since the current text is not available in the locale
             // selected by the user, which is assumed to be the default for
@@ -28,6 +29,7 @@ class Translatable extends Component {
         } else {
             return value.text
         }
+         */
     }
 }
 
