@@ -34,7 +34,22 @@ class FeatureFlagService implements ContextDecorator
         }
 
         foreach ($featureFlags as $featureFlag) {
-            $context->featureFlags[$featureFlag->key] = (bool) $featureFlag->on;
+            switch ($context->environment) {
+                case 'dev':
+                case 'development':
+                    $flag = isset($featureFlag->onDevelopment) ? $featureFlag->onDevelopment : $featureFlag->on;
+                    break;
+
+                case 'stage':
+                case 'staging':
+                    $flag = isset($featureFlag->onStaging) ? $featureFlag->onStaging : $featureFlag->on;
+                    break;
+
+                default:
+                    $flag = $featureFlag->on;
+            }
+
+            $context->featureFlags[$featureFlag->key] = (bool) $flag;
         }
 
         return $context;
