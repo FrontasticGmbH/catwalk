@@ -21,7 +21,15 @@ module.exports = (config) => {
                     issuer: {
                         test: /\.jsx?$/,
                     },
-                    use: ['@svgr/webpack', 'url-loader'],
+                    use: [
+                        {
+                            loader: '@svgr/webpack',
+                            options: {
+                                icon: true,
+                            },
+                        },
+                        'url-loader',
+                    ],
                 },
                 {
                     test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
