@@ -15,6 +15,9 @@ class FeatureFlagService implements ContextDecorator
         $this->repository = $repository;
     }
 
+    /**
+     * * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     public function decorate(Context $context): Context
     {
         // Missing feature flag custom app
