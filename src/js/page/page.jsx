@@ -15,37 +15,21 @@ class PageView extends Component {
 
         this.state = {
             page: new Page(props.page || {}, _.keys(props.page.regions), props.tastics || []),
-            // BEGIN: Cameron Crosby 2019-09-27: remove UNSAFE_componentWillUpdate to stop wrong pg
-            tastics: props.tastics
-             // END: Cameron Crosby 2019-09-27
+            tastics: props.tastics,
         }
     }
 
-    // BEGIN: Cameron Crosby 2019-09-27: remove UNSAFE_componentWillUpdate to stop wrong pg
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps (nextProps, prevState) {
         if ((prevState.page.pageId !== nextProps.page.pageId) ||
         (prevState.tastics.length !== nextProps.tastics.length)) {
             return {
                 page: new Page(nextProps.page || {}, _.keys(nextProps.page.regions), nextProps.tastics || []),
-                tastics: nextProps.tastics
+                tastics: nextProps.tastics,
             }
         }
-        return null;
-    }
 
-    /* UNSAFE_componentWillUpdate (nextProps) { // eslint-disable-line camelcase
-        // Only re-create the page when its ID changes (thus a different page
-        // should be shown). The page ID will change for every preview page
-        // update.
-        
-        if ((this.props.page.pageId !== nextProps.page.pageId) ||
-            (this.props.tastics.length !== nextProps.tastics.length)) {
-            this.setState({
-                page: new Page(nextProps.page || {}, _.keys(nextProps.page.regions), nextProps.tastics || []),
-            })
-        }
-    } */
-    // END: Cameron Crosby 2019-09-27
+        return null
+    }
 
     getLayout () {
         if (!this.state.page.layoutId) {
