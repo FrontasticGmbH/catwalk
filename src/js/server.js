@@ -26,7 +26,7 @@ const PRODUCTION = true // eslint-disable-line no-unused-vars
 export default (tastics = null, port = 8000) => {
     global.tastics = tastics
     global.btoa = (b) => {
-      return new Buffer(b).toString('base64');
+        return Buffer.from(b).toString('base64')
     }
     // We increase the body data limit because we can recieve quite some data from
     // Catwalk inclduing product lists, etc.
