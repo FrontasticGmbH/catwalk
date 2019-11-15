@@ -12,21 +12,21 @@ const createConnectorChainForConfiguration = (configuration) => {
     if (configuration.connect.context) {
         connectorChain.push((state) => {
             return {
-                context: state.app.context
+                context: state.app.context,
             }
         })
     }
 
     return connectorChain
-};
+}
 
 /**
  * Removes some props from the tastic, for performance optimizations.
  */
 const filterPropsForConfiguration = (configuration, originalProps) => {
     const props = {
-        ...originalProps
-    };
+        ...originalProps,
+    }
 
     if (!configuration.connect.rawData) {
         delete props.rawData
@@ -42,8 +42,8 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
         delete props.tastic
     }
 
-    return props;
-};
+    return props
+}
 
 /**
  * HOC for tastics. Makes sure only required stuff is passed, which can be used as a performance improvement.
@@ -59,30 +59,32 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
  * @param {boolean} configuration.connect.tastic - Whether to pass the schema of the current tastic. Rarely needed.
  * @param {boolean} configuration.connect.context - Whether to pass the frontastic context object.
  */
-const tastify = (configuration = {}) => (WrappedComponent) => {
-    if(!configuration.connect) {
-        configuration.connect = {}
-    }
-
-    const connectorChain = createConnectorChainForConfiguration(configuration);
-    class Tastic extends React.Component {
-        render () {
-            const props = filterPropsForConfiguration(configuration, this.props);
-
-            return <WrappedComponent {...props} />
+const tastify = (configuration = {}) => {
+    return (WrappedComponent) => {
+        if (!configuration.connect) {
+            configuration.connect = {}
         }
-    };
 
-    Tastic.displayName = `Tastic(${getDisplayName(WrappedComponent)})`
+        const connectorChain = createConnectorChainForConfiguration(configuration)
+        class Tastic extends React.Component {
+            render () {
+                const props = filterPropsForConfiguration(configuration, this.props)
 
-    // This tastic needs nothing from redux => not connecting it at all.
-    if (connectorChain.length === 0) {
-        return Tastic
+                return <WrappedComponent {...props} />
+            }
+        };
+
+        Tastic.displayName = `Tastic(${getDisplayName(WrappedComponent)})`
+
+        // This tastic needs nothing from redux => not connecting it at all.
+        if (connectorChain.length === 0) {
+            return Tastic
+        }
+        return connect(
+            compose(...connectorChain)
+        )(Tastic)
     }
-    return connect(
-        compose(...connectorChain)
-    )(Tastic)
-};
+}
 
 const getDisplayName = (WrappedComponent) => {
     return WrappedComponent.displayName || WrappedComponent.name || 'UnknownTastic'

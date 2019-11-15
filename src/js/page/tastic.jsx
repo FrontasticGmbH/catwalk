@@ -4,15 +4,14 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import ErrorBoundary from '../app/errorBoundary'
-import tasticDataConnector from './tasticDataConnector'
-import configurationResolver from '../app/configurationResolver';
+import configurationResolver from '../app/configurationResolver'
 
 const getStreamIdsForTasticSchema = (schema) => {
     return Object.keys(schema.fields)
         .filter(fieldName => {
             return schema.fields[fieldName].type === 'stream'
         })
-        .map(fieldName => schema.get(fieldName))
+        .map(fieldName => { return schema.get(fieldName) })
 }
 
 const TasticWrapper = (props) => {
@@ -22,13 +21,13 @@ const TasticWrapper = (props) => {
     if (!props.tastic || !props.data) {
         // eslint-disable-next-line no-console
         console.error('Could not render tastic, because tastic data was missing')
-        return null;
+        return null
     }
 
     const additionalData = (props.data.tastic || {})[props.tastic.tasticId] || null
 
     const streams = getStreamIdsForTasticSchema(props.tastic.schema)
-        .map(streamId => props.data.stream[streamId])
+        .map(streamId => { return props.data.stream[streamId] })
 
     const tasticData = useMemo(() => {
         return configurationResolver(
@@ -42,7 +41,7 @@ const TasticWrapper = (props) => {
         // @TODO This should be improved in the future.
     }, [props.tastic.schema, props.data.stream, additionalData, ...streams])
 
-  if (!tastics[tastic.tasticType]) {
+    if (!tastics[tastic.tasticType]) {
         if (!props.isDebug) {
             return null
         }
@@ -84,7 +83,7 @@ TasticWrapper.defaultProps = {
 }
 
 export default connect((globalState) => {
-    return  {
-        isDebug: !!(globalState.app.context && globalState.app.context.isDevelopment())
+    return {
+        isDebug: !!(globalState.app.context && globalState.app.context.isDevelopment()),
     }
 })(TasticWrapper)
