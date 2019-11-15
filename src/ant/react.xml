@@ -101,8 +101,12 @@
             <arg value="${basedir}/public/service-worker.js" />
             <arg value="${basedir}/public/assets/js/*" />
             <arg value="${basedir}/public/assets/css/*" />
-            <arg value="${basedir}/public/assets/media/*" />
             <arg value="${basedir}/templates/layout.html.twig" />
+        </exec>
+
+        <exec executable="git" failonerror="false" dir="${basedir}">
+            <arg value="add" />
+            <arg value="${basedir}/public/assets/media/*" />
         </exec>
     </target>
 
