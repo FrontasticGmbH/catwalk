@@ -6,6 +6,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 use RulerZ\RulerZ;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MasterService implements Target
 {
@@ -73,7 +74,7 @@ class MasterService implements Target
             }
         }
 
-        throw new \RuntimeException('Could not resolve master page for node.');
+        throw new NotFoundHttpException('Could not resolve master page for node.');
     }
 
     public function completeDefaultQuery(array $streams, string $pageType, ?string $itemId): array
