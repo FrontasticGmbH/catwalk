@@ -90,9 +90,9 @@ class PageService implements Target
         $page->metaData = $data['metaData'];
         $page->isDeleted = $data['isDeleted'];
         $page->state = $data['state'];
-        $page->scheduledFromTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledFrom']);
-        $page->scheduledToTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledTo']);
-        $page->nodesPagesOfTypeSortIndex = $data['nodesPagesOfTypeSortIndex'];
+        $page->scheduledFromTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledFrom'] ?? null);
+        $page->scheduledToTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledTo'] ?? null);
+        $page->nodesPagesOfTypeSortIndex = $data['nodesPagesOfTypeSortIndex'] ?? null;
         $page->scheduleCriterion = $data['scheduleCriterion'] ?? '';
 
         return $page;
