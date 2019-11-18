@@ -30,7 +30,7 @@ class NodeController extends Controller
             }
         }
 
-        $page = $pageService->fetchForNode($node);
+        $page = $pageService->fetchForNode($node, $context);
 
         return [
             'node' => $node,

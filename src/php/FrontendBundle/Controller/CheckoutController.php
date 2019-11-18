@@ -40,7 +40,7 @@ class CheckoutController extends Controller
         $node = $nodeService->get(
             $masterService->matchNodeId($pageMatcherContext)
         );
-        $page = $pageService->fetchForNode($node);
+        $page = $pageService->fetchForNode($node, $context);
 
         return [
             'node' => $node,

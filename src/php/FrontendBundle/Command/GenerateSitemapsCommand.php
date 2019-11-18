@@ -214,7 +214,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         foreach ($nodes as $node) {
             try {
                 // Only render urls for nodes with pages
-                $pageService->fetchForNode($node);
+                $pageService->fetchForNode($node, $context);
             } catch (\Exception $e) {
                 continue;
             }

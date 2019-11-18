@@ -76,7 +76,7 @@ class ErrorController extends Controller
                     ]
                 ]))
             );
-            $page = $pageService->fetchForNode($node);
+            $page = $pageService->fetchForNode($node, $context);
 
             if (!$context->isProduction()) {
                 array_push(
