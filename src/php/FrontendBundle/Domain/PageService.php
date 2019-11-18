@@ -2,9 +2,8 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-use Frontastic\Common\ReplicatorBundle\Domain\Target;
-
 use Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway;
+use Frontastic\Common\ReplicatorBundle\Domain\Target;
 
 class PageService implements Target
 {
@@ -85,6 +84,8 @@ class PageService implements Target
         $page->state = $data['state'];
         $page->scheduledFromTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledFrom']);
         $page->scheduledToTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledTo']);
+        $page->nodesPagesOfTypeSortIndex = $data['nodesPagesOfTypeSortIndex'];
+        $page->scheduleCriterion = $data['scheduleCriterion'] ?? '';
 
         return $page;
     }
