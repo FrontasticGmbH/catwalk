@@ -102,6 +102,7 @@ class PageService implements Target
     {
         $criterionTarget = [
             'locale' => $context->locale,
+            'host' => $context->host,
         ];
 
         $pageCandidates = $this->pageGateway->fetchForNode($node->nodeId);

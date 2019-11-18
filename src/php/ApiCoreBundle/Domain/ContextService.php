@@ -87,7 +87,8 @@ class ContextService
             $request
                 ? $this->localeResolver->determineLocale($request, $this->getProject())
                 : $this->getProject()->defaultLanguage,
-            $request ? $this->getSession($request) : new Session()
+            $request ? $this->getSession($request) : new Session(),
+            $request ? $request->getHost() : null
         );
     }
 
@@ -104,9 +105,10 @@ class ContextService
      *
      * @param string|null $locale
      * @param Session|null $session
+     * @param string|null $host
      * @return Context
      */
-    public function getContext(string $locale = null, Session $session = null): Context
+    public function getContext(string $locale = null, Session $session = null, string $host = null): Context
     {
         $contextCacheHash = $locale . '-' . md5(json_encode($session));
         if (isset(ContextService::$contextCache[$contextCacheHash])) {
@@ -124,6 +126,10 @@ class ContextService
 
         $localeObject = Locale::createFromPosix($locale);
 
+        if ($host === null) {
+            $host = parse_url($this->getProject()->publicUrl ?? $this->getProject()->previewUrl, PHP_URL_HOST);
+        }
+
         $context = new Context([
             'environment' => \Frontastic\Catwalk\AppKernel::getEnvironmentFromConfiguration(),
             'customer' => $customer,
@@ -132,6 +138,7 @@ class ContextService
             'currency' => $localeObject->currency,
             'session' => $session ?: new Session(),
             'routes' => $this->getRoutes($locale),
+            'host' => $host,
         ]);
 
         foreach ($this->decorators as $decorator) {
