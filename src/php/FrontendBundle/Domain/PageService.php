@@ -7,6 +7,9 @@ use Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 use RulerZ\RulerZ;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class PageService implements Target
 {
     /**
