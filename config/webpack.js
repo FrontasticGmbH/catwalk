@@ -173,7 +173,7 @@ module.exports = (PRODUCTION, SERVER) => {
 
     try {
         let projectWebpack = require(paths.appSrc + '/../config/webpack.js')
-        config = projectWebpack(config)
+        config = projectWebpack(config, PRODUCTION, SERVER)
     } catch (e) {
         console.info('No project webpack extension found in config/webpack.js – skip.')
     }
