@@ -1,6 +1,3 @@
-import { fs } from 'fs-extra'
-import { stringToObj } from 'diff-dom'
-
 import logger from '../../../../src/js/app/htmlDiff/diffLogger'
 import htmlFixture from './_fixture/ssr'
 import diffFixture from './_fixture/diff'

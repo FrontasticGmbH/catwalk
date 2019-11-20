@@ -1,5 +1,4 @@
-import form from '../../tastic/account/login/form'
-
+/* eslint-disable no-console */
 function logDiff (htmlStructure, diff) {
     return diff.map((change) => {
         if (change.action === 'addTextElement' && change.value.trim() === '') {
@@ -17,7 +16,7 @@ function logDiff (htmlStructure, diff) {
         const path = htmlPath(htmlStructure, route)
 
         return formatChange(path, change)
-    }).filter((change) => (change !== null))
+    }).filter((change) => { return (change !== null) })
 }
 
 function formatChange (path, change) {
@@ -26,34 +25,34 @@ function formatChange (path, change) {
         action: change.action,
         payload: 'unknown',
     }
-
+    /* eslint-disable-next-line default-case */
     switch (change.action) {
-        case 'addElement':
-            formattedChange.payload = textDiff(formatElement(change.element), '+')
-            break
-        case 'removeElement':
-            formattedChange.payload = textDiff(formatElement(change.element), '-')
-            break
-        case 'replaceElement':
-            formattedChange.payload = textDiff(formatElement(change.oldValue), '-') + "\n" +
+    case 'addElement':
+        formattedChange.payload = textDiff(formatElement(change.element), '+')
+        break
+    case 'removeElement':
+        formattedChange.payload = textDiff(formatElement(change.element), '-')
+        break
+    case 'replaceElement':
+        formattedChange.payload = textDiff(formatElement(change.oldValue), '-') + '\n' +
                 textDiff(formatElement(change.newValue), '+ ')
-            break
-        case 'addTextElement':
-            formattedChange.payload = textDiff(change.value, '+')
-            break;
-        case 'removeTextElement':
-            formattedChange.payload = textDiff(change.value, '-')
-            break;
-        case 'modifyTextElement':
-            formattedChange.payload = textDiff(change.oldValue, '-') + "\n" + textDiff(change.newValue, '+')
-            break;
-        case 'addAttribute':
-            formattedChange.payload = '+ ' + change.name + '="' + change.value + '"'
-            break;
-        case 'modifyAttribute':
-            formattedChange.payload = '- ' + change.name + '="' + change.oldValue + '"' + "\n" +
+        break
+    case 'addTextElement':
+        formattedChange.payload = textDiff(change.value, '+')
+        break
+    case 'removeTextElement':
+        formattedChange.payload = textDiff(change.value, '-')
+        break
+    case 'modifyTextElement':
+        formattedChange.payload = textDiff(change.oldValue, '-') + '\n' + textDiff(change.newValue, '+')
+        break
+    case 'addAttribute':
+        formattedChange.payload = '+ ' + change.name + '="' + change.value + '"'
+        break
+    case 'modifyAttribute':
+        formattedChange.payload = '- ' + change.name + '="' + change.oldValue + '"\n' +
                 '+ ' + change.name + '="' + change.newValue + '"'
-            break;
+        break
     }
 
     return formattedChange
@@ -73,11 +72,11 @@ function formatElement (element, indent = 0) {
     return ' '.repeat(indent) + '<' + element.nodeName.toLowerCase() +
             (attributes.class ? ' class="' + attributes.class + '"' : '') +
             (attributes.id ? 'id="' + attributes.id + '"' : '') +
-        '>' + "\n" +
+        '>\n' +
         (element.childNodes || []).map((childElement) => {
             return formatElement(childElement, indent + 2)
-        }).join("\n") +
-        ' '.repeat(indent) + '</' + element.nodeName.toLowerCase() + '>' + "\n"
+        }).join('\n') +
+        ' '.repeat(indent) + '</' + element.nodeName.toLowerCase() + '>\n'
 }
 
 /**

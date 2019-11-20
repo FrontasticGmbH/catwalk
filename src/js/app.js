@@ -70,7 +70,6 @@ function appCreator (mountNode, dataNode, tastics = null) {
             app.router.history = history
 
             hydrate(app, mountNode)
-
         })
     } else {
         hydrate(app, mountNode)
@@ -107,14 +106,15 @@ function hydrate (app, mountNode) {
         () => {
             if (isDevelopment && !isIE()) {
                 const diffLog = require('./app/htmlDiff/differ').default
-                const printLog = require( './app/htmlDiff/printLog').default
-                
+                const printLog = require('./app/htmlDiff/printLog').default
+
                 afterHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
                 if (hasHydrationWarning(consoleCaptureStop())) {
                     const log = diffLog(beforeHydrateHtml, afterHydrateHtml)
 
                     printLog(log)
                 } else {
+                    // eslint-disable-next-line
                     console.log('No hydration issue')
                 }
             }
@@ -123,19 +123,22 @@ function hydrate (app, mountNode) {
 }
 
 function isIE () {
- return ((window && window.navigator) && window.navigator.userAgent.indexOf("MSIE ") ==! -1 || !!window.navigator.userAgent.match(/Trident.*rv\:11\./))
+    return ((window && window.navigator) && window.navigator.userAgent.indexOf('MSIE ') == !-1 || !!window.navigator.userAgent.match(/Trident.*rv\:11\./))
 }
 
 function consoleCaptureStart () {
+    /* eslint-disable no-console */
     console.stderror = console.error.bind(console)
     console.errors = []
     console.error = function () {
-        console.errors.push(Array.from(arguments));
-        console.stderror.apply(console, arguments);
+        console.errors.push(Array.from(arguments))
+        console.stderror.apply(console, arguments)
     }
+    /* eslint-enable no-console */
 }
 
 function consoleCaptureStop () {
+    /* eslint-disable no-console */
     if (!console.errors) {
         return []
     }
@@ -145,7 +148,7 @@ function consoleCaptureStop () {
 
     const errors = console.errors
     delete console.errors
-
+    /* eslint-enable no-console */
     return errors
 }
 

@@ -1,5 +1,4 @@
-
-
+/* eslint-disable no-console */
 function printLog (diffLog) {
     if (diffLog.length === 0) {
         return
