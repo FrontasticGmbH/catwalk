@@ -18,12 +18,6 @@ const TasticWrapper = (props) => {
     const tastics = (window && window.tastics) || (global && global.tastics) || []
     const tastic = props.tastic
 
-    if (!props.tastic || !props.data) {
-        // eslint-disable-next-line no-console
-        console.error('Could not render tastic, because tastic data was missing')
-        return null
-    }
-
     const additionalData = (props.data.tastic || {})[props.tastic.tasticId] || null
 
     const streams = getStreamIdsForTasticSchema(props.tastic.schema)

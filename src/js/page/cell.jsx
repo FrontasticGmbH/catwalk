@@ -25,6 +25,12 @@ class Cell extends React.Component {
                 >
                 {cell && cell.tastics && cell.tastics.length
                     ? cell.tastics.map((tastic, i) => {
+                          if (!tastic || !this.props.data) {
+                            // eslint-disable-next-line no-console
+                            console.error('Could not render tastic, because tastic data was missing')
+                            return null;
+                          }
+
                           return (
                               <Tastic
                                   key={tastic.tasticId}
