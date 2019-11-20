@@ -33,6 +33,14 @@ const TasticWrapper = (props) => {
         // Warning - the dependencies of this useMemo might differ from those that are actually in use,
         // because it makes assumptions about the implementation details of configurationResolver.
         // @TODO This should be improved in the future.
+        //
+        // Additionally, we supress ESLint here, because it says:
+        // > React Hook useMemo has a spread element in its dependency array.
+        // > This means we can't statically verify whether you've passed the correct dependencies
+        // As we are spreading here intentionally to make sure that, whenever a stream changes,
+        // the configuration will be updated, we sadly need to suppress the warning here.
+        // This should be improved in one of the next refactoring-iterations ;)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.tastic.schema, props.data.stream, additionalData, ...streams])
 
     if (!tastics[tastic.tasticType]) {

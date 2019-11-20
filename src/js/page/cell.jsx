@@ -28,7 +28,7 @@ class Cell extends React.Component {
                           if (!tastic || !this.props.data) {
                             // eslint-disable-next-line no-console
                             console.error('Could not render tastic, because tastic data was missing')
-                            return null;
+                            return null
                           }
 
                           return (
