@@ -4,8 +4,7 @@ const autoprefixer = require('autoprefixer')
 const paths = require('./../paths')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-module.exports = (config) => {
-    const isDevelopment = process.env.NODE_ENV !== 'production'
+module.exports = (config, PRODUCTION, SERVER) => {
     return merge(config, {
         module: {
             rules: [
@@ -35,7 +34,7 @@ module.exports = (config) => {
                         {
                             include: /(js)/,
                             use: [
-                                isDevelopment ? require.resolve('style-loader') : MiniCssExtractPlugin.loader,
+                                PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
                                 {
                                     loader: 'css-loader',
                                     options: { modules: true, importLoaders: 1 },
@@ -66,7 +65,7 @@ module.exports = (config) => {
                         },
                         {
                             use: [
-                                isDevelopment ? require.resolve('style-loader') : MiniCssExtractPlugin.loader,
+                                PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
                                 require.resolve('css-loader'),
                                 {
                                     loader: require.resolve('postcss-loader'),
