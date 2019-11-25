@@ -2,7 +2,7 @@ const merge = require('webpack-merge')
 const autoprefixer = require('autoprefixer')
 
 module.exports = (config) => {
-    return merge.smart(
+    return merge(
         config,
         {
             module: {

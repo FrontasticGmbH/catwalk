@@ -69,7 +69,7 @@ class ProductController extends Controller
             $productId
         );
 
-        $page = $pageService->fetchForNode($node);
+        $page = $pageService->fetchForNode($node, $context);
 
         return [
             'node' => $node,

@@ -24,6 +24,8 @@
         <field name="state" column="p_state" type="string" />
         <field name="scheduledFromTimestamp" column="p_scheduled_from_timestamp" type="integer" />
         <field name="scheduledToTimestamp" column="p_scheduled_to_timestamp" type="integer" />
+        <field name="nodesPagesOfTypeSortIndex" column="p_nodes_pages_of_type_sort_index" type="integer" />
+        <field name="scheduleCriterion" column="p_schedule_criterion" type="string" />
 
         <indexes>
             <index columns="p_id"/>

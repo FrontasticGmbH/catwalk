@@ -67,7 +67,7 @@ class MasterService implements Target
             $ruleName = $this->propertyToRuleName($contextAttribute);
             if ($context->$contextAttribute !== null) {
                 if (!isset($rules->rules[$ruleName])) {
-                    throw new \OutOfBoundsException('No page defined for ' . $ruleName . ' yet.');
+                    throw new NotFoundHttpException('No page defined for ' . $ruleName . ' yet.');
                 }
 
                 return $this->pickNode($rules->rules[$ruleName], null, null);

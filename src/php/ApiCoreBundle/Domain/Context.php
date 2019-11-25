@@ -53,6 +53,11 @@ class Context extends DataObject
      */
     public $featureFlags = [];
 
+    /**
+     * @var string
+     */
+    public $host;
+
     public function __construct(array $values = [])
     {
         parent::__construct($values);

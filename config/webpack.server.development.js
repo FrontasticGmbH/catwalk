@@ -7,7 +7,6 @@ let config = require('./webpack.js')(PRODUCTION, SERVER)
 
 config = require('./webpack/ignoreScss.js')(config)
 config = require('./webpack/provideDomOnServer.js')(config)
-config = require('./webpack/svgr.js')(config)
 
 config.output.filename = 'assets/js/devServer.js'
 
