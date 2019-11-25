@@ -9,6 +9,7 @@ import Entity from './app/entity'
 import emptyEntity from './helper/emptyEntity'
 import Loading from './app/loading'
 import MetaData from './node/metaData'
+import Markdown from './component/markdown'
 
 import Page from './page/page'
 
@@ -91,6 +92,7 @@ class Node extends Component {
                         page={this.props.page.data || {}}
                         data={this.props.data.data || {}}
                     />
+                    {this.props.node.data.error && <Markdown text={this.props.node.data.error} />}
                     <ScrollContext.Provider value={{ forceScrollToTop: this.forceScrollToTop }}>
                         <Page
                             node={nodeData}
