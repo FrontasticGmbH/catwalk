@@ -7,6 +7,7 @@ use Frontastic\Common\AccountApiBundle\Domain\Account;
 use Frontastic\Common\AccountApiBundle\Domain\Session;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Locale;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
+use QafooLabs\MVC\Exception\UnauthenticatedUserException;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
