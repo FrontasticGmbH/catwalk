@@ -22,7 +22,6 @@ describe('withRetries', () => {
             },
             3,
             () => {
-                console.log('Setting')
                 giveUpCalled = true
             }
         )

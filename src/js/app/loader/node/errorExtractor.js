@@ -8,11 +8,11 @@ const errorExtractor = (nodeData) => {
             return {
                 stream: {
                     [streamKey]: nodeData.stream[streamKey],
-                }
+                },
             }
         }
         return false
-    }).filter(element => (element !== false))
+    }).filter(element => { return (element !== false) })
 }
 
 export default errorExtractor

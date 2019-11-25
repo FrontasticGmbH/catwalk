@@ -45,7 +45,8 @@ let Loader = function (store, api) {
 
                         const nodeDataErrors = extractErrors(data.data)
                         if (nodeDataErrors.length > 0) {
-                            console.log('Errors in node data, attempting to retry', nodeDataErrors)
+                            // eslint-disable-next-line no-console
+                            console.info('Errors in node data, attempting to retry', nodeDataErrors)
                             setTimeout(retry, 100)
                         }
                     },
@@ -61,6 +62,7 @@ let Loader = function (store, api) {
             },
             2,
             () => {
+                // eslint-disable-next-line no-console
                 console.error('Giving up retrying to fetch data for node', parameters)
             }
         )
