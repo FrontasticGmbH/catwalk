@@ -34,7 +34,7 @@ class ApiController extends Controller
                 throw new \InvalidArgumentException("Invalid data passed: " . $request->getContent());
             }
 
-            $command = new Command($body);
+            $command = new Command($body, true);
             $endpoint = $this->get(EndpointService::class);
             return new JsonResponse($endpoint->dispatch($command));
         } catch (\Throwable $e) {
