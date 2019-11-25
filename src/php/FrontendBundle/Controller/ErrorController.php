@@ -91,7 +91,6 @@ class ErrorController extends Controller
                 'data' => $dataProvider->fetchDataFor($node, $context, [], $page),
             ];
         } catch (\Throwable $e) {
-            echo $e;
             return [
                 'node' => new Node(),
                 'page' => new Page([
@@ -110,7 +109,7 @@ class ErrorController extends Controller
                                                 'text' => $this->errorTexts,
                                             ]),
                                         ]),
-                                        $context->isProduction() ? null : $this->getExceptionTastic($exception),
+                                        $context->isProduction() ? null : $this->getExceptionTastic(FlattenException::createFromThrowable($e)),
                                     ]),
                                 ]),
                             ],
