@@ -208,7 +208,7 @@ let CartLoader = function (store, api) {
                         type: 'CartApi.Cart.update.success',
                         data: data,
                     })
-                    resolve()
+                    resolve(data)
                 },
                 (error) => {
                     app.getLoader('context').notifyUser(<Message {...error} />, 'error')
@@ -239,7 +239,7 @@ let CartLoader = function (store, api) {
                         type: 'CartApi.Cart.update.success',
                         data: data,
                     })
-                    resolve()
+                    resolve(data)
                 },
                 (error) => {
                     app.getLoader('context').notifyUser(<Message {...error} />, 'error')
