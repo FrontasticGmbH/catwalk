@@ -6,6 +6,8 @@ use Frontastic\Common\AccountApiBundle\Domain\Session;
 use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
@@ -69,6 +71,7 @@ class ContextServiceTest extends TestCase
             $this->requestStackMock,
             $this->customerServiceMock,
             $this->tokenStorageMock,
+            new LocaleResolver(),
             []
         );
 
