@@ -2,11 +2,10 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class AppController extends Controller
 {
@@ -22,17 +21,20 @@ class AppController extends Controller
         $offset = $request->get('offset', null);
         $limit = $request->get('limit', null);
 
+        $criteria = array_merge(
+            ['locale' => $context->locale],
+            array_filter(
+                $request->query->all(),
+                function (string $key): bool {
+                    return !in_array($key, ['orderBy', 'offset', 'limit'], true);
+                },
+                ARRAY_FILTER_USE_KEY
+            )
+        );
+
         return new JsonResponse(
             $repository->findBy(
-                array_merge(
-                    ['locale' => $context->locale],
-                    array_filter(
-                        $request->query->all(),
-                        function (string $key): bool {
-                            return in_array($key, ['orderBy', 'offset', 'limit'], true);
-                        }
-                    )
-                ),
+                $criteria,
                 $orderBy,
                 $limit,
                 $offset
