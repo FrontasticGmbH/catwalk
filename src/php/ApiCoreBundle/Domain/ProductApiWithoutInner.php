@@ -83,7 +83,8 @@ class ProductApiWithoutInner implements ProductApi
                 },
                 function ($value) {
                     return $value;
-                });
+                }
+            );
         }
 
         // not sure what the result is - probably null?
@@ -112,8 +113,8 @@ class ProductApiWithoutInner implements ProductApi
                 },
                 function ($value) {
                     return $value;
-                });
-
+                }
+            );
         }
 
         return $result;
@@ -148,5 +149,4 @@ class ProductApiWithoutInner implements ProductApi
 
         return $product;
     }
-
 }
