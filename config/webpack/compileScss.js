@@ -29,7 +29,7 @@ module.exports = (config, PRODUCTION, SERVER) => {
                  *
                  * */
                 {
-                    test: /\.s?css$/,
+                    test: /\.module\.s?css$/,
                     oneOf: [
                         {
                             include: /(js)/,
