@@ -166,10 +166,6 @@
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldService" />
         </service>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Domain\LayoutService">
-            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\LayoutGateway" />
-        </service>
-
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RenderService">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator" />

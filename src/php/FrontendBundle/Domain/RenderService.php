@@ -15,6 +15,7 @@ class RenderService
     private $contextService;
     private $httpClient;
     private $backendUrl;
+    private $responseDecorator;
 
     /**
      * @var JsonSerializer
