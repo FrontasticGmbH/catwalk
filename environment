@@ -1,5 +1,7 @@
 env=prod
 
+test-static-phpstan.fail-on-violation=false
+
 locale=de
 
 version=1810151253
