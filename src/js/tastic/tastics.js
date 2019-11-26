@@ -35,7 +35,6 @@ import ProductListFilter from './productListFilter/tastic.jsx'
 import ProductSlider from './productSlider/tastic.jsx'
 import Teaser from './teaser/tastic.jsx'
 import HorizontalSpacer from './horisontal-spacer/tastic.jsx'
-import AccountConfirmTastic from './account/confirm/tastic.jsx'
 // import Text from './text/tastic.jsx'
 
 export default (() => {
@@ -77,6 +76,5 @@ export default (() => {
         productSlider: ProductSlider,
         teaser: Teaser,
         'horizontal-spacer': HorizontalSpacer,
-        'frontastic/boost/account-confirm': AccountConfirmTastic,
     }
 })()
