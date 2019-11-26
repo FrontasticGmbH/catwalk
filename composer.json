@@ -14,7 +14,7 @@
         "discard-changes": true
     },
     "require":      {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "ext-json": "*",
 
         "symfony/symfony": "^4.1",
@@ -37,7 +37,7 @@
 
         "kore/data-object": "@stable",
         "qafoolabs/no-framework-bundle": "@stable",
-        "beberlei/DoctrineExtensions": "@stable",
+        "beberlei/doctrineextensions": "@stable",
 
         "predis/predis": "@stable",
         "michelf/php-markdown": "@stable",
