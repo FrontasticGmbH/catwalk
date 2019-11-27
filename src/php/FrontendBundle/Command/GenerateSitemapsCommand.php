@@ -370,7 +370,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             foreach ($result as $product) {
                 $entries[] = [
                     'uri' => $productRouter->generateUrlFor($product),
-                    'changed' => $product->changed ?? time(),
+                    'changed' => $product->lastModifiedAt ?? time(),
                     'images' => $product->images
                 ];
             }
