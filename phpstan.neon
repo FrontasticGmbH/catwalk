@@ -4,4 +4,4 @@ parameters:
         - src/php/
     inferPrivatePropertyTypeFromConstructor: true
     ignoreErrors:
-        - '#unknown class Tideways\\Profiler#'
+        - '#Tideways\\Profiler#'
