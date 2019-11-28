@@ -7,6 +7,17 @@ import _ from 'lodash'
 import { ScrollContext } from './app/scrollContext'
 import pageSelector from './helper/pageSelector'
 
+/**
+ * Provides frontastic specific scrollbar behaviour.
+ * 
+ * It leverages react-custom-scrollbars.
+ * 
+ * I also takes care that, if you go back in your browser history,
+ * you go back to the same scroll position as before.
+ * 
+ * If you want to disable it, 
+ * you can overwrite the `<AppContainer />` component using ComponentInjector.
+ */
 class ScrollbarComponent extends Component {
     scrollable = null
 
