@@ -6,21 +6,24 @@ import PropTypes from 'prop-types';
 
 import Node from './node'
 import Preview from './preview'
+import AppContainer from './appContainer'
 
 const AppComponent = ({app}) => {
     return (
         <Provider store={app.getStore()}>
             <IntlProvider>
                 <Router history={app.history}>
-                    <Switch>
-                        <Route
-                            exact
-                            path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                            component={Preview}
-                        />
+                    <AppContainer>
+                            <Switch>
+                                <Route
+                                    exact
+                                    path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
+                                    component={Preview}
+                                />
 
-                        <Route component={Node} />
-                    </Switch>
+                                <Route component={Node} />
+                            </Switch>
+                    </AppContainer>
                 </Router>
             </IntlProvider>
         </Provider>
