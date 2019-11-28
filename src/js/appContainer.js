@@ -1,7 +1,9 @@
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 import ComponentInjector from './app/injector'
+import ScrollbarComponent from './scrollbarComponent'
 
-const AppContainer = ({children}) => children
+const AppContainer = ({children}) => <ScrollbarComponent>{children}</ScrollbarComponent>
 
 AppContainer.propTypes = {
     children: PropTypes.node
