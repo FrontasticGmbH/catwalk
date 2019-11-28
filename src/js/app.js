@@ -1,15 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Switch, Route } from 'react-router-dom'
-import { Provider } from 'react-redux'
 
 import app from './app/app'
-import IntlProvider from './app/intlProvider'
 import store from './app/store'
 import Context from './app/context'
-
-import Preview from './preview'
-import Node from './node'
+import AppComponent from './AppComponent'
 
 export default (mountNode, dataNode, tastics = null) => {
     if (!mountNode || !dataNode) {
@@ -70,41 +65,13 @@ export default (mountNode, dataNode, tastics = null) => {
             app.router.history = history
 
             ReactDOM.hydrate(
-                <Provider store={app.getStore()}>
-                    <IntlProvider>
-                        <Router history={app.history}>
-                            <Switch>
-                                <Route
-                                    exact
-                                    path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                                    component={Preview}
-                                />
-
-                                <Route component={Node} />
-                            </Switch>
-                        </Router>
-                    </IntlProvider>
-                </Provider>,
+                <AppComponent app={app} />,
                 mountNode
             )
         })
     } else {
         ReactDOM.hydrate(
-            <Provider store={app.getStore()}>
-                <IntlProvider>
-                    <Router history={app.history}>
-                        <Switch>
-                            <Route
-                                exact
-                                path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                                component={Preview}
-                            />
-
-                            <Route component={Node} />
-                        </Switch>
-                    </Router>
-                </IntlProvider>
-            </Provider>,
+            <AppComponent app={app} />,
             mountNode
         )
     }
