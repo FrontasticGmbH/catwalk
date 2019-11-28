@@ -2,27 +2,27 @@ import React from 'react'
 import { Router, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import IntlProvider from './app/intlProvider'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 import Node from './node'
 import Preview from './preview'
 import AppContainer from './appContainer'
 
-const AppComponent = ({app}) => {
+const AppComponent = ({ app }) => {
     return (
         <Provider store={app.getStore()}>
             <IntlProvider>
                 <Router history={app.history}>
                     <AppContainer>
-                            <Switch>
-                                <Route
-                                    exact
-                                    path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                                    component={Preview}
+                        <Switch>
+                            <Route
+                                exact
+                                path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
+                                component={Preview}
                                 />
 
-                                <Route component={Node} />
-                            </Switch>
+                            <Route component={Node} />
+                        </Switch>
                     </AppContainer>
                 </Router>
             </IntlProvider>
@@ -33,6 +33,5 @@ const AppComponent = ({app}) => {
 AppComponent.propTypes = {
     app: PropTypes.object,
 }
-
 
 export default AppComponent

@@ -2,9 +2,9 @@ import Entity from '../app/entity'
 
 /**
  * Extracts the current page from redux
- * 
+ *
  * If the current page has not been loaded yet, we default to an empty page.
- * That empty page will contain the head 
+ * That empty page will contain the head
  */
 const pageSelector = globalState => {
     let page = null

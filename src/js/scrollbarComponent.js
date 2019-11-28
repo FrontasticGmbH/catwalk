@@ -2,20 +2,19 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Scrollbars } from 'react-custom-scrollbars'
-import _ from 'lodash'
 
 import { ScrollContext } from './app/scrollContext'
 import pageSelector from './helper/pageSelector'
 
 /**
  * Provides frontastic specific scrollbar behaviour.
- * 
+ *
  * It leverages react-custom-scrollbars.
- * 
+ *
  * I also takes care that, if you go back in your browser history,
  * you go back to the same scroll position as before.
- * 
- * If you want to disable it, 
+ *
+ * If you want to disable it,
  * you can overwrite the `<AppContainer />` component using ComponentInjector.
  */
 class ScrollbarComponent extends Component {
@@ -60,22 +59,22 @@ class ScrollbarComponent extends Component {
 
     render () {
         return (
-                <Scrollbars
-                    autoHide
-                    style={{ height: '100vh', width: '100vw' }}
-                    id='scroll-container'
-                    ref={(element) => {
+            <Scrollbars
+                autoHide
+                style={{ height: '100vh', width: '100vw' }}
+                id='scroll-container'
+                ref={(element) => {
                         this.scrollable = element
                     }}
-                    onScrollStop={(event) => {
+                onScrollStop={(event) => {
                         this.setScrollPosition(this.props.viewKey, this.scrollable.getScrollTop())
                     }}
                 >
-                    <ScrollContext.Provider value={{ forceScrollToTop: this.forceScrollToTop }}>
-                        {this.props.children}
-                    </ScrollContext.Provider>
-                </Scrollbars>
-            )
+                <ScrollContext.Provider value={{ forceScrollToTop: this.forceScrollToTop }}>
+                    {this.props.children}
+                </ScrollContext.Provider>
+            </Scrollbars>
+        )
     }
 }
 
