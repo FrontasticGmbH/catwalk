@@ -2,7 +2,6 @@ export default {
     account: {
         profile: 'Meine Daten',
         addresses: 'Adressen',
-        orders: 'Meine Bestellungen',
         wishlists: 'Wunschlisten',
         vouchers: 'Gutscheincodes',
         logout: 'Abmelden',
@@ -25,6 +24,11 @@ export default {
             confirmSuccess: 'Account ist bestätigt',
             confirmError: 'Account-Bestätigung ist leider fehlgeschlagen',
         },
+        greet: 'Hallo, {name}!',
+        orders: 'Bestellungen',
+        returns: 'Rücksendungen',
+        userInfo: 'Benutzerdaten',
+        help: 'Hilfe',
     },
     commercetools: {
         DiscountCodeNonApplicable: 'Der Gutscheincode {discountCode} konnte nicht gefunden werden',
@@ -46,4 +50,5 @@ export default {
         notVerified: 'Login fehlgeschlagen. Ihre E-Mail-Adresse wurde nocht nicht bestätigt. Bitte prüfen Sie Ihren Posteingang',
         invalid: 'Login fehlgeschlagen. E-Mail oder Passwort falsch',
     },
+    deleteItem: 'Element löschen',
 }
