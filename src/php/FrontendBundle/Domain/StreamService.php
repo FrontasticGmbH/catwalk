@@ -26,7 +26,12 @@ class StreamService
     private $debug = false;
 
     private $countProperties = [
-        'product-slider' => 'productCount',
+        // From Apollo
+        'uni-product-slider' => 'productCount',
+        'uni-product-list' => 'maxItems',
+        'product-list' => 'maxItems',
+
+        // Boost Theme
         'frontastic/boost/product-slider' => 'productCount',
     ];
 
