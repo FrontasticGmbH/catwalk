@@ -5,6 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 
 import { ScrollContext } from './app/scrollContext'
 import pageSelector from './helper/pageSelector'
+import ComponentInjector from './app/injector'
 
 /**
  * Provides frontastic specific scrollbar behaviour.
@@ -15,9 +16,9 @@ import pageSelector from './helper/pageSelector'
  * you go back to the same scroll position as before.
  *
  * If you want to disable it,
- * you can overwrite the `<AppContainer />` component using ComponentInjector.
+ * you can overwrite the `<ScrollbarContainer />` component using ComponentInjector.
  */
-class ScrollbarComponent extends Component {
+class ScrollbarContainer extends Component {
     scrollable = null
 
     scrollPositions = new Map()
@@ -58,6 +59,7 @@ class ScrollbarComponent extends Component {
     }
 
     render () {
+        console.log("Hallo Toby")
         return (
             <Scrollbars
                 autoHide
@@ -78,20 +80,20 @@ class ScrollbarComponent extends Component {
     }
 }
 
-ScrollbarComponent.propTypes = {
+ScrollbarContainer.propTypes = {
     viewKey: PropTypes.string.isRequired,
     children: PropTypes.node,
 }
 
-ScrollbarComponent.defaultProps = {
-}
+ScrollbarContainer.defaultProps = {}
 
-export default connect(
-    (globalState, props) => {
+export default ComponentInjector.return(
+    'ScrollbarContainer',
+    connect((globalState, props) => {
         const page = pageSelector(globalState)
 
         return {
             viewKey: globalState.node.currentCacheKey + '-' + (page && page.data && page.data.pageId),
         }
-    }
-)(ScrollbarComponent)
+    })(ScrollbarContainer)
+)
