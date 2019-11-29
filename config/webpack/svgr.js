@@ -12,7 +12,7 @@ const merge = require('webpack-merge')
 //
 // If a SVG is referenced in all other files (scss for example),
 // the regular file loader kicks in.
-module.exports = (config) => {
+module.exports = (config, PRODUCTION, SERVER) => {
     return merge(config, {
         module: {
             rules: [
