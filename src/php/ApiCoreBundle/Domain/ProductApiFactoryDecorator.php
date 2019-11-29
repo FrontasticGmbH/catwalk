@@ -49,6 +49,7 @@ class ProductApiFactoryDecorator implements ProductApiFactory
     {
         $api = $this->productApiFactory->factor($customer);
         $this->setCommercetoolsOptions($api);
+        $api = new ProductApiWithoutInner($api);
         return new CachingProductApi($api, $this->cache, $this->debug);
     }
 

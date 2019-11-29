@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 
 import Reference from '../../component/reference'
-import { getTranslation } from 'frontastic-common'
+import getTranslation from '../../getTranslation'
 
 import MoleculesHero from '../../patterns/molecules/heros/hero'
 

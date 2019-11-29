@@ -93,6 +93,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService">
             <argument type="tagged" tag="frontend.streamHandler" />
+            <argument>%kernel.debug%</argument>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ProductList">
