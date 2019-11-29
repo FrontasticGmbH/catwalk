@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import Node from './node'
 import Preview from './preview'
 import AppContainer from './appContainer'
+import ScrollbarContainer from './scrollbarContainer'
 
 const AppComponent = ({ app }) => {
     return (
@@ -14,15 +15,17 @@ const AppComponent = ({ app }) => {
             <IntlProvider>
                 <Router history={app.history}>
                     <AppContainer>
-                        <Switch>
-                            <Route
-                                exact
-                                path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                                component={Preview}
+                        <ScrollbarContainer>
+                            <Switch>
+                                <Route
+                                    exact
+                                    path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
+                                    component={Preview}
                                 />
 
-                            <Route component={Node} />
-                        </Switch>
+                                <Route component={Node} />
+                            </Switch>
+                        </ScrollbarContainer>
                     </AppContainer>
                 </Router>
             </IntlProvider>
