@@ -1,7 +1,7 @@
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const merge = require('webpack-merge')
 
-module.exports = (config) => {
+module.exports = (config, PRODUCTION, SERVER) => {
     return merge.smart(
         {
             plugins: [

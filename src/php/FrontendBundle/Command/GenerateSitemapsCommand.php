@@ -26,6 +26,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.CountInLoopExpression)
  */
 class GenerateSitemapsCommand extends ContainerAwareCommand
 {

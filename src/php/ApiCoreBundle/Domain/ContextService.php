@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Yes, context encapsulates quite some stuff
@@ -27,7 +27,7 @@ class ContextService
     private $customerService;
 
     /**
-     * @var TokenStorage
+     * @var TokenStorageInterface
      */
     private $tokenStorage;
 
@@ -44,13 +44,13 @@ class ContextService
     /**
      * @HACK This is a hack to cache getting the same context over and over again.
      */
-    static private $contextCache = [];
+    private static $contextCache = [];
 
     public function __construct(
         Router $router,
         RequestStack $requestStack,
         CustomerService $customerService,
-        TokenStorage $tokenStorage,
+        TokenStorageInterface $tokenStorage,
         LocaleResolver $localeResolver,
         iterable $decorators
     ) {
