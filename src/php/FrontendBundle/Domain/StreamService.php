@@ -52,6 +52,23 @@ class StreamService
         $this->streamHandlers[$streamHandler->getType()] = $streamHandler;
     }
 
+    private function updateUsage(Tastic $tastic, array $schema, array $usage): array
+    {
+        foreach ($schema as $group) {
+            foreach ($group['fields'] as $field) {
+                if ($field['type'] === 'stream' &&
+                    !empty($tastic->configuration->{$field['field']})) {
+                    $usage[$tastic->configuration->{$field['field']}][] =
+                        isset($this->countProperties[$tastic->tasticType]) ?
+                            $tastic->configuration->{$this->countProperties[$tastic->tasticType]} :
+                            null;
+                }
+            }
+        }
+
+        return $usage;
+    }
+
     public function getUsedStreams(Node $node, Page $page, array &$parameterMap): array
     {
         $tasticMap = $this->tasticService->getTasticsMappedByType();
@@ -65,15 +82,7 @@ class StreamService
                     }
 
                     $schema = $tasticMap[$tastic->tasticType]->configurationSchema['schema'];
-
-                    foreach ($schema as $group) {
-                        foreach ($group['fields'] as $field) {
-                            if ($field['type'] === 'stream' &&
-                                !empty($tastic->configuration->{$field['field']})) {
-                                $usage[$tastic->configuration->{$field['field']}][] = isset($this->countProperties[$tastic->tasticType]) ? $tastic->configuration->{$this->countProperties[$tastic->tasticType]} : null;
-                            }
-                        }
-                    }
+                    $usage = $this->updateUsage($tastic, $schema, $usage);
                 }
             }
         }
