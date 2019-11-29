@@ -90,7 +90,7 @@ class StreamService
         $usage = array_map('max', $usage);
 
         $streams = [];
-        foreach ($node->streams as $stream) {
+        foreach ($node->streams ?? [] as $stream) {
             if (!array_key_exists($stream['streamId'], $usage)) {
                 continue;
             }
@@ -122,11 +122,11 @@ class StreamService
         if ($page) {
             $streams = $this->getUsedStreams($node, $page, $parameterMap);
         } else {
-            $streams = $node->streams;
+            $streams = $node->streams ?? [];
         }
 
         $data = [];
-        foreach ($streams ?? [] as $stream) {
+        foreach ($streams as $stream) {
             $stream = new Stream($stream);
             $data[$stream->streamId] = $this
                 ->handle(
