@@ -96,7 +96,7 @@ class StreamService
             if (!isset($parameterMap[$stream['streamId']])) {
                 $parameterMap[$stream['streamId']] = [];
             }
-            $parameterMap[$stream['streamId']]['count'] = $usage[$stream['streamId']];
+            $parameterMap[$stream['streamId']]['limit'] = $usage[$stream['streamId']];
         }
 
         return $streams;

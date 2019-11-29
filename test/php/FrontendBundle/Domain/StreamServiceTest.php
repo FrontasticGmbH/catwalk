@@ -37,8 +37,8 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             [
-                'aabf67e7-8134-451e-85f5-4e069d0e41d4' => ['count' => 12],
-                '7440' => ['count' => 7],
+                'aabf67e7-8134-451e-85f5-4e069d0e41d4' => ['limit' => 12],
+                '7440' => ['limit' => 7],
             ],
             $parameters
         );
