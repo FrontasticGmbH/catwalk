@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import app from './app/app'
 import store from './app/store'
 import Context from './app/context'
-import AppComponent from './AppComponent'
+import AppComponent from './appComponent'
 
 export default (mountNode, dataNode, tastics = null) => {
     if (!mountNode || !dataNode) {
