@@ -25,7 +25,7 @@ class ViewDataProvider
     public function fetchDataFor(Node $node, Context $context, array $streamParameters, Page $page = null): ViewData
     {
         $tastic = $page !== null ? $this->tasticFieldService->getFieldData($context, $node, $page) : [];
-        $streamData = $this->streamService->getStreamData($node, $context, $streamParameters);
+        $streamData = $this->streamService->getStreamData($node, $context, $streamParameters, $page);
 
         return new ViewData([
             'stream' => (object) $streamData,

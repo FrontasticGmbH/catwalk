@@ -92,6 +92,7 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
             <argument type="tagged" tag="frontend.streamHandler" />
             <argument>%kernel.debug%</argument>
         </service>
