@@ -59,7 +59,6 @@ class ScrollbarContainer extends Component {
     }
 
     render () {
-        console.log("Hallo Toby")
         return (
             <Scrollbars
                 autoHide
