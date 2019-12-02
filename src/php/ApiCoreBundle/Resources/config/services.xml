@@ -116,9 +116,6 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools\ClientFactory" autowire="true">
-            <argument key="$cache" type="service">
-                <service class="Doctrine\Common\Cache\ApcuCache" />
-            </argument>
         </service>
     </services>
 </container>

@@ -2,11 +2,10 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools;
 
-use Doctrine\Common\Cache\Cache;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Frontastic\Common\HttpClient;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Commercetools\Client;
-use Frontastic\Common\ReplicatorBundle\Domain\Customer;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Commercetools\ClientFactory as ProjectClientFactory;
+use Frontastic\Common\ReplicatorBundle\Domain\Project;
 
 /**
  * Creates CommerceTools-Clients for the current project.
@@ -14,27 +13,19 @@ use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 class ClientFactory
 {
     /**
-     * @var HttpClient
+     * @var Project
      */
-    private $httpClient;
+    private $project;
 
     /**
-     * @var Customer
+     * @var ProjectClientFactory
      */
-    private $customer;
-    /**
-     * @var Cache
-     */
-    private $cache;
+    private $projectClientFactory;
 
-    public function __construct(
-        Context $context,
-        HttpClient $httpClient,
-        Cache $cache
-    ) {
-        $this->customer = $context->customer;
-        $this->httpClient = $httpClient;
-        $this->cache = $cache;
+    public function __construct(Context $context, ProjectClientFactory $projectClientFactory)
+    {
+        $this->project = $context->project;
+        $this->projectClientFactory = $projectClientFactory;
     }
 
     /**
@@ -45,13 +36,9 @@ class ClientFactory
      */
     public function factorForConfigurationSection(string $configurationSectionName): Client
     {
-        $config = $this->customer->configuration[$configurationSectionName];
-        return new Client(
-            $config->clientId,
-            $config->clientSecret,
-            $config->projectKey,
-            $this->httpClient,
-            $this->cache
+        return $this->projectClientFactory->factorForProjectConfigurationSection(
+            $this->project,
+            $configurationSectionName
         );
     }
 }
