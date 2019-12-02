@@ -56,23 +56,16 @@ export default (mountNode, dataNode, tastics = null) => {
         app.getLoader('context').refresh()
     }
 
-    if (typeof window !== 'undefined') {
-        import('history').then(({ createBrowserHistory }) => {
-            const history = createBrowserHistory()
-            history.listen(app.loadForLocation)
+    import('history').then(({ createBrowserHistory }) => {
+        const history = createBrowserHistory()
+        history.listen(app.loadForLocation)
 
-            app.history = history
-            app.router.history = history
+        app.history = history
+        app.router.history = history
 
-            ReactDOM.hydrate(
-                <AppComponent app={app} />,
-                mountNode
-            )
-        })
-    } else {
         ReactDOM.hydrate(
             <AppComponent app={app} />,
             mountNode
         )
-    }
+    })
 }
