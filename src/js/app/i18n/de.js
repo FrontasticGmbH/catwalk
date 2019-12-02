@@ -32,6 +32,22 @@ export default {
         help: 'Hilfe',
         newHere: 'Ich bin neu hier',
         freeAccount: 'Kostenloses Benutzerkonto',
+        save: 'Speichern',
+        edit: 'Bearbeiten',
+
+        address: {
+            newAddress: 'Neue Adresse hinzufügen',
+            residential: 'Wohnanschrift',
+            standardBilling: 'Standard-Rechnungsadresse',
+            standardDelivery: 'Standard-Lieferadresse',
+        },
+
+        eMailChange: {
+            text: 'Wir stellen sicher, dass alle E-Mails von Boost an deine neue E-Mail-Adresse geschickt werden.',
+            current: 'Aktuelle E-Mail-Adresse:',
+            example: 'John.Doe@gmail.com',
+
+        },
 
         login: {
             emailAddress: 'E-Mail Address',
@@ -116,8 +132,9 @@ export default {
         totalAmount: 'Gesamtbetrag',
         emptyCart: 'Der Warenkorb ist noch leer.',
         registerNow: 'Jetzt anmelden',
-        
+
     }, 
+
     deleteItem: 'Element löschen',
     exlusiveDiscounts: 'Exklusive Rabatte',
     becomeFamily: 'Werde Teil unserer kleinen Familie',

@@ -10,6 +10,21 @@ export default {
          // Klaudija
         newHere: "I'm new here",
         freeAccount: 'Free user account',
+        save: 'Save',
+        edit: 'Edit',
+
+        address: {
+            newAddress: 'Add new address',
+            residential: 'Residential address',
+            standardBilling: 'Standard billing address',
+            standardDelivery: 'Standard delivery address',
+        },
+
+        eMailChange: {
+            text: 'We will make sure that all emails from Boost are sent to your new email address.',
+            current: 'Current E-mail address',
+            example: 'John.Doe@gmail.com',
+        },
 
         login: {
             emailAddress: 'E-Mail Address',
