@@ -26,7 +26,6 @@ export default {
             tcAgree: 'Yes, I agree to the terms and conditions and privacy policy of frontastic.',
             registerNow: 'Register Now',
             createUser: 'Create user account'
-
         }
     },
     
@@ -61,7 +60,6 @@ export default {
         invoice: 'Purchase on invoice', //check if correct
         freeShipping: 'Free Shipping & Returns',
 
-        
     },
     cart: {
         myCart: 'My Cart',
@@ -88,9 +86,6 @@ export default {
     quantityProduct: 'Quantity:',
     inCartProduct: 'In the cart',
     back: 'Back',
-
-
-    
     
     // Sanja
 

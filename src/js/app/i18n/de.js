@@ -77,9 +77,8 @@ export default {
         myAccount: 'Mein konto',
         wishlist: 'Wunschliste',
         cart: 'Warenkorb', 
-
-
     },
+
     footer: {
         contact: 'Kontakt',
         serviceHour: '24 Stunden Service',
@@ -104,8 +103,8 @@ export default {
         deliveryHours: 'Lieferung in 24 Stunden',
         invoice: 'Kauf auf Rechnung',
         freeShipping: 'Kostenloser Versand & Rückversand',
-
     },
+
     cart: {
         myCart: 'Mein Warenkorb',
         paymentMethods: 'Bezahlarten',
@@ -117,6 +116,7 @@ export default {
         totalAmount: 'Gesamtbetrag',
         emptyCart: 'Der Warenkorb ist noch leer.',
         registerNow: 'Jetzt anmelden',
+        
     }, 
     deleteItem: 'Element löschen',
     exlusiveDiscounts: 'Exklusive Rabatte',
