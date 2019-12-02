@@ -1,0 +1,30 @@
+{
+  "loading": false,
+  "loaded": "2019-08-15T07:20:47.582Z",
+  "error": null,
+  "data": {
+    "_type": "Frontastic\\Catwalk\\FrontendBundle\\Domain\\ViewData",
+    "stream": {
+      "9045b932-7a79-4590-81d7-30b008192074": {
+        "_type": "Frontastic\\Common\\ProductApiBundle\\Domain\\ProductApi\\Result",
+        "offset": 0,
+        "total": 1678,
+        "count": 24,
+        "items": [],
+        "facets": []
+      },
+      "0141f924-9376-444a-b2ca-5c3fc810c801": {
+        "some": "value"
+      }
+    },
+    "tastic": {
+      "cfabd01d-a5ae-4ee3-ad05-e86496a4ecc2": {
+        "stream": {
+          "ok": false,
+          "message": "Notice: Undefined index: HTTP_REFERER"
+        }
+      }
+    }
+  },
+  "ttl": 60
+}
