@@ -16,13 +16,8 @@ module.exports = (config, PRODUCTION, SERVER) => {
                  *  CSS file, the sass loader processes this as well, since
                  *  CSS is a subset of SCSS, but it is pretty much a no-op.
                  *
-                 *  There sre currently two different loaders, which are chained
-                 *  through `oneOf`, which means that the first loader that matches
-                 *  will be used.
-                 *
                  *  The first loader is for CSS modules and is only used for
-                 *  all files underneath the JS folder, because the assumption
-                 *  is made, that all CSS/SCSS files in there, will be CSS Modules.
+                 *  files named like `my.module.css`
                  *
                  *  The second loader is for all other general SCSS processing.
                  *
