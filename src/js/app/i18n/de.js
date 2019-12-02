@@ -71,6 +71,10 @@ export default {
         imprint: 'Impressum',
         privacy:'Datenschutz',
         inclVat: 'inkl. Mwst',
+        deliveryHours: 'Lieferung in 24 Stunden',
+        invoice: 'Kauf auf Rechnung',
+        freeShipping: 'Kostenloser Versand & Rückversand',
+
     },
     cart: {
         myCart: 'Mein Warenkorb',

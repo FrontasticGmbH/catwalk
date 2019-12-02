@@ -29,16 +29,21 @@ export default {
         tc: 'T&Cs',
         imprint: 'Imprint',
         privacy:'Privacy',
+        deliveryHours: 'Delivery within 24 hours',
+        invoice: 'Purchase on invoice', //check if correct
+        freeShipping: 'Free Shipping & Returns',
+
+        
     },
     cart: {
         myCart: 'My Cart',
         paymentMethods: 'Payment methods',
-        totalSum: 'Total sum',
+        totalSum: 'Total sum', //check if correct
         enterVouchers: 'You can enter voucher codes in the last step of the order process.',
         checkout: 'To Checkout',
         subtotal: 'Subtotal',
         shippingCosts: 'Shipping costs',
-        totalAmount: 'Total amount',
+        totalAmount: 'Total amount', //check if correct
         inclVat: 'incl.VAT',
         emptyCart: 'Your shopping cart is empty.',
         registerNow: 'Register now',
