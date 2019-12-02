@@ -31,8 +31,7 @@ class ClientFactory
         CustomerService $customerService,
         HttpClient $httpClient,
         Cache $cache
-    )
-    {
+    ) {
         $this->customer = $customerService->getCustomer();
         $this->httpClient = $httpClient;
         $this->cache = $cache;
@@ -40,8 +39,9 @@ class ClientFactory
 
     /**
      * Creates a CommerceTools Client for the given configuration section.
-     * Example could be $factory->factorForConfigurationSection("product"), if you want to use it in a product related call.
-     * See project.yml for possible configuration section names.
+     * Example could be $factory->factorForConfigurationSection("product"), if
+     * you want to use it in a product related call.  See project.yml for
+     * possible configuration section names.
      */
     public function factorForConfigurationSection(string $configurationSectionName): Client
     {
@@ -54,5 +54,4 @@ class ClientFactory
             $this->cache
         );
     }
-
 }
