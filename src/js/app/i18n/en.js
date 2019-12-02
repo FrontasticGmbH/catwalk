@@ -30,17 +30,32 @@ export default {
         imprint: 'Imprint',
         privacy:'Privacy',
     },
+    cart: {
+        myCart: 'My Cart',
+        paymentMethods: 'Payment methods',
+        totalSum: 'Total sum',
+        enterVouchers: 'You can enter voucher codes in the last step of the order process.',
+        checkout: 'To Checkout',
+        subtotal: 'Subtotal',
+        shippingCosts: 'Shipping costs',
+        totalAmount: 'Total amount',
+        inclVat: 'incl.VAT',
+        emptyCart: 'Your shopping cart is empty.',
+        registerNow: 'Register now',
 
+    },
     deleteItem: 'Delete Item',
     exlusiveDiscounts: 'Exlusive discounts',
     becomeFamily: 'Become part of our little family',
     submit: 'Submit',
     submitAgree: "By clicking 'Submit', you agree that we may process your information in accordance with our privacy policy.",
     yourEmail: 'Your E-mail address',
+    colorProduct: 'Color:',
     sizeProduct: 'Size',
+    quantityProduct: 'Quantity:',
     inCartProduct: 'In the cart',
-
-
+    
+    
     // Sanja
 
 }
