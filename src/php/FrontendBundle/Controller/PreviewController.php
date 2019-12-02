@@ -39,7 +39,7 @@ class PreviewController extends Controller
             $this->completeMasterNode($context, $preview->node);
         }
 
-        $data = new \StdClass();
+        $data = new \stdClass();
         if ($preview->node) {
             $data = $dataProvider->fetchDataFor($preview->node, $context, [], $preview->page);
         }

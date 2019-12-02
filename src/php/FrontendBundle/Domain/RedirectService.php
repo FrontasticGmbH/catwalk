@@ -132,7 +132,7 @@ class RedirectService implements Target
 
         $redirects = array_filter(
             $redirects,
-            function (Redirect $redirect) use ($queryParameters, &$redirectQueryCount): bool {
+            function (Redirect $redirect) use ($queryParameters): bool {
                 foreach ($redirect->getQueryParameters()->all() as $key => $value) {
                     if (!$queryParameters->has($key) || $queryParameters->get($key) !== $value) {
                         return false;
@@ -149,7 +149,7 @@ class RedirectService implements Target
 
         usort(
             $redirects,
-            function (Redirect $a, Redirect $b) use ($redirectQueryCount): int {
+            function (Redirect $a, Redirect $b): int {
                 $aQueryCount = $a->getQueryParameters()->count();
                 $bQueryCount = $b->getQueryParameters()->count();
 

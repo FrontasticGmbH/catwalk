@@ -2,6 +2,8 @@
 
 namespace Frontastic\Catwalk;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -76,7 +78,7 @@ class AppKernel extends \Frontastic\Common\Kernel
         return static::$catwalkBaseDir;
     }
 
-    protected function buildContainer()
+    protected function buildContainer(): ContainerBuilder
     {
         $container = parent::buildContainer();
 

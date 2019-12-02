@@ -1,0 +1,7 @@
+parameters:
+    level: 1
+    paths:
+        - src/php/
+    inferPrivatePropertyTypeFromConstructor: true
+    ignoreErrors:
+        - '#Tideways\\Profiler#'

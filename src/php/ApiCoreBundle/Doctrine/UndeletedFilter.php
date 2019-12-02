@@ -2,7 +2,7 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Doctrine;
 
-use Doctrine\ORM\Mapping\ClassMetaData;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 use Frontastic\Catwalk\FrontendBundle\Domain\Facet;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
