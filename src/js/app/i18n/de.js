@@ -29,6 +29,26 @@ export default {
         returns: 'Rücksendungen',
         userInfo: 'Benutzerdaten',
         help: 'Hilfe',
+        newHere: 'Ich bin neu hier',
+        freeAccount: 'Kostenloses Benutzerkonto',
+
+        login: {
+            emailAddress: 'E-Mail Address',
+            password: 'Passwort',
+            login: 'Anmelden'
+        },
+
+        register: {     
+            joinUs: 'Melde dich jetzt an',
+            genderMale: 'Herr',
+            genderFemale: 'Frau',
+            firstName: 'Vorname',
+            lastName: 'Nachname',
+            tcAgree: 'Ja, ich stimme den AGB und den Datenschutzbestimmungen von frontastic zu.',
+            registerNow: 'Jetzt registrieren',
+            createUser: 'Benutzerkonto erstellen'
+
+        }
     },
     commercetools: {
         DiscountCodeNonApplicable: 'Der Gutscheincode {discountCode} konnte nicht gefunden werden',
@@ -98,4 +118,5 @@ export default {
     sizeProduct: 'Größe',
     quantityProduct: 'Anzahl:',
     inCartProduct: 'In den Warenkorb',
+    back: 'Zurück',
 }

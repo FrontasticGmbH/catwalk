@@ -7,8 +7,29 @@ export default {
         addresses: 'Adresses',
         help: 'Help',
         logout: 'Logout',
+         // Klaudija
+        newHere: "I'm new here",
+        freeAccount: 'Free user account',
+
+        login: {
+            emailAddress: 'E-Mail Address',
+            password: 'Password',
+            login: 'Login',
+        },
+
+        register: {
+            joinUs: 'Join Us', //check if correct
+            genderMale: 'Mr.',
+            genderFemale: 'Mrs.',
+            firstName: 'First Name',
+            lastName: 'Last Name',
+            tcAgree: 'Yes, I agree to the terms and conditions and privacy policy of frontastic.',
+            registerNow: 'Register Now',
+            createUser: 'Create user account'
+
+        }
     },
-     // Klaudija
+    
     footer: {
         contact: 'Contact',
         serviceHour: '24 hour service',
@@ -59,6 +80,8 @@ export default {
     sizeProduct: 'Size',
     quantityProduct: 'Quantity:',
     inCartProduct: 'In the cart',
+    back: 'Back',
+
     
     
     // Sanja
