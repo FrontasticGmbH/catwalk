@@ -3,7 +3,7 @@
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools;
 
 use Doctrine\Common\Cache\Cache;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\HttpClient;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Commercetools\Client;
 use Frontastic\Common\ReplicatorBundle\Domain\Customer;
@@ -28,11 +28,11 @@ class ClientFactory
     private $cache;
 
     public function __construct(
-        CustomerService $customerService,
+        Context $context,
         HttpClient $httpClient,
         Cache $cache
     ) {
-        $this->customer = $customerService->getCustomer();
+        $this->customer = $context->customer;
         $this->httpClient = $httpClient;
         $this->cache = $cache;
     }
