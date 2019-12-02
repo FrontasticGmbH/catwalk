@@ -45,6 +45,9 @@ export default (mountNode, dataNode, tastics = null) => {
             type: 'ApiBundle.Api.context.success',
             data: data,
         })
+        store.dispatch({
+            type: 'Frontastic.RenderContext.ClientSideDetected'
+        })
 
         let context = new Context(data)
 
