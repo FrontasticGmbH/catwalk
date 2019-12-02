@@ -302,6 +302,82 @@ return array (
     ),
      'isDeleted' => false,
   )),
+  'test-tastic' => 
+  Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic::__set_state(array(
+     'tasticId' => 'fc0fd6b71c4f443a182b9ccf9900aed8',
+     'tasticType' => 'test-tastic',
+     'sequence' => '001575268304796408',
+     'name' => 'Test Tastic',
+     'description' => '',
+     'configurationSchema' => 
+    array (
+      'tasticType' => 'test-tastic',
+      'name' => 'Product List',
+      'icon' => 'list',
+      'schema' => 
+      array (
+        0 => 
+        array (
+          'name' => 'Stream Selection',
+          'fields' => 
+          array (
+            0 => 
+            array (
+              'label' => 'Show percentual reducement',
+              'field' => 'showPercent',
+              'type' => 'boolean',
+              'default' => true,
+            ),
+            1 => 
+            array (
+              'label' => 'Product Lists',
+              'field' => 'lists',
+              'type' => 'group',
+              'min' => 0,
+              'itemLabelField' => 'position',
+              'fields' => 
+              array (
+                0 => 
+                array (
+                  'label' => 'Page',
+                  'description' => 'Leave empty to show interstitial on all pages',
+                  'field' => 'page',
+                  'translatable' => false,
+                  'type' => 'integer',
+                  'default' => NULL,
+                  'required' => false,
+                ),
+                1 => 
+                array (
+                  'label' => 'Stream',
+                  'field' => 'stream',
+                  'type' => 'stream',
+                  'streamType' => 'product-list',
+                  'default' => NULL,
+                ),
+                2 => 
+                array (
+                  'label' => 'Link-Target',
+                  'field' => 'maxItems',
+                  'translatable' => false,
+                  'type' => 'number',
+                  'default' => 12,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+     'environment' => NULL,
+     'metaData' => 
+    array (
+      '_type' => 'Frontastic\\Backstage\\UserBundle\\Domain\\MetaData',
+      'author' => 'dev@frontastic.io',
+      'changed' => '2019-12-02T07:31:44+01:00',
+    ),
+     'isDeleted' => false,
+  )),
   'frontastic/boost/horizontal-spacer' => 
   Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic::__set_state(array(
      'tasticId' => 'ff7a8ea222d4623e0406a8870b000cbd',

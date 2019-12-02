@@ -26,13 +26,12 @@ class StreamService
     private $debug = false;
 
     private $countProperties = [
-        // From Apollo
-        'uni-product-slider' => 'productCount',
-        'uni-product-list' => 'maxItems',
-        'product-list' => 'maxItems',
-
-        // Boost Theme
-        'frontastic/boost/product-slider' => 'productCount',
+        'product-list' => [
+            // Boost Theme
+            'productCount',
+            // From Apollo
+            'maxItems',
+        ],
     ];
 
     /**
@@ -52,18 +51,45 @@ class StreamService
         $this->streamHandlers[$streamHandler->getType()] = $streamHandler;
     }
 
+    private function findUsageInConfiguration(Tastic $tastic, array $fields, array $configuration, array $usage): array
+    {
+        foreach ($fields as $field) {
+            if ($field['type'] === 'stream' &&
+                !empty($configuration[$field['field']])) {
+                $usage[$configuration[$field['field']]][] = null;
+
+                foreach ($this->countProperties[$field['streamType']] ?? [] as $countFieldName) {
+                    $usage[$configuration[$field['field']]][] = $configuration[$countFieldName] ?? null;
+                }
+            }
+
+            if ($field['type'] === 'group' &&
+                !empty($configuration[$field['field']]) &&
+                is_array($configuration[$field['field']])) {
+                foreach ($configuration[$field['field']] as $fieldConfiguration) {
+                    // Recurse into groups
+                    $usage = $this->findUsageInConfiguration(
+                        $tastic,
+                        $field['fields'],
+                        $fieldConfiguration,
+                        $usage
+                    );
+                }
+            }
+        }
+
+        return $usage;
+    }
+
     private function updateUsage(Tastic $tastic, array $schema, array $usage): array
     {
         foreach ($schema as $group) {
-            foreach ($group['fields'] as $field) {
-                if ($field['type'] === 'stream' &&
-                    !empty($tastic->configuration->{$field['field']})) {
-                    $usage[$tastic->configuration->{$field['field']}][] =
-                        isset($this->countProperties[$tastic->tasticType]) ?
-                            $tastic->configuration->{$this->countProperties[$tastic->tasticType]} :
-                            null;
-                }
-            }
+            $usage = $this->findUsageInConfiguration(
+                $tastic,
+                $group['fields'],
+                (array) $tastic->configuration,
+                $usage
+            );
         }
 
         return $usage;
