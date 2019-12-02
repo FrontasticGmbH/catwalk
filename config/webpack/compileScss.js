@@ -27,67 +27,66 @@ module.exports = (config, PRODUCTION, SERVER) => {
                  *
                  *  The second loader is for all other general SCSS processing.
                  *
-                 * */
+                 **/
                 {
                     test: /\.module\.s?css$/,
-                    oneOf: [
+                    use: [
+                        PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
                         {
-                            include: /(js)/,
-                            use: [
-                                PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
-                                {
-                                    loader: 'css-loader',
-                                    options: { modules: true, importLoaders: 1 },
-                                },
-                                {
-                                    loader: require.resolve('postcss-loader'),
-                                    options: {
-                                        ident: 'postcss',
-                                        plugins: () => {
-                                            return [require('postcss-flexbugs-fixes'), autoprefixer()]
-                                        },
-                                    },
-                                },
-                                {
-                                    // Resolve relative url() paths
-                                    loader: require.resolve('resolve-url-loader'),
-                                },
-                                {
-                                    // Compiles Sass to CSS
-                                    loader: require.resolve('sass-loader'),
-                                    options: {
-                                        sassOptions: (loaderContext) => {
-                                            return { includePaths: ['../paas/themes/frontastic/boost/src/scss'] }
-                                        },
-                                    },
-                                },
-                            ],
+                            loader: 'css-loader',
+                            options: { modules: true, importLoaders: 1 },
                         },
                         {
-                            use: [
-                                PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
-                                require.resolve('css-loader'),
-                                {
-                                    loader: require.resolve('postcss-loader'),
-                                    options: {
-                                        ident: 'postcss',
-                                        plugins: () => {
-                                            return [require('postcss-flexbugs-fixes'), autoprefixer()]
-                                        },
-                                    },
+                            loader: require.resolve('postcss-loader'),
+                            options: {
+                                ident: 'postcss',
+                                plugins: () => {
+                                    return [require('postcss-flexbugs-fixes'), autoprefixer()]
                                 },
-                                {
-                                    // Resolve relative url() paths
-                                    loader: require.resolve('resolve-url-loader'),
+                            },
+                        },
+                        {
+                            // Resolve relative url() paths
+                            loader: require.resolve('resolve-url-loader'),
+                        },
+                        {
+                            // Compiles Sass to CSS
+                            loader: require.resolve('sass-loader'),
+                            options: {
+                                sassOptions: (loaderContext) => {
+                                    return { includePaths: ['../paas/themes/frontastic/boost/src/scss'] }
                                 },
-                                {
-                                    // Compiles Sass to CSS
-                                    loader: require.resolve('sass-loader'),
-                                    options: {
-                                        sourceMap: true,
-                                    },
+                            },
+                        },
+                    ],
+                },
+                {
+                    test: /\.s?css$/,
+                    use: [
+                        PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
+                        {
+                            loader: 'css-loader',
+                            options: { modules: true, importLoaders: 1 },
+                        },
+                        {
+                            loader: require.resolve('postcss-loader'),
+                            options: {
+                                ident: 'postcss',
+                                plugins: () => {
+                                    return [require('postcss-flexbugs-fixes'), autoprefixer()]
                                 },
-                            ],
+                            },
+                        },
+                        {
+                            // Resolve relative url() paths
+                            loader: require.resolve('resolve-url-loader'),
+                        },
+                        {
+                            // Compiles Sass to CSS
+                            loader: require.resolve('sass-loader'),
+                            options: {
+                                sourceMap: true,
+                            },
                         },
                     ],
                 },
