@@ -5,11 +5,11 @@ const SERVER = false
 
 let config = require('./webpack.js')(PRODUCTION, SERVER)
 
-config = require('./webpack/namedModules.js')(config, PRODUCTION, SERVER)
-config = require('./webpack/buildStatistics.js')(config, PRODUCTION, SERVER)
-config = require('./webpack/manifest.js')(config, PRODUCTION, SERVER)
-config = require('./webpack/serviceWorker.js')(config, PRODUCTION, SERVER)
-config = require('./webpack/compileScss.js')(config, PRODUCTION, SERVER)
+config = require('./webpack/namedModules.js')(config)
+config = require('./webpack/buildStatistics.js')(config)
+config = require('./webpack/manifest.js')(config)
+config = require('./webpack/serviceWorker.js')(config)
+config = require('./webpack/extractCss.js')(config)
 
 config.optimization = {
     minimize: true,
@@ -41,7 +41,7 @@ config.optimization = {
 
 try {
     let projectWebpack = require(paths.appSrc + '/../config/webpack.browser.production.js')
-    config = projectWebpack(config, PRODUCTION, SERVER)
+    config = projectWebpack(config)
 } catch (e) {
     console.info('No build specific project webpack extension found in config/webpack.browser.production.js – skip.')
 }

@@ -168,8 +168,8 @@ module.exports = (PRODUCTION, SERVER) => {
             },
     }
 
-    config = require('./webpack/babel.js')(config, PRODUCTION, SERVER)
-    config = require('./webpack/svgr.js')(config, PRODUCTION, SERVER)
+    config = require('./webpack/babel.js')(config)
+    config = require('./webpack/svgr.js')(config)
 
     try {
         let projectWebpack = require(paths.appSrc + '/../config/webpack.js')
