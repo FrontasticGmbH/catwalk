@@ -30,6 +30,13 @@ export default {
         }
     },
     
+    header: {
+        search: 'Search',
+        myAccount: 'My account',
+        wishlist: 'Wishlist', 
+        cart: 'Cart',
+
+    },
     footer: {
         contact: 'Contact',
         serviceHour: '24 hour service',
@@ -81,6 +88,7 @@ export default {
     quantityProduct: 'Quantity:',
     inCartProduct: 'In the cart',
     back: 'Back',
+
 
     
     

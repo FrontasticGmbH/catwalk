@@ -6,6 +6,7 @@ export default {
         vouchers: 'Gutscheincodes',
         logout: 'Abmelden',
         new_wishlist: 'Neuer Wunschzettel',
+
         message: {
             registered: 'Anmeldung erfolgreich – wir haben Ihnen eine E-Mail geschickt mit der Sie Ihren Account aktivieren können',
             logout: 'Erfolgreich abgemeldet',
@@ -69,6 +70,15 @@ export default {
     symfony: {
         notVerified: 'Login fehlgeschlagen. Ihre E-Mail-Adresse wurde nocht nicht bestätigt. Bitte prüfen Sie Ihren Posteingang',
         invalid: 'Login fehlgeschlagen. E-Mail oder Passwort falsch',
+    },
+
+    header: {
+        search: 'Suche',
+        myAccount: 'Mein konto',
+        wishlist: 'Wunschliste',
+        cart: 'Warenkorb', 
+
+
     },
     footer: {
         contact: 'Kontakt',
