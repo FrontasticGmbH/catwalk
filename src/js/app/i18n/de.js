@@ -51,4 +51,7 @@ export default {
         invalid: 'Login fehlgeschlagen. E-Mail oder Passwort falsch',
     },
     deleteItem: 'Element löschen',
+
+    //Sanja
+    reviews: "Bewertungen"
 }
