@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Scrollbars } from 'react-custom-scrollbars'
 import _ from 'lodash'
 import { ConfigurationSchema } from 'frontastic-common'
 
-import Entity from './app/entity'
 import emptyEntity from './helper/emptyEntity'
 import Loading from './app/loading'
 import MetaData from './node/metaData'
@@ -15,48 +13,9 @@ import Page from './page/page'
 
 import configurationResolver from './app/configurationResolver'
 import schemas from './schemas'
-import { ScrollContext } from './app/scrollContext'
+import pageSelector from './helper/pageSelector'
 
 class Node extends Component {
-    scrollable = null
-
-    scrollPositions = new Map()
-
-    getScrollPosition (key) {
-        if (!key) {
-            return null
-        }
-
-        return this.scrollPositions.get(key) || null
-    }
-
-    setScrollPosition (key, scrollPosition) {
-        if (!key) {
-            return
-        }
-        return this.scrollPositions.set(key, scrollPosition)
-    }
-
-    /**
-     * Discards any remembered scroll psoition for the current page
-     */
-    forceScrollToTop = (key) => {
-        this.setScrollPosition(key, 0)
-        window.requestAnimationFrame(() => {
-            this.scrollable.scrollTop(0)
-        })
-    }
-
-    componentDidUpdate (prevProps) {
-        if (this.scrollable && (this.props.viewKey !== prevProps.viewKey)) {
-            let scrollTop = this.getScrollPosition(this.props.viewKey) || 0
-
-            window.requestAnimationFrame(() => {
-                this.scrollable.scrollTop(scrollTop)
-            })
-        }
-    }
-
     render () {
         if (!this.props.node.data || !this.props.tastics.isComplete()) {
             return <Loading large entity={this.props.tastics} />
@@ -76,32 +35,20 @@ class Node extends Component {
 
         return (<div className='s-node'>
             {this.props.tastics.isComplete() ?
-                <Scrollbars
-                    autoHide
-                    style={{ height: '100vh', width: '100vw' }}
-                    id='scroll-container'
-                    ref={(element) => {
-                        this.scrollable = element
-                    }}
-                    onScrollStop={(event) => {
-                        this.setScrollPosition(this.props.viewKey, this.scrollable.getScrollTop())
-                    }}
-                >
+                <Fragment>
                     <MetaData
                         node={nodeData}
                         page={this.props.page.data || {}}
                         data={this.props.data.data || {}}
                     />
                     {this.props.node.data.error && <Markdown text={this.props.node.data.error} />}
-                    <ScrollContext.Provider value={{ forceScrollToTop: this.forceScrollToTop }}>
-                        <Page
-                            node={nodeData}
-                            page={this.props.page.data || {}}
-                            data={this.props.data.data || {}}
-                            tastics={this.props.tastics.data}
-                        />
-                    </ScrollContext.Provider>
-                </Scrollbars>
+                    <Page
+                        node={nodeData}
+                        page={this.props.page.data || {}}
+                        data={this.props.data.data || {}}
+                        tastics={this.props.tastics.data}
+                    />
+                </Fragment>
             : null}
             <Loading large entity={this.props.data} />
         </div>)
@@ -109,7 +56,6 @@ class Node extends Component {
 }
 
 Node.propTypes = {
-    viewKey: PropTypes.string.isRequired,
     node: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     page: PropTypes.object.isRequired,
@@ -121,24 +67,9 @@ Node.defaultProps = {
 
 export default connect(
     (globalState, props) => {
-        let page = null
-        if (globalState.node.pages[globalState.node.currentNodeId] &&
-             globalState.node.nodeData[globalState.node.currentCacheKey]) {
-            page = globalState.node.pages[globalState.node.currentNodeId]
-        } else if (globalState.node.last.page) {
-            page = new Entity({
-                ...globalState.node.last.page.data,
-                pageId: 'partial',
-                regions: {
-                    head: globalState.node.last.page.data.regions.head,
-                    main: { regionId: 'main' },
-                    footer: { regionId: 'footer' },
-                },
-            })
-        }
+        const page = pageSelector(globalState)
 
         return {
-            viewKey: globalState.node.currentCacheKey + '-' + (page && page.data && page.data.pageId),
             node: globalState.node.nodes[globalState.node.currentNodeId] ||
                 globalState.node.last.node || emptyEntity,
             data: globalState.node.nodeData[globalState.node.currentCacheKey] ||
