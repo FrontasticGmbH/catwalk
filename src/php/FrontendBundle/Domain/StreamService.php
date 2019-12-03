@@ -6,6 +6,7 @@ use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class StreamService
@@ -76,15 +77,17 @@ class StreamService
         $this->streamOptimizers[$streamOptimizer->getType()] = $streamOptimizer;
     }
 
-    private function findUsageInConfiguration(array $fields, array $configuration, array $usage): array
+    private function findUsageInConfiguration(Tastic $tastic, array $fields, array $configuration, array $usage): array
     {
         foreach ($fields as $field) {
             if ($field['type'] === 'stream' &&
                 !empty($configuration[$field['field']])) {
-                $usage[$configuration[$field['field']]][] = null;
+                $usage[$configuration[$field['field']]]['count'][] = null;
+                $usage[$configuration[$field['field']]]['tastics'][] = $tastic->tasticType;
 
                 foreach ($this->countProperties[$field['streamType']] ?? [] as $countFieldName) {
-                    $usage[$configuration[$field['field']]][] = $configuration[$countFieldName] ?? null;
+                    $usage[$configuration[$field['field']]]['count'][] = $configuration[$countFieldName] ?? null;
+                    $usage[$configuration[$field['field']]]['tastics'][] = $tastic->tasticType;
                 }
             }
 
@@ -94,6 +97,7 @@ class StreamService
                 foreach ($configuration[$field['field']] as $fieldConfiguration) {
                     // Recurse into groups
                     $usage = $this->findUsageInConfiguration(
+                        $tastic,
                         $field['fields'],
                         $fieldConfiguration,
                         $usage
@@ -109,6 +113,7 @@ class StreamService
     {
         foreach ($schema as $group) {
             $usage = $this->findUsageInConfiguration(
+                $tastic,
                 $group['fields'],
                 (array) $tastic->configuration,
                 $usage
@@ -136,7 +141,10 @@ class StreamService
             }
         }
 
-        $usage = array_map('max', $usage);
+        foreach ($usage as $streamId => $usages) {
+            $usage[$streamId]['count'] = max($usages['count']);
+            $usage[$streamId]['tastics'] = array_values(array_filter(array_unique($usages['tastics'])));
+        }
 
         $streams = [];
         foreach ($node->streams ?? [] as $stream) {
@@ -144,9 +152,15 @@ class StreamService
                 continue;
             }
 
+            $stream['tastics'] = array_map(
+                function (string $tasticType) use ($tasticMap): TasticModel {
+                    return $tasticMap[$tasticType];
+                },
+                $usage[$stream['streamId']]['tastics']
+            );
             $streams[] = $stream;
 
-            if (!$usage[$stream['streamId']]) {
+            if (!$usage[$stream['streamId']]['count']) {
                 // No count definition found for stream
                 continue;
             }
@@ -154,7 +168,7 @@ class StreamService
             if (!isset($parameterMap[$stream['streamId']])) {
                 $parameterMap[$stream['streamId']] = [];
             }
-            $parameterMap[$stream['streamId']]['limit'] = $usage[$stream['streamId']];
+            $parameterMap[$stream['streamId']]['limit'] = $usage[$stream['streamId']]['count'];
         }
 
         return $streams;
