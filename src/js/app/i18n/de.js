@@ -65,9 +65,9 @@ export default {
         login: {
             emailAddress: 'E-Mail Address',
             password: 'Passwort',
-            login: 'Anmelden'
+            login: 'Anmelden',
         },
-        register: {     
+        register: {
             joinUs: 'Melde dich jetzt an',
             genderMale: 'Herr',
             genderFemale: 'Frau',
@@ -75,7 +75,7 @@ export default {
             lastName: 'Nachname',
             tcAgree: 'Ja, ich stimme den AGB und den Datenschutzbestimmungen von frontastic zu.',
             registerNow: 'Jetzt registrieren',
-            createUser: 'Benutzerkonto erstellen'
+            createUser: 'Benutzerkonto erstellen',
 
         },
         password: {
@@ -117,7 +117,7 @@ export default {
         search: 'Suche',
         myAccount: 'Mein konto',
         wishlist: 'Wunschliste',
-        cart: 'Warenkorb', 
+        cart: 'Warenkorb',
     },
     footer: {
         contact: 'Kontakt',
@@ -138,7 +138,7 @@ export default {
         jobs: 'Jobs',
         tc: 'AGB',
         imprint: 'Impressum',
-        privacy:'Datenschutz',
+        privacy: 'Datenschutz',
         deliveryHours: 'Lieferung in 24 Stunden',
         invoice: 'Kauf auf Rechnung',
         freeShipping: 'Kostenloser Versand & Rückversand',
@@ -157,7 +157,7 @@ export default {
         emptyCart: 'Der Warenkorb ist noch leer.',
         registerNow: 'Jetzt anmelden',
 
-    }, 
+    },
     order: {
         myOrder: 'Meine Bestellung',
         number: 'Bestellnummer:',
@@ -176,14 +176,14 @@ export default {
         returnProducts: 'Produkte zurücksenden',
         lastOrder: 'Letzte Bestellung',
         viewOrder: 'Bestellung ansehen',
-        
+
     },
 
     deleteItem: 'Element löschen',
     exlusiveDiscounts: 'Exklusive Rabatte',
     becomeFamily: 'Werde Teil unserer kleinen Familie',
-    submit: 'Absenden', 
-    submitAgree: "Mit dem Klicken auf ‚Absenden’ stimmst du zu, dass wir deine Informationen im Rahmen unserer Datenschutzbestimmungen verarbeiten.",
+    submit: 'Absenden',
+    submitAgree: 'Mit dem Klicken auf ‚Absenden’ stimmst du zu, dass wir deine Informationen im Rahmen unserer Datenschutzbestimmungen verarbeiten.',
     yourEmail: 'Deine E-Mail Adresse',
     colorProduct: 'Farbe:',
     sizeProduct: 'Größe',

@@ -7,7 +7,7 @@ export default {
         addresses: 'Adresses',
         help: 'Help',
         logout: 'Logout',
-         // Klaudija
+        // Klaudija
         newHere: "I'm new here",
         freeAccount: 'Free user account',
         save: 'Save',
@@ -38,7 +38,7 @@ export default {
             current: 'Current E-mail address',
             example: 'John.Doe@gmail.com',
             newEmail: 'New E-mail address',
-            confirmNew: 'Confirm new E-mail address'
+            confirmNew: 'Confirm new E-mail address',
 
         },
         login: {
@@ -47,14 +47,14 @@ export default {
             login: 'Login',
         },
         register: {
-            joinUs: 'Join Us', //check if correct
+            joinUs: 'Join Us', // check if correct
             genderMale: 'Mr.',
             genderFemale: 'Mrs.',
             firstName: 'First Name',
             lastName: 'Last Name',
             tcAgree: 'Yes, I agree to the terms and conditions and privacy policy of frontastic.',
             registerNow: 'Register Now',
-            createUser: 'Create user account'
+            createUser: 'Create user account',
         },
         password: {
             title: 'Change your password',
@@ -68,13 +68,13 @@ export default {
             name: 'Name:',
             gender: 'Gender:',
         },
- 
+
     },
-    
+
     header: {
         search: 'Search',
         myAccount: 'My account',
-        wishlist: 'Wishlist', 
+        wishlist: 'Wishlist',
         cart: 'Cart',
     },
     footer: {
@@ -96,24 +96,24 @@ export default {
         jobs: 'Jobs',
         tc: 'T&Cs',
         imprint: 'Imprint',
-        privacy:'Privacy',
+        privacy: 'Privacy',
         deliveryHours: 'Delivery within 24 hours',
-        invoice: 'Purchase on invoice', //check if correct
+        invoice: 'Purchase on invoice', // check if correct
         freeShipping: 'Free Shipping & Returns',
     },
     cart: {
         myCart: 'My Cart',
         paymentMethods: 'Payment methods',
-        totalSum: 'Total sum', //check if correct
+        totalSum: 'Total sum', // check if correct
         enterVouchers: 'You can enter voucher codes in the last step of the order process.',
         checkout: 'To Checkout',
         subtotal: 'Subtotal',
         shippingCosts: 'Shipping costs',
         gratis: 'gratis',
-        totalAmount: 'Total amount', //check if correct
+        totalAmount: 'Total amount', // check if correct
         inclVat: 'incl.VAT',
         emptyCart: 'Your shopping cart is empty.',
-        registerNow: 'Register now', //check if correct
+        registerNow: 'Register now', // check if correct
 
     },
     order: {
@@ -132,10 +132,10 @@ export default {
         paymentReason: 'Reason for payment:',
         total: 'Total',
         returnProducts: 'Return Products',
-        lastOrder: 'Last order', 
+        lastOrder: 'Last order',
         viewOrder: 'View order',
         itemNum: '8th Item',
-        
+
     },
 
     deleteItem: 'Delete Item',
@@ -152,7 +152,7 @@ export default {
     titleBoost: 'Boost theme',
     profile: 'Profile',
     loveIt: 'love-it-alternate',
-    
+
     // Sanja
 
 }
