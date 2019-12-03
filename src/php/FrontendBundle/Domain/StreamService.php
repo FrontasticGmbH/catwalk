@@ -21,6 +21,11 @@ class StreamService
     private $streamHandlers = [];
 
     /**
+     * @var StreamOptimizer[]
+     */
+    private $streamOptimizers = [];
+
+    /**
      * @var bool
      */
     private $debug = false;
@@ -49,11 +54,14 @@ class StreamService
     /**
      * @param StreamHandler[]
      */
-    public function __construct(TasticService $tasticService, iterable $streamHandlers = [], bool $debug = false)
+    public function __construct(TasticService $tasticService, iterable $streamHandlers = [], iterable $streamOptimizers = [], bool $debug = false)
     {
         $this->tasticService = $tasticService;
         foreach ($streamHandlers as $streamHandler) {
             $this->addStreamHandler($streamHandler);
+        }
+        foreach ($streamOptimizers as $streamOptimizer) {
+            $this->addStreamOptimizer($streamOptimizer);
         }
         $this->debug = $debug;
     }
@@ -61,6 +69,11 @@ class StreamService
     public function addStreamHandler(StreamHandler $streamHandler)
     {
         $this->streamHandlers[$streamHandler->getType()] = $streamHandler;
+    }
+
+    public function addStreamOptimizer(StreamOptimizer $streamOptimizer)
+    {
+        $this->streamOptimizers[$streamOptimizer->getType()] = $streamOptimizer;
     }
 
     private function findUsageInConfiguration(array $fields, array $configuration, array $usage): array
@@ -162,13 +175,20 @@ class StreamService
         }
 
         $data = [];
+        $streamContext = new StreamContext([
+            'node' => $node,
+            'page' => $page,
+            'context' => $context,
+        ]);
         foreach ($streams as $stream) {
             $stream = new Stream($stream);
+            $streamContext->parameters = (isset($parameterMap[$stream->streamId]) ? $parameterMap[$stream->streamId] : []);
+
             $data[$stream->streamId] = $this
                 ->handle(
                     $stream,
                     $context,
-                    (isset($parameterMap[$stream->streamId]) ? $parameterMap[$stream->streamId] : [])
+                    $streamContext->parameters
                 )
                 ->otherwise(function (\Throwable $exception) {
                     $errorResult = [
@@ -182,6 +202,15 @@ class StreamService
                     }
                     return $errorResult;
                 });
+
+            $streamContext->usingTastics = $stream->tastics;
+            foreach ($this->streamOptimizers as $streamOptimizer) {
+                $data[$stream->streamId] = $streamOptimizer->optimizeStreamData(
+                    $stream,
+                    $streamContext,
+                    $data[$stream->streamId]
+                );
+            }
         }
 
         return Promise\unwrap($data);
