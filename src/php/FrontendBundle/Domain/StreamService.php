@@ -55,8 +55,12 @@ class StreamService
     /**
      * @param StreamHandler[]
      */
-    public function __construct(TasticService $tasticService, iterable $streamHandlers = [], iterable $streamOptimizers = [], bool $debug = false)
-    {
+    public function __construct(
+        TasticService $tasticService,
+        iterable $streamHandlers = [],
+        iterable $streamOptimizers = [],
+        bool $debug = false
+    ) {
         $this->tasticService = $tasticService;
         foreach ($streamHandlers as $streamHandler) {
             $this->addStreamHandler($streamHandler);
@@ -196,7 +200,9 @@ class StreamService
         ]);
         foreach ($streams as $stream) {
             $stream = new Stream($stream);
-            $streamContext->parameters = (isset($parameterMap[$stream->streamId]) ? $parameterMap[$stream->streamId] : []);
+            $streamContext->parameters = isset($parameterMap[$stream->streamId]) ?
+                $parameterMap[$stream->streamId] :
+                [];
 
             $data[$stream->streamId] = $this
                 ->handle(
@@ -216,7 +222,6 @@ class StreamService
                     }
                     return $errorResult;
                 });
-
         }
 
         $data = Promise\unwrap($data);
