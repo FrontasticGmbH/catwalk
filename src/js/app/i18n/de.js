@@ -55,4 +55,5 @@ export default {
     // Sanja
     reviews: 'Bewertungen',
     writeReview: 'Bewertung abgeben',
+    ratingQuestion: 'Dieses Produkt hat Bewertungen. Möchten Sie das Produkt bewerten?',
 }

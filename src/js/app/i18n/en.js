@@ -14,5 +14,5 @@ export default {
     // Sanja
     reviews: 'Reviews',
     writeReview: 'Write a reivew',
-
+    ratingQuestion: 'This product has reviews. Would you like to review this product?',
 }
