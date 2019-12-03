@@ -8,7 +8,7 @@ module.exports = (config) => {
             plugins: [
                 // Anlyze bundle size
                 new BundleAnalyzerPlugin({
-                    reportFilename: 'build/bundleSize.html',
+                    reportFilename: 'bundleSize.html',
                     analyzerMode: 'static',
                 }),
 
