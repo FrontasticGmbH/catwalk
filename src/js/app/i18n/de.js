@@ -52,7 +52,7 @@ export default {
     },
     deleteItem: 'Element löschen',
 
-    //Sanja
-    reviews: "Bewertungen",
-    writeReview: "Bewertung abgeben"
+    // Sanja
+    reviews: 'Bewertungen',
+    writeReview: 'Bewertung abgeben',
 }

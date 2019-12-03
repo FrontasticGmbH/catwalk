@@ -12,7 +12,7 @@ export default {
     // Klaudija
 
     // Sanja
-    reviews: "Reviews",
-    writeReview: "Write a reivew"
+    reviews: 'Reviews',
+    writeReview: 'Write a reivew',
 
 }
