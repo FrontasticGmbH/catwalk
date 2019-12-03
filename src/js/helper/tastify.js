@@ -1,5 +1,4 @@
 import React from 'react'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 /**
@@ -13,6 +12,22 @@ const createConnectorChainForConfiguration = (configuration) => {
         connectorChain.push((state) => {
             return {
                 context: state.app.context,
+            }
+        })
+    }
+
+    if (configuration.connect.deviceType) {
+        connectorChain.push((state) => {
+            return {
+                deviceType: state.renderContext.deviceType,
+            }
+        })
+    }
+
+    if (configuration.connect.isServerSideRendering) {
+        connectorChain.push((state) => {
+            return {
+                isServerSideRendering: state.renderContext.serverSideRendering,
             }
         })
     }
@@ -58,6 +73,8 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
  * @param {boolean} configuration.connect.page - Whether to pass information about the current page.
  * @param {boolean} configuration.connect.tastic - Whether to pass the schema of the current tastic. Rarely needed.
  * @param {boolean} configuration.connect.context - Whether to pass the frontastic context object.
+ * @param {boolean} configuration.connect.deviceType - Whether to pass the deviceType
+ * @param {boolean} configuration.connect.isServerSideRendering - Whether we should pass a flag `isServerSideRendering`
  */
 const tastify = (configuration = {}) => {
     return (WrappedComponent) => {
@@ -80,8 +97,18 @@ const tastify = (configuration = {}) => {
         if (connectorChain.length === 0) {
             return Tastic
         }
+
         return connect(
-            compose(...connectorChain)
+            (state) => {
+                let props = {};
+                connectorChain.forEach(connector => {
+                    props = {
+                        ...props,
+                        ...connector(state)
+                    }
+                })
+                return props;
+            }
         )(Tastic)
     }
 }
