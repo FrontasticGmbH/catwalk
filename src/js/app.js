@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import _ from 'lodash'
 
 import app from './app/app'
 import store from './app/store'
@@ -46,8 +47,20 @@ export default (mountNode, dataNode, tastics = null) => {
             data: data,
         })
         store.dispatch({
-            type: 'Frontastic.RenderContext.ClientSideDetected'
+            type: 'Frontastic.RenderContext.ClientSideDetected',
         })
+        const dispatchViewportDimensions = () => {
+            store.dispatch({
+                type: 'Frontastic.RenderContext.ViewportDimensionChanged',
+                viewportDimension: {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                },
+            })
+        }
+
+        dispatchViewportDimensions();
+        window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
 
         let context = new Context(data)
 
