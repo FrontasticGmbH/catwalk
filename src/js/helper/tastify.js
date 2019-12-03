@@ -2,37 +2,59 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 /**
- * Passes additional information from redux to the tastic.
- * This is just a helper to remove the dependency to redux from *some* tastics.
+ * An object of possible selectors for tastify()
+ * 
+ * The key of the selector is being used as the prop name and also as the `configuration.connect`.
+ * 
+ * This means, if `configuration.connect.context` is set, the function below with the key `context` is being executed,
+ * and the result will be passed in the `context` prop.
  */
-const createConnectorChainForConfiguration = (configuration) => {
-    const connectorChain = []
+const availableSelectors = {
+    context: (state) => {
+        return state.app.context
+    },
+    deviceType: (state) => {
+        return state.renderContext.deviceType
+    },
+    isServerSideRendering: (state) => {
+        return state.renderContext.serverSideRendering
+    },
+}
 
-    if (configuration.connect.context) {
-        connectorChain.push((state) => {
-            return {
-                context: state.app.context,
-            }
-        })
+/**
+ * Connects the tastic to the redux store, if necessary
+ * 
+ * It uses the above availableSelectors object and checks which of those selectors are enabled in the configuration.
+ * If no selector is active, the component will not be connected to redux at all.
+ */
+const connectedTasticForConfiguration = (Tastic, configuration) => {
+    const selectors = {}
+
+    Object.keys(availableSelectors).forEach(selectorName => {
+        if (configuration.connect[selectorName]) {
+            selectors[selectorName] = availableSelectors[selectorName]
+        }
+    })
+
+
+    if (Object.keys(selectors).length === 0 ) {
+        // Apparently, no selector should be used, thus we do not need to connect the tastic to redux at all.
+        return Tastic
     }
 
-    if (configuration.connect.deviceType) {
-        connectorChain.push((state) => {
-            return {
-                deviceType: state.renderContext.deviceType,
-            }
-        })
-    }
+    return connect(
+        (state) => {
+            const props = {}
 
-    if (configuration.connect.isServerSideRendering) {
-        connectorChain.push((state) => {
-            return {
-                isServerSideRendering: state.renderContext.serverSideRendering,
-            }
-        })
-    }
+            Object.keys(selectors).forEach(selectorName => {
+                if (configuration.connect[selectorName]) {
+                    props[selectorName] = selectors[selectorName](state)
+                }
+            })
 
-    return connectorChain
+            return props
+        }
+    )(Tastic)
 }
 
 /**
@@ -82,7 +104,6 @@ const tastify = (configuration = {}) => {
             configuration.connect = {}
         }
 
-        const connectorChain = createConnectorChainForConfiguration(configuration)
         class Tastic extends React.Component {
             render () {
                 const props = filterPropsForConfiguration(configuration, this.props)
@@ -93,23 +114,7 @@ const tastify = (configuration = {}) => {
 
         Tastic.displayName = `Tastic(${getDisplayName(WrappedComponent)})`
 
-        // This tastic needs nothing from redux => not connecting it at all.
-        if (connectorChain.length === 0) {
-            return Tastic
-        }
-
-        return connect(
-            (state) => {
-                let props = {};
-                connectorChain.forEach(connector => {
-                    props = {
-                        ...props,
-                        ...connector(state)
-                    }
-                })
-                return props;
-            }
-        )(Tastic)
+        return connectedTasticForConfiguration(Tastic, configuration)
     }
 }
 
