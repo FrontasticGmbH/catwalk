@@ -65,6 +65,14 @@ class AppKernel extends \Frontastic\Common\Kernel
         return static::getBaseDir();
     }
 
+    /**
+     * Symfony uses reflection and AppKernel class file otherwise.
+     */
+    public function getRootDir()
+    {
+        return static::getBaseDir();
+    }
+
     public static function getAdditionalConfigFiles()
     {
         // Parent already loads config from base dir, load catwalk in addition
