@@ -429,11 +429,20 @@
         <service id="Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\ArrayContains">
             <tag name="rulerz.operator" target="native" operator="contains" inline="true" />
         </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\CategoriesContain">
             <argument type="service" id="frontastic.catwalk.product_api" />
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
 
             <tag name="rulerz.operator" target="native" operator="categoriescontain" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer\MinimalProduct">
+            <argument type="collection">
+                <argument>designer</argument>
+            </argument>
+
+            <tag name="frontend.streamOptimizer" />
         </service>
     </services>
 </container>
