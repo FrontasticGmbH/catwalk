@@ -20,7 +20,7 @@ class MinimalProduct implements StreamOptimizer
 
     public function __construct(array $attributes = [])
     {
-        $this->attributes = $attributes;
+        $this->attributes = array_flip($attributes);
     }
 
     public function optimizeStreamData(Stream $stream, StreamContext $streamContext, $data)
@@ -41,7 +41,7 @@ class MinimalProduct implements StreamOptimizer
                         'images' => $product->variants[0]->images,
                         'attributes' => array_intersect_key(
                             $product->variants[0]->attributes,
-                            array_flip($this->attributes)
+                            $this->attributes
                         ),
                     ])
                 ]
