@@ -2,7 +2,8 @@ const initialState = {
     serverSideRendering: true,
     viewportDimension: undefined,
     userAgent: undefined,
-    deviceType: 'mobile'
+    deviceType: 'mobile',
+    breakpoints: undefined,
 }
 
 const detectingReducer = (state = initialState, action) => {
@@ -22,16 +23,44 @@ const detectingReducer = (state = initialState, action) => {
                 ...state,
                 viewportDimension: action.viewportDimension,
             })
+        case 'ApiBundle.Api.context.success':
+            if (!action.data.project.data.layout) {
+                // eslint-disable-next-line no-console
+                console.warn('Frontastic needs the breakpoints configured in project.yml')
+                return state
+            }
+            return {
+                ...state,
+                breakpoints: action.data.project.data.layout.breakpoints,
+            }
         default:
             return state
     }
 }
 
 const detectDeviceTypeByRenderContext = (renderContext) => {
-    if (renderContext.viewportDimension) {
-        // its a kind of magic
-        // hier brauchen wir die breakpoints vong SCSS
-        return 'magic'
+    if (renderContext.viewportDimension && renderContext.breakpoints) {
+        const breakpointsSortedByMaxWidth = renderContext.breakpoints.map(breakpoint => {
+            if(breakpoint.maxWidth) {
+                return breakpoint
+            }
+            return {
+                ...breakpoint,
+                maxWidth: Infinity,
+            }
+        }).sort((a, b) => {
+            return a.maxWidth - b.maxWidth
+        })
+
+        const possibleBreakpoints = breakpointsSortedByMaxWidth.filter(breakpoint => {
+            return breakpoint.maxWidth > renderContext.viewportDimension.width
+        })
+
+        if (possibleBreakpoints.length > 0) {
+            return possibleBreakpoints[0].identifier;
+        }
+
+        console.warn('No breakpoint matched. Did you forget setting a default breakpoint without max-width?')
     }
 
     if (renderContext.userAgent) {
