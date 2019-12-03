@@ -25,6 +25,18 @@ class StreamService
      */
     private $debug = false;
 
+    /**
+     * This property is a workaround
+     *
+     * We want to have the count configured per stream using tastic directly in
+     * backstage which will remove the necessity of adding a custom count
+     * property to the tastic itself. Until we have that this is an include
+     * list of properties which we use for the count until then. If customers
+     * come up with additional count properties in the mean time, we should add
+     * them here to enable this performance optimization for them, too.
+     *
+     * @var [string=>string[]]
+     */
     private $countProperties = [
         'product-list' => [
             // Boost Theme
@@ -51,7 +63,7 @@ class StreamService
         $this->streamHandlers[$streamHandler->getType()] = $streamHandler;
     }
 
-    private function findUsageInConfiguration(Tastic $tastic, array $fields, array $configuration, array $usage): array
+    private function findUsageInConfiguration(array $fields, array $configuration, array $usage): array
     {
         foreach ($fields as $field) {
             if ($field['type'] === 'stream' &&
@@ -69,7 +81,6 @@ class StreamService
                 foreach ($configuration[$field['field']] as $fieldConfiguration) {
                     // Recurse into groups
                     $usage = $this->findUsageInConfiguration(
-                        $tastic,
                         $field['fields'],
                         $fieldConfiguration,
                         $usage
@@ -85,7 +96,6 @@ class StreamService
     {
         foreach ($schema as $group) {
             $usage = $this->findUsageInConfiguration(
-                $tastic,
                 $group['fields'],
                 (array) $tastic->configuration,
                 $usage
