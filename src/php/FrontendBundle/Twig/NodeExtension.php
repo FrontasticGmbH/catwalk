@@ -57,7 +57,7 @@ class NodeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
                         array_filter(
                             $request->attributes->all(),
                             function ($value, $key) {
-                                return $key[0] !== '_' && ($key !== 'nodeId') && is_string($value);
+                                return $key[0] !== '_' && is_string($value);
                             },
                             ARRAY_FILTER_USE_BOTH
                         )

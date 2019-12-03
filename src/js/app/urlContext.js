@@ -7,7 +7,7 @@ import _ from 'lodash'
  * class allows working with action and non-action specific parameters.
  */
 class UrlContext {
-    static parameterKeyFilter = /^(s|nocrawl|_.*)$/
+    static parameterKeyFilter = /^(s|nocrawl|_.*|nodeId)$/
 
     static getActionHash = (route) => {
         return route.route + '-' + JSON.stringify(UrlContext.getActionParameters(route.parameters))
