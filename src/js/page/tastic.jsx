@@ -55,12 +55,14 @@ const TasticWrapper = (props) => {
     }
     let Tastic = tastics[tastic.tasticType]
 
+    // Do not render the tastic if it was hidden for this device type
+    if (!tasticData[props.deviceType]) {
+        return null
+    }
+
     return (<ErrorBoundary isDebug={props.isDebug}>
         <div className={'e-tastic ' +
-                'e-tastic__' + tastic.tasticType + ' ' +
-                (tastic.schema.get('mobile') ? '' : 'e-tastic--hidden-hand ') +
-                (tastic.schema.get('tablet') ? '' : 'e-tastic--hidden-lap ') +
-                (tastic.schema.get('desktop') ? '' : 'e-tastic--hidden-desk ')
+                'e-tastic__' + tastic.tasticType
             }
             style={{
                 outline: (_.isEqual(tastic.tasticId, props.highlight) ? '2px dashed #d73964' : null),
@@ -78,6 +80,7 @@ TasticWrapper.propTypes = {
     data: PropTypes.object.isRequired,
     highlight: PropTypes.any,
     isDebug: PropTypes.bool,
+    deviceType: PropTypes.string.isRequired,
 }
 
 TasticWrapper.defaultProps = {
@@ -87,5 +90,6 @@ TasticWrapper.defaultProps = {
 export default connect((globalState) => {
     return {
         isDebug: !!(globalState.app.context && globalState.app.context.isDevelopment()),
+        deviceType: globalState.renderContext.deviceType,
     }
 })(TasticWrapper)
