@@ -53,5 +53,6 @@ export default {
     deleteItem: 'Element löschen',
 
     //Sanja
-    reviews: "Bewertungen"
+    reviews: "Bewertungen",
+    writeReview: "Bewertung abgeben"
 }
