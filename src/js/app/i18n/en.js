@@ -3,7 +3,7 @@ export default {
         greet: 'Hi, {name}!',
         orders: 'My orders',
         returns: 'Returns',
-        userInfo: 'User Info',
+        userInfo: 'User Details',
         addresses: 'Adresses',
         help: 'Help',
         logout: 'Logout',
@@ -12,26 +12,40 @@ export default {
         freeAccount: 'Free user account',
         save: 'Save',
         edit: 'Edit',
+        choose: 'Choose',
+        change: 'Change',
+        show: 'Zeigen',
+        cancel: 'Cancel',
 
         address: {
             newAddress: 'Add new address',
             residential: 'Residential address',
             standardBilling: 'Standard billing address',
             standardDelivery: 'Standard delivery address',
-        },
+            street: 'Street with Nr.',
+            zip: 'Zip Code',
+            location: 'Location',
+            hint: 'Hint for Address',
+            land: 'Land',
+            delivery: 'Delivery address',
+            billing: 'Billing address',
+            corresponds: 'Invoice address corresponds to delivery address',
+            invoiceAddress: 'Invoice address',
 
+        },
         eMailChange: {
             text: 'We will make sure that all emails from Boost are sent to your new email address.',
             current: 'Current E-mail address',
             example: 'John.Doe@gmail.com',
-        },
+            newEmail: 'New E-mail address',
+            confirmNew: 'Confirm new E-mail address'
 
+        },
         login: {
             emailAddress: 'E-Mail Address',
             password: 'Password',
             login: 'Login',
         },
-
         register: {
             joinUs: 'Join Us', //check if correct
             genderMale: 'Mr.',
@@ -41,7 +55,20 @@ export default {
             tcAgree: 'Yes, I agree to the terms and conditions and privacy policy of frontastic.',
             registerNow: 'Register Now',
             createUser: 'Create user account'
-        }
+        },
+        password: {
+            title: 'Change your password',
+            change: 'For your security, you can change your password at any time.',
+            current: 'Your current password',
+            new: 'New password',
+            confirmNew: 'Confirm new password',
+            old: 'Old password',
+        },
+        user: {
+            name: 'Name:',
+            gender: 'Gender:',
+        },
+ 
     },
     
     header: {
@@ -49,7 +76,6 @@ export default {
         myAccount: 'My account',
         wishlist: 'Wishlist', 
         cart: 'Cart',
-
     },
     footer: {
         contact: 'Contact',
@@ -74,7 +100,6 @@ export default {
         deliveryHours: 'Delivery within 24 hours',
         invoice: 'Purchase on invoice', //check if correct
         freeShipping: 'Free Shipping & Returns',
-
     },
     cart: {
         myCart: 'My Cart',
@@ -91,6 +116,28 @@ export default {
         registerNow: 'Register now', //check if correct
 
     },
+    order: {
+        myOrder: 'My Order',
+        number: 'Order number:',
+        date: 'Order date:',
+        paymentMethod: 'Payment method:',
+        invoice: 'Invoice',
+        cancelItem: 'Cancel item',
+        openOrder: 'Open amount for this order is 55,95 €.',
+        paymentDetails: 'Payment details',
+        payee: 'Payee:',
+        iban: 'IBAN:',
+        bic: 'BIC:',
+        bank: 'Bank:',
+        paymentReason: 'Reason for payment:',
+        total: 'Total',
+        returnProducts: 'Return Products',
+        lastOrder: 'Last order', 
+        viewOrder: 'View order',
+        itemNum: '8th Item',
+        
+    },
+
     deleteItem: 'Delete Item',
     exlusiveDiscounts: 'Exlusive discounts',
     becomeFamily: 'Become part of our little family',

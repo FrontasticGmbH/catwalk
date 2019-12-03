@@ -6,6 +6,19 @@ export default {
         vouchers: 'Gutscheincodes',
         logout: 'Abmelden',
         new_wishlist: 'Neuer Wunschzettel',
+        greet: 'Hallo, {name}!',
+        orders: 'Bestellungen',
+        returns: 'Rücksendungen',
+        userInfo: 'Benutzerdaten',
+        help: 'Hilfe',
+        newHere: 'Ich bin neu hier',
+        freeAccount: 'Kostenloses Benutzerkonto',
+        save: 'Speichern',
+        edit: 'Bearbeiten',
+        choose: 'Wählen',
+        change: 'Ändern',
+        show: 'Zeigen',
+        cancel: 'Storniert',
 
         message: {
             registered: 'Anmeldung erfolgreich – wir haben Ihnen eine E-Mail geschickt mit der Sie Ihren Account aktivieren können',
@@ -25,36 +38,35 @@ export default {
             confirmSuccess: 'Account ist bestätigt',
             confirmError: 'Account-Bestätigung ist leider fehlgeschlagen',
         },
-        greet: 'Hallo, {name}!',
-        orders: 'Bestellungen',
-        returns: 'Rücksendungen',
-        userInfo: 'Benutzerdaten',
-        help: 'Hilfe',
-        newHere: 'Ich bin neu hier',
-        freeAccount: 'Kostenloses Benutzerkonto',
-        save: 'Speichern',
-        edit: 'Bearbeiten',
-
         address: {
             newAddress: 'Neue Adresse hinzufügen',
             residential: 'Wohnanschrift',
             standardBilling: 'Standard-Rechnungsadresse',
             standardDelivery: 'Standard-Lieferadresse',
-        },
+            street: 'Straße mit Nr.',
+            zip: 'PLZ',
+            location: 'Ort',
+            hint: 'Hinweis zur Adresse',
+            land: 'Grundstück',
+            delivery: 'Lieferadresse',
+            billing: 'Rechnungsadresse',
+            corresponds: 'Rechnungsadresse entspricht Lieferanschrift',
+            invoiceAddress: 'Rechnungsadresse:',
 
+        },
         eMailChange: {
             text: 'Wir stellen sicher, dass alle E-Mails von Boost an deine neue E-Mail-Adresse geschickt werden.',
             current: 'Aktuelle E-Mail-Adresse:',
             example: 'John.Doe@gmail.com',
+            newEmail: 'Neue E-Mail-Adresse',
+            confirmNew: 'Neue E-Mail-Adresse bestätigen',
 
         },
-
         login: {
             emailAddress: 'E-Mail Address',
             password: 'Passwort',
             login: 'Anmelden'
         },
-
         register: {     
             joinUs: 'Melde dich jetzt an',
             genderMale: 'Herr',
@@ -65,7 +77,21 @@ export default {
             registerNow: 'Jetzt registrieren',
             createUser: 'Benutzerkonto erstellen'
 
-        }
+        },
+        password: {
+            title: 'Passwort ändern',
+            change: 'Zu deiner Sicherheit kannst du das Passwort jederzeit ändern.',
+            current: 'Aktuelles Passwort',
+            new: 'Neues Passwort',
+            confirmNew: 'Neues Passwort bestätigen',
+            old: 'Altes Passwort',
+        },
+
+        user: {
+            name: 'Name:',
+            gender: 'Geschlecht:',
+        },
+
     },
     commercetools: {
         DiscountCodeNonApplicable: 'Der Gutscheincode {discountCode} konnte nicht gefunden werden',
@@ -87,14 +113,12 @@ export default {
         notVerified: 'Login fehlgeschlagen. Ihre E-Mail-Adresse wurde nocht nicht bestätigt. Bitte prüfen Sie Ihren Posteingang',
         invalid: 'Login fehlgeschlagen. E-Mail oder Passwort falsch',
     },
-
     header: {
         search: 'Suche',
         myAccount: 'Mein konto',
         wishlist: 'Wunschliste',
         cart: 'Warenkorb', 
     },
-
     footer: {
         contact: 'Kontakt',
         serviceHour: '24 Stunden Service',
@@ -119,7 +143,6 @@ export default {
         invoice: 'Kauf auf Rechnung',
         freeShipping: 'Kostenloser Versand & Rückversand',
     },
-
     cart: {
         myCart: 'Mein Warenkorb',
         paymentMethods: 'Bezahlarten',
@@ -135,6 +158,26 @@ export default {
         registerNow: 'Jetzt anmelden',
 
     }, 
+    order: {
+        myOrder: 'Meine Bestellung',
+        number: 'Bestellnummer:',
+        date: 'Bestelldatum:',
+        paymentMethod: 'Zahlungsart:',
+        invoice: 'Rechnung',
+        cancelItem: 'Artikel stornieren',
+        openOrder: 'Offener Betrag für diese Bestellung von 55,95 €',
+        paymentDetails: 'Details zur Zahlun',
+        payee: 'Zahlungsempfänger:',
+        iban: 'IBAN:',
+        bic: 'BIC:',
+        bank: 'Bank:',
+        paymentReason: 'Verwendungszweck:',
+        total: 'Total',
+        returnProducts: 'Produkte zurücksenden',
+        lastOrder: 'Letzte Bestellung',
+        viewOrder: 'Bestellung ansehen',
+        
+    },
 
     deleteItem: 'Element löschen',
     exlusiveDiscounts: 'Exklusive Rabatte',
