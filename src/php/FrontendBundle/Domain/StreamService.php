@@ -74,7 +74,7 @@ class StreamService
 
     public function addStreamOptimizer(StreamOptimizer $streamOptimizer)
     {
-        $this->streamOptimizers[$streamOptimizer->getType()] = $streamOptimizer;
+        $this->streamOptimizers[] = $streamOptimizer;
     }
 
     private function findUsageInConfiguration(Tastic $tastic, array $fields, array $configuration, array $usage): array
@@ -217,8 +217,13 @@ class StreamService
                     return $errorResult;
                 });
 
+        }
+
+        $data = Promise\unwrap($data);
+        foreach ($streams as $stream) {
             $streamContext->usingTastics = $stream->tastics;
             foreach ($this->streamOptimizers as $streamOptimizer) {
+                $stream = new Stream($stream);
                 $data[$stream->streamId] = $streamOptimizer->optimizeStreamData(
                     $stream,
                     $streamContext,
@@ -227,7 +232,7 @@ class StreamService
             }
         }
 
-        return Promise\unwrap($data);
+        return $data;
     }
 
     /**
