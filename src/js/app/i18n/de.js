@@ -19,6 +19,7 @@ export default {
         change: 'Ändern',
         show: 'Zeigen',
         cancel: 'Storniert',
+        more: 'Weiter',
 
         message: {
             registered: 'Anmeldung erfolgreich – wir haben Ihnen eine E-Mail geschickt mit der Sie Ihren Account aktivieren können',
@@ -118,6 +119,8 @@ export default {
         myAccount: 'Mein konto',
         wishlist: 'Wunschliste',
         cart: 'Warenkorb',
+        cross: 'cross',
+        closeView: 'Ansicht schließen',
     },
     footer: {
         contact: 'Kontakt',
@@ -176,6 +179,7 @@ export default {
         returnProducts: 'Produkte zurücksenden',
         lastOrder: 'Letzte Bestellung',
         viewOrder: 'Bestellung ansehen',
+        selectMethod: 'Zahlungsmethode wählen',
 
     },
 

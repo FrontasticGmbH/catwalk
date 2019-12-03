@@ -16,6 +16,7 @@ export default {
         change: 'Change',
         show: 'Zeigen',
         cancel: 'Cancel',
+        more: 'More',
 
         address: {
             newAddress: 'Add new address',
@@ -76,6 +77,8 @@ export default {
         myAccount: 'My account',
         wishlist: 'Wishlist',
         cart: 'Cart',
+        cross: 'cross',
+        closeView: 'Close view',
     },
     footer: {
         contact: 'Contact',
@@ -135,6 +138,8 @@ export default {
         lastOrder: 'Last order',
         viewOrder: 'View order',
         itemNum: '8th Item',
+        selectMethod: 'Select payment method',
+
 
     },
 
