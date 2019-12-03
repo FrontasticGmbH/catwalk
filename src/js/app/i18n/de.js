@@ -115,7 +115,6 @@ export default {
         tc: 'AGB',
         imprint: 'Impressum',
         privacy:'Datenschutz',
-        inclVat: 'inkl. Mwst',
         deliveryHours: 'Lieferung in 24 Stunden',
         invoice: 'Kauf auf Rechnung',
         freeShipping: 'Kostenloser Versand & Rückversand',
@@ -129,6 +128,8 @@ export default {
         checkout: 'Zur Kasse',
         subtotal: 'Zwischensumme',
         shippingCosts: 'Versandkosten',
+        gratis: 'kostenlos',
+        inclVat: 'inkl. Mwst',
         totalAmount: 'Gesamtbetrag',
         emptyCart: 'Der Warenkorb ist noch leer.',
         registerNow: 'Jetzt anmelden',
@@ -146,4 +147,8 @@ export default {
     quantityProduct: 'Anzahl:',
     inCartProduct: 'In den Warenkorb',
     back: 'Zurück',
+    titleBoost: 'Boost theme',
+    profile: 'Profil',
+    loveIt: 'liebe-es-alternativ',
+
 }

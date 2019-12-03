@@ -84,10 +84,11 @@ export default {
         checkout: 'To Checkout',
         subtotal: 'Subtotal',
         shippingCosts: 'Shipping costs',
+        gratis: 'gratis',
         totalAmount: 'Total amount', //check if correct
         inclVat: 'incl.VAT',
         emptyCart: 'Your shopping cart is empty.',
-        registerNow: 'Register now',
+        registerNow: 'Register now', //check if correct
 
     },
     deleteItem: 'Delete Item',
@@ -101,6 +102,9 @@ export default {
     quantityProduct: 'Quantity:',
     inCartProduct: 'In the cart',
     back: 'Back',
+    titleBoost: 'Boost theme',
+    profile: 'Profile',
+    loveIt: 'love-it-alternate',
     
     // Sanja
 
