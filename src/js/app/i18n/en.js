@@ -140,7 +140,6 @@ export default {
         itemNum: '8th Item',
         selectMethod: 'Select payment method',
 
-
     },
 
     deleteItem: 'Delete Item',
