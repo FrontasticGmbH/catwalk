@@ -23,6 +23,9 @@ class MinimalProduct implements StreamOptimizer
         $this->attributes = array_flip($attributes);
     }
 
+    /**
+     * @return mixed
+     */
     public function optimizeStreamData(Stream $stream, StreamContext $streamContext, $data)
     {
         if ($stream->type !== 'product-list') {
