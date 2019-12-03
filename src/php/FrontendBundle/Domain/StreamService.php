@@ -226,9 +226,10 @@ class StreamService
 
         $data = Promise\unwrap($data);
         foreach ($streams as $stream) {
+            $stream = new Stream($stream);
             $streamContext->usingTastics = $stream->tastics;
+
             foreach ($this->streamOptimizers as $streamOptimizer) {
-                $stream = new Stream($stream);
                 $data[$stream->streamId] = $streamOptimizer->optimizeStreamData(
                     $stream,
                     $streamContext,
