@@ -76,7 +76,7 @@ export default {
             lastName: 'Nachname',
             tcAgree: 'Ja, ich stimme den AGB und den Datenschutzbestimmungen von frontastic zu.',
             registerNow: 'Jetzt registrieren',
-            createUser: 'Benutzerkonto erstellen'
+            createUser: 'Benutzerkonto erstellen',
         },
         password: {
             title: 'Passwort ändern',
@@ -139,7 +139,7 @@ export default {
         jobs: 'Jobs',
         tc: 'AGB',
         imprint: 'Impressum',
-        privacy:'Datenschutz',
+        privacy: 'Datenschutz',
         inclVat: 'inkl. Mwst',
         deliveryHours: 'Lieferung in 24 Stunden',
         invoice: 'Kauf auf Rechnung',

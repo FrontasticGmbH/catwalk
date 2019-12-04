@@ -55,7 +55,7 @@ export default {
             lastName: 'Last Name',
             tcAgree: 'Yes, I agree to the terms and conditions and privacy policy of frontastic.',
             registerNow: 'Register Now',
-            createUser: 'Create user account'
+            createUser: 'Create user account',
         },
         password: {
             title: 'Change your password',
