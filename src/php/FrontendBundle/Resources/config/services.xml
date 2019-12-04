@@ -436,13 +436,5 @@
 
             <tag name="rulerz.operator" target="native" operator="categoriescontain" />
         </service>
-
-        <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer\MinimalProduct">
-            <argument type="collection">
-                <argument>designer</argument>
-            </argument>
-
-            <tag name="frontend.streamOptimizer" />
-        </service>
     </services>
 </container>
