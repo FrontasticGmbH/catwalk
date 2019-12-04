@@ -17,14 +17,8 @@ class Catwalk
 
         AppKernel::$catwalkBaseDir = $projectDirectory;
 
-        (new \Frontastic\Common\EnvironmentResolver())->loadEnvironmentVariables(
-            [$projectDirectory . '/..', self::CATWALK_LIBRARY_BASE, $projectDirectory],
-            AppKernel::getBaseConfiguration()
-        );
-
-        if (class_exists('Tideways\Profiler')) {
-            \Tideways\Profiler::start(array('api_key' => getenv('tideways_key')));
-        }
+        static::loadEnvironmentVariables($projectDirectory);
+        static::startTidewaysIfConfigured();
 
         $env = getenv('env') ?? 'prod';
         $debug = (bool) ($_SERVER['APP_DEBUG'] ?? (AppKernel::isDebugEnvironment($env)));
@@ -34,18 +28,8 @@ class Catwalk
             Debug::enable();
         }
 
-        $trustedProxies = getenv('trusted_proxies') ?? false;
-        if ($trustedProxies) {
-            if (trim($trustedProxies) === '*') {
-            // Trust all proxies. In our cloud setup servers are only reachable through the LB but the LB IPs change.
-                $trustedProxies = $_SERVER['REMOTE_ADDR'];
-            }
-        }
-        Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL);
-
-        if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
-            Request::setTrustedHosts(explode(',', $trustedHosts));
-        }
+        static::setTrustedProxies();
+        static::setTrustedHosts();
 
         try {
             AnnotationRegistry::registerLoader(array($autoloader, 'loadClass'));
@@ -67,6 +51,43 @@ class Catwalk
                 echo '<pre style="white-space: pre-wrap;">', $e, '</pre>';
             }
             echo "</body></html>";
+        }
+    }
+
+    /**
+     * @param string $projectDirectory
+     */
+    private static function loadEnvironmentVariables(string $projectDirectory): void
+    {
+        (new \Frontastic\Common\EnvironmentResolver())->loadEnvironmentVariables(
+            [$projectDirectory . '/..', self::CATWALK_LIBRARY_BASE, $projectDirectory],
+            AppKernel::getBaseConfiguration()
+        );
+    }
+
+    private static function startTidewaysIfConfigured(): void
+    {
+        if (class_exists('Tideways\Profiler')) {
+            \Tideways\Profiler::start(array('api_key' => getenv('tideways_key')));
+        }
+    }
+
+    private static function setTrustedProxies(): void
+    {
+        $trustedProxies = getenv('trusted_proxies') ?? false;
+        if ($trustedProxies) {
+            if (trim($trustedProxies) === '*') {
+                // Trust all proxies. In our cloud setup servers are only reachable through the LB but the LB IPs change.
+                $trustedProxies = $_SERVER['REMOTE_ADDR'];
+            }
+        }
+        Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL);
+    }
+
+    private static function setTrustedHosts(): void
+    {
+        if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
+            Request::setTrustedHosts(explode(',', $trustedHosts));
         }
     }
 }
