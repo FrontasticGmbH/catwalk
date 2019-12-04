@@ -29,6 +29,8 @@ class StreamContext extends DataObject
     public $usingTastics = [];
 
     /**
+     * Parameters given to the stream in the current request context.
+     * 
      * @var array
      */
     public $parameters = [];
