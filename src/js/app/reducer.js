@@ -19,8 +19,8 @@ const initialGlobalState = {
     context: new Context(),
     renderContext: {
         isServerSideRendering: false,
-        deviceType: "mobile",
-    }
+        deviceType: 'mobile',
+    },
 }
 
 const reducer = (globalState = initialGlobalState, action) => {

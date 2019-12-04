@@ -63,7 +63,7 @@ export default (mountNode, dataNode, tastics = null) => {
             })
         }
 
-        dispatchViewportDimensions();
+        dispatchViewportDimensions()
         window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
 
         let context = new Context(data)

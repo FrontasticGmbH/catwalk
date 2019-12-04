@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 
 /**
  * An object of possible selectors for tastify()
- * 
+ *
  * The key of the selector is being used as the prop name and also as the `configuration.connect`.
- * 
+ *
  * This means, if `configuration.connect.context` is set, the function below with the key `context` is being executed,
  * and the result will be passed in the `context` prop.
  */
@@ -23,7 +23,7 @@ const availableSelectors = {
 
 /**
  * Connects the tastic to the redux store, if necessary
- * 
+ *
  * It uses the above availableSelectors object and checks which of those selectors are enabled in the configuration.
  * If no selector is active, the component will not be connected to redux at all.
  */
@@ -36,8 +36,7 @@ const connectedTasticForConfiguration = (Tastic, configuration) => {
         }
     })
 
-
-    if (Object.keys(selectors).length === 0 ) {
+    if (Object.keys(selectors).length === 0) {
         // Apparently, no selector should be used, thus we do not need to connect the tastic to redux at all.
         return Tastic
     }

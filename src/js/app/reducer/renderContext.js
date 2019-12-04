@@ -8,40 +8,40 @@ const initialState = {
 
 const detectingReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'Frontastic.RenderContext.ClientSideDetected':
-            return {
-                ...state,
-                serverSideRendering: false,
-            }
-        case 'Frontastic.RenderContext.UserAgentDetected':
-            return renderContextWithDeviceType({
-                ...state,
-                userAgent: action.userAgent,
-            })
-        case 'Frontastic.RenderContext.ViewportDimensionChanged':
-            return renderContextWithDeviceType({
-                ...state,
-                viewportDimension: action.viewportDimension,
-            })
-        case 'ApiBundle.Api.context.success':
-            if (!action.data.project.data.layout) {
-                // eslint-disable-next-line no-console
-                console.warn('Frontastic needs the breakpoints configured in project.yml')
-                return state
-            }
-            return {
-                ...state,
-                breakpoints: action.data.project.data.layout.breakpoints,
-            }
-        default:
+    case 'Frontastic.RenderContext.ClientSideDetected':
+        return {
+            ...state,
+            serverSideRendering: false,
+        }
+    case 'Frontastic.RenderContext.UserAgentDetected':
+        return renderContextWithDeviceType({
+            ...state,
+            userAgent: action.userAgent,
+        })
+    case 'Frontastic.RenderContext.ViewportDimensionChanged':
+        return renderContextWithDeviceType({
+            ...state,
+            viewportDimension: action.viewportDimension,
+        })
+    case 'ApiBundle.Api.context.success':
+        if (!action.data.project.data.layout) {
+            // eslint-disable-next-line no-console
+            console.warn('Frontastic needs the breakpoints configured in project.yml')
             return state
+        }
+        return {
+            ...state,
+            breakpoints: action.data.project.data.layout.breakpoints,
+        }
+    default:
+        return state
     }
 }
 
 const detectDeviceTypeByRenderContext = (renderContext) => {
     if (renderContext.viewportDimension && renderContext.breakpoints) {
         const breakpointsSortedByMaxWidth = renderContext.breakpoints.map(breakpoint => {
-            if(breakpoint.maxWidth) {
+            if (breakpoint.maxWidth) {
                 return breakpoint
             }
             return {
@@ -57,9 +57,10 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
         })
 
         if (possibleBreakpoints.length > 0) {
-            return possibleBreakpoints[0].identifier;
+            return possibleBreakpoints[0].identifier
         }
 
+        // eslint-disable-next-line no-console
         console.warn('No breakpoint matched. Did you forget setting a default breakpoint without max-width?')
     }
 
@@ -78,7 +79,7 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
 
     // Default to mobile. We do this for performance reasons.
     // We decided that, if we cannot be sure if the device, falling back to mobile is a good choice.
-    // Why? Because mobiles usually have a slower CPU then desktops. 
+    // Why? Because mobiles usually have a slower CPU then desktops.
     // That means, if we accidentally render the desktop page on the mobile and then switch to the mobile view,
     // this would be more "expensive" then accidentally rendering the mobile view on desktop.
     return 'mobile'
@@ -87,7 +88,7 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
 const renderContextWithDeviceType = (renderContext) => {
     return {
         ...renderContext,
-        deviceType: detectDeviceTypeByRenderContext(renderContext)
+        deviceType: detectDeviceTypeByRenderContext(renderContext),
     }
 }
 
