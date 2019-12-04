@@ -65,16 +65,33 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
     }
 
     if (renderContext.userAgent) {
-        // @TODO we should probably replace this by a smart library
-        return (
-            renderContext.userAgent.match(/Android/i) ||
-            renderContext.userAgent.match(/webOS/i) ||
-            renderContext.userAgent.match(/iPhone/i) ||
-            renderContext.userAgent.match(/iPad/i) || // TODO we should return tablet here
-            renderContext.userAgent.match(/iPod/i) ||
-            renderContext.userAgent.match(/BlackBerry/i) ||
-            renderContext.userAgent.match(/Windows Phone/i)
-        ) ? 'mobile' : 'desktop'
+        const matchedBreakpoint = renderContext.breakpoints.reduce(
+            (matchedBreakpoint, breakpoint) => {
+                if (matchedBreakpoint && matchedBreakpoint.userAgentRegexp) {
+                    return matchedBreakpoint
+                }
+
+                if (breakpoint.userAgentRegexp) {
+                    return renderContext.userAgent.match(breakpoint.userAgentRegexp) ? breakpoint : matchedBreakpoint
+                }
+
+                // The current breakpoint and the matchedBreakpoint does not have a userAgentRegexp, therefore there
+                // must be two default breakpoints so let's raise a warning here
+                if (matchedBreakpoint) {
+                    // eslint-disable-next-line no-console
+                    console.warn(
+                        'More than one breakpoint is missing a userAgentRegexp, using the last one in array. Did you' +
+                        ' forget to add them for the other entries?'
+                    )
+                }
+
+                // No userAgentRegexp has been set, therefore this must be the default
+                return breakpoint
+            },
+            null
+        )
+
+        return matchedBreakpoint.identifier
     }
 
     // Default to mobile. We do this for performance reasons.
