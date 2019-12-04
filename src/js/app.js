@@ -49,6 +49,10 @@ export default (mountNode, dataNode, tastics = null) => {
         store.dispatch({
             type: 'Frontastic.RenderContext.ClientSideDetected',
         })
+        store.dispatch({
+            type: 'Frontastic.RenderContext.UserAgentDetected',
+            userAgent: navigator.userAgent,
+        })
         const dispatchViewportDimensions = () => {
             store.dispatch({
                 type: 'Frontastic.RenderContext.ViewportDimensionChanged',
