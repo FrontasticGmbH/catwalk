@@ -6,6 +6,7 @@ export default {
         vouchers: 'Gutscheincodes',
         logout: 'Abmelden',
         new_wishlist: 'Neuer Wunschzettel',
+
         message: {
             registered: 'Anmeldung erfolgreich – wir haben Ihnen eine E-Mail geschickt mit der Sie Ihren Account aktivieren können',
             logout: 'Erfolgreich abgemeldet',
@@ -29,6 +30,26 @@ export default {
         returns: 'Rücksendungen',
         userInfo: 'Benutzerdaten',
         help: 'Hilfe',
+        newHere: 'Ich bin neu hier',
+        freeAccount: 'Kostenloses Benutzerkonto',
+
+        login: {
+            emailAddress: 'E-Mail Address',
+            password: 'Passwort',
+            login: 'Anmelden',
+        },
+
+        register: {
+            joinUs: 'Melde dich jetzt an',
+            genderMale: 'Herr',
+            genderFemale: 'Frau',
+            firstName: 'Vorname',
+            lastName: 'Nachname',
+            tcAgree: 'Ja, ich stimme den AGB und den Datenschutzbestimmungen von frontastic zu.',
+            registerNow: 'Jetzt registrieren',
+            createUser: 'Benutzerkonto erstellen',
+
+        },
     },
     commercetools: {
         DiscountCodeNonApplicable: 'Der Gutscheincode {discountCode} konnte nicht gefunden werden',
@@ -50,10 +71,66 @@ export default {
         notVerified: 'Login fehlgeschlagen. Ihre E-Mail-Adresse wurde nocht nicht bestätigt. Bitte prüfen Sie Ihren Posteingang',
         invalid: 'Login fehlgeschlagen. E-Mail oder Passwort falsch',
     },
-    deleteItem: 'Element löschen',
 
-    // Sanja
+    header: {
+        search: 'Suche',
+        myAccount: 'Mein konto',
+        wishlist: 'Wunschliste',
+        cart: 'Warenkorb',
+    },
+
+    footer: {
+        contact: 'Kontakt',
+        serviceHour: '24 Stunden Service',
+        writeUs: 'Schreiben Sie uns',
+        emailContact: 'hallo@frontastic.cloud',
+        paymentTerms: 'Zahlungsbedingungen',
+        company: 'Unternehmen',
+        aboutUs: 'Über uns',
+        partnerships: 'Partnerschaften',
+        career: 'Karriere',
+        press: 'Presse',
+        service: 'Service',
+        track: 'Bestellung nachverfolgen',
+        faq: 'FAQ',
+        delivery: 'Lieferung',
+        return: 'Rücksendung',
+        jobs: 'Jobs',
+        tc: 'AGB',
+        imprint: 'Impressum',
+        privacy: 'Datenschutz',
+        inclVat: 'inkl. Mwst',
+        deliveryHours: 'Lieferung in 24 Stunden',
+        invoice: 'Kauf auf Rechnung',
+        freeShipping: 'Kostenloser Versand & Rückversand',
+    },
+
+    cart: {
+        myCart: 'Mein Warenkorb',
+        paymentMethods: 'Bezahlarten',
+        totalSum: 'Gesamtsumme',
+        enterVouchers: 'Gutscheincodes können Sie im letzten Schritt der Bestellung eingeben.',
+        checkout: 'Zur Kasse',
+        subtotal: 'Zwischensumme',
+        shippingCosts: 'Versandkosten',
+        totalAmount: 'Gesamtbetrag',
+        emptyCart: 'Der Warenkorb ist noch leer.',
+        registerNow: 'Jetzt anmelden',
+
+    },
+    deleteItem: 'Element löschen',
+    exlusiveDiscounts: 'Exklusive Rabatte',
+    becomeFamily: 'Werde Teil unserer kleinen Familie',
+    submit: 'Absenden',
+    submitAgree: 'Mit dem Klicken auf ‚Absenden’ stimmst du zu, dass wir deine Informationen im Rahmen unserer Datenschutzbestimmungen verarbeiten.',
+    yourEmail: 'Deine E-Mail Adresse',
+    colorProduct: 'Farbe:',
+    sizeProduct: 'Größe',
+    quantityProduct: 'Anzahl:',
+    inCartProduct: 'In den Warenkorb',
+    back: 'Zurück',
     reviews: 'Bewertungen',
     writeReview: 'Bewertung abgeben',
     ratingQuestion: 'Dieses Produkt hat Bewertungen. Möchten Sie das Produkt bewerten?',
+
 }
