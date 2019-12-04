@@ -6,6 +6,7 @@ use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class StreamService
@@ -19,6 +20,11 @@ class StreamService
      * @var StreamHandler[]
      */
     private $streamHandlers = [];
+
+    /**
+     * @var StreamOptimizer[]
+     */
+    private $streamOptimizers = [];
 
     /**
      * @var bool
@@ -49,11 +55,18 @@ class StreamService
     /**
      * @param StreamHandler[]
      */
-    public function __construct(TasticService $tasticService, iterable $streamHandlers = [], bool $debug = false)
-    {
+    public function __construct(
+        TasticService $tasticService,
+        iterable $streamHandlers = [],
+        iterable $streamOptimizers = [],
+        bool $debug = false
+    ) {
         $this->tasticService = $tasticService;
         foreach ($streamHandlers as $streamHandler) {
             $this->addStreamHandler($streamHandler);
+        }
+        foreach ($streamOptimizers as $streamOptimizer) {
+            $this->addStreamOptimizer($streamOptimizer);
         }
         $this->debug = $debug;
     }
@@ -63,15 +76,22 @@ class StreamService
         $this->streamHandlers[$streamHandler->getType()] = $streamHandler;
     }
 
-    private function findUsageInConfiguration(array $fields, array $configuration, array $usage): array
+    public function addStreamOptimizer(StreamOptimizer $streamOptimizer)
+    {
+        $this->streamOptimizers[] = $streamOptimizer;
+    }
+
+    private function findUsageInConfiguration(Tastic $tastic, array $fields, array $configuration, array $usage): array
     {
         foreach ($fields as $field) {
             if ($field['type'] === 'stream' &&
                 !empty($configuration[$field['field']])) {
-                $usage[$configuration[$field['field']]][] = null;
+                $usage[$configuration[$field['field']]]['count'][] = null;
+                $usage[$configuration[$field['field']]]['tastics'][] = $tastic->tasticType;
 
                 foreach ($this->countProperties[$field['streamType']] ?? [] as $countFieldName) {
-                    $usage[$configuration[$field['field']]][] = $configuration[$countFieldName] ?? null;
+                    $usage[$configuration[$field['field']]]['count'][] = $configuration[$countFieldName] ?? null;
+                    $usage[$configuration[$field['field']]]['tastics'][] = $tastic->tasticType;
                 }
             }
 
@@ -81,6 +101,7 @@ class StreamService
                 foreach ($configuration[$field['field']] as $fieldConfiguration) {
                     // Recurse into groups
                     $usage = $this->findUsageInConfiguration(
+                        $tastic,
                         $field['fields'],
                         $fieldConfiguration,
                         $usage
@@ -96,6 +117,7 @@ class StreamService
     {
         foreach ($schema as $group) {
             $usage = $this->findUsageInConfiguration(
+                $tastic,
                 $group['fields'],
                 (array) $tastic->configuration,
                 $usage
@@ -123,7 +145,10 @@ class StreamService
             }
         }
 
-        $usage = array_map('max', $usage);
+        foreach ($usage as $streamId => $usages) {
+            $usage[$streamId]['count'] = max($usages['count']);
+            $usage[$streamId]['tastics'] = array_values(array_filter(array_unique($usages['tastics'])));
+        }
 
         $streams = [];
         foreach ($node->streams ?? [] as $stream) {
@@ -131,9 +156,15 @@ class StreamService
                 continue;
             }
 
+            $stream['tastics'] = array_map(
+                function (string $tasticType) use ($tasticMap): TasticModel {
+                    return $tasticMap[$tasticType];
+                },
+                $usage[$stream['streamId']]['tastics']
+            );
             $streams[] = $stream;
 
-            if (!$usage[$stream['streamId']]) {
+            if (!$usage[$stream['streamId']]['count']) {
                 // No count definition found for stream
                 continue;
             }
@@ -141,7 +172,7 @@ class StreamService
             if (!isset($parameterMap[$stream['streamId']])) {
                 $parameterMap[$stream['streamId']] = [];
             }
-            $parameterMap[$stream['streamId']]['limit'] = $usage[$stream['streamId']];
+            $parameterMap[$stream['streamId']]['limit'] = $usage[$stream['streamId']]['count'];
         }
 
         return $streams;
@@ -162,13 +193,22 @@ class StreamService
         }
 
         $data = [];
+        $streamContext = new StreamContext([
+            'node' => $node,
+            'page' => $page,
+            'context' => $context,
+        ]);
         foreach ($streams as $stream) {
             $stream = new Stream($stream);
+            $streamContext->parameters = isset($parameterMap[$stream->streamId]) ?
+                $parameterMap[$stream->streamId] :
+                [];
+
             $data[$stream->streamId] = $this
                 ->handle(
                     $stream,
                     $context,
-                    (isset($parameterMap[$stream->streamId]) ? $parameterMap[$stream->streamId] : [])
+                    $streamContext->parameters
                 )
                 ->otherwise(function (\Throwable $exception) {
                     $errorResult = [
@@ -184,7 +224,21 @@ class StreamService
                 });
         }
 
-        return Promise\unwrap($data);
+        $data = Promise\unwrap($data);
+        foreach ($streams as $stream) {
+            $stream = new Stream($stream);
+            $streamContext->usingTastics = $stream->tastics;
+
+            foreach ($this->streamOptimizers as $streamOptimizer) {
+                $data[$stream->streamId] = $streamOptimizer->optimizeStreamData(
+                    $stream,
+                    $streamContext,
+                    $data[$stream->streamId]
+                );
+            }
+        }
+
+        return $data;
     }
 
     /**
