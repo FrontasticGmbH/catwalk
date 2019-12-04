@@ -41,6 +41,7 @@ class Catwalk
                 $trustedProxies = $_SERVER['REMOTE_ADDR'];
             }
         }
+        Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL);
 
         if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
             Request::setTrustedHosts(explode(',', $trustedHosts));
@@ -61,7 +62,7 @@ class Catwalk
                 header("HTTP/1.0 500 Internal Server Error");
             }
 
-            echo "<html><body><h1>Internal Server Error</h1>";
+            echo "<html><body><h1>Frontastic Internal Server Error</h1>";
             if (AppKernel::getDebug()) {
                 echo '<pre style="white-space: pre-wrap;">', $e, '</pre>';
             }
