@@ -3,9 +3,19 @@
 namespace Frontastic\Catwalk;
 
 use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+
 use Symfony\Component\Debug\Debug;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
+/**
+ * Main entrance point for Frontastic Catwalk application.
+ *
+ * The public entry points of this class are used to boot the Frontastic Catwalk backend so that the entry files
+ * (index.php and console) are only very few lines of code that dispatch here.
+ */
 class Catwalk
 {
     const CATWALK_LIBRARY_BASE = __DIR__ . '/../..';
@@ -54,9 +64,35 @@ class Catwalk
         }
     }
 
-    /**
-     * @param string $projectDirectory
-     */
+    public static function runCommandline(string $projectDirectory, $autoloader): void
+    {
+        set_time_limit(0);
+
+        // Resolve all relative path elements
+        $projectDirectory = realpath($projectDirectory);
+
+        static::injectProjectDirectoryIntoKernel($projectDirectory);
+
+        static::loadEnvironmentVariables($projectDirectory);
+
+        // TODO: Why not start Tideways on shell?
+        // static::startTidewaysIfConfigured();
+
+        AnnotationRegistry::registerLoader(array($autoloader, 'loadClass'));
+
+        $input = new ArgvInput();
+        $env = $input->getParameterOption(['--env', '-e'], getenv('env'));
+        $debug = AppKernel::isDebugEnvironment($env) && !$input->hasParameterOption(['--no-debug', '']) && $env !== 'prod';
+
+        if ($debug) {
+            Debug::enable();
+        }
+
+        $kernel = new AppKernel($env, $debug);
+        $application = new Application($kernel);
+        $application->run($input);
+    }
+
     private static function loadEnvironmentVariables(string $projectDirectory): void
     {
         (new \Frontastic\Common\EnvironmentResolver())->loadEnvironmentVariables(
@@ -91,9 +127,6 @@ class Catwalk
         }
     }
 
-    /**
-     * @param string $projectDirectory
-     */
     private static function injectProjectDirectoryIntoKernel(string $projectDirectory): void
     {
         AppKernel::$catwalkBaseDir = $projectDirectory;
