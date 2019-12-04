@@ -7,6 +7,7 @@ import app from '../../../app/app'
 import SvgIcon from '../../../patterns/atoms/icons/icon'
 import Fade from '../../../component/fade'
 import productConnector from '../connector'
+import { getVariantAttributes } from '../../../helper/variantHelper'
 
 class ProductAddToCartTastic extends Component {
     constructor (props) {
@@ -41,26 +42,6 @@ class ProductAddToCartTastic extends Component {
         )
     }
 
-    getVariantAttributes = () => {
-        let attributeValues = {}
-        for (let variant of this.props.product.variants) {
-            for (let attribute in variant.attributes) {
-                if (!attributeValues[attribute]) {
-                    attributeValues[attribute] = []
-                }
-
-                attributeValues[attribute].push(variant.attributes[attribute].label || variant.attributes[attribute])
-            }
-        }
-
-        return _.keys(_.pickBy(
-            _.mapValues(attributeValues, _.uniq),
-            (values) => {
-                return values.length > 1
-            }
-        ))
-    }
-
     render () {
         if (!this.props.product || !this.props.variant) {
             return null
@@ -70,7 +51,7 @@ class ProductAddToCartTastic extends Component {
         let showNameInVariants = this.props.tastic.schema.get('showNameInVariants') || false
         let showPriceInVariants = this.props.tastic.schema.get('showPriceInVariants') || true
         let variantAttributes = _.intersection(
-            this.getVariantAttributes(),
+            getVariantAttributes(this.props.product.variants),
             this.props.tastic.schema.get('variantAttributes') || ['color', 'size', 'style']
         )
 

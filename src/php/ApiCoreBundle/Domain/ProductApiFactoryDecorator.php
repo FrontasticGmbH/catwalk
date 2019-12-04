@@ -2,12 +2,11 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
-use Psr\SimpleCache\CacheInterface;
-
 use Frontastic\Catwalk\FrontendBundle\Domain\FacetService;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory;
-use Frontastic\Common\ReplicatorBundle\Domain\Customer;
+use Frontastic\Common\ReplicatorBundle\Domain\Project;
+use Psr\SimpleCache\CacheInterface;
 
 class ProductApiFactoryDecorator implements ProductApiFactory
 {
@@ -45,9 +44,9 @@ class ProductApiFactoryDecorator implements ProductApiFactory
         $this->debug = $debug;
     }
 
-    public function factor(Customer $customer): ProductApi
+    public function factor(Project $project): ProductApi
     {
-        $api = $this->productApiFactory->factor($customer);
+        $api = $this->productApiFactory->factor($project);
         $this->setCommercetoolsOptions($api);
         $api = new ProductApiWithoutInner($api);
         return new CachingProductApi($api, $this->cache, $this->debug);
@@ -81,12 +80,5 @@ class ProductApiFactoryDecorator implements ProductApiFactory
         $api->setOptions(new ProductApi\Commercetools\Options([
             'facetsToQuery' => $facetConfig,
         ]));
-    }
-
-    public function factorFromConfiguration(array $config): ProductApi
-    {
-        $api = $this->productApiFactory->factorFromConfiguration($config);
-        $this->setCommercetoolsOptions($api);
-        return new CachingProductApi($api, $this->cache);
     }
 }

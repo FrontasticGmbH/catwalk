@@ -92,6 +92,7 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
             <argument type="tagged" tag="frontend.streamHandler" />
             <argument>%kernel.debug%</argument>
         </service>
@@ -202,7 +203,7 @@
             <factory
                 service="Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory"
                 method="factor" />
-            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
+            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').project</argument>
         </service>
 
         <service id="frontastic.catwalk.content_api" class="Frontastic\Common\ContentApiBundle\Domain\ContentApi">
@@ -230,7 +231,7 @@
             <factory
                 service="Frontastic\Common\WishlistApiBundle\Domain\WishlistApiFactory"
                 method="factor" />
-            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
+            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').project</argument>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService">

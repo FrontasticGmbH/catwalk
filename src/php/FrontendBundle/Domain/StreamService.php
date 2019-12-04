@@ -2,12 +2,19 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+
 class StreamService
 {
+    /**
+     * @var TasticService
+     */
+    private $tasticService;
+
     /**
      * @var StreamHandler[]
      */
@@ -19,10 +26,32 @@ class StreamService
     private $debug = false;
 
     /**
+     * This property is a workaround
+     *
+     * We want to have the count configured per stream using tastic directly in
+     * backstage which will remove the necessity of adding a custom count
+     * property to the tastic itself. Until we have that this is an include
+     * list of properties which we use for the count until then. If customers
+     * come up with additional count properties in the mean time, we should add
+     * them here to enable this performance optimization for them, too.
+     *
+     * @var [string=>string[]]
+     */
+    private $countProperties = [
+        'product-list' => [
+            // Boost Theme
+            'productCount',
+            // From Apollo
+            'maxItems',
+        ],
+    ];
+
+    /**
      * @param StreamHandler[]
      */
-    public function __construct(iterable $streamHandlers = [], bool $debug = false)
+    public function __construct(TasticService $tasticService, iterable $streamHandlers = [], bool $debug = false)
     {
+        $this->tasticService = $tasticService;
         foreach ($streamHandlers as $streamHandler) {
             $this->addStreamHandler($streamHandler);
         }
@@ -34,16 +63,106 @@ class StreamService
         $this->streamHandlers[$streamHandler->getType()] = $streamHandler;
     }
 
+    private function findUsageInConfiguration(array $fields, array $configuration, array $usage): array
+    {
+        foreach ($fields as $field) {
+            if ($field['type'] === 'stream' &&
+                !empty($configuration[$field['field']])) {
+                $usage[$configuration[$field['field']]][] = null;
+
+                foreach ($this->countProperties[$field['streamType']] ?? [] as $countFieldName) {
+                    $usage[$configuration[$field['field']]][] = $configuration[$countFieldName] ?? null;
+                }
+            }
+
+            if ($field['type'] === 'group' &&
+                !empty($configuration[$field['field']]) &&
+                is_array($configuration[$field['field']])) {
+                foreach ($configuration[$field['field']] as $fieldConfiguration) {
+                    // Recurse into groups
+                    $usage = $this->findUsageInConfiguration(
+                        $field['fields'],
+                        $fieldConfiguration,
+                        $usage
+                    );
+                }
+            }
+        }
+
+        return $usage;
+    }
+
+    private function updateUsage(Tastic $tastic, array $schema, array $usage): array
+    {
+        foreach ($schema as $group) {
+            $usage = $this->findUsageInConfiguration(
+                $group['fields'],
+                (array) $tastic->configuration,
+                $usage
+            );
+        }
+
+        return $usage;
+    }
+
+    public function getUsedStreams(Node $node, Page $page, array &$parameterMap): array
+    {
+        $tasticMap = $this->tasticService->getTasticsMappedByType();
+
+        $usage = [];
+        foreach ($page->regions as $region) {
+            foreach ($region->elements as $cell) {
+                foreach ($cell->tastics as $tastic) {
+                    if (!isset($tasticMap[$tastic->tasticType])) {
+                        continue;
+                    }
+
+                    $schema = $tasticMap[$tastic->tasticType]->configurationSchema['schema'];
+                    $usage = $this->updateUsage($tastic, $schema, $usage);
+                }
+            }
+        }
+
+        $usage = array_map('max', $usage);
+
+        $streams = [];
+        foreach ($node->streams ?? [] as $stream) {
+            if (!array_key_exists($stream['streamId'], $usage)) {
+                continue;
+            }
+
+            $streams[] = $stream;
+
+            if (!$usage[$stream['streamId']]) {
+                // No count definition found for stream
+                continue;
+            }
+
+            if (!isset($parameterMap[$stream['streamId']])) {
+                $parameterMap[$stream['streamId']] = [];
+            }
+            $parameterMap[$stream['streamId']]['limit'] = $usage[$stream['streamId']];
+        }
+
+        return $streams;
+    }
+
     /**
      * @param Node $node
      * @param array $parameterMap Mapping stream IDs to parameter arrays
      * @return array
      * @throws \Throwable
      */
-    public function getStreamData(Node $node, Context $context, array $parameterMap = []): array
+    public function getStreamData(Node $node, Context $context, array $parameterMap = [], Page $page = null): array
     {
+        if ($page) {
+            $streams = $this->getUsedStreams($node, $page, $parameterMap);
+        } else {
+            $streams = $node->streams ?? [];
+        }
+
         $data = [];
-        foreach ($node->streams ?? [] as $stream) {
+        foreach ($streams as $stream) {
             $stream = new Stream($stream);
             $data[$stream->streamId] = $this
                 ->handle(
