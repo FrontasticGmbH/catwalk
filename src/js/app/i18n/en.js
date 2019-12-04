@@ -139,6 +139,9 @@ export default {
         viewOrder: 'View order',
         itemNum: '8th Item',
         selectMethod: 'Select payment method',
+        reviewQuestion: 'How do you like this product?',
+        pleaseRate: 'Please rate this product',
+        yourReview: 'What would you say about this article?',
 
     },
 

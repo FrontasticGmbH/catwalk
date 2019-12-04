@@ -30,7 +30,6 @@ class StreamContext extends DataObject
 
     /**
      * Parameters given to the stream in the current request context.
-     * 
      * @var array
      */
     public $parameters = [];

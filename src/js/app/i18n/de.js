@@ -178,6 +178,9 @@ export default {
         lastOrder: 'Letzte Bestellung',
         viewOrder: 'Bestellung ansehen',
         selectMethod: 'Zahlungsmethode wählen',
+        reviewQuestion: 'Wie gefällt dir dieses Produkt?',
+        pleaseRate: 'Bitte bewerte dieses produkt',
+        yourReview: 'Was würdest über diesen Artikel sagen?',
 
     },
     deleteItem: 'Element löschen',
