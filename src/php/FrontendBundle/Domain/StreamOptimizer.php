@@ -3,13 +3,16 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 /**
- * Documentation about using this interface can be found here:
- * https://frontastic.io/docs/catwalk/performance/20_stream_optimization/
+ * Implementations of this interface are used to optimize a stream for sending it to the view.
+ * See the documentation for example and details.
  */
 interface StreamOptimizer
 {
     /**
-     * @return mixed
+     * Optimize the given stream $data and return the optimized version.
+     * The information given in $stream and $streamContext refers to the current usage and
+     * can deal for optimizing a stream for a dedicated use-case.
+     * @return mixed The optimized stream data
      */
     public function optimizeStreamData(Stream $stream, StreamContext $streamContext, $data);
 }
