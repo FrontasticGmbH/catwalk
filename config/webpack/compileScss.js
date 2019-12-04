@@ -55,7 +55,7 @@ module.exports = (config, PRODUCTION, SERVER) => {
                         ],
                     },
                     {
-                        test: /\.s?css$/,
+                        test: /(?<!\.module)\.s?css$/,
                         use: [
                             PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
                             {
