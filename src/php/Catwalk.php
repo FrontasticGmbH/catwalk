@@ -15,7 +15,7 @@ class Catwalk
         // Resolve all relative path elements
         $projectDirectory = realpath($projectDirectory);
 
-        AppKernel::$catwalkBaseDir = $projectDirectory;
+        static::injectProjectDirectoryIntoKernel($projectDirectory);
 
         static::loadEnvironmentVariables($projectDirectory);
         static::startTidewaysIfConfigured();
@@ -89,5 +89,13 @@ class Catwalk
         if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
             Request::setTrustedHosts(explode(',', $trustedHosts));
         }
+    }
+
+    /**
+     * @param string $projectDirectory
+     */
+    private static function injectProjectDirectoryIntoKernel(string $projectDirectory): void
+    {
+        AppKernel::$catwalkBaseDir = $projectDirectory;
     }
 }
