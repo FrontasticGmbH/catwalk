@@ -8,6 +8,8 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 
 class Catwalk
 {
+    const CATWALK_LIBRARY_BASE = __DIR__ . '/../..';
+
     public static function runWeb(string $projectDirectory, $autoloader): void
     {
         // Resolve all relative path elements
@@ -16,7 +18,7 @@ class Catwalk
         AppKernel::$catwalkBaseDir = $projectDirectory;
 
         (new \Frontastic\Common\EnvironmentResolver())->loadEnvironmentVariables(
-            [$projectDirectory . '/..', $projectDirectory . '/../paas/catwalk', $projectDirectory],
+            [$projectDirectory . '/..', self::CATWALK_LIBRARY_BASE, $projectDirectory],
             AppKernel::getBaseConfiguration()
         );
 
