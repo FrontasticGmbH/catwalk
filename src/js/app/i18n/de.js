@@ -187,6 +187,11 @@ export default {
         }
 
     },
+    product: {
+        desctiption: 'Beschreibung',
+        shipping: 'Versand',
+        reviews: 'Bewertungen ({count})'
+    },
     deleteItem: 'Element löschen',
     exlusiveDiscounts: 'Exklusive Rabatte',
     becomeFamily: 'Werde Teil unserer kleinen Familie',

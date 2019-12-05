@@ -148,7 +148,11 @@ export default {
         }
 
     },
-
+    product: {
+        description: 'Description',
+        shipping: 'Shipping',
+        reviews: 'Reviews ({count})'
+    },
     deleteItem: 'Delete Item',
     exlusiveDiscounts: 'Exlusive discounts',
     becomeFamily: 'Become part of our little family',
