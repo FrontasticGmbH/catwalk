@@ -182,7 +182,6 @@ class RedirectService implements Target
             $this->getUrlPath($urlComponents) .
             $this->getUrlQuery($urlComponents, $additionalParameters) .
             $this->getUrlFragment($urlComponents);
-
     }
 
     private function getUrlSchema(array $urlComponents): string
