@@ -181,6 +181,31 @@ export default {
         reviewQuestion: 'Wie gefällt dir dieses Produkt?',
         pleaseRate: 'Bitte bewerte dieses produkt',
         yourReview: 'Was würdest über diesen Artikel sagen?',
+        deliveryFeatures: {
+            title: 'Expres Lieferung:',
+            message: 'Bestelle in den nächsten sechs Stunden und du erhälsts deine Lieferung morgen.',
+        },
+
+    },
+    product: {
+        description: 'Beschreibung',
+        shipping: 'Versand',
+        reviews: 'Bewertungen ({count})',
+        materialOuterFabric: 'Material Oberstoff:',
+        viscose: 'Viskose',
+        lacing: 'Schnürung',
+        lining: 'Futter:',
+        moreAboutThisProduct: 'Mehr zu diesem Produkt',
+        cut: 'Ausschnitt:',
+        clasp: 'Verschluss:',
+        style: 'Stil:',
+        itemNumber: 'Artikelnummer:',
+        freeShipping: 'Kostenloser Versand',
+        returnPolicy100days: '100 Tage Rückgaberecht',
+        standardDelivery: {
+            title: 'Standard-Lieferung:',
+            message: 'kostenlos 2-4 Werktage',
+        },
 
     },
     deleteItem: 'Element löschen',
