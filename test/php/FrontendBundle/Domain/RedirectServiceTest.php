@@ -50,28 +50,6 @@ class RedirectServiceTest extends TestCase
         $this->assertNull($url);
     }
 
-    public function testGetRedirectForCountExceeded()
-    {
-        $path = '/foo/bar/baz';
-        $target = 'https://frontastic.io/nice-page';
-        $queryParameters = new ParameterBag([
-            RedirectService::REDIRECT_COUNT_PARAMETER_KEY => 10,
-        ]);
-
-        \Phake::when($this->redirectGatewayMock)->getByPath($path)->thenReturn([
-            new Redirect([
-                'redirectId' => '1',
-                'path' => $path,
-                'targetType' => Redirect::TARGET_TYPE_LINK,
-                'target' => $target,
-            ]),
-        ]);
-
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-
-        $this->assertNull($url);
-    }
-
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingLinkRedirect()
     {
         $path = '/foo/bar/baz';
@@ -88,9 +66,8 @@ class RedirectServiceTest extends TestCase
         ]);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $targetWithCounter = sprintf('%s?%s=1', $target, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
 
-        $this->assertEquals($targetWithCounter, $url);
+        $this->assertEquals($target, $url);
     }
 
     public function testGetRedirectWithQueryParametersInTargetUrl()
@@ -109,9 +86,8 @@ class RedirectServiceTest extends TestCase
         ]);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $targetWithCounter = sprintf('%s&%s=1', $target, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
 
-        $this->assertEquals($targetWithCounter, $url);
+        $this->assertEquals($target, $url);
     }
 
     public function testGetRedirectWithQueryParametersAndFragmentInTargetUrl()
@@ -131,10 +107,8 @@ class RedirectServiceTest extends TestCase
         ]);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $targetWithCounter =
-            sprintf('%s&%s=1%s', $target, RedirectService::REDIRECT_COUNT_PARAMETER_KEY, $targetFragment);
 
-        $this->assertEquals($targetWithCounter, $url);
+        $this->assertEquals($target . $targetFragment, $url);
     }
 
     public function testGetRedirectWithQueryParametersAndFragmentInTargetUrlAndWithAdditionalParameters()
@@ -145,7 +119,6 @@ class RedirectServiceTest extends TestCase
         $queryParameters = new ParameterBag([
             'key1' => 'value1',
             'key2' => 'value2',
-            RedirectService::REDIRECT_COUNT_PARAMETER_KEY => 2,
         ]);
 
         \Phake::when($this->redirectGatewayMock)->getByPath($path)->thenReturn([
@@ -158,14 +131,13 @@ class RedirectServiceTest extends TestCase
         ]);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $targetWithCounter = sprintf(
-            '%s&key1=value1&key2=value2&%s=3%s',
+        $targetWithAdditionalParameters = sprintf(
+            '%s&key1=value1&key2=value2%s',
             $target,
-            RedirectService::REDIRECT_COUNT_PARAMETER_KEY,
             $targetFragment
         );
 
-        $this->assertEquals($targetWithCounter, $url);
+        $this->assertEquals($targetWithAdditionalParameters, $url);
     }
 
     public function testGetRedirectWithFragmentInTargetUrl()
@@ -185,10 +157,8 @@ class RedirectServiceTest extends TestCase
         ]);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $targetWithCounter =
-            sprintf('%s?%s=1%s', $target, RedirectService::REDIRECT_COUNT_PARAMETER_KEY, $targetFragment);
 
-        $this->assertEquals($targetWithCounter, $url);
+        $this->assertEquals($target . $targetFragment, $url);
     }
 
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithRedirectLanguage()
@@ -211,9 +181,8 @@ class RedirectServiceTest extends TestCase
         \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.es_ES')->thenReturn($nodeUrl);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $nodeUrlWithCounter = sprintf('%s?%s=1', $nodeUrl, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
 
-        $this->assertEquals($nodeUrlWithCounter, $url);
+        $this->assertEquals($nodeUrl, $url);
     }
 
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithContextLocale()
@@ -235,9 +204,8 @@ class RedirectServiceTest extends TestCase
         \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en_GB')->thenReturn($nodeUrl);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $nodeUrlWithCounter = sprintf('%s?%s=1', $nodeUrl, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
 
-        $this->assertEquals($nodeUrlWithCounter, $url);
+        $this->assertEquals($nodeUrl, $url);
     }
 
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithContextLanguage()
@@ -261,9 +229,8 @@ class RedirectServiceTest extends TestCase
         \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en')->thenReturn($nodeUrl);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $nodeUrlWithCounter = sprintf('%s?%s=1', $nodeUrl, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
 
-        $this->assertEquals($nodeUrlWithCounter, $url);
+        $this->assertEquals($nodeUrl, $url);
     }
 
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithDefaultLocale()
@@ -289,9 +256,8 @@ class RedirectServiceTest extends TestCase
         \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.fr_FR')->thenReturn($nodeUrl);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $nodeUrlWithCounter = sprintf('%s?%s=1', $nodeUrl, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
 
-        $this->assertEquals($nodeUrlWithCounter, $url);
+        $this->assertEquals($nodeUrl, $url);
     }
 
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithDefaultLanguage()
@@ -319,9 +285,8 @@ class RedirectServiceTest extends TestCase
         \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.fr')->thenReturn($nodeUrl);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $nodeUrlWithCounter = sprintf('%s?%s=1', $nodeUrl, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
 
-        $this->assertEquals($nodeUrlWithCounter, $url);
+        $this->assertEquals($nodeUrl, $url);
     }
 
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithUnmatchedLocale()
@@ -410,9 +375,9 @@ class RedirectServiceTest extends TestCase
         ]);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $targetWithCounter = sprintf('%s?otherParam=4711&%s=1', $target, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
+        $targetWithAdditionalParameters = sprintf('%s?otherParam=4711', $target);
 
-        $this->assertEquals($targetWithCounter, $url);
+        $this->assertEquals($targetWithAdditionalParameters, $url);
     }
 
     public function testGetRedirectForRequestWithArrayParametersInWrongOrder()
@@ -470,9 +435,8 @@ class RedirectServiceTest extends TestCase
         ]);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $targetWithCounter = sprintf('%s?%s=1', $target, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
 
-        $this->assertEquals($targetWithCounter, $url);
+        $this->assertEquals($target, $url);
     }
 
     public function testGetRedirectForRequestSortsMatchingRedirectsByNumberOfParameters()
@@ -512,8 +476,7 @@ class RedirectServiceTest extends TestCase
         ]);
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
-        $targetWithCounter = sprintf('%s?%s=1', $target, RedirectService::REDIRECT_COUNT_PARAMETER_KEY);
 
-        $this->assertEquals($targetWithCounter, $url);
+        $this->assertEquals($target, $url);
     }
 }

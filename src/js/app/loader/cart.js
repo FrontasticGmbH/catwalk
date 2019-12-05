@@ -24,6 +24,7 @@ let CartLoader = function (store, api) {
     this.get = (parameters = {}) => {
         this.api.triggerContinuously(
             'Frontastic.CartApi.Cart.get',
+            // Own error handler without error handler => Ignore all errors
             _.extend(
                 { ownErrorHandler: true },
                 parameters
@@ -51,25 +52,30 @@ let CartLoader = function (store, api) {
             type: 'CartApi.Cart.loading',
         })
 
-        this.api.request(
-            'POST',
-            'Frontastic.CartApi.Cart.add',
-            { ownErrorHandler: true },
-            { variant, count, option },
-            (data) => {
-                this.store.dispatch({
-                    type: 'CartApi.Cart.add.success',
-                    data: data,
-                })
-            },
-            (error) => {
-                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                this.store.dispatch({
-                    type: 'CartApi.Cart.add.error',
-                    error: error,
-                })
-            }
-        )
+        // TODO: Add to remainder methods
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.CartApi.Cart.add',
+                { ownErrorHandler: true },
+                { variant, count, option },
+                (data) => {
+                    this.store.dispatch({
+                        type: 'CartApi.Cart.add.success',
+                        data: data,
+                    })
+                    resolve()
+                },
+                (error) => {
+                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                    this.store.dispatch({
+                        type: 'CartApi.Cart.add.error',
+                        error: error,
+                    })
+                    reject(error)
+                }
+            )
+        })
     }
 
     this.addMultiple = (lineItems) => {

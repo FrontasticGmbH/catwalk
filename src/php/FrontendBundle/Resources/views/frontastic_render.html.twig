@@ -15,7 +15,7 @@
         <p style="font-size: 14px; margin: 0px 0px 10px 0px;">Code {{ response.status }}, reason:</p>
         <p style="font-size: 12px; font-family: monospace; margin: 0px 0px 10px 0px;">{{ response.body.app }}</p>
         <p style="font-size: 12px; margin: 0px 0px 10px 0px;">
-            Ensure the service s for this project are started (<code style="font-family: monospace;">sudo supervisorctl restart {{ context.customer.name }}_{{ context.project.projectId }}:</code>) and check the log at <code style="font-family: monospace;">/var/log/frontastic/{{ context.customer.name }}_{{ context.project.projectId }}/ssr.log</code> for more details.
+            Ensure the service s for this project are started (<code style="font-family: monospace;">sudo supervisorctl restart {{ context.customer.name }}-{{ context.project.projectId }}:</code>) and check the log at <code style="font-family: monospace;">/var/log/frontastic/{{ context.customer.name }}_{{ context.project.projectId }}/ssr.log</code> for more details.
         </p>
     </div>
     {% endif %}

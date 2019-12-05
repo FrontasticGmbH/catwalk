@@ -1,4 +1,4 @@
-import { getTranslation } from 'frontastic-common'
+import getTranslation from '../getTranslation'
 
 /**
  * Converts tastic data (which is usually received in props.data) so that translatable objects will be replaced with strings

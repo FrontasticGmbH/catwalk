@@ -26,6 +26,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.CountInLoopExpression)
  */
 class GenerateSitemapsCommand extends ContainerAwareCommand
 {
@@ -370,7 +371,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             foreach ($result as $product) {
                 $entries[] = [
                     'uri' => $productRouter->generateUrlFor($product),
-                    'changed' => time(),
+                    'changed' => $product->changed ?? time(),
                     'images' => $product->images
                 ];
             }

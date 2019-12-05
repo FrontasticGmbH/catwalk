@@ -115,5 +115,7 @@
             </argument>
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools\ClientFactory" autowire="true">
+        </service>
     </services>
 </container>

@@ -25,4 +25,9 @@ class Stream extends DataObject
      * @var array
      */
     public $configuration = [];
+
+    /**
+     * @var Tastic[]
+     */
+    public $tastics = [];
 }
