@@ -183,14 +183,28 @@ export default {
         yourReview: 'Was würdest über diesen Artikel sagen?',
         deliveryFeatures: {
             title: 'Expres Lieferung:',
-            message: 'Bestelle in den nächsten sechs Stunden und du erhälsts deine Lieferung morgen.'
-        }
+            message: 'Bestelle in den nächsten sechs Stunden und du erhälsts deine Lieferung morgen.',
+        },
 
     },
     product: {
-        desctiption: 'Beschreibung',
+        description: 'Beschreibung',
         shipping: 'Versand',
-        reviews: 'Bewertungen ({count})'
+        reviews: 'Bewertungen ({count})',
+        materialOuterFabric: 'Material Oberstoff:',
+        lining: 'Futter:',
+        moreAboutThisProduct: 'Mehr zu diesem Produkt',
+        cut: 'Ausschnitt:',
+        clasp: 'Verschluss:',
+        samples: 'Muster:',
+        itemNumber: 'Artikelnummer:',
+        freeShipping: 'Kostenloser Versand',
+        returnPolicy100days: '100 Tage Rückgaberecht',
+        standardDelivery: {
+            title: 'Standard-Lieferung:',
+            message: 'kostenlos 2-4 Werktage',
+        },
+
     },
     deleteItem: 'Element löschen',
     exlusiveDiscounts: 'Exklusive Rabatte',

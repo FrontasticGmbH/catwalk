@@ -144,14 +144,28 @@ export default {
         yourReview: 'What would you say about this article?',
         deliveryFeatures: {
             title: 'Express delivery:',
-            message: 'Order in the next six hours and you\'ll get your delivery tomorrow.'
-        }
+            message: 'Order in the next six hours and you\'ll get your delivery tomorrow.',
+        },
 
     },
     product: {
         description: 'Description',
         shipping: 'Shipping',
-        reviews: 'Reviews ({count})'
+        reviews: 'Reviews ({count})',
+        materialOuterFabric: 'Fabric:',
+        lining: 'Lining:',
+        moreAboutThisProduct: 'More about this product:',
+        cut: 'Cut:',
+        clasp: 'Clasp:',
+        samples: 'Samples:',
+        itemNumber: 'Item number:',
+        freeShipping: 'Free shipping',
+        returnPolicy100days: 'Eligable for return within 100 days',
+        standardDelivery: {
+            title: 'Standard delivery:',
+            message: 'free of charge 2-4 working days',
+        },
+
     },
     deleteItem: 'Delete Item',
     exlusiveDiscounts: 'Exlusive discounts',
