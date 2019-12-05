@@ -181,6 +181,10 @@ export default {
         reviewQuestion: 'Wie gefällt dir dieses Produkt?',
         pleaseRate: 'Bitte bewerte dieses produkt',
         yourReview: 'Was würdest über diesen Artikel sagen?',
+        deliveryFeatures: {
+            title: 'Expres Lieferung:',
+            message: 'Bestelle in den nächsten sechs Stunden und du erhälsts deine Lieferung morgen.'
+        }
 
     },
     deleteItem: 'Element löschen',

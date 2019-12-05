@@ -142,6 +142,10 @@ export default {
         reviewQuestion: 'How do you like this product?',
         pleaseRate: 'Please rate this product',
         yourReview: 'What would you say about this article?',
+        deliveryFeatures: {
+            title: 'Express delivery:',
+            message: 'Order in the next six hours and you\'ll get your delivery tomorrow.'
+        }
 
     },
 
