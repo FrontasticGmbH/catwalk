@@ -3,19 +3,14 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\Routing\Router;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
-
 use Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Symfony\Component\Routing\Router;
 
 class RedirectService implements Target
 {
-    public const REDIRECT_COUNT_PARAMETER_KEY = '_frc';
-
-    private const MAXIMUM_REDIRECT_COUNT = 3;
-
     /**
      * @var RedirectGateway
      */
@@ -66,11 +61,6 @@ class RedirectService implements Target
 
     public function getRedirectUrlForRequest(string $path, ParameterBag $queryParameters): ?string
     {
-        $redirectCount = intval($queryParameters->get(self::REDIRECT_COUNT_PARAMETER_KEY, 0));
-        if ($redirectCount > self::MAXIMUM_REDIRECT_COUNT) {
-            return null;
-        }
-
         $redirect = $this->getRedirectForRequest($path, $queryParameters);
         if ($redirect === null) {
             return null;
@@ -113,9 +103,8 @@ class RedirectService implements Target
         $additionalParameters = new ParameterBag(
             array_diff_key($queryParameters->all(), $redirect->getQueryParameters()->all())
         );
-        $additionalParameters->remove(self::REDIRECT_COUNT_PARAMETER_KEY);
 
-        return $this->appendQueryParametersToTargetUrl($targetUrl, $additionalParameters, $redirectCount + 1);
+        return $this->appendQueryParametersToTargetUrl($targetUrl, $additionalParameters);
     }
 
     /**
@@ -178,40 +167,78 @@ class RedirectService implements Target
         return $redirect;
     }
 
-    protected function appendQueryParametersToTargetUrl(
-        string $targetUrl,
-        ParameterBag $additionalParameters,
-        int $redirectCount
-    ): string {
+    protected function appendQueryParametersToTargetUrl(string $targetUrl, ParameterBag $additionalParameters): string
+    {
         $urlComponents = parse_url($targetUrl);
         if ($urlComponents === false) {
             throw new \InvalidArgumentException('The url ' . $targetUrl . ' is ill formed');
         }
 
-        $url = '';
-        if (isset($urlComponents['scheme'])) {
-            $url .= $urlComponents['scheme'] . '://';
+        return
+            $this->getUrlSchema($urlComponents) .
+            $this->getUrlLogin($urlComponents) .
+            $this->getUrlHost($urlComponents) .
+            $this->getUrlPort($urlComponents) .
+            $this->getUrlPath($urlComponents) .
+            $this->getUrlQuery($urlComponents, $additionalParameters) .
+            $this->getUrlFragment($urlComponents);
+
+    }
+
+    private function getUrlSchema(array $urlComponents): string
+    {
+        if (!isset($urlComponents['scheme'])) {
+            return '';
         }
-        if (isset($urlComponents['user']) || isset($urlComponents['pass'])) {
-            $url .= ($urlComponents['user'] ?? '') . ':' . ($urlComponents['pass'] ?? '');
+        return $urlComponents['scheme'] . '://';
+    }
+
+    private function getUrlLogin(array $urlComponents): string
+    {
+
+        if (!isset($urlComponents['user']) && !isset($urlComponents['pass'])) {
+            return '';
         }
-        $url .= $urlComponents['host'] ?? '';
-        if (isset($urlComponents['port'])) {
-            $url .= ':' . $urlComponents['port'];
+        return ($urlComponents['user'] ?? '') . ':' . ($urlComponents['pass'] ?? '');
+    }
+
+    private function getUrlHost(array $urlComponents): string
+    {
+        return $urlComponents['host'] ?? '';
+    }
+
+    private function getUrlPort(array $urlComponents): string
+    {
+        if (!isset($urlComponents['port'])) {
+            return '';
         }
-        $url .= $urlComponents['path'] ?? '';
-        $url .= '?';
+        return ':' . $urlComponents['port'];
+    }
+
+    private function getUrlPath(array $urlComponents): string
+    {
+        return $urlComponents['path'] ?? '';
+    }
+
+    private function getUrlQuery(array $urlComponents, ParameterBag $additionalParameters): string
+    {
+        $query = '';
         if (isset($urlComponents['query'])) {
-            $url .= $urlComponents['query'] . '&';
+            $query .= '?' . $urlComponents['query'];
         }
         if ($additionalParameters->count() > 0) {
-            $url .= http_build_query($additionalParameters->all()) . '&';
+            $query .= ($query === '' ? '?' : '&') . http_build_query($additionalParameters->all());
         }
-        $url .= self::REDIRECT_COUNT_PARAMETER_KEY . '=' . $redirectCount;
-        if (isset($urlComponents['fragment'])) {
-            $url .= '#' . $urlComponents['fragment'];
+
+        return $query;
+    }
+
+    private function getUrlFragment(array $urlComponents): string
+    {
+        if (!isset($urlComponents['fragment'])) {
+            return '';
         }
-        return $url;
+        return '#' . $urlComponents['fragment'];
     }
 
     private function getLanguageFromLocaleWithTerritory(string $locale): ?string
