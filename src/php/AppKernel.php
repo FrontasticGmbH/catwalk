@@ -67,20 +67,25 @@ class AppKernel extends \Frontastic\Common\Kernel
     {
         $environment = $this->getEnvironment();
 
+        $catwalkBaseConfigDir = __DIR__ . '/../../config';
+
+        $executedInBaseCatwalk = (realpath($catwalkBaseConfigDir) === realpath(self::$catwalkBaseDir . '/config'));
+
         // Always load basic catwalk settings for environment (imports global) or global
-        $catwalkBaseConfigDir = __DIR__ . '/../php/../../config';
         if (file_exists($catwalkBaseConfigDir . '/config_' . $environment . '.yml')) {
             $loader->load($catwalkBaseConfigDir . '/config_' . $environment . '.yml');
         } else {
             $loader->load($catwalkBaseConfigDir . '/config.yml');
         }
 
-        // Load additional project settings, if exist (for environment or global)
-        $projectConfigDir = static::getBaseDir() . '/config';
-        if (file_exists($projectConfigDir . '/config_' . $environment . '.yml')) {
-            $loader->load($projectConfigDir . '/config_' . $environment . '.yml');
-        } else if (file_exists($projectConfigDir . '/config.yml')) {
-            $loader->load($projectConfigDir . '/config.yml');
+        if (!$executedInBaseCatwalk) {
+            // Load additional project settings, if exist (for environment or global)
+            $projectConfigDir = static::getBaseDir() . '/config';
+            if (file_exists($projectConfigDir . '/config_' . $environment . '.yml')) {
+                $loader->load($projectConfigDir . '/config_' . $environment . '.yml');
+            } else if (file_exists($projectConfigDir . '/config.yml')) {
+                $loader->load($projectConfigDir . '/config.yml');
+            }
         }
     }
 
