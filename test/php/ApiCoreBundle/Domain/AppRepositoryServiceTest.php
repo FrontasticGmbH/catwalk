@@ -14,6 +14,7 @@ class AppRepositoryServiceTest extends IntegrationTest
         return new AppRepositoryService(
             $this->getContainer()->get('doctrine.orm.entity_manager'),
             $this->getContainer()->get(\Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway::class),
+            $this->getContainer()->get('logger'),
             __DIR__
         );
     }
@@ -237,5 +238,37 @@ class AppRepositoryServiceTest extends IntegrationTest
 
         $test_product = $repository->findOneByDataId('42');
         $this->assertSame('Wohlfühlsocken', $test_product->name);
+    }
+
+    public function testSchemaIsUpdatedWhenEntityClassWasLoadedBefore()
+    {
+        $appRepositoryService = $this->getService();
+        $schemaManager = $this->getContainer()->get('doctrine.dbal.default_connection')->getSchemaManager();
+
+        $app = new App([
+            'appId' => 'app_1',
+            'configurationSchema' => $this->getBasicSchema(),
+        ]);
+        $appRepositoryService->update($app);
+
+        $this->assertEquals(
+            ['d_locale', 'd_id', 'd_sequence', 'd_is_deleted', 'd_productid', 'd_name', 'd_description'],
+            array_keys($schemaManager->listTableColumns('app_testproduct'))
+        );
+
+        // ensure the class is auto loaded
+        new App\TestProduct();
+
+        $app->configurationSchema['schema'][0]['fields'][] = [
+            'label' => 'Additional Field',
+            'field' => 'add',
+            'type' => 'string',
+        ];
+        $appRepositoryService->update($app);
+
+        $this->assertEquals(
+            ['d_locale', 'd_id', 'd_sequence', 'd_is_deleted', 'd_productid', 'd_name', 'd_description', 'd_add'],
+            array_keys($schemaManager->listTableColumns('app_testproduct'))
+        );
     }
 }
