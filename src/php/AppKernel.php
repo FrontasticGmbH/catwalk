@@ -83,7 +83,7 @@ class AppKernel extends \Frontastic\Common\Kernel
             $projectConfigDir = static::getBaseDir() . '/config';
             if (file_exists($projectConfigDir . '/config_' . $environment . '.yml')) {
                 $loader->load($projectConfigDir . '/config_' . $environment . '.yml');
-            } else if (file_exists($projectConfigDir . '/config.yml')) {
+            } elseif (file_exists($projectConfigDir . '/config.yml')) {
                 $loader->load($projectConfigDir . '/config.yml');
             }
         }

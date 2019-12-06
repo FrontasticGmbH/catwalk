@@ -82,7 +82,9 @@ class Catwalk
 
         $input = new ArgvInput();
         $env = $input->getParameterOption(['--env', '-e'], getenv('env'));
-        $debug = AppKernel::isDebugEnvironment($env) && !$input->hasParameterOption(['--no-debug', '']) && $env !== 'prod';
+        $debug = AppKernel::isDebugEnvironment($env)
+            && !$input->hasParameterOption(['--no-debug', ''])
+            && $env !== 'prod';
 
         if ($debug) {
             Debug::enable();
@@ -113,7 +115,7 @@ class Catwalk
         $trustedProxies = getenv('trusted_proxies') ?? false;
         if ($trustedProxies) {
             if (trim($trustedProxies) === '*') {
-                // Trust all proxies. In our cloud setup servers are only reachable through the LB but the LB IPs change.
+                // Trust all proxies. In our cloud servers are only reachable through the LB but the LB IPs change.
                 $trustedProxies = $_SERVER['REMOTE_ADDR'];
             }
         }
