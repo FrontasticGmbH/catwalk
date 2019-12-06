@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk;
 
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -55,6 +56,32 @@ class AppKernel extends \Frontastic\Common\Kernel
         }
 
         return $bundles;
+    }
+
+    /**
+     * Register symfony configuration from base dir.
+     *
+     * @TODO Use Symfony Flex mechanism instead
+     */
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
+        $environment = $this->getEnvironment();
+
+        // Always load basic catwalk settings for environment (imports global) or global
+        $catwalkBaseConfigDir = __DIR__ . '/../php/../../config';
+        if (file_exists($catwalkBaseConfigDir . '/config_' . $environment . '.yml')) {
+            $loader->load($catwalkBaseConfigDir . '/config_' . $environment . '.yml');
+        } else {
+            $loader->load($catwalkBaseConfigDir . '/config.yml');
+        }
+
+        // Load additional project settings, if exist (for environment or global)
+        $projectConfigDir = static::getBaseDir() . '/config';
+        if (file_exists($projectConfigDir . '/config_' . $environment . '.yml')) {
+            $loader->load($projectConfigDir . '/config_' . $environment . '.yml');
+        } else if (file_exists($projectConfigDir . '/config.yml')) {
+            $loader->load($projectConfigDir . '/config.yml');
+        }
     }
 
     /**
