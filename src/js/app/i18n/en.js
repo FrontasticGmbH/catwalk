@@ -27,7 +27,7 @@ export default {
             zip: 'Zip Code',
             location: 'Location',
             hint: 'Hint for Address',
-            land: 'Land',
+            land: 'Country',
             delivery: 'Delivery address',
             billing: 'Billing address',
             corresponds: 'Invoice address corresponds to delivery address',
