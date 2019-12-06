@@ -86,7 +86,11 @@ class Preview extends Component {
         if (!this.props.tastics.isComplete() ||
             !this.props.node ||
             !this.props.page) {
-            return <h1>Initializing Preview</h1>
+            return (<div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', height: '100vh', width: '100vw' }}>
+                <h1 style={{ color: '#463460', fontFamily: 'sans-serif' }}>
+                    Initializing Preview
+                </h1>
+            </div>)
         }
 
         return (<div className='s-preview'>
