@@ -93,16 +93,13 @@ class Preview extends Component {
         }
 
         return (<div className='s-preview'>
-            {this.props.tastics.isComplete() ?
-                <Page
-                    node={this.props.node.data || {}}
-                    page={this.props.page.data || {}}
-                    data={this.props.data.data || {}}
-                    highlight={this.state.highlight}
-                    tastics={this.props.tastics.data}
-                />
-            : null}
-            <Loading large entity={this.props.data} />
+            <Page
+                node={this.props.node.data || {}}
+                page={this.props.page.data || {}}
+                data={this.props.data.data || {}}
+                highlight={this.state.highlight}
+                tastics={this.props.tastics.data}
+            />
         </div>)
     }
 }
