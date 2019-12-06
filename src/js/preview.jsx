@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import app from './app/app'
 
 import Page from './page/page'
-import Loading from './app/loading'
 import emptyEntity from './helper/emptyEntity'
 
 class Preview extends Component {
@@ -84,25 +83,24 @@ class Preview extends Component {
     webSocket = null
 
     render () {
-        if (!this.props.tastics.isComplete()) {
-            return <Loading large entity={this.props.tastics} />
-        }
-
-        if (!this.props.node || !this.props.page) {
-            return <Loading large />
+        if (!this.props.tastics.isComplete() ||
+            !this.props.node ||
+            !this.props.page) {
+            return (<div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', height: '100vh', width: '100vw' }}>
+                <h1 style={{ color: '#463460', fontFamily: 'sans-serif' }}>
+                    Initializing Preview
+                </h1>
+            </div>)
         }
 
         return (<div className='s-preview'>
-            {this.props.tastics.isComplete() ?
-                <Page
-                    node={this.props.node.data || {}}
-                    page={this.props.page.data || {}}
-                    data={this.props.data.data || {}}
-                    highlight={this.state.highlight}
-                    tastics={this.props.tastics.data}
-                />
-            : null}
-            <Loading large entity={this.props.data} />
+            <Page
+                node={this.props.node.data || {}}
+                page={this.props.page.data || {}}
+                data={this.props.data.data || {}}
+                highlight={this.state.highlight}
+                tastics={this.props.tastics.data}
+            />
         </div>)
     }
 }

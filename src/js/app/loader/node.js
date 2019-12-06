@@ -147,16 +147,17 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
     case 'Frontend.Node.initialize':
         return {
             ...globalState,
+            currentNodeId: action.data.node.nodeId,
+            previewId: action.data.route.parameters.preview,
             nodes: {
-                [action.data.node.nodeId]: new Entity(action.data.node),
+                [action.data.node.nodeId || action.data.route.parameters.preview]: new Entity(action.data.node),
+            },
+            pages: {
+                [action.data.node.nodeId || action.data.route.parameters.preview]: new Entity(action.data.page),
             },
             nodeData: {
                 [globalState.currentCacheKey]: new Entity(action.data.data),
             },
-            pages: {
-                [action.data.node.nodeId]: new Entity(action.data.page),
-            },
-            currentNodeId: action.data.node.nodeId,
         }
 
     case 'Frontend.Node.tree.success':
