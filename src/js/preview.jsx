@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import app from './app/app'
 
 import Page from './page/page'
-import Loading from './app/loading'
 import emptyEntity from './helper/emptyEntity'
 
 class Preview extends Component {
@@ -84,12 +83,10 @@ class Preview extends Component {
     webSocket = null
 
     render () {
-        if (!this.props.tastics.isComplete()) {
-            return <Loading large entity={this.props.tastics} />
-        }
-
-        if (!this.props.node || !this.props.page) {
-            return <Loading large />
+        if (!this.props.tastics.isComplete() ||
+            !this.props.node ||
+            !this.props.page) {
+            return <h1>Initializing Preview</h1>
         }
 
         return (<div className='s-preview'>
