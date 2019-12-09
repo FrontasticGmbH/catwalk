@@ -128,7 +128,7 @@ class AppRepositoryService
 
     private function makeClassName(string $identifier): string
     {
-        return ucfirst(preg_replace('([^A-Za-z]+)', '', ucwords($identifier, "_- \t\r\n\f\v")));
+        return ucfirst(preg_replace('([^A-Za-z]+)', '', ucwords($identifier)));
     }
 
     public function getFullyQualifiedClassName(string $identifier): string

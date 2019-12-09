@@ -22,7 +22,7 @@ class AppRepositoryServiceTest extends IntegrationTest
     protected function getBasicSchema(): array
     {
         return [
-            'identifier' => 'test_product',
+            'identifier' => 'testProduct',
             'name' => 'TestProduct',
             'fields' => [
                 0 => [
