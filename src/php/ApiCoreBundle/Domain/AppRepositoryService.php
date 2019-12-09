@@ -78,30 +78,32 @@ class AppRepositoryService
     {
         $className = $this->makeClassName($app->configurationSchema['identifier']);
         $tableName = 'app_' . \strtolower($className);
+        $properties = $this->getProperties($app);
+        $indexes = $app->configurationSchema['indexes'] ?? [];
 
         $suffix = 'SchemaUpdate' . str_shuffle('abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz');
         $schemaUpdateClassName = $className . $suffix;
         $schemaUpdateFileName = $this->sourceDir . '/App/' . $schemaUpdateClassName . '.php';
-        $this->generateEntityClass(
-            $schemaUpdateClassName,
-            $tableName,
-            $schemaUpdateFileName,
-            $this->getProperties($app),
-            $app->configurationSchema['indexes'] ?? []
-        );
 
         try {
+            $this->generateEntityClass(
+                $schemaUpdateClassName,
+                $tableName,
+                $schemaUpdateFileName,
+                $properties,
+                $indexes
+            );
             $this->updateDatabaseSchema($app->name ?? $app->appId ?? $className, $schemaUpdateClassName);
         } finally {
-            unlink($schemaUpdateFileName);
+            \unlink($schemaUpdateFileName);
         }
 
         $this->generateEntityClass(
             $className,
             $tableName,
             $this->sourceDir . '/App/' . $className . '.php',
-            $this->getProperties($app),
-            $app->configurationSchema['indexes'] ?? []
+            $properties,
+            $indexes
         );
     }
 
