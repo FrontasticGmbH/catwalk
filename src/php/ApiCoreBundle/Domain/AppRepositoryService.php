@@ -140,8 +140,7 @@ class AppRepositoryService
         string $fileName,
         array $properties,
         array $indexes
-    )
-    {
+    ) {
         $templating = new \Twig_Environment(
             new \Twig_Loader_Filesystem([__DIR__ . '/../Resources/views/App/'])
         );
