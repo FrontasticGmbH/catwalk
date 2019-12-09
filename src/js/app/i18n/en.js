@@ -154,7 +154,8 @@ export default {
     product: {
         description: 'Description',
         shipping: 'Shipping',
-        reviews: 'Reviews ({count})',
+        reviews: 'Reviews',
+        reviewsWithCount: 'Reviews ({count})',
         materialOuterFabric: 'Fabric:',
         viscose: 'Viscose',
         lacing: 'Lacing',

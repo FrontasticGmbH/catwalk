@@ -193,7 +193,8 @@ export default {
     product: {
         description: 'Beschreibung',
         shipping: 'Versand',
-        reviews: 'Bewertungen ({count})',
+        reviews: 'Bewertungen',
+        reviewsWithCount: 'Bewertungen ({count})',
         materialOuterFabric: 'Material Oberstoff:',
         viscose: 'Viskose',
         lacing: 'Schnürung',
