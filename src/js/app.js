@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import _ from 'lodash'
 
 import app from './app/app'
 import store from './app/store'
@@ -45,6 +46,25 @@ export default (mountNode, dataNode, tastics = null) => {
             type: 'ApiBundle.Api.context.success',
             data: data,
         })
+        store.dispatch({
+            type: 'Frontastic.RenderContext.ClientSideDetected',
+        })
+        store.dispatch({
+            type: 'Frontastic.RenderContext.UserAgentDetected',
+            userAgent: navigator.userAgent,
+        })
+        const dispatchViewportDimensions = () => {
+            store.dispatch({
+                type: 'Frontastic.RenderContext.ViewportDimensionChanged',
+                viewportDimension: {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                },
+            })
+        }
+
+        dispatchViewportDimensions()
+        window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
 
         let context = new Context(data)
 
@@ -56,23 +76,16 @@ export default (mountNode, dataNode, tastics = null) => {
         app.getLoader('context').refresh()
     }
 
-    if (typeof window !== 'undefined') {
-        import('history').then(({ createBrowserHistory }) => {
-            const history = createBrowserHistory()
-            history.listen(app.loadForLocation)
+    import('history').then(({ createBrowserHistory }) => {
+        const history = createBrowserHistory()
+        history.listen(app.loadForLocation)
 
-            app.history = history
-            app.router.history = history
+        app.history = history
+        app.router.history = history
 
-            ReactDOM.hydrate(
-                <AppComponent app={app} />,
-                mountNode
-            )
-        })
-    } else {
         ReactDOM.hydrate(
             <AppComponent app={app} />,
             mountNode
         )
-    }
+    })
 }

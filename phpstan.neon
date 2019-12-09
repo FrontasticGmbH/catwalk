@@ -5,3 +5,5 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
     ignoreErrors:
         - '#Tideways\\Profiler#'
+        - '#Call to static method getDebug\(\) on an unknown class AppKernel.#'
+    reportUnmatchedIgnoredErrors: false
