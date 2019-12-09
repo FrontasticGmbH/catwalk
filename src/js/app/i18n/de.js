@@ -20,6 +20,9 @@ export default {
         show: 'Anzeigen',
         cancel: 'Abbrechen',
         more: 'Weiter',
+        viewMyProfile: 'Mein Profil ansehen',
+        viewMyOrders: 'Meine bestellungen ansehen',
+        signUp: 'Melde dich jetzt an',
 
         message: {
             registered: 'Anmeldung erfolgreich – wir haben Ihnen eine E-Mail geschickt mit der Sie Ihren Account aktivieren können',
