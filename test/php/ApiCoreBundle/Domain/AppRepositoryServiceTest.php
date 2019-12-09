@@ -214,6 +214,11 @@ class AppRepositoryServiceTest extends IntegrationTest
     public function testStoreEntity()
     {
         $appRepositoryService = $this->getService();
+        $app = new App([
+            'appId' => 'app_1',
+            'configurationSchema' => $this->getBasicSchema(),
+        ]);
+        $appRepositoryService->update($app);
         $repository = $appRepositoryService->getRepository('test_product');
 
         $test_product = new App\TestProduct([
