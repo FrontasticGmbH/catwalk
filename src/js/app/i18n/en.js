@@ -178,7 +178,7 @@ export default {
     colorProduct: 'Color:',
     sizeProduct: 'Size',
     quantityProduct: 'Quantity:',
-    inCartProduct: 'In the cart',
+    inCartProduct: 'Add to cart',
     back: 'Back',
     titleBoost: 'Boost theme',
     profile: 'Profile',
