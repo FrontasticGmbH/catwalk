@@ -64,7 +64,7 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
         console.warn('No breakpoint matched. Did you forget setting a default breakpoint without max-width?')
     }
 
-    if (renderContext.userAgent) {
+    if (renderContext.userAgent && renderContext.breakpoints) {
         const matchedBreakpoint = renderContext.breakpoints.reduce(
             (matchedBreakpoint, breakpoint) => {
                 if (matchedBreakpoint && matchedBreakpoint.userAgentRegexp) {
