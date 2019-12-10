@@ -2,13 +2,28 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
-use Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Tools\SchemaTool;
+use Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway;
+use Psr\Log\LoggerInterface;
 
 class AppRepositoryService
 {
+    const DOCTRINE_TYPE_MAP = [
+        'string' => 'string',
+        'text' => 'text',
+        'integer' => 'integer',
+        'markdown' => 'text',
+        'decimal' => 'float',
+        'boolean' => 'boolean',
+        'enum' => 'string',
+        'stream' => 'object',
+        'node' => 'object',
+        'media' => 'object',
+        'group' => 'object',
+        'json' => 'text',
+    ];
     private $entityManager;
 
     private $sourceDir;
@@ -17,6 +32,11 @@ class AppRepositoryService
      * @var \Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway
      */
     private $appGateway;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * Internal <alert>STATE</alert> - did we have synced the current auto
@@ -29,10 +49,12 @@ class AppRepositoryService
     public function __construct(
         EntityManager $entityManager,
         AppGateway $appGateway,
+        LoggerInterface $logger,
         string $sourceDir = ''
     ) {
         $this->entityManager = $entityManager;
         $this->appGateway = $appGateway;
+        $this->logger = $logger;
         $this->sourceDir = $sourceDir ?: __DIR__;
     }
 
@@ -55,12 +77,34 @@ class AppRepositoryService
     public function update(App $app)
     {
         $className = $this->makeClassName($app->configurationSchema['identifier']);
+        $tableName = 'app_' . \strtolower($className);
+        $properties = $this->getProperties($app);
+        $indexes = $app->configurationSchema['indexes'] ?? [];
+
+        $suffix = 'SchemaUpdate' . str_shuffle('abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz');
+        $schemaUpdateClassName = $className . $suffix;
+        $schemaUpdateFileName = $this->sourceDir . '/App/' . $schemaUpdateClassName . '.php';
+
+        try {
+            $this->generateEntityClass(
+                $schemaUpdateClassName,
+                $tableName,
+                $schemaUpdateFileName,
+                $properties,
+                $indexes
+            );
+            $this->updateDatabaseSchema($app->name ?? $app->appId ?? $className, $schemaUpdateClassName);
+        } finally {
+            \unlink($schemaUpdateFileName);
+        }
+
         $this->generateEntityClass(
             $className,
-            $this->getProperties($app),
-            $app->configurationSchema['indexes'] ?? []
+            $tableName,
+            $this->sourceDir . '/App/' . $className . '.php',
+            $properties,
+            $indexes
         );
-        $this->updateDatabaseSchema($className);
     }
 
     /**
@@ -92,43 +136,34 @@ class AppRepositoryService
         return 'Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\App\\' . $this->makeClassName($identifier);
     }
 
-    private function generateEntityClass(string $className, array $properties, array $indexes)
-    {
-        $doctrineTypeMap = [
-            'string' => 'string',
-            'text' => 'text',
-            'integer' => 'integer',
-            'markdown' => 'text',
-            'decimal' => 'float',
-            'boolean' => 'boolean',
-            'enum' => 'string',
-            'stream' => 'object',
-            'node' => 'object',
-            'media' => 'object',
-            'group' => 'object',
-            'json' => 'text',
-        ];
-
+    private function generateEntityClass(
+        string $className,
+        string $tableName,
+        string $fileName,
+        array $properties,
+        array $indexes
+    ) {
         $templating = new \Twig_Environment(
             new \Twig_Loader_Filesystem([__DIR__ . '/../Resources/views/App/'])
         );
 
         // @TODO: Map PHP type information for better autocompletion
         file_put_contents(
-            $this->sourceDir . '/App/' . $className . '.php',
+            $fileName,
             $templating->render(
                 'dataObject.php.twig',
                 [
                     'className' => $className,
+                    'tableName' => $tableName,
                     'properties' => $properties,
                     'indexes' => $indexes,
-                    'doctrineTypeMap' => $doctrineTypeMap,
+                    'doctrineTypeMap' => self::DOCTRINE_TYPE_MAP,
                 ]
             )
         );
     }
 
-    private function updateDatabaseSchema(string $className)
+    private function updateDatabaseSchema(string $appName, string $className)
     {
         $metaDataFactory = new ClassMetadataFactory();
         $metaDataFactory->setEntityManager($this->entityManager);
@@ -138,7 +173,15 @@ class AppRepositoryService
         );
 
         $schemaTool = new SchemaTool($this->entityManager);
-        $schemaTool->updateSchema([$entityMetaData], true);
+        $schemaSqlQueries = $schemaTool->getUpdateSchemaSql([$entityMetaData], true);
+        foreach ($schemaSqlQueries as $query) {
+            $this->logger->info(sprintf(
+                'Updating database schema for custom app %s: %s',
+                $appName,
+                $query
+            ));
+            $this->entityManager->getConnection()->executeQuery($query);
+        }
     }
 
     private function ensureEntitiesInSync(): void

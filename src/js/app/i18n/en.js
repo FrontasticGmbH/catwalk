@@ -17,6 +17,9 @@ export default {
         show: 'Zeigen',
         cancel: 'Cancel',
         more: 'More',
+        viewMyProfile: 'View my profile',
+        viewMyOrders: 'View my orders',
+        signUp: 'Sign Up',
 
         address: {
             newAddress: 'Add new address',
@@ -109,7 +112,7 @@ export default {
         paymentMethods: 'Payment methods',
         totalSum: 'Total sum', // check if correct
         enterVouchers: 'You can enter voucher codes in the last step of the order process.',
-        checkout: 'To Checkout',
+        checkout: 'Checkout',
         subtotal: 'Subtotal',
         shippingCosts: 'Shipping costs',
         gratis: 'gratis',
@@ -151,7 +154,8 @@ export default {
     product: {
         description: 'Description',
         shipping: 'Shipping',
-        reviews: 'Reviews ({count})',
+        reviews: 'Reviews',
+        reviewsWithCount: 'Reviews ({count})',
         materialOuterFabric: 'Fabric:',
         viscose: 'Viscose',
         lacing: 'Lacing',
@@ -178,7 +182,7 @@ export default {
     colorProduct: 'Color:',
     sizeProduct: 'Size',
     quantityProduct: 'Quantity:',
-    inCartProduct: 'In the cart',
+    inCartProduct: 'Add to cart',
     back: 'Back',
     titleBoost: 'Boost theme',
     profile: 'Profile',
