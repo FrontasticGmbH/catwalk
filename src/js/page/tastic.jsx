@@ -62,7 +62,10 @@ const TasticWrapper = (props) => {
 
     return (<ErrorBoundary isDebug={props.isDebug}>
         <div className={'e-tastic ' +
-                'e-tastic__' + tastic.tasticType
+                'e-tastic__' + tastic.tasticType + ' ' +
+                (tastic.schema.get('mobile') ? '' : 'e-tastic--hidden-hand ') +
+                (tastic.schema.get('tablet') ? '' : 'e-tastic--hidden-lap ') +
+                (tastic.schema.get('desktop') ? '' : 'e-tastic--hidden-desk ')
             }
             style={{
                 outline: (_.isEqual(tastic.tasticId, props.highlight) ? '2px dashed #d73964' : null),
