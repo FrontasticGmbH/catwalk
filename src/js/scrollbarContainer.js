@@ -63,12 +63,15 @@ class ScrollbarContainer extends Component {
             <Scrollbars
                 autoHide
                 style={{ height: '100vh', width: '100vw' }}
-                id='scroll-container'
+                universal
                 ref={(element) => {
                         this.scrollable = element
                     }}
                 onScrollStop={(event) => {
                         this.setScrollPosition(this.props.viewKey, this.scrollable.getScrollTop())
+                    }}
+                renderView={(props) => {
+                        return <div {...props} id='scroll-container' />
                     }}
                 >
                 <ScrollContext.Provider value={{ forceScrollToTop: this.forceScrollToTop }}>
