@@ -49,9 +49,11 @@ export default {
             emailAddress: 'E-Mail Address',
             password: 'Password',
             login: 'Login',
+            welcomeBack: 'Welcome back',
         },
         register: {
-            joinUs: 'Join Us', // check if correct
+            register: 'Register',
+            joinUs: 'Join Us', 
             genderMale: 'Mr.',
             genderFemale: 'Mrs.',
             firstName: 'First Name',

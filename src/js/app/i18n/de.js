@@ -67,11 +67,13 @@ export default {
 
         },
         login: {
-            emailAddress: 'E-Mail Address',
+            emailAddress: 'E-Mail Addresse',
             password: 'Passwort',
             login: 'Anmelden',
+            welcomeBack: 'Willkommen Zurück',
         },
         register: {
+            register: 'Registrieren',
             joinUs: 'Jetzt Anmelden',
             genderMale: 'Herr',
             genderFemale: 'Frau',
