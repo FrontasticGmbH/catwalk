@@ -53,7 +53,7 @@ export default {
         },
         register: {
             register: 'Register',
-            joinUs: 'Join Us', 
+            joinUs: 'Join Us',
             genderMale: 'Mr.',
             genderFemale: 'Mrs.',
             firstName: 'First Name',
