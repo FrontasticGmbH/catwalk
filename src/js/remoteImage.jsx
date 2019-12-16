@@ -52,7 +52,7 @@ class RemoteImage extends Component {
         return (
             <img
                 style={this.props.style}
-                loading='lazy'
+                loading={this.props.loading}
                 className={this.state.loading ? 'loading' : 'loaded'}
                 onLoad={() => {
                     this.setState({ loading: false })
@@ -105,6 +105,7 @@ RemoteImage.propTypes = {
     alt: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
+    loading: PropTypes.oneOf(['lazy', 'auto', 'eager']),
     style: PropTypes.object,
     cropRatio: PropTypes.oneOfType([
         PropTypes.string,
@@ -117,6 +118,7 @@ RemoteImage.propTypes = {
 RemoteImage.defaultProps = {
     style: {},
     cropRatio: null,
+    loading: 'lazy',
 }
 
 export default connect((globalState, props) => {
