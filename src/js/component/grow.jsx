@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Transition } from 'react-transition-group'
 
 import ComponentInjector from '../app/injector'
-import {registerMaxHeight} from './grow.module.scss'
+import { registerMaxHeight } from './grow.module.scss'
 
 class Grow extends Component {
     render () {
