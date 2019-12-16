@@ -162,6 +162,10 @@ export default {
         emptyCart: 'Der Warenkorb ist noch leer.',
         registerNow: 'Jetzt anmelden',
     },
+    wishlist: {
+        title: 'Wunschliste',
+        no_items: 'Die Wunschliste ist noch leer.',
+    },
     order: {
         myOrder: 'Meine Bestellung',
         number: 'Bestellnummer:',

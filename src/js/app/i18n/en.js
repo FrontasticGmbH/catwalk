@@ -122,6 +122,10 @@ export default {
         registerNow: 'Register now', // check if correct
 
     },
+    wishlist: {
+        title: 'Wishlist',
+        no_items: 'The wishlist is still empty.',
+    },
     order: {
         myOrder: 'My Order',
         number: 'Order number:',
