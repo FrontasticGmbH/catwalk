@@ -59,6 +59,7 @@ export default {
             firstName: 'First Name',
             lastName: 'Last Name',
             tcAgree: 'Yes, I agree to the terms and conditions and privacy policy of frontastic.',
+            informAgree: 'Yes, I would like to be informed about trends, campaigns and vouchers by email.',
             registerNow: 'Register Now',
             createUser: 'Create user account',
         },

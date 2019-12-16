@@ -80,6 +80,7 @@ export default {
             firstName: 'Vorname',
             lastName: 'Nachname',
             tcAgree: 'Ja, ich stimme den AGB und den Datenschutzbestimmungen von Frontastic zu.',
+            informAgree: 'Ja, ich möchte per E-Mail Newsletter über Trends, Aktionen & Gutscheine informiert werden.',
             registerNow: 'Jetzt registrieren',
             createUser: 'Benutzerkonto erstellen',
         },

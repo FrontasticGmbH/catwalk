@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import { Transition } from 'react-transition-group'
 
 import ComponentInjector from '../app/injector'
+import {registerMaxHeight} from './grow.module.scss'
 
 class Grow extends Component {
     render () {
         return (<Transition appear in={this.props.in} timeout={225}>
             {(state) => {
-                return (<div className={'u-grow u-grow--' + state}>
+                return (<div className={`${registerMaxHeight} u-grow u-grow--` + state}>
                     {this.props.children}
                 </div>)
             }}
