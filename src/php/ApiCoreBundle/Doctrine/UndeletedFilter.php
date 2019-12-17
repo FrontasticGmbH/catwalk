@@ -8,6 +8,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Facet;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page;
 use Frontastic\Catwalk\FrontendBundle\Domain\Redirect;
+use Frontastic\Catwalk\FrontendBundle\Domain\Schema;
 
 class UndeletedFilter extends SQLFilter
 {
@@ -16,6 +17,7 @@ class UndeletedFilter extends SQLFilter
         Node::class => 'n',
         Page::class => 'p',
         Redirect::class => 'rd',
+        Schema::class => 's',
     ];
 
     const APP_DATA_NAMESPACE = 'Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\App';

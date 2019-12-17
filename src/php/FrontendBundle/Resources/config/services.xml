@@ -91,6 +91,18 @@
             <tag name="endpoint.target" channel="redirects" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\SchemaService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\SchemaGateway" />
+        </service>
+
+        <service id="frontastic.catwalk.frontend_bundle.domain.schema.replication_target"
+                 class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\SchemaService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+
+            <tag name="endpoint.target" channel="schemas" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
             <argument type="tagged" tag="frontend.streamHandler" />
@@ -324,6 +336,17 @@
                     <factory service="doctrine.orm.default_entity_manager"
                              method="getRepository" />
                     <argument>Frontastic\Catwalk\FrontendBundle\Domain\Redirect</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Gateway\SchemaGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                             method="getRepository" />
+                    <argument>Frontastic\Catwalk\FrontendBundle\Domain\Schema</argument>
                 </service>
             </argument>
             <argument type="service" id="doctrine.orm.entity_manager" />
