@@ -7,6 +7,7 @@ use Doctrine\ORM\Query\Filter\SQLFilter;
 use Frontastic\Catwalk\FrontendBundle\Domain\Facet;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page;
+use Frontastic\Catwalk\FrontendBundle\Domain\ProjectConfiguration;
 use Frontastic\Catwalk\FrontendBundle\Domain\Redirect;
 use Frontastic\Catwalk\FrontendBundle\Domain\Schema;
 
@@ -18,6 +19,7 @@ class UndeletedFilter extends SQLFilter
         Page::class => 'p',
         Redirect::class => 'rd',
         Schema::class => 's',
+        ProjectConfiguration::class => 'pc',
     ];
 
     const APP_DATA_NAMESPACE = 'Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\App';
