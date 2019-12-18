@@ -165,6 +165,10 @@ export default {
         emptyCart: 'Der Warenkorb ist noch leer.',
         registerNow: 'Jetzt anmelden',
     },
+    wishlist: {
+        title: 'Wunschliste',
+        no_items: 'Die Wunschliste ist noch leer.',
+    },
     order: {
         myOrder: 'Meine Bestellung',
         number: 'Bestellnummer:',
@@ -199,6 +203,9 @@ export default {
         reviews: 'Bewertungen',
         reviewsWithCount: 'Bewertungen ({count})',
         materialOuterFabric: 'Material Oberstoff:',
+        color: 'Farbe',
+        designer: 'Designer',
+        commonSize: 'Vergleichsgröße',
         viscose: 'Viskose',
         lacing: 'Schnürung',
         lining: 'Futter:',

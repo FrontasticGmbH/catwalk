@@ -125,6 +125,10 @@ export default {
         registerNow: 'Register now', // check if correct
 
     },
+    wishlist: {
+        title: 'Wishlist',
+        no_items: 'The wishlist is still empty.',
+    },
     order: {
         myOrder: 'My Order',
         number: 'Order number:',
@@ -160,6 +164,9 @@ export default {
         reviews: 'Reviews',
         reviewsWithCount: 'Reviews ({count})',
         materialOuterFabric: 'Fabric:',
+        color: 'Color',
+        designer: 'Designer',
+        commonSize: 'Common size',
         viscose: 'Viscose',
         lacing: 'Lacing',
         lining: 'Lining:',

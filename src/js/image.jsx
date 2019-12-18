@@ -79,7 +79,7 @@ class Image extends Component {
         return (
             <img
                 style={this.props.style}
-                loading='lazy'
+                loading={this.props.loading}
                 className={this.props.className + (this.state.loading ? 'loading' : 'loaded')}
                 onLoad={() => {
                     this.setState({ loading: false })
@@ -134,12 +134,14 @@ Image.propTypes = {
     ]),
     className: PropTypes.string,
     options: PropTypes.object,
+    loading: PropTypes.oneOf(['lazy', 'auto', 'eager']),
 }
 
 Image.defaultProps = {
     style: {},
     cropRatio: null,
     className: '',
+    loading: 'lazy',
 }
 
 export default connect((globalState) => {
