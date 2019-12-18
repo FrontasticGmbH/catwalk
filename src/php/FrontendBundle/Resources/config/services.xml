@@ -467,6 +467,12 @@
             <tag name="kernel.event_listener" event="kernel.response" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\EventListener\EmbedContext">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Twig\NodeExtension"/>
+
+            <tag name="kernel.event_listener" event="kernel.response" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\FeatureFlagService">
             <argument type="service" on-invalid="null">
                 <service class="Frontastic\Catwalk\ApiCoreBundle\Domain\DataRepository">

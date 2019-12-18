@@ -47,6 +47,7 @@ class NodeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
 
         return [
             'frontastic' => [
+                'context' => $this->container->get(Context::class),
                 'tastics' => $this->container->get(TasticService::class)->getAll(),
                 'facets' => $this->container->get(FacetService::class)->getEnabled(),
                 'categories' => $this->getCategories(),
