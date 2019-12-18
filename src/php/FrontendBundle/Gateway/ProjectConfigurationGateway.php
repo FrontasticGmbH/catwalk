@@ -24,6 +24,11 @@ class ProjectConfigurationGateway
         $this->manager = $manager;
     }
 
+    public function getCurrentConfiguration(): ?ProjectConfiguration
+    {
+        return $this->repository->findOneBy([]);
+    }
+
     public function get(string $projectConfigurationId): ProjectConfiguration
     {
         if (($projectConfiguration = $this->repository->find($projectConfigurationId)) === null) {

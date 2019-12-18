@@ -2,10 +2,12 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextDecorator;
 use Frontastic\Catwalk\FrontendBundle\Gateway\ProjectConfigurationGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 
-class ProjectConfigurationService implements Target
+class ProjectConfigurationService implements Target, ContextDecorator
 {
     /**
      * @var ProjectConfigurationGateway
@@ -37,6 +39,15 @@ class ProjectConfigurationService implements Target
             $projectConfiguration = $this->fill($projectConfiguration, $update);
             $this->projectConfigurationGateway->store($projectConfiguration);
         }
+    }
+
+    public function decorate(Context $context): Context
+    {
+        $projectConfiguration = $this->projectConfigurationGateway->getCurrentConfiguration();
+        if ($projectConfiguration !== null && is_array($projectConfiguration->configuration)) {
+            $context->projectConfiguration = $projectConfiguration->configuration;
+        }
+        return $context;
     }
 
     private function fill(ProjectConfiguration $projectConfiguration, array $data): ProjectConfiguration
