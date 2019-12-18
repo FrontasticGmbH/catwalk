@@ -27,7 +27,9 @@ class ProjectConfigurationGateway
     public function get(string $projectConfigurationId): ProjectConfiguration
     {
         if (($projectConfiguration = $this->repository->find($projectConfigurationId)) === null) {
-            throw new \OutOfBoundsException("Project Configuration with ID $projectConfigurationId could not be found.");
+            throw new \OutOfBoundsException(
+                "Project Configuration with ID $projectConfigurationId could not be found."
+            );
         }
 
         return $projectConfiguration;
