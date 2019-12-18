@@ -34,6 +34,11 @@ class Context extends DataObject
     public $projectConfiguration = [];
 
     /**
+     * @var array
+     */
+    public $projectConfigurationSchema = [];
+
+    /**
      * @var string
      */
     public $locale;

@@ -24,6 +24,11 @@ class SchemaGateway
         $this->manager = $manager;
     }
 
+    public function getSchemaOfType(string $schemaType): ?Schema
+    {
+        return $this->repository->findOneBySchemaType($schemaType);
+    }
+
     public function get(string $schemaId): Schema
     {
         if (($schema = $this->repository->find($schemaId)) === null) {
