@@ -2,10 +2,12 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextDecorator;
 use Frontastic\Catwalk\FrontendBundle\Gateway\SchemaGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 
-class SchemaService implements Target
+class SchemaService implements Target, ContextDecorator
 {
     /**
      * @var SchemaGateway
@@ -36,6 +38,15 @@ class SchemaService implements Target
             $schema = $this->fill($schema, $update);
             $this->schemaGateway->store($schema);
         }
+    }
+
+    public function decorate(Context $context): Context
+    {
+        $projectConfigurationSchema = $this->schemaGateway->getSchemaOfType(Schema::TYPE_PROJECT_CONFIGURATION);
+        if ($projectConfigurationSchema !== null) {
+            $context->projectConfigurationSchema = $projectConfigurationSchema->getSchemaConfiguration();
+        }
+        return $context;
     }
 
     private function fill(Schema $schema, array $data): Schema
