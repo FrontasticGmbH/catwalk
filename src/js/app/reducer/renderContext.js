@@ -24,7 +24,7 @@ const detectingReducer = (state = initialState, action) => {
             viewportDimension: action.viewportDimension,
         })
     case 'ApiBundle.Api.context.success':
-        if (!action.data.project.data.layout) {
+        if (!action.data || !action.data.project || !action.data.project.data || !action.data.project.data.layout) {
             // eslint-disable-next-line no-console
             console.warn('Frontastic needs the breakpoints configured in project.yml')
             return state

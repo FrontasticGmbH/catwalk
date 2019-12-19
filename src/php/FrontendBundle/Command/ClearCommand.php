@@ -29,7 +29,7 @@ class ClearCommand extends ContainerAwareCommand
             }
 
             $output->writeln('* Clearing table ' . $tableName);
-            $connection->executeQuery('TRUNCATE ' . $tableName, [], []);
+            $connection->executeQuery('TRUNCATE `' . $tableName . '`', [], []);
         }
     }
 }

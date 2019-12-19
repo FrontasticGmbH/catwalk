@@ -36,7 +36,7 @@ class ClientFactory
      */
     public function factorForConfigurationSection(string $configurationSectionName): Client
     {
-        return $this->projectClientFactory->factorForProjectConfigurationSection(
+        return $this->projectClientFactory->factorForProjectAndType(
             $this->project,
             $configurationSectionName
         );
