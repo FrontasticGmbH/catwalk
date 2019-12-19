@@ -9,7 +9,7 @@ class Grow extends Component {
         return (<Transition appear in={this.props.in} timeout={225}>
             {(state) => {
                 return (<div className={'u-grow u-grow--' + state}>
-                {this.props.children}
+                    {this.props.children}
                 </div>)
             }}
         </Transition>)
