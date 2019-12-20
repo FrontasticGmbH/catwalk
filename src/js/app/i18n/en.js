@@ -119,11 +119,10 @@ export default {
         totalAmount: 'Total amount', // check if correct
         inclVat: 'incl.VAT',
         emptyCart: {
-          title: 'My cart',
-          text: 'Your shopping cart is empty.' 
+            title: 'My cart',
+            text: 'Your shopping cart is empty.',
         },
         registerNow: 'Register now', // check if correct
-
     },
     wishlist: {
         title: 'Wishlist',

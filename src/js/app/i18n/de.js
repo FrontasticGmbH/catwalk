@@ -64,7 +64,6 @@ export default {
             example: 'max.mustermann@gmail.com',
             newEmail: 'Neue E-Mail-Adresse',
             confirmNew: 'Neue E-Mail-Adresse bestätigen',
-
         },
         login: {
             emailAddress: 'E-Mail Address',
@@ -161,7 +160,7 @@ export default {
         totalAmount: 'Gesamtbetrag',
         emptyCart: {
             title: 'Mein Warenkorb',
-            text: 'Der Warenkorb ist noch leer.'
+            text: 'Der Warenkorb ist noch leer.',
         },
         registerNow: 'Jetzt anmelden',
     },
