@@ -35,10 +35,34 @@ describe('isTranslatableString', () => {
         expect(isTranslatableString(fieldSchema)).toBe(true)
     })
 
-    it('returns false even if "translatable" is set to true, but we are not on a string field', () => {
+    it('returns true if the field is of type "json" and "translatable" is not defined (as it defaults to true)', () => {
+        const fieldSchema = {
+            type: 'json',
+        }
+
+        expect(isTranslatableString(fieldSchema)).toBe(true)
+    })
+
+    it('returns true if the field is of type "markdown" and "translatable" is not defined (as it defaults to true)', () => {
+        const fieldSchema = {
+            type: 'markdown',
+        }
+
+        expect(isTranslatableString(fieldSchema)).toBe(true)
+    })
+
+    it('returns true if "translatable" is set to true, but we are on a number field', () => {
         const fieldSchema = {
             type: 'number',
             translatable: true,
+        }
+
+        expect(isTranslatableString(fieldSchema)).toBe(true)
+    })
+
+    it('returns false if "translatable" is NOT set and we are on a number field', () => {
+        const fieldSchema = {
+            type: 'number',
         }
 
         expect(isTranslatableString(fieldSchema)).toBe(false)

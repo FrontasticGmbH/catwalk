@@ -1,3 +1,4 @@
+import { isTranslatableByDefault } from '@frontastic/common'
 import getTranslation from '../getTranslation'
 
 /**
@@ -58,20 +59,9 @@ const translateTasticGroupField = (groupData, groupSchema, context) => {
 }
 
 export const isTranslatableString = (fieldSchema) => {
-    const translatables = [
-        'string',
-        'text',
-        'json',
-        'markdown',
-    ]
-
-    if (!translatables.includes(fieldSchema.type)) {
-        return false
-    }
-
     if (typeof fieldSchema.translatable !== 'undefined') {
         return fieldSchema.translatable
     }
 
-    return true
+    return isTranslatableByDefault(fieldSchema.type)
 }
