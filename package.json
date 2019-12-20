@@ -143,16 +143,6 @@
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook"
     },
-    "babel": {
-        "plugins": [
-            "@babel/plugin-proposal-class-properties",
-            "@babel/plugin-syntax-dynamic-import"
-        ],
-        "presets": [
-            "@babel/preset-env",
-            "@babel/preset-react"
-        ]
-    },
     "jest": {
         "collectCoverageFrom": [
             "<rootDir>/src/js/**/*.{js,jsx}"
@@ -166,7 +156,7 @@
         "testEnvironment": "node",
         "testURL": "http://localhost",
         "transform": {
-            "^.+\\.(js|jsx)$": "babel-jest",
+            "^.+\\.(js|jsx)$": "<rootDir>/config/jest/babel.js",
             "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
             "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
         },
