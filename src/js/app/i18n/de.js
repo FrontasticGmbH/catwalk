@@ -161,7 +161,7 @@ export default {
         totalAmount: 'Gesamtbetrag',
         emptyCart: {
             title: 'Mein Warenkorb',
-            text: 'Der Warenkorb ist noch leer.'
+            text: 'Der Warenkorb ist noch leer.',
         },
         registerNow: 'Jetzt anmelden',
     },
