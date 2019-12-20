@@ -1,5 +1,5 @@
-import {ConfigurationSchema} from '@frontastic/common'
-import {translateTasticData} from '../../../src/js/helper/translateTasticData'
+import { ConfigurationSchema } from '@frontastic/common'
+import { translateTasticData } from '../../../src/js/helper/translateTasticData'
 
 describe('translateTasticData', () => {
     it('should work with a simple tastic schema', () => {
@@ -91,7 +91,7 @@ describe('translateTasticData', () => {
                     type: 'markdown',
                     default: '* Enter\n* some\n* Markdown',
                     translatable: true,
-                }]
+                }],
             }],
         }])
 
@@ -105,7 +105,7 @@ describe('translateTasticData', () => {
         const expectedTranslatedData = {
             content: [{
                 text: 'This is some german text',
-            }]
+            }],
         }
 
         expect(translateTasticData(data, tasticSchema, context)).toEqual(expectedTranslatedData)
@@ -128,8 +128,8 @@ describe('translateTasticData', () => {
                 label: 'Title',
                 field: 'title',
                 type: 'string',
-                translatable: false
-            },{
+                translatable: false,
+            }, {
                 label: 'Content',
                 field: 'content',
                 type: 'group',
@@ -141,7 +141,7 @@ describe('translateTasticData', () => {
                     type: 'markdown',
                     default: '* Enter\n* some\n* Markdown',
                     translatable: true,
-                }]
+                }],
             }],
         }])
 
@@ -156,7 +156,7 @@ describe('translateTasticData', () => {
             title: 'Hello World!',
             content: [{
                 text: 'This is some german text',
-            }]
+            }],
         }
 
         expect(translateTasticData(data, tasticSchema, context)).toEqual(expectedTranslatedData)
@@ -182,7 +182,7 @@ describe('translateTasticData', () => {
                 field: 'title',
                 type: 'string',
                 translatable: false,
-            },{
+            }, {
                 label: 'Content',
                 field: 'content',
                 type: 'group',
@@ -194,7 +194,7 @@ describe('translateTasticData', () => {
                     type: 'markdown',
                     default: '* Enter\n* some\n* Markdown',
                     translatable: true,
-                }]
+                }],
             }],
         }])
 
@@ -210,7 +210,7 @@ describe('translateTasticData', () => {
             title: 'Hello World!',
             content: [{
                 text: 'This is some english text',
-            }]
+            }],
         }
 
         expect(translateTasticData(data, tasticSchema, context)).toEqual(expectedTranslatedData)
@@ -240,7 +240,7 @@ describe('translateTasticData', () => {
                 field: 'title',
                 type: 'string',
                 translatable: false,
-            },{
+            }, {
                 label: 'Content',
                 field: 'content',
                 type: 'group',
@@ -252,7 +252,7 @@ describe('translateTasticData', () => {
                     type: 'markdown',
                     default: '* Enter\n* some\n* Markdown',
                     translatable: true,
-                }]
+                }],
             }],
         }])
 
@@ -268,7 +268,7 @@ describe('translateTasticData', () => {
             title: 'Hello World!',
             content: [{
                 text: 'This is some english text',
-            }]
+            }],
         }
 
         expect(translateTasticData(data, tasticSchema, context)).toEqual(expectedTranslatedData)
