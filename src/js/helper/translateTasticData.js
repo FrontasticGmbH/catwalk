@@ -1,4 +1,4 @@
-import { isTranslatableByDefault } from '@frontastic/common'
+import { shouldFieldBeTranslated } from '@frontastic/common'
 import getTranslation from '../getTranslation'
 
 /**
@@ -15,7 +15,8 @@ export const translateTasticData = (data, tasticSchema, context) => {
 
     Object.keys(tasticSchema.fields).forEach(fieldName => {
         const field = tasticSchema.fields[fieldName]
-        if (isTranslatableString(field)) {
+
+        if (shouldFieldBeTranslated(field)) {
             translatedData[fieldName] = getTranslation(
                 data[fieldName],
                 context.locale,
@@ -41,7 +42,7 @@ const translateTasticGroupField = (groupData, groupSchema, context) => {
         }
 
         groupSchema.fields.forEach(fieldSchema => {
-            if (isTranslatableString(fieldSchema)) {
+            if (shouldFieldBeTranslated(fieldSchema)) {
                 translatedGroupElement[fieldSchema.field] = getTranslation(
                     groupElement[fieldSchema.field],
                     context.locale,
@@ -56,12 +57,4 @@ const translateTasticGroupField = (groupData, groupSchema, context) => {
 
         return translatedGroupElement
     })
-}
-
-export const isTranslatableString = (fieldSchema) => {
-    if (typeof fieldSchema.translatable !== 'undefined') {
-        return fieldSchema.translatable
-    }
-
-    return isTranslatableByDefault(fieldSchema.type)
 }
