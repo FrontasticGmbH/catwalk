@@ -162,7 +162,10 @@ export default {
         gratis: 'kostenlos',
         inclVat: 'inkl. Mwst',
         totalAmount: 'Gesamtbetrag',
-        emptyCart: 'Der Warenkorb ist noch leer.',
+        emptyCart: {
+            title: 'Mein Warenkorb',
+            text: 'Der Warenkorb ist noch leer.',
+        },
         registerNow: 'Jetzt anmelden',
     },
     wishlist: {
