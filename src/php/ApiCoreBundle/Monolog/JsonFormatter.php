@@ -24,7 +24,6 @@ class JsonFormatter implements FormatterInterface
         // Format see https://www.notion.so/frontastic/JSON-Logging-Format-7aa12f53846041f08f4d1526b64bd335
         return json_encode((object)[
             'logSource' => self::LOG_SOURCE,
-            // In catwalk there is always just 1 project, the current one
             'project' => $this->getProjectId(),
             'customer' => $this->getCustomer(),
 
@@ -68,6 +67,7 @@ class JsonFormatter implements FormatterInterface
     private function getProjectId(): string
     {
         try {
+            // In catwalk there is always just 1 project, the current one
             return $this->customerService->getCustomer()->projects[0]->projectId;
         } catch (\Throwable $e) {
             return 'catwalk';
