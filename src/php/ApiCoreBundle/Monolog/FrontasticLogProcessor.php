@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Monolog;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -23,6 +24,11 @@ class FrontasticLogProcessor
     public function __invoke(array $record)
     {
         $request = $this->requestStack->getMasterRequest();
+
+        if (!$request instanceof Request) {
+            // There might be no master request, for instance for console commands.
+            return $record;
+        }
 
         if (!$request->attributes->has(self::ATTRIBUTE_KEY)) {
             return $record;
