@@ -25,7 +25,6 @@ class JsonFormatter implements FormatterInterface
         return json_encode((object)[
             'logSource' => self::LOG_SOURCE,
             'project' => $this->getProjectId(),
-            'customer' => $this->getCustomer(),
 
             '@timestamp' => (isset($record['datetime']) && ($record['datetime'] instanceof \DateTimeInterface)
                 ? ($record['datetime']->format('c'))
@@ -47,15 +46,6 @@ class JsonFormatter implements FormatterInterface
         }
 
         return $message;
-    }
-
-    private function getCustomer(): string
-    {
-        try {
-            return $this->customerService->getCustomer()->name;
-        } catch (\Throwable $e) {
-            return 'unknown-customer';
-        }
     }
 
     /**
