@@ -26,6 +26,7 @@ class JsonFormatter implements FormatterInterface
             'logSource' => self::LOG_SOURCE,
             // In catwalk there is always just 1 project, the current one
             'project' => $this->getProjectId(),
+            'customer' => $this->getCustomer(),
 
             '@timestamp' => (isset($record['datetime']) && ($record['datetime'] instanceof \DateTimeInterface)
                 ? ($record['datetime']->format('c'))
@@ -47,6 +48,15 @@ class JsonFormatter implements FormatterInterface
         }
 
         return $message;
+    }
+
+    private function getCustomer(): string
+    {
+        try {
+            return $this->customerService->getCustomer()->name;
+        } catch (\Throwable $e) {
+            return 'unknown-customer';
+        }
     }
 
     /**
