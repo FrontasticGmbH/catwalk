@@ -75,6 +75,8 @@ monolog:
             handler: handler_group
 
         # For now, we log both into JSON as well as plain text file.
+        # Whatfailuregroup forwards records to multiple handlers suppressing failures of each handler
+        # and continuing through to give every handler a chance to succeed.
         handler_group:
             type:                whatfailuregroup
             members:
