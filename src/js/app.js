@@ -1,15 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Switch, Route } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import _ from 'lodash'
 
 import app from './app/app'
-import IntlProvider from './app/intlProvider'
 import store from './app/store'
 import Context from './app/context'
-
-import Preview from './preview'
-import Node from './node'
+import AppComponent from './appComponent'
 
 function appCreator (mountNode, dataNode, tastics = null) {
     if (!mountNode || !dataNode) {
@@ -50,6 +46,25 @@ function appCreator (mountNode, dataNode, tastics = null) {
             type: 'ApiBundle.Api.context.success',
             data: data,
         })
+        store.dispatch({
+            type: 'Frontastic.RenderContext.ClientSideDetected',
+        })
+        store.dispatch({
+            type: 'Frontastic.RenderContext.UserAgentDetected',
+            userAgent: navigator.userAgent,
+        })
+        const dispatchViewportDimensions = () => {
+            store.dispatch({
+                type: 'Frontastic.RenderContext.ViewportDimensionChanged',
+                viewportDimension: {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                },
+            })
+        }
+
+        dispatchViewportDimensions()
+        window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
 
         let context = new Context(data)
 
@@ -61,65 +76,51 @@ function appCreator (mountNode, dataNode, tastics = null) {
         app.getLoader('context').refresh()
     }
 
-    if (typeof window !== 'undefined') {
-        import('history').then(({ createBrowserHistory }) => {
-            const history = createBrowserHistory()
-            history.listen(app.loadForLocation)
+    import('history').then(({ createBrowserHistory }) => {
+        const isDevelopment = app.getRouter().getContext().isDevelopment()
 
-            app.history = history
-            app.router.history = history
+        let beforeHydrateHtml = null
+        let afterHydrateHtml = null
+        if (isDevelopment && !isIE()) {
+            beforeHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
+            consoleCaptureStart()
+        }    
 
-            hydrate(app, mountNode)
-        })
-    } else {
-        hydrate(app, mountNode)
-    }
+        const history = createBrowserHistory()
+        history.listen(app.loadForLocation)
+
+        app.history = history
+        app.router.history = history
+
+        ReactDOM.hydrate(
+            <AppComponent app={app} />,
+            mountNode,
+            () => {
+                if (isDevelopment && !isIE()) {
+                    const diffLog = require('./app/htmlDiff/differ').default
+                    const printLog = require('./app/htmlDiff/printLog').default
+    
+                    afterHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
+                    if (hasHydrationWarning(consoleCaptureStop())) {
+                        const log = diffLog(beforeHydrateHtml, afterHydrateHtml)
+    
+                        printLog(log)
+                    } else {
+                        // eslint-disable-next-line
+                        console.log('No hydration issue')
+                    }
+                }
+            }    
+        )
+    })
 }
 
-function hydrate (app, mountNode) {
-    const isDevelopment = app.getRouter().getContext().isDevelopment()
-
-    let beforeHydrateHtml = null
-    let afterHydrateHtml = null
-    if (isDevelopment && !isIE()) {
-        beforeHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
-        consoleCaptureStart()
-    }
-
-    ReactDOM.hydrate(
-        <Provider store={app.getStore()}>
-            <IntlProvider>
-                <Router history={app.history}>
-                    <Switch>
-                        <Route
-                            exact
-                            path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                            component={Preview}
-                        />
-
-                        <Route component={Node} />
-                    </Switch>
-                </Router>
-            </IntlProvider>
-        </Provider>,
-        mountNode,
-        () => {
-            if (isDevelopment && !isIE()) {
-                const diffLog = require('./app/htmlDiff/differ').default
-                const printLog = require('./app/htmlDiff/printLog').default
-
-                afterHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
-                if (hasHydrationWarning(consoleCaptureStop())) {
-                    const log = diffLog(beforeHydrateHtml, afterHydrateHtml)
-
-                    printLog(log)
-                } else {
-                    // eslint-disable-next-line
-                    console.log('No hydration issue')
-                }
-            }
-        }
-    )
+function hasHydrationWarning (errors) {
+    return errors.map((error) => {
+        return (error && error.length && !!error[0].match(/^Warning: /))
+    }).reduce((accumulator, currentValue) => {
+        return accumulator || currentValue
+    }, false)
 }
 
 function isIE () {
@@ -150,14 +151,6 @@ function consoleCaptureStop () {
     delete console.errors
     /* eslint-enable no-console */
     return errors
-}
-
-function hasHydrationWarning (errors) {
-    return errors.map((error) => {
-        return (error && error.length && !!error[0].match(/^Warning: /))
-    }).reduce((accumulator, currentValue) => {
-        return accumulator || currentValue
-    }, false)
 }
 
 export default appCreator

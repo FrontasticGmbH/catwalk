@@ -13,6 +13,11 @@ class TasticService implements Target
      */
     private $tasticGateway;
 
+    /**
+     * @var Tastic[]
+     */
+    private $tastics = null;
+
     public function __construct(TasticGateway $tasticGateway)
     {
         $this->tasticGateway = $tasticGateway;
@@ -56,7 +61,11 @@ class TasticService implements Target
      */
     public function getAll(): array
     {
-        return $this->tasticGateway->getAll();
+        if ($this->tastics) {
+            return $this->tastics;
+        }
+
+        return $this->tastics = $this->tasticGateway->getAll();
     }
 
     /**
@@ -83,11 +92,13 @@ class TasticService implements Target
 
     public function store(Tastic $tastic): Tastic
     {
+        $this->tastics = null;
         return $this->tasticGateway->store($tastic);
     }
 
     public function remove(Tastic $tastic): void
     {
+        $this->tastics = null;
         $this->tasticGateway->remove($tastic);
     }
 }

@@ -69,7 +69,7 @@ class AccountController extends Controller
 
         return [
             'node' => $node,
-            'page' => $page = $pageService->fetchForNode($node),
+            'page' => $page = $pageService->fetchForNode($node, $context),
             'data' => $dataService->fetchDataFor($node, $context, [], $page),
         ];
     }

@@ -3,6 +3,9 @@ import _ from 'lodash'
 import Entity from '../entity'
 import UrlContext from '../urlContext'
 
+import withRetries from '../withRetries'
+import extractErrors from './node/errorExtractor'
+
 /**
  * Loader classes like this consolidate all loading monitors for a domain
  * concept.
@@ -23,7 +26,46 @@ let Loader = function (store, api) {
     }
 
     this.loadNode = (parameters) => {
-        this.api.trigger('Frontastic.Frontend.Node.view', parameters, parameters.nodeId)
+        withRetries(
+            (retry, tryCount) => {
+                this.api.request(
+                    'GET',
+                    'Frontastic.Frontend.Node.view',
+                    parameters,
+                    null,
+                    (data, parameters) => {
+                        this.store.dispatch({
+                            type: 'Frontend.Node.view.success',
+                            id: parameters.nodeId,
+                            cacheKey: UrlContext.getActionHash(parameters),
+                            data: data,
+                            parameters: parameters,
+                            isRetry: tryCount < 2,
+                        })
+
+                        const nodeDataErrors = extractErrors(data.data)
+                        if (nodeDataErrors.length > 0) {
+                            // eslint-disable-next-line no-console
+                            console.info('Errors in node data, attempting to retry', nodeDataErrors)
+                            setTimeout(retry, 100)
+                        }
+                    },
+                    (error) => {
+                        this.store.dispatch({
+                            type: 'Frontend.Node.view.success.error',
+                            id: parameters.nodeId,
+                            cacheKey: UrlContext.getActionHash(parameters),
+                            error: error,
+                        })
+                    }
+                )
+            },
+            2,
+            () => {
+                // eslint-disable-next-line no-console
+                console.error('Giving up retrying to fetch data for node', parameters)
+            }
+        )
     }
 
     this.reloadPreview = (parameters) => {
@@ -105,16 +147,17 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
     case 'Frontend.Node.initialize':
         return {
             ...globalState,
+            currentNodeId: action.data.node.nodeId,
+            previewId: action.data.route.parameters.preview,
             nodes: {
-                [action.data.node.nodeId]: new Entity(action.data.node),
+                [action.data.node.nodeId || action.data.route.parameters.preview]: new Entity(action.data.node),
+            },
+            pages: {
+                [action.data.node.nodeId || action.data.route.parameters.preview]: new Entity(action.data.page),
             },
             nodeData: {
                 [globalState.currentCacheKey]: new Entity(action.data.data),
             },
-            pages: {
-                [action.data.node.nodeId]: new Entity(action.data.page),
-            },
-            currentNodeId: action.data.node.nodeId,
         }
 
     case 'Frontend.Node.tree.success':

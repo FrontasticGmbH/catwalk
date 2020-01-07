@@ -63,4 +63,15 @@ class Page extends DataObject
      * @var int|null
      */
     public $scheduledToTimestamp;
+
+    /**
+     * @var int|null
+     */
+    public $nodesPagesOfTypeSortIndex = null;
+
+    /**
+     * A FECL criterion which can control when this page will be rendered if it is in the scheduled state.
+     * @var string
+     */
+    public $scheduleCriterion = '';
 }

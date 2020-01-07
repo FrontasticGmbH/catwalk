@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getTranslation } from 'frontastic-common'
+
+import getTranslation from './getTranslation'
 import Image from './image'
 
 class MediaImage extends Component {

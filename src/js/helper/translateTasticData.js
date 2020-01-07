@@ -1,4 +1,5 @@
-import { getTranslation } from 'frontastic-common'
+import { shouldFieldBeTranslated } from '@frontastic/common'
+import getTranslation from '../getTranslation'
 
 /**
  * Converts tastic data (which is usually received in props.data) so that translatable objects will be replaced with strings
@@ -14,7 +15,8 @@ export const translateTasticData = (data, tasticSchema, context) => {
 
     Object.keys(tasticSchema.fields).forEach(fieldName => {
         const field = tasticSchema.fields[fieldName]
-        if (isTranslatableString(field)) {
+
+        if (shouldFieldBeTranslated(field)) {
             translatedData[fieldName] = getTranslation(
                 data[fieldName],
                 context.locale,
@@ -40,7 +42,7 @@ const translateTasticGroupField = (groupData, groupSchema, context) => {
         }
 
         groupSchema.fields.forEach(fieldSchema => {
-            if (isTranslatableString(fieldSchema)) {
+            if (shouldFieldBeTranslated(fieldSchema)) {
                 translatedGroupElement[fieldSchema.field] = getTranslation(
                     groupElement[fieldSchema.field],
                     context.locale,
@@ -55,17 +57,4 @@ const translateTasticGroupField = (groupData, groupSchema, context) => {
 
         return translatedGroupElement
     })
-}
-
-const isTranslatableString = (fieldSchema) => {
-    if (!['string', 'text'].includes(fieldSchema.type)) {
-        return false
-    }
-
-    // translatable defaults to true
-    if (typeof fieldSchema.translatable === 'undefined') {
-        return true
-    }
-
-    return fieldSchema.translatable
 }

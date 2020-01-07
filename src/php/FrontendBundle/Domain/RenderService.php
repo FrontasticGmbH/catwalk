@@ -15,6 +15,7 @@ class RenderService
     private $contextService;
     private $httpClient;
     private $backendUrl;
+    private $responseDecorator;
 
     /**
      * @var JsonSerializer
@@ -52,7 +53,7 @@ class RenderService
                 'Content-Type: application/json',
             ],
             new HttpClient\Options([
-                'timeout' => \AppKernel::getDebug() ? 1.0 : 0.5,
+                'timeout' => \AppKernel::getDebug() ? 5.0 : 0.5,
             ])
         );
 

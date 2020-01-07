@@ -50,6 +50,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\PageService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway" />
+            <argument type="service" id="rulerz" />
         </service>
 
         <service id="frontastic.catwalk.frontend_bundle.domain.page.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
@@ -90,8 +91,39 @@
             <tag name="endpoint.target" channel="redirects" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\SchemaService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\SchemaGateway" />
+
+            <tag name="context.decorator" />
+        </service>
+
+        <service id="frontastic.catwalk.frontend_bundle.domain.schema.replication_target"
+                 class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\SchemaService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+
+            <tag name="endpoint.target" channel="schemas" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\ProjectConfigurationService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\ProjectConfigurationGateway" />
+
+            <tag name="context.decorator" />
+        </service>
+
+        <service id="frontastic.catwalk.frontend_bundle.domain.project_configuration.replication_target"
+                 class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\ProjectConfigurationService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+
+            <tag name="endpoint.target" channel="project_configurations" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
             <argument type="tagged" tag="frontend.streamHandler" />
+            <argument type="tagged" tag="frontend.streamOptimizer" />
+            <argument>%kernel.debug%</argument>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ProductList">
@@ -165,10 +197,6 @@
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldService" />
         </service>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Domain\LayoutService">
-            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\LayoutGateway" />
-        </service>
-
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RenderService">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator" />
@@ -204,7 +232,7 @@
             <factory
                 service="Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory"
                 method="factor" />
-            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
+            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').project</argument>
         </service>
 
         <service id="frontastic.catwalk.content_api" class="Frontastic\Common\ContentApiBundle\Domain\ContentApi">
@@ -218,7 +246,7 @@
             <factory
                 service="Frontastic\Common\CartApiBundle\Domain\CartApiFactory"
                 method="factor" />
-            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
+            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').project</argument>
         </service>
 
         <service id="frontastic.catwalk.account_api" class="Frontastic\Common\AccountApiBundle\Domain\AccountApi">
@@ -232,7 +260,7 @@
             <factory
                 service="Frontastic\Common\WishlistApiBundle\Domain\WishlistApiFactory"
                 method="factor" />
-            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
+            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').project</argument>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService">
@@ -329,6 +357,28 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Gateway\SchemaGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                             method="getRepository" />
+                    <argument>Frontastic\Catwalk\FrontendBundle\Domain\Schema</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Gateway\ProjectConfigurationGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                             method="getRepository" />
+                    <argument>Frontastic\Catwalk\FrontendBundle\Domain\ProjectConfiguration</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
         <service id="Aptoma\Twig\Extension\MarkdownExtension">
             <argument type="service">
                 <service class="Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine" />
@@ -394,6 +444,12 @@
             <tag name="kernel.event_listener" event="kernel.request" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ProjectBasicAuthListener">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+
+            <tag name="kernel.event_listener" event="kernel.request" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ReferrerPolicy">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
 
@@ -429,6 +485,7 @@
         <service id="Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\ArrayContains">
             <tag name="rulerz.operator" target="native" operator="contains" inline="true" />
         </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\CategoriesContain">
             <argument type="service" id="frontastic.catwalk.product_api" />
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />

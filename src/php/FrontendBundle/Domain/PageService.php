@@ -2,10 +2,14 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-use Frontastic\Common\ReplicatorBundle\Domain\Target;
-
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway;
+use Frontastic\Common\ReplicatorBundle\Domain\Target;
+use RulerZ\RulerZ;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class PageService implements Target
 {
     /**
@@ -13,9 +17,15 @@ class PageService implements Target
      */
     private $pageGateway;
 
-    public function __construct(PageGateway $pageGateway)
+    /**
+     * @var RulerZ
+     */
+    private $rulerz;
+
+    public function __construct(PageGateway $pageGateway, RulerZ $rulerz)
     {
         $this->pageGateway = $pageGateway;
+        $this->rulerz = $rulerz;
     }
 
     public function lastUpdate(): string
@@ -83,15 +93,38 @@ class PageService implements Target
         $page->metaData = $data['metaData'];
         $page->isDeleted = $data['isDeleted'];
         $page->state = $data['state'];
-        $page->scheduledFromTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledFrom']);
-        $page->scheduledToTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledTo']);
+        $page->scheduledFromTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledFrom'] ?? null);
+        $page->scheduledToTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledTo'] ?? null);
+        $page->nodesPagesOfTypeSortIndex = $data['nodesPagesOfTypeSortIndex'] ?? null;
+        $page->scheduleCriterion = $data['scheduleCriterion'] ?? '';
 
         return $page;
     }
 
-    public function fetchForNode(Node $node): Page
+    public function fetchForNode(Node $node, Context $context): Page
     {
-        return $this->pageGateway->fetchForNode($node->nodeId);
+        $criterionTarget = [
+            'locale' => $context->locale,
+            'host' => $context->host,
+        ];
+
+        $pageCandidates = $this->pageGateway->fetchForNode($node->nodeId);
+        foreach ($pageCandidates as $pageCandidate) {
+            if (empty($pageCandidate->scheduleCriterion)) {
+                return $pageCandidate;
+            }
+
+            try {
+                if ($this->rulerz->satisfies($criterionTarget, $pageCandidate->scheduleCriterion)) {
+                    return $pageCandidate;
+                }
+            } catch (\Throwable $exception) {
+                // Silently ignore errors in the rule. If a rule can not be checked it makes more sense to ignore
+                // the rule than to report an error.
+            }
+        }
+
+        throw new \RuntimeException('No active page for node ' . $node->nodeId . ' found.');
     }
 
     public function get(string $pageId): Page

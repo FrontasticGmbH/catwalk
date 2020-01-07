@@ -29,6 +29,16 @@ class Context extends DataObject
     public $project;
 
     /**
+     * @var array
+     */
+    public $projectConfiguration = [];
+
+    /**
+     * @var array
+     */
+    public $projectConfigurationSchema = [];
+
+    /**
      * @var string
      */
     public $locale;
@@ -52,6 +62,11 @@ class Context extends DataObject
      * @var [string => bool]
      */
     public $featureFlags = [];
+
+    /**
+     * @var string
+     */
+    public $host;
 
     public function __construct(array $values = [])
     {

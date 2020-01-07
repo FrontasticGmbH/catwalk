@@ -37,6 +37,13 @@ class CustomerService
             );
         }
 
+        if (file_exists($this->projectFile . '.' . $this->environment . '.decrypted')) {
+            $project = Functions::array_merge_recursive(
+                $project,
+                Yaml::parse(file_get_contents($this->projectFile . '.' . $this->environment . '.decrypted'))
+            );
+        }
+
         return $this->customer = new Customer([
             'name' => $project['customer'],
             'secret' => $project['apiKey'],

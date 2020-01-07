@@ -62,6 +62,13 @@ class Node extends DataObject
     public $metaData;
 
     /**
+     * Optional error string during development
+     *
+     * @var string?
+     */
+    public $error;
+
+    /**
      * @var bool
      */
     public $isDeleted = false;

@@ -7,12 +7,13 @@ use Frontastic\Common\AccountApiBundle\Domain\Account;
 use Frontastic\Common\AccountApiBundle\Domain\Session;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Locale;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
+use QafooLabs\MVC\Exception\UnauthenticatedUserException;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Yes, context encapsulates quite some stuff
@@ -26,7 +27,7 @@ class ContextService
     private $customerService;
 
     /**
-     * @var TokenStorage
+     * @var TokenStorageInterface
      */
     private $tokenStorage;
 
@@ -43,21 +44,21 @@ class ContextService
     /**
      * @HACK This is a hack to cache getting the same context over and over again.
      */
-    static private $contextCache = [];
+    private static $contextCache = [];
 
     public function __construct(
         Router $router,
         RequestStack $requestStack,
         CustomerService $customerService,
-        TokenStorage $tokenStorage,
+        TokenStorageInterface $tokenStorage,
+        LocaleResolver $localeResolver,
         iterable $decorators
     ) {
         $this->router = $router;
         $this->requestStack = $requestStack;
         $this->customerService = $customerService;
         $this->tokenStorage = $tokenStorage;
-
-        $this->localeResolver = new LocaleResolver();
+        $this->localeResolver = $localeResolver;
 
         foreach ($decorators as $decorator) {
             $this->addDecorator($decorator);
@@ -87,7 +88,8 @@ class ContextService
             $request
                 ? $this->localeResolver->determineLocale($request, $this->getProject())
                 : $this->getProject()->defaultLanguage,
-            $request ? $this->getSession($request) : new Session()
+            $request ? $this->getSession($request) : new Session(),
+            $request ? $request->getHost() : null
         );
     }
 
@@ -104,9 +106,10 @@ class ContextService
      *
      * @param string|null $locale
      * @param Session|null $session
+     * @param string|null $host
      * @return Context
      */
-    public function getContext(string $locale = null, Session $session = null): Context
+    public function getContext(string $locale = null, Session $session = null, string $host = null): Context
     {
         $contextCacheHash = $locale . '-' . md5(json_encode($session));
         if (isset(ContextService::$contextCache[$contextCacheHash])) {
@@ -124,6 +127,10 @@ class ContextService
 
         $localeObject = Locale::createFromPosix($locale);
 
+        if ($host === null) {
+            $host = parse_url($this->getProject()->publicUrl ?? $this->getProject()->previewUrl, PHP_URL_HOST);
+        }
+
         $context = new Context([
             'environment' => \Frontastic\Catwalk\AppKernel::getEnvironmentFromConfiguration(),
             'customer' => $customer,
@@ -132,6 +139,7 @@ class ContextService
             'currency' => $localeObject->currency,
             'session' => $session ?: new Session(),
             'routes' => $this->getRoutes($locale),
+            'host' => $host,
         ]);
 
         foreach ($this->decorators as $decorator) {

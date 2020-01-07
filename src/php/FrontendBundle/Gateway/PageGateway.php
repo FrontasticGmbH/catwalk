@@ -2,9 +2,8 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Gateway;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
-
+use Doctrine\ORM\EntityRepository;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page;
 
 class PageGateway
@@ -25,14 +24,20 @@ class PageGateway
         $this->manager = $manager;
     }
 
-    public function fetchForNode(string $nodeId): Page
+    /**
+     * @return Page[]
+     */
+    public function fetchForNode(string $nodeId): array
     {
         /*
          * `ORDER BY p.state DESC` sorts scheduled pages before the default page since 'scheduled' is after 'default' in
          * the alphabet.
+         * `ORDER BY -p.nodesPagesOfTypeSortIndex DESC` sorts ascending by index and puts `NULL` last.
          */
         $query = $this->manager->createQuery(
-            "SELECT p
+            "SELECT 
+                p,
+                -p.nodesPagesOfTypeSortIndex AS HIDDEN negativeSortIndex
             FROM Frontastic\\Catwalk\\FrontendBundle\\Domain\\Page p
             WHERE
                 (p.node = :node) AND
@@ -41,16 +46,26 @@ class PageGateway
                     (p.state = 'default') OR
                     (
                         (p.state = 'scheduled') AND
-                        (:currentTimestamp BETWEEN p.scheduledFromTimestamp AND p.scheduledToTimestamp)
+                        (
+                            p.scheduledFromTimestamp IS NULL OR
+                            p.scheduledFromTimestamp <= :currentTimestamp
+                        ) AND
+                        (
+                            p.scheduledToTimestamp IS NULL OR
+                            p.scheduledToTimestamp > :currentTimestamp
+                        )
                     )
                 )
-            ORDER BY p.state DESC, p.scheduledFromTimestamp DESC, p.scheduledToTimestamp ASC, p.sequence DESC"
+            ORDER BY 
+                p.state DESC,
+                negativeSortIndex DESC,
+                p.pageId ASC,
+                p.sequence DESC"
         );
         $query->setParameter('node', $nodeId);
         $query->setParameter('currentTimestamp', time());
-        $query->setMaxResults(1);
 
-        return $query->getSingleResult();
+        return $query->getResult();
     }
 
     public function get(string $pageId): Page

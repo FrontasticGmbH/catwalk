@@ -24,7 +24,11 @@
             <argument type="service" id="request_stack" />
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService" />
             <argument type="service" id="security.token_storage" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver" />
             <argument type="tagged" tag="context.decorator" />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver">
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService">
@@ -63,6 +67,7 @@
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway" />
+            <argument type="service" id="logger" />
         </service>
 
         <service id="frontastic.catwalk.api_core_bundle.domain.app_data_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
@@ -110,6 +115,8 @@
                 </service>
             </argument>
             <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools\ClientFactory" autowire="true">
         </service>
     </services>
 </container>

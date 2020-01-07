@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway;
+use RulerZ\RulerZ;
 
 class PageServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -12,6 +13,11 @@ class PageServiceTest extends \PHPUnit\Framework\TestCase
     private $pageService;
 
     /**
+     * @var RulerZ
+     */
+    private $rulerZMock;
+
+    /**
      * @var PageGateway
      */
     private $pageGatewayMock;
@@ -19,8 +25,9 @@ class PageServiceTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->pageGatewayMock = \Phake::mock(PageGateway::class);
+        $this->rulerZMock = \Phake::mock(RulerZ::class);
 
-        $this->pageService = new PageService($this->pageGatewayMock);
+        $this->pageService = new PageService($this->pageGatewayMock, $this->rulerZMock);
     }
 
     public function testReplicateDeleteWhenExists()
@@ -32,7 +39,7 @@ class PageServiceTest extends \PHPUnit\Framework\TestCase
         $this->pageService->replicate([
             $this->fakePageData([
                 'isDeleted' => true,
-            ])
+            ]),
         ]);
 
         $expectedPage = clone $fakePage;
@@ -49,7 +56,7 @@ class PageServiceTest extends \PHPUnit\Framework\TestCase
         $this->pageService->replicate([
             $this->fakePageData([
                 'isDeleted' => true,
-            ])
+            ]),
         ]);
 
         \Phake::verify($this->pageGatewayMock)->store($fakePage);
@@ -57,12 +64,14 @@ class PageServiceTest extends \PHPUnit\Framework\TestCase
 
     public function testReplicateDeleteWhenNotExisted()
     {
-        \Phake::when($this->pageGatewayMock)->getEvenIfDeleted(\Phake::anyParameters())->thenThrow(new \OutOfBoundsException());
+        \Phake::when($this->pageGatewayMock)
+            ->getEvenIfDeleted(\Phake::anyParameters())
+            ->thenThrow(new \OutOfBoundsException());
 
         $this->pageService->replicate([
             $this->fakePageData([
                 'isDeleted' => true,
-            ])
+            ]),
         ]);
 
         $expectedPage = $this->fakePage(['isDeleted' => true]);
@@ -91,6 +100,7 @@ class PageServiceTest extends \PHPUnit\Framework\TestCase
         $data['regions'] = [];
         $data['metaData'] = [];
         $data['isDeleted'] = false;
+        $data['state'] = 'default';
 
         return array_merge($data, $explicitData);
     }

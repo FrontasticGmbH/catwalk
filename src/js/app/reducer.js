@@ -12,10 +12,15 @@ import FacetLoader from './loader/facet'
 import CategoryLoader from './loader/category'
 import CartLoader from './loader/cart'
 import WishlistLoader from './loader/wishlist'
+import renderContextReducer from './reducer/renderContext'
 
 const initialGlobalState = {
     route: null,
     context: new Context(),
+    renderContext: {
+        isServerSideRendering: false,
+        deviceType: 'mobile',
+    },
 }
 
 const reducer = (globalState = initialGlobalState, action) => {
@@ -80,6 +85,7 @@ export default combineReducers({
     facet: FacetLoader.handleAction,
     category: CategoryLoader.handleAction,
     wishlist: WishlistLoader.handleAction,
+    renderContext: renderContextReducer,
 
     // Optional customer reducers
     ...ComponentInjector.getReducer(),

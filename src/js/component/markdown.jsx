@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getTranslation } from 'frontastic-common'
 import { markdown } from 'markdown'
 import _ from 'lodash'
 
+import getTranslation from '../getTranslation'
 import ComponentInjector from '../app/injector'
 
 import app from '../app/app'
