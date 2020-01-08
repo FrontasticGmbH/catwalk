@@ -66,17 +66,32 @@ sensio_framework_extra:
 
 monolog:
     handlers:
-        syslog:
-            type:                stream
-            path:                "%kernel.logs_dir%/frontend.log"
-            level:               ERROR
-            bubble:              false
-        main:
-            type:                fingers_crossed
-            action_level:        WARNING
-            buffer_size:         100
-            handler:             syslog
+        filter_for_errors:
+            type: fingers_crossed
+            # if *one* log is error or higher, pass *all* to the handlers
+            action_level: error
+            # always pass info and above to the handlers
+            passthru_level: info
+            handler: handler_group
 
+        # For now, we log both into JSON as well as plain text file.
+        # Whatfailuregroup forwards records to multiple handlers suppressing failures of each handler
+        # and continuing through to give every handler a chance to succeed.
+        handler_group:
+            type:                whatfailuregroup
+            members:
+                - json_file
+                - plaintext_file
+
+        plaintext_file:
+            type: stream
+            path: "%kernel.logs_dir%/frontend.log"
+
+        json_file:
+            type:                stream
+            path:                /var/log/frontastic/json.log # This global path was agreed upon with Frontastic Ops.
+            formatter:           Frontastic\Catwalk\ApiCoreBundle\Monolog\JsonFormatter
+            
 doctrine:
     orm:
         filters:

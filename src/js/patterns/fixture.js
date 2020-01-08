@@ -1,7 +1,10 @@
 import _ from 'lodash'
 
-import { ucFirst } from '../patternLibrary/functions'
 import icon from '../../layout/heart.jsx'
+
+function ucFirst (string) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+}
 
 class LoremIpsum {
     static words = [

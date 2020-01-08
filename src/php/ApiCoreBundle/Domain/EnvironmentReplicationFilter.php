@@ -37,6 +37,10 @@ class EnvironmentReplicationFilter implements Target
             ) {
                 $updates[$index]['isDeleted'] = true;
             }
+
+            if (isset($update['environment']) && $update['environment'] !== $environment) {
+                $updates[$index]['isDeleted'] = true;
+            }
         }
 
         $this->target->replicate($updates);

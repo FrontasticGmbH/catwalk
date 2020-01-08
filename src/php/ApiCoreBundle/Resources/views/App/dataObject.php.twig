@@ -14,7 +14,7 @@ use Kore\DataObject\DataObject;
  *
  * @ORM\Entity(repositoryClass="Frontastic\Catwalk\ApiCoreBundle\Domain\DataRepository")
  * @ORM\Table(
-    name="app_{{className|lower()}}",
+    name="{{tableName}}",
     indexes={
         @ORM\Index(name="idx_sequence", columns={"d_locale", "d_sequence"}),
     {% for index in indexes %}

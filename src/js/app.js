@@ -1,15 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Switch, Route } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import _ from 'lodash'
 
 import app from './app/app'
-import IntlProvider from './app/intlProvider'
 import store from './app/store'
 import Context from './app/context'
-
-import Preview from './preview'
-import Node from './node'
+import AppComponent from './appComponent'
 
 export default (mountNode, dataNode, tastics = null) => {
     if (!mountNode || !dataNode) {
@@ -50,6 +46,25 @@ export default (mountNode, dataNode, tastics = null) => {
             type: 'ApiBundle.Api.context.success',
             data: data,
         })
+        store.dispatch({
+            type: 'Frontastic.RenderContext.ClientSideDetected',
+        })
+        store.dispatch({
+            type: 'Frontastic.RenderContext.UserAgentDetected',
+            userAgent: navigator.userAgent,
+        })
+        const dispatchViewportDimensions = () => {
+            store.dispatch({
+                type: 'Frontastic.RenderContext.ViewportDimensionChanged',
+                viewportDimension: {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                },
+            })
+        }
+
+        dispatchViewportDimensions()
+        window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
 
         let context = new Context(data)
 
@@ -61,51 +76,16 @@ export default (mountNode, dataNode, tastics = null) => {
         app.getLoader('context').refresh()
     }
 
-    if (typeof window !== 'undefined') {
-        import('history').then(({ createBrowserHistory }) => {
-            const history = createBrowserHistory()
-            history.listen(app.loadForLocation)
+    import('history').then(({ createBrowserHistory }) => {
+        const history = createBrowserHistory()
+        history.listen(app.loadForLocation)
 
-            app.history = history
-            app.router.history = history
+        app.history = history
+        app.router.history = history
 
-            ReactDOM.hydrate(
-                <Provider store={app.getStore()}>
-                    <IntlProvider>
-                        <Router history={app.history}>
-                            <Switch>
-                                <Route
-                                    exact
-                                    path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                                    component={Preview}
-                                />
-
-                                <Route component={Node} />
-                            </Switch>
-                        </Router>
-                    </IntlProvider>
-                </Provider>,
-                mountNode
-            )
-        })
-    } else {
         ReactDOM.hydrate(
-            <Provider store={app.getStore()}>
-                <IntlProvider>
-                    <Router history={app.history}>
-                        <Switch>
-                            <Route
-                                exact
-                                path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                                component={Preview}
-                            />
-
-                            <Route component={Node} />
-                        </Switch>
-                    </Router>
-                </IntlProvider>
-            </Provider>,
+            <AppComponent app={app} />,
             mountNode
         )
-    }
+    })
 }

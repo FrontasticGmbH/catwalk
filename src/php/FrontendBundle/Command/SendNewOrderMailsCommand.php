@@ -24,7 +24,7 @@ class SendNewOrderMailsCommand extends ContainerAwareCommand
 
         $context = $this->getContainer()->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
         $cartApi = $this->getContainer()->get('Frontastic\Common\CartApiBundle\Domain\CartApiFactory')->factor(
-            $context->customer
+            $context->project
         );
 
         $orders = $cartApi->getNewOrders();

@@ -8,3 +8,9 @@ swiftmailer:
 doctrine:
     dbal:
         dbname:     "%env(database_name)%_test"
+
+services:
+    # In our test environment we do not want a real logger
+    logger:
+        class: \Psr\Log\NullLogger
+        public: true

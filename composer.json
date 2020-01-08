@@ -37,14 +37,15 @@
 
         "kore/data-object": "@stable",
         "qafoolabs/no-framework-bundle": "@stable",
-        "beberlei/DoctrineExtensions": "@stable",
+        "beberlei/doctrineextensions": "@stable",
 
         "predis/predis": "@stable",
         "michelf/php-markdown": "@stable",
         "aptoma/twig-markdown": "@stable",
         "mtdowling/cron-expression": "@stable",
         "kphoen/rulerz-bundle": "^0.15.0",
-        "zetacomponents/graph": "^1.5"
+        "zetacomponents/graph": "^1.5",
+        "ramsey/uuid": "^3.9"
     },
     "require-dev":  {
         "phpunit/phpunit": "^6",
@@ -53,7 +54,8 @@
         "phploc/phploc": "@stable",
         "squizlabs/php_codesniffer": "@stable",
         "sebastian/phpcpd": "@stable",
-        "phake/phake": "^3.0"
+        "phake/phake": "^3.0",
+        "phpstan/phpstan": "^0.11.19"
     },
     "autoload": {
         "psr-4": {

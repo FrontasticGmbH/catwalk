@@ -6,6 +6,9 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\ProductApiBundle\Domain\Category;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 
+/**
+ * @SuppressWarnings(PHPMD.CountInLoopExpression)
+ */
 class CategoriesContain
 {
     const QUERY_CATEGORIES_LIMIT = 500;

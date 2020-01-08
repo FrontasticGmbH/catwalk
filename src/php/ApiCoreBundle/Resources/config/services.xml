@@ -67,6 +67,7 @@
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway" />
+            <argument type="service" id="logger" />
         </service>
 
         <service id="frontastic.catwalk.api_core_bundle.domain.app_data_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
@@ -114,6 +115,16 @@
                 </service>
             </argument>
             <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools\ClientFactory" autowire="true">
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Monolog\JsonFormatter">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService" />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Monolog\FrontasticLogProcessor" autowire="true" >
+            <tag name="monolog.processor"/>
         </service>
     </services>
 </container>
