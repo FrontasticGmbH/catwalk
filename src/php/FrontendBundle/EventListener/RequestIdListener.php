@@ -28,8 +28,9 @@ class RequestIdListener implements EventSubscriberInterface
             return;
         }
 
-        $uuid4 = Uuid::uuid4();
-        $request->attributes->set(self::ATTRIBUTE_KEY, $uuid4->toString());
+        $uuid = Uuid::uuid4()->toString();
+        $uuid = str_replace('-', '', $uuid);
+        $request->attributes->set(self::ATTRIBUTE_KEY, $uuid);
     }
 
     public static function getSubscribedEvents()
