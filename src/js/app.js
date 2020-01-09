@@ -84,7 +84,7 @@ function appCreator (mountNode, dataNode, tastics = null) {
         if (isDevelopment && !isIE()) {
             beforeHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
             consoleCaptureStart()
-        }    
+        }
 
         const history = createBrowserHistory()
         history.listen(app.loadForLocation)
@@ -99,18 +99,18 @@ function appCreator (mountNode, dataNode, tastics = null) {
                 if (isDevelopment && !isIE()) {
                     const diffLog = require('./app/htmlDiff/differ').default
                     const printLog = require('./app/htmlDiff/printLog').default
-    
+
                     afterHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
                     if (hasHydrationWarning(consoleCaptureStop())) {
                         const log = diffLog(beforeHydrateHtml, afterHydrateHtml)
-    
+
                         printLog(log)
                     } else {
                         // eslint-disable-next-line
                         console.log('No hydration issue')
                     }
                 }
-            }    
+            }
         )
     })
 }
@@ -124,6 +124,7 @@ function hasHydrationWarning (errors) {
 }
 
 function isIE () {
+    // eslint-disable-next-line
     return ((window && window.navigator) && window.navigator.userAgent.indexOf('MSIE ') == !-1 || !!window.navigator.userAgent.match(/Trident.*rv\:11\./))
 }
 
