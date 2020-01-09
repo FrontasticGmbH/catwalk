@@ -13,6 +13,7 @@
         <defaults public="true" />
 
         <prototype namespace="Frontastic\Catwalk\FrontendBundle\Command\" resource="../../Command" autoconfigure="true" />
+        <prototype namespace="Frontastic\Catwalk\FrontendBundle\" resource="../.." exclude="../../Domain" autoconfigure="true" autowire="true" />
 
         <service id="logger" alias="monolog.logger" public="true" />
 
