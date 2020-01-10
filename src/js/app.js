@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import _ from 'lodash'
 
 import app from './app/app'
 import store from './app/store'
@@ -63,6 +64,19 @@ export default (mountNode, dataNode, tastics) => {
         type: 'Frontastic.RenderContext.UserAgentDetected',
         userAgent: navigator.userAgent,
     })
+
+    const dispatchViewportDimensions = () => {	
+        store.dispatch({	
+            type: 'Frontastic.RenderContext.ViewportDimensionChanged',	
+            viewportDimension: {	
+                width: window.innerWidth,	
+                height: window.innerHeight,	
+            },	
+        })	
+    }	
+
+    dispatchViewportDimensions()
+    window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
 
     store.dispatch({
         type: 'Frontend.Tastic.initialize',
