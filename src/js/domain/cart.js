@@ -5,7 +5,7 @@ class Cart {
         this.cartId = cart.cartId || null
         this.cartVersion = cart.cartVersion || 0
         this.custom = cart.custom || {}
-        this.discountCodes = cart.discountCodes || null
+        this.discountCodes = cart.discountCodes || []
         this.lineItems = cart.lineItems || []
         this.sum = +cart.sum || 0
         this.currency = cart.currency || null
@@ -35,7 +35,8 @@ class Cart {
 
     getDiscount () {
         return _.sum(this.lineItems.map((lineItem) => {
-            return (lineItem.price * lineItem.count) - lineItem.totalPrice
+            const basePrice = (lineItem.discountedPrice || lineItem.price)
+            return basePrice - lineItem.totalPrice
         }))
     }
 
@@ -83,8 +84,15 @@ class Cart {
     }
 
     hasCompletePayments () {
+        let paymentPaid = false
+        this.payments.forEach(function (payment) {
+            if (payment.paymentStatus === 'paid') {
+                paymentPaid = true
+            }
+        })
+
         return (
-            !!this.payments.length &&
+            paymentPaid &&
             (this.getPayedAmount() >= this.sum)
         )
     }
