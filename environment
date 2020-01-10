@@ -2,8 +2,6 @@ env=prod
 
 locale=de
 
-version=1810151253
-
 database_host=localhost
 database_port=
 database_name=catwalk
