@@ -5,30 +5,32 @@ import _ from 'lodash'
 
 import ErrorBoundary from '../app/errorBoundary'
 import configurationResolver from '../app/configurationResolver'
+import { useDeviceType } from '../helper/hooks/useDeviceType'
 
 const getStreamIdsForTasticSchema = (schema) => {
     return Object.keys(schema.fields)
-        .filter(fieldName => {
+        .filter((fieldName) => {
             return schema.fields[fieldName].type === 'stream'
         })
-        .map(fieldName => { return schema.get(fieldName) })
+        .map((fieldName) => {
+            return schema.get(fieldName)
+        })
 }
 
 const TasticWrapper = (props) => {
+    const deviceType = useDeviceType()
+
     const tastics = (window && window.tastics) || (global && global.tastics) || []
     const tastic = props.tastic
 
     const additionalData = (props.data.tastic || {})[props.tastic.tasticId] || null
 
-    const streams = getStreamIdsForTasticSchema(props.tastic.schema)
-        .map(streamId => { return props.data.stream[streamId] })
+    const streams = getStreamIdsForTasticSchema(props.tastic.schema).map((streamId) => {
+        return props.data.stream[streamId]
+    })
 
     const tasticData = useMemo(() => {
-        return configurationResolver(
-            props.tastic.schema,
-            props.data.stream,
-            additionalData || {}
-        )
+        return configurationResolver(props.tastic.schema, props.data.stream, additionalData || {})
 
         // Warning - the dependencies of this useMemo might differ from those that are actually in use,
         // because it makes assumptions about the implementation details of configurationResolver.
@@ -48,32 +50,45 @@ const TasticWrapper = (props) => {
             return null
         }
 
-        return (<div className='alert alert-warning'>
-            <p>Tastic <code>{tastic.tasticType}</code> not yet implemented.</p>
-            <p>Did you just implement it? Please don't forget to register it in the <code>tastic/tastics.js</code>!</p>
-        </div>)
+        return (
+            <div className='alert alert-warning'>
+                <p>
+                    Tastic <code>{tastic.tasticType}</code> not yet implemented.
+                </p>
+                <p>
+                    Did you just implement it? Please don't forget to register it in the <code>tastic/tastics.js</code>!
+                </p>
+            </div>
+        )
     }
     let Tastic = tastics[tastic.tasticType]
 
     // Do not render the tastic if it was hidden for this device type
-    if (!tasticData[props.deviceType]) {
+    if (!tasticData[deviceType]) {
         return null
     }
 
-    return (<ErrorBoundary isDebug={props.isDebug}>
-        <div className={'e-tastic ' +
-                'e-tastic__' + tastic.tasticType + ' ' +
-                (tastic.schema.get('mobile') ? '' : 'e-tastic--hidden-hand ') +
-                (tastic.schema.get('tablet') ? '' : 'e-tastic--hidden-lap ') +
-                (tastic.schema.get('desktop') ? '' : 'e-tastic--hidden-desk ')
-            }
-            style={{
-                outline: (_.isEqual(tastic.tasticId, props.highlight) ? '2px dashed #d73964' : null),
-            }}
-            id={tastic.tasticId}>
-            <Tastic tastic={tastic} node={props.node} page={props.page} rawData={props.data} data={tasticData} />
-        </div>
-    </ErrorBoundary>)
+    return (
+        <ErrorBoundary isDebug={props.isDebug}>
+            <div
+                className={
+                    'e-tastic ' +
+                    'e-tastic__' +
+                    tastic.tasticType +
+                    ' ' +
+                    (tastic.schema.get('mobile') ? '' : 'e-tastic--hidden-hand ') +
+                    (tastic.schema.get('tablet') ? '' : 'e-tastic--hidden-lap ') +
+                    (tastic.schema.get('desktop') ? '' : 'e-tastic--hidden-desk ')
+                }
+                style={{
+                    outline: _.isEqual(tastic.tasticId, props.highlight) ? '2px dashed #d73964' : null,
+                }}
+                id={tastic.tasticId}
+            >
+                <Tastic tastic={tastic} node={props.node} page={props.page} rawData={props.data} data={tasticData} />
+            </div>
+        </ErrorBoundary>
+    )
 }
 
 TasticWrapper.propTypes = {
@@ -93,6 +108,5 @@ TasticWrapper.defaultProps = {
 export default connect((globalState) => {
     return {
         isDebug: !!(globalState.app.context && globalState.app.context.isDevelopment()),
-        deviceType: globalState.renderContext.deviceType,
     }
 })(TasticWrapper)
