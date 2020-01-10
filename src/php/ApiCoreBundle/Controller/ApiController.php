@@ -47,7 +47,9 @@ class ApiController extends Controller
         try {
             $this->verifyRequest($request);
 
-            if ($this->container->hasParameter(self::VERSION_PARAMETER_NAME)) {
+            if (($versionFromEnvironment = getenv('version')) !== false) {
+                $version = $versionFromEnvironment;
+            } elseif ($this->container->hasParameter(self::VERSION_PARAMETER_NAME)) {
                 $version = $this->container->getParameter(self::VERSION_PARAMETER_NAME);
             } else {
                 $version = self::DEFAULT_VERSION;
