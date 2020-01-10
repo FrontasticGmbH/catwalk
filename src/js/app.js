@@ -65,15 +65,15 @@ export default (mountNode, dataNode, tastics) => {
         userAgent: navigator.userAgent,
     })
 
-    const dispatchViewportDimensions = () => {	
-        store.dispatch({	
-            type: 'Frontastic.RenderContext.ViewportDimensionChanged',	
-            viewportDimension: {	
-                width: window.innerWidth,	
-                height: window.innerHeight,	
-            },	
-        })	
-    }	
+    const dispatchViewportDimensions = () => {
+        store.dispatch({
+            type: 'Frontastic.RenderContext.ViewportDimensionChanged',
+            viewportDimension: {
+                width: window.innerWidth,
+                height: window.innerHeight,
+            },
+        })
+    }
 
     dispatchViewportDimensions()
     window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
