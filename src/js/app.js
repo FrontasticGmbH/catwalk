@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import _ from 'lodash'
 
 import app from './app/app'
 import store from './app/store'
 import Context from './app/context'
 import AppComponent from './appComponent'
+import FrontasticRoute from './app/route'
 
-export default (mountNode, dataNode, tastics = null) => {
+export default (mountNode, dataNode, tastics) => {
     if (!mountNode || !dataNode) {
         return
     }
@@ -39,42 +39,48 @@ export default (mountNode, dataNode, tastics = null) => {
 
     window.tastics = tastics
 
-    let appData = dataNode.getAttribute('data-app')
-    if (appData) {
-        let data = JSON.parse(appData)
-        store.dispatch({
-            type: 'ApiBundle.Api.context.success',
-            data: data,
-        })
-        store.dispatch({
-            type: 'Frontastic.RenderContext.ClientSideDetected',
-        })
-        store.dispatch({
-            type: 'Frontastic.RenderContext.UserAgentDetected',
-            userAgent: navigator.userAgent,
-        })
-        const dispatchViewportDimensions = () => {
-            store.dispatch({
-                type: 'Frontastic.RenderContext.ViewportDimensionChanged',
-                viewportDimension: {
-                    width: window.innerWidth,
-                    height: window.innerHeight,
-                },
-            })
-        }
+    let props = JSON.parse(dataNode.getAttribute('data-props'))
 
-        dispatchViewportDimensions()
-        window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
+    let context = new Context(props.context)
 
-        let context = new Context(data)
+    app.getRouter().setContext(context)
+    app.getRouter().setRoutes(context.routes)
 
-        app.getRouter().setContext(context)
-        app.getRouter().setRoutes(context.routes)
+    store.dispatch({
+        type: 'FRONTASTIC_ROUTE',
+        route: new FrontasticRoute(props.route),
+        lastRoute: null,
+    })
+    store.dispatch({
+        type: 'ApiBundle.Api.context.success',
+        data: props.context,
+    })
 
-        app.loadForLocation(window.location)
-    } else {
-        app.getLoader('context').refresh()
-    }
+    store.dispatch({
+        type: 'Frontastic.RenderContext.ClientSideDetected',
+    })
+    store.dispatch({
+        type: 'Frontastic.RenderContext.UserAgentDetected',
+        userAgent: navigator.userAgent,
+    })
+
+    store.dispatch({
+        type: 'Frontend.Tastic.initialize',
+        data: props.tastics,
+    })
+    store.dispatch({
+        type: 'Frontend.Category.all.success',
+        data: { categories: props.categories },
+    })
+    store.dispatch({
+        type: 'Frontend.Facet.all.success',
+        data: props.facets,
+    })
+
+    store.dispatch({
+        type: 'Frontend.Node.initialize',
+        data: props,
+    })
 
     import('history').then(({ createBrowserHistory }) => {
         const history = createBrowserHistory()
