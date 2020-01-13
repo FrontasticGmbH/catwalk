@@ -1,0 +1,237 @@
+    [
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#b2a7e6ee-93a3-413c-acae-8da3926ba0c0.e-tastic.e-tastic__project-header > div.desktopheader > div.mobileheader > div.flyoutmenu.flyoutmenuSearch > div.overlay-mobile__wrapper > div.overlay-mobile__content",
+            "action": "addElement",
+            "payload": "+ <div class=\"search-results-popup\">\n+   <div class=\"search-results-popup__wrapper\">\n+     <div class=\"c-search-results-popup__side\">\n+       <div class=\"o-grid  c-product-listing\">\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.image-teaser-slider--controls",
+            "action": "addAttribute",
+            "payload": "+ aria-label=\"Carousel Navigation\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.image-teaser-slider--controls",
+            "action": "addAttribute",
+            "payload": "+ style=\"display: none;\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.image-teaser-slider--controls",
+            "action": "addAttribute",
+            "payload": "+ tabindex=\"0\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div",
+            "action": "addAttribute",
+            "payload": "+ class=\"tns-outer\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div",
+            "action": "addAttribute",
+            "payload": "+ id=\"tns1-ow\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12",
+            "action": "addElement",
+            "payload": "+ <style>\n+ </style>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.image-teaser-slider--controls > div.teaser-slider__previous.image-teaser-slider--prev",
+            "action": "addAttribute",
+            "payload": "+ aria-controls=\"tns1\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.image-teaser-slider--controls > div.teaser-slider__previous.image-teaser-slider--prev",
+            "action": "addAttribute",
+            "payload": "+ data-controls=\"prev\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.image-teaser-slider--controls > div.teaser-slider__previous.image-teaser-slider--prev",
+            "action": "addAttribute",
+            "payload": "+ tabindex=\"-1\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.image-teaser-slider--controls > div.teaser-slider__next.image-teaser-slider--next",
+            "action": "addAttribute",
+            "payload": "+ aria-controls=\"tns1\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.image-teaser-slider--controls > div.teaser-slider__next.image-teaser-slider--next",
+            "action": "addAttribute",
+            "payload": "+ data-controls=\"next\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.image-teaser-slider--controls > div.teaser-slider__next.image-teaser-slider--next",
+            "action": "addAttribute",
+            "payload": "+ tabindex=\"-1\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item",
+            "action": "removeElement",
+            "payload": "- <div class=\"teaser-slider__item\">\n-   <div class=\"teaser-slider__item--content-wrapper\">\n-     <div class=\"image-teaser\">\n-       <div class=\"image-teaser__image\">\n-         <a>\n-           <img>\n-           </img>\n-         </a>\n-       </div>\n- \n-       <div class=\"image-teaser__link-wrapper\">\n-         <button class=\"btn btn--link image-teaser__link\">\n-           <span class=\"untranslated\">\n-           </span>\n-         </button>\n-       </div>\n-     </div>\n-   </div>\n- </div>\n- "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item",
+            "action": "removeElement",
+            "payload": "- <div class=\"teaser-slider__item\">\n-   <div class=\"teaser-slider__item--content-wrapper\">\n-     <div class=\"image-teaser\">\n-       <div class=\"image-teaser__image\">\n-         <a>\n-           <img>\n-           </img>\n-         </a>\n-       </div>\n- \n-       <div class=\"image-teaser__link-wrapper\">\n-         <button class=\"btn btn--link image-teaser__link\">\n-           <span class=\"untranslated\">\n-           </span>\n-         </button>\n-       </div>\n-     </div>\n-   </div>\n- </div>\n- "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item",
+            "action": "removeElement",
+            "payload": "- <div class=\"teaser-slider__item\">\n-   <div class=\"teaser-slider__item--content-wrapper\">\n-     <div class=\"image-teaser\">\n-       <div class=\"image-teaser__image\">\n-         <a>\n-           <img>\n-           </img>\n-         </a>\n-       </div>\n- \n-       <div class=\"image-teaser__link-wrapper\">\n-         <button class=\"btn btn--link image-teaser__link\">\n-           <span class=\"untranslated\">\n-           </span>\n-         </button>\n-       </div>\n-     </div>\n-   </div>\n- </div>\n- "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item",
+            "action": "removeElement",
+            "payload": "- <div class=\"teaser-slider__item\">\n-   <div class=\"teaser-slider__item--content-wrapper\">\n-     <div class=\"image-teaser\">\n-       <div class=\"image-teaser__image\">\n-         <a>\n-           <img>\n-           </img>\n-         </a>\n-       </div>\n- \n-       <div class=\"image-teaser__link-wrapper\">\n-         <button class=\"btn btn--link image-teaser__link\">\n-           <span class=\"untranslated\">\n-           </span>\n-         </button>\n-       </div>\n-     </div>\n-   </div>\n- </div>\n- "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item",
+            "action": "removeElement",
+            "payload": "- <div class=\"teaser-slider__item\">\n-   <div class=\"teaser-slider__item--content-wrapper\">\n-     <div class=\"image-teaser\">\n-       <div class=\"image-teaser__image\">\n-         <a>\n-           <img>\n-           </img>\n-         </a>\n-       </div>\n- \n-       <div class=\"image-teaser__link-wrapper\">\n-         <button class=\"btn btn--link image-teaser__link\">\n-           <span class=\"untranslated\">\n-           </span>\n-         </button>\n-       </div>\n-     </div>\n-   </div>\n- </div>\n- "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div",
+            "action": "addElement",
+            "payload": "+ <div class=\"tns-nav\">\n+   <button class=\"tns-nav-active\">\n+   </button>\n+ \n+   <button>\n+   </button>\n+ \n+   <button>\n+   </button>\n+ \n+   <button>\n+   </button>\n+ \n+   <button>\n+   </button>\n+ \n+   <button>\n+   </button>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item",
+            "action": "modifyAttribute",
+            "payload": "- class=\"teaser-slider__item\"\n+ class=\"tns-ovh\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper",
+            "action": "modifyAttribute",
+            "payload": "- class=\"teaser-slider__item--content-wrapper\"\n+ class=\"tns-inner\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper",
+            "action": "addAttribute",
+            "payload": "+ id=\"tns1-iw\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "modifyAttribute",
+            "payload": "- class=\"image-teaser\"\n+ class=\" tns-slider tns-carousel tns-subpixel tns-calc tns-horizontal\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addAttribute",
+            "payload": "+ id=\"tns1\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addAttribute",
+            "payload": "+ style=\"transition-duration: 0s; transform: translate3d(-31.25%, 0px, 0px);\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser > div.image-teaser__image",
+            "action": "modifyAttribute",
+            "payload": "- class=\"image-teaser__image\"\n+ class=\"teaser-slider__item tns-item tns-transparent\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser > div.image-teaser__image",
+            "action": "addAttribute",
+            "payload": "+ aria-hidden=\"true\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser > div.image-teaser__image",
+            "action": "addAttribute",
+            "payload": "+ tabindex=\"-1\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser > div.image-teaser__link-wrapper",
+            "action": "modifyAttribute",
+            "payload": "- class=\"image-teaser__link-wrapper\"\n+ class=\"teaser-slider__item tns-item tns-transparent\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser > div.image-teaser__link-wrapper",
+            "action": "addAttribute",
+            "payload": "+ aria-hidden=\"true\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser > div.image-teaser__link-wrapper",
+            "action": "addAttribute",
+            "payload": "+ tabindex=\"-1\""
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-transparent\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-transparent\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-transparent\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-slide-active\"id=\"tns1-item0\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-slide-active\"id=\"tns1-item1\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-slide-active\"id=\"tns1-item2\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-slide-active\"id=\"tns1-item3\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-slide-active\"id=\"tns1-item4\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-slide-active\"id=\"tns1-item5\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-transparent\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-transparent\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-transparent\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-transparent\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser",
+            "action": "addElement",
+            "payload": "+ <div class=\"teaser-slider__item tns-item tns-transparent\">\n+   <div class=\"teaser-slider__item--content-wrapper\">\n+     <div class=\"image-teaser\">\n+       <div class=\"image-teaser__image\">\n+         <a>\n+           <img>\n+           </img>\n+         </a>\n+       </div>\n+ \n+       <div class=\"image-teaser__link-wrapper\">\n+         <button class=\"btn btn--link image-teaser__link\">\n+           <span class=\"untranslated\">\n+           </span>\n+         </button>\n+       </div>\n+     </div>\n+   </div>\n+ </div>\n+ "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser > div.image-teaser__image > a",
+            "action": "replaceElement",
+            "payload": "- <a>\n-   <img>\n-   </img>\n- </a>\n- \n+  <div class=\"teaser-slider__item--content-wrapper\">\n+    <div class=\"image-teaser\">\n+      <div class=\"image-teaser__image\">\n+        <a>\n+          <img>\n+          </img>\n+        </a>\n+      </div>\n+  \n+      <div class=\"image-teaser__link-wrapper\">\n+        <button class=\"btn btn--link image-teaser__link\">\n+          <span class=\"untranslated\">\n+          </span>\n+        </button>\n+      </div>\n+    </div>\n+  </div>\n+  "
+        },
+        {
+            "path": "body > div#app > div.s-node > header.c-page-head > div.o-grid.o-region > main.c-page-body > div.c-page-wrapper.o-wrapper > div.o-grid.o-region > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#89e15123-ff9b-4641-80c0-c0195383c870.e-tastic.e-tastic__project-bannerAdSale > div.banner.banner--add > div.banner__container > div.o-cell.o-cell--12 > div.o-grid > div.o-cell.o-cell--12 > div#8f8e4557-82bb-4d4a-90ab-5577ff9bfa5e.e-tastic.e-tastic__project-imageTeaserSlider > div > div.teaser-slider__wrapper > div.teaser-slider__items.image-teaser-slider > div > div.teaser-slider__item > div.teaser-slider__item--content-wrapper > div.image-teaser > div.image-teaser__link-wrapper > button.btn.btn--link.image-teaser__link",
+            "action": "replaceElement",
+            "payload": "- <button class=\"btn btn--link image-teaser__link\">\n-   <span class=\"untranslated\">\n-   </span>\n- </button>\n- \n+  <div class=\"teaser-slider__item--content-wrapper\">\n+    <div class=\"image-teaser\">\n+      <div class=\"image-teaser__image\">\n+        <a>\n+          <img>\n+          </img>\n+        </a>\n+      </div>\n+  \n+      <div class=\"image-teaser__link-wrapper\">\n+        <button class=\"btn btn--link image-teaser__link\">\n+          <span class=\"untranslated\">\n+          </span>\n+        </button>\n+      </div>\n+    </div>\n+  </div>\n+  "
+        }
+    ]

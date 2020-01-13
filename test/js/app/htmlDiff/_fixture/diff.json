@@ -1,0 +1,3243 @@
+[
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            5,
+            0,
+            0,
+            0
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "search-results-popup"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "search-results-popup__wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "c-search-results-popup__side"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "o-grid  c-product-listing"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addTextElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            2,
+            0,
+            0,
+            0,
+            1
+        ],
+        "value": " "
+    },
+    {
+        "action": "addTextElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+        ],
+        "value": " "
+    },
+    {
+        "action": "addTextElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            3,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+        ],
+        "value": " "
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+        ],
+        "name": "aria-label",
+        "value": "Carousel Navigation"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+        ],
+        "name": "style",
+        "value": "display: none;"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+        ],
+        "name": "tabindex",
+        "value": "0"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0
+        ],
+        "name": "class",
+        "value": "tns-outer"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0
+        ],
+        "name": "id",
+        "value": "tns1-ow"
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5
+        ],
+        "element": {
+            "nodeName": "STYLE",
+            "attributes": {
+                "type": "text\/css"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "#text",
+                    "data": "@XXXXX XXX XXX (XXX-XXXXX:XXX){.XXX-XX-XXXX{XXXXXXXX:XXXXXXXX}}"
+                }
+            ]
+        }
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+        ],
+        "name": "aria-controls",
+        "value": "tns1"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+        ],
+        "name": "data-controls",
+        "value": "prev"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+        ],
+        "name": "tabindex",
+        "value": "-1"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1
+        ],
+        "name": "aria-controls",
+        "value": "tns1"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1
+        ],
+        "name": "data-controls",
+        "value": "next"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1
+        ],
+        "name": "tabindex",
+        "value": "-1"
+    },
+    {
+        "action": "removeElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "removeElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "removeElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "removeElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "removeElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXX "
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "tns-nav",
+                "aria-label": "Carousel Pagination",
+                "style": "display: none;"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "BUTTON",
+                    "attributes": {
+                        "data-nav": "0",
+                        "tabindex": "0",
+                        "aria-controls": "tns1-item0",
+                        "style": "display:none",
+                        "type": "button",
+                        "aria-label": "Carousel Page 1 (Current Slide)",
+                        "class": "tns-nav-active"
+                    }
+                },
+                {
+                    "nodeName": "BUTTON",
+                    "attributes": {
+                        "data-nav": "1",
+                        "tabindex": "-1",
+                        "aria-controls": "tns1-item1",
+                        "style": "display:none",
+                        "type": "button",
+                        "aria-label": "Carousel Page 2"
+                    }
+                },
+                {
+                    "nodeName": "BUTTON",
+                    "attributes": {
+                        "data-nav": "2",
+                        "tabindex": "-1",
+                        "aria-controls": "tns1-item2",
+                        "style": "display:none",
+                        "type": "button",
+                        "aria-label": "Carousel Page 3"
+                    }
+                },
+                {
+                    "nodeName": "BUTTON",
+                    "attributes": {
+                        "data-nav": "3",
+                        "tabindex": "-1",
+                        "aria-controls": "tns1-item3",
+                        "style": "display:none",
+                        "type": "button",
+                        "aria-label": "Carousel Page 4"
+                    }
+                },
+                {
+                    "nodeName": "BUTTON",
+                    "attributes": {
+                        "data-nav": "4",
+                        "tabindex": "-1",
+                        "aria-controls": "tns1-item4",
+                        "style": "display:none",
+                        "type": "button",
+                        "aria-label": "Carousel Page 5"
+                    }
+                },
+                {
+                    "nodeName": "BUTTON",
+                    "attributes": {
+                        "data-nav": "5",
+                        "tabindex": "-1",
+                        "aria-controls": "tns1-item5",
+                        "style": "display:none",
+                        "type": "button",
+                        "aria-label": "Carousel Page 6"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "action": "modifyAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1
+        ],
+        "name": "class",
+        "oldValue": "teaser-slider__item",
+        "newValue": "tns-ovh"
+    },
+    {
+        "action": "modifyAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0
+        ],
+        "name": "class",
+        "oldValue": "teaser-slider__item--content-wrapper",
+        "newValue": "tns-inner"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0
+        ],
+        "name": "id",
+        "value": "tns1-iw"
+    },
+    {
+        "action": "modifyAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0
+        ],
+        "name": "class",
+        "oldValue": "image-teaser",
+        "newValue": " tns-slider tns-carousel tns-subpixel tns-calc tns-horizontal"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0
+        ],
+        "name": "id",
+        "value": "tns1"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0
+        ],
+        "name": "style",
+        "value": "transition-duration: 0s; transform: translate3d(-31.25%, 0px, 0px);"
+    },
+    {
+        "action": "modifyAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+        ],
+        "name": "class",
+        "oldValue": "image-teaser__image",
+        "newValue": "teaser-slider__item tns-item tns-transparent"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+        ],
+        "name": "aria-hidden",
+        "value": "true"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+        ],
+        "name": "tabindex",
+        "value": "-1"
+    },
+    {
+        "action": "modifyAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1
+        ],
+        "name": "class",
+        "oldValue": "image-teaser__link-wrapper",
+        "newValue": "teaser-slider__item tns-item tns-transparent"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1
+        ],
+        "name": "aria-hidden",
+        "value": "true"
+    },
+    {
+        "action": "addAttribute",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1
+        ],
+        "name": "tabindex",
+        "value": "-1"
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            2
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-transparent",
+                "aria-hidden": "true",
+                "tabindex": "-1"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            3
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-transparent",
+                "aria-hidden": "true",
+                "tabindex": "-1"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXX "
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            4
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-transparent",
+                "aria-hidden": "true",
+                "tabindex": "-1"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXX XXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            5
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-slide-active",
+                "id": "tns1-item0",
+                "aria-hidden": "false"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            6
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-slide-active",
+                "id": "tns1-item1",
+                "aria-hidden": "false"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            7
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-slide-active",
+                "id": "tns1-item2",
+                "aria-hidden": "false"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            8
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-slide-active",
+                "id": "tns1-item3",
+                "aria-hidden": "false"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            9
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-slide-active",
+                "id": "tns1-item4",
+                "aria-hidden": "false"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXX "
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            10
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-slide-active",
+                "id": "tns1-item5",
+                "aria-hidden": "false"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXX XXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            11
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-transparent",
+                "aria-hidden": "true",
+                "tabindex": "-1"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            12
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-transparent",
+                "aria-hidden": "true",
+                "tabindex": "-1"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            13
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-transparent",
+                "aria-hidden": "true",
+                "tabindex": "-1"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            14
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-transparent",
+                "aria-hidden": "true",
+                "tabindex": "-1"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXXXX"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "addElement",
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            15
+        ],
+        "element": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item tns-item tns-transparent",
+                "aria-hidden": "true",
+                "tabindex": "-1"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "teaser-slider__item--content-wrapper"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__image"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "A",
+                                            "attributes": {},
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "IMG",
+                                                    "attributes": {
+                                                        "src": "https:\/\/example.com\/src"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "nodeName": "DIV",
+                                    "attributes": {
+                                        "class": "image-teaser__link-wrapper"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "BUTTON",
+                                            "attributes": {
+                                                "class": "btn btn--link image-teaser__link"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "SPAN",
+                                                    "attributes": {
+                                                        "lang": "en_GB",
+                                                        "class": "untranslated"
+                                                    },
+                                                    "childNodes": [
+                                                        {
+                                                            "nodeName": "#text",
+                                                            "data": "XXXXXXX "
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "action": "replaceElement",
+        "oldValue": {
+            "nodeName": "A",
+            "attributes": {},
+            "childNodes": [
+                {
+                    "nodeName": "IMG",
+                    "attributes": {
+                        "src": "https:\/\/example.com\/src"
+                    }
+                }
+            ]
+        },
+        "newValue": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item--content-wrapper"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "image-teaser"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser__image"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "A",
+                                    "attributes": {},
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "IMG",
+                                            "attributes": {
+                                                "src": "https:\/\/example.com\/src"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser__link-wrapper"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "BUTTON",
+                                    "attributes": {
+                                        "class": "btn btn--link image-teaser__link"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "SPAN",
+                                            "attributes": {
+                                                "lang": "en_GB",
+                                                "class": "untranslated"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "#text",
+                                                    "data": "XXXXXXXXXXXX"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "action": "replaceElement",
+        "oldValue": {
+            "nodeName": "BUTTON",
+            "attributes": {
+                "class": "btn btn--link image-teaser__link"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "SPAN",
+                    "attributes": {
+                        "lang": "en_GB",
+                        "class": "untranslated"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "#text",
+                            "data": "XXX XXXXXXX"
+                        }
+                    ]
+                }
+            ]
+        },
+        "newValue": {
+            "nodeName": "DIV",
+            "attributes": {
+                "class": "teaser-slider__item--content-wrapper"
+            },
+            "childNodes": [
+                {
+                    "nodeName": "DIV",
+                    "attributes": {
+                        "class": "image-teaser"
+                    },
+                    "childNodes": [
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser__image"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "A",
+                                    "attributes": {},
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "IMG",
+                                            "attributes": {
+                                                "src": "https:\/\/example.com\/src"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "DIV",
+                            "attributes": {
+                                "class": "image-teaser__link-wrapper"
+                            },
+                            "childNodes": [
+                                {
+                                    "nodeName": "BUTTON",
+                                    "attributes": {
+                                        "class": "btn btn--link image-teaser__link"
+                                    },
+                                    "childNodes": [
+                                        {
+                                            "nodeName": "SPAN",
+                                            "attributes": {
+                                                "lang": "en_GB",
+                                                "class": "untranslated"
+                                            },
+                                            "childNodes": [
+                                                {
+                                                    "nodeName": "#text",
+                                                    "data": "XXXXXXXXXXXXX"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "route": [
+            1,
+            3,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0
+        ]
+    }
+]

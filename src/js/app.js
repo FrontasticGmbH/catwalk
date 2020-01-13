@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom'
 import _ from 'lodash'
 
 import app from './app/app'
-import store from './app/store'
+import createStore from './app/store'
 import Context from './app/context'
 import AppComponent from './appComponent'
 import FrontasticRoute from './app/route'
 
-export default (mountNode, dataNode, tastics) => {
+function appCreator (mountNode, dataNode, tastics = null) {
     if (!mountNode || !dataNode) {
         return
     }
@@ -41,7 +41,6 @@ export default (mountNode, dataNode, tastics) => {
     window.tastics = tastics
 
     let props = JSON.parse(dataNode.getAttribute('data-props'))
-
     let context = new Context(props.context)
 
     app.getRouter().setContext(context)
@@ -97,6 +96,15 @@ export default (mountNode, dataNode, tastics) => {
     })
 
     import('history').then(({ createBrowserHistory }) => {
+        const isDevelopment = app.getRouter().getContext().isDevelopment()
+
+        let beforeHydrateHtml = null
+        let afterHydrateHtml = null
+        if (isDevelopment && !isIE()) {
+            beforeHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
+            consoleCaptureStart()
+        }
+
         const history = createBrowserHistory()
         history.listen(app.loadForLocation)
 
@@ -105,7 +113,64 @@ export default (mountNode, dataNode, tastics) => {
 
         ReactDOM.hydrate(
             <AppComponent app={app} />,
-            mountNode
+            mountNode,
+            () => {
+                if (isDevelopment && !isIE()) {
+                    const diffLog = require('./app/htmlDiff/differ').default
+                    const printLog = require('./app/htmlDiff/printLog').default
+
+                    afterHydrateHtml = document.getElementsByTagName('body')[0].outerHTML
+                    if (hasHydrationWarning(consoleCaptureStop())) {
+                        const log = diffLog(beforeHydrateHtml, afterHydrateHtml)
+
+                        printLog(log)
+                    } else {
+                        // eslint-disable-next-line
+                        console.log('No hydration issue')
+                    }
+                }
+            }
         )
     })
 }
+
+function hasHydrationWarning (errors) {
+    return errors.map((error) => {
+        return (error && error.length && !!error[0].match(/^Warning: /))
+    }).reduce((accumulator, currentValue) => {
+        return accumulator || currentValue
+    }, false)
+}
+
+function isIE () {
+    // eslint-disable-next-line
+    return ((window && window.navigator) && window.navigator.userAgent.indexOf('MSIE ') == !-1 || !!window.navigator.userAgent.match(/Trident.*rv\:11\./))
+}
+
+function consoleCaptureStart () {
+    /* eslint-disable no-console */
+    console.stderror = console.error.bind(console)
+    console.errors = []
+    console.error = function () {
+        console.errors.push(Array.from(arguments))
+        console.stderror.apply(console, arguments)
+    }
+    /* eslint-enable no-console */
+}
+
+function consoleCaptureStop () {
+    /* eslint-disable no-console */
+    if (!console.errors) {
+        return []
+    }
+
+    console.error = console.stderror.bind(console)
+    delete console.stderror
+
+    const errors = console.errors
+    delete console.errors
+    /* eslint-enable no-console */
+    return errors
+}
+
+export default appCreator

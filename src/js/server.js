@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import _ from 'lodash'
 
 import app from './app/app'
-import store from './app/store'
+import createStore from './app/store'
 import Context from './app/context'
 import FrontasticRoute from './app/route'
 
@@ -36,6 +36,8 @@ export default (tastics = null, port = 8000) => {
     function handleRender (request, response) {
         let context = new Context(request.body.context)
         let props = request.body.props
+        let store = createStore()
+        app.initialize(store)
 
         // This usually is done by createStore() and reading the
         // properties directly from the DOM.  This does not work, thus

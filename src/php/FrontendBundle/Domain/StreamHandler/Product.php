@@ -29,12 +29,16 @@ class Product extends StreamHandler
             return Promise\promise_for(null);
         }
 
-        return $this->productApi->getProduct(
-            new ProductApi\Query\ProductQuery([
-                'productId' => $stream->configuration['product'],
-                'locale' => $context->locale,
-            ]),
+        $query = new ProductApi\Query\ProductQuery([
+            'productId' => $stream->configuration['product'],
+            'locale' => $context->locale,
+        ]);
+
+        $res = $this->productApi->getProduct(
+            $query,
             ProductApi::QUERY_ASYNC
         );
+
+        return $res;
     }
 }

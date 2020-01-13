@@ -129,6 +129,10 @@ let Router = function (history, routes = {}, context = null) {
         this.context = context
     }
 
+    this.getContext = function () {
+        return this.context
+    }
+
     this.setRoutes = function (routes) {
         this.routes = routes
     }

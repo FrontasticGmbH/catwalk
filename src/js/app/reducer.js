@@ -74,19 +74,21 @@ const reducer = (globalState = initialGlobalState, action) => {
     return globalState
 }
 
-export default combineReducers({
-    app: reducer,
-    dev: DevLoader.handleAction,
-    user: ContextLoader.handleAction,
-    node: NodeLoader.handleAction,
-    data: DataLoader.handleAction,
-    tastic: TasticLoader.handleAction,
-    cart: CartLoader.handleAction,
-    facet: FacetLoader.handleAction,
-    category: CategoryLoader.handleAction,
-    wishlist: WishlistLoader.handleAction,
-    renderContext: renderContextReducer,
+export default () => {
+    return combineReducers({
+        app: reducer,
+        dev: DevLoader.handleAction,
+        user: ContextLoader.handleAction,
+        node: NodeLoader.handleAction,
+        data: DataLoader.handleAction,
+        tastic: TasticLoader.handleAction,
+        cart: CartLoader.handleAction,
+        facet: FacetLoader.handleAction,
+        category: CategoryLoader.handleAction,
+        wishlist: WishlistLoader.handleAction,
+        renderContext: renderContextReducer,
 
-    // Optional customer reducers
-    ...ComponentInjector.getReducer(),
-})
+        // Optional customer reducers
+        ...ComponentInjector.getReducer(),
+    })
+}
