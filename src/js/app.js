@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import _ from 'lodash'
 
 import app from './app/app'
-import store from './app/store'
+import createStore from './app/store'
 import Context from './app/context'
 import AppComponent from './appComponent'
 
@@ -42,6 +42,9 @@ function appCreator (mountNode, dataNode, tastics = null) {
     let appData = dataNode.getAttribute('data-app')
     if (appData) {
         let data = JSON.parse(appData)
+        let store = createStore()
+        app.initialize(store)
+
         store.dispatch({
             type: 'ApiBundle.Api.context.success',
             data: data,

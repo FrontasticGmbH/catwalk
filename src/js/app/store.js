@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import _ from 'lodash'
 
 import Entity from './entity'
-import reducer from './reducer'
+import createReducer from './reducer'
 import UrlContext from './urlContext'
 
 import { ConfigurationSchema, FacetTypeSchemaMap } from 'frontastic-common'
@@ -39,45 +39,47 @@ if (typeof window !== 'undefined') {
 
 let cacheKey = UrlContext.getActionHash(props.route)
 
-export default createStore(
-    reducer,
-    {
-        node: {
-            error: null,
-            trees: {},
-            nodes: {
-                [props.node.nodeId]: new Entity(props.node),
+export default () => {
+    return createStore(
+        createReducer(),
+        {
+            node: {
+                error: null,
+                trees: {},
+                nodes: {
+                    [props.node.nodeId]: new Entity(props.node),
+                },
+                nodeData: {
+                    [cacheKey]: new Entity(props.data),
+                },
+                pages: {
+                    [props.node.nodeId]: new Entity(props.page),
+                },
+                last: {},
+                currentNodeId: props.node.nodeId,
+                currentCacheKey: cacheKey,
             },
-            nodeData: {
-                [cacheKey]: new Entity(props.data),
+            tastic: {
+                tastics: new Entity(props.tastics, 86400),
             },
-            pages: {
-                [props.node.nodeId]: new Entity(props.page),
+            facet: {
+                facets: new Entity(
+                    // @TODO: Clone from app/loader/facet.js – extract!
+                    _.map(props.facets, (facetConfig) => {
+                        let facetConfigNew = _.cloneDeep(facetConfig)
+                        facetConfigNew.facetOptions = new ConfigurationSchema(
+                            (FacetTypeSchemaMap[facetConfig.attributeType] || {}).schema || [],
+                            facetConfig.facetOptions
+                        )
+                        return facetConfigNew
+                    }),
+                    86400
+                ),
             },
-            last: {},
-            currentNodeId: props.node.nodeId,
-            currentCacheKey: cacheKey,
+            category: {
+                categories: new Entity(props.categories, 86400),
+            },
         },
-        tastic: {
-            tastics: new Entity(props.tastics, 86400),
-        },
-        facet: {
-            facets: new Entity(
-                // @TODO: Clone from app/loader/facet.js – extract!
-                _.map(props.facets, (facetConfig) => {
-                    let facetConfigNew = _.cloneDeep(facetConfig)
-                    facetConfigNew.facetOptions = new ConfigurationSchema(
-                        (FacetTypeSchemaMap[facetConfig.attributeType] || {}).schema || [],
-                        facetConfig.facetOptions
-                    )
-                    return facetConfigNew
-                }),
-                86400
-            ),
-        },
-        category: {
-            categories: new Entity(props.categories, 86400),
-        },
-    },
-    composeEnhancers(applyMiddleware(thunk))
-)
+        composeEnhancers(applyMiddleware(thunk))
+    )
+}
