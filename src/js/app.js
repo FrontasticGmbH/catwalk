@@ -42,6 +42,8 @@ function appCreator (mountNode, dataNode, tastics = null) {
 
     let props = JSON.parse(dataNode.getAttribute('data-props'))
     let context = new Context(props.context)
+    let store = createStore()
+    app.initialize(store)
 
     app.getRouter().setContext(context)
     app.getRouter().setRoutes(context.routes)
