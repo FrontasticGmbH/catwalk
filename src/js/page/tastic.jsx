@@ -98,7 +98,6 @@ TasticWrapper.propTypes = {
     data: PropTypes.object.isRequired,
     highlight: PropTypes.any,
     isDebug: PropTypes.bool,
-    deviceType: PropTypes.string.isRequired,
 }
 
 TasticWrapper.defaultProps = {
