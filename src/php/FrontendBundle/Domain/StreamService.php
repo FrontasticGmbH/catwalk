@@ -7,6 +7,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Log\LoggerInterface;
 
 class StreamService
 {
@@ -14,6 +15,11 @@ class StreamService
      * @var TasticService
      */
     private $tasticService;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * @var StreamHandler[]
@@ -56,11 +62,13 @@ class StreamService
      */
     public function __construct(
         TasticService $tasticService,
+        LoggerInterface $logger,
         iterable $streamHandlers = [],
         iterable $streamOptimizers = [],
         bool $debug = false
     ) {
         $this->tasticService = $tasticService;
+        $this->logger = $logger;
         foreach ($streamHandlers as $streamHandler) {
             $this->addStreamHandler($streamHandler);
         }
@@ -226,6 +234,19 @@ class StreamService
                                 'file' => $exception->getFile(),
                                 'line' => $exception->getLine(),
                                 // Don't include the `$exception->getTrace()` here since it is not always cloneable.
+                            ]
+                        );
+
+                        $this->logger->warning(
+                            sprintf(
+                                'Error fetching data for stream %s (type %s): %s',
+                                $stream->streamId,
+                                $stream->type,
+                                $exception->getMessage()
+                            ),
+                            [
+                                'file' => $exception->getFile(),
+                                'line' => $exception->getLine(),
                             ]
                         );
                     }
