@@ -209,7 +209,7 @@ class StreamService
                     $context,
                     $streamContext->parameters
                 )
-                ->otherwise(function (\Throwable $exception) {
+                ->otherwise(function (\Throwable $exception) use ($stream) {
                     $errorResult = [
                         'ok' => false,
                         'message' => $exception->getMessage(),
@@ -218,6 +218,16 @@ class StreamService
                         $errorResult['trace'] = $exception->getTrace();
                         $errorResult['file'] = $exception->getFile();
                         $errorResult['line'] = $exception->getLine();
+
+                        debug(
+                            sprintf('Error fetching data for stream %s (type %s)', $stream->streamId, $stream->type),
+                            [
+                                'message' => $exception->getMessage(),
+                                'file' => $exception->getFile(),
+                                'line' => $exception->getLine(),
+                                // Don't include the `$exception->getTrace()` here since it is not always cloneable.
+                            ]
+                        );
                     }
                     return $errorResult;
                 });
