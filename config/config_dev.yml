@@ -16,7 +16,7 @@ monolog:
         syslog:
             type:                stream
             path:                "%kernel.logs_dir%/frontend.log"
-            level:               DEBUG
+            level:               INFO
             bubble:              false
         main:
             type:                fingers_crossed
