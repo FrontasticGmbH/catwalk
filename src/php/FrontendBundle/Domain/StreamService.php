@@ -2,12 +2,11 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
-
-use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class StreamService
 {
@@ -119,7 +118,7 @@ class StreamService
             $usage = $this->findUsageInConfiguration(
                 $tastic,
                 $group['fields'],
-                (array) $tastic->configuration,
+                (array)$tastic->configuration,
                 $usage
             );
         }
