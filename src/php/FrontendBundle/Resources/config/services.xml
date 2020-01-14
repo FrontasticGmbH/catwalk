@@ -440,7 +440,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\RebuildRoutesListener">
             <argument type="service" id="Symfony\Component\DependencyInjection\ContainerInterface" />
-            <argument type="service" id="Psr\Log\LoggerInterface" />
+            <argument type="service" id="logger" />
 
             <tag name="kernel.event_listener" event="kernel.request" />
         </service>
