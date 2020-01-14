@@ -185,7 +185,7 @@ class ContextService
 
     private function getAnonymousSession(Request $request): Session
     {
-        $session = $request->getSession();
+        $session = $request->hasSession() ? $request->getSession() : null;
 
         if ($session !== null && $session->has('anonymousId')) {
             return new Session([
