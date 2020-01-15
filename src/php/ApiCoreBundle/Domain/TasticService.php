@@ -18,9 +18,31 @@ class TasticService implements Target
      */
     private $tastics = null;
 
-    public function __construct(TasticGateway $tasticGateway)
+    /**
+     * @var array
+     */
+    private $tasticSchemaOverwrites = [];
+
+    public function __construct(TasticGateway $tasticGateway, string $projectPath, string $environment)
     {
         $this->tasticGateway = $tasticGateway;
+        if ($environment === 'dev') {
+            $this->readTasticSchemaOverwrites($projectPath);
+        }
+    }
+
+    private function readTasticSchemaOverwrites(string $projectPath)
+    {
+        $baseDirectory = $projectPath . '/config/tasticSchemaOverwrites';
+        foreach (glob($baseDirectory . '/*.json') as $schemaFile) {
+            $schema = json_decode(file_get_contents($schemaFile), true);
+            if (!$schema) {
+                debug('Could not parse ' . $schemaFile);
+                continue;
+            }
+
+            $this->tasticSchemaOverwrites[$schema['tasticType']] = $schema;
+        }
     }
 
     public function lastUpdate(): string
@@ -65,7 +87,14 @@ class TasticService implements Target
             return $this->tastics;
         }
 
-        return $this->tastics = $this->tasticGateway->getAll();
+        $tastics = $this->tasticGateway->getAll();
+        foreach ($tastics as $tastic) {
+            if (isset($this->tasticSchemaOverwrites[$tastic->tasticType])) {
+                $tastic->configurationSchema = $this->tasticSchemaOverwrites[$tastic->tasticType];
+            }
+        }
+
+        return $this->tastics = $tastics;
     }
 
     /**
@@ -87,7 +116,12 @@ class TasticService implements Target
 
     public function get(string $tasticId): Tastic
     {
-        return $this->tasticGateway->get($tasticId);
+        $tastic = $this->tasticGateway->get($tasticId);
+        if (isset($this->tasticSchemaOverwrites[$tastic->tasticType])) {
+            $tastic->schema = $$this->tasticSchemaOverwrites[$tastic->tasticType];
+        }
+
+        return $tastic;
     }
 
     public function store(Tastic $tastic): Tastic
