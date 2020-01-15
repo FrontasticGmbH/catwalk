@@ -2,20 +2,34 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
+use Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator;
+use Frontastic\Common\HttpClient;
+use Frontastic\Common\HttpClient\Response;
 use Frontastic\Common\JsonSerializer;
 use Symfony\Component\HttpFoundation\Request;
 
-use Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
-use Frontastic\Common\HttpClient;
-use Frontastic\Common\HttpClient\Response;
-
 class RenderService
 {
+    /**
+     * @var ContextService
+     */
     private $contextService;
-    private $httpClient;
-    private $backendUrl;
+
+    /**
+     * @var ResponseDecorator
+     */
     private $responseDecorator;
+
+    /**
+     * @var HttpClient
+     */
+    private $httpClient;
+
+    /**
+     * @var string
+     */
+    private $backendUrl;
 
     /**
      * @var JsonSerializer
