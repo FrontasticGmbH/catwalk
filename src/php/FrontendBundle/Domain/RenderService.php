@@ -7,6 +7,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator;
 use Frontastic\Common\HttpClient;
 use Frontastic\Common\HttpClient\Response;
 use Frontastic\Common\JsonSerializer;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class RenderService
@@ -36,18 +37,25 @@ class RenderService
      */
     private $jsonSerializer;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         ContextService $contextService,
         ResponseDecorator $responseDecorator,
         HttpClient $httpClient,
         string $backendUrl,
-        JsonSerializer $jsonSerializer
+        JsonSerializer $jsonSerializer,
+        LoggerInterface $logger
     ) {
         $this->contextService = $contextService;
         $this->responseDecorator = $responseDecorator;
         $this->httpClient = $httpClient;
         $this->backendUrl = $backendUrl;
         $this->jsonSerializer = $jsonSerializer;
+        $this->logger = $logger;
     }
 
     public function render(Request $request, array $props = []): Response
@@ -73,6 +81,10 @@ class RenderService
 
         if ($response->status >= 400) {
             $this->responseDecorator->setTimedOut();
+
+            $this->logger->error(
+                sprintf('Server side rendering (SSR) failed with status code %d', $response->status)
+            );
         }
 
         $response->body = json_decode($response->body) ?: [
