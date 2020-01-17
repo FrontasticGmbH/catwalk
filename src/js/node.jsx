@@ -33,25 +33,27 @@ class Node extends Component {
             )
         )
 
-        return (<div className='s-node'>
-            {this.props.tastics.isComplete() ?
-                <Fragment>
-                    <MetaData
-                        node={nodeData}
-                        page={this.props.page.data || {}}
-                        data={this.props.data.data || {}}
-                    />
-                    {this.props.node.data.error && <Markdown text={this.props.node.data.error} />}
-                    <Page
-                        node={nodeData}
-                        page={this.props.page.data || {}}
-                        data={this.props.data.data || {}}
-                        tastics={this.props.tastics.data}
-                    />
-                </Fragment>
-            : null}
-            <Loading large entity={this.props.data} />
-        </div>)
+        // the custom (css) classname can be added in backstage
+        // in the Display Properties of each Node Configuration (gear icon)
+        let customClassname = nodeData.configuration.displayClassname || ''
+
+        return (
+            <div className={`s-node ${customClassname}`}>
+                {this.props.tastics.isComplete() ? (
+                    <Fragment>
+                        <MetaData node={nodeData} page={this.props.page.data || {}} data={this.props.data.data || {}} />
+                        {this.props.node.data.error && <Markdown text={this.props.node.data.error} />}
+                        <Page
+                            node={nodeData}
+                            page={this.props.page.data || {}}
+                            data={this.props.data.data || {}}
+                            tastics={this.props.tastics.data}
+                        />
+                    </Fragment>
+                ) : null}
+                <Loading large entity={this.props.data} />
+            </div>
+        )
     }
 }
 
@@ -62,20 +64,15 @@ Node.propTypes = {
     tastics: PropTypes.object.isRequired,
 }
 
-Node.defaultProps = {
-}
+Node.defaultProps = {}
 
-export default connect(
-    (globalState, props) => {
-        const page = pageSelector(globalState)
+export default connect((globalState, props) => {
+    const page = pageSelector(globalState)
 
-        return {
-            node: globalState.node.nodes[globalState.node.currentNodeId] ||
-                globalState.node.last.node || emptyEntity,
-            data: globalState.node.nodeData[globalState.node.currentCacheKey] ||
-                globalState.node.last.data || emptyEntity,
-            page: page || emptyEntity,
-            tastics: globalState.tastic.tastics || emptyEntity,
-        }
+    return {
+        node: globalState.node.nodes[globalState.node.currentNodeId] || globalState.node.last.node || emptyEntity,
+        data: globalState.node.nodeData[globalState.node.currentCacheKey] || globalState.node.last.data || emptyEntity,
+        page: page || emptyEntity,
+        tastics: globalState.tastic.tastics || emptyEntity,
     }
-)(Node)
+})(Node)
