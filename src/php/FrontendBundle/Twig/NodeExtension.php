@@ -44,8 +44,10 @@ class NodeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function getGlobals()
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
+
         $route = '';
-        $parameters = '';
+        $parameters = [];
+
         if ($request) {
             $route = $request->get('_route');
             $parameters = array_merge(
