@@ -8,6 +8,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
+use Frontastic\Catwalk\FrontendBundle\Domain\Route;
 use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
 use Frontastic\Catwalk\FrontendBundle\Domain\SitemapService;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamService;
@@ -220,13 +221,17 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 continue;
             }
 
-            if (!isset($routes[$node->nodeId])) {
+            $nodeRoutes = $this->getRoutesForNode($routes, $node);
+
+            if (empty($nodeRoutes)) {
                 // there is no route for this node, maybe some parent nodes in the tree of this node has been deleted.
                 continue;
             }
 
+            $route = $this->getRouteForCurrentContext($context, $nodeRoutes);
+
             $entries[] = [
-                'uri' => $routes[$node->nodeId]->route,
+                'uri' => $route->route,
                 'changed' => strtotime($node->metaData['changed'])
             ];
 
@@ -238,7 +243,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 $this->generatePagerEntries(
                     $node,
                     $context,
-                    $routes[$node->nodeId]->route
+                    $route->route
                 )
             );
         }
@@ -451,5 +456,48 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             $this->workingDir . '/' . $file,
             $template->render($templateFile, $data)
         );
+    }
+
+    /**
+     * Filters the given Routes and returns the ones that correspond to the given Node
+     *
+     * @param Route[] $routes
+     * @param Node $node
+     * @return Route[]
+     */
+    private function getRoutesForNode(array $routes, Node $node): array
+    {
+        return array_filter(
+            $routes,
+            function (Route $route) use ($node) {
+                return $route->nodeId === $node->nodeId;
+            }
+        );
+    }
+
+    /**
+     * Returns the Route that should be used given the current context and therefore set locale
+     *
+     * @param Context $context
+     * @param Route[] $nodeRoutes
+     * @return Route
+     */
+    private function getRouteForCurrentContext(Context $context, array $nodeRoutes): Route
+    {
+        $defaultRoute = null;
+
+        /** @var Route $route */
+        foreach ($nodeRoutes as $route) {
+            if ($route->locale === $context->locale) {
+                return $route;
+            }
+
+            if ($route->locale === $context->project->defaultLanguage) {
+                $defaultRoute = $route;
+            }
+        }
+
+        // return the defaultRoute if one is found, otherwise return the first one found.
+        return $defaultRoute ?? reset($nodeRoutes);
     }
 }
