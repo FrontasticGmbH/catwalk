@@ -6,6 +6,7 @@ import app from './app/app'
 import createStore from './app/store'
 import Context from './app/context'
 import AppComponent from './appComponent'
+import FrontasticRoute from './app/route'
 
 function appCreator (mountNode, dataNode, tastics = null) {
     if (!mountNode || !dataNode) {
@@ -39,45 +40,62 @@ function appCreator (mountNode, dataNode, tastics = null) {
 
     window.tastics = tastics
 
-    let appData = dataNode.getAttribute('data-app')
-    if (appData) {
-        let data = JSON.parse(appData)
-        let store = createStore()
-        app.initialize(store)
+    let props = JSON.parse(dataNode.getAttribute('data-props'))
+    let context = new Context(props.context)
+    let store = createStore()
+    app.initialize(store)
 
+    app.getRouter().setContext(context)
+    app.getRouter().setRoutes(context.routes)
+
+    store.dispatch({
+        type: 'FRONTASTIC_ROUTE',
+        route: new FrontasticRoute(props.route),
+        lastRoute: null,
+    })
+    store.dispatch({
+        type: 'ApiBundle.Api.context.success',
+        data: props.context,
+    })
+
+    store.dispatch({
+        type: 'Frontastic.RenderContext.ClientSideDetected',
+    })
+    store.dispatch({
+        type: 'Frontastic.RenderContext.UserAgentDetected',
+        userAgent: navigator.userAgent,
+    })
+
+    const dispatchViewportDimensions = () => {
         store.dispatch({
-            type: 'ApiBundle.Api.context.success',
-            data: data,
+            type: 'Frontastic.RenderContext.ViewportDimensionChanged',
+            viewportDimension: {
+                width: window.innerWidth,
+                height: window.innerHeight,
+            },
         })
-        store.dispatch({
-            type: 'Frontastic.RenderContext.ClientSideDetected',
-        })
-        store.dispatch({
-            type: 'Frontastic.RenderContext.UserAgentDetected',
-            userAgent: navigator.userAgent,
-        })
-        const dispatchViewportDimensions = () => {
-            store.dispatch({
-                type: 'Frontastic.RenderContext.ViewportDimensionChanged',
-                viewportDimension: {
-                    width: window.innerWidth,
-                    height: window.innerHeight,
-                },
-            })
-        }
-
-        dispatchViewportDimensions()
-        window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
-
-        let context = new Context(data)
-
-        app.getRouter().setContext(context)
-        app.getRouter().setRoutes(context.routes)
-
-        app.loadForLocation(window.location)
-    } else {
-        app.getLoader('context').refresh()
     }
+
+    dispatchViewportDimensions()
+    window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
+
+    store.dispatch({
+        type: 'Frontend.Tastic.initialize',
+        data: props.tastics,
+    })
+    store.dispatch({
+        type: 'Frontend.Category.all.success',
+        data: { categories: props.categories },
+    })
+    store.dispatch({
+        type: 'Frontend.Facet.all.success',
+        data: props.facets,
+    })
+
+    store.dispatch({
+        type: 'Frontend.Node.initialize',
+        data: props,
+    })
 
     import('history').then(({ createBrowserHistory }) => {
         const isDevelopment = app.getRouter().getContext().isDevelopment()
