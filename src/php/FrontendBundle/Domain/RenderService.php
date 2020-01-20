@@ -87,13 +87,22 @@ class RenderService
             );
         }
 
-        $response->body = json_decode($response->body) ?: [
+        $ssrResponse = json_decode($response->body, true);
+        $response->body = $ssrResponse ?: [
             'app' => $response->body,
             'helmet' => [
                 'meta' => '',
                 'title' => '',
+                'script' => '',
             ],
         ];
+
+        if ($ssrResponse) {
+            // make sure properties are set properly as there might be errors otherwise
+            $response->body['helmet']['meta'] = $response->body['helmet']['meta'] ?? '';
+            $response->body['helmet']['title'] = $response->body['helmet']['title'] ?? '';
+            $response->body['helmet']['script'] = $response->body['helmet']['script'] ?? '';
+        }
 
         return $response;
     }
