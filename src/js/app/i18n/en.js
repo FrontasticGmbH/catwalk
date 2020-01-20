@@ -77,7 +77,6 @@ export default {
         },
 
     },
-
     header: {
         search: 'Search',
         myAccount: 'My account',
@@ -85,6 +84,15 @@ export default {
         cart: 'Cart',
         cross: 'cross',
         closeView: 'Close view',
+    },
+    secondNav: {
+        homepage: 'Homepage',
+        new: 'New',
+        clothing: 'Clothing',
+        shoes: 'Shoes',
+        sport: 'Sport',
+        accessoires: 'Accessoires',
+        sale: 'Sale %'
     },
     footer: {
         contact: 'Contact',

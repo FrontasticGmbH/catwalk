@@ -125,6 +125,15 @@ export default {
         cross: 'cross',
         closeView: 'Schließen',
     },
+    secondNav: {
+        homepage: 'Startseite',
+        new: 'Neu',
+        clothing: 'Bekleidung',
+        shoes: 'Schuhe',
+        sport: 'Sport',
+        accessoires: 'Accessoires',
+        sale: 'Sale %'
+    },
     footer: {
         contact: 'Kontakt',
         serviceHour: '24 Stunden Service',
