@@ -35,6 +35,20 @@
             <argument>%frontastic.project_file%</argument>
         </service>
 
+        <service id="Frontastic\Common\ReplicatorBundle\Domain\Customer">
+            <factory service="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService"
+                     method="getCustomer"
+            />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProjectService" autowire="true"/>
+        <service id="Frontastic\Common\ReplicatorBundle\Domain\Project">
+            <factory service="Frontastic\Catwalk\ApiCoreBundle\Domain\ProjectService"
+                     method="getProject"
+            />
+        </service>
+
+
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context">
             <factory
                 service="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService"
