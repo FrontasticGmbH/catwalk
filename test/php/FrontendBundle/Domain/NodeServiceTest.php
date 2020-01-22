@@ -89,6 +89,7 @@ class NodeServiceTest extends \PHPUnit\Framework\TestCase
         $data = [];
 
         $data['nodeId'] = '123abc';
+        $data['sequence'] = '4711';
         $data['isMaster'] = false;
         $data['configuration'] = [];
         $data['streams'] = [];

@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk;
 
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -39,6 +40,10 @@ class AppKernel extends \Frontastic\Common\Kernel
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new \Frontastic\Common\DevelopmentBundle\FrontasticCommonDevelopmentBundle();
+        } else {
+            if (!function_exists('\\debug')) {
+                require __DIR__ . '/debug.php';
+            }
         }
 
         $additionalBundlesFile = $this->getRootDir() . '/config/bundles.php';
@@ -54,9 +59,48 @@ class AppKernel extends \Frontastic\Common\Kernel
     }
 
     /**
+     * Register symfony configuration from base dir.
+     *
+     * @TODO Use Symfony Flex mechanism instead
+     */
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
+        $environment = $this->getEnvironment();
+
+        $catwalkBaseConfigDir = __DIR__ . '/../../config';
+
+        $executedInBaseCatwalk = (realpath($catwalkBaseConfigDir) === realpath(self::$catwalkBaseDir . '/config'));
+
+        // Always load basic catwalk settings for environment (imports global) or global
+        if (file_exists($catwalkBaseConfigDir . '/config_' . $environment . '.yml')) {
+            $loader->load($catwalkBaseConfigDir . '/config_' . $environment . '.yml');
+        } else {
+            $loader->load($catwalkBaseConfigDir . '/config.yml');
+        }
+
+        if (!$executedInBaseCatwalk) {
+            // Load additional project settings, if exist (for environment or global)
+            $projectConfigDir = static::getBaseDir() . '/config';
+            if (file_exists($projectConfigDir . '/config_' . $environment . '.yml')) {
+                $loader->load($projectConfigDir . '/config_' . $environment . '.yml');
+            } elseif (file_exists($projectConfigDir . '/config.yml')) {
+                $loader->load($projectConfigDir . '/config.yml');
+            }
+        }
+    }
+
+    /**
      * Symfony uses reflection and AppKernel class file otherwise.
      */
     public function getProjectDir()
+    {
+        return static::getBaseDir();
+    }
+
+    /**
+     * Symfony uses reflection and AppKernel class file otherwise.
+     */
+    public function getRootDir()
     {
         return static::getBaseDir();
     }

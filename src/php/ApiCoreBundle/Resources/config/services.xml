@@ -49,7 +49,10 @@
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Gateway\TasticGateway" />
+            <argument>%kernel.project_dir%</argument>
+            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').environment</argument>
         </service>
+
         <service id="frontastic.catwalk.api_core_bundle.domain.tastic_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />

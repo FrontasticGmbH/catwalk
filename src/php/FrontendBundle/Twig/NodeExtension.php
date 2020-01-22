@@ -45,23 +45,32 @@ class NodeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
 
+        $route = '';
+        $parameters = [];
+
+        if ($request) {
+            $route = $request->get('_route');
+            $parameters = array_merge(
+                $request->query->all(),
+                array_filter(
+                    $request->attributes->all(),
+                    function ($value, $key) {
+                        return $key[0] !== '_' && is_string($value);
+                    },
+                    ARRAY_FILTER_USE_BOTH
+                )
+            );
+        }
+
         return [
             'frontastic' => [
+                'context' => $this->container->get(Context::class),
                 'tastics' => $this->container->get(TasticService::class)->getAll(),
                 'facets' => $this->container->get(FacetService::class)->getEnabled(),
                 'categories' => $this->getCategories(),
                 'route' => [
-                    'route' => $request->get('_route'),
-                    'parameters' => array_merge(
-                        $request->query->all(),
-                        array_filter(
-                            $request->attributes->all(),
-                            function ($value, $key) {
-                                return $key[0] !== '_' && is_string($value);
-                            },
-                            ARRAY_FILTER_USE_BOTH
-                        )
-                    ),
+                    'route' => $route,
+                    'parameters' => $parameters,
                 ],
             ],
         ];

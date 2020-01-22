@@ -122,6 +122,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
+            <argument type="service" id="logger" />
             <argument type="tagged" tag="frontend.streamHandler" />
             <argument type="tagged" tag="frontend.streamOptimizer" />
             <argument>%kernel.debug%</argument>
@@ -210,6 +211,7 @@
             </argument>
             <argument>%frontastic.nodejs.renderer%</argument>
             <argument type="service" id="Frontastic\Common\JsonSerializer" />
+            <argument type="service" id="logger" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\PageImpressionRecorder">
@@ -440,7 +442,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\RebuildRoutesListener">
             <argument type="service" id="Symfony\Component\DependencyInjection\ContainerInterface" />
-            <argument type="service" id="Psr\Log\LoggerInterface" />
+            <argument type="service" id="logger" />
 
             <tag name="kernel.event_listener" event="kernel.request" />
         </service>
@@ -463,6 +465,12 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ContentSecurityPolicy">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+
+            <tag name="kernel.event_listener" event="kernel.response" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\EventListener\EmbedContext">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Twig\NodeExtension"/>
 
             <tag name="kernel.event_listener" event="kernel.response" />
         </service>

@@ -2,12 +2,12 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
-
-use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Psr\Log\LoggerInterface;
 
 class StreamService
 {
@@ -15,6 +15,11 @@ class StreamService
      * @var TasticService
      */
     private $tasticService;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * @var StreamHandler[]
@@ -57,11 +62,13 @@ class StreamService
      */
     public function __construct(
         TasticService $tasticService,
+        LoggerInterface $logger,
         iterable $streamHandlers = [],
         iterable $streamOptimizers = [],
         bool $debug = false
     ) {
         $this->tasticService = $tasticService;
+        $this->logger = $logger;
         foreach ($streamHandlers as $streamHandler) {
             $this->addStreamHandler($streamHandler);
         }
@@ -119,7 +126,7 @@ class StreamService
             $usage = $this->findUsageInConfiguration(
                 $tastic,
                 $group['fields'],
-                (array) $tastic->configuration,
+                (array)$tastic->configuration,
                 $usage
             );
         }
@@ -210,7 +217,7 @@ class StreamService
                     $context,
                     $streamContext->parameters
                 )
-                ->otherwise(function (\Throwable $exception) {
+                ->otherwise(function (\Throwable $exception) use ($stream) {
                     $errorResult = [
                         'ok' => false,
                         'message' => $exception->getMessage(),
@@ -219,6 +226,29 @@ class StreamService
                         $errorResult['trace'] = $exception->getTrace();
                         $errorResult['file'] = $exception->getFile();
                         $errorResult['line'] = $exception->getLine();
+
+                        debug(
+                            sprintf('Error fetching data for stream %s (type %s)', $stream->streamId, $stream->type),
+                            [
+                                'message' => $exception->getMessage(),
+                                'file' => $exception->getFile(),
+                                'line' => $exception->getLine(),
+                                // Don't include the `$exception->getTrace()` here since it is not always cloneable.
+                            ]
+                        );
+
+                        $this->logger->warning(
+                            sprintf(
+                                'Error fetching data for stream %s (type %s): %s',
+                                $stream->streamId,
+                                $stream->type,
+                                $exception->getMessage()
+                            ),
+                            [
+                                'file' => $exception->getFile(),
+                                'line' => $exception->getLine(),
+                            ]
+                        );
                     }
                     return $errorResult;
                 });

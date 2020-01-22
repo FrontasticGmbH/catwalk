@@ -11,6 +11,7 @@ module.exports = (config, PRODUCTION, SERVER) => {
                     'navigator.userAgent': 'empty-string',
                     'self.navigator.userAgent': 'empty-string',
                     'self': 'node-noop',
+                    'document.styleSheets': 'node-noop',
                 }),
             ]
         },

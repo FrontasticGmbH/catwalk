@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use GuzzleHttp\Promise;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Psr\Log\LoggerInterface;
 
 class StreamServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +18,9 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $tasticService = \Phake::mock(TasticService::class);
         \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
 
-        $streamService = new StreamService($tasticService, []);
+        $logger = \Phake::mock(LoggerInterface::class);
+
+        $streamService = new StreamService($tasticService, $logger, []);
 
         $parameters = [];
         $this->assertEquals(3, count($streamService->getUsedStreams($node, $page, $parameters)));
@@ -32,7 +35,9 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $tasticService = \Phake::mock(TasticService::class);
         \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
 
-        $streamService = new StreamService($tasticService, []);
+        $logger = \Phake::mock(LoggerInterface::class);
+
+        $streamService = new StreamService($tasticService, $logger, []);
 
         $parameters = [];
         $streamService->getUsedStreams($node, $page, $parameters);
@@ -55,7 +60,9 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $tasticService = \Phake::mock(TasticService::class);
         \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
 
-        $streamService = new StreamService($tasticService, []);
+        $logger = \Phake::mock(LoggerInterface::class);
+
+        $streamService = new StreamService($tasticService, $logger, []);
 
         $parameters = [];
         $this->assertEquals(4, count($streamService->getUsedStreams($node, $page, $parameters)));
@@ -70,7 +77,9 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $tasticService = \Phake::mock(TasticService::class);
         \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
 
-        $streamService = new StreamService($tasticService, []);
+        $logger = \Phake::mock(LoggerInterface::class);
+
+        $streamService = new StreamService($tasticService, $logger, []);
 
         $parameters = [];
         $streams = $streamService->getUsedStreams($node, $page, $parameters);
@@ -94,7 +103,9 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $tasticService = \Phake::mock(TasticService::class);
         \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
 
-        $streamService = new StreamService($tasticService, []);
+        $logger = \Phake::mock(LoggerInterface::class);
+
+        $streamService = new StreamService($tasticService, $logger, []);
 
         $parameters = [];
         $streams = $streamService->getUsedStreams($node, $page, $parameters);
@@ -131,11 +142,13 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $tasticService = \Phake::mock(TasticService::class);
         \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
 
+        $logger = \Phake::mock(LoggerInterface::class);
+
         $streamHandler = \Phake::mock(StreamHandler::class);
         \Phake::when($streamHandler)->getType()->thenReturn('product-list');
         \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
 
-        $streamService = new StreamService($tasticService, [$streamHandler]);
+        $streamService = new StreamService($tasticService, $logger, [$streamHandler]);
 
         $streamData = $streamService->getStreamData($node, new Context(), [], $page);
 
@@ -159,6 +172,8 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $tasticService = \Phake::mock(TasticService::class);
         \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
 
+        $logger = \Phake::mock(LoggerInterface::class);
+
         $streamHandler = \Phake::mock(StreamHandler::class);
         \Phake::when($streamHandler)->getType()->thenReturn('product-list');
         \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
@@ -166,7 +181,7 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $streamOptimizer = \Phake::mock(StreamOptimizer::class);
         \Phake::when($streamOptimizer)->optimizeStreamData(\Phake::anyParameters())->thenReturn('optimized data');
 
-        $streamService = new StreamService($tasticService, [$streamHandler], [$streamOptimizer]);
+        $streamService = new StreamService($tasticService, $logger, [$streamHandler], [$streamOptimizer]);
 
         $streamData = $streamService->getStreamData($node, new Context(), [], $page);
 

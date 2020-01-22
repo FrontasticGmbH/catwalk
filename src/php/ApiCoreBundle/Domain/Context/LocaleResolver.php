@@ -10,11 +10,11 @@ class LocaleResolver
 {
     public function determineLocale(Request $request, Project $project): string
     {
-        $session = $request->getSession();
+        $session = $request->hasSession() ? $request->getSession() : null;
 
         // Update locale from request. Should that actually happen here?
         if (($locale = $request->get('locale')) && $session !== null) {
-            $request->getSession()->set('locale', (trim($locale) === '') ? null: $locale);
+            $session->set('locale', (trim($locale) === '') ? null: $locale);
         }
 
         // 1st preference: Manually selected locale from  session
