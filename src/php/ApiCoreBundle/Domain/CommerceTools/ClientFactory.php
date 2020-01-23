@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Commercetools\Client;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Commercetools\ClientFactory as ProjectClientFactory;
+use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 
 /**
@@ -22,9 +23,9 @@ class ClientFactory
      */
     private $projectClientFactory;
 
-    public function __construct(Context $context, ProjectClientFactory $projectClientFactory)
+    public function __construct(Project $project, ProjectClientFactory $projectClientFactory)
     {
-        $this->project = $context->project;
+        $this->project = $project;
         $this->projectClientFactory = $projectClientFactory;
     }
 
