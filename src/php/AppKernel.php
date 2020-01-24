@@ -127,8 +127,29 @@ class AppKernel extends \Frontastic\Common\Kernel
         $container = parent::buildContainer();
 
         $container->setParameter('frontastic.paas_catwalk_dir', __DIR__ . '/../..');
+        $container->setParameter('frontastic.gedmo_extension_source_dir', $this->getGedmoExtensionsSourceDir());
 
         return $container;
+    }
+
+    private function getGedmoExtensionsSourceDir(): string
+    {
+        // Until recently the vendor dir from paas/catwalk was used for the dependencies of catwalk. Now all
+        // dependencies are installed to the projects vendor dir. This ensures that we use the gedmo extension from the
+        // projects vendor dir if it exists there and fall back to the vendor dir in paas/catwalk to support legacy
+        // catwalks without touching them.
+        $candidates = [
+            $this->getProjectDir() . '/vendor/gedmo/doctrine-extensions/lib',
+            __DIR__ . '/../../vendor/gedmo/doctrine-extensions/lib',
+        ];
+
+        foreach ($candidates as $candidate) {
+            if (is_dir($candidate)) {
+                return $candidate;
+            }
+        }
+
+        throw new \RuntimeException('The source of the gedmo doctrine extension was not found');
     }
 }
 
