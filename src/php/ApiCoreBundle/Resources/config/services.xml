@@ -19,13 +19,9 @@
             <argument>%kernel.debug%</argument>
         </service>
 
-        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService">
-            <argument type="service" id="router" />
-            <argument type="service" id="request_stack" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService" />
-            <argument type="service" id="security.token_storage" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver" />
-            <argument type="tagged" tag="context.decorator" />
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" autowire="true">
+            <argument key="$router" type="service" id="router" />
+            <argument key="$decorators" type="tagged" tag="context.decorator" />
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver">
@@ -34,6 +30,20 @@
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService">
             <argument>%frontastic.project_file%</argument>
         </service>
+
+        <service id="Frontastic\Common\ReplicatorBundle\Domain\Customer">
+            <factory service="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService"
+                     method="getCustomer"
+            />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProjectService" autowire="true"/>
+        <service id="Frontastic\Common\ReplicatorBundle\Domain\Project">
+            <factory service="Frontastic\Catwalk\ApiCoreBundle\Domain\ProjectService"
+                     method="getProject"
+            />
+        </service>
+
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context">
             <factory
