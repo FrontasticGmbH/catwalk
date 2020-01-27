@@ -21,5 +21,4 @@ class ProjectService
         // In the context of a catwalk there is only 1 project available in the customer
         return reset($this->customerService->getCustomer()->projects);
     }
-
 }
