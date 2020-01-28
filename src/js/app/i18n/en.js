@@ -92,7 +92,7 @@ export default {
         shoes: 'Shoes',
         sport: 'Sport',
         accessoires: 'Accessoires',
-        sale: 'Sale %'
+        sale: 'Sale %',
     },
     footer: {
         contact: 'Contact',
