@@ -20,7 +20,7 @@ const AppComponent = ({ app, renderRouter }) => {
                         component={Preview}
                     />
 
-                    <Route component={Node}/>
+                    <Route component={Node} />
                 </Switch>
             </ScrollbarContainer>
         </AppContainer>

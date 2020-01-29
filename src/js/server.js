@@ -11,7 +11,7 @@ import Context from './app/context'
 import FrontasticRoute from './app/route'
 
 import { Helmet } from 'react-helmet'
-import AppComponent from "./appComponent"
+import AppComponent from './appComponent'
 
 // @TODO: Fork: http://rowanmanning.com/posts/node-cluster-and-express/
 // @TODO: Supervise forks
