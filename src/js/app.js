@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import _ from 'lodash'
+import { Router } from 'react-router-dom'
 
 import app from './app/app'
 import createStore from './app/store'
@@ -113,8 +114,16 @@ function appCreator (mountNode, dataNode, tastics = null) {
         app.history = history
         app.router.history = history
 
+        const renderRouter = (children) => {
+            return (
+                <Router history={app.history}>
+                    {children}
+                </Router>
+            )
+        }
+
         ReactDOM.hydrate(
-            <AppComponent app={app} />,
+            <AppComponent app={app} renderRouter={renderRouter} />,
             mountNode,
             () => {
                 if (isDevelopment && !isIE()) {
