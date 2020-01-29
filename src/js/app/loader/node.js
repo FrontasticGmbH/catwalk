@@ -100,6 +100,7 @@ let Loader = function (store, api) {
 }
 
 const initialGlobalState = {
+    loading: false,
     error: null,
     trees: {},
     nodes: {},
@@ -134,6 +135,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         }
 
         return {
+            loading: true,
             error: null,
             trees: Entity.purgeMap(globalState.trees),
             nodes: Entity.purgeMap(globalState.nodes),
@@ -199,6 +201,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
 
         return {
             ...globalState,
+            loading: false,
             currentNodeId: action.id,
             nodes: nodes,
             nodeData: nodeData,
@@ -224,6 +227,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
 
         return {
             ...globalState,
+            loading: false,
             currentNodeId: action.id,
             currentCacheKey: 'error',
             nodes: nodes,
@@ -244,6 +248,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
 
         return {
             ...globalState,
+            loading: false,
             error: action.data,
         }
 
