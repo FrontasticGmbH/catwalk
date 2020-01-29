@@ -21,7 +21,7 @@ abstract class IntegrationTest extends \PHPUnit\Framework\TestCase
         AppKernel::$catwalkBaseDir = dirname(dirname(__DIR__));
 
         (new \Frontastic\Common\EnvironmentResolver())->loadEnvironmentVariables(
-            [__DIR__ . '/../../../../', __DIR__ . '/../../'],
+            [__DIR__ . '/../../../../', __DIR__ . '/../../', __DIR__ . '/../'],
             AppKernel::getBaseConfiguration()
         );
 
