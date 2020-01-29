@@ -2,6 +2,8 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
+use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\IntegrationTest;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
@@ -26,9 +28,28 @@ class GenerateSitemapsCommandTest extends IntegrationTest
 
         $commandTester->execute([
             'output-directory' => $outputDirectory,
+            '--with-nodes' => true,
+            '--with-nodes-subpages' => true,
+            '--with-extensions' => true,
         ]);
 
         $this->assertTheOutputDirectoryMatchesTheFixture($outputDirectory, 'empty');
+    }
+
+    public function testGeneratesSitemapForSingleNode()
+    {
+        $commandTester = $this->givenAGenerateSitemapsCommandTester();
+        $outputDirectory = $this->givenAnOutputDirectory();
+        $this->givenTheNodeAndPageFixture('singleNode');
+
+        $commandTester->execute([
+            'output-directory' => $outputDirectory,
+            '--with-nodes' => true,
+            '--with-nodes-subpages' => true,
+            '--with-extensions' => true,
+        ]);
+
+        $this->assertTheOutputDirectoryMatchesTheFixture($outputDirectory, 'singleNode');
     }
 
     public function setUp()
@@ -84,7 +105,25 @@ class GenerateSitemapsCommandTest extends IntegrationTest
             $outputFilename = $outputDirectory . '/' . $fixtureFile->getRelativePathname();
 
             $this->assertFileExists($outputFilename);
-            $this->assertFileEquals($fixtureFilename, $outputFilename);
+
+            $fixtureContent = file_get_contents($fixtureFilename);
+            $fixtureContent = str_replace('__CURRENT_DATE__', date('Y-m-d'), $fixtureContent);
+
+            $outputContent = file_get_contents($outputFilename);
+            $this->assertEquals($fixtureContent, $outputContent);
         }
+    }
+
+    private function givenTheNodeAndPageFixture(string $fixtureName): void
+    {
+        $nodeFilename = __DIR__ . '/_fixtures/nodes/' . $fixtureName . '.json';
+        $this->assertFileIsReadable($nodeFilename, 'Unknown node fixture: ' . $fixtureName);
+
+        $pageFilename = __DIR__ . '/_fixtures/pages/' . $fixtureName . '.json';
+        $this->assertFileIsReadable($nodeFilename, 'Unknown page fixture: ' . $pageFilename);
+
+        $container = self::getContainer();
+        $container->get(NodeService::class)->replicate(json_decode(file_get_contents($nodeFilename), true));
+        $container->get(PageService::class)->replicate(json_decode(file_get_contents($pageFilename), true));
     }
 }

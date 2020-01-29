@@ -1,0 +1,15 @@
+[
+    {
+        "isDeleted": false,
+        "isMaster": false,
+        "layoutId": "three_rows",
+        "metaData": {},
+        "nodes": [
+            "root"
+        ],
+        "pageId": "root_page",
+        "regions": [],
+        "sequence": "1",
+        "state": "default"
+    }
+]

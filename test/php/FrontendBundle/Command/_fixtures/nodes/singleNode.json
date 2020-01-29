@@ -1,0 +1,19 @@
+[
+    {
+        "configuration": {
+            "path": "/",
+            "pathTranslations": []
+        },
+        "isDeleted": false,
+        "isMaster": false,
+        "metaData": {
+            "changed": "2020-01-01T12:00:00Z"
+        },
+        "name": "Root Node",
+        "nodeId": "root",
+        "path": [],
+        "sequence": "1",
+        "sort": 0,
+        "streams": []
+    }
+]

@@ -1,7 +1,10 @@
 apiKey: secret
 configuration:
     account:
+        clientId: xxx
+        clientSecret: xxx
         engine: commercetools
+        projectKey: xxx
     cart:
         engine: commercetools
     commercetools:
