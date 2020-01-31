@@ -52,6 +52,22 @@ class GenerateSitemapsCommandTest extends IntegrationTest
         $this->assertTheOutputDirectoryMatchesTheFixture($outputDirectory, 'singleNode');
     }
 
+    public function testGeneratesSitemapForNodeTree()
+    {
+        $commandTester = $this->givenAGenerateSitemapsCommandTester();
+        $outputDirectory = $this->givenAnOutputDirectory();
+        $this->givenTheNodeAndPageFixture('nodeTree');
+
+        $commandTester->execute([
+            'output-directory' => $outputDirectory,
+            '--with-nodes' => true,
+            '--with-nodes-subpages' => true,
+            '--with-extensions' => true,
+        ]);
+
+        $this->assertTheOutputDirectoryMatchesTheFixture($outputDirectory, 'nodeTree');
+    }
+
     public function setUp()
     {
         parent::setUp();
