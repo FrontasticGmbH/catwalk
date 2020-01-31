@@ -39,6 +39,8 @@ export default (tastics = null, port = 8000) => {
         let store = createStore()
         app.initialize(store)
 
+        window.location.href = request.body.requestUri
+
         // This usually is done by createStore() and reading the
         // properties directly from the DOM.  This does not work, thus
         // we post-initilize the state (see app/store.js):
