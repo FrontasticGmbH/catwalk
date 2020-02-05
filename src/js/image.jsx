@@ -33,7 +33,6 @@ class Image extends Component {
             this.props.media.width &&
             this.props.media.height
         ) {
-
             return [
                 this.props.forceWidth || (this.props.forceHeight / this.props.media.height) * this.props.media.width,
                 this.props.forceHeight || (this.props.forceWidth / this.props.media.width) * this.props.media.height,
