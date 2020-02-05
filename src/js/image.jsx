@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import sizer from 'react-sizer'
 import _ from 'lodash'
 
 import MediaApi from 'frontastic-common/src/js/mediaApi'
+import sizer from './helper/reactSizer'
 import NoImage from '../layout/noImage.svg'
 
 /**
@@ -27,7 +27,13 @@ class Image extends Component {
     }
 
     getInputImageDimensions = () => {
-        if ((this.props.forceWidth || this.props.forceHeight) && this.props.media && this.props.media.width && this.props.media.height) {
+        if (
+            (this.props.forceWidth || this.props.forceHeight) &&
+            this.props.media &&
+            this.props.media.width &&
+            this.props.media.height
+        ) {
+
             return [
                 this.props.forceWidth || (this.props.forceHeight / this.props.media.height) * this.props.media.width,
                 this.props.forceHeight || (this.props.forceWidth / this.props.media.width) * this.props.media.height,
