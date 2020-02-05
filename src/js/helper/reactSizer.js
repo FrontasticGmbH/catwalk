@@ -39,7 +39,7 @@ export default function sizer ({
 
         class Placeholder extends Component {
             render () {
-                return createElement('span', { style: placeholderStyle, ref: this.props.placeholderRef })
+                return createElement('span', { style: placeholderStyle, ref: this.props.placeholderRef }) // eslint-disable-line react/prop-types
             }
         }
 
