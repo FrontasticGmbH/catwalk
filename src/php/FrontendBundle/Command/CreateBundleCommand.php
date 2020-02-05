@@ -45,7 +45,8 @@ class CreateBundleCommand extends ContainerAwareCommand
 
         $namespace = ucfirst(strtolower($context->customer->name));
         foreach ($iterator as $item) {
-            $destinationName = $destination . '/' . $this->fixNames($iterator->getSubPathName(), $namespace, $bundleName);
+            $destinationName =
+                $destination . '/' . $this->fixNames($iterator->getSubPathName(), $namespace, $bundleName);
 
             if ($item->isDir()) {
                 mkdir($destinationName);
@@ -68,7 +69,10 @@ class CreateBundleCommand extends ContainerAwareCommand
         }
         $bundles[] = $namespace . '\\' . $bundleName . '\\' . $namespace . $bundleName;
 
-        file_put_contents($bundleDefinitionFile, "<?php\n\nreturn [\n    new " . implode("(),\n    new ", $bundles) . "(),\n];\n");
+        file_put_contents(
+            $bundleDefinitionFile,
+            "<?php\n\nreturn [\n    new " . implode("(),\n    new ", $bundles) . "(),\n];\n"
+        );
     }
 
     private function fixNames(string $input, string $namespace, string $bundleName): string
