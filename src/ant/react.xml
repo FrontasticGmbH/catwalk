@@ -69,13 +69,31 @@
             <arg value="main" />
         </exec>
 
+        <exec executable="git" failonerror="true" dir="${basedir}">
+            <arg value="rm" />
+            <arg value="-r" />
+            <arg value="--force" />
+            <arg value="${basedir}/public/assets/js/*" />
+        </exec>
+
+        <exec executable="git" failonerror="true" dir="${basedir}">
+            <arg value="rm" />
+            <arg value="-r" />
+            <arg value="--force" />
+            <arg value="${basedir}/public/assets/css/*" />
+        </exec>
+
         <exec executable="git" failonerror="false" dir="${basedir}">
             <arg value="rm" />
             <arg value="-r" />
             <arg value="--force" />
             <arg value="${basedir}/public/service-worker.js" />
-            <arg value="${basedir}/public/assets/js/*" />
-            <arg value="${basedir}/public/assets/css/*" />
+        </exec>
+
+        <exec executable="git" failonerror="false" dir="${basedir}">
+            <arg value="rm" />
+            <arg value="-r" />
+            <arg value="--force" />
             <arg value="${basedir}/public/assets/media/*" />
         </exec>
 
