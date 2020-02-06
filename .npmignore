@@ -1,0 +1,9 @@
+src/php/
+src/schema/
+src/bundle/
+src/img/
+test/php/
+vendor/
+node_modules/
+build/
+config/
