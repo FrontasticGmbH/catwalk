@@ -1,0 +1,87 @@
+[
+    {
+        "configuration": {
+            "path": "/",
+            "pathTranslations": []
+        },
+        "isDeleted": false,
+        "isMaster": false,
+        "metaData": {
+            "changed": "2020-01-01T12:00:00Z"
+        },
+        "name": "Root Node",
+        "nodeId": "root",
+        "path": [],
+        "sequence": "1",
+        "sort": 0,
+        "streams": []
+    },
+    {
+        "configuration": {
+            "path": "a",
+            "pathTranslations": []
+        },
+        "isDeleted": false,
+        "isMaster": false,
+        "metaData": {
+            "changed": "2020-01-02T12:00:00Z"
+        },
+        "name": "Node A",
+        "nodeId": "nodeA",
+        "path": ["root"],
+        "sequence": "1",
+        "sort": 0,
+        "streams": []
+    },
+    {
+        "configuration": {
+            "path": "1",
+            "pathTranslations": []
+        },
+        "isDeleted": false,
+        "isMaster": false,
+        "metaData": {
+            "changed": "2020-01-03T12:00:00Z"
+        },
+        "name": "Node A/1",
+        "nodeId": "nodeA_1",
+        "path": ["root", "nodeA"],
+        "sequence": "1",
+        "sort": 0,
+        "streams": []
+    },
+    {
+        "configuration": {
+            "path": "2",
+            "pathTranslations": []
+        },
+        "isDeleted": false,
+        "isMaster": false,
+        "metaData": {
+            "changed": "2020-01-04T12:00:00Z"
+        },
+        "name": "Node A/2",
+        "nodeId": "nodeA_2",
+        "path": ["root", "nodeA"],
+        "sequence": "1",
+        "sort": 1,
+        "streams": []
+    },
+    {
+        "configuration": {
+            "path": "b",
+            "pathTranslations": []
+        },
+        "isDeleted": false,
+        "isMaster": false,
+        "metaData": {
+            "changed": "2020-01-05T12:00:00Z"
+        },
+        "name": "Node B",
+        "nodeId": "nodeB",
+        "path": ["root"],
+        "sequence": "1",
+        "sort": 1,
+        "streams": []
+    }
+]

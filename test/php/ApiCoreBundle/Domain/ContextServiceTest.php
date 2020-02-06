@@ -42,6 +42,11 @@ class ContextServiceTest extends TestCase
     private $customerServiceMock;
 
     /**
+     * @var ProjectService|MockObject
+     */
+    private $projectServiceMock;
+
+    /**
      * @var TokenStorage|MockObject
      */
     private $tokenStorageMock;
@@ -62,6 +67,9 @@ class ContextServiceTest extends TestCase
         $this->customerServiceMock = $this->getMockBuilder(CustomerService::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $this->projectServiceMock = $this->getMockBuilder(ProjectService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->tokenStorageMock = $this->getMockBuilder(TokenStorage::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -70,6 +78,7 @@ class ContextServiceTest extends TestCase
             $this->routerMock,
             $this->requestStackMock,
             $this->customerServiceMock,
+            $this->projectServiceMock,
             $this->tokenStorageMock,
             new LocaleResolver(),
             []
@@ -88,7 +97,7 @@ class ContextServiceTest extends TestCase
 
     public function testGetCurrency()
     {
-        $customer = $this->thisMockCustomer();
+        $customer = $this->thisMockCustomerAndProject();
 
         $context = $this->contextService->getContext('de_DE');
 
@@ -100,7 +109,7 @@ class ContextServiceTest extends TestCase
      */
     public function testGetRequestDefault()
     {
-        $customer = $this->thisMockCustomer();
+        $customer = $this->thisMockCustomerAndProject();
 
         $context = $this->contextService->getContext();
 
@@ -118,7 +127,7 @@ class ContextServiceTest extends TestCase
      */
     public function testGetRequestOverwriteLocale()
     {
-        $customer = $this->thisMockCustomer();
+        $customer = $this->thisMockCustomerAndProject();
 
         $context = $this->contextService->getContext('de_DE');
 
@@ -130,7 +139,7 @@ class ContextServiceTest extends TestCase
      */
     public function testGetRequestOverwriteSession()
     {
-        $customer = $this->thisMockCustomer();
+        $customer = $this->thisMockCustomerAndProject();
 
         $session = new Session();
 
@@ -145,7 +154,7 @@ class ContextServiceTest extends TestCase
      */
     public function testCreateContextFromRequestDefault()
     {
-        $customer = $this->thisMockCustomer();
+        $customer = $this->thisMockCustomerAndProject();
 
         $request = new Request();
         $request->request->set('locale', 'en_GB');
@@ -161,7 +170,7 @@ class ContextServiceTest extends TestCase
      */
     public function testCreateContextFromRequestOverrideLocale()
     {
-        $customer = $this->thisMockCustomer();
+        $customer = $this->thisMockCustomerAndProject();
 
         $request = new Request();
         $request->request->set('locale', 'de_DE');
@@ -172,18 +181,21 @@ class ContextServiceTest extends TestCase
         $this->assertSame('de_DE', $context->locale);
     }
 
-    private function thisMockCustomer(): Customer
+    private function thisMockCustomerAndProject(): Customer
     {
+        $project = new Project([
+            'languages' => ['en_GB', 'de_DE'],
+            'defaultLanguage' => 'en_GB',
+        ]);
+
         $customer = new Customer();
-        $customer->projects = [
-            new Project([
-                'languages' => ['en_GB', 'de_DE'],
-                'defaultLanguage' => 'en_GB',
-            ])
-        ];
+        $customer->projects = [$project];
 
         $this->customerServiceMock->expects($this->any())->method('getCustomer')
             ->will($this->returnValue($customer));
+
+        $this->projectServiceMock->expects($this->any())->method('getProject')
+            ->will($this->returnValue($project));
 
         return $customer;
     }

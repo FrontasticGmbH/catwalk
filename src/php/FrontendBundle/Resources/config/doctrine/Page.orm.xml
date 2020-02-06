@@ -22,9 +22,9 @@
         <field name="isDeleted" column="p_is_deleted" type="boolean" />
 
         <field name="state" column="p_state" type="string" />
-        <field name="scheduledFromTimestamp" column="p_scheduled_from_timestamp" type="integer" />
-        <field name="scheduledToTimestamp" column="p_scheduled_to_timestamp" type="integer" />
-        <field name="nodesPagesOfTypeSortIndex" column="p_nodes_pages_of_type_sort_index" type="integer" />
+        <field name="scheduledFromTimestamp" column="p_scheduled_from_timestamp" type="integer" nullable="true" />
+        <field name="scheduledToTimestamp" column="p_scheduled_to_timestamp" type="integer" nullable="true" />
+        <field name="nodesPagesOfTypeSortIndex" column="p_nodes_pages_of_type_sort_index" type="integer" nullable="true" />
         <field name="scheduleCriterion" column="p_schedule_criterion" type="string" />
 
         <indexes>

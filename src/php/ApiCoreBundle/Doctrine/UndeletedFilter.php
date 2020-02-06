@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Doctrine;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic;
 use Frontastic\Catwalk\FrontendBundle\Domain\Facet;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page;
@@ -19,6 +20,7 @@ class UndeletedFilter extends SQLFilter
         Page::class => 'p',
         Redirect::class => 'rd',
         Schema::class => 's',
+        Tastic::class => 't',
         ProjectConfiguration::class => 'pc',
     ];
 

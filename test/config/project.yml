@@ -1,0 +1,35 @@
+apiKey: secret
+configuration:
+    account:
+        clientId: xxx
+        clientSecret: xxx
+        engine: commercetools
+        projectKey: xxx
+    cart:
+        engine: commercetools
+    commercetools:
+        clientId: xxx
+        clientSecret: xxx
+        projectKey: xxx
+    content:
+        accessToken: xxx
+        engine: contentful
+        previewToken: xxx
+        spaceId: xxx
+    contentful:
+        accessToken: xxx
+        previewToken: xxx
+        spaceId: xxx
+    product:
+        engine: commercetools
+    search:
+        engine: commercetools
+    wishlist:
+        engine: commercetools
+customer: test
+defaultLanguage: en_GB@EUR
+languages:
+    - en_GB@EUR
+    - de_DE@EUR
+name: Test Catwalk
+projectId: test

@@ -52,15 +52,17 @@ class CronCommand extends ContainerAwareCommand
             $process->run();
 
             $processOutput = trim($process->getOutput());
+            $processErrorOutput = trim($process->getErrorOutput());
             $result =sprintf(
-                'Cronjob %s %s: %s',
+                'Cronjob %s %s: STDOUT: %s STDERR: %s',
                 $command,
                 $process->isSuccessful() ? 'succeeded' : 'failed',
-                $processOutput
+                $processOutput,
+                $processErrorOutput
             );
             $verbose && $output->writeln($result);
 
-            if ($processOutput || !$process->isSuccessful()) {
+            if ($processOutput || $processErrorOutput || !$process->isSuccessful()) {
                 $logger->warn($result);
             }
         }

@@ -46,10 +46,16 @@ class ContextService
      */
     private static $contextCache = [];
 
+    /**
+     * @var ProjectService
+     */
+    private $projectService;
+
     public function __construct(
         Router $router,
         RequestStack $requestStack,
         CustomerService $customerService,
+        ProjectService $projectService,
         TokenStorageInterface $tokenStorage,
         LocaleResolver $localeResolver,
         iterable $decorators
@@ -57,6 +63,7 @@ class ContextService
         $this->router = $router;
         $this->requestStack = $requestStack;
         $this->customerService = $customerService;
+        $this->projectService = $projectService;
         $this->tokenStorage = $tokenStorage;
         $this->localeResolver = $localeResolver;
 
@@ -83,19 +90,15 @@ class ContextService
     public function createContextFromRequest(Request $request = null): Context
     {
         $request = $request ?: $this->requestStack->getCurrentRequest();
+        $project = $this->projectService->getProject();
 
         return $this->getContext(
             $request
-                ? $this->localeResolver->determineLocale($request, $this->getProject())
-                : $this->getProject()->defaultLanguage,
+                ? $this->localeResolver->determineLocale($request, $project)
+                : $project->defaultLanguage,
             $request ? $this->getSession($request) : new Session(),
             $request ? $request->getHost() : null
         );
-    }
-
-    private function getProject(): Project
-    {
-        return reset($this->customerService->getCustomer()->projects);
     }
 
     /**
@@ -117,9 +120,7 @@ class ContextService
         }
 
         $customer = $this->customerService->getCustomer();
-
-        // By definition there is only 1 project available in the customer
-        $project = reset($customer->projects);
+        $project = $this->projectService->getProject();
 
         if (!in_array($locale, $project->languages)) {
             $locale = $project->defaultLanguage;
@@ -128,7 +129,7 @@ class ContextService
         $localeObject = Locale::createFromPosix($locale);
 
         if ($host === null) {
-            $host = parse_url($this->getProject()->publicUrl ?? $this->getProject()->previewUrl, PHP_URL_HOST);
+            $host = parse_url($project->publicUrl ?? $project->previewUrl, PHP_URL_HOST);
         }
 
         $context = new Context([

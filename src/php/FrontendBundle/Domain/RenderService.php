@@ -65,6 +65,7 @@ class RenderService
                 'context' => $this->contextService->createContextFromRequest($request),
                 'props' => $props,
                 'queryParameters' => $request->query->all(),
+                'requestUri' => $request->getUri(),
             ])
         );
 

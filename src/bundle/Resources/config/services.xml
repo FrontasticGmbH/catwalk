@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="true" />
+
+        <!-- Custom API
+        <service id="Acme\ExampleBundle\Domain\ProductApi">
+            <argument type="service" id="…" />
+        </service>
+
+        <service id="Acme\ExampleBundle\Domain\ProductApiFactory" decorates="Frontastic\Common\ProductApiBundle\Domain\DefaultProductApiFactory">
+            <argument type="service" id="Acme\ExampleBundle\Domain\ProductApiFactory.inner"/>
+        </service>
+        -->
+
+        <!-- Custom Field Type Handler
+        <service id="Acme\ExampleBundle\Domain\StreamHandler">
+            <argument type="service" id="…" />
+
+             <tag name="frontend.tasticFieldHandler"/>
+        </service>
+        -->
+
+        <!-- Stream Optimizer
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer\MinimalProduct">
+            <argument type="collection">
+                <argument>designer</argument>
+                <argument>badges</argument>
+            </argument>
+
+            <tag name="frontend.streamOptimizer" />
+        </service>
+        -->
+    </services>
+</container>

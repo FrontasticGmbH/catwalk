@@ -94,10 +94,12 @@ function htmlPath (htmlStructure, route) {
     const nextRouteStep = subRoute.shift()
 
     if (!htmlStructure.childNodes || !htmlStructure.childNodes[nextRouteStep]) {
-        console.error('Cannot find route step', nextRouteStep, 'from route', route, 'in', htmlStructure)
+        // DIFFER-Error: Cannot find route step $nextRouteStep from route $route in $htmlStructure
+        //   Maybe this is due to the element being removed!
+        return htmlPathElements(htmlStructure)
     }
-    const nextLevelHtml = htmlStructure.childNodes[nextRouteStep]
 
+    const nextLevelHtml = htmlStructure.childNodes[nextRouteStep]
     return htmlPathElements(htmlStructure).concat(htmlPath(nextLevelHtml, subRoute))
 }
 
