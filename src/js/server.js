@@ -50,6 +50,10 @@ export default (tastics = null, port = 8000) => {
             data: request.body.context,
         })
         store.dispatch({
+            type: 'Frontastic.RenderContext.UserAgentDetected',
+            userAgent: request.get('User-Agent'),
+        })
+        store.dispatch({
             type: 'Frontend.Node.initialize',
             data: props,
         })
