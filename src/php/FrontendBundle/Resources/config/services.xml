@@ -448,7 +448,7 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ProjectBasicAuthListener">
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
 
             <tag name="kernel.event_listener" event="kernel.request" />
         </service>
