@@ -1,7 +1,6 @@
 {
-    "name": "frontastic-catwalk",
-    "version": "0.1.0",
-    "private": true,
+    "name": "@frontastic/catwalk",
+    "version": "1.0.0-alpha.1",
     "resolutions": {
         "unidragger": "2.2.3"
     },
@@ -11,6 +10,7 @@
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "@babel/preset-env": "^7.5.4",
         "@babel/preset-react": "^7.0.0",
+        "@frontastic/common": "1.0.0-alpha.1",
         "@rehooks/component-size": "^1.0.3",
         "@rehooks/window-size": "^1.0.2",
         "@storybook/addon-actions": "^5.2.6",
@@ -184,5 +184,6 @@
     ],
     "eslintConfig": {
         "extends": "react-app"
-    }
+    },
+    "dependencies": {}
 }
