@@ -1,5 +1,7 @@
 # Frontastic Catwalk
 
+**Copyright (C) Frontastic GmbH - All Rights Reserved**
+
 Catwalk is the Frontastic Backend For Frontend and also contains the basic
 frontend framework(s). An architectural overview can be found iside our
 documentation:
