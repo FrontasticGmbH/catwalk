@@ -92,13 +92,16 @@ class StreamService
     {
         foreach ($fields as $field) {
             if ($field['type'] === 'stream' &&
-                !empty($configuration[$field['field']])) {
-                $usage[$configuration[$field['field']]]['count'][] = null;
-                $usage[$configuration[$field['field']]]['tastics'][] = $tastic->tasticType;
+                (!empty($configuration[$field['field']]) || isset($field['default']))
+            ) {
+                $streamId = $configuration[$field['field']] ?? $field['default'];
+
+                $usage[$streamId]['count'][] = null;
+                $usage[$streamId]['tastics'][] = $tastic->tasticType;
 
                 foreach ($this->countProperties[$field['streamType']] ?? [] as $countFieldName) {
-                    $usage[$configuration[$field['field']]]['count'][] = $configuration[$countFieldName] ?? null;
-                    $usage[$configuration[$field['field']]]['tastics'][] = $tastic->tasticType;
+                    $usage[$streamId]['count'][] = $configuration[$countFieldName] ?? null;
+                    $usage[$streamId]['tastics'][] = $tastic->tasticType;
                 }
             }
 
