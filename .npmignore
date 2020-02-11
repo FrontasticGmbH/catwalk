@@ -6,4 +6,4 @@ test/php/
 vendor/
 node_modules/
 build/
-config/
+config/*.yml
