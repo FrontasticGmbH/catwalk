@@ -76,7 +76,7 @@ class AccountResetPasswordTastic extends Component {
                                         profile_password_repeat: '',
                                     })
                                 }}>
-                                Passwort ändern
+                            Passwort ändern
                         </AtomsButton>
                     </div>
                 </form>
