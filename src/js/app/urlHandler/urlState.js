@@ -42,15 +42,20 @@ const UrlState = function (parameters, parameterHandlerFactory) {
     this.getParameters = () => {
         let parameters = _.cloneDeep(this.parameters)
 
-        parameters.s = _.mapValues(
-            this.streamMap,
-            /**
-             *
-             * @param {ProductStreamParameters} stream
-             * @return {Object}
-             */
-            (stream) => {
-                return stream.getParameters()
+        parameters.s = _.omitBy(
+            _.mapValues(
+                this.streamMap,
+                /**
+                 *
+                 * @param {ProductStreamParameters} stream
+                 * @return {Object}
+                 */
+                (stream) => {
+                    return stream.getParameters()
+                }
+            ),
+            (streamParameters) => {
+                return _.isEmpty(streamParameters)
             }
         )
 
