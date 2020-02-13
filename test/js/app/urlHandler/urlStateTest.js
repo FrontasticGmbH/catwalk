@@ -43,7 +43,6 @@ test('it collects parameters', () => {
             foo: {
                 offset: 42,
             },
-            bar: {},
         },
     })
 })

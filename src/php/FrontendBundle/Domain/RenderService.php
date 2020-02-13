@@ -74,6 +74,7 @@ class RenderService
             $jsonString,
             [
                 'Content-Type: application/json',
+                'User-Agent: ' . $request->headers->get('User-Agent'),
             ],
             new HttpClient\Options([
                 'timeout' => \AppKernel::getDebug() ? 5.0 : 0.5,

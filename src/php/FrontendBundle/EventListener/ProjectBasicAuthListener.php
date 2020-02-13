@@ -2,7 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Common\SpecificationBundle\Domain\ConfigurationSchema;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,13 +31,13 @@ class ProjectBasicAuthListener
     private const DEFAULT_REALM = 'Access denied';
 
     /**
-     * @var Context
+     * @var ContextService
      */
-    private $context;
+    private $contextService;
 
-    public function __construct(Context $context)
+    public function __construct(ContextService $contextService)
     {
-        $this->context = $context;
+        $this->contextService = $contextService;
     }
 
     public function onKernelRequest(GetResponseEvent $event): void
@@ -48,9 +48,11 @@ class ProjectBasicAuthListener
             return;
         }
 
+        $context = $this->contextService->createContextFromRequest($request);
+
         $configuration = ConfigurationSchema::fromSchemaAndConfiguration(
-            $this->context->projectConfigurationSchema,
-            $this->context->projectConfiguration
+            $context->projectConfigurationSchema,
+            $context->projectConfiguration
         );
 
         $expectedUser = $this->getExpectedUser($configuration);

@@ -1,16 +1,16 @@
 {
-    "name": "frontastic-catwalk",
-    "version": "0.1.0",
-    "private": true,
+    "name": "@frontastic/catwalk",
+    "version": "1.0.0-alpha.6",
     "resolutions": {
         "unidragger": "2.2.3"
     },
-    "devDependencies": {
+    "dependencies": {
         "@babel/core": "7.5.4",
         "@babel/plugin-proposal-class-properties": "^7.5.0",
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "@babel/preset-env": "^7.5.4",
         "@babel/preset-react": "^7.0.0",
+        "@frontastic/common": "latest",
         "@rehooks/component-size": "^1.0.3",
         "@rehooks/window-size": "^1.0.2",
         "@storybook/addon-actions": "^5.2.6",
@@ -140,8 +140,8 @@
         "start": "node bin/start.js",
         "build": "node bin/build.js",
         "test": "node bin/test.js --env=jsdom",
-        "check": "node node_modules/.bin/eslint --ext .js --ext .jsx -c ../../paas/integration/eslint.config.json src/js/ test/js/",
-        "fix": "node node_modules/.bin/eslint --fix --ext .js --ext .jsx -c ../../paas/integration/eslint.config.json src/js/ test/js/",
+        "check": "node node_modules/.bin/eslint --ext .js --ext .jsx -c ../integration/eslint.config.json src/js/ test/js/",
+        "fix": "node node_modules/.bin/eslint --fix --ext .js --ext .jsx -c ../integration/eslint.config.json src/js/ test/js/",
         "server:start": "NODE_ENV=development nodemon --legacy-watch --watch src/js/ bin/devServer.js --exec babel-node --presets env,react-app",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook"

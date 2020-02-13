@@ -50,6 +50,11 @@ class PageMatcherContext extends DataObject
     public $checkoutFinished;
 
     /**
+     * @var string|null
+     */
+    public $orderId;
+
+    /**
      * @var object|null
      */
     public $account;
