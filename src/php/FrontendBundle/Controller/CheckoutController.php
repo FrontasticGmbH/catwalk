@@ -9,6 +9,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class CheckoutController extends Controller
 {
@@ -24,10 +25,16 @@ class CheckoutController extends Controller
         return $this->getNode($context, new PageMatcherContext(['checkout' => true]));
     }
 
-    public function finishedAction(Context $context): array
+    public function finishedAction(Context $context, Request $request): array
     {
         // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        return $this->getNode($context, new PageMatcherContext(['checkoutFinished' => true]));
+        return $this->getNode(
+            $context,
+            new PageMatcherContext([
+                'checkoutFinished' => true,
+                'orderId' => $request->get('order', null)
+            ])
+        );
     }
 
     private function getNode(Context $context, PageMatcherContext $pageMatcherContext): array
@@ -40,6 +47,16 @@ class CheckoutController extends Controller
         $node = $nodeService->get(
             $masterService->matchNodeId($pageMatcherContext)
         );
+
+        if ($pageMatcherContext->orderId !== null) {
+            foreach ($node->streams as $streamKey => $streamConfig) {
+                if ($streamConfig['streamId'] === '__master') {
+                    $node->streams[$streamKey]['type'] = 'order';
+                    $node->streams[$streamKey]['configuration'] = ['order' => $pageMatcherContext->orderId];
+                }
+            }
+        }
+
         $page = $pageService->fetchForNode($node, $context);
 
         return [

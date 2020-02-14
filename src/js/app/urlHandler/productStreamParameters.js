@@ -20,7 +20,7 @@ let ProductStreamParameters = function (parameters, isReadOnly = true) {
      * @return {boolean}
      */
     this.isCrawlable = () => {
-        return (!this.parameters.facets)
+        return !this.parameters.facets && !this.parameters.sortAttributeId && !this.parameters.sortOrder
     }
 
     /**
@@ -29,6 +29,11 @@ let ProductStreamParameters = function (parameters, isReadOnly = true) {
      */
     this.setFilter = (filterHandle, value) => {
         this.assertWriteMode()
+
+        if (value === null || typeof value === 'undefined') {
+            return this.removeFilter(filterHandle)
+        }
+
         if (!this.parameters.facets) {
             this.parameters.facets = {}
         }

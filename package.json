@@ -1,10 +1,10 @@
 {
     "name": "@frontastic/catwalk",
-    "version": "1.0.0-alpha.4",
+    "version": "1.0.0-alpha.6",
     "resolutions": {
         "unidragger": "2.2.3"
     },
-    "devDependencies": {
+    "dependencies": {
         "@babel/core": "7.5.4",
         "@babel/plugin-proposal-class-properties": "^7.5.0",
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
@@ -184,6 +184,5 @@
     ],
     "eslintConfig": {
         "extends": "react-app"
-    },
-    "dependencies": {}
+    }
 }
