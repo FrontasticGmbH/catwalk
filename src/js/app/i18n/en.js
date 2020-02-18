@@ -85,6 +85,15 @@ export default {
         cross: 'cross',
         closeView: 'Close view',
     },
+    secondNav: {
+        homepage: 'Homepage',
+        new: 'New',
+        clothing: 'Clothing',
+        shoes: 'Shoes',
+        sport: 'Sport',
+        accessoires: 'Accessoires',
+        sale: 'Sale %',
+    },
     footer: {
         contact: 'Contact',
         serviceHour: '24 hour service',
