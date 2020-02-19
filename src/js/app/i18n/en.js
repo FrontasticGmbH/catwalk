@@ -7,7 +7,6 @@ export default {
         addresses: 'Adresses',
         help: 'Help',
         logout: 'Logout',
-        // Klaudija
         newHere: "I'm new here",
         freeAccount: 'Free user account',
         save: 'Save',
@@ -77,6 +76,7 @@ export default {
         },
 
     },
+
     header: {
         search: 'Search',
         myAccount: 'My account',
@@ -192,6 +192,25 @@ export default {
             message: 'free of charge 2-4 working days',
         },
 
+    },
+    filters: {
+        newArrivals: 'New arrivals',
+        back: 'Back',
+        save: 'Save',
+        reset: 'Reset',
+        pattern: 'Pattern',
+        color: 'Color',
+        material: 'Material',
+        allBrands: 'All Brands',
+        brand: 'Brand',
+        search: 'Search',
+        filter: 'Filter',
+        showResults: 'Show results',
+        size: 'Size',
+        sort: 'Sort',
+        price: 'Price',
+        sustainability: 'Sustainability',
+        invalidPriceRange: 'Invalid price range'
     },
     deleteItem: 'Delete Item',
     exlusiveDiscounts: 'Exlusive discounts',
