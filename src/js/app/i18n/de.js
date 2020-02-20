@@ -251,7 +251,7 @@ export default {
         sort: 'Sortieren',
         price: 'Preis',
         sustainability: 'Nachhaltigkeit',
-        invalidPriceRange: 'Ungültige Preisspanne'
+        invalidPriceRange: 'Ungültige Preisspanne',
     },
     deleteItem: 'Element löschen',
     exlusiveDiscounts: 'Exklusive Rabatte',

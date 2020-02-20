@@ -210,7 +210,7 @@ export default {
         sort: 'Sort',
         price: 'Price',
         sustainability: 'Sustainability',
-        invalidPriceRange: 'Invalid price range'
+        invalidPriceRange: 'Invalid price range',
     },
     deleteItem: 'Delete Item',
     exlusiveDiscounts: 'Exlusive discounts',
