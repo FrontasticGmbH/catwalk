@@ -148,19 +148,6 @@ module.exports = (PRODUCTION, SERVER) => {
                         name: assetBaseDir + 'media/[name].[hash:8].[ext]',
                     },
                 },
-                {
-                    test: [/\.scss$/, /\.css$/],
-                    loader: require.resolve('postcss-loader'),
-                    options: {
-                        limit: 10 * 1024,
-                        name: assetBaseDir + 'media/[name].[hash:8].[ext]',
-                        ident: 'postcss',
-                        plugins: [
-                            require('tailwindcss'),
-                            require('autoprefixer'),
-                        ],
-                    },
-                }
                 // ** STOP ** Are you adding a new loader?
                 // Remember to add the new extension(s) to the 'file' loader exclusion list.
             ],
