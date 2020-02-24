@@ -1,0 +1,50 @@
+#  AccountOrders
+
+Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountOrders`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/AccountOrders.php)
+
+## Methods
+
+* [__construct()](#__construct)
+* [getType()](#gettype)
+* [handleAsync()](#handleasync)
+
+### __construct()
+
+```php
+public function __construct(
+    \Frontastic\Common\CartApiBundle\Domain\CartApi $cartApi
+): mixed
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$cartApi`|`\Frontastic\Common\CartApiBundle\Domain\CartApi`||
+
+Return Value: `mixed`
+
+### getType()
+
+```php
+public function getType(): string
+```
+
+Return Value: `string`
+
+### handleAsync()
+
+```php
+public function handleAsync(
+    Stream $stream,
+    Context $context,
+    array $parameters = []
+): \GuzzleHttp\Promise\PromiseInterface
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$stream`|[`Stream`](../Stream.md)||
+`$context`|[`Context`](../../../ApiCoreBundle/Domain/Context.md)||
+`$parameters`|`array`|`[]`|
+
+Return Value: `\GuzzleHttp\Promise\PromiseInterface`
+

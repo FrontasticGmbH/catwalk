@@ -8,4 +8,5 @@ documentation:
 
 [Catwalk Architecture]: https://frontastic.io/docs/images/architecture-catwalk.png
 
-Documentation about Frontastic can be found at: https://docs.frontastic.cloud/
+Documentation about Frontastic can be found at https://docs.frontastic.cloud/
+while the [API Documentation](docs/) can be found inside this repository.

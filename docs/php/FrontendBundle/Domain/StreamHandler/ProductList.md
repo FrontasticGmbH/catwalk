@@ -1,0 +1,50 @@
+#  ProductList
+
+Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ProductList`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/ProductList.php)
+
+## Methods
+
+* [__construct()](#__construct)
+* [getType()](#gettype)
+* [handleAsync()](#handleasync)
+
+### __construct()
+
+```php
+public function __construct(
+    \Frontastic\Common\ProductApiBundle\Domain\ProductApi $productApi
+): mixed
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$productApi`|`\Frontastic\Common\ProductApiBundle\Domain\ProductApi`||
+
+Return Value: `mixed`
+
+### getType()
+
+```php
+public function getType(): string
+```
+
+Return Value: `string`
+
+### handleAsync()
+
+```php
+public function handleAsync(
+    Stream $stream,
+    Context $context,
+    array $parameters = []
+): \GuzzleHttp\Promise\PromiseInterface
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$stream`|[`Stream`](../Stream.md)||
+`$context`|[`Context`](../../../ApiCoreBundle/Domain/Context.md)||
+`$parameters`|`array`|`[]`|
+
+Return Value: `\GuzzleHttp\Promise\PromiseInterface`
+
