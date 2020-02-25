@@ -6,6 +6,7 @@
 {% block meta %}
 {{response.body.helmet.meta|raw()}}
 {{response.body.helmet.script|raw()}}
+{{response.body.helmet.link|raw()}}
 {% endblock %}
 
 {% block title %}
