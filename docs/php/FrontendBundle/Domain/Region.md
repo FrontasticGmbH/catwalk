@@ -7,7 +7,7 @@
 Property|Type|Default|Description
 --------|----|-------|-----------
 `regionId`|`string`||
-`configuration`|`Configuration`||
-`elements`|`Cell[]`|`[]`|
-`cells`|`Cell[]`|`[]`|
+`configuration`|[`Configuration`](Region/Configuration.md)||
+`elements`|[`Cell`](Cell.md)[]|`[]`|
+`cells`|[`Cell`](Cell.md)[]|`[]`|
 

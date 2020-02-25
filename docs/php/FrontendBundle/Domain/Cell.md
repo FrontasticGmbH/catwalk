@@ -7,7 +7,7 @@
 Property|Type|Default|Description
 --------|----|-------|-----------
 `cellId`|`string`||
-`configuration`|`Configuration`||
+`configuration`|[`Configuration`](Cell/Configuration.md)||
 `customConfiguration`|`\stdClass|null`||
-`tastics`|`Tastic[]`|`[]`|
+`tastics`|[`Tastic`](Tastic.md)[]|`[]`|
 

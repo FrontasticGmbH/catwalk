@@ -10,12 +10,12 @@ Property|Type|Default|Description
 `isMaster`|`bool`|`false`|
 `sequence`|`string`||
 `configuration`|`array`|`[]`|
-`streams`|`Stream[]`|`[]`|
+`streams`|[`Stream`](Stream.md)[]|`[]`|
 `name`|`string`||
 `path`|`string[]`|`[]`|
 `depth`|`int`||
 `sort`|`int`||
-`children`|`Node[]`|`[]`|
+`children`|[`Node`](Node.md)[]|`[]`|
 `metaData`|`\Frontastic\Backstage\UserBundle\Domain\MetaData`||
 `error`|`?string`||Optional error string during development
 `isDeleted`|`bool`|`false`|

@@ -10,5 +10,5 @@ Property|Type|Default|Description
 `type`|`string`||
 `name`|`string`||
 `configuration`|`array`|`[]`|
-`tastics`|`Tastic[]`|`[]`|
+`tastics`|[`Tastic`](Tastic.md)[]|`[]`|
 

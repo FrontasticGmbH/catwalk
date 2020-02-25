@@ -8,9 +8,9 @@ Property|Type|Default|Description
 --------|----|-------|-----------
 `pageId`|`string`||
 `sequence`|`string`||
-`node`|`Node`||
+`node`|[`Node`](Node.md)||
 `layoutId`|`string`||
-`regions`|`Region[]`|`[]`|
+`regions`|[`Region`](Region.md)[]|`[]`|
 `metaData`|`\Frontastic\UserBundle\Domain\MetaData`||
 `isDeleted`|`bool`|`false`|
 `state`|`string`||

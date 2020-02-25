@@ -8,7 +8,7 @@ Property|Type|Default|Description
 --------|----|-------|-----------
 `previewId`|`string`||
 `createdAt`|`\DateTime`||
-`node`|`Node`||
-`page`|`Page`||
+`node`|[`Node`](Node.md)||
+`page`|[`Page`](Page.md)||
 `metaData`|`\FrontendBundle\UserBundle\Domain\MetaData`||
 

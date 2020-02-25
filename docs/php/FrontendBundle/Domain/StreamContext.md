@@ -6,9 +6,9 @@
 
 Property|Type|Default|Description
 --------|----|-------|-----------
-`node`|`Node`||
-`page`|`Page`||
-`context`|`Context`||
-`usingTastics`|`Tastic[]`|`[]`|
+`node`|[`Node`](Node.md)||
+`page`|[`Page`](Page.md)||
+`context`|[`Context`](../../ApiCoreBundle/Domain/Context.md)||
+`usingTastics`|[`Tastic`](Tastic.md)[]|`[]`|
 `parameters`|`array`|`[]`|Parameters given to the stream in the current request context.
 

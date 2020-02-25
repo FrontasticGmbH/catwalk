@@ -8,5 +8,5 @@ Property|Type|Default|Description
 --------|----|-------|-----------
 `tasticId`|`string`||
 `tasticType`|`string`||
-`configuration`|`Configuration`||
+`configuration`|[`Configuration`](Tastic/Configuration.md)||
 
