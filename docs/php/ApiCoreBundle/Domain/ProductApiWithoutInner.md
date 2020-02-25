@@ -1,6 +1,8 @@
 #  ProductApiWithoutInner
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\ProductApiWithoutInner`](../../../../src/php/ApiCoreBundle/Domain/ProductApiWithoutInner.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\ProductApiWithoutInner`](../../../../src/php/ApiCoreBundle/Domain/ProductApiWithoutInner.php)
+
+**Implements**: `\Frontastic\Common\ProductApiBundle\Domain\ProductApi`
 
 This makes sure that the dangerousInnerProduct as well as
 dangerousInnerVariant are removed. This improves caching, as we experienced a

@@ -1,6 +1,6 @@
 #  ProjectBasicAuthListener
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\EventListener\ProjectBasicAuthListener`](../../../../src/php/FrontendBundle/EventListener/ProjectBasicAuthListener.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\EventListener\ProjectBasicAuthListener`](../../../../src/php/FrontendBundle/EventListener/ProjectBasicAuthListener.php)
 
 ## Methods
 

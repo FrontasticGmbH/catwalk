@@ -1,6 +1,8 @@
 #  DataRepository
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\DataRepository`](../../../../src/php/ApiCoreBundle/Domain/DataRepository.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\DataRepository`](../../../../src/php/ApiCoreBundle/Domain/DataRepository.php)
+
+**Extends**: `\Doctrine\ORM\EntityRepository`
 
 ## Methods
 
@@ -18,9 +20,9 @@ public function store(
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
-`$data`|`\Kore\DataObject\DataObject`||
+`$data`|[`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)||
 
-Return Value: `\Kore\DataObject\DataObject`
+Return Value: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 ### remove()
 
@@ -32,7 +34,7 @@ public function remove(
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
-`$data`|`\Kore\DataObject\DataObject`||
+`$data`|[`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)||
 
 Return Value: `mixed`
 

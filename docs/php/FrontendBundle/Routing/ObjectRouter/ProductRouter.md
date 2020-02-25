@@ -1,6 +1,6 @@
 #  ProductRouter
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter`](../../../../../src/php/FrontendBundle/Routing/ObjectRouter/ProductRouter.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter`](../../../../../src/php/FrontendBundle/Routing/ObjectRouter/ProductRouter.php)
 
 ## Methods
 

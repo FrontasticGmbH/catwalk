@@ -1,6 +1,8 @@
 #  StreamContext
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamContext`](../../../../src/php/FrontendBundle/Domain/StreamContext.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamContext`](../../../../src/php/FrontendBundle/Domain/StreamContext.php)
+
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

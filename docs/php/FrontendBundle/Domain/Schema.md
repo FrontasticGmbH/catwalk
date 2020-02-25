@@ -1,6 +1,8 @@
 #  Schema
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\Schema`](../../../../src/php/FrontendBundle/Domain/Schema.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\Schema`](../../../../src/php/FrontendBundle/Domain/Schema.php)
+
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

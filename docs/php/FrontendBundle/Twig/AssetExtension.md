@@ -1,6 +1,8 @@
 #  AssetExtension
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Twig\AssetExtension`](../../../../src/php/FrontendBundle/Twig/AssetExtension.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Twig\AssetExtension`](../../../../src/php/FrontendBundle/Twig/AssetExtension.php)
+
+**Extends**: `\Twig\Extension\AbstractExtension`
 
 ## Methods
 

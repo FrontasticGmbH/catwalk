@@ -1,6 +1,8 @@
 #  ContextExtension
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Twig\ContextExtension`](../../../../src/php/FrontendBundle/Twig/ContextExtension.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Twig\ContextExtension`](../../../../src/php/FrontendBundle/Twig/ContextExtension.php)
+
+**Extends**: `\Twig_Extension`
 
 ## Methods
 

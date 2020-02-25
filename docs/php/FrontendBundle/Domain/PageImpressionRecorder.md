@@ -1,6 +1,6 @@
 #  PageImpressionRecorder
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\PageImpressionRecorder`](../../../../src/php/FrontendBundle/Domain/PageImpressionRecorder.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\PageImpressionRecorder`](../../../../src/php/FrontendBundle/Domain/PageImpressionRecorder.php)
 
 ## Methods
 

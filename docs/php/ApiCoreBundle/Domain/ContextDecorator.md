@@ -1,6 +1,6 @@
 # `interface`  ContextDecorator
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\ContextDecorator`](../../../../src/php/ApiCoreBundle/Domain/ContextDecorator.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\ContextDecorator`](../../../../src/php/ApiCoreBundle/Domain/ContextDecorator.php)
 
 ## Methods
 

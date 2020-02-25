@@ -1,6 +1,8 @@
 #  JsonExtension
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Twig\JsonExtension`](../../../../src/php/FrontendBundle/Twig/JsonExtension.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Twig\JsonExtension`](../../../../src/php/FrontendBundle/Twig/JsonExtension.php)
+
+**Extends**: `\Twig_Extension`
 
 ## Methods
 

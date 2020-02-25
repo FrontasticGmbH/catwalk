@@ -1,6 +1,8 @@
 #  BreadcrumbFieldHandler
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\BreadcrumbFieldHandler`](../../../../../src/php/FrontendBundle/Domain/TasticFieldHandler/BreadcrumbFieldHandler.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\BreadcrumbFieldHandler`](../../../../../src/php/FrontendBundle/Domain/TasticFieldHandler/BreadcrumbFieldHandler.php)
+
+**Extends**: [`TasticFieldHandlerV2`](../TasticFieldHandlerV2.md)
 
 ## Methods
 

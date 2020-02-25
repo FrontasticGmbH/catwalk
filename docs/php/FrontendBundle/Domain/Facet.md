@@ -1,6 +1,8 @@
 #  Facet
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\Facet`](../../../../src/php/FrontendBundle/Domain/Facet.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\Facet`](../../../../src/php/FrontendBundle/Domain/Facet.php)
+
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

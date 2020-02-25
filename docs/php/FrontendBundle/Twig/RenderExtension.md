@@ -1,6 +1,8 @@
 #  RenderExtension
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Twig\RenderExtension`](../../../../src/php/FrontendBundle/Twig/RenderExtension.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Twig\RenderExtension`](../../../../src/php/FrontendBundle/Twig/RenderExtension.php)
+
+**Extends**: `\Twig_Extension`
 
 ## Methods
 

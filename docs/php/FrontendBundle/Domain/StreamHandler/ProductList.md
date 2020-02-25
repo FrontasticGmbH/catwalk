@@ -1,6 +1,8 @@
 #  ProductList
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ProductList`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/ProductList.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ProductList`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/ProductList.php)
+
+**Extends**: [`StreamHandler`](../StreamHandler.md)
 
 ## Methods
 

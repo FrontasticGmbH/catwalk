@@ -1,6 +1,8 @@
 #  AccountAddresses
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountAddresses`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/AccountAddresses.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountAddresses`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/AccountAddresses.php)
+
+**Extends**: [`StreamHandler`](../StreamHandler.md)
 
 ## Methods
 

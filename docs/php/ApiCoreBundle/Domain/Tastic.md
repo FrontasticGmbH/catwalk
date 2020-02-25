@@ -1,6 +1,8 @@
 #  Tastic
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic`](../../../../src/php/ApiCoreBundle/Domain/Tastic.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic`](../../../../src/php/ApiCoreBundle/Domain/Tastic.php)
+
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

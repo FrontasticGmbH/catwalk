@@ -1,6 +1,8 @@
 #  Loader
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Routing\Loader`](../../../../src/php/FrontendBundle/Routing/Loader.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Routing\Loader`](../../../../src/php/FrontendBundle/Routing/Loader.php)
+
+**Extends**: `\Symfony\Component\Config\Loader\Loader`
 
 ## Methods
 

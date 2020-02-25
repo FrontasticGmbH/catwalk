@@ -1,6 +1,6 @@
 #  RebuildRoutesListener
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\EventListener\RebuildRoutesListener`](../../../../src/php/FrontendBundle/EventListener/RebuildRoutesListener.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\EventListener\RebuildRoutesListener`](../../../../src/php/FrontendBundle/EventListener/RebuildRoutesListener.php)
 
 ## Methods
 

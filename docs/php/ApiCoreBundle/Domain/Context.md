@@ -1,6 +1,8 @@
 #  Context
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\Context`](../../../../src/php/ApiCoreBundle/Domain/Context.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\Context`](../../../../src/php/ApiCoreBundle/Domain/Context.php)
+
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

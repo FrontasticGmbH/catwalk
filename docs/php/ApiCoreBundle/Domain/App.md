@@ -1,6 +1,8 @@
 #  App
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\App`](../../../../src/php/ApiCoreBundle/Domain/App.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\App`](../../../../src/php/ApiCoreBundle/Domain/App.php)
+
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

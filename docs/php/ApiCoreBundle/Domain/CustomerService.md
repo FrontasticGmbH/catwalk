@@ -1,6 +1,6 @@
 #  CustomerService
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService`](../../../../src/php/ApiCoreBundle/Domain/CustomerService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService`](../../../../src/php/ApiCoreBundle/Domain/CustomerService.php)
 
 ## Methods
 

@@ -1,6 +1,8 @@
 #  Configuration
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\Tastic\Configuration`](../../../../../src/php/FrontendBundle/Domain/Tastic/Configuration.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\Tastic\Configuration`](../../../../../src/php/FrontendBundle/Domain/Tastic/Configuration.php)
+
+**Extends**: [`Configuration`](../Configuration.md)
 
 ## Methods
 

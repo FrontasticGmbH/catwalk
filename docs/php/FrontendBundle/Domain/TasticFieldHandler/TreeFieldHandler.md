@@ -1,6 +1,8 @@
 #  TreeFieldHandler
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\TreeFieldHandler`](../../../../../src/php/FrontendBundle/Domain/TasticFieldHandler/TreeFieldHandler.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\TreeFieldHandler`](../../../../../src/php/FrontendBundle/Domain/TasticFieldHandler/TreeFieldHandler.php)
+
+**Extends**: [`TasticFieldHandler`](../TasticFieldHandler.md)
 
 ## Methods
 

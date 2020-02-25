@@ -1,6 +1,6 @@
 #  EmbedContext
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\EventListener\EmbedContext`](../../../../src/php/FrontendBundle/EventListener/EmbedContext.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\EventListener\EmbedContext`](../../../../src/php/FrontendBundle/EventListener/EmbedContext.php)
 
 ## Methods
 

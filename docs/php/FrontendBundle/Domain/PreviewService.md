@@ -1,6 +1,6 @@
 #  PreviewService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\PreviewService`](../../../../src/php/FrontendBundle/Domain/PreviewService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\PreviewService`](../../../../src/php/FrontendBundle/Domain/PreviewService.php)
 
 ## Methods
 

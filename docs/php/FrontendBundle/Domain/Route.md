@@ -1,6 +1,8 @@
 #  Route
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\Route`](../../../../src/php/FrontendBundle/Domain/Route.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\Route`](../../../../src/php/FrontendBundle/Domain/Route.php)
+
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

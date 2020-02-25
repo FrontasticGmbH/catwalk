@@ -1,6 +1,6 @@
 #  ViewDataProvider
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider`](../../../../src/php/FrontendBundle/Domain/ViewDataProvider.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider`](../../../../src/php/FrontendBundle/Domain/ViewDataProvider.php)
 
 ## Methods
 

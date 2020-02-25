@@ -1,6 +1,6 @@
 #  TasticFieldService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldService`](../../../../src/php/FrontendBundle/Domain/TasticFieldService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldService`](../../../../src/php/FrontendBundle/Domain/TasticFieldService.php)
 
 ## Methods
 

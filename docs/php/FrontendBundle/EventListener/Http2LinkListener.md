@@ -1,6 +1,6 @@
 #  Http2LinkListener
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\EventListener\Http2LinkListener`](../../../../src/php/FrontendBundle/EventListener/Http2LinkListener.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\EventListener\Http2LinkListener`](../../../../src/php/FrontendBundle/EventListener/Http2LinkListener.php)
 
 ## Methods
 

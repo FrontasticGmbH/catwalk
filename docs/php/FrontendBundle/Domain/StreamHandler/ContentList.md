@@ -1,6 +1,8 @@
 #  ContentList
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ContentList`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/ContentList.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ContentList`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/ContentList.php)
+
+**Extends**: [`StreamHandler`](../StreamHandler.md)
 
 ## Methods
 

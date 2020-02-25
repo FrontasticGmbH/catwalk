@@ -1,6 +1,8 @@
 #  TasticService
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService`](../../../../src/php/ApiCoreBundle/Domain/TasticService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService`](../../../../src/php/ApiCoreBundle/Domain/TasticService.php)
+
+**Implements**: `\Frontastic\Common\ReplicatorBundle\Domain\Target`
 
 ## Methods
 

@@ -1,6 +1,6 @@
 #  RedirectListener
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\EventListener\RedirectListener`](../../../../src/php/FrontendBundle/EventListener/RedirectListener.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\EventListener\RedirectListener`](../../../../src/php/FrontendBundle/EventListener/RedirectListener.php)
 
 ## Methods
 

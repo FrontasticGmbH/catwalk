@@ -1,6 +1,6 @@
 #  ProjectService
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\ProjectService`](../../../../src/php/ApiCoreBundle/Domain/ProjectService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\ProjectService`](../../../../src/php/ApiCoreBundle/Domain/ProjectService.php)
 
 ## Methods
 

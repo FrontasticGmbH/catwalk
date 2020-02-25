@@ -1,6 +1,6 @@
 #  Archive
 
-Fully Qualified: [`\Frontastic\Catwalk\DevVmBundle\Domain\Archive`](../../../../src/php/DevVmBundle/Domain/Archive.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\DevVmBundle\Domain\Archive`](../../../../src/php/DevVmBundle/Domain/Archive.php)
 
 ## Methods
 

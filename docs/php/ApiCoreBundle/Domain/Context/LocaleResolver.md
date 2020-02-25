@@ -1,6 +1,6 @@
 #  LocaleResolver
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver`](../../../../../src/php/ApiCoreBundle/Domain/Context/LocaleResolver.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver`](../../../../../src/php/ApiCoreBundle/Domain/Context/LocaleResolver.php)
 
 ## Methods
 

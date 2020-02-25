@@ -1,6 +1,8 @@
 #  FeatureFlagService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\FeatureFlagService`](../../../../src/php/FrontendBundle/Domain/FeatureFlagService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\FeatureFlagService`](../../../../src/php/FrontendBundle/Domain/FeatureFlagService.php)
+
+**Implements**: [`ContextDecorator`](../../ApiCoreBundle/Domain/ContextDecorator.md)
 
 ## Methods
 

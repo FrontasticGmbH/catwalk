@@ -1,6 +1,8 @@
 #  RequestIdListener
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener`](../../../../src/php/FrontendBundle/EventListener/RequestIdListener.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener`](../../../../src/php/FrontendBundle/EventListener/RequestIdListener.php)
+
+**Implements**: `\Symfony\Component\EventDispatcher\EventSubscriberInterface`
 
 We might expose this as an HTTP header in the future. This should probably be
 moved to the index.php at some point, as soon as that's part of

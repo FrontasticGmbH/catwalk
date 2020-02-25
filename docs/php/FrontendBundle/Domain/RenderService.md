@@ -1,6 +1,6 @@
 #  RenderService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\RenderService`](../../../../src/php/FrontendBundle/Domain/RenderService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\RenderService`](../../../../src/php/FrontendBundle/Domain/RenderService.php)
 
 ## Methods
 

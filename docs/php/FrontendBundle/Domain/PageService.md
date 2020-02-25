@@ -1,6 +1,8 @@
 #  PageService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\PageService`](../../../../src/php/FrontendBundle/Domain/PageService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\PageService`](../../../../src/php/FrontendBundle/Domain/PageService.php)
+
+**Implements**: `\Frontastic\Common\ReplicatorBundle\Domain\Target`
 
 ## Methods
 

@@ -1,6 +1,6 @@
 # `interface`  StreamOptimizer
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer`](../../../../src/php/FrontendBundle/Domain/StreamOptimizer.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer`](../../../../src/php/FrontendBundle/Domain/StreamOptimizer.php)
 
 See the documentation for example and details.
 

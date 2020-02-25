@@ -1,6 +1,8 @@
 #  AccountWishlistsFieldHandler
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\AccountWishlistsFieldHandler`](../../../../../src/php/FrontendBundle/Domain/TasticFieldHandler/AccountWishlistsFieldHandler.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\AccountWishlistsFieldHandler`](../../../../../src/php/FrontendBundle/Domain/TasticFieldHandler/AccountWishlistsFieldHandler.php)
+
+**Extends**: [`TasticFieldHandler`](../TasticFieldHandler.md)
 
 ## Methods
 

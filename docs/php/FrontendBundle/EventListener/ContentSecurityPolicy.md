@@ -1,6 +1,6 @@
 #  ContentSecurityPolicy
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\EventListener\ContentSecurityPolicy`](../../../../src/php/FrontendBundle/EventListener/ContentSecurityPolicy.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\EventListener\ContentSecurityPolicy`](../../../../src/php/FrontendBundle/EventListener/ContentSecurityPolicy.php)
 
 ## Methods
 

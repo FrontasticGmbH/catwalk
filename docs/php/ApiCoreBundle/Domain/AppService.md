@@ -1,6 +1,8 @@
 #  AppService
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\AppService`](../../../../src/php/ApiCoreBundle/Domain/AppService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\AppService`](../../../../src/php/ApiCoreBundle/Domain/AppService.php)
+
+**Implements**: `\Frontastic\Common\ReplicatorBundle\Domain\Target`
 
 ## Methods
 

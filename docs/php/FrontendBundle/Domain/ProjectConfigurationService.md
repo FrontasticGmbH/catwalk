@@ -1,6 +1,8 @@
 #  ProjectConfigurationService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\ProjectConfigurationService`](../../../../src/php/FrontendBundle/Domain/ProjectConfigurationService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\ProjectConfigurationService`](../../../../src/php/FrontendBundle/Domain/ProjectConfigurationService.php)
+
+**Implements**: `\Frontastic\Common\ReplicatorBundle\Domain\Target`, [`ContextDecorator`](../../ApiCoreBundle/Domain/ContextDecorator.md)
 
 ## Methods
 

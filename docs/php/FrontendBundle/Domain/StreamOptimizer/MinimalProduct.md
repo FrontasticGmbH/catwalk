@@ -1,6 +1,8 @@
 #  MinimalProduct
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer\MinimalProduct`](../../../../../src/php/FrontendBundle/Domain/StreamOptimizer/MinimalProduct.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer\MinimalProduct`](../../../../../src/php/FrontendBundle/Domain/StreamOptimizer/MinimalProduct.php)
+
+**Implements**: [`StreamOptimizer`](../StreamOptimizer.md)
 
 ## Methods
 

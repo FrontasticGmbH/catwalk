@@ -1,6 +1,8 @@
 #  Redirect
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\Redirect`](../../../../src/php/FrontendBundle/Domain/Redirect.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\Redirect`](../../../../src/php/FrontendBundle/Domain/Redirect.php)
+
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

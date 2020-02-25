@@ -1,6 +1,6 @@
 #  ArrayContains
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\ArrayContains`](../../../../../src/php/FrontendBundle/RulerZ/Operator/ArrayContains.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\ArrayContains`](../../../../../src/php/FrontendBundle/RulerZ/Operator/ArrayContains.php)
 
 ## Methods
 

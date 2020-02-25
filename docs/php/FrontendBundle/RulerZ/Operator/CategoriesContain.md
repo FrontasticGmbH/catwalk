@@ -1,6 +1,6 @@
 #  CategoriesContain
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\CategoriesContain`](../../../../../src/php/FrontendBundle/RulerZ/Operator/CategoriesContain.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\CategoriesContain`](../../../../../src/php/FrontendBundle/RulerZ/Operator/CategoriesContain.php)
 
 ## Methods
 

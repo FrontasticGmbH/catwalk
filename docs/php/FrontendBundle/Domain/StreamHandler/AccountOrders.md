@@ -1,6 +1,8 @@
 #  AccountOrders
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountOrders`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/AccountOrders.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountOrders`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/AccountOrders.php)
+
+**Extends**: [`StreamHandler`](../StreamHandler.md)
 
 ## Methods
 

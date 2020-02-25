@@ -1,6 +1,8 @@
 #  AppKernel
 
-Fully Qualified: [`\Frontastic\Catwalk\AppKernel`](../../src/php/AppKernel.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\AppKernel`](../../src/php/AppKernel.php)
+
+**Extends**: `\Frontastic\Common\Kernel`
 
 Property|Type|Default|Description
 --------|----|-------|-----------

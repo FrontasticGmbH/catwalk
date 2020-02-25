@@ -1,6 +1,8 @@
 #  TasticFieldHandlerAdapterV2
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandlerAdapterV2`](../../../../src/php/FrontendBundle/Domain/TasticFieldHandlerAdapterV2.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandlerAdapterV2`](../../../../src/php/FrontendBundle/Domain/TasticFieldHandlerAdapterV2.php)
+
+**Extends**: [`TasticFieldHandlerV2`](TasticFieldHandlerV2.md)
 
 ## Methods
 

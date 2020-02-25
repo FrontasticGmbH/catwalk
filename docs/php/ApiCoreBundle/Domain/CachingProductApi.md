@@ -1,6 +1,8 @@
 #  CachingProductApi
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\CachingProductApi`](../../../../src/php/ApiCoreBundle/Domain/CachingProductApi.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\CachingProductApi`](../../../../src/php/ApiCoreBundle/Domain/CachingProductApi.php)
+
+**Implements**: `\Frontastic\Common\ProductApiBundle\Domain\ProductApi`
 
 ## Methods
 

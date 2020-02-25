@@ -1,6 +1,8 @@
 #  SchemaService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\SchemaService`](../../../../src/php/FrontendBundle/Domain/SchemaService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\SchemaService`](../../../../src/php/FrontendBundle/Domain/SchemaService.php)
+
+**Implements**: `\Frontastic\Common\ReplicatorBundle\Domain\Target`, [`ContextDecorator`](../../ApiCoreBundle/Domain/ContextDecorator.md)
 
 ## Methods
 

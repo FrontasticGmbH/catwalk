@@ -1,6 +1,6 @@
 #  AppRepositoryService
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService`](../../../../src/php/ApiCoreBundle/Domain/AppRepositoryService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService`](../../../../src/php/ApiCoreBundle/Domain/AppRepositoryService.php)
 
 ## Methods
 

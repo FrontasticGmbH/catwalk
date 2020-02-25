@@ -1,6 +1,6 @@
 # `abstract`  StreamHandler
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler`](../../../../src/php/FrontendBundle/Domain/StreamHandler.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler`](../../../../src/php/FrontendBundle/Domain/StreamHandler.php)
 
 *Important:* Please note that this is *NOT* the correct interface for Custom
 Streams. For custom streams, you need to implement a TasticFieldHandler.

@@ -1,6 +1,8 @@
 #  UrlGenerator
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Routing\UrlGenerator`](../../../../src/php/FrontendBundle/Routing/UrlGenerator.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Routing\UrlGenerator`](../../../../src/php/FrontendBundle/Routing/UrlGenerator.php)
+
+**Implements**: `\Frontastic\Common\JsonSerializer\ObjectEnhancer`
 
 ## Methods
 

@@ -1,6 +1,6 @@
 # `interface`  SitemapExtension
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\SitemapExtension`](../../../../src/php/FrontendBundle/Domain/SitemapExtension.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\SitemapExtension`](../../../../src/php/FrontendBundle/Domain/SitemapExtension.php)
 
 ## Methods
 

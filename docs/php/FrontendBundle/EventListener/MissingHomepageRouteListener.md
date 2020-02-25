@@ -1,6 +1,6 @@
 #  MissingHomepageRouteListener
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\EventListener\MissingHomepageRouteListener`](../../../../src/php/FrontendBundle/EventListener/MissingHomepageRouteListener.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\EventListener\MissingHomepageRouteListener`](../../../../src/php/FrontendBundle/EventListener/MissingHomepageRouteListener.php)
 
 ## Methods
 

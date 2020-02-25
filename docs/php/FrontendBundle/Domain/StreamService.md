@@ -1,6 +1,6 @@
 #  StreamService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamService`](../../../../src/php/FrontendBundle/Domain/StreamService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamService`](../../../../src/php/FrontendBundle/Domain/StreamService.php)
 
 ## Methods
 

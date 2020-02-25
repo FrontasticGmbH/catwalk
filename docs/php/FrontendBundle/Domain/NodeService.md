@@ -1,6 +1,8 @@
 #  NodeService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\NodeService`](../../../../src/php/FrontendBundle/Domain/NodeService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\NodeService`](../../../../src/php/FrontendBundle/Domain/NodeService.php)
+
+**Implements**: `\Frontastic\Common\ReplicatorBundle\Domain\Target`
 
 ## Methods
 

@@ -1,6 +1,6 @@
 #  CacheDirectives
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\EventListener\CacheDirectives`](../../../../src/php/FrontendBundle/EventListener/CacheDirectives.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\EventListener\CacheDirectives`](../../../../src/php/FrontendBundle/EventListener/CacheDirectives.php)
 
 ## Methods
 

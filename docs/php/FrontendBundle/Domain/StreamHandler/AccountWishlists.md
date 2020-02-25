@@ -1,6 +1,8 @@
 #  AccountWishlists
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountWishlists`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/AccountWishlists.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountWishlists`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/AccountWishlists.php)
+
+**Extends**: [`StreamHandler`](../StreamHandler.md)
 
 ## Methods
 

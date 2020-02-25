@@ -1,6 +1,6 @@
 #  ContextService
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService`](../../../../src/php/ApiCoreBundle/Domain/ContextService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService`](../../../../src/php/ApiCoreBundle/Domain/ContextService.php)
 
 ## Methods
 

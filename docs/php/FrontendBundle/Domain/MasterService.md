@@ -1,6 +1,8 @@
 #  MasterService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\MasterService`](../../../../src/php/FrontendBundle/Domain/MasterService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\MasterService`](../../../../src/php/FrontendBundle/Domain/MasterService.php)
+
+**Implements**: `\Frontastic\Common\ReplicatorBundle\Domain\Target`
 
 ## Methods
 

@@ -1,6 +1,8 @@
 #  Layout
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\Layout`](../../../../src/php/FrontendBundle/Domain/Layout.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\Layout`](../../../../src/php/FrontendBundle/Domain/Layout.php)
+
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

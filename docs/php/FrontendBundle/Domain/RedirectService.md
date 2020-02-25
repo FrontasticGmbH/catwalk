@@ -1,6 +1,8 @@
 #  RedirectService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\RedirectService`](../../../../src/php/FrontendBundle/Domain/RedirectService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\RedirectService`](../../../../src/php/FrontendBundle/Domain/RedirectService.php)
+
+**Implements**: `\Frontastic\Common\ReplicatorBundle\Domain\Target`
 
 ## Methods
 

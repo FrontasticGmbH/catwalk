@@ -1,6 +1,8 @@
 #  AppDataTarget
 
-Fully Qualified: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\AppDataTarget`](../../../../src/php/ApiCoreBundle/Domain/AppDataTarget.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\AppDataTarget`](../../../../src/php/ApiCoreBundle/Domain/AppDataTarget.php)
+
+**Implements**: `\Frontastic\Common\ReplicatorBundle\Domain\Target`
 
 ## Methods
 

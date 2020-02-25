@@ -1,6 +1,8 @@
 #  PageMatcherContext
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext`](../../../../../src/php/FrontendBundle/Domain/PageMatcher/PageMatcherContext.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext`](../../../../../src/php/FrontendBundle/Domain/PageMatcher/PageMatcherContext.php)
+
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

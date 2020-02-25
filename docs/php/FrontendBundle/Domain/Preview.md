@@ -1,6 +1,8 @@
 #  Preview
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\Preview`](../../../../src/php/FrontendBundle/Domain/Preview.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\Preview`](../../../../src/php/FrontendBundle/Domain/Preview.php)
+
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

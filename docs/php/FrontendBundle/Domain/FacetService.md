@@ -1,6 +1,8 @@
 #  FacetService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\FacetService`](../../../../src/php/FrontendBundle/Domain/FacetService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\FacetService`](../../../../src/php/FrontendBundle/Domain/FacetService.php)
+
+**Implements**: `\Frontastic\Common\ReplicatorBundle\Domain\Target`
 
 ## Methods
 

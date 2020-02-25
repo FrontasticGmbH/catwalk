@@ -1,6 +1,6 @@
 # `abstract`  TasticFieldHandler
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler`](../../../../src/php/FrontendBundle/Domain/TasticFieldHandler.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler`](../../../../src/php/FrontendBundle/Domain/TasticFieldHandler.php)
 
 ## Methods
 

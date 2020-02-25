@@ -1,6 +1,6 @@
 #  ReferrerPolicy
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\EventListener\ReferrerPolicy`](../../../../src/php/FrontendBundle/EventListener/ReferrerPolicy.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\EventListener\ReferrerPolicy`](../../../../src/php/FrontendBundle/EventListener/ReferrerPolicy.php)
 
 ## Methods
 

@@ -1,6 +1,6 @@
 #  SitemapService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\SitemapService`](../../../../src/php/FrontendBundle/Domain/SitemapService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\SitemapService`](../../../../src/php/FrontendBundle/Domain/SitemapService.php)
 
 ## Methods
 

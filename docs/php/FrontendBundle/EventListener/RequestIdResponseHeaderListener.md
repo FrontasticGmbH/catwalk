@@ -1,6 +1,8 @@
 #  RequestIdResponseHeaderListener
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdResponseHeaderListener`](../../../../src/php/FrontendBundle/EventListener/RequestIdResponseHeaderListener.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdResponseHeaderListener`](../../../../src/php/FrontendBundle/EventListener/RequestIdResponseHeaderListener.php)
+
+**Implements**: `\Symfony\Component\EventDispatcher\EventSubscriberInterface`
 
 ## Methods
 

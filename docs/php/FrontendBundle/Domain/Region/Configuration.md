@@ -1,6 +1,8 @@
 #  Configuration
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\Region\Configuration`](../../../../../src/php/FrontendBundle/Domain/Region/Configuration.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\Region\Configuration`](../../../../../src/php/FrontendBundle/Domain/Region/Configuration.php)
+
+**Extends**: [`Configuration`](../Configuration.md)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

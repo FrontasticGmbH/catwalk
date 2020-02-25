@@ -1,6 +1,8 @@
 #  Order
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Order`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/Order.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Order`](../../../../../src/php/FrontendBundle/Domain/StreamHandler/Order.php)
+
+**Extends**: [`StreamHandler`](../StreamHandler.md)
 
 ## Methods
 

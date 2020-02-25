@@ -1,6 +1,6 @@
 #  RouteService
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\RouteService`](../../../../src/php/FrontendBundle/Domain/RouteService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\RouteService`](../../../../src/php/FrontendBundle/Domain/RouteService.php)
 
 ## Methods
 

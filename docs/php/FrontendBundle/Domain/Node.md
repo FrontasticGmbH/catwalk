@@ -1,6 +1,8 @@
 #  Node
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\Node`](../../../../src/php/FrontendBundle/Domain/Node.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\Node`](../../../../src/php/FrontendBundle/Domain/Node.php)
+
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
 Property|Type|Default|Description
 --------|----|-------|-----------

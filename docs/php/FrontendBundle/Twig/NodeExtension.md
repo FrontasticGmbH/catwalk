@@ -1,6 +1,10 @@
 #  NodeExtension
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Twig\NodeExtension`](../../../../src/php/FrontendBundle/Twig/NodeExtension.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Twig\NodeExtension`](../../../../src/php/FrontendBundle/Twig/NodeExtension.php)
+
+**Extends**: `\Twig_Extension`
+
+**Implements**: `\Twig_Extension_GlobalsInterface`
 
 ## Methods
 

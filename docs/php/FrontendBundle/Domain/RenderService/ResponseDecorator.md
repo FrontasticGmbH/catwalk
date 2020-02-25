@@ -1,6 +1,6 @@
 #  ResponseDecorator
 
-Fully Qualified: [`\Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator`](../../../../../src/php/FrontendBundle/Domain/RenderService/ResponseDecorator.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator`](../../../../../src/php/FrontendBundle/Domain/RenderService/ResponseDecorator.php)
 
 ## Methods
 
