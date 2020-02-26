@@ -139,6 +139,13 @@ class PreviewController extends Controller
                 'preview' => $previewService->store($preview),
             ]);
         } catch (\Throwable $e) {
+            $this->get('logger')->error(
+                'Error storing the preview: {message}',
+                [
+                    'message' => $e->getMessage(),
+                    'exception' => $e,
+                ]
+            );
             return new JsonResponse(Result::fromThrowable($e));
         }
     }

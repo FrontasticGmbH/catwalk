@@ -105,12 +105,8 @@ module.exports = (PRODUCTION, SERVER) => {
             new DuplicatePackageCheckerPlugin({
                 // Also show module that is requiring each duplicate package (default: false)
                 verbose: true,
-                // Emit errors instead of warnings (default: false)
-                emitError: true,
-                // Show help message if duplicate packages are found (default: true)
-                showHelp: true,
                 // Warn also if major versions differ (default: true)
-                strict: true,
+                strict: false,
             }),
         ],
         module: {

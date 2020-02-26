@@ -122,6 +122,9 @@ function appCreator (mountNode, dataNode, tastics = null) {
             )
         }
 
+        app.getLoader('cart').get()
+        app.getLoader('wishlist').get()
+
         ReactDOM.hydrate(
             <AppComponent app={app} renderRouter={renderRouter} />,
             mountNode,
