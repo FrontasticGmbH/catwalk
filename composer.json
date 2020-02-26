@@ -29,7 +29,7 @@
         "doctrine/doctrine-cache-bundle": "^1.3",
         "stof/doctrine-extensions-bundle": "^1.3",
 
-        "frontastic/common": "^1.0.0@alpha",
+        "frontastic/common": "^1.0.0@dev",
 
         "doctrine/orm": "^2.6",
         "guzzlehttp/guzzle": "~6",
