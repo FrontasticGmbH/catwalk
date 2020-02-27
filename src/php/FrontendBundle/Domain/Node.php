@@ -64,7 +64,7 @@ class Node extends DataObject
     /**
      * Optional error string during development
      *
-     * @var string?
+     * @var ?string
      */
     public $error;
 
