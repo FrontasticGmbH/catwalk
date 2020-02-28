@@ -10,6 +10,7 @@ config = require('./webpack/buildStatistics.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/manifest.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/serviceWorker.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/compileScss.js')(config, PRODUCTION, SERVER)
+config = require('./webpack/linkDependencies.js')(config, PRODUCTION, SERVER)
 
 config.optimization = {
     minimize: true,
