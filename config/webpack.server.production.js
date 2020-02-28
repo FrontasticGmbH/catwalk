@@ -8,6 +8,7 @@ let config = require('./webpack.js')(PRODUCTION, SERVER)
 config = require('./webpack/ignoreScss.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/provideDomOnServer.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/singleChunk.js')(config, PRODUCTION, SERVER)
+config = require('./webpack/linkDependencies.js')(config, PRODUCTION, SERVER)
 
 config.optimization = { minimize: true }
 config.output.filename = 'assets/js/server.js'

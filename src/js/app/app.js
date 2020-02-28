@@ -27,6 +27,11 @@ let App = function (store) {
                 location.state || null
             )
         }
+
+        this.store.dispatch({
+            type: 'Frontend.App.initialize',
+            data: this,
+        })
     }
 
     /**
