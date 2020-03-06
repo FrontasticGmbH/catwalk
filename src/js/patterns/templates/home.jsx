@@ -15,7 +15,7 @@ class TemplatesHome extends Component {
         return (<Fragment>
             <OrganismsHead />
             <main className='c-page-body'>
-                <div className='c-page-wrapper    o-wrapper'>
+                <div className='c-page-wrapper o-wrapper'>
                     <section>
                         <div className='c-page-section'>
                             <header>
