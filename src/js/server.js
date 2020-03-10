@@ -19,7 +19,7 @@ const express = Express()
 // Defined for use in subsequent files only
 const PRODUCTION = true // eslint-disable-line no-unused-vars
 
-export default (tastics = null, port = 8000) => {
+export default (renderWrapper, tastics = null, port = 8000) => {
     global.tastics = tastics
     global.btoa = (b) => {
         return Buffer.from(b).toString('base64')
@@ -83,11 +83,16 @@ export default (tastics = null, port = 8000) => {
             )
         }
 
+        const renderData = renderWrapper(
+            <AppComponent app={app} renderRouter={renderRouter} />
+        )
+
         response.send({
-            app: renderToString(<AppComponent app={app} renderRouter={renderRouter} />),
+            app: renderData.app,
             helmet: {
                 title: '',
                 meta: '',
+                styles: renderData.styles || '',
                 ...(_.omitBy(
                     _.mapValues(
                         Helmet.renderStatic(),
