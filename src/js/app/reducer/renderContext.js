@@ -41,19 +41,19 @@ const detectingReducer = (state = initialState, action) => {
 const detectDeviceTypeByRenderContext = (renderContext) => {
     if (renderContext.viewportDimension && renderContext.breakpoints) {
         const breakpointsSortedByMaxWidth = renderContext.breakpoints.map(breakpoint => {
-            if (breakpoint.maxWidth) {
+            if (breakpoint.minWidth) {
                 return breakpoint
             }
             return {
                 ...breakpoint,
-                maxWidth: Infinity,
+                minWidth: -Infinity,
             }
         }).sort((a, b) => {
-            return a.maxWidth - b.maxWidth
+            return b.minWidth - a.minWidth
         })
 
         const possibleBreakpoints = breakpointsSortedByMaxWidth.filter(breakpoint => {
-            return breakpoint.maxWidth > renderContext.viewportDimension.width
+            return breakpoint.minWidth < renderContext.viewportDimension.width
         })
 
         if (possibleBreakpoints.length > 0) {
@@ -61,7 +61,7 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
         }
 
         // eslint-disable-next-line no-console
-        console.warn('No breakpoint matched. Did you forget setting a default breakpoint without max-width?')
+        console.warn('No breakpoint matched. Did you forget setting a default breakpoint without min-width?')
     }
 
     if (renderContext.userAgent && renderContext.breakpoints) {

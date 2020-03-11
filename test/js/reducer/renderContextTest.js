@@ -11,18 +11,18 @@ let breakpointsContextAction = {
                             name: 'Mobile',
                             userAgentRegexp:
                 '(Android|webOS|iPhone|iPod|BlackBerry|Windows Phone)',
-                            maxWidth: 480,
                         },
                         {
                             identifier: 'tablet',
                             name: 'Tablet',
                             userAgentRegexp: 'iPad',
                             userAgentRegexpModifiers: 'i',
-                            maxWidth: 767,
+                            minWidth: 768,
                         },
                         {
                             identifier: 'desktop',
                             name: 'Desktop',
+                            minWidth: 1280,
                         },
                     ],
                 },
@@ -51,19 +51,19 @@ describe('renderContextReducer', () => {
       Array [
         Object {
           "identifier": "mobile",
-          "maxWidth": 480,
           "name": "Mobile",
           "userAgentRegexp": "(Android|webOS|iPhone|iPod|BlackBerry|Windows Phone)",
         },
         Object {
           "identifier": "tablet",
-          "maxWidth": 767,
+          "minWidth": 768,
           "name": "Tablet",
           "userAgentRegexp": "iPad",
           "userAgentRegexpModifiers": "i",
         },
         Object {
           "identifier": "desktop",
+          "minWidth": 1280,
           "name": "Desktop",
         },
       ]
@@ -88,6 +88,7 @@ describe('renderContextReducer', () => {
         })
         expect(state.deviceType).toEqual('mobile')
     })
+
     it('should switch the given breakpoint if useragent matches with modifier', () => {
         let state = renderContextReducer(undefined, breakpointsContextAction)
         state = renderContextReducer(state, {
@@ -95,5 +96,41 @@ describe('renderContextReducer', () => {
             userAgent: 'Safari on ipad thing',
         })
         expect(state.deviceType).toEqual('tablet')
+    })
+
+    it('should switch to breakpoint with highest matching minWidth', () => {
+        let state = renderContextReducer(undefined, breakpointsContextAction)
+        state = renderContextReducer(state, {
+            type: 'Frontastic.RenderContext.ViewportDimensionChanged',
+            viewportDimension: {
+                height: 800,
+                width: 1400,
+            },
+        })
+        expect(state.deviceType).toEqual('desktop')
+    })
+
+    it('should switch to lower breakpoint if it\'s between minWidths', () => {
+        let state = renderContextReducer(undefined, breakpointsContextAction)
+        state = renderContextReducer(state, {
+            type: 'Frontastic.RenderContext.ViewportDimensionChanged',
+            viewportDimension: {
+                height: 800,
+                width: 1100,
+            },
+        })
+        expect(state.deviceType).toEqual('tablet')
+    })
+
+    it('should fall back to the breakpoint without minWidth if the width is small than all minWidths', () => {
+        let state = renderContextReducer(undefined, breakpointsContextAction)
+        state = renderContextReducer(state, {
+            type: 'Frontastic.RenderContext.ViewportDimensionChanged',
+            viewportDimension: {
+                height: 800,
+                width: 1,
+            },
+        })
+        expect(state.deviceType).toEqual('mobile')
     })
 })
