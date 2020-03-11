@@ -19,11 +19,36 @@ const express = Express()
 // Defined for use in subsequent files only
 const PRODUCTION = true // eslint-disable-line no-unused-vars
 
-export default (renderWrapper, tastics = null, port = 8000) => {
+const defaultRenderWrapper = (appComponent) => {
+    return {
+        app: renderToString(appComponent),
+    }
+}
+
+/**
+ * @typedef {Object} RenderData
+ * @property {string} app - The server-side-rendered react component. Most likely just by calling `renderToString(appComponent)`
+ * @property {string} styles - The server side styles that should be passed to `react-helmet`.
+ */
+
+/**
+ * @callback renderWrapper
+ * @param {React.Component} appComponent
+ * @return {RenderData}
+ */
+
+/**
+ *
+ * @param {Array} tastics - The Array of Tastics (default: null)
+ * @param {Number} port - The port on which the server should run (default: 8000)
+ * @param {renderWrapper} renderWrapper - The renderWrapper method that renders the app and could be used to hook in for generating the StyledComponents SSR result
+ */
+export default (tastics = null, port = 8000, renderWrapper = defaultRenderWrapper) => {
     global.tastics = tastics
     global.btoa = (b) => {
         return Buffer.from(b).toString('base64')
     }
+
     // We increase the body data limit because we can recieve quite some data from
     // Catwalk inclduing product lists, etc.
     express.use(bodyParser.json({ limit: '5MB' }))
