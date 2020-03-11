@@ -1,4 +1,3 @@
-
 const path = require('path')
 const fs = require('fs')
 const url = require('url')
@@ -6,7 +5,9 @@ const url = require('url')
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
 const appDirectory = fs.realpathSync(process.cwd())
-const resolveApp = (relativePath) => { return path.resolve(appDirectory, relativePath) }
+const resolveApp = (relativePath) => {
+    return path.resolve(appDirectory, relativePath)
+}
 
 const envPublicUrl = process.env.PUBLIC_URL
 
@@ -21,7 +22,9 @@ function ensureSlash (path, needsSlash) {
     }
 }
 
-const getPublicUrl = (appPackageJson) => { return envPublicUrl || require(appPackageJson).homepage }
+const getPublicUrl = (appPackageJson) => {
+    return envPublicUrl || require(appPackageJson).homepage
+}
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -49,4 +52,6 @@ module.exports = {
     publicUrl: getPublicUrl(resolveApp('package.json')),
     servedPath: getServedPath(resolveApp('package.json')),
     commonSrc: resolveApp('../libraries'),
+    theme: resolveApp('../paas/themes/frontastic/boost'),
+    themeSrc: resolveApp('../paas/themes/frontastic/boost/src'),
 }
