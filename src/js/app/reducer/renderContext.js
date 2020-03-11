@@ -72,7 +72,8 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
                 }
 
                 if (breakpoint.userAgentRegexp) {
-                    return renderContext.userAgent.match(breakpoint.userAgentRegexp) ? breakpoint : matchedBreakpoint
+                    const regexp = new RegExp(breakpoint.userAgentRegexp, breakpoint.userAgentRegexpModifiers)
+                    return renderContext.userAgent.match(regexp) ? breakpoint : matchedBreakpoint
                 }
 
                 // The current breakpoint and the matchedBreakpoint does not have a userAgentRegexp, therefore there
