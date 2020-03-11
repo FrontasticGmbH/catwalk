@@ -94,18 +94,20 @@ class RenderService
             'app' => $response->body,
             'helmet' => [
                 'meta' => '',
-                'title' => '',
-                'script' => '',
                 'link' => '',
+                'script' => '',
+                'styles' => '',
+                'title' => '',
             ],
         ];
 
         if ($ssrResponse) {
             // make sure properties are set properly as there might be errors otherwise
             $response->body['helmet']['meta'] = $response->body['helmet']['meta'] ?? '';
-            $response->body['helmet']['title'] = $response->body['helmet']['title'] ?? '';
-            $response->body['helmet']['script'] = $response->body['helmet']['script'] ?? '';
             $response->body['helmet']['link'] = $response->body['helmet']['link'] ?? '';
+            $response->body['helmet']['script'] = $response->body['helmet']['script'] ?? '';
+            $response->body['helmet']['styles'] = $response->body['helmet']['styles'] ?? '';
+            $response->body['helmet']['title'] = $response->body['helmet']['title'] ?? '';
         }
 
         return $response;
