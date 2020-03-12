@@ -37,6 +37,13 @@ class CustomerService
             );
         }
 
+        if (file_exists($this->projectFile . '.decrypted')) {
+            $project = Functions::array_merge_recursive(
+                $project,
+                Yaml::parse(file_get_contents($this->projectFile . '.decrypted'))
+            );
+        }
+
         if (file_exists($this->projectFile . '.' . $this->environment . '.decrypted')) {
             $project = Functions::array_merge_recursive(
                 $project,
