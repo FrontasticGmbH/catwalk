@@ -36,7 +36,11 @@ module.exports = (config, PRODUCTION, SERVER) => {
                             options: {
                                 ident: 'postcss',
                                 plugins: () => {
-                                    return [require('postcss-flexbugs-fixes'), require('tailwindcss'), autoprefixer()]
+                                    return [
+                                        require('postcss-flexbugs-fixes'),
+                                        require('tailwindcss')(paths.theme + '/tailwind.config.js'),
+                                        autoprefixer(),
+                                    ]
                                 },
                             },
                         },
