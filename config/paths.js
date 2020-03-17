@@ -52,6 +52,6 @@ module.exports = {
     publicUrl: getPublicUrl(resolveApp('package.json')),
     servedPath: getServedPath(resolveApp('package.json')),
     commonSrc: resolveApp('../libraries'),
-    theme: resolveApp('../paas/themes/frontastic/boost'),
-    themeSrc: resolveApp('../paas/themes/frontastic/boost/src'),
+    theme: resolveApp('../node_modules/@frontastic/theme-boost'),
+    themeSrc: resolveApp('../node_modules/@frontastic/theme-boost/src'),
 }
