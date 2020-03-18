@@ -50,10 +50,12 @@ class StreamService
      */
     private $countProperties = [
         'product-list' => [
-            // Boost Theme
             'productCount',
-            // From Apollo
+            // For Apollo
             'maxItems',
+        ],
+        'content-list' => [
+            'contentCount',
         ],
     ];
 
