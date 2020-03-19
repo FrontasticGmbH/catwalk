@@ -7,8 +7,6 @@ import Entity from '../../app/entity'
 import UrlHandler from '../../app/urlHandler'
 
 import app from '../../app/app'
-import facetConnector from '../../app/connector/facet'
-import categoryConnector from '../../app/connector/category'
 import urlHandlerConnector from '../../app/connector/urlHandler'
 
 class ExampleProductListFilterTastic extends Component {
@@ -111,13 +109,9 @@ ExampleProductListFilterTastic.propTypes = {
 
     // From urlHandlerConnector
     urlHandler: PropTypes.instanceOf(UrlHandler),
-
-    // From facetConnector
-    facets: PropTypes.instanceOf(Entity).isRequired,
 }
 
 export default compose(
-    connect(facetConnector),
     connect(urlHandlerConnector),
     connect((globalState) => {
         let streamParameters = globalState.app.route.parameters.s || {}
