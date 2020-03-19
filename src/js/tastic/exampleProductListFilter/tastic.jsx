@@ -7,6 +7,7 @@ import Entity from '../../app/entity'
 import UrlHandler from '../../app/urlHandler'
 
 import app from '../../app/app'
+import facetConnector from '../../app/connector/facet'
 import urlHandlerConnector from '../../app/connector/urlHandler'
 
 class ExampleProductListFilterTastic extends Component {
@@ -40,7 +41,6 @@ class ExampleProductListFilterTastic extends Component {
         }
 
         const streamId = this.props.tastic.configuration.stream
-        console.log(streamId)
 
         return (<Fragment>
             <div style={{ width: '50%', 'float': 'left' }}>
@@ -106,11 +106,15 @@ ExampleProductListFilterTastic.propTypes = {
     // From connector
     route: PropTypes.object.isRequired,
 
+    // Facet definition as provided by Frontastic
+    facets: PropTypes.instanceOf(Entity).isRequired,
+
     // From urlHandlerConnector
     urlHandler: PropTypes.instanceOf(UrlHandler),
 }
 
 export default compose(
+    connect(facetConnector),
     connect(urlHandlerConnector),
     connect((globalState) => {
         let streamParameters = globalState.app.route.parameters.s || {}
