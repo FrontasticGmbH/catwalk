@@ -10,7 +10,6 @@ import app from '../../app/app'
 import urlHandlerConnector from '../../app/connector/urlHandler'
 
 class ExampleProductListFilterTastic extends Component {
-
     render () {
         const productList = this.props.data.stream
 
@@ -45,26 +44,26 @@ class ExampleProductListFilterTastic extends Component {
 
         return (<Fragment>
             <div style={{ width: '50%', 'float': 'left' }}>
-            <h1>Color Filter:</h1>
-            <ul>
-                {colorFacet.terms.map((term) => {
+                <h1>Color Filter:</h1>
+                <ul>
+                    {colorFacet.terms.map((term) => {
                     return this.renderTerm(term, (event) => {
                         event.preventDefault()
                         this.toggleFacetTerm(streamId, colorFacet, term)
                     })
                 })}
-            </ul>
+                </ul>
             </div>
             <div style={{ width: '50%', 'float': 'left' }}>
-            <h1>Size Filter:</h1>
-            <ul>
-                {sizeFacet.terms.map((term) => {
+                <h1>Size Filter:</h1>
+                <ul>
+                    {sizeFacet.terms.map((term) => {
                     return this.renderTerm(term, (event) => {
                         event.preventDefault()
                         this.toggleFacetTerm(streamId, sizeFacet, term)
                     })
                 })}
-            </ul>
+                </ul>
             </div>
         </Fragment>)
     }
