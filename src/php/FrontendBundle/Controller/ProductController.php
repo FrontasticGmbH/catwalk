@@ -43,7 +43,8 @@ class ProductController extends Controller
         }
 
         $product = $productApi->getProduct(
-            ProductApi\Query\SingleProductQuery::byProductIdWithLocale($productId, $context->locale));
+            ProductApi\Query\SingleProductQuery::byProductIdWithLocale($productId, $context->locale)
+        );
 
         $currentUrl = parse_url($request->getRequestUri(), PHP_URL_PATH);
         if ($currentUrl !== ($correctUrl = $productRouter->generateUrlFor($product))) {
