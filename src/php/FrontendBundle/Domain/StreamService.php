@@ -295,6 +295,10 @@ class StreamService
             );
         }
 
+        if (isset($parameters['streamContent'])) {
+            return Promise\promise_for($parameters['streamContent']);
+        }
+
         try {
             return $this->streamHandlers[$stream->type]->handleAsync($stream, $context, $parameters);
         } catch (\Throwable $exception) {
