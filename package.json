@@ -87,6 +87,7 @@
         "paypal-checkout": "^4.0.218",
         "postcss-flexbugs-fixes": "4.1.0",
         "postcss-loader": "3.0.0",
+        "prebuild-webpack-plugin": "^1.1.0",
         "promise": "8.0.3",
         "prop-types": "^15.6.2",
         "qrcode.react": "^0.9.3",
