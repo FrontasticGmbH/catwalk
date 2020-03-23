@@ -33,7 +33,7 @@ class Json extends Formatter
      */
     public function decode(string $value)
     {
-        return $this->fixTypes(json_decode($value));
+        return $this->fixTypes(json_decode($value, true));
     }
 
     /**
@@ -56,9 +56,9 @@ class Json extends Formatter
             }
         }
 
-        if (is_object($value) && isset($value->_type) && class_exists($value->_type)) {
-            $class = $value->_type;
-            unset($value->_type);
+        if (isset($value['_type']) && class_exists($value['_type'])) {
+            $class = $value['_type'];
+            unset($value['_type']);
 
             $domainObject = new $class();
             foreach ($value as $property => $propertyValue) {

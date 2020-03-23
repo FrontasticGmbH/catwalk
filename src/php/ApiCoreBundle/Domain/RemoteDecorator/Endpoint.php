@@ -26,7 +26,7 @@ class Endpoint extends DataObject
      *
      * @var float
      */
-    public $timeout = 0.1;
+    public $timeout = 0.2;
 
     /**
      * If the endpoint fails to respond, shall the stream error (default) or

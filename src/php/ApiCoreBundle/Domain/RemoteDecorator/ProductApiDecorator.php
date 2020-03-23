@@ -38,9 +38,9 @@ class ProductApiDecorator extends BaseImplementation
         );
     }
 
-    public function beforeGetCategories(ProductApi $productApi, CategoryQuery $query): void
+    public function beforeGetCategories(ProductApi $productApi, CategoryQuery $query): ?array
     {
-        $this->runRemoteDecorators(__FUNCTION__, array_slice(func_get_args(), 1));
+        return $this->runRemoteDecorators(__FUNCTION__, array_slice(func_get_args(), 1));
     }
 
     public function afterGetCategories(ProductApi $productApi, array $categories): ?array
@@ -48,9 +48,9 @@ class ProductApiDecorator extends BaseImplementation
         return $this->runRemoteDecorators(__FUNCTION__, $categories);
     }
 
-    public function beforeGetProductTypes(ProductApi $productApi, ProductTypeQuery $query): void
+    public function beforeGetProductTypes(ProductApi $productApi, ProductTypeQuery $query): ?array
     {
-        $this->runRemoteDecorators(__FUNCTION__, array_slice(func_get_args(), 1));
+        return $this->runRemoteDecorators(__FUNCTION__, array_slice(func_get_args(), 1));
     }
 
     public function afterGetProductTypes(ProductApi $productApi, array $productTypes): ?array
@@ -62,8 +62,8 @@ class ProductApiDecorator extends BaseImplementation
         ProductApi $productApi,
         ProductQuery $query,
         string $mode = ProductApi::QUERY_SYNC
-    ): void {
-        $this->runRemoteDecorators(__FUNCTION__, array_slice(func_get_args(), 1));
+    ): ?array {
+        return $this->runRemoteDecorators(__FUNCTION__, array_slice(func_get_args(), 1));
     }
 
     public function afterGetProduct(ProductApi $productApi, ?Product $product): ?Product
@@ -75,8 +75,8 @@ class ProductApiDecorator extends BaseImplementation
         ProductApi $productApi,
         ProductQuery $query,
         string $mode = ProductApi::QUERY_SYNC
-    ): void {
-        $this->runRemoteDecorators(__FUNCTION__, array_slice(func_get_args(), 1));
+    ): ?array {
+        return $this->runRemoteDecorators(__FUNCTION__, array_slice(func_get_args(), 1));
     }
 
     public function afterQuery(ProductApi $productApi, ?Result $result): ?Result
@@ -128,7 +128,6 @@ class ProductApiDecorator extends BaseImplementation
                 throw $e;
             }
         }
-
         return $arguments;
     }
 }
