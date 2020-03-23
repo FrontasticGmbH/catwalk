@@ -22,11 +22,6 @@ class Endpoint extends DataObject
     public $method = 'POST';
 
     /**
-     * @var int
-     */
-    public $priority = 0;
-
-    /**
      * Allowed time for requests in seconds
      *
      * @var float

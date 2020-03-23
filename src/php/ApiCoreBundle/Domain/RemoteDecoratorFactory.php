@@ -55,8 +55,6 @@ class RemoteDecoratorFactory
                 }
             }
         }
-
-        // @TODO: Sort decorators by priority
     }
 
     /**
