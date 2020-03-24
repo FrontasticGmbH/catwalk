@@ -29,10 +29,10 @@ class Product extends StreamHandler
             return Promise\promise_for(null);
         }
 
-        $query = new ProductApi\Query\ProductQuery([
-            'productId' => $stream->configuration['product'],
-            'locale' => $context->locale,
-        ]);
+        $query = ProductApi\Query\SingleProductQuery::byProductIdWithLocale(
+            $stream->configuration['product'],
+            $context->locale
+        );
 
         $res = $this->productApi->getProduct(
             $query,

@@ -38,6 +38,22 @@ function getServedPath (appPackageJson) {
     return ensureSlash(servedUrl, true)
 }
 
+function findDirectoryContainingFile(filename, directory) {
+    while (true) {
+        var list = fs.readdirSync(directory)
+
+        if ((index = list.indexOf(filename)) !== -1) {
+            return directory
+        } else if (directory === '/') {
+            throw new Error('File ' + filename + ' not found.')
+        } else {
+            directory = path.normalize(directory + '/../')
+        }
+    }
+}
+
+let repositoryRoot = findDirectoryContainingFile('.customer_provision.yml', resolveApp('src'))
+
 module.exports = {
     dotenv: resolveApp('.env'),
     appBuild: resolveApp('build'),
@@ -52,6 +68,7 @@ module.exports = {
     publicUrl: getPublicUrl(resolveApp('package.json')),
     servedPath: getServedPath(resolveApp('package.json')),
     commonSrc: resolveApp('../libraries'),
-    theme: resolveApp('../node_modules/@frontastic/theme-boost'),
-    themeSrc: resolveApp('../node_modules/@frontastic/theme-boost/src'),
+    repositoryRoot: repositoryRoot,
+    theme: repositoryRoot + '/node_modules/@frontastic/theme-boost',
+    themeSrc: repositoryRoot + '/node_modules/@frontastic/theme-boost/src',
 }

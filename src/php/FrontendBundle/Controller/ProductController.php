@@ -42,10 +42,9 @@ class ProductController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $product = $productApi->getProduct(new ProductApi\Query\ProductQuery([
-            'locale' => $context->locale,
-            'productId' => $productId,
-        ]));
+        $product = $productApi->getProduct(
+            ProductApi\Query\SingleProductQuery::byProductIdWithLocale($productId, $context->locale)
+        );
 
         $currentUrl = parse_url($request->getRequestUri(), PHP_URL_PATH);
         if ($currentUrl !== ($correctUrl = $productRouter->generateUrlFor($product))) {

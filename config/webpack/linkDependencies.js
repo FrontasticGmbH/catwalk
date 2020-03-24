@@ -8,9 +8,9 @@ const chalk = require('chalk')
 const path = require('path')
 
 const links = {
-    'common': paths.appSrc + '/../../paas/libraries/common',
-    'catwalk': paths.appSrc + '/../../paas/catwalk',
-    'theme-boost': paths.appSrc + '/../../paas/themes/frontastic/boost',
+    'common': paths.repositoryRoot + '/paas/libraries/common',
+    'catwalk': paths.repositoryRoot + '/paas/catwalk',
+    'theme-boost': paths.repositoryRoot + '/paas/themes/frontastic/boost',
 }
 
 const fileExists = (path) => {

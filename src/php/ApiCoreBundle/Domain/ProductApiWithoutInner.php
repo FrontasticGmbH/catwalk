@@ -62,12 +62,7 @@ class ProductApiWithoutInner implements ProductApi
         return $productTypes;
     }
 
-    /**
-     * @param ProductQuery $query
-     * @param string $mode One of the QUERY_* connstants. Execute the query synchronously or asynchronously?
-     * @return Product|PromiseInterface|null A product or null when the mode is sync and a promise if the mode is async.
-     */
-    public function getProduct(ProductQuery $query, string $mode = self::QUERY_SYNC): ?object
+    public function getProduct($query, string $mode = self::QUERY_SYNC): ?object
     {
         $result = $this->innerProductApi->getProduct($query, $mode);
 
