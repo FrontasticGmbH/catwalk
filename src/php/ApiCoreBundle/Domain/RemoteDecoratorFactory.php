@@ -47,11 +47,13 @@ class RemoteDecoratorFactory
                 // @TODO: Validate method against include list?
 
                 if (isset($decorator['before'])) {
-                    $this->apiCalls[$configuration['api']]['before' . ucfirst($decorator['method'])][] = new RemoteDecorator\Endpoint($decorator['before']);
+                    $this->apiCalls[$configuration['api']]['before' . ucfirst($decorator['method'])][] =
+                        new RemoteDecorator\Endpoint($decorator['before']);
                 }
 
                 if (isset($decorator['after'])) {
-                    $this->apiCalls[$configuration['api']]['after' . ucfirst($decorator['method'])][] = new RemoteDecorator\Endpoint($decorator['after']);
+                    $this->apiCalls[$configuration['api']]['after' . ucfirst($decorator['method'])][] =
+                        new RemoteDecorator\Endpoint($decorator['after']);
                 }
             }
         }
