@@ -110,7 +110,7 @@ class ProductApiDecorator extends BaseImplementation
                     if ($endpoint->optional) {
                         continue;
                     } else {
-                        throw new \RunTimeException(
+                        throw new \RuntimeException(
                             'Endpoint ' . $endpoint->url . ' failed: ' . $response->status . ' ' . $response->body
                         );
                     }
