@@ -2,7 +2,7 @@
 
 ## HTTP API Documentation
 
-Download the Swagger File
+Download the [Swagger File](swagger.yml)
 
 * [ApiCoreBundle\Domain\RemoteDecorator\ProductApiDecorator](php/ApiCoreBundle/Domain/RemoteDecorator/ProductApiDecorator.rest.md)
 

@@ -3,7 +3,7 @@
 This class executes REST calls using a configured formatter and configured
 endpoint URLs.
 
-## `POST` `/beforeGetCategories`
+## `POST` `https://example.com/beforeGetCategories`
 
 *Before Decorator for getCategories*
 
@@ -29,7 +29,7 @@ can actually be configured by you.
 ?[CategoryQuery]
 ```
 
-## `POST` `/afterGetCategories`
+## `POST` `https://example.com/afterGetCategories`
 
 *After Decorator for getCategories*
 

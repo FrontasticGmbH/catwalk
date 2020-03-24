@@ -1,0 +1,22 @@
+openapi: 3.0.0
+info:
+  title: 'Frontastic Catwalk'
+paths:
+  'https://example.com/beforeGetCategories':
+    POST:
+      summary: 'Before Decorator for getCategories'
+      description: "Adapt the categories query before the query is executed against the\nbackend. If nothing is returned the original arguments will be used.\nThe URL and method can actually be configured by you."
+      requestBody: '[CategoryQuery]'
+      responses:
+        200:
+          description: null
+          content: '?[CategoryQuery]'
+  'https://example.com/afterGetCategories':
+    POST:
+      summary: 'After Decorator for getCategories'
+      description: "Adapt the categories result. If nothing is returned the original result\nwill be used. The URL and method can actually be configured by you."
+      requestBody: 'Category[]'
+      responses:
+        200:
+          description: null
+          content: '?Category[]'
