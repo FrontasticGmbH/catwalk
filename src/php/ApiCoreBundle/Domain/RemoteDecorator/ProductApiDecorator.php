@@ -23,6 +23,8 @@ use Frontastic\Common\ProductApiBundle\Domain\ProductType;
  *
  * This class executes REST calls using a configured formatter and configured
  * endpoint URLs.
+ *
+ * @Docs\Format(TypedJSON)
  */
 class ProductApiDecorator extends BaseImplementation
 {
