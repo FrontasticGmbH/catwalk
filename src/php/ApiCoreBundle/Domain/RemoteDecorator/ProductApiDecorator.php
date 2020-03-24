@@ -2,6 +2,8 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\RemoteDecorator;
 
+use Frontastic\Apidocs\RestDoc as Docs;
+
 use Frontastic\Catwalk\ApiCoreBundle\Domain\RemoteDecoratorFactory;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\RemoteDecorator\Formatter;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\LifecycleEventDecorator\BaseImplementation;
@@ -16,6 +18,12 @@ use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductTypeQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result;
 use Frontastic\Common\ProductApiBundle\Domain\ProductType;
 
+/**
+ * HTTP ProductApiDecorator
+ *
+ * This class executes REST calls using a configured formatter and configured
+ * endpoint URLs.
+ */
 class ProductApiDecorator extends BaseImplementation
 {
     private $httpClient;
@@ -38,11 +46,44 @@ class ProductApiDecorator extends BaseImplementation
         );
     }
 
+    /**
+     * Before Decorator for getCategories
+     *
+     * Adapt the categories query before the query is executed against the
+     * backend. If nothing is returned the original arguments will be used.
+     * The URL and method can actually be configured by you.
+     *
+     * @Docs\Request(
+     *  POST,
+     *  https://example.com/beforeGetCategories,
+     *  [CategoryQuery]
+     * )
+     * @Docs\Response(
+     *  200,
+     *  ?[CategoryQuery]
+     * )
+     */
     public function beforeGetCategories(ProductApi $productApi, CategoryQuery $query): ?array
     {
         return $this->runRemoteDecorators(__FUNCTION__, array_slice(func_get_args(), 1));
     }
 
+    /**
+     * After Decorator for getCategories
+     *
+     * Adapt the categories result. If nothing is returned the original result
+     * will be used. The URL and method can actually be configured by you.
+     *
+     * @Docs\Request(
+     *  POST,
+     *  https://example.com/afterGetCategories,
+     *  Category[]
+     * )
+     * @Docs\Response(
+     *  200,
+     *  ?Category[]
+     * )
+     */
     public function afterGetCategories(ProductApi $productApi, array $categories): ?array
     {
         return $this->runRemoteDecorators(__FUNCTION__, $categories);

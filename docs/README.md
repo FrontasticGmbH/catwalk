@@ -1,5 +1,13 @@
 # Frontastic Catwalk
 
+## HTTP API Documentation
+
+Download the Swagger File
+
+* [ApiCoreBundle\Domain\RemoteDecorator\ProductApiDecorator](php/ApiCoreBundle/Domain/RemoteDecorator/ProductApiDecorator.rest.md)
+
+##  API Documentation
+
 Here you find the API documentation for the relevant classes:
 
 * [Catwalk](php/Catwalk.md)

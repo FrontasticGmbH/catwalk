@@ -101,3 +101,5 @@ files:
  - php/FrontendBundle/Twig/JsonExtension.php
  - php/FrontendBundle/Twig/NodeExtension.php
  - php/FrontendBundle/Twig/RenderExtension.php
+http:
+ - php/ApiCoreBundle/Domain/RemoteDecorator/ProductApiDecorator.php
