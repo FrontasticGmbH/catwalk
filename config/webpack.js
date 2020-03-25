@@ -70,6 +70,7 @@ module.exports = (PRODUCTION, SERVER) => {
                 Molecules: path.resolve(__dirname, '../../themes/frontastic/boost/src/js/patterns/molecules'),
                 Organisms: path.resolve(__dirname, '../../themes/frontastic/boost/src/js/patterns/organisms'),
                 Templates: path.resolve(__dirname, '../../themes/frontastic/boost/src/js/patterns/templates'),
+                Icons: path.resolve(__dirname, '../../themes/frontastic/boost/src/js'),
             },
             // This allows you to set a fallback for where Webpack should look
             // for modules.  We placed these paths second because we want
