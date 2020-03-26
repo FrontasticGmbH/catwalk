@@ -6,17 +6,35 @@ paths:
     POST:
       summary: 'Before Decorator for getCategories'
       description: "Adapt the categories query before the query is executed against the\nbackend. If nothing is returned the original arguments will be used.\nThe URL and method can actually be configured by you."
-      requestBody: '[CategoryQuery]'
+      requestBody: null
       responses:
         200:
           description: null
-          content: '?[CategoryQuery]'
+          content: null
   'https://example.com/afterGetCategories':
     POST:
       summary: 'After Decorator for getCategories'
       description: "Adapt the categories result. If nothing is returned the original result\nwill be used. The URL and method can actually be configured by you."
-      requestBody: 'Category[]'
+      requestBody: null
       responses:
         200:
           description: null
-          content: '?Category[]'
+          content: null
+  'https://example.com/beforeQuery':
+    POST:
+      summary: 'Before Decorator for query'
+      description: "Adapt the product query before the query is executed against the\nbackend. If nothing is returned the original arguments will be used.\nThe URL and method can actually be configured by you."
+      requestBody: null
+      responses:
+        200:
+          description: null
+          content: null
+  'https://example.com/afterQuery':
+    POST:
+      summary: 'After Decorator for query'
+      description: "Adapt the product query result. If nothing is returned the original\nresult will be used. The URL and method can actually be configured by\nyou."
+      requestBody: null
+      responses:
+        200:
+          description: null
+          content: null

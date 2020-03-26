@@ -64,6 +64,7 @@ class ProductApiDecorator extends BaseImplementation
      *  200,
      *  ?[CategoryQuery]
      * )
+     * @Docs\Return ?[CategoryQuery]
      */
     public function beforeGetCategories(ProductApi $productApi, CategoryQuery $query): ?array
     {
@@ -114,6 +115,24 @@ class ProductApiDecorator extends BaseImplementation
         return $this->runRemoteDecorators(__FUNCTION__, $product);
     }
 
+    /**
+     * Before Decorator for query
+     *
+     * Adapt the product query before the query is executed against the
+     * backend. If nothing is returned the original arguments will be used.
+     * The URL and method can actually be configured by you.
+     *
+     * @Docs\Request(
+     *  POST,
+     *  https://example.com/beforeQuery,
+     *  [ProductQuery]
+     * )
+     * @Docs\Response(
+     *  200,
+     *  ?[ProductQuery]
+     * )
+     * @Docs\Return ?[CategoryQuery]
+     */
     public function beforeQuery(
         ProductApi $productApi,
         ProductQuery $query,
@@ -122,6 +141,24 @@ class ProductApiDecorator extends BaseImplementation
         return $this->runRemoteDecorators(__FUNCTION__, array_slice(func_get_args(), 1));
     }
 
+    /**
+     * After Decorator for query
+     *
+     * Adapt the product query result. If nothing is returned the original
+     * result will be used. The URL and method can actually be configured by
+     * you.
+     *
+     * @Docs\Request(
+     *  POST,
+     *  https://example.com/afterQuery,
+     *  ?Result{ items: Product[] }
+     * )
+     * @Docs\Response(
+     *  200,
+     *  ?Result{ items: Product[] }
+     * )
+     * @Docs\Return ?Result{ items: Product[] }
+     */
     public function afterQuery(ProductApi $productApi, ?Result $result): ?Result
     {
         return $this->runRemoteDecorators(__FUNCTION__, $result);
