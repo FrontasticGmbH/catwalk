@@ -23,6 +23,7 @@ files:
  - php/ApiCoreBundle/Domain/ProjectService.php
  - php/ApiCoreBundle/Domain/Tastic.php
  - php/ApiCoreBundle/Domain/TasticService.php
+ - php/ApiCoreBundle/Domain/RemoteDecorator/ProductApiDecorator.php
  - php/DevVmBundle/Domain/Archive.php
  - php/FrontendBundle/Domain/Cell.php
  - php/FrontendBundle/Domain/Cell/Configuration.php

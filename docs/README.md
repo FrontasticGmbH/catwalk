@@ -28,6 +28,7 @@ Here you find the API documentation for the relevant classes:
 * [ApiCoreBundle\Domain\ProjectService](php/ApiCoreBundle/Domain/ProjectService.md)
 * [ApiCoreBundle\Domain\Tastic](php/ApiCoreBundle/Domain/Tastic.md)
 * [ApiCoreBundle\Domain\TasticService](php/ApiCoreBundle/Domain/TasticService.md)
+* [ApiCoreBundle\Domain\RemoteDecorator\ProductApiDecorator](php/ApiCoreBundle/Domain/RemoteDecorator/ProductApiDecorator.md)
 * [DevVmBundle\Domain\Archive](php/DevVmBundle/Domain/Archive.md)
 * [FrontendBundle\Domain\Cell](php/FrontendBundle/Domain/Cell.md)
 * [FrontendBundle\Domain\Cell\Configuration](php/FrontendBundle/Domain/Cell/Configuration.md)

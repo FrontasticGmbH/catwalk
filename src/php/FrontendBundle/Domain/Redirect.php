@@ -31,7 +31,9 @@ class Redirect extends DataObject
     public $query;
 
     /**
-     * @var string One of TARGET_TYPE_* constants
+     * One of TARGET_TYPE_* constants
+     *
+     * @var string
      */
     public $targetType;
 

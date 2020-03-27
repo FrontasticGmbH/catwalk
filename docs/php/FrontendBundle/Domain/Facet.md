@@ -12,7 +12,7 @@ Property|Type|Default|Description
 `attributeType`|`string`||
 `sort`|`int`|`-1`|
 `isEnabled`|`bool`|`false`|
-`label`|`array|null`||
+`label`|`array|null`||Translatable strings or null
 `urlIdentifier`|`string`||
 `facetOptions`|`array`||
 `metaData`|`\Frontastic\Catwalk\FrontendBundle\Domain\MetaData`||

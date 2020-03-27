@@ -30,8 +30,14 @@ class ProductApiDecorator extends BaseImplementation
 {
     private $httpClient;
 
+    /**
+     * @Docs\Var Endpoint[][]
+     */
     private $remoteCalls = [];
 
+    /**
+     * @var Formatter[]
+     */
     private $formatter = [];
 
     public function __construct(RemoteDecoratorFactory $factory, HttpClient $httpClient, array $formatter = [])
@@ -56,13 +62,13 @@ class ProductApiDecorator extends BaseImplementation
      * The URL and method can actually be configured by you.
      *
      * @Docs\Request(
-     *  POST,
-     *  https://example.com/beforeGetCategories,
-     *  [CategoryQuery]
+     *  "POST",
+     *  "https://example.com/beforeGetCategories",
+     *  "[CategoryQuery]"
      * )
      * @Docs\Response(
-     *  200,
-     *  ?[CategoryQuery]
+     *  "200",
+     *  "?[CategoryQuery]"
      * )
      * @Docs\Return ?[CategoryQuery]
      */
@@ -78,13 +84,13 @@ class ProductApiDecorator extends BaseImplementation
      * will be used. The URL and method can actually be configured by you.
      *
      * @Docs\Request(
-     *  POST,
-     *  https://example.com/afterGetCategories,
-     *  Category[]
+     *  "POST",
+     *  "https://example.com/afterGetCategories",
+     *  "Category[]"
      * )
      * @Docs\Response(
-     *  200,
-     *  ?Category[]
+     *  "200",
+     *  "?Category[]"
      * )
      */
     public function afterGetCategories(ProductApi $productApi, array $categories): ?array
@@ -123,13 +129,13 @@ class ProductApiDecorator extends BaseImplementation
      * The URL and method can actually be configured by you.
      *
      * @Docs\Request(
-     *  POST,
-     *  https://example.com/beforeQuery,
-     *  [ProductQuery]
+     *  "POST",
+     *  "https://example.com/beforeQuery",
+     *  "[ProductQuery]"
      * )
      * @Docs\Response(
-     *  200,
-     *  ?[ProductQuery]
+     *  "200",
+     *  "?[ProductQuery]"
      * )
      * @Docs\Return ?[CategoryQuery]
      */
@@ -149,14 +155,16 @@ class ProductApiDecorator extends BaseImplementation
      * you.
      *
      * @Docs\Request(
-     *  POST,
-     *  https://example.com/afterQuery,
-     *  ?Result{ items: Product[] }
+     *  "POST",
+     *  "https://example.com/afterQuery",
+     *  "?Result{ items: Product[] }"
      * )
      * @Docs\Response(
-     *  200,
-     *  ?Result{ items: Product[] }
+     *  "200",
+     *  "?Result{ items: Product[] }"
      * )
+     * @Docs\Param $productApi ProductApi
+     * @Docs\Param $result ?Result{ items: Product[] }
      * @Docs\Return ?Result{ items: Product[] }
      */
     public function afterQuery(ProductApi $productApi, ?Result $result): ?Result
