@@ -1,4 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux'
+
+const logger = createLogger({
+    // ...options
+})
+
 import thunk from 'redux-thunk'
 import _ from 'lodash'
 
@@ -7,6 +12,7 @@ import createReducer from './reducer'
 import UrlContext from './urlContext'
 
 import { ConfigurationSchema, FacetTypeSchemaMap } from 'frontastic-common'
+import ComponentInjector from './injector';
 
 // Try to read initial props from DOM
 let dataNode = null
@@ -40,6 +46,8 @@ if (typeof window !== 'undefined') {
 let cacheKey = UrlContext.getActionHash(props.route)
 
 export default () => {
+    const combinedMiddlewares = [thunk, ...ComponentInjector.getMiddlewares()]
+
     return createStore(
         createReducer(),
         {
@@ -80,6 +88,6 @@ export default () => {
                 categories: new Entity(props.categories, 86400),
             },
         },
-        composeEnhancers(applyMiddleware(thunk))
-    )
-}
+    },
+    composeEnhancers(applyMiddleware(...combinedMiddlewares))
+)

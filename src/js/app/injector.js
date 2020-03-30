@@ -3,6 +3,8 @@ class ComponentInjector {
 
     static reducer = {}
 
+    static middleware = []
+
     static registerReducer (name, reducer) {
         if (!name.match(/^[a-z]+-/)) {
             throw new Error('The reducer should be prefixed with your customer name, like "demo-reducer".')
@@ -13,6 +15,14 @@ class ComponentInjector {
 
     static getReducer () {
         return this.reducer
+    }
+
+    static registerMiddleware (middleware) {
+        this.middleware.push(middleware)
+    }
+
+    static getMiddleware () {
+        return this.middleware
     }
 
     static get (name) {
