@@ -172,7 +172,7 @@ export default {
         description: 'Description',
         shipping: 'Shipping',
         reviews: 'Reviews',
-        reviewsWithCount: 'Reviews ({count})',
+        reviewsWithCount: '{count} reviews',
         materialOuterFabric: 'Fabric:',
         color: 'Color',
         designer: 'Designer',
@@ -191,6 +191,8 @@ export default {
             title: 'Standard delivery:',
             message: 'free of charge 2-4 working days',
         },
+        delivery24hs: 'Delivery in 24 hs',
+        freeReturns: 'Free returns',
 
     },
     filters: {
