@@ -27,8 +27,6 @@ class AppKernel extends \Frontastic\Common\Kernel
 
             new \Frontastic\Common\CoreBundle\FrontasticCommonCoreBundle(),
             new \Frontastic\Common\ReplicatorBundle\FrontasticCommonReplicatorBundle(),
-            new \Frontastic\Catwalk\FrontendBundle\FrontasticCatwalkFrontendBundle(),
-            new \Frontastic\Catwalk\ApiCoreBundle\FrontasticCatwalkApiCoreBundle(),
             new \Frontastic\Common\AccountApiBundle\FrontasticCommonAccountApiBundle(),
             new \Frontastic\Common\ProductApiBundle\FrontasticCommonProductApiBundle(),
             new \Frontastic\Common\ProjectApiBundle\FrontasticCommonProjectApiBundle(),
@@ -36,6 +34,8 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Frontastic\Common\WishlistApiBundle\FrontasticCommonWishlistApiBundle(),
             new \Frontastic\Common\CartApiBundle\FrontasticCommonCartApiBundle(),
             new \Frontastic\Common\SapCommerceCloudBundle\FrontasticCommonSapCommerceCloudBundle(),
+            new \Frontastic\Catwalk\FrontendBundle\FrontasticCatwalkFrontendBundle(),
+            new \Frontastic\Catwalk\ApiCoreBundle\FrontasticCatwalkApiCoreBundle(),
             new \Frontastic\Catwalk\DevVmBundle\FrontasticCatwalkDevVmBundle(),
         );
 
