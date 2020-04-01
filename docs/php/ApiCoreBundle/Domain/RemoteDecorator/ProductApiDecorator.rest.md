@@ -15,7 +15,11 @@ The URL and method can actually be configured by you.
 
 * tuple (array containing):
 
-  * `\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery`
+  * `CategoryQuery`
+
+    * `parentId`: `string`
+
+    * `slug`: `string`
 
 ### Responses
 
@@ -27,7 +31,11 @@ can actually be configured by you.
 
 * *optional* tuple (array containing):
 
-    * `\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery`
+  * `CategoryQuery`
+
+    * `parentId`: `string`
+
+    * `slug`: `string`
 
 ## `POST` `https://example.com/afterGetCategories`
 
@@ -38,7 +46,19 @@ will be used. The URL and method can actually be configured by you.
 
 ### Request Body
 
-* collection of `\Frontastic\Common\ProductApiBundle\Domain\Category`
+* collection of `Category`
+
+  * `categoryId`: `string`
+
+  * `name`: `string`
+
+  * `depth`: `int`
+
+  * `path`: `string`
+
+  * `slug`: `string`
+
+  * `dangerousInnerCategory`: `mixed`
 
 ### Responses
 
@@ -47,7 +67,19 @@ Status: 200
 Adapt the categories result. If nothing is returned the original result will
 be used. The URL and method can actually be configured by you.
 
-* *optional* collection of `\Frontastic\Common\ProductApiBundle\Domain\Category`
+* *optional* collection of `Category`
+
+  * `categoryId`: `string`
+
+  * `name`: `string`
+
+  * `depth`: `int`
+
+  * `path`: `string`
+
+  * `slug`: `string`
+
+  * `dangerousInnerCategory`: `mixed`
 
 ## `POST` `https://example.com/beforeQuery`
 
@@ -61,7 +93,63 @@ The URL and method can actually be configured by you.
 
 * tuple (array containing):
 
-  * `\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery`
+  * `ProductQuery`
+
+    * `category`: either of:
+
+      * `string`
+
+      * `null`
+
+    * `sku`: either of:
+
+      * `string`
+
+      * `null`
+
+    * `skus`: either of:
+
+      * collection of `string`
+
+      * `null`
+
+    * `productId`: either of:
+
+      * `string`
+
+      * `null`
+
+    * `productIds`: either of:
+
+      * collection of `string`
+
+      * `null`
+
+    * `productType`: either of:
+
+      * `string`
+
+      * `null`
+
+    * `query`: either of:
+
+      * `string`
+
+      * `null`
+
+    * `filter`: collection of `Filter`
+
+      * `handle`: `string`
+
+      * `attributeType`: *optional* `string`
+
+    * `facets`: collection of `Facet`
+
+      * `handle`: `string`
+
+    * `sortAttributes`: collection of `string`
+
+    * `fuzzy`: `bool`
 
 ### Responses
 
@@ -73,7 +161,63 @@ can actually be configured by you.
 
 * *optional* tuple (array containing):
 
-    * `\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery`
+  * `ProductQuery`
+
+    * `category`: either of:
+
+      * `string`
+
+      * `null`
+
+    * `sku`: either of:
+
+      * `string`
+
+      * `null`
+
+    * `skus`: either of:
+
+      * collection of `string`
+
+      * `null`
+
+    * `productId`: either of:
+
+      * `string`
+
+      * `null`
+
+    * `productIds`: either of:
+
+      * collection of `string`
+
+      * `null`
+
+    * `productType`: either of:
+
+      * `string`
+
+      * `null`
+
+    * `query`: either of:
+
+      * `string`
+
+      * `null`
+
+    * `filter`: collection of `Filter`
+
+      * `handle`: `string`
+
+      * `attributeType`: *optional* `string`
+
+    * `facets`: collection of `Facet`
+
+      * `handle`: `string`
+
+    * `sortAttributes`: collection of `string`
+
+    * `fuzzy`: `bool`
 
 ## `POST` `https://example.com/afterQuery`
 
@@ -85,9 +229,83 @@ you.
 
 ### Request Body
 
-* *optional* `\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result` with:
+* *optional* `Result`
 
-    * `items` as collection of `\Frontastic\Common\ProductApiBundle\Domain\Product`
+  * `items` as collection of `Product`
+
+    * `productId`: `string`
+
+    * `changed`: either of:
+
+      * `\DateTimeImmutable`
+
+      * `null`
+
+    * `version`: either of:
+
+      * `string`
+
+      * `null`
+
+    * `name`: `string`
+
+    * `slug`: `string`
+
+    * `description`: `string`
+
+    * `categories`: collection of `string`
+
+    * `variants`: collection of `Variant`
+
+      * `id`: `string`
+
+      * `sku`: `string`
+
+      * `groupId`: `string`
+
+      * `price`: `int`
+
+      * `discountedPrice`: either of:
+
+        * `int`
+
+        * `null`
+
+      * `discounts`: `mixed`
+
+      * `currency`: `string`
+
+      * `attributes`: `array`
+
+      * `images`: `array`
+
+      * `isOnStock`: `bool`
+
+      * `dangerousInnerVariant`: `mixed`
+
+    * `dangerousInnerProduct`: `mixed`
+
+  * `total` as `int`
+
+  * `count` as `int`
+
+  * `items` as `array`
+
+  * `facets` as collection of `Facet`
+
+    * `type`: `string`
+
+    * `handle`: `string`
+
+    * `key`: `string`
+
+    * `selected`: `bool`
+
+  * `query` as `Query`
+
+    * `locale`: `string`
+
+    * `loadDangerousInnerData`: `bool`
 
 ### Responses
 
@@ -96,7 +314,81 @@ Status: 200
 Adapt the product query result. If nothing is returned the original result
 will be used. The URL and method can actually be configured by you.
 
-* *optional* `\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result` with:
+* *optional* `Result`
 
-    * `items` as collection of `\Frontastic\Common\ProductApiBundle\Domain\Product`
+  * `items` as collection of `Product`
+
+    * `productId`: `string`
+
+    * `changed`: either of:
+
+      * `\DateTimeImmutable`
+
+      * `null`
+
+    * `version`: either of:
+
+      * `string`
+
+      * `null`
+
+    * `name`: `string`
+
+    * `slug`: `string`
+
+    * `description`: `string`
+
+    * `categories`: collection of `string`
+
+    * `variants`: collection of `Variant`
+
+      * `id`: `string`
+
+      * `sku`: `string`
+
+      * `groupId`: `string`
+
+      * `price`: `int`
+
+      * `discountedPrice`: either of:
+
+        * `int`
+
+        * `null`
+
+      * `discounts`: `mixed`
+
+      * `currency`: `string`
+
+      * `attributes`: `array`
+
+      * `images`: `array`
+
+      * `isOnStock`: `bool`
+
+      * `dangerousInnerVariant`: `mixed`
+
+    * `dangerousInnerProduct`: `mixed`
+
+  * `total` as `int`
+
+  * `count` as `int`
+
+  * `items` as `array`
+
+  * `facets` as collection of `Facet`
+
+    * `type`: `string`
+
+    * `handle`: `string`
+
+    * `key`: `string`
+
+    * `selected`: `bool`
+
+  * `query` as `Query`
+
+    * `locale`: `string`
+
+    * `loadDangerousInnerData`: `bool`
 

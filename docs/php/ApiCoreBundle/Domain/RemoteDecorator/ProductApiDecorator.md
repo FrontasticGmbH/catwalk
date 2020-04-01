@@ -23,7 +23,7 @@ endpoint URLs.
 
 ```php
 public function __construct(
-    \Frontastic\Catwalk\ApiCoreBundle\Domain\RemoteDecoratorFactory $factory,
+    RemoteDecoratorFactory $factory,
     \Frontastic\Common\HttpClient $httpClient,
     array $formatter = []
 ): mixed
@@ -31,7 +31,7 @@ public function __construct(
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
-`$factory`|`\Frontastic\Catwalk\ApiCoreBundle\Domain\RemoteDecoratorFactory`||
+`$factory`|[`RemoteDecoratorFactory`](../RemoteDecoratorFactory.md)||
 `$httpClient`|`\Frontastic\Common\HttpClient`||
 `$formatter`|`array`|`[]`|
 
