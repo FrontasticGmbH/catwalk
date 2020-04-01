@@ -22,20 +22,24 @@ class JsonFormatter implements FormatterInterface
     public function format(array $record)
     {
         // Format see https://www.notion.so/frontastic/JSON-Logging-Format-7aa12f53846041f08f4d1526b64bd335
-        return json_encode((object)[
-            'logSource' => self::LOG_SOURCE,
-            'project' => $this->getProjectId(),
+        $logData = array_merge(
+            $record['extra'],
+            [
+                'logSource' => self::LOG_SOURCE,
+                'project' => $this->getProjectId(),
 
-            '@timestamp' => (isset($record['datetime']) && ($record['datetime'] instanceof \DateTimeInterface)
-                ? ($record['datetime']->format('c'))
-                : (new \DateTimeImmutable('now'))->format('c')),
-            'message' => $record['message'],
-            'severity' => strtoupper($record['level_name']),
+                '@timestamp' => (isset($record['datetime']) && ($record['datetime'] instanceof \DateTimeInterface)
+                    ? ($record['datetime']->format('c'))
+                    : (new \DateTimeImmutable('now'))->format('c')),
+                'message' => $record['message'],
+                'severity' => strtoupper($record['level_name']),
 
-            'channel' => $record['channel'],
-            'level' => $record['level'],
-            'extra' => (object)$record['extra'],
-        ]) . "\n";
+                'channel' => $record['channel'],
+                'level' => $record['level'],
+            ]
+        );
+
+        return json_encode((object) $logData) . "\n";
     }
 
     public function formatBatch(array $records)
