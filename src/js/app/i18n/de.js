@@ -212,7 +212,7 @@ export default {
         description: 'Beschreibung',
         shipping: 'Versand',
         reviews: 'Bewertungen',
-        reviewsWithCount: 'Bewertungen ({count})',
+        reviewsWithCount: '{count} rewertungen',
         materialOuterFabric: 'Material Oberstoff:',
         color: 'Farbe',
         designer: 'Designer',
@@ -231,6 +231,8 @@ export default {
             title: 'Standard-Lieferung:',
             message: 'kostenlos 2-4 Werktage',
         },
+        delivery24hs: 'Lieferung in 24 h',
+        freeReturns: 'Kostenlose Rücksendung',
 
     },
     filters: {
