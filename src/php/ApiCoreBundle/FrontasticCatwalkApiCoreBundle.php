@@ -9,7 +9,7 @@ class FrontasticCatwalkApiCoreBundle extends Bundle
     /**
      * Compatibility with QafooLabs/NoFrameworkBundle
      *
-     * @return null|string
+     * @return ?string
      */
     public function getParent()
     {

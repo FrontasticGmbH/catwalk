@@ -43,7 +43,7 @@ class Redirect extends DataObject
     public $target;
 
     /**
-     * @var string|null
+     * @var ?string
      */
     public $language = null;
 

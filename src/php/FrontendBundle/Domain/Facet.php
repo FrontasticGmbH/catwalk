@@ -39,7 +39,7 @@ class Facet extends DataObject
     /**
      * Translatable strings or null
      *
-     * @var array|null
+     * @var ?array
      */
     public $label;
 
