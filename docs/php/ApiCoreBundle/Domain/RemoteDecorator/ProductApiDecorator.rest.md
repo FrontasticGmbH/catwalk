@@ -99,19 +99,11 @@ The URL and method can actually be configured by you.
 
     * `sku`: *optional* `string`
 
-    * `skus`: either of:
-
-      * collection of `string`
-
-      * `null`
+    * `skus`: *optional* collection of `string`
 
     * `productId`: *optional* `string`
 
-    * `productIds`: either of:
-
-      * collection of `string`
-
-      * `null`
+    * `productIds`: *optional* collection of `string`
 
     * `productType`: *optional* `string`
 
@@ -147,19 +139,11 @@ can actually be configured by you.
 
     * `sku`: *optional* `string`
 
-    * `skus`: either of:
-
-      * collection of `string`
-
-      * `null`
+    * `skus`: *optional* collection of `string`
 
     * `productId`: *optional* `string`
 
-    * `productIds`: either of:
-
-      * collection of `string`
-
-      * `null`
+    * `productIds`: *optional* collection of `string`
 
     * `productType`: *optional* `string`
 
