@@ -6,35 +6,249 @@ paths:
     POST:
       summary: 'Before Decorator for getCategories'
       description: "Adapt the categories query before the query is executed against the\nbackend. If nothing is returned the original arguments will be used.\nThe URL and method can actually be configured by you."
-      requestBody: null
+      requestBody:
+        type: array
+        items:
+          -
+            type: object
+            properties:
+              parentId:
+                type: string
+              slug:
+                type: string
       responses:
         200:
           description: null
-          content: null
+          content:
+            type: array
+            items:
+              -
+                type: object
+                properties:
+                  parentId:
+                    type: string
+                  slug:
+                    type: string
+            nullable: true
   'https://example.com/afterGetCategories':
     POST:
       summary: 'After Decorator for getCategories'
       description: "Adapt the categories result. If nothing is returned the original result\nwill be used. The URL and method can actually be configured by you."
-      requestBody: null
+      requestBody:
+        type: array
+        items:
+          type: object
+          properties:
+            categoryId:
+              type: string
+            name:
+              type: string
+            depth:
+              type: int
+            path:
+              type: string
+            slug:
+              type: string
+            dangerousInnerCategory:
+              type: mixed
       responses:
         200:
           description: null
-          content: null
+          content:
+            type: array
+            items:
+              type: object
+              properties:
+                categoryId:
+                  type: string
+                name:
+                  type: string
+                depth:
+                  type: int
+                path:
+                  type: string
+                slug:
+                  type: string
+                dangerousInnerCategory:
+                  type: mixed
+            nullable: true
   'https://example.com/beforeQuery':
     POST:
       summary: 'Before Decorator for query'
       description: "Adapt the product query before the query is executed against the\nbackend. If nothing is returned the original arguments will be used.\nThe URL and method can actually be configured by you."
-      requestBody: null
+      requestBody:
+        type: array
+        items:
+          -
+            type: object
+            properties:
+              category:
+                type: string
+                nullable: true
+              sku:
+                type: string
+                nullable: true
+              skus:
+                anyOf:
+                  -
+                    type: array
+                    items:
+                      type: string
+                  -
+                    type: 'null'
+              productId:
+                type: string
+                nullable: true
+              productIds:
+                anyOf:
+                  -
+                    type: array
+                    items:
+                      type: string
+                  -
+                    type: 'null'
+              productType:
+                type: string
+                nullable: true
+              query:
+                type: string
+                nullable: true
+              filter:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    handle:
+                      type: string
+                    attributeType:
+                      type: string
+                      nullable: true
+              facets:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    handle:
+                      type: string
+              sortAttributes:
+                type: array
+                items:
+                  type: string
+              fuzzy:
+                type: bool
       responses:
         200:
           description: null
-          content: null
+          content:
+            type: array
+            items:
+              -
+                type: object
+                properties:
+                  category:
+                    type: string
+                    nullable: true
+                  sku:
+                    type: string
+                    nullable: true
+                  skus:
+                    anyOf:
+                      - { type: array, items: { type: string } }
+                      - { type: 'null' }
+                  productId:
+                    type: string
+                    nullable: true
+                  productIds:
+                    anyOf:
+                      - { type: array, items: { type: string } }
+                      - { type: 'null' }
+                  productType:
+                    type: string
+                    nullable: true
+                  query:
+                    type: string
+                    nullable: true
+                  filter:
+                    type: array
+                    items:
+                      type: object
+                      properties: { handle: { type: string }, attributeType: { type: string, nullable: true } }
+                  facets:
+                    type: array
+                    items:
+                      type: object
+                      properties: { handle: { type: string } }
+                  sortAttributes:
+                    type: array
+                    items:
+                      type: string
+                  fuzzy:
+                    type: bool
+            nullable: true
   'https://example.com/afterQuery':
     POST:
       summary: 'After Decorator for query'
       description: "Adapt the product query result. If nothing is returned the original\nresult will be used. The URL and method can actually be configured by\nyou."
-      requestBody: null
+      requestBody:
+        type: object
+        properties:
+          items:
+            type: array
+          total:
+            type: int
+          count:
+            type: int
+          facets:
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                handle:
+                  type: string
+                key:
+                  type: string
+                selected:
+                  type: bool
+          query:
+            type: object
+            properties:
+              locale:
+                type: string
+              loadDangerousInnerData:
+                type: bool
+        nullable: true
       responses:
         200:
           description: null
-          content: null
+          content:
+            type: object
+            properties:
+              items:
+                type: array
+              total:
+                type: int
+              count:
+                type: int
+              facets:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    handle:
+                      type: string
+                    key:
+                      type: string
+                    selected:
+                      type: bool
+              query:
+                type: object
+                properties:
+                  locale:
+                    type: string
+                  loadDangerousInnerData:
+                    type: bool
+            nullable: true
