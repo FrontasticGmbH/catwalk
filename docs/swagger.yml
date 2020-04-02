@@ -2,9 +2,6 @@ openapi: 3.0.0
 info:
   title: 'Frontastic Catwalk'
   version: 1.0.0
-components:
-  schemas:
-    AnyValue: {  }
 paths:
   //example.com/beforeGetCategories:
     post:
@@ -74,8 +71,7 @@ paths:
                     type: string
                   slug:
                     type: string
-                  dangerousInnerCategory:
-                    $ref: '#/components/schemas/AnyValue'
+                  dangerousInnerCategory: {  }
       responses:
         200:
           description: ''
@@ -99,8 +95,7 @@ paths:
                       type: string
                     slug:
                       type: string
-                    dangerousInnerCategory:
-                      $ref: '#/components/schemas/AnyValue'
+                    dangerousInnerCategory: {  }
                 nullable: true
   //example.com/beforeQuery:
     post:
@@ -260,8 +255,7 @@ paths:
                   pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result$
                 items:
                   type: array
-                  items:
-                    $ref: '#/components/schemas/AnyValue'
+                  items: {  }
                 total:
                   type: integer
                 count:
@@ -306,8 +300,7 @@ paths:
                     pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result$
                   items:
                     type: array
-                    items:
-                      $ref: '#/components/schemas/AnyValue'
+                    items: {  }
                   total:
                     type: integer
                   count:
