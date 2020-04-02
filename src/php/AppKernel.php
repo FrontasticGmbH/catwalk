@@ -35,6 +35,7 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Frontastic\Common\ContentApiBundle\FrontasticCommonContentApiBundle(),
             new \Frontastic\Common\WishlistApiBundle\FrontasticCommonWishlistApiBundle(),
             new \Frontastic\Common\CartApiBundle\FrontasticCommonCartApiBundle(),
+            new \Frontastic\Common\SapCommerceCloudBundle\FrontasticCommonSapCommerceCloudBundle(),
             new \Frontastic\Catwalk\DevVmBundle\FrontasticCatwalkDevVmBundle(),
         );
 
