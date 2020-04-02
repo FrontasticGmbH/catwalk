@@ -21,7 +21,7 @@ class ComponentInjector {
         this.middleware.push(middleware)
     }
 
-    static getMiddleware () {
+    static getMiddlewares () {
         return this.middleware
     }
 
