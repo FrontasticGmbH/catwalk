@@ -251,7 +251,7 @@
             <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').project</argument>
         </service>
 
-        <service id="frontastic.catwalk.cart_api" class="Frontastic\Common\AccountApiBundle\Domain\CartApi">
+        <service id="frontastic.catwalk.cart_api" class="Frontastic\Common\CartApiBundle\Domain\CartApi">
             <factory
                 service="Frontastic\Common\CartApiBundle\Domain\CartApiFactory"
                 method="factor" />
@@ -262,7 +262,7 @@
             <factory
                 service="Frontastic\Common\AccountApiBundle\Domain\AccountApiFactory"
                 method="factor" />
-            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').customer</argument>
+            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').project</argument>
         </service>
 
         <service id="frontastic.catwalk.wishlist_api" class="Frontastic\Common\WishlistApiBundle\Domain\WishlistApi">
@@ -507,5 +507,24 @@
 
             <tag name="rulerz.operator" target="native" operator="categoriescontain" />
         </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Security\AccountProvider">
+            <argument type="service" id="Frontastic\Common\AccountApiBundle\Domain\AccountService" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Security\Authenticator">
+            <argument type="service" id="Frontastic\Common\AccountApiBundle\Domain\AccountService" />
+            <argument type="service" id="frontastic.catwalk.cart_api" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Security\LogoutSuccessHandler" />
+
+        <service id="Frontastic\Common\AccountApiBundle\Domain\AccountService">
+            <argument type="service" id="frontastic.catwalk.account_api" />
+            <argument type="service" id="Frontastic\Common\CoreBundle\Domain\Mailer" />
+        </service>
+
+        <service id="frontastic.user.guard_handler" alias="Symfony\Component\Security\Guard\GuardAuthenticatorHandler" />
     </services>
 </container>
