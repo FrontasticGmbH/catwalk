@@ -127,6 +127,7 @@ class AppKernel extends \Frontastic\Common\Kernel
     {
         $container = parent::buildContainer();
 
+        $container->setParameter('frontastic.environment', $this->getEnvironment());
         $container->setParameter('frontastic.paas_catwalk_dir', __DIR__ . '/../..');
         $container->setParameter('frontastic.gedmo_extension_source_dir', $this->getGedmoExtensionsSourceDir());
 
