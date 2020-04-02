@@ -3,7 +3,7 @@
 This class executes REST calls using a configured formatter and configured
 endpoint URLs.
 
-## `POST` `https://example.com/beforeGetCategories`
+## `POST` `//example.com/beforeGetCategories`
 
 *Before Decorator for getCategories*
 
@@ -37,7 +37,7 @@ can actually be configured by you.
 
     * `slug`: `string`
 
-## `POST` `https://example.com/afterGetCategories`
+## `POST` `//example.com/afterGetCategories`
 
 *After Decorator for getCategories*
 
@@ -81,7 +81,7 @@ be used. The URL and method can actually be configured by you.
 
   * `dangerousInnerCategory`: `mixed`
 
-## `POST` `https://example.com/beforeQuery`
+## `POST` `//example.com/beforeQuery`
 
 *Before Decorator for query*
 
@@ -179,7 +179,7 @@ can actually be configured by you.
 
     * `fuzzy`: `bool`
 
-## `POST` `https://example.com/afterQuery`
+## `POST` `//example.com/afterQuery`
 
 *After Decorator for query*
 

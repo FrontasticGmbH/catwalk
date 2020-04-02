@@ -1,254 +1,243 @@
 openapi: 3.0.0
 info:
   title: 'Frontastic Catwalk'
+  version: 1.0.0
+components:
+  schemas:
+    AnyValue: {  }
 paths:
-  'https://example.com/beforeGetCategories':
-    POST:
+  //example.com/beforeGetCategories:
+    post:
       summary: 'Before Decorator for getCategories'
       description: "Adapt the categories query before the query is executed against the\nbackend. If nothing is returned the original arguments will be used.\nThe URL and method can actually be configured by you."
       requestBody:
-        type: array
-        items:
-          -
-            type: object
-            properties:
-              parentId:
-                type: string
-              slug:
-                type: string
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                -
+                  type: object
+                  properties:
+                    _type:
+                      type: string
+                      pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery$
+                    parentId:
+                      type: string
+                    slug:
+                      type: string
       responses:
         200:
-          description: null
+          description: ''
           content:
-            type: array
-            items:
-              -
-                type: object
-                properties:
-                  parentId:
-                    type: string
-                  slug:
-                    type: string
-            nullable: true
-  'https://example.com/afterGetCategories':
-    POST:
+            application/json:
+              schema:
+                type: array
+                items:
+                  -
+                    type: object
+                    properties:
+                      _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery$ }
+                      parentId: { type: string }
+                      slug: { type: string }
+                nullable: true
+  //example.com/afterGetCategories:
+    post:
       summary: 'After Decorator for getCategories'
       description: "Adapt the categories result. If nothing is returned the original result\nwill be used. The URL and method can actually be configured by you."
       requestBody:
-        type: array
-        items:
-          type: object
-          properties:
-            categoryId:
-              type: string
-            name:
-              type: string
-            depth:
-              type: int
-            path:
-              type: string
-            slug:
-              type: string
-            dangerousInnerCategory:
-              type: mixed
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^\Frontastic\Common\ProductApiBundle\Domain\Category$
+                  categoryId:
+                    type: string
+                  name:
+                    type: string
+                  depth:
+                    type: integer
+                  path:
+                    type: string
+                  slug:
+                    type: string
+                  dangerousInnerCategory:
+                    $ref: '#/components/schemas/AnyValue'
       responses:
         200:
-          description: null
+          description: ''
           content:
-            type: array
-            items:
-              type: object
-              properties:
-                categoryId:
-                  type: string
-                name:
-                  type: string
-                depth:
-                  type: int
-                path:
-                  type: string
-                slug:
-                  type: string
-                dangerousInnerCategory:
-                  type: mixed
-            nullable: true
-  'https://example.com/beforeQuery':
-    POST:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _type:
+                      type: string
+                      pattern: ^\Frontastic\Common\ProductApiBundle\Domain\Category$
+                    categoryId:
+                      type: string
+                    name:
+                      type: string
+                    depth:
+                      type: integer
+                    path:
+                      type: string
+                    slug:
+                      type: string
+                    dangerousInnerCategory:
+                      $ref: '#/components/schemas/AnyValue'
+                nullable: true
+  //example.com/beforeQuery:
+    post:
       summary: 'Before Decorator for query'
       description: "Adapt the product query before the query is executed against the\nbackend. If nothing is returned the original arguments will be used.\nThe URL and method can actually be configured by you."
       requestBody:
-        type: array
-        items:
-          -
-            type: object
-            properties:
-              category:
-                type: string
-                nullable: true
-              sku:
-                type: string
-                nullable: true
-              skus:
-                anyOf:
-                  -
-                    type: array
-                    items:
-                      type: string
-                  -
-                    type: 'null'
-              productId:
-                type: string
-                nullable: true
-              productIds:
-                anyOf:
-                  -
-                    type: array
-                    items:
-                      type: string
-                  -
-                    type: 'null'
-              productType:
-                type: string
-                nullable: true
-              query:
-                type: string
-                nullable: true
-              filter:
-                type: array
-                items:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                -
                   type: object
                   properties:
-                    handle:
+                    _type:
                       type: string
-                    attributeType:
+                      pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery$
+                    category:
                       type: string
                       nullable: true
-              facets:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    handle:
+                    sku:
                       type: string
-              sortAttributes:
-                type: array
-                items:
-                  type: string
-              fuzzy:
-                type: bool
+                      nullable: true
+                    skus:
+                      oneOf: [{ type: array, items: { type: string } }, { type: 'null' }]
+                    productId:
+                      type: string
+                      nullable: true
+                    productIds:
+                      oneOf: [{ type: array, items: { type: string } }, { type: 'null' }]
+                    productType:
+                      type: string
+                      nullable: true
+                    query:
+                      type: string
+                      nullable: true
+                    filter:
+                      type: array
+                      items: { type: object, properties: { _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\Filter$ }, handle: { type: string }, attributeType: { type: string, nullable: true } } }
+                    facets:
+                      type: array
+                      items: { type: object, properties: { _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\Facet$ }, handle: { type: string } } }
+                    sortAttributes:
+                      type: array
+                      items: { type: string }
+                    fuzzy:
+                      type: boolean
       responses:
         200:
-          description: null
+          description: ''
           content:
-            type: array
-            items:
-              -
+            application/json:
+              schema:
+                type: array
+                items:
+                  -
+                    type: object
+                    properties:
+                      _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery$ }
+                      category: { type: string, nullable: true }
+                      sku: { type: string, nullable: true }
+                      skus: { oneOf: [{ type: array, items: { type: string } }, { type: 'null' }] }
+                      productId: { type: string, nullable: true }
+                      productIds: { oneOf: [{ type: array, items: { type: string } }, { type: 'null' }] }
+                      productType: { type: string, nullable: true }
+                      query: { type: string, nullable: true }
+                      filter: { type: array, items: { type: object, properties: { _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\Filter$ }, handle: { type: string }, attributeType: { type: string, nullable: true } } } }
+                      facets: { type: array, items: { type: object, properties: { _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\Facet$ }, handle: { type: string } } } }
+                      sortAttributes: { type: array, items: { type: string } }
+                      fuzzy: { type: boolean }
+                nullable: true
+  //example.com/afterQuery:
+    post:
+      summary: 'After Decorator for query'
+      description: "Adapt the product query result. If nothing is returned the original\nresult will be used. The URL and method can actually be configured by\nyou."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result$
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/AnyValue'
+                total:
+                  type: integer
+                count:
+                  type: integer
+                facets:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result\Facet$ }
+                      type: { type: string }
+                      handle: { type: string }
+                      key: { type: string }
+                      selected: { type: boolean }
+                query:
+                  type: object
+                  properties:
+                    _type:
+                      type: string
+                      pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query$
+                    locale:
+                      type: string
+                    loadDangerousInnerData:
+                      type: boolean
+              nullable: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
                 type: object
                 properties:
-                  category:
+                  _type:
                     type: string
-                    nullable: true
-                  sku:
-                    type: string
-                    nullable: true
-                  skus:
-                    anyOf:
-                      - { type: array, items: { type: string } }
-                      - { type: 'null' }
-                  productId:
-                    type: string
-                    nullable: true
-                  productIds:
-                    anyOf:
-                      - { type: array, items: { type: string } }
-                      - { type: 'null' }
-                  productType:
-                    type: string
-                    nullable: true
-                  query:
-                    type: string
-                    nullable: true
-                  filter:
+                    pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result$
+                  items:
                     type: array
                     items:
-                      type: object
-                      properties: { handle: { type: string }, attributeType: { type: string, nullable: true } }
+                      $ref: '#/components/schemas/AnyValue'
+                  total:
+                    type: integer
+                  count:
+                    type: integer
                   facets:
                     type: array
                     items:
                       type: object
-                      properties: { handle: { type: string } }
-                  sortAttributes:
-                    type: array
-                    items:
-                      type: string
-                  fuzzy:
-                    type: bool
-            nullable: true
-  'https://example.com/afterQuery':
-    POST:
-      summary: 'After Decorator for query'
-      description: "Adapt the product query result. If nothing is returned the original\nresult will be used. The URL and method can actually be configured by\nyou."
-      requestBody:
-        type: object
-        properties:
-          items:
-            type: array
-          total:
-            type: int
-          count:
-            type: int
-          facets:
-            type: array
-            items:
-              type: object
-              properties:
-                type:
-                  type: string
-                handle:
-                  type: string
-                key:
-                  type: string
-                selected:
-                  type: bool
-          query:
-            type: object
-            properties:
-              locale:
-                type: string
-              loadDangerousInnerData:
-                type: bool
-        nullable: true
-      responses:
-        200:
-          description: null
-          content:
-            type: object
-            properties:
-              items:
-                type: array
-              total:
-                type: int
-              count:
-                type: int
-              facets:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                    handle:
-                      type: string
-                    key:
-                      type: string
-                    selected:
-                      type: bool
-              query:
-                type: object
-                properties:
-                  locale:
-                    type: string
-                  loadDangerousInnerData:
-                    type: bool
-            nullable: true
+                      properties: { _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result\Facet$ }, type: { type: string }, handle: { type: string }, key: { type: string }, selected: { type: boolean } }
+                  query:
+                    type: object
+                    properties:
+                      _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query$ }
+                      locale: { type: string }
+                      loadDangerousInnerData: { type: boolean }
+                nullable: true

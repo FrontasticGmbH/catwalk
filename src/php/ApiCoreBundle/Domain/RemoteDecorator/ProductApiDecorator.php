@@ -63,7 +63,7 @@ class ProductApiDecorator extends BaseImplementation
      *
      * @Docs\Request(
      *  "POST",
-     *  "https://example.com/beforeGetCategories",
+     *  "//example.com/beforeGetCategories",
      *  "[CategoryQuery]"
      * )
      * @Docs\Response(
@@ -85,7 +85,7 @@ class ProductApiDecorator extends BaseImplementation
      *
      * @Docs\Request(
      *  "POST",
-     *  "https://example.com/afterGetCategories",
+     *  "//example.com/afterGetCategories",
      *  "Category[]"
      * )
      * @Docs\Response(
@@ -130,7 +130,7 @@ class ProductApiDecorator extends BaseImplementation
      *
      * @Docs\Request(
      *  "POST",
-     *  "https://example.com/beforeQuery",
+     *  "//example.com/beforeQuery",
      *  "[ProductQuery]"
      * )
      * @Docs\Response(
@@ -156,7 +156,7 @@ class ProductApiDecorator extends BaseImplementation
      *
      * @Docs\Request(
      *  "POST",
-     *  "https://example.com/afterQuery",
+     *  "//example.com/afterQuery",
      *  "?Result{ items: Product[] }"
      * )
      * @Docs\Response(
