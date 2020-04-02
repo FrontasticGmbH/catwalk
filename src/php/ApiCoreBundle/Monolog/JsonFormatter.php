@@ -21,22 +21,17 @@ class JsonFormatter implements FormatterInterface
 
     public function format(array $record)
     {
-        // Format see https://www.notion.so/frontastic/JSON-Logging-Format-7aa12f53846041f08f4d1526b64bd335
+        $logData = $record['extra'];
+
+        if (isset($record['context']) && isset($record['context']['exception'])) {
+            $exception = $record['context']['exception'];
+            $logData['exception'] = $this->formatException($exception);
+            unset($record['context']['exception']);
+        }
+
         $logData = array_merge(
-            $record['extra'],
-            [
-                'logSource' => self::LOG_SOURCE,
-                'project' => $this->getProjectId(),
-
-                '@timestamp' => (isset($record['datetime']) && ($record['datetime'] instanceof \DateTimeInterface)
-                    ? ($record['datetime']->format('c'))
-                    : (new \DateTimeImmutable('now'))->format('c')),
-                'message' => $record['message'],
-                'severity' => strtoupper($record['level_name']),
-
-                'channel' => $record['channel'],
-                'level' => $record['level'],
-            ]
+            $logData,
+            $this->formatGenericLogInfo($record)
         );
 
         return json_encode((object) $logData) . "\n";
@@ -66,5 +61,42 @@ class JsonFormatter implements FormatterInterface
         } catch (\Throwable $e) {
             return 'catwalk';
         }
+    }
+
+    private function formatException($exception): array
+    {
+        $data = [
+            'class' => get_class($exception),
+        ];
+
+        if (!$exception instanceof \Throwable) {
+            return $data;
+        }
+        $data['message'] = $exception->getMessage();
+        $data['file'] = $exception->getFile();
+        $data['code'] = $exception->getCode();
+        if ($exception->getPrevious() instanceof \Throwable) {
+            $data['previous'] = $this->formatException($exception->getPrevious());
+        }
+
+        return $data;
+    }
+
+    private function formatGenericLogInfo(array $record): array
+    {
+        // Format see https://www.notion.so/frontastic/JSON-Logging-Format-7aa12f53846041f08f4d1526b64bd335
+        return [
+            'logSource' => self::LOG_SOURCE,
+            'project' => $this->getProjectId(),
+
+            '@timestamp' => (isset($record['datetime']) && ($record['datetime'] instanceof \DateTimeInterface)
+                ? ($record['datetime']->format('c'))
+                : (new \DateTimeImmutable('now'))->format('c')),
+            'message' => $record['message'],
+            'severity' => strtoupper($record['level_name']),
+            'context' => $record['context'],
+            'channel' => $record['channel'],
+            'level' => $record['level'],
+        ];
     }
 }
