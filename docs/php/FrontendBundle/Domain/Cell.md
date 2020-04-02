@@ -8,6 +8,6 @@ Property|Type|Default|Description
 --------|----|-------|-----------
 `cellId`|`string`||
 `configuration`|[`Configuration`](Cell/Configuration.md)||
-`customConfiguration`|`\stdClass|null`||
+`customConfiguration`|`?\stdClass`||
 `tastics`|[`Tastic`](Tastic.md)[]|`[]`|
 

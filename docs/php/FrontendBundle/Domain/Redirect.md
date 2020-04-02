@@ -12,7 +12,7 @@ Property|Type|Default|Description
 `query`|`string`||
 `targetType`|`string`||One of TARGET_TYPE_* constants
 `target`|`string`||
-`language`|`string|null`|`null`|
+`language`|`?string`|`null`|
 `metaData`|`\Frontastic\Backstage\UserBundle\Domain\MetaData`||
 `isDeleted`|`bool`|`false`|
 

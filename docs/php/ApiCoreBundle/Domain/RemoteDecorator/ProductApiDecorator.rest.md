@@ -95,17 +95,9 @@ The URL and method can actually be configured by you.
 
   * `ProductQuery`
 
-    * `category`: either of:
+    * `category`: *optional* `string`
 
-      * `string`
-
-      * `null`
-
-    * `sku`: either of:
-
-      * `string`
-
-      * `null`
+    * `sku`: *optional* `string`
 
     * `skus`: either of:
 
@@ -113,11 +105,7 @@ The URL and method can actually be configured by you.
 
       * `null`
 
-    * `productId`: either of:
-
-      * `string`
-
-      * `null`
+    * `productId`: *optional* `string`
 
     * `productIds`: either of:
 
@@ -125,17 +113,9 @@ The URL and method can actually be configured by you.
 
       * `null`
 
-    * `productType`: either of:
+    * `productType`: *optional* `string`
 
-      * `string`
-
-      * `null`
-
-    * `query`: either of:
-
-      * `string`
-
-      * `null`
+    * `query`: *optional* `string`
 
     * `filter`: collection of `Filter`
 
@@ -163,17 +143,9 @@ can actually be configured by you.
 
   * `ProductQuery`
 
-    * `category`: either of:
+    * `category`: *optional* `string`
 
-      * `string`
-
-      * `null`
-
-    * `sku`: either of:
-
-      * `string`
-
-      * `null`
+    * `sku`: *optional* `string`
 
     * `skus`: either of:
 
@@ -181,11 +153,7 @@ can actually be configured by you.
 
       * `null`
 
-    * `productId`: either of:
-
-      * `string`
-
-      * `null`
+    * `productId`: *optional* `string`
 
     * `productIds`: either of:
 
@@ -193,17 +161,9 @@ can actually be configured by you.
 
       * `null`
 
-    * `productType`: either of:
+    * `productType`: *optional* `string`
 
-      * `string`
-
-      * `null`
-
-    * `query`: either of:
-
-      * `string`
-
-      * `null`
+    * `query`: *optional* `string`
 
     * `filter`: collection of `Filter`
 
@@ -235,17 +195,9 @@ you.
 
     * `productId`: `string`
 
-    * `changed`: either of:
+    * `changed`: *optional* `\DateTimeImmutable`
 
-      * `\DateTimeImmutable`
-
-      * `null`
-
-    * `version`: either of:
-
-      * `string`
-
-      * `null`
+    * `version`: *optional* `string`
 
     * `name`: `string`
 
@@ -265,11 +217,7 @@ you.
 
       * `price`: `int`
 
-      * `discountedPrice`: either of:
-
-        * `int`
-
-        * `null`
+      * `discountedPrice`: *optional* `int`
 
       * `discounts`: `mixed`
 
@@ -320,17 +268,9 @@ will be used. The URL and method can actually be configured by you.
 
     * `productId`: `string`
 
-    * `changed`: either of:
+    * `changed`: *optional* `\DateTimeImmutable`
 
-      * `\DateTimeImmutable`
-
-      * `null`
-
-    * `version`: either of:
-
-      * `string`
-
-      * `null`
+    * `version`: *optional* `string`
 
     * `name`: `string`
 
@@ -350,11 +290,7 @@ will be used. The URL and method can actually be configured by you.
 
       * `price`: `int`
 
-      * `discountedPrice`: either of:
-
-        * `int`
-
-        * `null`
+      * `discountedPrice`: *optional* `int`
 
       * `discounts`: `mixed`
 
