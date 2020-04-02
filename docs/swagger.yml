@@ -253,13 +253,70 @@ paths:
                 _type:
                   type: string
                   pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result$
-                items:
-                  type: array
-                  items: {  }
+                offset:
+                  type: integer
                 total:
                   type: integer
                 count:
                   type: integer
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\ProductApiBundle\Domain\Product$
+                      productId:
+                        type: string
+                      changed:
+                        type: string
+                        nullable: true
+                      version:
+                        type: string
+                        nullable: true
+                      name:
+                        type: string
+                      slug:
+                        type: string
+                      description:
+                        type: string
+                      categories:
+                        type: array
+                        items:
+                          type: string
+                      variants:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\ProductApiBundle\Domain\Variant$
+                            id:
+                              type: string
+                            sku:
+                              type: string
+                            groupId:
+                              type: string
+                            price:
+                              type: integer
+                            discountedPrice:
+                              type: integer
+                              nullable: true
+                            discounts: {  }
+                            currency:
+                              type: string
+                            attributes:
+                              type: array
+                              items: {  }
+                            images:
+                              type: array
+                              items: {  }
+                            isOnStock:
+                              type: boolean
+                            dangerousInnerVariant: {  }
+                      dangerousInnerProduct: {  }
                 facets:
                   type: array
                   items:
@@ -298,13 +355,70 @@ paths:
                   _type:
                     type: string
                     pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result$
-                  items:
-                    type: array
-                    items: {  }
+                  offset:
+                    type: integer
                   total:
                     type: integer
                   count:
                     type: integer
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\ProductApiBundle\Domain\Product$
+                        productId:
+                          type: string
+                        changed:
+                          type: string
+                          nullable: true
+                        version:
+                          type: string
+                          nullable: true
+                        name:
+                          type: string
+                        slug:
+                          type: string
+                        description:
+                          type: string
+                        categories:
+                          type: array
+                          items:
+                            type: string
+                        variants:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _type:
+                                type: string
+                                pattern: ^\Frontastic\Common\ProductApiBundle\Domain\Variant$
+                              id:
+                                type: string
+                              sku:
+                                type: string
+                              groupId:
+                                type: string
+                              price:
+                                type: integer
+                              discountedPrice:
+                                type: integer
+                                nullable: true
+                              discounts: {  }
+                              currency:
+                                type: string
+                              attributes:
+                                type: array
+                                items: {  }
+                              images:
+                                type: array
+                                items: {  }
+                              isOnStock:
+                                type: boolean
+                              dangerousInnerVariant: {  }
+                        dangerousInnerProduct: {  }
                   facets:
                     type: array
                     items:
