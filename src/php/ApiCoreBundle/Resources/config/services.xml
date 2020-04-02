@@ -44,11 +44,18 @@
             />
         </service>
 
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextInContainerDeprecationProvider">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
+
+            <deprecated>%service_id% is only used to enforce deprecation of Context from Container. User ContextService instead!</deprecated>
+        </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context">
             <factory
-                service="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService"
-                method="createContextFromRequest" />
+                service="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextInContainerDeprecationProvider"
+                method="provideContext" />
+
+            <deprecated>Retrieving the %service_id% from the Container is deprecated. Retrieve ContextService instead!</deprecated>
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Controller\ParameterConverter\ContextConverter">
