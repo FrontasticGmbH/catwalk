@@ -21,9 +21,13 @@ paths:
                   -
                     type: object
                     properties:
-                      _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery$ }
-                      parentId: { type: string }
-                      slug: { type: string }
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery$
+                      parentId:
+                        type: string
+                      slug:
+                        type: string
       responses:
         200:
           description: ''
@@ -35,7 +39,14 @@ paths:
                   oneOf:
                     -
                       type: object
-                      properties: { _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery$ }, parentId: { type: string }, slug: { type: string } }
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery$
+                        parentId:
+                          type: string
+                        slug:
+                          type: string
                 nullable: true
   //example.com/afterGetCategories:
     post:
@@ -106,18 +117,63 @@ paths:
                   -
                     type: object
                     properties:
-                      _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery$ }
-                      category: { type: string, nullable: true }
-                      sku: { type: string, nullable: true }
-                      skus: { type: array, items: { type: string }, nullable: true }
-                      productId: { type: string, nullable: true }
-                      productIds: { type: array, items: { type: string }, nullable: true }
-                      productType: { type: string, nullable: true }
-                      query: { type: string, nullable: true }
-                      filter: { type: array, items: { type: object, properties: { _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\Filter$ }, handle: { type: string }, attributeType: { type: string, nullable: true } } } }
-                      facets: { type: array, items: { type: object, properties: { _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\Facet$ }, handle: { type: string } } } }
-                      sortAttributes: { type: array, items: { type: string } }
-                      fuzzy: { type: boolean }
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery$
+                      category:
+                        type: string
+                        nullable: true
+                      sku:
+                        type: string
+                        nullable: true
+                      skus:
+                        type: array
+                        items:
+                          type: string
+                        nullable: true
+                      productId:
+                        type: string
+                        nullable: true
+                      productIds:
+                        type: array
+                        items:
+                          type: string
+                        nullable: true
+                      productType:
+                        type: string
+                        nullable: true
+                      query:
+                        type: string
+                        nullable: true
+                      filter:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\Filter$
+                            handle:
+                              type: string
+                            attributeType:
+                              type: string
+                              nullable: true
+                      facets:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\Facet$
+                            handle:
+                              type: string
+                      sortAttributes:
+                        type: array
+                        items:
+                          type: string
+                      fuzzy:
+                        type: boolean
       responses:
         200:
           description: ''
@@ -129,7 +185,64 @@ paths:
                   oneOf:
                     -
                       type: object
-                      properties: { _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery$ }, category: { type: string, nullable: true }, sku: { type: string, nullable: true }, skus: { type: array, items: { type: string }, nullable: true }, productId: { type: string, nullable: true }, productIds: { type: array, items: { type: string }, nullable: true }, productType: { type: string, nullable: true }, query: { type: string, nullable: true }, filter: { type: array, items: { type: object, properties: { _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\Filter$ }, handle: { type: string }, attributeType: { type: string, nullable: true } } } }, facets: { type: array, items: { type: object, properties: { _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\Facet$ }, handle: { type: string } } } }, sortAttributes: { type: array, items: { type: string } }, fuzzy: { type: boolean } }
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery$
+                        category:
+                          type: string
+                          nullable: true
+                        sku:
+                          type: string
+                          nullable: true
+                        skus:
+                          type: array
+                          items:
+                            type: string
+                          nullable: true
+                        productId:
+                          type: string
+                          nullable: true
+                        productIds:
+                          type: array
+                          items:
+                            type: string
+                          nullable: true
+                        productType:
+                          type: string
+                          nullable: true
+                        query:
+                          type: string
+                          nullable: true
+                        filter:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _type:
+                                type: string
+                                pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\Filter$
+                              handle:
+                                type: string
+                              attributeType:
+                                type: string
+                                nullable: true
+                        facets:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _type:
+                                type: string
+                                pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\Facet$
+                              handle:
+                                type: string
+                        sortAttributes:
+                          type: array
+                          items:
+                            type: string
+                        fuzzy:
+                          type: boolean
                 nullable: true
   //example.com/afterQuery:
     post:
@@ -158,11 +271,17 @@ paths:
                   items:
                     type: object
                     properties:
-                      _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result\Facet$ }
-                      type: { type: string }
-                      handle: { type: string }
-                      key: { type: string }
-                      selected: { type: boolean }
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result\Facet$
+                      type:
+                        type: string
+                      handle:
+                        type: string
+                      key:
+                        type: string
+                      selected:
+                        type: boolean
                 query:
                   type: object
                   properties:
@@ -197,11 +316,26 @@ paths:
                     type: array
                     items:
                       type: object
-                      properties: { _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result\Facet$ }, type: { type: string }, handle: { type: string }, key: { type: string }, selected: { type: boolean } }
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result\Facet$
+                        type:
+                          type: string
+                        handle:
+                          type: string
+                        key:
+                          type: string
+                        selected:
+                          type: boolean
                   query:
                     type: object
                     properties:
-                      _type: { type: string, pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query$ }
-                      locale: { type: string }
-                      loadDangerousInnerData: { type: boolean }
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query$
+                      locale:
+                        type: string
+                      loadDangerousInnerData:
+                        type: boolean
                 nullable: true
