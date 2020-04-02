@@ -75,6 +75,7 @@ class JsonFormatter implements FormatterInterface
         $data['message'] = $exception->getMessage();
         $data['file'] = $exception->getFile();
         $data['code'] = $exception->getCode();
+        $data['trace'] = $this->formatExceptionTrace($exception);
         if ($exception->getPrevious() instanceof \Throwable) {
             $data['previous'] = $this->formatException($exception->getPrevious());
         }
@@ -98,5 +99,13 @@ class JsonFormatter implements FormatterInterface
             'channel' => $record['channel'],
             'level' => $record['level'],
         ];
+    }
+
+    private function formatExceptionTrace(\Throwable $exception): array
+    {
+        return array_map(function ($traceElement) {
+            unset($traceElement['args']);
+            return $traceElement;
+        }, $exception->getTrace());
     }
 }
