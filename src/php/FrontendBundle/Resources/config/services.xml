@@ -72,6 +72,14 @@
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\FacetGateway" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\EnabledFacetService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\FacetService" />
+            <argument type="service" id="cache.app.simple" />
+        </service>
+
+        <service id="Frontastic\Common\ProductApiBundle\Domain\ProductApi\EnabledFacetService"
+                 alias="Frontastic\Catwalk\FrontendBundle\Domain\EnabledFacetService" />
+
         <service id="frontastic.catwalk.frontend_bundle.domain.facet.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\FacetService" />
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>

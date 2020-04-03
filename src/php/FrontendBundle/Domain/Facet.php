@@ -2,9 +2,9 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-use Kore\DataObject\DataObject;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi\FacetDefinition;
 
-class Facet extends DataObject
+class Facet extends FacetDefinition
 {
     /**
      * @var string
@@ -15,16 +15,6 @@ class Facet extends DataObject
      * @var string
      */
     public $sequence;
-
-    /**
-     * @var string
-     */
-    public $attributeId;
-
-    /**
-     * @var string
-     */
-    public $attributeType;
 
     /**
      * @var int
