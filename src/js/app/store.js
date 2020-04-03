@@ -1,9 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 
-const logger = createLogger({
-    // ...options
-})
-
 import thunk from 'redux-thunk'
 import _ from 'lodash'
 
@@ -88,6 +84,6 @@ export default () => {
                 categories: new Entity(props.categories, 86400),
             },
         },
-    },
-    composeEnhancers(applyMiddleware(...combinedMiddlewares))
-)
+        composeEnhancers(applyMiddleware(...combinedMiddlewares))
+    )
+}
