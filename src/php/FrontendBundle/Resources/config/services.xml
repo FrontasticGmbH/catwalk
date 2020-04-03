@@ -44,7 +44,7 @@
 
         <service id="frontastic.catwalk.frontend_bundle.domain.node.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+            <argument>%frontastic.environment%</argument>
 
             <tag name="endpoint.target" channel="nodes" />
         </service>
@@ -56,7 +56,7 @@
 
         <service id="frontastic.catwalk.frontend_bundle.domain.page.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\PageService" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+            <argument>%frontastic.environment%</argument>
 
             <tag name="endpoint.target" channel="pages" />
         </service>
@@ -82,7 +82,7 @@
 
         <service id="frontastic.catwalk.frontend_bundle.domain.facet.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\FacetService" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+            <argument>%frontastic.environment%</argument>
 
             <tag name="endpoint.target" channel="facets" />
         </service>
@@ -95,7 +95,7 @@
 
         <service id="frontastic.catwalk.frontend_bundle.domain.redirect.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectService" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+            <argument>%frontastic.environment%</argument>
 
             <tag name="endpoint.target" channel="redirects" />
         </service>
@@ -109,7 +109,7 @@
         <service id="frontastic.catwalk.frontend_bundle.domain.schema.replication_target"
                  class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\SchemaService" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+            <argument>%frontastic.environment%</argument>
 
             <tag name="endpoint.target" channel="schemas" />
         </service>
@@ -123,7 +123,7 @@
         <service id="frontastic.catwalk.frontend_bundle.domain.project_configuration.replication_target"
                  class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\ProjectConfigurationService" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+            <argument>%frontastic.environment%</argument>
 
             <tag name="endpoint.target" channel="project_configurations" />
         </service>
