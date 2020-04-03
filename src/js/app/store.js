@@ -8,7 +8,7 @@ import createReducer from './reducer'
 import UrlContext from './urlContext'
 
 import { ConfigurationSchema, FacetTypeSchemaMap } from 'frontastic-common'
-import ComponentInjector from './injector';
+import ComponentInjector from './injector'
 
 // Try to read initial props from DOM
 let dataNode = null
