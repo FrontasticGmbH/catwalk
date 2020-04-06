@@ -1,19 +1,19 @@
 <?php
 namespace Frontastic\Catwalk\TwigTasticBundle\Twig;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Tastic;
 
 class TasticExtension extends AbstractExtension
 {
-    private $context;
+    private $contextService;
 
-    public function __construct(Context $context)
+    public function __construct(ContextService $contextService)
     {
-        $this->context = $context;
+        $this->contextService = $contextService;
     }
 
     public function getFunctions()
@@ -131,13 +131,15 @@ class TasticExtension extends AbstractExtension
             return (string) $input;
         }
 
+        $context = $this->contextService->createContextFromRequest();
+
         $input = (array) $input;
         if (isset($input[$this->context->locale])) {
-            return (string) $input[$this->context->locale];
+            return (string) $input[$context->locale];
         }
 
         if (isset($input[$this->context->project->defaultLocale])) {
-            return (string) $input[$this->context->project->defaultLocale];
+            return (string) $input[$context->project->defaultLocale];
         }
 
         return (string )reset($input) ?? '';
