@@ -134,11 +134,11 @@ class TasticExtension extends AbstractExtension
         $context = $this->contextService->createContextFromRequest();
 
         $input = (array) $input;
-        if (isset($input[$this->context->locale])) {
+        if (isset($input[$context->locale])) {
             return (string) $input[$context->locale];
         }
 
-        if (isset($input[$this->context->project->defaultLocale])) {
+        if (isset($input[$context->project->defaultLocale])) {
             return (string) $input[$context->project->defaultLanguage];
         }
 
