@@ -96,7 +96,7 @@
                     <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppService" />
                     <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService" />
                     <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Gateway\AppRepositoryGateway" />
-                    <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+                    <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
                 </service>
             </argument>
             <argument>%frontastic.environment%</argument>
