@@ -202,7 +202,6 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\AccountWishlistsFieldHandler" class="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\AccountWishlistsFieldHandler">
             <argument type="service" id="frontastic.catwalk.wishlist_api" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
 
              <tag name="frontend.tasticFieldHandler"/>
         </service>
