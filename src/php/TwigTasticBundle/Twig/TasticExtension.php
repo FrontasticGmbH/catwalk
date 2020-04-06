@@ -139,7 +139,7 @@ class TasticExtension extends AbstractExtension
         }
 
         if (isset($input[$this->context->project->defaultLocale])) {
-            return (string) $input[$context->project->defaultLocale];
+            return (string) $input[$context->project->defaultLanguage];
         }
 
         return (string )reset($input) ?? '';
