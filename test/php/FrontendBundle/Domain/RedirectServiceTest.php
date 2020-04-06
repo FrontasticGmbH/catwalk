@@ -21,20 +21,23 @@ class RedirectServiceTest extends TestCase
 
     private $routerMock;
 
+    private $contextFixture;
+
     protected function setUp()
     {
         $this->redirectGatewayMock = \Phake::mock(RedirectGateway::class);
         $this->routerMock = \Phake::mock(Router::class);
 
+        $this->contextFixture = new Context([
+            'project' => new Project([
+                'defaultLanguage' => 'fr_FR',
+            ]),
+            'locale' => 'en_GB',
+        ]);
+
         $this->redirectService = new RedirectService(
             $this->redirectGatewayMock,
-            $this->routerMock,
-            new Context([
-                'project' => new Project([
-                    'defaultLanguage' => 'fr_FR',
-                ]),
-                'locale' => 'en_GB',
-            ])
+            $this->routerMock
         );
     }
 
@@ -45,7 +48,7 @@ class RedirectServiceTest extends TestCase
 
         \Phake::when($this->redirectGatewayMock)->getByPath($path)->thenReturn([]);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertNull($url);
     }
@@ -65,7 +68,7 @@ class RedirectServiceTest extends TestCase
             ]),
         ]);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertEquals($target, $url);
     }
@@ -85,7 +88,11 @@ class RedirectServiceTest extends TestCase
             ]),
         ]);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest(
+            $path,
+            $queryParameters,
+            $this->contextFixture
+        );
 
         $this->assertEquals($target, $url);
     }
@@ -106,7 +113,7 @@ class RedirectServiceTest extends TestCase
             ]),
         ]);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertEquals($target . $targetFragment, $url);
     }
@@ -130,7 +137,7 @@ class RedirectServiceTest extends TestCase
             ]),
         ]);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
         $targetWithAdditionalParameters = sprintf(
             '%s&key1=value1&key2=value2%s',
             $target,
@@ -156,7 +163,7 @@ class RedirectServiceTest extends TestCase
             ]),
         ]);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertEquals($target . $targetFragment, $url);
     }
@@ -180,7 +187,7 @@ class RedirectServiceTest extends TestCase
 
         \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.es_ES')->thenReturn($nodeUrl);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertEquals($nodeUrl, $url);
     }
@@ -203,7 +210,7 @@ class RedirectServiceTest extends TestCase
 
         \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en_GB')->thenReturn($nodeUrl);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertEquals($nodeUrl, $url);
     }
@@ -228,7 +235,7 @@ class RedirectServiceTest extends TestCase
             ->thenThrow(new RouteNotFoundException());
         \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.en')->thenReturn($nodeUrl);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertEquals($nodeUrl, $url);
     }
@@ -255,7 +262,7 @@ class RedirectServiceTest extends TestCase
             ->thenThrow(new RouteNotFoundException());
         \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.fr_FR')->thenReturn($nodeUrl);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertEquals($nodeUrl, $url);
     }
@@ -284,7 +291,7 @@ class RedirectServiceTest extends TestCase
             ->thenThrow(new RouteNotFoundException());
         \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.fr')->thenReturn($nodeUrl);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertEquals($nodeUrl, $url);
     }
@@ -314,7 +321,7 @@ class RedirectServiceTest extends TestCase
         \Phake::when($this->routerMock)->generate('node_' . $nodeId . '.fr')
             ->thenThrow(new RouteNotFoundException());
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
         $this->assertNull($url);
     }
 
@@ -342,7 +349,7 @@ class RedirectServiceTest extends TestCase
             ]),
         ]);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertNull($url);
     }
@@ -374,7 +381,7 @@ class RedirectServiceTest extends TestCase
             ]),
         ]);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
         $targetWithAdditionalParameters = sprintf('%s?otherParam=4711', $target);
 
         $this->assertEquals($targetWithAdditionalParameters, $url);
@@ -399,7 +406,7 @@ class RedirectServiceTest extends TestCase
             ]),
         ]);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertNull($url);
     }
@@ -434,7 +441,7 @@ class RedirectServiceTest extends TestCase
             ]),
         ]);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertEquals($target, $url);
     }
@@ -475,7 +482,7 @@ class RedirectServiceTest extends TestCase
             ]),
         ]);
 
-        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters);
+        $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
         $this->assertEquals($target, $url);
     }
