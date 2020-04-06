@@ -510,7 +510,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\CategoriesContain">
             <argument type="service" id="frontastic.catwalk.product_api" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
 
             <tag name="rulerz.operator" target="native" operator="categoriescontain" />
         </service>
