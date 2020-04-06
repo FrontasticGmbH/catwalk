@@ -18,7 +18,7 @@ class EnvironmentReplicationFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testReplicateWithoutChanges()
     {
-        $filter = new EnvironmentReplicationFilter($this->innerTargetMock, new Context(['environment' => 'dev']));
+        $filter = new EnvironmentReplicationFilter($this->innerTargetMock, 'development');
 
         $updates = [
             [
@@ -40,7 +40,7 @@ class EnvironmentReplicationFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testReplicateWithDeletingNonEnvironmentEntities()
     {
-        $filter = new EnvironmentReplicationFilter($this->innerTargetMock, new Context(['environment' => 'prod']));
+        $filter = new EnvironmentReplicationFilter($this->innerTargetMock, 'production');
 
         $updates = [
             [
