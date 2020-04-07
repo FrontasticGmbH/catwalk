@@ -1,3 +1,4 @@
+import logDebugStatements from './logDebugStatements'
 import UrlContext from './urlContext'
 
 import _ from 'lodash'
@@ -59,21 +60,7 @@ let Api = function (router, store) {
             }
         }).then((response) => {
             if (response && response.json && response.json['__DEBUG']) {
-                // eslint-disable-next-line no-console
-                console.groupCollapsed(
-                    '%c💻 %c%s (%s: %s)',
-                    'color: gray',
-                    'color: lightcoral',
-                    'Server Debug',
-                    method,
-                    route
-                )
-                _.each(response.json['__DEBUG'], (debugLine) => {
-                    // eslint-disable-next-line no-console
-                    console.log(...debugLine)
-                })
-                // eslint-disable-next-line no-console
-                console.groupEnd()
+                logDebugStatements(response.json['__DEBUG'], method, route)
             }
             return response
         }).then((response) => {
