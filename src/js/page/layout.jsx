@@ -37,7 +37,7 @@ class Layout extends Component {
                     ) : null}
                 </header>
                 <main className='c-page-body'>
-                    <div className='c-page-wrapper o-wrapper mx-5'>
+                    <div className='c-page-wrapper o-wrapper'>
                         {this.props.page.regions.main ? (
                             <Region
                                 identifier='main'
