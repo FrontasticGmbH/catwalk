@@ -4,6 +4,7 @@ import _ from 'lodash'
 import { Router } from 'react-router-dom'
 
 import app from './app/app'
+import logDebugStatements from './app/logDebugStatements'
 import createStore from './app/store'
 import Context from './app/context'
 import AppComponent from './appComponent'
@@ -43,6 +44,15 @@ function appCreator (mountNode, dataNode, tastics = null) {
 
     let props = JSON.parse(dataNode.getAttribute('data-props'))
     let context = new Context(props.context)
+
+    if (context.isDevelopment() && dataNode.hasAttribute('data-debug')) {
+        logDebugStatements(
+            JSON.parse(dataNode.getAttribute( 'data-debug')),
+            'GET (most likely)', // HTTP method cannot be detected in JS
+            ((window || {}).location || {}).pathname
+        )
+    }
+
     let store = createStore()
     app.initialize(store)
 
