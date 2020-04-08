@@ -175,6 +175,7 @@ export default {
             text: 'Der Warenkorb ist noch leer.',
         },
         registerNow: 'Jetzt anmelden',
+        remove: 'Entfernen',
     },
     wishlist: {
         title: 'Wunschliste',
