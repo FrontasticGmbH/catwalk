@@ -26,6 +26,10 @@ class ApiController extends Controller
 
     public function endpointAction(Request $request): JsonResponse
     {
+        if (class_exists('Tideways\Profiler')) {
+            \Tideways\Profiler::setServiceName('ReplicatorEndpoint');
+        }
+
         try {
             $this->verifyRequest($request);
 
