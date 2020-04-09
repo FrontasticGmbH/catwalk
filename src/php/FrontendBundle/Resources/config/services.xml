@@ -534,5 +534,10 @@
         </service>
 
         <service id="frontastic.user.guard_handler" alias="Symfony\Component\Security\Guard\GuardAuthenticatorHandler" />
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Twig\FrontasticNodeViewFallbackTemplateGuesser" decorates="qafoo_labs_noframework.template_guesser" autowire="true">
+<!--            <argument key="$innerTemplateGuesser" type="service" id="Frontastic\Catwalk\FrontendBundle\Twig\FrontasticNodeViewFallbackTemplateGuesser.inner"/>-->
+<!--            <argument key="$twigLogger" type="service" id="logger" />-->
+        </service>
     </services>
 </container>
