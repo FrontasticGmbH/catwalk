@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\RulerZ\Operator;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Common\ProductApiBundle\Domain\Category;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 
@@ -19,14 +20,14 @@ class CategoriesContain
     private $productApi;
 
     /**
-     * @var Context
+     * @var ContextService
      */
-    private $context;
+    private $contextService;
 
-    public function __construct(ProductApi $productApi, Context $context)
+    public function __construct(ProductApi $productApi, ContextService $contextService)
     {
         $this->productApi = $productApi;
-        $this->context = $context;
+        $this->contextService = $contextService;
     }
 
     public function __invoke(array $categoryIds, string $ancestorId)
@@ -61,7 +62,7 @@ class CategoriesContain
     private function fetchCategories(int $offset)
     {
         return $this->productApi->getCategories(new ProductApi\Query\CategoryQuery([
-            'locale' => $this->context->locale,
+            'locale' => $this->contextService->createContextFromRequest()->locale,
             'limit' => self::QUERY_CATEGORIES_LIMIT,
             'offset' => $offset,
         ]));

@@ -12,14 +12,14 @@ class EnvironmentReplicationFilter implements Target
     private $target;
 
     /**
-     * @var Context
+     * @var string
      */
-    private $context;
+    private $applicationEnvironment;
 
-    public function __construct(Target $replicationTarget, Context $context)
+    public function __construct(Target $replicationTarget, string $applicationEnvironment)
     {
         $this->target = $replicationTarget;
-        $this->context = $context;
+        $this->applicationEnvironment = $applicationEnvironment;
     }
 
     public function lastUpdate(): string
@@ -29,7 +29,7 @@ class EnvironmentReplicationFilter implements Target
 
     public function replicate(array $updates): void
     {
-        $environment = $this->context->applicationEnvironment();
+        $environment = $this->applicationEnvironment;
 
         foreach ($updates as $index => $update) {
             if (isset($update['environments']) &&

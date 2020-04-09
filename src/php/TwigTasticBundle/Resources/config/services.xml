@@ -11,7 +11,7 @@
         <defaults public="true" />
 
         <service id="Frontastic\Catwalk\TwigTasticBundle\Twig\TasticExtension">
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService"/>
 
             <tag name="twig.extension" />
         </service>

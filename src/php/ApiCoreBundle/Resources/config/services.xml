@@ -44,11 +44,18 @@
             />
         </service>
 
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextInContainerDeprecationProvider">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
+
+            <deprecated>%service_id% is only used to enforce deprecation of Context from Container. User ContextService instead!</deprecated>
+        </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context">
             <factory
-                service="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService"
-                method="createContextFromRequest" />
+                service="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextInContainerDeprecationProvider"
+                method="provideContext" />
+
+            <deprecated>Retrieving the %service_id% from the Container is deprecated. Retrieve ContextService instead!</deprecated>
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Controller\ParameterConverter\ContextConverter">
@@ -60,12 +67,12 @@
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Gateway\TasticGateway" />
             <argument>%kernel.project_dir%</argument>
-            <argument type="expression">service('Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Context').environment</argument>
+            <argument>%kernel.environment%</argument>
         </service>
 
         <service id="frontastic.catwalk.api_core_bundle.domain.tastic_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+            <argument>%frontastic.environment%</argument>
 
             <tag name="endpoint.target" channel="tastics" />
         </service>
@@ -89,10 +96,10 @@
                     <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppService" />
                     <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService" />
                     <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Gateway\AppRepositoryGateway" />
-                    <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context" />
+                    <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
                 </service>
             </argument>
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context"/>
+            <argument>%frontastic.environment%</argument>
 
             <tag name="endpoint.target" channel="app_data" />
         </service>

@@ -134,6 +134,7 @@ export default {
             text: 'Your shopping cart is empty.',
         },
         registerNow: 'Register now', // check if correct
+        remove: 'Remove',
     },
     wishlist: {
         title: 'Wishlist',
