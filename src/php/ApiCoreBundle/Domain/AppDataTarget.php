@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
+use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 
 use Frontastic\Catwalk\ApiCoreBundle\Gateway\AppRepositoryGateway;
@@ -25,20 +26,20 @@ class AppDataTarget implements Target
     private $appRepositoryGateway;
 
     /**
-     * @var Context
+     * @var Project
      */
-    private $context;
+    private $project;
 
     public function __construct(
         AppService $appService,
         AppRepositoryService $appRepositoryService,
         AppRepositoryGateway $appRepositoryGateway,
-        Context $context
+        Project $project
     ) {
         $this->appService = $appService;
         $this->appRepositoryService = $appRepositoryService;
         $this->appRepositoryGateway = $appRepositoryGateway;
-        $this->context = $context;
+        $this->project = $project;
     }
 
     public function lastUpdate(): string
@@ -66,7 +67,7 @@ class AppDataTarget implements Target
             $properties = $this->appRepositoryService->getProperties($app);
             $entityClass = $this->appRepositoryService->getFullyQualifiedClassName($app->identifier);
 
-            foreach ($this->context->project->languages as $locale) {
+            foreach ($this->project->languages as $locale) {
                 $data = $repository->findOneByEvenIfDeleted([
                     'locale' => $locale,
                     'dataId' => $update['dataId'],
@@ -82,7 +83,7 @@ class AppDataTarget implements Target
                     if (isset($properties[$property]) &&
                         property_exists($data, $property)) {
                         if (in_array($properties[$property], ['string', 'text', 'markdown'], true)) {
-                            $value = $this->translate($value, $locale, $this->context->project->defaultLanguage);
+                            $value = $this->translate($value, $locale, $this->project->defaultLanguage);
                         }
 
                         if (in_array($properties[$property], ['number', 'integer', 'decimal'], true) &&
