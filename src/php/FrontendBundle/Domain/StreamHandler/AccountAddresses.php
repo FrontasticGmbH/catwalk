@@ -34,7 +34,7 @@ class AccountAddresses extends StreamHandler
             // this makes sure we always fetch the current accounts addresses.
             return Promise\promise_for(
                 $this->accountApi->getAddresses(
-                    $context->session->account->accountId
+                    $context->session->account
                 )
             );
         } catch (\Throwable $exception) {
