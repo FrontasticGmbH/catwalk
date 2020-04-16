@@ -13,6 +13,9 @@ const availableSelectors = {
     context: (state) => {
         return state.app.context
     },
+    cart: (state) => {
+        return state.cart
+    },
     deviceType: (state) => {
         return state.renderContext.deviceType
     },
@@ -67,7 +70,9 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
     if (!configuration.connect.rawData) {
         delete props.rawData
     }
-
+    if (!configuration.connect.cart) {
+        delete props.cart
+    }
     if (!configuration.connect.node) {
         delete props.node
     }
@@ -91,6 +96,7 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
  * @param {Object} configuration.connect
  * @param {boolean} configuration.connect.rawData - Whether to pass "rawData". Should not be needed anymore.
  * @param {boolean} configuration.connect.node - Whether to pass information about the current node.
+ * @param {boolean} configuration.connect.cart - Whether to pass information about the current cart.
  * @param {boolean} configuration.connect.page - Whether to pass information about the current page.
  * @param {boolean} configuration.connect.tastic - Whether to pass the schema of the current tastic. Rarely needed.
  * @param {boolean} configuration.connect.context - Whether to pass the frontastic context object.
