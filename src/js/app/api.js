@@ -1,8 +1,6 @@
 import logDebugStatements from './logDebugStatements'
 import UrlContext from './urlContext'
 
-import _ from 'lodash'
-
 let Api = function (router, store) {
     this.router = router
     this.store = store

@@ -47,7 +47,7 @@ function appCreator (mountNode, dataNode, tastics = null) {
 
     if (context.isDevelopment() && dataNode.hasAttribute('data-debug')) {
         logDebugStatements(
-            JSON.parse(dataNode.getAttribute( 'data-debug')),
+            JSON.parse(dataNode.getAttribute('data-debug')),
             'GET (most likely)', // HTTP method cannot be detected in JS
             ((window || {}).location || {}).pathname
         )
