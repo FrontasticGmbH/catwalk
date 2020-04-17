@@ -136,6 +136,11 @@ export default {
         registerNow: 'Register now', // check if correct
         remove: 'Remove',
     },
+    checkout: {
+        shipping: 'Shipping',
+        payment: 'Payment',
+        overview: 'Overivew',
+    },
     wishlist: {
         title: 'Wishlist',
         no_items: 'The wishlist is still empty.',
