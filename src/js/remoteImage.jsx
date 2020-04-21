@@ -103,8 +103,8 @@ RemoteImage.propTypes = {
     context: PropTypes.object.isRequired,
     url: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number,
     loading: PropTypes.oneOf(['lazy', 'auto', 'eager']),
     style: PropTypes.object,
     cropRatio: PropTypes.oneOfType([
