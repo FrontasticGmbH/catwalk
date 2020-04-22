@@ -4,6 +4,7 @@ import _ from 'lodash'
 import { Router } from 'react-router-dom'
 
 import app from './app/app'
+import logDebugStatements from './app/logDebugStatements'
 import createStore from './app/store'
 import Context from './app/context'
 import AppComponent from './appComponent'
@@ -43,6 +44,15 @@ function appCreator (mountNode, dataNode, tastics = null) {
 
     let props = JSON.parse(dataNode.getAttribute('data-props'))
     let context = new Context(props.context)
+
+    if (context.isDevelopment() && dataNode.hasAttribute('data-debug')) {
+        logDebugStatements(
+            JSON.parse(dataNode.getAttribute('data-debug')),
+            'GET (most likely)', // HTTP method cannot be detected in JS
+            ((window || {}).location || {}).pathname
+        )
+    }
+
     let store = createStore()
     app.initialize(store)
 
@@ -59,14 +69,6 @@ function appCreator (mountNode, dataNode, tastics = null) {
         data: props.context,
     })
 
-    store.dispatch({
-        type: 'Frontastic.RenderContext.ClientSideDetected',
-    })
-    store.dispatch({
-        type: 'Frontastic.RenderContext.UserAgentDetected',
-        userAgent: navigator.userAgent,
-    })
-
     const dispatchViewportDimensions = () => {
         store.dispatch({
             type: 'Frontastic.RenderContext.ViewportDimensionChanged',
@@ -77,8 +79,14 @@ function appCreator (mountNode, dataNode, tastics = null) {
         })
     }
 
-    dispatchViewportDimensions()
-    window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
+    // Initially, we dispatch with the UserAgent that the SSR used,
+    // to make sure we do not have differences during the initial hydration.
+    // This is important for react, which explicitly says that hydration is only supported if both client and server render the same thing.
+    // See https://github.com/facebook/react/issues/11336#issuecomment-338617882
+    store.dispatch({
+        type: 'Frontastic.RenderContext.UserAgentDetected',
+        userAgent: dataNode.getAttribute('data-user-agent'),
+    })
 
     store.dispatch({
         type: 'Frontend.Tastic.initialize',
@@ -125,10 +133,29 @@ function appCreator (mountNode, dataNode, tastics = null) {
         app.getLoader('cart').get()
         app.getLoader('wishlist').get()
 
+        store.dispatch({
+            type: 'Frontastic.ClientSideHydration',
+        })
+
         ReactDOM.hydrate(
             <AppComponent app={app} renderRouter={renderRouter} />,
             mountNode,
             () => {
+                // Only after hydration we switch from SSR mode to Client Side mode,
+                // to make sure we do not have differences during the initial hydration.
+                // This is important for react, which explicitly says that hydration is only supported if both client and server render the same thing.
+                store.dispatch({
+                    type: 'Frontastic.RenderContext.ClientSideDetected',
+                })
+
+                store.dispatch({
+                    type: 'Frontastic.RenderContext.UserAgentDetected',
+                    userAgent: navigator.userAgent,
+                })
+
+                dispatchViewportDimensions()
+                window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
+
                 if (isDevelopment && !isIE()) {
                     const diffLog = require('./app/htmlDiff/differ').default
                     const printLog = require('./app/htmlDiff/printLog').default

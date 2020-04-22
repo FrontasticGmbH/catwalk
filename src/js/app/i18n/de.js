@@ -177,6 +177,11 @@ export default {
         registerNow: 'Jetzt anmelden',
         remove: 'Entfernen',
     },
+    checkout: {
+        shipping: 'Versand',
+        payment: 'Zahlung',
+        overview: 'Überivew',
+    },
     wishlist: {
         title: 'Wunschliste',
         no_items: 'Die Wunschliste ist noch leer.',
