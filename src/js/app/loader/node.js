@@ -6,6 +6,15 @@ import UrlContext from '../urlContext'
 import withRetries from '../withRetries'
 import extractErrors from './node/errorExtractor'
 
+export const trackingPageView = ({ nodeId, data, isMasterPage }) => {
+    return {
+        type: 'Frontend.Tracking.PageView',
+        nodeId,
+        data,
+        isMasterPage,
+    }
+}
+
 /**
  * Loader classes like this consolidate all loading monitors for a domain
  * concept.
@@ -34,13 +43,14 @@ let Loader = function (store, api) {
                     parameters,
                     null,
                     (data, parameters) => {
+                        const isRetry = tryCount < 2
                         this.store.dispatch({
                             type: 'Frontend.Node.view.success',
                             id: parameters.nodeId,
                             cacheKey: UrlContext.getActionHash(parameters),
                             data: data,
                             parameters: parameters,
-                            isRetry: tryCount < 2,
+                            isRetry,
                         })
 
                         const nodeDataErrors = extractErrors(data.data)
@@ -48,6 +58,13 @@ let Loader = function (store, api) {
                             // eslint-disable-next-line no-console
                             console.info('Errors in node data, attempting to retry', nodeDataErrors)
                             setTimeout(retry, 100)
+                        }
+                        if (!isRetry) {
+                            this.store.dispatch(trackingPageView({
+                                nodeId: parameters.nodeId,
+                                data: data,
+                                isMasterPage: false,
+                            }))
                         }
                     },
                     (error) => {
@@ -86,6 +103,11 @@ let Loader = function (store, api) {
                     data: data,
                     parameters: parameters,
                 })
+                this.store.dispatch(trackingPageView({
+                    nodeId: data.node.nodeId,
+                    isMasterPage: true,
+                    data,
+                }))
             },
             (error) => {
                 this.store.dispatch({

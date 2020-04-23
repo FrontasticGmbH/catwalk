@@ -9,6 +9,7 @@ import createStore from './app/store'
 import Context from './app/context'
 import AppComponent from './appComponent'
 import FrontasticRoute from './app/route'
+import { trackingPageView } from './app/loader/node'
 
 function appCreator (mountNode, dataNode, tastics = null) {
     if (!mountNode || !dataNode) {
@@ -105,6 +106,16 @@ function appCreator (mountNode, dataNode, tastics = null) {
         type: 'Frontend.Node.initialize',
         data: props,
     })
+
+    store.dispatch(trackingPageView({
+        nodeId: props.node.nodeId,
+        data: {
+            node: props.node,
+            page: props.page,
+            data: props.data,
+        },
+        isMasterPage: props.route.route.includes('.Master.'),
+    }))
 
     import('history').then(({ createBrowserHistory }) => {
         const isDevelopment = app.getRouter().getContext().isDevelopment()
