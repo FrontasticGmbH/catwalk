@@ -34,7 +34,8 @@ class AccountOrders extends StreamHandler
             // this makes sure we always fetch the current carts addresses.
             return Promise\promise_for(
                 $this->cartApi->getOrders(
-                    $context->session->account->accountId
+                    $context->session->account,
+                    $parameters
                 )
             );
         } catch (\Throwable $exception) {
