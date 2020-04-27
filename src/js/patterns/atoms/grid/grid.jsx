@@ -1,23 +1,23 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Grid = ({debug, style, className, hideOn, prefix, children}) => {
-    const _gridRef = useRef();
-    const [dimensions, setDimensions] = useState({windowWidth: -1, gridWidth: -1});
+const Grid = ({ debug, style, className, hideOn, prefix, children }) => {
+    const _gridRef = useRef()
+    const [dimensions, setDimensions] = useState({ windowWidth: -1, gridWidth: -1 })
 
     useEffect(() => {
         const handleResize = () => {
             setDimensions({
                 windowWidth: window && window.document && window.document.body ? window.document.body.offsetWidth : 1280,
                 gridWidth: _gridRef.current ? _gridRef.current.getBoundingClientRect().width : 1280,
-            });
-        };
-        window.addEventListener('resize', handleResize);
+            })
+        }
+        window.addEventListener('resize', handleResize)
         handleResize()
         return () => {
-          window.removeEventListener('resize', handleResize);
-        };
-      }, []);
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
 
     const { windowWidth, gridWidth } = dimensions
     // exact same code as in Cell.jsx. Maybe time for a helper?
