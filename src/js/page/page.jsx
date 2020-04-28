@@ -1,52 +1,47 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import DefaultLayout from './layout'
 import Page from 'frontastic-common/src/js/domain/page'
 
-class PageView extends Component {
-    constructor (props) {
-        super(props)
+const PageView = ({ page, tastics, node, data, highlight }) => {
+    const [pageState, setStatePage] = useState(
+        new Page(page || {}, Object.keys(page.regions), tastics || [])
+    )
+    const [tasticsState, seTasticsState] = useState(tastics)
 
-        this.layouts = {
-            // @TODO: Add more complex layouts here
-        }
-
-        this.state = {
-            page: new Page(props.page || {}, _.keys(props.page.regions), props.tastics || []),
-            tastics: props.tastics,
-        }
+    if (
+        pageState.pageId !== page.pageId ||
+        tasticsState.length !== tastics.length
+    ) {
+        setStatePage(
+            new Page(page || {}, Object.keys(page.regions), tastics || [])
+        )
+        seTasticsState(tastics)
     }
 
-    static getDerivedStateFromProps (nextProps, prevState) {
-        if ((prevState.page.pageId !== nextProps.page.pageId) ||
-        (prevState.tastics.length !== nextProps.tastics.length)) {
-            return {
-                page: new Page(nextProps.page || {}, _.keys(nextProps.page.regions), nextProps.tastics || []),
-                tastics: nextProps.tastics,
-            }
-        }
-
-        return null
+    const layouts = {
+        // @TODO: Add more complex layouts here
     }
 
-    getLayout () {
-        if (!this.state.page.layoutId) {
+    const getLayout = () => {
+        if (!pageState.layoutId) {
             return DefaultLayout
         }
 
-        return this.layouts[this.state.page.layoutId] || DefaultLayout
+        return layouts[pageState.layoutId] || DefaultLayout
     }
 
-    render () {
-        let Layout = this.getLayout()
-        return <Layout
-            node={this.props.node}
-            page={this.state.page}
-            data={!_.isArray(this.props.data) ? this.props.data : {}}
-            highlight={this.props.highlight} />
-    }
+    let Layout = getLayout()
+    return (
+        <Layout
+            node={node}
+            page={pageState}
+            data={!_.isArray(data) ? data : {}}
+            highlight={highlight}
+        />
+    )
 }
 
 PageView.propTypes = {
