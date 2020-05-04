@@ -35,7 +35,7 @@ class AccountOrders extends StreamHandler
             return Promise\promise_for(
                 $this->cartApi->getOrders(
                     $context->session->account,
-                    $parameters
+                    $context->locale
                 )
             );
         } catch (\Throwable $exception) {
