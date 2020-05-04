@@ -29,6 +29,10 @@ class Order extends StreamHandler
         if (!isset($stream->configuration['order'])) {
             return null;
         }
-        return $this->cartApi->getOrder($stream->configuration['order']);
+        return $this->cartApi->getOrder(
+            $context->session->account,
+            $stream->configuration['order'],
+            $context->locale
+        );
     }
 }
