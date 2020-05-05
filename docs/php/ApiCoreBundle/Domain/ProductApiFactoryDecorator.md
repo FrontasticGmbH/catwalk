@@ -14,7 +14,6 @@
 ```php
 public function __construct(
     \Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory $productApiFactory,
-    FacetService $facetService,
     \Psr\SimpleCache\CacheInterface $cache,
     bool $debug = false
 ): mixed
@@ -23,7 +22,6 @@ public function __construct(
 Argument|Type|Default|Description
 --------|----|-------|-----------
 `$productApiFactory`|`\Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory`||
-`$facetService`|[`FacetService`](../../FrontendBundle/Domain/FacetService.md)||
 `$cache`|`\Psr\SimpleCache\CacheInterface`||
 `$debug`|`bool`|`false`|
 

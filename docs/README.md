@@ -4,7 +4,6 @@
 
 Download the [Swagger File](swagger.yml)
 
-* [ApiCoreBundle\Domain\RemoteDecorator\ProductApiDecorator](php/ApiCoreBundle/Domain/RemoteDecorator/ProductApiDecorator.rest.md)
 
 ##  API Documentation
 
@@ -18,14 +17,15 @@ Here you find the API documentation for the relevant classes:
 * [CachingProductApi](php/ApiCoreBundle/Domain/CachingProductApi.md)
 * [Context](php/ApiCoreBundle/Domain/Context.md)
 * [ContextDecorator](php/ApiCoreBundle/Domain/ContextDecorator.md)
+* [ContextInContainerDeprecationProvider](php/ApiCoreBundle/Domain/ContextInContainerDeprecationProvider.md)
 * [ContextService](php/ApiCoreBundle/Domain/ContextService.md)
 * [CustomerService](php/ApiCoreBundle/Domain/CustomerService.md)
 * [DataRepository](php/ApiCoreBundle/Domain/DataRepository.md)
+* [Environment](php/ApiCoreBundle/Domain/Environment.md)
 * [EnvironmentReplicationFilter](php/ApiCoreBundle/Domain/EnvironmentReplicationFilter.md)
 * [ProductApiFactoryDecorator](php/ApiCoreBundle/Domain/ProductApiFactoryDecorator.md)
 * [ProductApiWithoutInner](php/ApiCoreBundle/Domain/ProductApiWithoutInner.md)
 * [ProjectService](php/ApiCoreBundle/Domain/ProjectService.md)
-* [RemoteDecoratorFactory](php/ApiCoreBundle/Domain/RemoteDecoratorFactory.md)
 * [Tastic](php/ApiCoreBundle/Domain/Tastic.md)
 * [TasticService](php/ApiCoreBundle/Domain/TasticService.md)
 * [FeatureFlag](php/ApiCoreBundle/Domain/App/FeatureFlag.md)
@@ -33,11 +33,9 @@ Here you find the API documentation for the relevant classes:
 * [Teaser](php/ApiCoreBundle/Domain/App/Teaser.md)
 * [ClientFactory](php/ApiCoreBundle/Domain/CommerceTools/ClientFactory.md)
 * [LocaleResolver](php/ApiCoreBundle/Domain/Context/LocaleResolver.md)
-* [Endpoint](php/ApiCoreBundle/Domain/RemoteDecorator/Endpoint.md)
-* [Formatter](php/ApiCoreBundle/Domain/RemoteDecorator/Formatter.md)
-* [ProductApiDecorator](php/ApiCoreBundle/Domain/RemoteDecorator/ProductApiDecorator.md)
 * [Cell](php/FrontendBundle/Domain/Cell.md)
 * [Configuration](php/FrontendBundle/Domain/Configuration.md)
+* [EnabledFacetService](php/FrontendBundle/Domain/EnabledFacetService.md)
 * [Facet](php/FrontendBundle/Domain/Facet.md)
 * [FacetService](php/FrontendBundle/Domain/FacetService.md)
 * [FeatureFlagService](php/FrontendBundle/Domain/FeatureFlagService.md)

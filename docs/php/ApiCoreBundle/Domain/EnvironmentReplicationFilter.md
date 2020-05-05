@@ -15,14 +15,14 @@
 ```php
 public function __construct(
     \Frontastic\Common\ReplicatorBundle\Domain\Target $replicationTarget,
-    Context $context
+    string $applicationEnvironment
 ): mixed
 ```
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
 `$replicationTarget`|`\Frontastic\Common\ReplicatorBundle\Domain\Target`||
-`$context`|[`Context`](Context.md)||
+`$applicationEnvironment`|`string`||
 
 Return Value: `mixed`
 
