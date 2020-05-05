@@ -34,9 +34,12 @@ class FrontasticLogProcessor
             return $record;
         }
 
-        // It might make sense to move this to the top level record.
-        // I decided to keep it here for now, because that makes it visible in the plain text logfiles.
-        $record['extra']['frontastic_request_id'] = $request->attributes->get(self::ATTRIBUTE_KEY);
+        $record['extra']['requestId'] = $request->attributes->get(self::ATTRIBUTE_KEY);
+        $record['extra']['request'] = [
+            'path' => $request->getPathInfo(),
+            'host' => $request->getHost(),
+        ];
+
 
         return $record;
     }

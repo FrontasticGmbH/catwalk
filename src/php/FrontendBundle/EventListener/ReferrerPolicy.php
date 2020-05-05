@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
+use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
@@ -10,18 +11,21 @@ class ReferrerPolicy
 {
     const DEFAULT = 'same-origin';
 
-    private $context;
+    /**
+     * @var Project
+     */
+    private $project;
 
-    public function __construct(Context $context)
+    public function __construct(Project $project)
     {
-        $this->context = $context;
+        $this->project = $project;
     }
 
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $event->getResponse()->headers->set(
             'Referrer-Policy',
-            $this->context->project->configuration['referrerPolicy'] ?? self::DEFAULT
+            $this->project->configuration['referrerPolicy'] ?? self::DEFAULT
         );
     }
 }

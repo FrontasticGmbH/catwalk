@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Environment;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -27,8 +28,6 @@ class AppKernel extends \Frontastic\Common\Kernel
 
             new \Frontastic\Common\CoreBundle\FrontasticCommonCoreBundle(),
             new \Frontastic\Common\ReplicatorBundle\FrontasticCommonReplicatorBundle(),
-            new \Frontastic\Catwalk\FrontendBundle\FrontasticCatwalkFrontendBundle(),
-            new \Frontastic\Catwalk\ApiCoreBundle\FrontasticCatwalkApiCoreBundle(),
             new \Frontastic\Common\AccountApiBundle\FrontasticCommonAccountApiBundle(),
             new \Frontastic\Common\ProductApiBundle\FrontasticCommonProductApiBundle(),
             new \Frontastic\Common\ProjectApiBundle\FrontasticCommonProjectApiBundle(),
@@ -36,6 +35,8 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Frontastic\Common\WishlistApiBundle\FrontasticCommonWishlistApiBundle(),
             new \Frontastic\Common\CartApiBundle\FrontasticCommonCartApiBundle(),
             new \Frontastic\Common\SapCommerceCloudBundle\FrontasticCommonSapCommerceCloudBundle(),
+            new \Frontastic\Catwalk\FrontendBundle\FrontasticCatwalkFrontendBundle(),
+            new \Frontastic\Catwalk\ApiCoreBundle\FrontasticCatwalkApiCoreBundle(),
             new \Frontastic\Catwalk\DevVmBundle\FrontasticCatwalkDevVmBundle(),
         );
 
@@ -127,6 +128,7 @@ class AppKernel extends \Frontastic\Common\Kernel
     {
         $container = parent::buildContainer();
 
+        $container->setParameter('frontastic.environment', Environment::mapFromFramework($this->getEnvironment()));
         $container->setParameter('frontastic.paas_catwalk_dir', __DIR__ . '/../..');
         $container->setParameter('frontastic.gedmo_extension_source_dir', $this->getGedmoExtensionsSourceDir());
 

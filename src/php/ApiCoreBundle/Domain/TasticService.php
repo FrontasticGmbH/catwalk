@@ -23,10 +23,10 @@ class TasticService implements Target
      */
     private $tasticSchemaOverwrites = [];
 
-    public function __construct(TasticGateway $tasticGateway, string $projectPath, string $environment)
+    public function __construct(TasticGateway $tasticGateway, string $projectPath, string $frameworkEnvironment)
     {
         $this->tasticGateway = $tasticGateway;
-        if ($environment === 'dev') {
+        if ($frameworkEnvironment === 'dev') {
             $this->readTasticSchemaOverwrites($projectPath);
         }
     }

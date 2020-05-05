@@ -134,6 +134,12 @@ export default {
             text: 'Your shopping cart is empty.',
         },
         registerNow: 'Register now', // check if correct
+        remove: 'Remove',
+    },
+    checkout: {
+        shipping: 'Shipping',
+        payment: 'Payment',
+        overview: 'Overivew',
     },
     wishlist: {
         title: 'Wishlist',
@@ -172,7 +178,7 @@ export default {
         description: 'Description',
         shipping: 'Shipping',
         reviews: 'Reviews',
-        reviewsWithCount: 'Reviews ({count})',
+        reviewsWithCount: '{count} reviews',
         materialOuterFabric: 'Fabric:',
         color: 'Color',
         designer: 'Designer',
@@ -191,6 +197,8 @@ export default {
             title: 'Standard delivery:',
             message: 'free of charge 2-4 working days',
         },
+        delivery24hs: 'Delivery in 24 hs',
+        freeReturns: 'Free returns',
 
     },
     filters: {

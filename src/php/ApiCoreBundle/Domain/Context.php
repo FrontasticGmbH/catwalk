@@ -12,9 +12,9 @@ use Frontastic\Common\AccountApiBundle\Domain\Session;
 class Context extends DataObject
 {
     /**
-     * @var string
+     * @var string Symfony environment
      *
-     * @todo This seems to be the Symfony env, we should better use the application environment directly.
+     * @deprecated Use the {@link applicationEnvironment()} instead
      */
     public $environment = 'prod';
 
@@ -79,7 +79,7 @@ class Context extends DataObject
 
     public function applicationEnvironment(): string
     {
-        return $this->mapFrameworkToApplicationEnvironment($this->environment);
+        return Environment::mapFromFramework($this->environment);
     }
 
     public function hasFeature(string $featureFlag): bool
@@ -89,22 +89,6 @@ class Context extends DataObject
         }
 
         return (bool) $this->featureFlags[$featureFlag];
-    }
-
-    private function mapFrameworkToApplicationEnvironment(string $frameworkEnvironment): string
-    {
-        $map  =  [
-            'dev' => 'development',
-            'test' => 'testing',
-            'staging' => 'staging',
-            'prod' => 'production',
-        ];
-
-        if (!isset($map[$frameworkEnvironment])) {
-            throw new \OutOfBoundsException('Unknown environment ' . $frameworkEnvironment);
-        }
-
-        return $map[$frameworkEnvironment];
     }
 
     public function isProduction(): bool

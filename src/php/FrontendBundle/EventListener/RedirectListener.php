@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\Domain\RedirectService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -14,9 +15,15 @@ class RedirectListener
      */
     private $redirectService;
 
-    public function __construct(RedirectService $redirectService)
+    /**
+     * @var ContextService
+     */
+    private $contextService;
+
+    public function __construct(RedirectService $redirectService, ContextService $contextService)
     {
         $this->redirectService = $redirectService;
+        $this->contextService = $contextService;
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event): void
@@ -27,7 +34,8 @@ class RedirectListener
 
         $targetUrl = $this->redirectService->getRedirectUrlForRequest(
             $event->getRequest()->getPathInfo(),
-            $event->getRequest()->query
+            $event->getRequest()->query,
+            $this->contextService->createContextFromRequest($event->getRequest())
         );
         if ($targetUrl === null) {
             return;

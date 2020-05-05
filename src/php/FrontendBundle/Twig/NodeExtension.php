@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Twig;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
@@ -45,6 +46,8 @@ class NodeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
 
+        $context = $this->container->get(ContextService::class)->createContextFromRequest($request);
+
         $route = '';
         $parameters = [];
 
@@ -64,10 +67,10 @@ class NodeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
 
         return [
             'frontastic' => [
-                'context' => $this->container->get(Context::class),
+                'context' => $context,
                 'tastics' => $this->container->get(TasticService::class)->getAll(),
                 'facets' => $this->container->get(FacetService::class)->getEnabled(),
-                'categories' => $this->getCategories(),
+                'categories' => $this->getCategories($context),
                 'route' => [
                     'route' => $route,
                     'parameters' => $parameters,
@@ -89,11 +92,10 @@ class NodeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
         );
     }
 
-    private function getCategories(): array
+    private function getCategories(Context $context): array
     {
         if (!($categories = $this->cache->get(self::CATEGORY_CACHE_KEY, false))) {
             try {
-                $context = $this->container->get(Context::class);
                 $categories = $this->container->get(ProductApi::class)->getCategories(
                     new CategoryQuery([
                         'locale' => $context->locale,

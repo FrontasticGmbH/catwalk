@@ -21,16 +21,10 @@ class RedirectService implements Target
      */
     private $router;
 
-    /**
-     * @var Context
-     */
-    private $context;
-
-    public function __construct(RedirectGateway $redirectGateway, Router $router, Context $context)
+    public function __construct(RedirectGateway $redirectGateway, Router $router)
     {
         $this->redirectGateway = $redirectGateway;
         $this->router = $router;
-        $this->context = $context;
     }
 
     public function lastUpdate(): string
@@ -59,7 +53,7 @@ class RedirectService implements Target
         return $this->redirectGateway->get($redirectId);
     }
 
-    public function getRedirectUrlForRequest(string $path, ParameterBag $queryParameters): ?string
+    public function getRedirectUrlForRequest(string $path, ParameterBag $queryParameters, Context $context): ?string
     {
         $redirect = $this->getRedirectForRequest($path, $queryParameters);
         if ($redirect === null) {
@@ -74,10 +68,10 @@ class RedirectService implements Target
             case Redirect::TARGET_TYPE_NODE:
                 $locales = [
                     $redirect->language,
-                    $this->context->locale,
-                    $this->getLanguageFromLocaleWithTerritory($this->context->locale),
-                    $this->context->project->defaultLanguage,
-                    $this->getLanguageFromLocaleWithTerritory($this->context->project->defaultLanguage),
+                    $context->locale,
+                    $this->getLanguageFromLocaleWithTerritory($context->locale),
+                    $context->project->defaultLanguage,
+                    $this->getLanguageFromLocaleWithTerritory($context->project->defaultLanguage),
                 ];
                 foreach ($locales as $locale) {
                     if ($locale === null) {

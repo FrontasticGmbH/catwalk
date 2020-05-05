@@ -24,5 +24,6 @@
     </div>
     <div id="appData"
          data-props="{{ pageData|frontastic_json_serialize|json_encode }}"
+         data-user-agent="{{ app.request.headers.get('User-Agent') }}"
      />
 {% endspaceless %}

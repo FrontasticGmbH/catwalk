@@ -7,13 +7,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * This command clears the symfony caches of older versions, which is necessary on the deploy-hosts and has no effect
+ * on production catwalks.
+ */
 class ClearOrphanedCachesCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
             ->setName('frontastic:clear:orphaned-system-caches')
-            ->setDescription('Removes orphaned system caches from older software versions');
+            ->setDescription(
+                'Removes orphaned system caches from older software versions which is necessary for the deploy-hosts'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
