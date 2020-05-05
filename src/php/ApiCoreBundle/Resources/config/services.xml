@@ -146,16 +146,5 @@
         <service id="Frontastic\Catwalk\ApiCoreBundle\Monolog\FrontasticLogProcessor" autowire="true" >
             <tag name="monolog.processor"/>
         </service>
-
-        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\RemoteDecoratorFactory">
-            <argument>%kernel.root_dir%/config/decorators/</argument>
-        </service>
-
-        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\RemoteDecorator\ProductApiDecorator">
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\RemoteDecoratorFactory" />
-            <argument type="service" id="Frontastic\Common\HttpClient" />
-
-            <tag name="productApi.lifecycleEventListener" />
-        </service>
     </services>
 </container>

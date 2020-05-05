@@ -10,8 +10,6 @@ files:
  - php/FrontendBundle/Domain/*.php
  - php/FrontendBundle/Domain/*/*.php
  - php/FrontendBundle/Routing/ObjectRouter/ProductRouter.php
-http:
- - php/ApiCoreBundle/Domain/RemoteDecorator/ProductApiDecorator.php
 reference:
  - ../../libraries/common/src/php/*ApiBundle/Domain/*.php
  - ../../libraries/common/src/php/*ApiBundle/Domain/*/*.php
