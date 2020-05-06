@@ -140,7 +140,7 @@ export default {
         shipping: 'Shipping',
         payment: 'Payment',
         overview: 'Overivew',
-        backToShop: 'Back to shop',
+        backToCart: 'Back to cart',
     },
     wishlist: {
         title: 'Wishlist',

@@ -181,7 +181,7 @@ export default {
         shipping: 'Versand',
         payment: 'Zahlung',
         overview: 'Überivew',
-        backToShop: 'Zurück zum shop',
+        backToCart: 'Zurück zum Warenkorb',
     },
     wishlist: {
         title: 'Wunschliste',
