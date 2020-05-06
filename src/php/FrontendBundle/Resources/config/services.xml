@@ -517,6 +517,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Security\AccountProvider">
             <argument type="service" id="Frontastic\Common\AccountApiBundle\Domain\AccountService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Security\Authenticator">

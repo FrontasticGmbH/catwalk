@@ -94,7 +94,8 @@ class Authenticator extends AbstractGuardAuthenticator
             $user->setPassword($credentials['password']);
             return $this->accountService->login(
                 $user,
-                $this->cartApi->getAnonymous(session_id(), $credentials['locale'])
+                $this->cartApi->getAnonymous(session_id(), $credentials['locale']),
+                $credentials['locale']
             );
         } catch (\Exception $e) {
             throw new AuthenticationException('Not authenticated.', 0, $e);
