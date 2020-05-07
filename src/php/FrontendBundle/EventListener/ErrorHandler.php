@@ -36,8 +36,7 @@ class ErrorHandler implements EventSubscriberInterface
     public function __construct(
         ContextService $contextService,
         ErrorNodeRenderer $errorNodeRenderer
-    )
-    {
+    ) {
         $this->contextService = $contextService;
         $this->errorNodeRenderer = $errorNodeRenderer;
     }
@@ -71,11 +70,10 @@ class ErrorHandler implements EventSubscriberInterface
     {
         $throwable = $event->getThrowable();
 
-        if($throwable instanceof HttpExceptionInterface) {
+        if ($throwable instanceof HttpExceptionInterface) {
             return $throwable->getStatusCode();
         }
 
         return Response::HTTP_INTERNAL_SERVER_ERROR;
     }
-
 }
