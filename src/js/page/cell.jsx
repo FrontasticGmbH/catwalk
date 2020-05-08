@@ -4,50 +4,52 @@ import PropTypes from 'prop-types'
 import UICell from '../patterns/atoms/grid/cell'
 import Tastic from './tastic'
 
-const insertIf = (cond, ...els) => { return (cond ? els : []) }
+const insertIf = (cond, ...els) => {
+    return cond ? els : []
+}
 
-class Cell extends React.Component {
-    render () {
-        let cell = this.props.cell
-        let columns = cell.schema.get('size') || '12'
+const Cell = ({ node, page, region, cell, data, highlight }) => {
+    let columns = cell.schema.get('size') || '12'
 
-        return (
-            <UICell
-                size={columns}
-                hideOn={[
-                    ...insertIf(!cell.schema.get('mobile'), 'hand'),
-                    ...insertIf(!cell.schema.get('tablet'), 'lap'),
-                    ...insertIf(!cell.schema.get('desktop'), 'desk'),
-                ]}
-                style={{
-                    outline: cell.cellId === this.props.highlight ? '2px dashed #30a0bf' : null,
-                }}
-                >
-                {cell && cell.tastics && cell.tastics.length
-                    ? cell.tastics.map((tastic, i) => {
-                          if (!tastic || !this.props.data) {
-                            // eslint-disable-next-line no-console
-                            console.error('Could not render tastic, because tastic data was missing')
-                            return null
-                          }
-
-                          return (
-                              <Tastic
-                                  key={tastic.tasticId}
-                                  highlight={this.props.highlight}
-                                  node={this.props.node}
-                                  page={this.props.page}
-                                  data={this.props.data}
-                                  region={this.props.region}
-                                  cell={cell}
-                                  tastic={tastic}
-                              />
+    return (
+        <UICell
+            size={columns}
+            hideOn={[
+                ...insertIf(!cell.schema.get('mobile'), 'hand'),
+                ...insertIf(!cell.schema.get('tablet'), 'lap'),
+                ...insertIf(!cell.schema.get('desktop'), 'desk'),
+            ]}
+            style={{
+                outline:
+                    cell.cellId === highlight ? '2px dashed #30a0bf' : null,
+            }}
+            >
+            {cell && cell.tastics && cell.tastics.length
+                ? cell.tastics.map((tastic, i) => {
+                      if (!tastic || !data) {
+                          // eslint-disable-next-line no-console
+                          console.error(
+                              'Could not render tastic, because tastic data was missing'
                           )
-                      })
-                    : null}
-            </UICell>
-        )
-    }
+                          return null
+                      }
+
+                      return (
+                          <Tastic
+                              key={tastic.tasticId}
+                              highlight={highlight}
+                              node={node}
+                              page={page}
+                              data={data}
+                              region={region}
+                              cell={cell}
+                              tastic={tastic}
+                          />
+                      )
+                  })
+                : null}
+        </UICell>
+    )
 }
 
 Cell.propTypes = {

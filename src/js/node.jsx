@@ -20,7 +20,6 @@ class Node extends Component {
         if (!this.props.node.data || !this.props.tastics.isComplete()) {
             return <Loading large entity={this.props.tastics} />
         }
-
         let nodeData = this.props.node.data || { configuration: {} }
 
         // Special handling for `path` property, which is always there even though not defined in schema
@@ -39,14 +38,14 @@ class Node extends Component {
 
         return (
             <div className={`s-node ${customClassname}`}>
-                {this.props.tastics.isComplete() ? (
+                {this.props.tastics.isComplete() && this.props.page.data && this.props.data.data ? (
                     <Fragment>
-                        <MetaData node={nodeData} page={this.props.page.data || {}} data={this.props.data.data || {}} />
+                        <MetaData node={nodeData} page={this.props.page.data} data={this.props.data.data} />
                         {this.props.node.data.error && <Markdown text={this.props.node.data.error} />}
                         <Page
                             node={nodeData}
-                            page={this.props.page.data || {}}
-                            data={this.props.data.data || {}}
+                            page={this.props.page.data}
+                            data={this.props.data.data}
                             tastics={this.props.tastics.data}
                         />
                     </Fragment>

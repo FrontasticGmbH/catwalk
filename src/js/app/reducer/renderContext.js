@@ -8,51 +8,53 @@ const initialState = {
 
 const detectingReducer = (state = initialState, action) => {
     switch (action.type) {
-    case 'Frontastic.RenderContext.ClientSideDetected':
-        return {
-            ...state,
-            serverSideRendering: false,
-        }
-    case 'Frontastic.RenderContext.UserAgentDetected':
-        return renderContextWithDeviceType({
-            ...state,
-            userAgent: action.userAgent,
-        })
-    case 'Frontastic.RenderContext.ViewportDimensionChanged':
-        return renderContextWithDeviceType({
-            ...state,
-            viewportDimension: action.viewportDimension,
-        })
-    case 'ApiBundle.Api.context.success':
-        if (!action.data || !action.data.project || !action.data.project.data || !action.data.project.data.layout) {
-            // eslint-disable-next-line no-console
-            console.warn('Frontastic needs the breakpoints configured in project.yml')
+        case 'Frontastic.RenderContext.ClientSideDetected':
+            return {
+                ...state,
+                serverSideRendering: false,
+            }
+        case 'Frontastic.RenderContext.UserAgentDetected':
+            return renderContextWithDeviceType({
+                ...state,
+                userAgent: action.userAgent,
+            })
+        case 'Frontastic.RenderContext.ViewportDimensionChanged':
+            return renderContextWithDeviceType({
+                ...state,
+                viewportDimension: action.viewportDimension,
+            })
+        case 'ApiBundle.Api.context.success':
+            if (!action.data || !action.data.project || !action.data.project.data || !action.data.project.data.layout) {
+                // eslint-disable-next-line no-console
+                console.warn('Frontastic needs the breakpoints configured in project.yml')
+                return state
+            }
+            return {
+                ...state,
+                breakpoints: action.data.project.data.layout.breakpoints,
+            }
+        default:
             return state
-        }
-        return {
-            ...state,
-            breakpoints: action.data.project.data.layout.breakpoints,
-        }
-    default:
-        return state
     }
 }
 
 const detectDeviceTypeByRenderContext = (renderContext) => {
     if (renderContext.viewportDimension && renderContext.breakpoints) {
-        const breakpointsSortedByMaxWidth = renderContext.breakpoints.map(breakpoint => {
-            if (breakpoint.minWidth) {
-                return breakpoint
-            }
-            return {
-                ...breakpoint,
-                minWidth: -Infinity,
-            }
-        }).sort((a, b) => {
-            return b.minWidth - a.minWidth
-        })
+        const breakpointsSortedByMaxWidth = renderContext.breakpoints
+            .map((breakpoint) => {
+                if (breakpoint.minWidth) {
+                    return breakpoint
+                }
+                return {
+                    ...breakpoint,
+                    minWidth: -Infinity,
+                }
+            })
+            .sort((a, b) => {
+                return b.minWidth - a.minWidth
+            })
 
-        const possibleBreakpoints = breakpointsSortedByMaxWidth.filter(breakpoint => {
+        const possibleBreakpoints = breakpointsSortedByMaxWidth.filter((breakpoint) => {
             return breakpoint.minWidth < renderContext.viewportDimension.width
         })
 
@@ -65,32 +67,29 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
     }
 
     if (renderContext.userAgent && renderContext.breakpoints) {
-        const matchedBreakpoint = renderContext.breakpoints.reduce(
-            (matchedBreakpoint, breakpoint) => {
-                if (matchedBreakpoint && matchedBreakpoint.userAgentRegexp) {
-                    return matchedBreakpoint
-                }
+        const matchedBreakpoint = renderContext.breakpoints.reduce((matchedBreakpoint, breakpoint) => {
+            if (matchedBreakpoint && matchedBreakpoint.userAgentRegexp) {
+                return matchedBreakpoint
+            }
 
-                if (breakpoint.userAgentRegexp) {
-                    const regexp = new RegExp(breakpoint.userAgentRegexp, breakpoint.userAgentRegexpModifiers)
-                    return renderContext.userAgent.match(regexp) ? breakpoint : matchedBreakpoint
-                }
+            if (breakpoint.userAgentRegexp) {
+                const regexp = new RegExp(breakpoint.userAgentRegexp, breakpoint.userAgentRegexpModifiers)
+                return renderContext.userAgent.match(regexp) ? breakpoint : matchedBreakpoint
+            }
 
-                // The current breakpoint and the matchedBreakpoint does not have a userAgentRegexp, therefore there
-                // must be two default breakpoints so let's raise a warning here
-                if (matchedBreakpoint) {
-                    // eslint-disable-next-line no-console
-                    console.warn(
-                        'More than one breakpoint is missing a userAgentRegexp, using the last one in array. Did you' +
+            // The current breakpoint and the matchedBreakpoint does not have a userAgentRegexp, therefore there
+            // must be two default breakpoints so let's raise a warning here
+            if (matchedBreakpoint) {
+                // eslint-disable-next-line no-console
+                console.warn(
+                    'More than one breakpoint is missing a userAgentRegexp, using the last one in array. Did you' +
                         ' forget to add them for the other entries?'
-                    )
-                }
+                )
+            }
 
-                // No userAgentRegexp has been set, therefore this must be the default
-                return breakpoint
-            },
-            null
-        )
+            // No userAgentRegexp has been set, therefore this must be the default
+            return breakpoint
+        }, null)
 
         return matchedBreakpoint.identifier
     }
