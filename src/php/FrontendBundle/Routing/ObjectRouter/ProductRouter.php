@@ -53,7 +53,7 @@ class ProductRouter
 
     /**
      * @param Request $request
-     * @return string|null ID of the product
+     * @return ?string ID of the product
      */
     public function identifyFrom(Request $request, Context $context): ?string
     {

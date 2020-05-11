@@ -12,7 +12,9 @@ use Frontastic\Common\AccountApiBundle\Domain\Session;
 class Context extends DataObject
 {
     /**
-     * @var string Symfony environment
+     * Symfony environment
+     *
+     * @var string
      *
      * @deprecated Use the {@link applicationEnvironment()} instead
      */

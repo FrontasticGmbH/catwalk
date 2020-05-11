@@ -57,7 +57,7 @@ class Authenticator extends AbstractGuardAuthenticator
      *      return array('api_key' => $request->headers->get('X-API-TOKEN'));
      *
      * @param Request $request
-     * @return mixed|null
+     * @return ?mixed
      */
     public function getCredentials(Request $request)
     {
@@ -82,7 +82,7 @@ class Authenticator extends AbstractGuardAuthenticator
      *
      * @param mixed $credentials
      * @param UserProviderInterface $userProvider
-     * @return UserInterface|null
+     * @return ?UserInterface
      * @throws AuthenticationException
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
@@ -158,7 +158,7 @@ class Authenticator extends AbstractGuardAuthenticator
      *
      * @param Request $request
      * @param AuthenticationException $exception
-     * @return Response|null
+     * @return ?Response
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {

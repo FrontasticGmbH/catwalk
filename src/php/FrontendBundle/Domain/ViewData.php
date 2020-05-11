@@ -7,12 +7,16 @@ use Kore\DataObject\DataObject;
 class ViewData extends DataObject
 {
     /**
-     * @var object Hash map of streams
+     * Hash map of streams
+     *
+     * @var object
      */
     public $stream;
 
     /**
-     * @var object Hash map of tastic field data
+     * Hash map of tastic field data
+     *
+     * @var object
      */
     public $tastic;
 }

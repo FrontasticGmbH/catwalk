@@ -8,5 +8,5 @@ Property|Type|Default|Description
 --------|----|-------|-----------
 `nodeId`|`string`||
 `route`|`string`||
-`locale`|`string|null`||
+`locale`|`?string`||
 

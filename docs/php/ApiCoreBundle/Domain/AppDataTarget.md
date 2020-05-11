@@ -17,7 +17,7 @@ public function __construct(
     AppService $appService,
     AppRepositoryService $appRepositoryService,
     \Frontastic\Catwalk\ApiCoreBundle\Gateway\AppRepositoryGateway $appRepositoryGateway,
-    Context $context
+    \Frontastic\Common\ReplicatorBundle\Domain\Project $project
 ): mixed
 ```
 
@@ -26,7 +26,7 @@ Argument|Type|Default|Description
 `$appService`|[`AppService`](AppService.md)||
 `$appRepositoryService`|[`AppRepositoryService`](AppRepositoryService.md)||
 `$appRepositoryGateway`|`\Frontastic\Catwalk\ApiCoreBundle\Gateway\AppRepositoryGateway`||
-`$context`|[`Context`](Context.md)||
+`$project`|`\Frontastic\Common\ReplicatorBundle\Domain\Project`||
 
 Return Value: `mixed`
 

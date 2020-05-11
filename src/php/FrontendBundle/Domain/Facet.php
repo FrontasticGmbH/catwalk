@@ -27,7 +27,9 @@ class Facet extends FacetDefinition
     public $isEnabled = false;
 
     /**
-     * @var array|null Translatable strings or null
+     * Translatable strings or null
+     *
+     * @var ?array
      */
     public $label;
 
