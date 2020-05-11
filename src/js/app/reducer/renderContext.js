@@ -8,33 +8,33 @@ const initialState = {
 
 const detectingReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'Frontastic.RenderContext.ClientSideDetected':
-            return {
-                ...state,
-                serverSideRendering: false,
-            }
-        case 'Frontastic.RenderContext.UserAgentDetected':
-            return renderContextWithDeviceType({
-                ...state,
-                userAgent: action.userAgent,
-            })
-        case 'Frontastic.RenderContext.ViewportDimensionChanged':
-            return renderContextWithDeviceType({
-                ...state,
-                viewportDimension: action.viewportDimension,
-            })
-        case 'ApiBundle.Api.context.success':
-            if (!action.data || !action.data.project || !action.data.project.data || !action.data.project.data.layout) {
-                // eslint-disable-next-line no-console
-                console.warn('Frontastic needs the breakpoints configured in project.yml')
-                return state
-            }
-            return {
-                ...state,
-                breakpoints: action.data.project.data.layout.breakpoints,
-            }
-        default:
+    case 'Frontastic.RenderContext.ClientSideDetected':
+        return {
+            ...state,
+            serverSideRendering: false,
+        }
+    case 'Frontastic.RenderContext.UserAgentDetected':
+        return renderContextWithDeviceType({
+            ...state,
+            userAgent: action.userAgent,
+        })
+    case 'Frontastic.RenderContext.ViewportDimensionChanged':
+        return renderContextWithDeviceType({
+            ...state,
+            viewportDimension: action.viewportDimension,
+        })
+    case 'ApiBundle.Api.context.success':
+        if (!action.data || !action.data.project || !action.data.project.data || !action.data.project.data.layout) {
+            // eslint-disable-next-line no-console
+            console.warn('Frontastic needs the breakpoints configured in project.yml')
             return state
+        }
+        return {
+            ...state,
+            breakpoints: action.data.project.data.layout.breakpoints,
+        }
+    default:
+        return state
     }
 }
 
@@ -83,7 +83,7 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
                 // eslint-disable-next-line no-console
                 console.warn(
                     'More than one breakpoint is missing a userAgentRegexp, using the last one in array. Did you' +
-                        ' forget to add them for the other entries?'
+                    ' forget to add them for the other entries?'
                 )
             }
 
