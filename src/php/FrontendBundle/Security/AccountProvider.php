@@ -5,7 +5,6 @@ namespace Frontastic\Catwalk\FrontendBundle\Security;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
 use Frontastic\Common\AccountApiBundle\Domain\AccountService;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -18,18 +17,12 @@ class AccountProvider implements UserProviderInterface
         $this->accountService = $accountService;
     }
 
-    public function loadUserByUsername($username) // No typehint allowed by interfache
+    public function loadUserByUsername($username): Account
     {
-        try {
-            return $this->accountService->get($username);
-        } catch (\OutOfBoundsException $e) {
-            throw new UsernameNotFoundException(
-                sprintf('Username "%s" does not exist.', $username)
-            );
-        }
+        throw new \BadMethodCallException();
     }
 
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): Account
     {
         if (!$user instanceof Account) {
             throw new UnsupportedUserException(
@@ -37,10 +30,10 @@ class AccountProvider implements UserProviderInterface
             );
         }
 
-        return $this->loadUserByUsername($user->getUsername());
+        return $this->accountService->refresh($user);
     }
 
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return $class === Account::class;
     }
