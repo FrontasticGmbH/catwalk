@@ -181,6 +181,11 @@ export default {
         shipping: 'Versand',
         payment: 'Zahlung',
         overview: 'Überivew',
+        hooray: 'Hurra! Ihre bestellung',
+        wasConfirmed: 'wurde bestätigt',
+        orderConfirmation: 'Wir haben Ihre Auftragsbestätigung gesendet',
+        andInvoice: 'und Rechnung an:',
+        continueShopping: 'Weiter einkaufen', 
     },
     wishlist: {
         title: 'Wunschliste',

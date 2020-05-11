@@ -140,6 +140,12 @@ export default {
         shipping: 'Shipping',
         payment: 'Payment',
         overview: 'Overivew',
+        hooray: 'Hooray! Your order',
+        wasConfirmed: 'was confirmed',
+        orderConfirmation: 'We have sent your order confirmation',
+        andInvoice: 'and invoice to:',
+        continueShopping: 'Continue shopping',
+
     },
     wishlist: {
         title: 'Wishlist',
