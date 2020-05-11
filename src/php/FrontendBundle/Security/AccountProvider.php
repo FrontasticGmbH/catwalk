@@ -2,34 +2,33 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Security;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
 use Frontastic\Common\AccountApiBundle\Domain\AccountService;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class AccountProvider implements UserProviderInterface
 {
+    /** @var AccountService */
     private $accountService;
 
-    public function __construct(AccountService $accountService)
+    /** @var ContextService */
+    private $contextService;
+
+    public function __construct(AccountService $accountService, ContextService $contextService)
     {
         $this->accountService = $accountService;
+        $this->contextService = $contextService;
     }
 
-    public function loadUserByUsername($username) // No typehint allowed by interfache
+    public function loadUserByUsername($username): Account
     {
-        try {
-            return $this->accountService->get($username);
-        } catch (\OutOfBoundsException $e) {
-            throw new UsernameNotFoundException(
-                sprintf('Username "%s" does not exist.', $username)
-            );
-        }
+        throw new \BadMethodCallException();
     }
 
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): Account
     {
         if (!$user instanceof Account) {
             throw new UnsupportedUserException(
@@ -37,10 +36,12 @@ class AccountProvider implements UserProviderInterface
             );
         }
 
-        return $this->loadUserByUsername($user->getUsername());
+        $context = $this->contextService->createContextFromRequest();
+
+        return $this->accountService->refresh($user, $context->locale);
     }
 
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return $class === Account::class;
     }

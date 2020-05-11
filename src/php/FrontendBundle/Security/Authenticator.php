@@ -88,7 +88,15 @@ class Authenticator extends AbstractGuardAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         try {
-            return $userProvider->loadUserByUsername($credentials['email']);
+            $user = new Account([
+                'email' => $credentials['email'],
+            ]);
+            $user->setPassword($credentials['password']);
+            return $this->accountService->login(
+                $user,
+                $this->cartApi->getAnonymous(session_id(), $credentials['locale']),
+                $credentials['locale']
+            );
         } catch (\Exception $e) {
             throw new AuthenticationException('Not authenticated.', 0, $e);
         }
@@ -114,14 +122,7 @@ class Authenticator extends AbstractGuardAuthenticator
             return false;
         }
 
-        // We are not calling isValidPassword since Commercetools also hashes
-        // the password and does not return the original hash, so that we can't
-        // compare hashes any more.
-        $user->setPassword($credentials['password']);
-        return $this->accountService->login(
-            $user,
-            $this->cartApi->getAnonymous(session_id(), $credentials['locale'])
-        );
+        return $user->confirmed;
     }
 
     /**
