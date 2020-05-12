@@ -183,7 +183,7 @@ export default {
         overview: 'Überivew',
         orderConfirmed: 'Hurra! Ihre bestellung wurde bestätigt',
         orderConfirmation: 'Wir haben Ihre Auftragsbestätigung gesendet und Rechnung an:',
-        continueShopping: 'Weiter einkaufen', 
+        continueShopping: 'Weiter einkaufen',
         backToCart: 'Zurück zum Warenkorb',
         nextPayment: 'Nächste: Zahlung',
         nextOverview: 'Nächste: Übersicht',
