@@ -175,7 +175,7 @@ class TasticFieldService
     /**
      * @param $fieldDefinition
      * @param array $configuration
-     * @return mixed|null
+     * @return ?mixed
      */
     private function getFieldValue(array $fieldDefinition, array $configuration)
     {

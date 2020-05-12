@@ -65,15 +65,15 @@ Return Value: `array`
 
 ```php
 public function getProduct(
-    \Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery $query,
+    mixed $query,
     string $mode = self::QUERY_SYNC
 ): ?object
 ```
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
-`$query`|`\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery`||
-`$mode`|`string`|`self::QUERY_SYNC`|One of the QUERY_* connstants. Execute the query synchronously or asynchronously?
+`$query`|`mixed`||
+`$mode`|`string`|`self::QUERY_SYNC`|
 
 Return Value: `?object`
 

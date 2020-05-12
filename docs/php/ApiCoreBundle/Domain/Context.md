@@ -6,7 +6,7 @@
 
 Property|Type|Default|Description
 --------|----|-------|-----------
-`environment`|`string`|`'prod'`|
+`environment`|`string`|`'prod'`|Symfony environment
 `customer`|`\Frontastic\Common\ReplicatorBundle\Domain\Customer`||
 `project`|`\Frontastic\Common\ReplicatorBundle\Domain\Project`||
 `projectConfiguration`|`array`|`[]`|

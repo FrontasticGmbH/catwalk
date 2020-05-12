@@ -10,22 +10,22 @@ use Kore\DataObject\DataObject;
 class PageMatcherContext extends DataObject
 {
     /**
-     * @var object|null
+     * @var ?object
      */
     public $entity;
 
     /**
-     * @var string|null
+     * @var ?string
      */
     public $categoryId;
 
     /**
-     * @var string|null
+     * @var ?string
      */
     public $productId;
 
     /**
-     * @var string|null
+     * @var ?string
      */
     public $contentId;
 
@@ -35,67 +35,67 @@ class PageMatcherContext extends DataObject
     public $search;
 
     /**
-     * @var object|null
+     * @var ?object
      */
     public $cart;
 
     /**
-     * @var object|null
+     * @var ?object
      */
     public $checkout;
 
     /**
-     * @var object|null
+     * @var ?object
      */
     public $checkoutFinished;
 
     /**
-     * @var string|null
+     * @var ?string
      */
     public $orderId;
 
     /**
-     * @var object|null
+     * @var ?object
      */
     public $account;
 
     /**
-     * @var object|null
+     * @var ?object
      */
     public $accountForgotPassword;
 
     /**
-     * @var object|null
+     * @var ?object
      */
     public $accountConfirm;
 
     /**
-     * @var object|null
+     * @var ?object
      */
     public $accountProfile;
 
     /**
-     * @var object|null
+     * @var ?object
      */
     public $accountAddresses;
 
     /**
-     * @var object|null
+     * @var ?object
      */
     public $accountOrders;
 
     /**
-     * @var object|null
+     * @var ?object
      */
     public $accountWishlists;
 
     /**
-     * @var object|null
+     * @var ?object
      */
     public $accountVouchers;
 
     /**
-     * @var object|null
+     * @var ?object
      */
     public $error;
 

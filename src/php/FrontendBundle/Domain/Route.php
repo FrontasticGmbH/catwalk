@@ -17,7 +17,7 @@ class Route extends DataObject
     public $route;
 
     /**
-     * @var string|null
+     * @var ?string
      */
     public $locale;
 }

@@ -6,6 +6,6 @@
 
 Property|Type|Default|Description
 --------|----|-------|-----------
-`stream`|`object`||
-`tastic`|`object`||
+`stream`|`object`||Hash map of streams
+`tastic`|`object`||Hash map of tastic field data
 
