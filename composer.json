@@ -1,6 +1,6 @@
 {
     "name": "frontastic/catwalk",
-    "version": "1.0.0-beta.91",
+    "version": "1.0.0-rc.1",
     "license": "None",
     "type": "library",
     "repositories": [
