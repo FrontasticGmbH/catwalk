@@ -17,7 +17,7 @@ class Cell extends DataObject
     public $configuration;
 
     /**
-     * @var \stdClass|null
+     * @var ?\stdClass
      */
     public $customConfiguration;
 

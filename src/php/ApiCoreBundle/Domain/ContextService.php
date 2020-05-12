@@ -84,7 +84,7 @@ class ContextService
      * not recommended. If possible, please get hold on the Request you want to react on instead of relying on this
      * magic!
      *
-     * @param Request|null $request
+     * @param ?Request $request
      * @return Context
      */
     public function createContextFromRequest(Request $request = null): Context
@@ -107,9 +107,9 @@ class ContextService
      * This method is meant to be used in cases where $locale and $session are known or do not matter. If you need to
      * create a context for a request, please use {@see ContextService::createContextFromRequest()} instead!
      *
-     * @param string|null $locale
-     * @param Session|null $session
-     * @param string|null $host
+     * @param ?string $locale
+     * @param ?Session $session
+     * @param ?string $host
      * @return Context
      */
     public function getContext(string $locale = null, Session $session = null, string $host = null): Context

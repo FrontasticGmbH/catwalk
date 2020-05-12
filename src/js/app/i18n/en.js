@@ -115,25 +115,25 @@ export default {
         imprint: 'Imprint',
         privacy: 'Privacy',
         deliveryHours: 'Delivery within 24 hours',
-        invoice: 'Purchase on invoice', // check if correct
+        invoice: 'Purchase on invoice',
         freeShipping: 'Free Shipping & Returns',
     },
     cart: {
         myCart: 'My Cart',
         paymentMethods: 'Payment methods',
-        totalSum: 'Total sum', // check if correct
+        totalSum: 'Total sum',
         enterVouchers: 'You can enter voucher codes in the last step of the order process.',
         checkout: 'Checkout',
         subtotal: 'Subtotal',
         shippingCosts: 'Shipping costs',
         gratis: 'gratis',
-        totalAmount: 'Total amount', // check if correct
+        totalAmount: 'Total amount',
         inclVat: 'incl.VAT',
         emptyCart: {
             title: 'My cart',
             text: 'Your shopping cart is empty.',
         },
-        registerNow: 'Register now', // check if correct
+        registerNow: 'Register now',
         remove: 'Remove',
     },
     checkout: {
@@ -145,7 +145,30 @@ export default {
         orderConfirmation: 'We have sent your order confirmation',
         andInvoice: 'and invoice to:',
         continueShopping: 'Continue shopping',
-
+        backToCart: 'Back to cart',
+        nextPayment: 'Next: payment',
+        nextOverview: 'Next: overview',
+        placeOrder: 'Place order',
+        shippingTo: 'Shipping to',
+        shippingAddress: 'Shipping address',
+        shippingInformation: 'Shipping information',
+        billingDetails: 'Billing details',
+        billingInformation: 'Billing information',
+        billingDetailsLabel: 'Use same billing details as delivery address',
+        paymentMethod: 'Payment method',
+        yourOrder: 'Your order',
+        invoice: 'Invoice',
+        edit: 'Edit',
+        form: {
+            firstName: 'First name',
+            lastName: 'Last name',
+            phone: 'Phone number',
+            email: 'Email',
+            address: 'Address',
+            city: 'City',
+            zipCode: 'Zip code',
+            country: 'Country',
+        },
     },
     wishlist: {
         title: 'Wishlist',
@@ -243,4 +266,8 @@ export default {
     reviews: 'Reviews',
     writeReview: 'Write a reivew',
     ratingQuestion: 'This product has reviews. Would you like to review this product?',
+    validation: {
+        required: 'This field is required',
+        email: 'Please enter valid email address',
+    },
 }

@@ -2,124 +2,31 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Frontastic\Catwalk\FrontendBundle\EventListener\ErrorHandler;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Frontastic\Catwalk\FrontendBundle\Domain\Cell;
-use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
-use Frontastic\Catwalk\FrontendBundle\Domain\Node;
-use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
-use Frontastic\Catwalk\FrontendBundle\Domain\Page;
-use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
-use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
-use Frontastic\Catwalk\FrontendBundle\Domain\Region;
-use Frontastic\Catwalk\FrontendBundle\Domain\Tastic;
-use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
-
-/**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects) Due to node faking. Keep
- * this class really concise to avoid errors in error handling.
- */
-class ErrorController extends Controller
+class ErrorController extends AbstractController
 {
-    private $errorTexts = [
-        'en_GB' => "# Internal Server Error\n\n" .
-            "Sorry – we didn't even manage to show you the error page. " .
-            "Errors like this are logged and we will try to fix this as soon as possible. " .
-            "Going back to the [start page](/) might help.",
-        'de_DE' => "# Interner Server-Fehler\n\n" .
-            "Es tut uns leid – wir haben es nichtal geschafft die normale Fehlerseite anzuzeigen. " .
-            "Fehler wie dieser werden geloggt und wir werden versuchen diesen Fehler schnellstmöglich zu beheben. " .
-            "Es kann eventuell helfen auf die [Startseite](/) zurück zu kehren.",
-    ];
-
-    private function getExceptionInformation(FlattenException $exception = null): ?string
+    /**
+     * Action for displaying an error page in development.
+     * The actual displaying is being done in the ErrorHandler these days
+     *
+     * @see ErrorHandler
+     */
+    public function errorAction(Request $request)
     {
-        if (!$exception) {
-            return null;
-        }
+        $code = $this->getStatusCodeForException($request->attributes->get('exception'));
 
-        return "# Exception\n" .
-            "\n⚠ `". $exception->getMessage() . "`\n" .
-            "\n```\n" . implode(
-                "\n",
-                array_map(
-                    function (array $traceLine): string {
-                        return $traceLine['file'] . ' +' . $traceLine['line'];
-                    },
-                    $exception->getTrace()
-                )
-            ) . "\n```\n";
-    }
-
-    public function errorAction(Context $context, FlattenException $exception = null)
-    {
-        // Do not log a FlattenException this way – it has different methods
-        // syslog(LOG_ERR, $exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
-
-        $masterService = $this->get(MasterService::class);
-        $nodeService = $this->get(NodeService::class);
-        $dataProvider = $this->get(ViewDataProvider::class);
-        $pageService = $this->get(PageService::class);
-
-        try {
-            $node = $nodeService->get(
-                $masterService->matchNodeId(new PageMatcherContext([
-                    'error' => !$exception ? true : (object) [
-                        'message' => $exception->getMessage(),
-                        'code' => $exception->getCode(),
-                    ]
-                ]))
-            );
-            $page = $pageService->fetchForNode($node, $context);
-
-            if (!$context->isProduction()) {
-                $node->error = $this->getExceptionInformation($exception);
-            }
-
-            return [
-                'node' => $node,
-                'page' => $page,
-                'data' => $dataProvider->fetchDataFor($node, $context, [], $page),
-            ];
-        } catch (\Throwable $e) {
-            return [
-                'node' => new Node([
-                    'error' => $context->isProduction() ? null : $this->getExceptionInformation(
-                        FlattenException::createFromThrowable($e)
-                    ),
-                ]),
-                'page' => new Page([
-                    'layoutId' => 'three_rows',
-                    'regions' => [
-                        'main' => new Region([
-                            'regionId' => 'main',
-                            'elements' => [
-                                new Cell([
-                                    'cellId' => '1',
-                                    'tastics' => array_filter([
-                                        new Tastic([
-                                            'tasticId' => 'dummy',
-                                            'tasticType' => 'markdown',
-                                            'configuration' => new Tastic\Configuration([
-                                                'text' => $this->errorTexts,
-                                            ]),
-                                        ]),
-                                    ]),
-                                ]),
-                            ],
-                        ]),
-                    ]
-                ]),
-                'data' => (object) [
-                    'stream' => (object) [],
-                    'tastic' => (object) [],
-                ],
-            ];
-        }
+        // We just throw an exception in here, because our ErrorHandler takes care of the rest :parrot:
+        throw new HttpException(
+            $code,
+            'Error page was triggered intentionally for status code ' . $code
+        );
     }
 
     public function recordFrontendErrorAction(Request $request): JsonResponse
@@ -149,5 +56,21 @@ class ErrorController extends Controller
         );
 
         return new JsonResponse($error);
+    }
+
+    /**
+     * @param \Throwable|FlattenException|null $exception
+     */
+    private function getStatusCodeForException($exception): int
+    {
+        if ($exception instanceof FlattenException) {
+            return $exception->getStatusCode() ?? 500;
+        }
+
+        if ($exception instanceof HttpExceptionInterface) {
+            return $exception->getStatusCode();
+        }
+
+        return 500;
     }
 }

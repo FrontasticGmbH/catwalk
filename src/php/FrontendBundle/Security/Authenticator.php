@@ -57,7 +57,7 @@ class Authenticator extends AbstractGuardAuthenticator
      *      return array('api_key' => $request->headers->get('X-API-TOKEN'));
      *
      * @param Request $request
-     * @return mixed|null
+     * @return ?mixed
      */
     public function getCredentials(Request $request)
     {
@@ -82,13 +82,21 @@ class Authenticator extends AbstractGuardAuthenticator
      *
      * @param mixed $credentials
      * @param UserProviderInterface $userProvider
-     * @return UserInterface|null
+     * @return ?UserInterface
      * @throws AuthenticationException
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         try {
-            return $userProvider->loadUserByUsername($credentials['email']);
+            $user = new Account([
+                'email' => $credentials['email'],
+            ]);
+            $user->setPassword($credentials['password']);
+            return $this->accountService->login(
+                $user,
+                $this->cartApi->getAnonymous(session_id(), $credentials['locale']),
+                $credentials['locale']
+            );
         } catch (\Exception $e) {
             throw new AuthenticationException('Not authenticated.', 0, $e);
         }
@@ -114,14 +122,7 @@ class Authenticator extends AbstractGuardAuthenticator
             return false;
         }
 
-        // We are not calling isValidPassword since Commercetools also hashes
-        // the password and does not return the original hash, so that we can't
-        // compare hashes any more.
-        $user->setPassword($credentials['password']);
-        return $this->accountService->login(
-            $user,
-            $this->cartApi->getAnonymous(session_id(), $credentials['locale'])
-        );
+        return $user->confirmed;
     }
 
     /**
@@ -158,7 +159,7 @@ class Authenticator extends AbstractGuardAuthenticator
      *
      * @param Request $request
      * @param AuthenticationException $exception
-     * @return Response|null
+     * @return ?Response
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {

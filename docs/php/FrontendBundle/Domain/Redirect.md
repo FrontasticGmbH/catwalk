@@ -10,9 +10,9 @@ Property|Type|Default|Description
 `sequence`|`string`||
 `path`|`string`||
 `query`|`string`||
-`targetType`|`string`||
+`targetType`|`string`||One of TARGET_TYPE_* constants
 `target`|`string`||
-`language`|`string|null`|`null`|
+`language`|`?string`|`null`|
 `metaData`|`\Frontastic\Backstage\UserBundle\Domain\MetaData`||
 `isDeleted`|`bool`|`false`|
 
