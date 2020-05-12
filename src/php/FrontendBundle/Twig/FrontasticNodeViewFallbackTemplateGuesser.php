@@ -9,7 +9,8 @@ use Twig\Environment;
 /**
  * An improved templateguesser which falls back to our standard node view, if you did not create one explicitly.
  *
- * This means, whenever a controller returns an array but has no twig template associated, we assume you want to render a node.
+ * This means, whenever a controller returns an array but has no twig template associated,
+ * we assume you want to render a node.
  */
 class FrontasticNodeViewFallbackTemplateGuesser implements TemplateGuesser
 {
@@ -34,7 +35,12 @@ class FrontasticNodeViewFallbackTemplateGuesser implements TemplateGuesser
 
     public function guessControllerTemplateName($controller, $actionName, $format, $engine)
     {
-        $templateName = $this->innerTemplateGuesser->guessControllerTemplateName($controller, $actionName, $format, $engine);
+        $templateName = $this->innerTemplateGuesser->guessControllerTemplateName(
+            $controller,
+            $actionName,
+            $format,
+            $engine
+        );
 
         if ($this->twigLoader->exists($templateName)) {
             return $templateName;
