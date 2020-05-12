@@ -181,6 +181,12 @@ export default {
         shipping: 'Versand',
         payment: 'Zahlung',
         overview: 'Überivew',
+        something: 'Etwas',
+        wentWrong: 'ging schief',
+        duringPayment: 'während der Zahlung',
+        beenCharged: 'Keine sorge, Sie wurden nicht angeklagt,',
+        youCan: 'aber Sie können es jederzeit wieder versuchen',
+        tryAgain: 'Erneut versuchen',
     },
     wishlist: {
         title: 'Wunschliste',

@@ -140,6 +140,12 @@ export default {
         shipping: 'Shipping',
         payment: 'Payment',
         overview: 'Overivew',
+        something: 'Something',
+        wentWrong: 'went wrong',
+        duringPayment: 'during payment',
+        beenCharged: 'Don\'t worry you haven\'t been charged,',
+        youCan: 'but you can always try again',
+        tryAgain: 'Try again',
     },
     wishlist: {
         title: 'Wishlist',
