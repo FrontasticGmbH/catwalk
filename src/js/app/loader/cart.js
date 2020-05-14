@@ -1,4 +1,4 @@
-import React from 'react'
+import  React from 'react'
 import _ from 'lodash'
 
 import Cart from '../../domain/cart'
@@ -100,6 +100,34 @@ let CartLoader = function (store, api) {
                     app.getLoader('context').notifyUser(<Message {...error} />, 'error')
                     this.store.dispatch({
                         type: 'CartApi.Cart.add.error',
+                        error: error,
+                    })
+                    reject(error)
+                }
+            )
+        })
+    }
+
+    this.addPayment = (cartInformation) => {
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Demo.Payment.Invoice.add',
+                { ownErrorHandler: true },
+                cartInformation,
+                (data) => {
+                    this.store.dispatch({
+                        // type: 'Payment.Invoice.add.success',
+                        type: 'CartApi.Cart.update.success',
+                        data: data,
+                    })
+                    resolve()
+                },
+                (error) => {
+                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                    this.store.dispatch({
+                        // type: 'Payment.Invoice.add.error',
+                        type: 'CartApi.Cart.update.error',
                         error: error,
                     })
                     reject(error)
