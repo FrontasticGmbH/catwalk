@@ -16,6 +16,9 @@ const availableSelectors = {
     cart: (state) => {
         return state.cart
     },
+    wishlist: (state) => {
+        return state.wishlist
+    },
     deviceType: (state) => {
         return state.renderContext.deviceType
     },
@@ -99,6 +102,7 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
  * @param {boolean} configuration.connect.cart - Whether to pass information about the current cart.
  * @param {boolean} configuration.connect.page - Whether to pass information about the current page.
  * @param {boolean} configuration.connect.tastic - Whether to pass the schema of the current tastic. Rarely needed.
+ * @param {boolean} configuration.connect.wishlist - Whether to pass information about the current wishlist.
  * @param {boolean} configuration.connect.context - Whether to pass the frontastic context object.
  * @param {boolean} configuration.connect.deviceType - Whether to pass the deviceType
  * @param {boolean} configuration.connect.isServerSideRendering - Whether we should pass a flag `isServerSideRendering`
