@@ -52,6 +52,7 @@ class Preview extends Component {
 
         let socketUrl = ((this.props.context.environment === 'dev') ?
             'ws://demo.frontastic.io.local:8080' :
+            // @TODO: Change this to the actual customer domain, like apollo.frontastic.io
             'wss://demo.frontastic.io:8080') +
             '/ws?preview=' + this.props.previewId
 
