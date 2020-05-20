@@ -112,14 +112,14 @@ class Catwalk
 
     private static function setTrustedProxies(): void
     {
-        $trustedProxies = getenv('trusted_proxies') ?? false;
-        if ($trustedProxies) {
-            if (trim($trustedProxies) === '*') {
-                // Trust all proxies. In our cloud servers are only reachable through the LB but the LB IPs change.
-                $trustedProxies = $_SERVER['REMOTE_ADDR'];
-            }
+        $trustedProxies = [];
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $trustedProxies = array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
+            array_shift($trustedProxies);
         }
-        Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL);
+        $trustedProxies[] = $_SERVER['REMOTE_ADDR'];
+
+        Request::setTrustedProxies($trustedProxies, Request::HEADER_X_FORWARDED_ALL);
     }
 
     private static function setTrustedHosts(): void
