@@ -1,4 +1,4 @@
-import  React from 'react'
+import React from 'react'
 import _ from 'lodash'
 
 import Cart from '../../domain/cart'
@@ -117,7 +117,6 @@ let CartLoader = function (store, api) {
                 cartInformation,
                 (data) => {
                     this.store.dispatch({
-                        // type: 'Payment.Invoice.add.success',
                         type: 'CartApi.Cart.update.success',
                         data: data,
                     })
@@ -126,7 +125,6 @@ let CartLoader = function (store, api) {
                 (error) => {
                     app.getLoader('context').notifyUser(<Message {...error} />, 'error')
                     this.store.dispatch({
-                        // type: 'Payment.Invoice.add.error',
                         type: 'CartApi.Cart.update.error',
                         error: error,
                     })
