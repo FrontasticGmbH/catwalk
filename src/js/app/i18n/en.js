@@ -19,6 +19,11 @@ export default {
         viewMyProfile: 'View my profile',
         viewMyOrders: 'View my orders',
         signUp: 'Sign Up',
+        form: {
+            emailLabel: 'Email',
+            passwordLabel: 'Password',
+            minimumLength: 'Must be at least 10 characters',
+        },
 
         address: {
             newAddress: 'Add new address',
@@ -49,8 +54,12 @@ export default {
             password: 'Password',
             login: 'Login',
             welcomeBack: 'Welcome back',
+            newToCalwalk: 'New to catwalk?',
+            forgotPassword: 'Forgot Password?'
         },
         register: {
+            alreadyRegistered: 'Already registered?',
+            joinCatwalk: 'Join Catwalk',
             register: 'Register',
             joinUs: 'Join Us',
             genderMale: 'Mr.',
@@ -58,9 +67,11 @@ export default {
             firstName: 'First Name',
             lastName: 'Last Name',
             tcAgree: 'Yes, I agree to the terms and conditions and privacy policy of Frontastic.',
+            tcConfirm: 'By creating your account, you agree to our Terms and Conditions & Privacy policy',
             informAgree: 'Yes, I would like to be informed about trends, campaigns and vouchers by email.',
             registerNow: 'Register Now',
             createUser: 'Create user account',
+            createAccount: 'Create account',
         },
         password: {
             title: 'Change your password',
