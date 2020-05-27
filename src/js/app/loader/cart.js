@@ -109,6 +109,10 @@ let CartLoader = function (store, api) {
     }
 
     this.addPayment = (cartInformation) => {
+        this.store.dispatch({
+            type: 'CartApi.Cart.loading',
+        })
+
         return new Promise((resolve, reject) => {
             this.api.request(
                 'POST',
@@ -195,6 +199,10 @@ let CartLoader = function (store, api) {
     }
 
     this.updateCart = (cartInformation) => {
+        this.store.dispatch({
+            type: 'CartApi.Cart.loading',
+        })
+
         return new Promise((resolve, reject) => {
             this.api.request(
                 'POST',
@@ -282,6 +290,10 @@ let CartLoader = function (store, api) {
     }
 
     this.checkout = (cartInformation) => {
+        this.store.dispatch({
+            type: 'CartApi.Cart.loading',
+        })
+
         return new Promise((resolve, reject) => {
             this.api.request(
                 'POST',
