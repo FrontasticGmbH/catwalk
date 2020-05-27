@@ -3,7 +3,11 @@ const glob = require('glob')
 const path = require('path')
 
 module.exports = (config, PRODUCTION, SERVER) => {
-    const extensions = glob.sync(paths.appSrc + '/../node_modules/*/*/.webpack.module.js')
+    const extensions = [].concat(
+        glob.sync(paths.appSrc + '/../node_modules/*/*/.webpack.module.js'),
+        glob.sync(paths.appSrc + '/../../node_modules/*/*/.webpack.module.js')
+    )
+
     for (let extension of extensions) {
         let extensionFunction = require(extension)
         let packageName = path.basename(path.dirname(extension))
