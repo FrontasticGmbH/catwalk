@@ -20,17 +20,17 @@ const getStreamIdsForTasticSchema = (schema) => {
 const TasticWrapper = (props) => {
     const deviceType = useDeviceType()
 
-    const tastics = (window && window.tastics) || (global && global.tastics) || []
-    const tastic = props.tastic
+    const allTasticComponentsMap = (window && window.tastics) || (global && global.tastics) || []
+    const tasticToRenderConfiguration = props.tastic
 
-    const additionalData = (props.data.tastic || {})[props.tastic.tasticId] || null
+    const streamOrCustomFieldData = (props.data.tastic || {})[props.tastic.tasticId] || null
 
-    const streams = getStreamIdsForTasticSchema(props.tastic.schema).map((streamId) => {
+    const streamIdsUsedByTastic = getStreamIdsForTasticSchema(tasticToRenderConfiguration.schema).map((streamId) => {
         return props.data.stream[streamId]
     })
 
-    const tasticData = useMemo(() => {
-        return configurationResolver(props.tastic.schema, props.data.stream, additionalData || {})
+    const resolvedTasticData = useMemo(() => {
+        return configurationResolver(props.tastic.schema, props.data.stream, streamOrCustomFieldData || {})
 
         // Warning - the dependencies of this useMemo might differ from those that are actually in use,
         // because it makes assumptions about the implementation details of configurationResolver.
@@ -43,9 +43,9 @@ const TasticWrapper = (props) => {
         // the configuration will be updated, we sadly need to suppress the warning here.
         // This should be improved in one of the next refactoring-iterations ;)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.tastic.schema, props.data.stream, additionalData, ...streams])
+    }, [props.tastic.schema, props.data.stream, streamOrCustomFieldData, tasticToRenderConfiguration.tasticId, ...streamIdsUsedByTastic])
 
-    if (!tastics[tastic.tasticType]) {
+    if (!allTasticComponentsMap[tasticToRenderConfiguration.tasticType]) {
         if (!props.isDebug) {
             return null
         }
@@ -53,7 +53,7 @@ const TasticWrapper = (props) => {
         return (
             <div className='alert alert-warning'>
                 <p>
-                    Tastic <code>{tastic.tasticType}</code> not yet implemented.
+                    Tastic <code>{tasticToRenderConfiguration.tasticType}</code> not yet implemented.
                 </p>
                 <p>
                     Did you just implement it? Please don't forget to register it in the <code>tastic/tastics.js</code>!
@@ -61,10 +61,10 @@ const TasticWrapper = (props) => {
             </div>
         )
     }
-    let Tastic = tastics[tastic.tasticType]
+    let Tastic = allTasticComponentsMap[tasticToRenderConfiguration.tasticType]
 
     // Do not render the tastic if it was hidden for this device type
-    if (!tasticData[deviceType]) {
+    if (!resolvedTasticData[deviceType]) {
         return null
     }
 
@@ -74,18 +74,18 @@ const TasticWrapper = (props) => {
                 className={
                     'e-tastic ' +
                     'e-tastic__' +
-                    tastic.tasticType +
+                    tasticToRenderConfiguration.tasticType +
                     ' ' +
-                    (tastic.schema.get('mobile') ? '' : 'e-tastic--hidden-hand ') +
-                    (tastic.schema.get('tablet') ? '' : 'e-tastic--hidden-lap ') +
-                    (tastic.schema.get('desktop') ? '' : 'e-tastic--hidden-desk ')
+                    (tasticToRenderConfiguration.schema.get('mobile') ? '' : 'e-tastic--hidden-hand ') +
+                    (tasticToRenderConfiguration.schema.get('tablet') ? '' : 'e-tastic--hidden-lap ') +
+                    (tasticToRenderConfiguration.schema.get('desktop') ? '' : 'e-tastic--hidden-desk ')
                 }
                 style={{
-                    outline: _.isEqual(tastic.tasticId, props.highlight) ? '2px dashed #d73964' : null,
+                    outline: _.isEqual(tasticToRenderConfiguration.tasticId, props.highlight) ? '2px dashed #d73964' : null,
                 }}
-                id={tastic.tasticId}
+                id={tasticToRenderConfiguration.tasticId}
             >
-                <Tastic tastic={tastic} node={props.node} page={props.page} rawData={props.data} data={tasticData} />
+                <Tastic tastic={tasticToRenderConfiguration} node={props.node} page={props.page} rawData={props.data} data={resolvedTasticData} />
             </div>
         </ErrorBoundary>
     )
