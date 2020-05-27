@@ -108,6 +108,10 @@ const ensureLinks = () => {
     }
 }
 
+// We run linking already here so, for example tailwind configurations and
+// webpack extensions are correctly detected already during the very first run:
+ensureLinks()
+
 module.exports = (config, PRODUCTION, SERVER) => {
     return merge(
         config,
