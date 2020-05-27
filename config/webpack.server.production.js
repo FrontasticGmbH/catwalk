@@ -1,4 +1,5 @@
 const paths = require('./paths')
+const libraryModifications = require('./libraryModifications')
 
 const PRODUCTION = true
 const SERVER = true
@@ -20,4 +21,4 @@ try {
     console.info('No build specific project webpack extension found in config/webpack.server.production.js – skip.')
 }
 
-module.exports = config
+module.exports = libraryModifications(config, PRODUCTION, SERVER)
