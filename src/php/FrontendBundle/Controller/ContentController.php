@@ -9,7 +9,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ContentRouter;
-use Frontastic\Common\ProductApiBundle\Domain\ContentApi;
+use Frontastic\Common\ContentApiBundle\Domain\ContentApi;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
