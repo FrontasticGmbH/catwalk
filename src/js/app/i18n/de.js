@@ -199,6 +199,7 @@ export default {
         billingDetailsLabel: 'Verwenden Sie dieselben Rechnungsdetails wie die Lieferadresse',
         paymentMethod: 'Zahlungsmethode',
         yourOrder: 'Ihre Bestellung',
+        orderId: 'Bestell ID',
         invoice: 'Rechnung',
         edit: 'Bearbeiten',
         form: {

@@ -158,6 +158,7 @@ export default {
         billingDetailsLabel: 'Use same billing details as delivery address',
         paymentMethod: 'Payment method',
         yourOrder: 'Your order',
+        orderId: 'Order ID',
         invoice: 'Invoice',
         edit: 'Edit',
         form: {
