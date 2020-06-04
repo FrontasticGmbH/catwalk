@@ -19,11 +19,11 @@ export default {
         viewMyProfile: 'View my profile',
         viewMyOrders: 'View my orders',
         signUp: 'Sign Up',
+        requestResetPassword: 'Email me the recovery link',
         welcome: 'Welcome ',
         orders2: 'Orders',
         latestDetails: 'Here you can view your latest orders and change your account details.',
         accountDetails: 'Account details',
-
         form: {
             emailLabel: 'Email',
             passwordLabel: 'Password',

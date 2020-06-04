@@ -23,11 +23,11 @@ export default {
         viewMyProfile: 'Mein Profil ansehen',
         viewMyOrders: 'Meine bestellungen ansehen',
         signUp: 'Melde dich jetzt an',
+        requestResetPassword: 'Senden Sie mir den Wiederherstellungs-Link per E-Mail',
         welcome: 'Willkommen ',
         orders2: 'Bestellungen',
         latestDetails: 'Hier können Sie Ihre letzten Bestellungen einsehen und Ihre Kontodaten ändern.',
         accountDetails: 'Kontoangaben',
-
         form: {
             emailLabel: 'Email',
             passwordLabel: 'Passwort',
