@@ -24,7 +24,6 @@ export default {
             passwordLabel: 'Password',
             minimumLength: 'Must be at least 10 characters',
         },
-
         address: {
             newAddress: 'Add new address',
             residential: 'Residential address',
@@ -55,7 +54,7 @@ export default {
             login: 'Login',
             welcomeBack: 'Welcome back',
             newToCalwalk: 'New to catwalk?',
-            forgotPassword: 'Forgot Password?'
+            forgotPassword: 'Forgot Password?',
         },
         register: {
             alreadyRegistered: 'Already registered?',

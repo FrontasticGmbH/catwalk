@@ -28,7 +28,6 @@ export default {
             passwordLabel: 'Passwort',
             minimumLength: 'Muss mindestens 10 Zeichen lang sein',
         },
-
         message: {
             registered: 'Anmeldung erfolgreich – wir haben Ihnen eine E-Mail geschickt mit der Sie Ihren Account aktivieren können',
             logout: 'Erfolgreich abgemeldet',
@@ -76,7 +75,7 @@ export default {
             login: 'Anmelden',
             welcomeBack: 'Willkommen Zurück',
             newToCalwalk: 'Neu auf dem Catwalk?',
-            forgotPassword: 'Haben Sie Ihr Passwort vergessen?'
+            forgotPassword: 'Haben Sie Ihr Passwort vergessen?',
         },
         register: {
             alreadyRegistered: 'Bereits registriert?',
