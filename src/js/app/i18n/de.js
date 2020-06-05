@@ -27,6 +27,11 @@ export default {
         latestDetails: 'Hier können Sie Ihre letzten Bestellungen einsehen und Ihre Kontodaten ändern.',
         accountDetails: 'Kontoangaben',
 
+        form: {
+            emailLabel: 'Email',
+            passwordLabel: 'Passwort',
+            minimumLength: 'Muss mindestens 10 Zeichen lang sein',
+        },
         message: {
             registered: 'Anmeldung erfolgreich – wir haben Ihnen eine E-Mail geschickt mit der Sie Ihren Account aktivieren können',
             logout: 'Erfolgreich abgemeldet',
@@ -73,8 +78,12 @@ export default {
             password: 'Passwort',
             login: 'Anmelden',
             welcomeBack: 'Willkommen Zurück',
+            newToCalwalk: 'Neu auf dem Catwalk?',
+            forgotPassword: 'Haben Sie Ihr Passwort vergessen?',
         },
         register: {
+            alreadyRegistered: 'Bereits registriert?',
+            joinCatwalk: 'Abonnieren Catwalk',
             register: 'Registrieren',
             joinUs: 'Jetzt Anmelden',
             genderMale: 'Herr',
@@ -82,9 +91,11 @@ export default {
             firstName: 'Vorname',
             lastName: 'Nachname',
             tcAgree: 'Ja, ich stimme den AGB und den Datenschutzbestimmungen von Frontastic zu.',
+            tcConfirm: 'Durch die Erstellung Ihres Kontos erklären Sie sich mit unseren Allgemeinen Geschäftsbedingungen und Datenschutzrichtlinien einverstanden.',
             informAgree: 'Ja, ich möchte per E-Mail Newsletter über Trends, Aktionen & Gutscheine informiert werden.',
             registerNow: 'Jetzt registrieren',
             createUser: 'Benutzerkonto erstellen',
+            createAccount: 'Konto erstellen',
         },
         password: {
             title: 'Passwort ändern',
