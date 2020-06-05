@@ -193,6 +193,7 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
+                this.refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
@@ -211,6 +212,7 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
+                this.refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
