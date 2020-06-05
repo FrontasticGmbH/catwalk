@@ -23,6 +23,9 @@ export default {
         viewMyProfile: 'Mein Profil ansehen',
         viewMyOrders: 'Meine bestellungen ansehen',
         signUp: 'Melde dich jetzt an',
+        welcome: 'Willkommen',
+        latestDetails: 'Hier können Sie Ihre letzten Bestellungen einsehen und Ihre Kontodaten ändern.',
+        accountDetails: 'Kontoangaben',
 
         message: {
             registered: 'Anmeldung erfolgreich – wir haben Ihnen eine E-Mail geschickt mit der Sie Ihren Account aktivieren können',

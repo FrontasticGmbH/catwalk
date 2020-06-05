@@ -1,10 +1,10 @@
 export default {
     account: {
         greet: 'Hi, {name}!',
-        orders: 'My orders',
+        orders: 'Orders',
         returns: 'Returns',
         userInfo: 'User Details',
-        addresses: 'Adresses',
+        addresses: 'Addresses',
         help: 'Help',
         logout: 'Logout',
         newHere: "I'm new here",
@@ -19,6 +19,9 @@ export default {
         viewMyProfile: 'View my profile',
         viewMyOrders: 'View my orders',
         signUp: 'Sign Up',
+        welcome: 'Welcome',
+        latestDetails: 'Here you can view your latest orders and change your account details.',
+        accountDetails: 'Account details',
 
         address: {
             newAddress: 'Add new address',
