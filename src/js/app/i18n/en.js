@@ -19,7 +19,7 @@ export default {
         viewMyProfile: 'View my profile',
         viewMyOrders: 'View my orders',
         signUp: 'Sign Up',
-        welcome: 'Welcome',
+        welcome: 'Welcome ',
         orders2: 'Orders',
         latestDetails: 'Here you can view your latest orders and change your account details.',
         accountDetails: 'Account details',

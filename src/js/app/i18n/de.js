@@ -23,7 +23,7 @@ export default {
         viewMyProfile: 'Mein Profil ansehen',
         viewMyOrders: 'Meine bestellungen ansehen',
         signUp: 'Melde dich jetzt an',
-        welcome: 'Willkommen',
+        welcome: 'Willkommen ',
         orders2: 'Bestellungen',
         latestDetails: 'Hier können Sie Ihre letzten Bestellungen einsehen und Ihre Kontodaten ändern.',
         accountDetails: 'Kontoangaben',
