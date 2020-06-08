@@ -7,7 +7,7 @@ export default {
         logout: 'Abmelden',
         new_wishlist: 'Neuer Wunschzettel',
         greet: 'Hallo {name}!',
-        orders: 'Bestellungen',
+        orders: 'Meine bestellungen',
         returns: 'Rücksendungen',
         userInfo: 'Benutzerdaten',
         help: 'Hilfe',
@@ -24,6 +24,7 @@ export default {
         viewMyOrders: 'Meine bestellungen ansehen',
         signUp: 'Melde dich jetzt an',
         welcome: 'Willkommen',
+        orders2: 'Bestellungen',
         latestDetails: 'Hier können Sie Ihre letzten Bestellungen einsehen und Ihre Kontodaten ändern.',
         accountDetails: 'Kontoangaben',
 
