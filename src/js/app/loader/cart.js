@@ -229,7 +229,6 @@ let CartLoader = function (store, api) {
     }
 
     this.redeemDiscount = (code) => {
-
         if (!code) {
             return
         }
