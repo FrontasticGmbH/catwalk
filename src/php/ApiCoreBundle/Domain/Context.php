@@ -9,6 +9,9 @@ use Frontastic\Common\ReplicatorBundle\Domain\Project;
 
 use Frontastic\Common\AccountApiBundle\Domain\Session;
 
+/**
+ * @type
+ */
 class Context extends DataObject
 {
     /**

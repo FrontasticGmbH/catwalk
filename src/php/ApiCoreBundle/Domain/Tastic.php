@@ -4,6 +4,9 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
 use Kore\DataObject\DataObject;
 
+/**
+ * @type
+ */
 class Tastic extends DataObject
 {
     /**

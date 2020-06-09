@@ -4,6 +4,9 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\FacetDefinition;
 
+/**
+ * @type
+ */
 class Facet extends FacetDefinition
 {
     /**

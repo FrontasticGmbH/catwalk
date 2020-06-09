@@ -6,6 +6,9 @@ use Kore\DataObject\DataObject;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
+/**
+ * @type
+ */
 class StreamContext extends DataObject
 {
     /**

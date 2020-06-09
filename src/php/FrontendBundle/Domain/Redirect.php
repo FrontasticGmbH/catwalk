@@ -5,6 +5,9 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use Kore\DataObject\DataObject;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
+/**
+ * @type
+ */
 class Redirect extends DataObject
 {
     const TARGET_TYPE_NODE = 'node';

@@ -4,6 +4,9 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Kore\DataObject\DataObject;
 
+/**
+ * @type
+ */
 class Cell extends DataObject
 {
     /**
