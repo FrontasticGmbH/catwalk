@@ -207,7 +207,7 @@ let CartLoader = function (store, api) {
             this.api.request(
                 'POST',
                 'Frontastic.CartApi.Cart.update',
-                { ownErrorHandler: true, ...reqParams },
+                { ownErrorHandler: true },
                 cartInformation,
                 (data) => {
                     this.store.dispatch({
