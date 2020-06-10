@@ -1,5 +1,5 @@
 <?php
 
-function debug()
+function debug(...$args)
 {
 }
