@@ -7,7 +7,7 @@ nameSpace: "\\Frontastic\\Catwalk"
 typeScript:
   target: src/js/types.ts
   nameSpace:
-    search: '(^\\(?:([A-Za-z]+?)(?:Api)?Bundle\\)?Domain\\)'
+    search: '(^(?:([A-Za-z]+?)(?:Api)?Bundle\\)?(?:Domain\\)?)'
     replace: '\1\\'
   includes:
     "Frontastic\\Common": '@frontastic/common/src/js/types'
