@@ -233,6 +233,10 @@ let CartLoader = function (store, api) {
             return
         }
 
+        this.store.dispatch({
+            type: 'CartApi.Cart.loading',
+        })
+
         return new Promise((resolve, reject) => {
             this.api.request(
                 'POST',
@@ -262,6 +266,10 @@ let CartLoader = function (store, api) {
         if (!discountId) {
             return
         }
+
+        this.store.dispatch({
+            type: 'CartApi.Cart.loading',
+        })
 
         // TS, 2019-08-02: Permitted adjustment. Maybe merge upstream?
         return new Promise((resolve, reject) => {

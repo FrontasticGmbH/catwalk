@@ -13,8 +13,10 @@ use Frontastic\Catwalk\FrontendBundle\Domain\FacetService;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
 
-class NodeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class NodeExtension extends AbstractExtension implements GlobalsInterface
 {
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
