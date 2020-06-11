@@ -46,6 +46,18 @@
             <argument type="service" id="service_container" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\LifecycleEventDecorator\AccountListener">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools\ClientFactory" />
+
+            <tag name="accountApi.lifecycleEventListener" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\LifecycleEventDecorator\CartListener">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools\ClientFactory" />
+
+            <tag name="accountApi.lifecycleEventListener" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService" />
