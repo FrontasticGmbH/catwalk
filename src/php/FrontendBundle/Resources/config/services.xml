@@ -55,7 +55,7 @@
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\LifecycleEventDecorator\CartListener">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools\ClientFactory" />
 
-            <tag name="accountApi.lifecycleEventListener" />
+            <tag name="cartApi.lifecycleEventListener" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService">
