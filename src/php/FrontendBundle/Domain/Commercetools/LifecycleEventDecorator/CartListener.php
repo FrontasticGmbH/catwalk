@@ -101,12 +101,12 @@ class CartListener extends BaseImplementation implements CommercetoolsListener
             $baseObject,
             self::COMMERCETOOLS_LINE_ITEM_FIELDS
         );
-        $customFields = $this->extractCustomFieldsData($baseObject);
+        $customFieldsData = $baseObject->projectSpecificData['custom'] ?? [];
 
-        if (!empty($customFields)) {
+        if (!empty($customFieldsData)) {
             $rawApiInputData['custom'] = [
                 'type' => $cartApi->getCustomLineItemType(),
-                'fields' => $customFields,
+                'fields' => $customFieldsData,
             ];
         }
 
@@ -119,7 +119,7 @@ class CartListener extends BaseImplementation implements CommercetoolsListener
             $lineItem,
             self::COMMERCETOOLS_LINE_ITEM_FIELDS
         );
-        $customFields = $this->extractCustomFieldsData($lineItem);
+        $customFieldsData = $lineItem->projectSpecificData['custom'] ?? [];
 
         $actions = [];
         foreach ($rawApiInputData as $fieldKey => $fieldValue) {
@@ -129,7 +129,7 @@ class CartListener extends BaseImplementation implements CommercetoolsListener
             ];
         }
 
-        return array_merge($actions, $this->determineLineItemCustomFieldsActions($lineItem, $customFields));
+        return array_merge($actions, $this->determineLineItemCustomFieldsActions($lineItem, $customFieldsData));
     }
 
     private function mapPaymentRawApiInputData(BaseObject $baseObject, ?array $custom = null): array
@@ -168,24 +168,6 @@ class CartListener extends BaseImplementation implements CommercetoolsListener
         return $rawApiInputData;
     }
 
-    private function extractCustomFieldsData(BaseObject $baseObject): array
-    {
-        $customFields = [];
-
-        // Custom field created by the client
-        if (key_exists('option', $baseObject->projectSpecificData)) {
-            $customFields[] = $baseObject->projectSpecificData['option'];
-        }
-
-        //@TODO: Should we separate this statements into add and updation events
-        // Custom field created by the client
-        if (key_exists('custom', $baseObject->projectSpecificData)) {
-            $customFields[] = $baseObject->projectSpecificData['custom'];
-        }
-
-        return $customFields;
-    }
-
     private function determineAction(string $fieldKey, array $commerceToolsFields): string
     {
         if (!array_key_exists($fieldKey, $commerceToolsFields)) {
@@ -195,18 +177,18 @@ class CartListener extends BaseImplementation implements CommercetoolsListener
         return $commerceToolsFields[$fieldKey][self::COMMERCETOOLS_ACTION_NAME_KEY];
     }
 
-    private function determineLineItemCustomFieldsActions(LineItem $lineItem, array $fields): array
+    private function determineLineItemCustomFieldsActions(LineItem $lineItem, array $customFieldsData): array
     {
-        $actions = [];
-        foreach ($fields as $customFieldKey => $customFieldValue) {
-            $actions[] = [
+        $customFieldsActions = [];
+        foreach ($customFieldsData as $customFieldKey => $customFieldValue) {
+            $customFieldsActions[] = [
                 'action' => 'setLineItemCustomField',
                 'lineItemId' => $lineItem->lineItemId,
                 'name' => $customFieldKey,
                 'value' => $customFieldValue,
             ];
         }
-        return $actions;
+        return $customFieldsActions;
     }
 
     private function mapCartRawApiInputActions(BaseObject $baseObject): array
@@ -215,7 +197,7 @@ class CartListener extends BaseImplementation implements CommercetoolsListener
             $baseObject,
             self::COMMERCETOOLS_CART_FIELDS
         );
-        $customFields = $this->extractCustomFieldsData($baseObject);
+        $customFieldsData = $baseObject->projectSpecificData['custom'] ?? [];
 
         $actions = [];
         foreach ($rawApiInputData as $fieldKey => $fieldValue) {
@@ -225,7 +207,7 @@ class CartListener extends BaseImplementation implements CommercetoolsListener
             ];
         }
 
-        return array_merge($actions, $this->determineCustomFieldsActions($customFields));
+        return array_merge($actions, $this->determineCustomFieldsActions($customFieldsData));
     }
 
     private function determineCustomFieldsActions(array $fields): array

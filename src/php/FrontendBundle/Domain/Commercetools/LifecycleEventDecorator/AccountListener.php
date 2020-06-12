@@ -151,7 +151,7 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
             $baseObject,
             self::COMMERCETOOLS_ACCOUNT_FIELDS
         );
-        $customFieldsData = $this->extractCustomFieldsData($baseObject);
+        $customFieldsData = $baseObject->projectSpecificData['custom'] ?? [];
 
         if (!empty($customFieldsData)) {
             $rawApiInputData['custom'] = [
@@ -165,13 +165,13 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
         return $rawApiInputData;
     }
 
-    private function mapAccountRawApiInputActions(Account $account): array
+    private function mapAccountRawApiInputActions(BaseObject $baseObject): array
     {
         $rawApiInputData = $this->extractRawApiInputData(
-            $account,
+            $baseObject,
             self::COMMERCETOOLS_ACCOUNT_FIELDS
         );
-        $customFields = $this->extractCustomFieldsData($account);
+        $customFieldsData = $baseObject->projectSpecificData['custom'] ?? [];
 
         $actions = [];
         foreach ($rawApiInputData as $fieldKey => $fieldValue) {
@@ -181,7 +181,7 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
             ];
         }
 
-        return array_merge($actions, $this->determineCustomFieldsAction($customFields));
+        return array_merge($actions, $this->determineCustomFieldsAction($customFieldsData));
     }
 
     private function extractRawApiInputData(BaseObject $baseObject, array $commerceToolsFields): array
@@ -198,28 +198,16 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
         return $rawApiInputData;
     }
 
-    private function extractCustomFieldsData(BaseObject $baseObject): array
+    private function determineCustomFieldsAction(array $customFieldsData): array
     {
-        $customFields = [];
-
-        // Custom field created by the client
-        if (key_exists('phonePrefix', $baseObject->projectSpecificData)) {
-            $customFields[] = $baseObject->projectSpecificData['phonePrefix'];
+        if (empty($customFieldsData)) {
+            return [];
         }
 
-        if (key_exists('phone', $baseObject->projectSpecificData)) {
-            $customFields[] = $baseObject->projectSpecificData['phone'];
-        }
-
-        return $customFields;
-    }
-
-    private function determineCustomFieldsAction(array $fields): array
-    {
         return [
             'action' => 'setCustomField',
             'name' => self::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME,
-            'value' => json_encode($fields),
+            'value' => json_encode($customFieldsData),
         ];
     }
 
