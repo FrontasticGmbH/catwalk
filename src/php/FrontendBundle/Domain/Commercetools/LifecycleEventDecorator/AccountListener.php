@@ -29,11 +29,6 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
         $this->client = $clientFactory->factorForConfigurationSection('product');
     }
 
-    public function afterConfirmEmail(AccountApi $accountApi, Account $account): ?Account
-    {
-        return $this->mapCustomFieldDataToAccount($account);
-    }
-
     public function beforeCreate(
         AccountApi $accountApi,
         Account $account,
@@ -47,11 +42,6 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
         $account->rawApiInput = $this->mapAccountRawApiInputData($account);
     }
 
-    public function afterCreate(AccountApi $accountApi, Account $account): ?Account
-    {
-        return $this->mapCustomFieldDataToAccount($account);
-    }
-
     public function beforeUpdate(AccountApi $accountApi, Account $account, string $locale = null): void
     {
         if (!($accountApi->getDangerousInnerClient() instanceof CommerceToolsClient)) {
@@ -59,34 +49,6 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
         }
 
         $account->rawApiInput = $this->mapAccountRawApiInputActions($account);
-    }
-
-    public function afterUpdate(AccountApi $accountApi, Account $account): ?Account
-    {
-        return $this->mapCustomFieldDataToAccount($account);
-    }
-
-    public function afterUpdatePassword(AccountApi $accountApi, Account $account): ?Account
-    {
-        return $this->mapCustomFieldDataToAccount($account);
-    }
-
-    public function afterResetPassword(AccountApi $accountApi, Account $account): ?Account
-    {
-        return $this->mapCustomFieldDataToAccount($account);
-    }
-
-    public function afterLogin(AccountApi $accountApi, ?Account $account = null): ?Account
-    {
-        if (!isset($account)) {
-            return null;
-        }
-        return $this->mapCustomFieldDataToAccount($account);
-    }
-
-    public function afterRefreshAccount(AccountApi $accountApi, Account $account): ?Account
-    {
-        return $this->mapCustomFieldDataToAccount($account);
     }
 
     public function beforeAddAddress(
@@ -102,11 +64,6 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
         $address->rawApiInput = $this->mapAddressRawInputData($address);
     }
 
-    public function afterAddAddress(AccountApi $accountApi, Account $account): ?Account
-    {
-        return $this->mapCustomFieldDataToAccount($account);
-    }
-
     public function beforeUpdateAddress(
         AccountApi $accountApi,
         Account $account,
@@ -118,26 +75,6 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
         }
 
         $address->rawApiInput = $this->mapAddressRawInputData($address);
-    }
-
-    public function afterUpdateAddress(AccountApi $accountApi, Account $account): ?Account
-    {
-        return $this->mapCustomFieldDataToAccount($account);
-    }
-
-    public function afterRemoveAddress(AccountApi $accountApi, Account $account): ?Account
-    {
-        return $this->mapCustomFieldDataToAccount($account);
-    }
-
-    public function afterSetDefaultBillingAddress(AccountApi $accountApi, Account $account): ?Account
-    {
-        return $this->mapCustomFieldDataToAccount($account);
-    }
-
-    public function afterSetDefaultShippingAddress(AccountApi $accountApi, Account $account): ?Account
-    {
-        return $this->mapCustomFieldDataToAccount($account);
     }
 
     private function mapAddressRawInputData(BaseObject $baseObject): array
@@ -264,7 +201,7 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
         );
     }
 
-    private function mapCustomFieldDataToAccount(Account $account): Account
+    public function mapCustomFieldDataToAccount(Account $account): Account
     {
         $account->projectSpecificData = json_decode(
             $account->dangerousInnerAccount['custom']['fields']['data'] ?? ''
