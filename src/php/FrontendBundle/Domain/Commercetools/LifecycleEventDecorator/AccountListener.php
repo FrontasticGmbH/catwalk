@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\LifecycleEventDecorator;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools\ClientFactory;
+use Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\RawDataService;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
 use Frontastic\Common\AccountApiBundle\Domain\AccountApi;
 use Frontastic\Common\AccountApiBundle\Domain\AccountApi\LifecycleEventDecorator\BaseImplementation;
@@ -12,7 +13,7 @@ use Frontastic\Common\CoreBundle\Domain\BaseObject;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Commercetools\Client as CommerceToolsClient;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Exception\RequestException;
 
-class AccountListener extends BaseImplementation implements CommercetoolsListener
+class AccountListener extends BaseImplementation
 {
     /**
      * @var array
@@ -24,9 +25,15 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
      */
     private $client;
 
-    public function __construct(ClientFactory $clientFactory)
+    /**
+     * @var RawDataService
+     */
+    private $rawDataService;
+
+    public function __construct(ClientFactory $clientFactory, RawDataService $rawDataService)
     {
         $this->client = $clientFactory->factorForConfigurationSection('product');
+        $this->rawDataService = $rawDataService;
     }
 
     public function beforeCreate(
@@ -79,24 +86,24 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
 
     private function mapAddressRawInputData(BaseObject $baseObject): array
     {
-        return $this->extractRawApiInputData($baseObject, self::COMMERCETOOLS_ADDRESS_FIELDS);
+        return $this->rawDataService->extractRawApiInputData($baseObject, RawDataService::COMMERCETOOLS_ADDRESS_FIELDS);
     }
 
     private function mapAccountRawApiInputData(BaseObject $baseObject): array
     {
-        $rawApiInputData = $this->extractRawApiInputData(
+        $rawApiInputData = $this->rawDataService->extractRawApiInputData(
             $baseObject,
-            self::COMMERCETOOLS_ACCOUNT_FIELDS
+            RawDataService::COMMERCETOOLS_ACCOUNT_FIELDS
         );
         $customFieldsData = $baseObject->projectSpecificData['custom'] ?? [];
 
         if (!empty($customFieldsData)) {
-            $rawApiInputData['custom'] = [
-                'type' => $this->getCustomerType(),
-                'fields' => json_encode([
-                    self::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME => $customFieldsData,
-                ]),
-            ];
+            $rawApiInputData[] = $this->rawDataService->mapCustomFieldsData(
+                $this->getCustomerType(),
+                json_encode([
+                    RawDataService::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME => $customFieldsData,
+                ])
+            );
         }
 
         return $rawApiInputData;
@@ -104,35 +111,19 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
 
     private function mapAccountRawApiInputActions(BaseObject $baseObject): array
     {
-        $rawApiInputData = $this->extractRawApiInputData(
+        $rawApiInputData = $this->rawDataService->extractRawApiInputData(
             $baseObject,
-            self::COMMERCETOOLS_ACCOUNT_FIELDS
+            RawDataService::COMMERCETOOLS_ACCOUNT_FIELDS
         );
         $customFieldsData = $baseObject->projectSpecificData['custom'] ?? [];
 
-        $actions = [];
-        foreach ($rawApiInputData as $fieldKey => $fieldValue) {
-            $actions[] = [
-                'action' => $this->determineAction($fieldKey, self::COMMERCETOOLS_ACCOUNT_FIELDS),
-                $fieldKey => $fieldValue
-            ];
-        }
-
-        return array_merge($actions, $this->determineCustomFieldsAction($customFieldsData));
-    }
-
-    private function extractRawApiInputData(BaseObject $baseObject, array $commerceToolsFields): array
-    {
-        $rawApiInputData = [];
-
-        foreach ($commerceToolsFields as $fieldKey => $value) {
-            // CommerceTools has it, but we don't map
-            if (key_exists($fieldKey, $baseObject->projectSpecificData)) {
-                $rawApiInputData[$fieldKey] = $baseObject->projectSpecificData[$fieldKey];
-            }
-        }
-
-        return $rawApiInputData;
+        return array_merge(
+            $this->rawDataService->mapRawDataActions(
+                $rawApiInputData,
+                RawDataService::COMMERCETOOLS_ACCOUNT_FIELDS
+            ),
+            $this->determineCustomFieldsAction($customFieldsData)
+        );
     }
 
     private function determineCustomFieldsAction(array $customFieldsData): array
@@ -143,18 +134,9 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
 
         return [
             'action' => 'setCustomField',
-            'name' => self::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME,
+            'name' => RawDataService::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME,
             'value' => json_encode($customFieldsData),
         ];
-    }
-
-    private function determineAction(string $fieldKey, array $commerceToolsFields): string
-    {
-        if (!array_key_exists($fieldKey, $commerceToolsFields)) {
-            throw new \InvalidArgumentException('Unknown CommerceTools property: ' . $fieldKey);
-        }
-
-        return $commerceToolsFields[$fieldKey][self::COMMERCETOOLS_ACTION_NAME_KEY];
     }
 
     /**
@@ -167,7 +149,7 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
         }
 
         try {
-            $customerType = $this->client->get('/types/key=' . self::TYPE_NAME);
+            $customerType = $this->client->get('/types/key=' . RawDataService::TYPE_NAME);
         } catch (RequestException $e) {
             $customerType = $this->createCustomerType();
         }
@@ -185,13 +167,13 @@ class AccountListener extends BaseImplementation implements CommercetoolsListene
             [],
             [],
             json_encode([
-                'key' => self::TYPE_NAME,
+                'key' => RawDataService::TYPE_NAME,
                 'name' => ['de' => 'Frontastic Customer'],
                 'description' => ['de' => 'Additional data fields'],
                 'resourceTypeIds' => ['customer'],
                 'fieldDefinitions' => [
                     [
-                        'name' => self::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME,
+                        'name' => RawDataService::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME,
                         'type' => ['name' => 'String'],
                         'label' => ['de' => 'Data (JSON)'],
                         'required' => false,

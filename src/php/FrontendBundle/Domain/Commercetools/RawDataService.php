@@ -1,8 +1,10 @@
 <?php
 
-namespace Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\LifecycleEventDecorator;
+namespace Frontastic\Catwalk\FrontendBundle\Domain\Commercetools;
 
-interface CommercetoolsListener
+use Frontastic\Common\CoreBundle\Domain\BaseObject;
+
+class RawDataService
 {
     const COMMERCETOOLS_ACCOUNT_FIELDS = [
         'vatId' => [
@@ -98,4 +100,56 @@ interface CommercetoolsListener
     const COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME = 'data';
 
     const TYPE_NAME = 'frontastic-customer-type';
+
+    public function extractRawApiInputData(BaseObject $baseObject, array $commerceToolsFields): array
+    {
+        $rawApiInputData = [];
+
+        foreach ($commerceToolsFields as $fieldKey => $value) {
+            // CommerceTools has it, but we don't map
+            if (key_exists($fieldKey, $baseObject->projectSpecificData)) {
+                $rawApiInputData[$fieldKey] = $baseObject->projectSpecificData[$fieldKey];
+            }
+        }
+
+        return $rawApiInputData;
+    }
+
+    public function mapRawDataActions(array $rawApiInputData, array $commerceToolsFields): array
+    {
+        $actions = [];
+        foreach ($rawApiInputData as $fieldKey => $fieldValue) {
+            $actions[] = [
+                'action' => $this->determineAction($fieldKey, $commerceToolsFields),
+                $fieldKey => $fieldValue
+            ];
+        }
+
+        return $actions;
+    }
+
+    public function determineAction(string $fieldKey, array $commerceToolsFields): string
+    {
+        if (!array_key_exists($fieldKey, $commerceToolsFields)) {
+            throw new \InvalidArgumentException('Unknown CommerceTools property: ' . $fieldKey);
+        }
+
+        return $commerceToolsFields[$fieldKey][RawDataService::COMMERCETOOLS_ACTION_NAME_KEY];
+    }
+
+    /**
+     * @param array $type
+     * @param string|array $customFieldsData
+     *
+     * @return array
+     */
+    public function mapCustomFieldsData(array $type, $customFieldsData): array
+    {
+        return [
+            'custom' => [
+                'type' => $type,
+                'fields' => $customFieldsData,
+            ],
+        ];
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\LifecycleEventDecorator;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools\ClientFactory;
+use Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\RawDataService;
 use Frontastic\Common\AccountApiBundle\Domain\Address;
 use Frontastic\Common\CartApiBundle\Domain\Cart;
 use Frontastic\Common\CartApiBundle\Domain\CartApi;
@@ -13,16 +13,16 @@ use Frontastic\Common\CartApiBundle\Domain\Payment;
 use Frontastic\Common\CoreBundle\Domain\BaseObject;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Commercetools\Client as CommerceToolsClient;
 
-class CartListener extends BaseImplementation implements CommercetoolsListener
+class CartListener extends BaseImplementation
 {
     /**
-     * @var CommerceToolsClient
+     * @var RawDataService
      */
-    private $client;
+    private $rawDataService;
 
-    public function __construct(ClientFactory $clientFactory)
+    public function __construct(RawDataService $rawDataService)
     {
-        $this->client = $clientFactory->factorForConfigurationSection('product');
+        $this->rawDataService = $rawDataService;
     }
 
     public function beforeAddToCart(CartApi $cartApi, Cart $cart, LineItem $lineItem, string $locale = null): void
@@ -97,17 +97,17 @@ class CartListener extends BaseImplementation implements CommercetoolsListener
 
     private function mapLineItemRawApiInputData(BaseObject $baseObject, CartApi $cartApi): array
     {
-        $rawApiInputData = $this->extractRawApiInputData(
+        $rawApiInputData = $this->rawDataService->extractRawApiInputData(
             $baseObject,
-            self::COMMERCETOOLS_LINE_ITEM_FIELDS
+            RawDataService::COMMERCETOOLS_LINE_ITEM_FIELDS
         );
         $customFieldsData = $baseObject->projectSpecificData['custom'] ?? [];
 
         if (!empty($customFieldsData)) {
-            $rawApiInputData['custom'] = [
-                'type' => $cartApi->getCustomLineItemType(),
-                'fields' => $customFieldsData,
-            ];
+            $rawApiInputData[] = $this->rawDataService->mapCustomFieldsData(
+                $cartApi->getCustomLineItemType(),
+                $customFieldsData
+            );
         }
 
         return $rawApiInputData;
@@ -115,28 +115,26 @@ class CartListener extends BaseImplementation implements CommercetoolsListener
 
     private function mapLineItemRawApiInputActions(LineItem $lineItem): array
     {
-        $rawApiInputData = $this->extractRawApiInputData(
+        $rawApiInputData = $this->rawDataService->extractRawApiInputData(
             $lineItem,
-            self::COMMERCETOOLS_LINE_ITEM_FIELDS
+            RawDataService::COMMERCETOOLS_LINE_ITEM_FIELDS
         );
         $customFieldsData = $lineItem->projectSpecificData['custom'] ?? [];
 
-        $actions = [];
-        foreach ($rawApiInputData as $fieldKey => $fieldValue) {
-            $actions[] = [
-                'action' => $this->determineAction($fieldKey, self::COMMERCETOOLS_LINE_ITEM_FIELDS),
-                $fieldKey => $fieldValue
-            ];
-        }
-
-        return array_merge($actions, $this->determineLineItemCustomFieldsActions($lineItem, $customFieldsData));
+        return array_merge(
+            $this->rawDataService->mapRawDataActions(
+                $rawApiInputData,
+                RawDataService::COMMERCETOOLS_LINE_ITEM_FIELDS
+            ),
+            $this->determineLineItemCustomFieldsActions($lineItem, $customFieldsData)
+        );
     }
 
     private function mapPaymentRawApiInputData(BaseObject $baseObject, ?array $custom = null): array
     {
-        $rawApiInputData = $this->extractRawApiInputData(
+        $rawApiInputData = $this->rawDataService->extractRawApiInputData(
             $baseObject,
-            self::COMMERCETOOLS_PAYMENT_FIELDS
+            RawDataService::COMMERCETOOLS_PAYMENT_FIELDS
         );
 
         if (!empty($custom)) {
@@ -148,33 +146,10 @@ class CartListener extends BaseImplementation implements CommercetoolsListener
 
     private function mapAddressRawApiInputData(BaseObject $baseObject): array
     {
-        return $this->extractRawApiInputData(
+        return $this->rawDataService->extractRawApiInputData(
             $baseObject,
-            self::COMMERCETOOLS_ADDRESS_FIELDS
+            RawDataService::COMMERCETOOLS_ADDRESS_FIELDS
         );
-    }
-
-    private function extractRawApiInputData(BaseObject $baseObject, array $commerceToolsFields): array
-    {
-        $rawApiInputData = [];
-
-        foreach ($commerceToolsFields as $fieldKey => $value) {
-            // CommerceTools has it, but we don't map
-            if (key_exists($fieldKey, $baseObject->projectSpecificData)) {
-                $rawApiInputData[$fieldKey] = $baseObject->projectSpecificData[$fieldKey];
-            }
-        }
-
-        return $rawApiInputData;
-    }
-
-    private function determineAction(string $fieldKey, array $commerceToolsFields): string
-    {
-        if (!array_key_exists($fieldKey, $commerceToolsFields)) {
-            throw new \InvalidArgumentException('Unknown CommerceTools property: ' . $fieldKey);
-        }
-
-        return $commerceToolsFields[$fieldKey][self::COMMERCETOOLS_ACTION_NAME_KEY];
     }
 
     private function determineLineItemCustomFieldsActions(LineItem $lineItem, array $customFieldsData): array
@@ -193,21 +168,19 @@ class CartListener extends BaseImplementation implements CommercetoolsListener
 
     private function mapCartRawApiInputActions(BaseObject $baseObject): array
     {
-        $rawApiInputData = $this->extractRawApiInputData(
+        $rawApiInputData = $this->rawDataService->extractRawApiInputData(
             $baseObject,
-            self::COMMERCETOOLS_CART_FIELDS
+            RawDataService::COMMERCETOOLS_CART_FIELDS
         );
         $customFieldsData = $baseObject->projectSpecificData['custom'] ?? [];
 
-        $actions = [];
-        foreach ($rawApiInputData as $fieldKey => $fieldValue) {
-            $actions[] = [
-                'action' => $this->determineAction($fieldKey, self::COMMERCETOOLS_CART_FIELDS),
-                $fieldKey => $fieldValue
-            ];
-        }
-
-        return array_merge($actions, $this->determineCustomFieldsActions($customFieldsData));
+        return array_merge(
+            $this->rawDataService->mapRawDataActions(
+                $rawApiInputData,
+                RawDataService::COMMERCETOOLS_CART_FIELDS
+            ),
+            $this->determineCustomFieldsActions($customFieldsData)
+        );
     }
 
     private function determineCustomFieldsActions(array $fields): array
