@@ -49,14 +49,14 @@
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\RawDataService">
         </service>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\LifecycleEventDecorator\AccountListener">
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\LifecycleEventDecorator\MapAccountDataDecorator">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CommerceTools\ClientFactory" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\RawDataService" />
 
             <tag name="accountApi.lifecycleEventListener" />
         </service>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\LifecycleEventDecorator\CartListener">
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\LifecycleEventDecorator\MapCartDataDecorator">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\Commercetools\RawDataService" />
 
             <tag name="cartApi.lifecycleEventListener" />

@@ -13,7 +13,7 @@ use Frontastic\Common\CartApiBundle\Domain\Payment;
 use Frontastic\Common\CoreBundle\Domain\ApiDataObject;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Commercetools\Client as CommerceToolsClient;
 
-class CartListener extends BaseImplementation
+class MapCartDataDecorator extends BaseImplementation
 {
     /**
      * @var RawDataService

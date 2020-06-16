@@ -13,7 +13,7 @@ use Frontastic\Common\CoreBundle\Domain\ApiDataObject;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Commercetools\Client as CommerceToolsClient;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Exception\RequestException;
 
-class AccountListener extends BaseImplementation
+class MapAccountDataDecorator extends BaseImplementation
 {
     /**
      * @var array
