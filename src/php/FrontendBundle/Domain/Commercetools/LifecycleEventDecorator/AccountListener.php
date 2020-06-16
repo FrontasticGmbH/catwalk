@@ -86,7 +86,10 @@ class AccountListener extends BaseImplementation
 
     private function mapAddressRawInputData(ApiDataObject $apiDataObject): array
     {
-        return $this->rawDataService->extractRawApiInputData($apiDataObject, RawDataService::COMMERCETOOLS_ADDRESS_FIELDS);
+        return $this->rawDataService->extractRawApiInputData(
+            $apiDataObject,
+            RawDataService::COMMERCETOOLS_ADDRESS_FIELDS
+        );
     }
 
     private function mapAccountRawApiInputData(ApiDataObject $apiDataObject): array
