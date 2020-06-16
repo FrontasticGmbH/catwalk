@@ -9,7 +9,7 @@ use Frontastic\Common\AccountApiBundle\Domain\AccountApi;
 use Frontastic\Common\AccountApiBundle\Domain\AccountApi\LifecycleEventDecorator\BaseImplementation;
 use Frontastic\Common\AccountApiBundle\Domain\Address;
 use Frontastic\Common\CartApiBundle\Domain\Cart;
-use Frontastic\Common\CoreBundle\Domain\BaseObject;
+use Frontastic\Common\CoreBundle\Domain\ApiDataObject;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Commercetools\Client as CommerceToolsClient;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Exception\RequestException;
 
@@ -84,18 +84,18 @@ class AccountListener extends BaseImplementation
         $address->rawApiInput = $this->mapAddressRawInputData($address);
     }
 
-    private function mapAddressRawInputData(BaseObject $baseObject): array
+    private function mapAddressRawInputData(ApiDataObject $apiDataObject): array
     {
-        return $this->rawDataService->extractRawApiInputData($baseObject, RawDataService::COMMERCETOOLS_ADDRESS_FIELDS);
+        return $this->rawDataService->extractRawApiInputData($apiDataObject, RawDataService::COMMERCETOOLS_ADDRESS_FIELDS);
     }
 
-    private function mapAccountRawApiInputData(BaseObject $baseObject): array
+    private function mapAccountRawApiInputData(ApiDataObject $apiDataObject): array
     {
         $rawApiInputData = $this->rawDataService->extractRawApiInputData(
-            $baseObject,
+            $apiDataObject,
             RawDataService::COMMERCETOOLS_ACCOUNT_FIELDS
         );
-        $customFieldsData = $baseObject->projectSpecificData['custom'] ?? [];
+        $customFieldsData = $apiDataObject->projectSpecificData['custom'] ?? [];
 
         if (!empty($customFieldsData)) {
             $rawApiInputData[] = $this->rawDataService->mapCustomFieldsData(
@@ -109,13 +109,13 @@ class AccountListener extends BaseImplementation
         return $rawApiInputData;
     }
 
-    private function mapAccountRawApiInputActions(BaseObject $baseObject): array
+    private function mapAccountRawApiInputActions(ApiDataObject $apiDataObject): array
     {
         $rawApiInputData = $this->rawDataService->extractRawApiInputData(
-            $baseObject,
+            $apiDataObject,
             RawDataService::COMMERCETOOLS_ACCOUNT_FIELDS
         );
-        $customFieldsData = $baseObject->projectSpecificData['custom'] ?? [];
+        $customFieldsData = $apiDataObject->projectSpecificData['custom'] ?? [];
 
         return array_merge(
             $this->rawDataService->mapRawDataActions(

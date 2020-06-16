@@ -2,7 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain\Commercetools;
 
-use Frontastic\Common\CoreBundle\Domain\BaseObject;
+use Frontastic\Common\CoreBundle\Domain\ApiDataObject;
 
 class RawDataService
 {
@@ -101,14 +101,14 @@ class RawDataService
 
     const TYPE_NAME = 'frontastic-customer-type';
 
-    public function extractRawApiInputData(BaseObject $baseObject, array $commerceToolsFields): array
+    public function extractRawApiInputData(ApiDataObject $apiDataObject, array $commerceToolsFields): array
     {
         $rawApiInputData = [];
 
         foreach ($commerceToolsFields as $fieldKey => $value) {
             // CommerceTools has it, but we don't map
-            if (key_exists($fieldKey, $baseObject->projectSpecificData)) {
-                $rawApiInputData[$fieldKey] = $baseObject->projectSpecificData[$fieldKey];
+            if (key_exists($fieldKey, $apiDataObject->projectSpecificData)) {
+                $rawApiInputData[$fieldKey] = $apiDataObject->projectSpecificData[$fieldKey];
             }
         }
 
