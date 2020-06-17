@@ -97,10 +97,6 @@ class RawDataService
 
     const COMMERCETOOLS_ACTION_NAME_KEY = 'actionName';
 
-    const COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME = 'data';
-
-    const TYPE_NAME = 'frontastic-customer-type';
-
     public function extractRawApiInputData(ApiDataObject $apiDataObject, array $commerceToolsFields): array
     {
         $rawApiInputData = [];

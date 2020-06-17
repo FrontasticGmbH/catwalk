@@ -15,6 +15,10 @@ use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Exception\RequestExcept
 
 class MapAccountDataDecorator extends BaseImplementation
 {
+    const COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME = 'data';
+
+    const TYPE_NAME = 'frontastic-customer-type';
+
     /**
      * @var array
      */
@@ -104,7 +108,7 @@ class MapAccountDataDecorator extends BaseImplementation
             $rawApiInputData[] = $this->rawDataService->mapCustomFieldsData(
                 $this->getCustomerType(),
                 json_encode([
-                    RawDataService::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME => $customFieldsData,
+                    self::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME => $customFieldsData,
                 ])
             );
         }
@@ -137,7 +141,7 @@ class MapAccountDataDecorator extends BaseImplementation
 
         return [
             'action' => 'setCustomField',
-            'name' => RawDataService::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME,
+            'name' => self::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME,
             'value' => json_encode($customFieldsData),
         ];
     }
@@ -152,7 +156,7 @@ class MapAccountDataDecorator extends BaseImplementation
         }
 
         try {
-            $customerType = $this->client->get('/types/key=' . RawDataService::TYPE_NAME);
+            $customerType = $this->client->get('/types/key=' . self::TYPE_NAME);
         } catch (RequestException $e) {
             $customerType = $this->createCustomerType();
         }
@@ -170,13 +174,13 @@ class MapAccountDataDecorator extends BaseImplementation
             [],
             [],
             json_encode([
-                'key' => RawDataService::TYPE_NAME,
+                'key' => self::TYPE_NAME,
                 'name' => ['de' => 'Frontastic Customer'],
                 'description' => ['de' => 'Additional data fields'],
                 'resourceTypeIds' => ['customer'],
                 'fieldDefinitions' => [
                     [
-                        'name' => RawDataService::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME,
+                        'name' => self::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME,
                         'type' => ['name' => 'String'],
                         'label' => ['de' => 'Data (JSON)'],
                         'required' => false,
