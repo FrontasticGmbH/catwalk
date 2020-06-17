@@ -190,7 +190,7 @@ class MapAccountDataDecorator extends BaseImplementation
         );
     }
 
-    public function mapCustomFieldDataToAccount(Account $account): Account
+    public function mapReturnedAccount(Account $account): Account
     {
         $account->projectSpecificData = json_decode(
             $account->dangerousInnerAccount['custom']['fields']['data'] ?? ''

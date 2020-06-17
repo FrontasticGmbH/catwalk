@@ -196,7 +196,7 @@ class MapCartDataDecorator extends BaseImplementation
         return $actions;
     }
 
-    public function mapCustomFieldDataToCart(Cart $cart): ?Cart
+    public function mapReturnedCart(Cart $cart): ?Cart
     {
         $cart->birthday = isset($cart->dangerousInnerCart['custom']['fields']['birthday']) ?
             new \DateTimeImmutable($cart->dangerousInnerCart['custom']['fields']['birthday']) :
@@ -206,7 +206,7 @@ class MapCartDataDecorator extends BaseImplementation
         return $cart;
     }
 
-    public function mapCustomFieldDataToOrder(Order $order): ?Order
+    public function mapReturnedOrder(Order $order): ?Order
     {
         $order->birthday = isset($order->dangerousInnerOrder['custom']['fields']['birthday']) ?
             new \DateTimeImmutable($order->dangerousInnerOrder['custom']['fields']['birthday']) :
