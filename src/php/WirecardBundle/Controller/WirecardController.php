@@ -2,10 +2,15 @@
 
 namespace Frontastic\Catwalk\WirecardBundle\Controller;
 
-class WirecardController
+use Frontastic\Catwalk\WirecardBundle\Domain\WirecardService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class WirecardController extends AbstractController
 {
     public function testAction()
     {
-        return ['success' => true];
+        $wirecardService = $this->get(WirecardService::class);
+
+        return ['success' => $wirecardService->test()];
     }
 }
