@@ -111,7 +111,10 @@ class AppKernel extends \Frontastic\Common\Kernel
     {
         // Parent already loads config from base dir, load catwalk in addition
         return array_merge(
-            [dirname(__DIR__) . '/environment'],
+            [
+                dirname(__DIR__) . '/environment',
+                dirname(__DIR__) . '/environment.local',
+            ],
             parent::getAdditionalConfigFiles()
         );
     }
