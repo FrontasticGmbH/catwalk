@@ -6,6 +6,24 @@ use Frontastic\Common\CoreBundle\Domain\ApiDataObject;
 
 class RawDataService
 {
+    /**
+     * In case that is needed mapping additional fields that are not already mapped by Frontastic,
+     * the following structure is expected.
+     *
+     * const NON_MAPPED_FIELDS = [
+     *      '<field_name>' => [
+     *          self::COMMERCETOOLS_ACTION_NAME_KEY => '<action_name>',
+     *      ],
+     * ];
+     *
+     * Eg:
+     * const COMMERCETOOLS_ACCOUNT_FIELDS = [
+     *      'vatId' => [
+     *          self::COMMERCETOOLS_ACTION_NAME_KEY => 'setVatId',
+     *      ],
+     * ];
+     *
+     */
     const COMMERCETOOLS_ACCOUNT_FIELDS = [];
 
     const COMMERCETOOLS_ADDRESS_FIELDS = [];
