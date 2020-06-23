@@ -105,11 +105,14 @@ class MapAccountDataDecorator extends BaseImplementation
         $customFieldsData = $apiDataObject->projectSpecificData['custom'] ?? [];
 
         if (!empty($customFieldsData)) {
-            $rawApiInputData[] = $this->rawDataService->mapCustomFieldsData(
-                $this->getCustomerType(),
-                json_encode([
-                    self::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME => $customFieldsData,
-                ])
+            $rawApiInputData = array_merge(
+                $rawApiInputData,
+                $this->rawDataService->mapCustomFieldsData(
+                    $this->getCustomerType(),
+                    [
+                        self::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME => json_encode($customFieldsData),
+                    ]
+                )
             );
         }
 
@@ -192,7 +195,7 @@ class MapAccountDataDecorator extends BaseImplementation
 
     public function mapReturnedAccount(Account $account): Account
     {
-        $account->projectSpecificData = json_decode(
+        $account->projectSpecificData['data'] = json_decode(
             $account->dangerousInnerAccount['custom']['fields']['data'] ?? ''
         );
         return $account;

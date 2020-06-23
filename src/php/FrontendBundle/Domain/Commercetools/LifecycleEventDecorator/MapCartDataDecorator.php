@@ -104,9 +104,12 @@ class MapCartDataDecorator extends BaseImplementation
         $customFieldsData = $apiDataObject->projectSpecificData['custom'] ?? [];
 
         if (!empty($customFieldsData)) {
-            $rawApiInputData[] = $this->rawDataService->mapCustomFieldsData(
-                $cartApi->getCustomLineItemType(),
-                $customFieldsData
+            $rawApiInputData = array_merge(
+                $rawApiInputData,
+                $this->rawDataService->mapCustomFieldsData(
+                    $cartApi->getCustomLineItemType(),
+                    $customFieldsData
+                )
             );
         }
 
@@ -202,7 +205,7 @@ class MapCartDataDecorator extends BaseImplementation
             new \DateTimeImmutable($cart->dangerousInnerCart['custom']['fields']['birthday']) :
             null;
         $cart->lineItems = $this->mapCustomFieldDataToLineItem($cart->lineItems);
-        $cart->projectSpecificData = $cart->dangerousInnerCart['custom']['fields'] ?? [];
+        $cart->projectSpecificData['custom'] = $cart->dangerousInnerCart['custom']['fields'] ?? [];
         return $cart;
     }
 
@@ -212,7 +215,7 @@ class MapCartDataDecorator extends BaseImplementation
             new \DateTimeImmutable($order->dangerousInnerOrder['custom']['fields']['birthday']) :
             null;
         $order->lineItems = $this->mapCustomFieldDataToLineItem($order->lineItems);
-        $order->projectSpecificData = $order->dangerousInnerCart['custom']['fields'] ?? [];
+        $order->projectSpecificData['custom'] = $order->dangerousInnerCart['custom']['fields'] ?? [];
         return $order;
     }
 
@@ -224,14 +227,14 @@ class MapCartDataDecorator extends BaseImplementation
                 $lineItem->type = $lineItem->dangerousInnerItem['custom']['type'] ??
                     $lineItem->dangerousInnerItem['slug'];
             }
-            $lineItem->projectSpecificData = $lineItem->dangerousInnerItem['custom']['fields'] ?? [];
+            $lineItem->projectSpecificData['custom'] = $lineItem->dangerousInnerItem['custom']['fields'] ?? [];
         }
 
         usort(
             $lineItems,
             function (LineItem $a, LineItem $b): int {
-                return ($a->projectSpecificData['bundleNumber'] ?? $a->name) <=>
-                    ($b->projectSpecificData['bundleNumber'] ?? $b->name);
+                return ($a->projectSpecificData['custom']['bundleNumber'] ?? $a->name) <=>
+                    ($b->projectSpecificData['custom']['bundleNumber'] ?? $b->name);
             }
         );
 
