@@ -65,13 +65,6 @@ module.exports = (PRODUCTION, SERVER) => {
             },
         },
         resolve: {
-            alias: {
-                Atoms: path.resolve(__dirname, '../../themes/frontastic/boost/src/js/patterns/atoms'),
-                Molecules: path.resolve(__dirname, '../../themes/frontastic/boost/src/js/patterns/molecules'),
-                Organisms: path.resolve(__dirname, '../../themes/frontastic/boost/src/js/patterns/organisms'),
-                Templates: path.resolve(__dirname, '../../themes/frontastic/boost/src/js/patterns/templates'),
-                Icons: path.resolve(__dirname, '../../themes/frontastic/boost/src/icons'),
-            },
             // This allows you to set a fallback for where Webpack should look
             // for modules.  We placed these paths second because we want
             // `node_modules` to "win" if there are any conflicts. This matches

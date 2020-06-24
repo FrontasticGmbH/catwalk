@@ -1,0 +1,2 @@
+_main:
+    resource: ../../config/routing.yml

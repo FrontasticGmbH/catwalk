@@ -108,6 +108,36 @@ let CartLoader = function (store, api) {
         })
     }
 
+    this.addPayment = (cartInformation) => {
+        this.store.dispatch({
+            type: 'CartApi.Cart.loading',
+        })
+
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Demo.Payment.Invoice.add',
+                { ownErrorHandler: true },
+                cartInformation,
+                (data) => {
+                    this.store.dispatch({
+                        type: 'CartApi.Cart.update.success',
+                        data: data,
+                    })
+                    resolve()
+                },
+                (error) => {
+                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                    this.store.dispatch({
+                        type: 'CartApi.Cart.update.error',
+                        error: error,
+                    })
+                    reject(error)
+                }
+            )
+        })
+    }
+
     this.updateLineItem = (update) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
@@ -169,6 +199,10 @@ let CartLoader = function (store, api) {
     }
 
     this.updateCart = (cartInformation) => {
+        this.store.dispatch({
+            type: 'CartApi.Cart.loading',
+        })
+
         return new Promise((resolve, reject) => {
             this.api.request(
                 'POST',
@@ -198,6 +232,10 @@ let CartLoader = function (store, api) {
         if (!code) {
             return
         }
+
+        this.store.dispatch({
+            type: 'CartApi.Cart.loading',
+        })
 
         return new Promise((resolve, reject) => {
             this.api.request(
@@ -229,6 +267,10 @@ let CartLoader = function (store, api) {
             return
         }
 
+        this.store.dispatch({
+            type: 'CartApi.Cart.loading',
+        })
+
         // TS, 2019-08-02: Permitted adjustment. Maybe merge upstream?
         return new Promise((resolve, reject) => {
             this.api.request(
@@ -256,6 +298,10 @@ let CartLoader = function (store, api) {
     }
 
     this.checkout = (cartInformation) => {
+        this.store.dispatch({
+            type: 'CartApi.Cart.loading',
+        })
+
         return new Promise((resolve, reject) => {
             this.api.request(
                 'POST',

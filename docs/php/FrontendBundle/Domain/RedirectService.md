@@ -18,8 +18,7 @@
 ```php
 public function __construct(
     \Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway $redirectGateway,
-    \Symfony\Component\Routing\Router $router,
-    Context $context
+    \Symfony\Component\Routing\Router $router
 ): mixed
 ```
 
@@ -27,7 +26,6 @@ Argument|Type|Default|Description
 --------|----|-------|-----------
 `$redirectGateway`|`\Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway`||
 `$router`|`\Symfony\Component\Routing\Router`||
-`$context`|[`Context`](../../ApiCoreBundle/Domain/Context.md)||
 
 Return Value: `mixed`
 
@@ -72,7 +70,8 @@ Return Value: [`Redirect`](Redirect.md)
 ```php
 public function getRedirectUrlForRequest(
     string $path,
-    \Symfony\Component\HttpFoundation\ParameterBag $queryParameters
+    \Symfony\Component\HttpFoundation\ParameterBag $queryParameters,
+    Context $context
 ): ?string
 ```
 
@@ -80,6 +79,7 @@ Argument|Type|Default|Description
 --------|----|-------|-----------
 `$path`|`string`||
 `$queryParameters`|`\Symfony\Component\HttpFoundation\ParameterBag`||
+`$context`|[`Context`](../../ApiCoreBundle/Domain/Context.md)||
 
 Return Value: `?string`
 

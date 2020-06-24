@@ -38,7 +38,6 @@ module.exports = (config, PRODUCTION, SERVER) => {
                                 plugins: () => {
                                     return [
                                         require('postcss-flexbugs-fixes'),
-                                        require('tailwindcss')(paths.theme + '/tailwind.config.js'),
                                         autoprefixer(),
                                     ]
                                 },
@@ -72,7 +71,6 @@ module.exports = (config, PRODUCTION, SERVER) => {
                                 plugins: () => {
                                     return [
                                         require('postcss-flexbugs-fixes'),
-                                        require('tailwindcss')(paths.theme + '/tailwind.config.js'),
                                         autoprefixer(),
                                     ]
                                 },

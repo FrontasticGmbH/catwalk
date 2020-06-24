@@ -31,7 +31,9 @@ class Redirect extends DataObject
     public $query;
 
     /**
-     * @var string One of TARGET_TYPE_* constants
+     * One of TARGET_TYPE_* constants
+     *
+     * @var string
      */
     public $targetType;
 
@@ -41,7 +43,7 @@ class Redirect extends DataObject
     public $target;
 
     /**
-     * @var string|null
+     * @var ?string
      */
     public $language = null;
 

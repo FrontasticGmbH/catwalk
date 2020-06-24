@@ -33,6 +33,12 @@ class AnnounceReleaseCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->announceToTideways($input, $output);
+        $this->announceToNewrelic($input, $output);
+    }
+
+    protected function announceToTideways(InputInterface $input, OutputInterface $output): void
+    {
         if (!($apiKey = getenv('tideways_key')) || trim($apiKey) === '') {
             $output->writeln('<error>No tideways key available, not announcing release.</error>');
             return;
@@ -58,5 +64,23 @@ class AnnounceReleaseCommand extends ContainerAwareCommand
 
         $output->writeln('<error>Error announcing release:</error>');
         $output->writeln(sprintf('<error>HTTP/%s: %s</error>', $response->status, $response->body));
+    }
+
+    protected function announceToNewrelic(InputInterface $input, OutputInterface $output): void
+    {
+        if (false === extension_loaded('newrelic')) {
+            $output->writeln('<info>No newrelic extension installed, not announcing release.</info>');
+            return;
+        }
+
+        $releaseTag = $input->getArgument('release-tag');
+
+        newrelic_record_custom_event("New Release: ${releaseTag}", [
+            'name' => $releaseTag,
+            'type' => 'release',
+            'environment' => getenv('environment'),
+        ]);
+
+        $output->writeln('<info>Announced release successfully</info>');
     }
 }

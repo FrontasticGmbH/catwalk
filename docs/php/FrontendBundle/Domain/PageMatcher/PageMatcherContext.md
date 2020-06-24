@@ -6,24 +6,24 @@
 
 Property|Type|Default|Description
 --------|----|-------|-----------
-`entity`|`object|null`||
-`categoryId`|`string|null`||
-`productId`|`string|null`||
-`contentId`|`string|null`||
+`entity`|`?object`||
+`categoryId`|`?string`||
+`productId`|`?string`||
+`contentId`|`?string`||
 `search`|`?string`||
-`cart`|`object|null`||
-`checkout`|`object|null`||
-`checkoutFinished`|`object|null`||
-`orderId`|`string|null`||
-`account`|`object|null`||
-`accountForgotPassword`|`object|null`||
-`accountConfirm`|`object|null`||
-`accountProfile`|`object|null`||
-`accountAddresses`|`object|null`||
-`accountOrders`|`object|null`||
-`accountWishlists`|`object|null`||
-`accountVouchers`|`object|null`||
-`error`|`object|null`||
+`cart`|`?object`||
+`checkout`|`?object`||
+`checkoutFinished`|`?object`||
+`orderId`|`?string`||
+`account`|`?object`||
+`accountForgotPassword`|`?object`||
+`accountConfirm`|`?object`||
+`accountProfile`|`?object`||
+`accountAddresses`|`?object`||
+`accountOrders`|`?object`||
+`accountWishlists`|`?object`||
+`accountVouchers`|`?object`||
+`error`|`?object`||
 
 ## Methods
 

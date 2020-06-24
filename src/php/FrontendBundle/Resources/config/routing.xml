@@ -19,6 +19,13 @@
         <requirement key="url">.+</requirement>
     </route>
 
+    <route id="Frontastic.Frontend.Master.Content.view" path="/{url}/z/{identifier}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ContentController::viewAction</default>
+
+        <!-- explicitly allow / in url parts -->
+        <requirement key="url">.+</requirement>
+    </route>
+
     <route id="Frontastic.Frontend.Master.Search.search" path="/q/{phrase}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\SearchController::searchAction</default>
     </route>

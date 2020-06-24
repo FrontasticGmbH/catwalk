@@ -3,7 +3,6 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\EventListener\ErrorHandler;
 
-
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Cell;
 use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
@@ -67,8 +66,7 @@ class ErrorNodeRenderer
         NodeService $nodeService,
         PageService $pageService,
         ViewDataProvider $dataProvider
-    )
-    {
+    ) {
         $this->twig = $twig;
         $this->masterService = $masterService;
         $this->nodeService = $nodeService;
@@ -138,7 +136,6 @@ class ErrorNodeRenderer
                 ],
             ];
         }
-
     }
 
     private function getExceptionInformation(\Throwable $exception = null): ?string
@@ -159,5 +156,4 @@ class ErrorNodeRenderer
                 )
             ) . "\n```\n";
     }
-
 }

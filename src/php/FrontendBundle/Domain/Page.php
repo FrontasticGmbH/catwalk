@@ -51,7 +51,7 @@ class Page extends DataObject
      * still the same. It can ensure to maintain the time but the timezone may change which produces a different time
      * point.
      *
-     * @var int|null
+     * @var ?int
      */
     public $scheduledFromTimestamp;
 
@@ -60,12 +60,12 @@ class Page extends DataObject
      * still the same. It can ensure to maintain the time but the timezone may change which produces a different time
      * point.
      *
-     * @var int|null
+     * @var ?int
      */
     public $scheduledToTimestamp;
 
     /**
-     * @var int|null
+     * @var ?int
      */
     public $nodesPagesOfTypeSortIndex = null;
 

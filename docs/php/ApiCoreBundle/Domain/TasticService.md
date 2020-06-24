@@ -21,7 +21,7 @@
 public function __construct(
     \Frontastic\Catwalk\ApiCoreBundle\Gateway\TasticGateway $tasticGateway,
     string $projectPath,
-    string $environment
+    string $frameworkEnvironment
 ): mixed
 ```
 
@@ -29,7 +29,7 @@ Argument|Type|Default|Description
 --------|----|-------|-----------
 `$tasticGateway`|`\Frontastic\Catwalk\ApiCoreBundle\Gateway\TasticGateway`||
 `$projectPath`|`string`||
-`$environment`|`string`||
+`$frameworkEnvironment`|`string`||
 
 Return Value: `mixed`
 

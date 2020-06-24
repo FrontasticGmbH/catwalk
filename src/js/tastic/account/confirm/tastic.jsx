@@ -65,7 +65,7 @@ export default connect(
     (globalState, props) => {
         return {
             ...props,
-            token: globalState.app.route.get('token', null),
+            token: globalState.app.route.get('confirmationToken', null),
         }
     }
 )(AccountConfirmTastic)

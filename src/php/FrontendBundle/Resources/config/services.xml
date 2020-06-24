@@ -38,6 +38,14 @@
             <argument type="service" id="service_container" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ContentRouter">
+            <!--
+             * IMPORTANT: We must use the container here, otherwise we try to load
+             * the ContextService in context free situations.
+            -->
+            <argument type="service" id="service_container" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService" />
@@ -515,8 +523,13 @@
             <tag name="rulerz.operator" target="native" operator="categoriescontain" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\RulerZ\Operator\CategoryPathContains">
+            <tag name="rulerz.operator" target="native" operator="categorypathcontains" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Security\AccountProvider">
             <argument type="service" id="Frontastic\Common\AccountApiBundle\Domain\AccountService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Security\Authenticator">
@@ -533,5 +546,10 @@
         </service>
 
         <service id="frontastic.user.guard_handler" alias="Symfony\Component\Security\Guard\GuardAuthenticatorHandler" />
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Twig\FrontasticNodeViewFallbackTemplateGuesser" decorates="qafoo_labs_noframework.template_guesser" autowire="true">
+<!--            <argument key="$innerTemplateGuesser" type="service" id="Frontastic\Catwalk\FrontendBundle\Twig\FrontasticNodeViewFallbackTemplateGuesser.inner"/>-->
+<!--            <argument key="$twigLogger" type="service" id="logger" />-->
+        </service>
     </services>
 </container>

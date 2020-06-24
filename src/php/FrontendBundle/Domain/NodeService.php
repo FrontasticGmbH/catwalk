@@ -66,8 +66,8 @@ class NodeService implements Target
     }
 
     /**
-     * @param string|null $root
-     * @param int|null $maxDepth
+     * @param ?string $root
+     * @param ?int $maxDepth
      * @return \Frontastic\Catwalk\FrontendBundle\Domain\Node[]
      */
     public function getNodes(string $root = null, int $maxDepth = null): array
