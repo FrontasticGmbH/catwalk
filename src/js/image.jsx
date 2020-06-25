@@ -36,7 +36,7 @@ class Image extends Component {
             ]
         }
 
-        // on initial load it happens, especially in production, that props.width and height are NULL.
+        // on initial load it can happen, especially in production, that props.width and height are NULL.
         // This caused a bunch of issues with images being only a few pixels tall.
         // So we do a NULL check on that. If that's the case we check if the media object is there
         // and if we can use the metadata in there. Lastly it falls back to 0.
