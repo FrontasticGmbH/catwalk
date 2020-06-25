@@ -34,6 +34,11 @@ export default {
         specialCharacter: 'One special character (! # % +)',
         repeatEmail: 'Repeat email address',
         editDetails: 'Edit Details',
+        order: 'Order',
+        trackingNumber:'Tracking number: ',
+        quantity:'Quantity: ',
+        viewOrder:'View order',
+        totalAmountOrder:'Total amount: ',
         form: {
             emailLabel: 'Email',
             passwordLabel: 'Password',
