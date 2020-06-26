@@ -42,3 +42,5 @@ languages:
     - de_DE@EUR
 name: Test Catwalk
 projectId: test
+previewUrl: https://test-example.frontastic.io/preview
+publicUrl: https://example.com/
