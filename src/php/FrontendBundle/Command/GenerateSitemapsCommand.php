@@ -208,7 +208,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         $output->writeln('Generating sitemap index…');
         $filePath = 'sitemap_index.xml';
         if ($this->singleSitemap) {
-            $this->renderSitemap($this->publicUrl,$this->filterEntries($entries),$filePath);
+            $this->renderSitemap($this->publicUrl, $this->filterEntries($entries), $filePath);
         } else {
             $this->renderIndex($this->publicUrl, $sitemaps, $filePath);
         }
@@ -275,10 +275,15 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 if ($this->singleSitemap) {
                     $allExtensionEntries = array_merge($allExtensionEntries, $entries);
                 } else {
-                    $sitemaps = array_merge($sitemaps, $this->renderSitemaps($context, $entries, $extension->getName()));
+                    $sitemaps = array_merge(
+                        $sitemaps,
+                        $this->renderSitemaps($context, $entries, $extension->getName())
+                    );
                 }
             } catch (\Throwable $error) {
-                $output->writeln('<error>Sitemap extension ' . get_class($extension) . ' resulted in an error:</error>');
+                $output->writeln(
+                    '<error>Sitemap extension ' . get_class($extension) . ' resulted in an error:</error>'
+                );
                 $output->writeln('<error>' . $error->getMessage() . '</error>');
 
                 $entries = [];
@@ -541,8 +546,13 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         );
     }
 
-    private function render(string $publicUrl, array $data, string $templateFile, string $file, bool $isSiteMapIndex = false): void
-    {
+    private function render(
+        string $publicUrl,
+        array $data,
+        string $templateFile,
+        string $file,
+        bool $isSiteMapIndex = false
+    ): void {
         /** @var EngineInterface $template */
         $template = $this->getContainer()->get('templating');
 
