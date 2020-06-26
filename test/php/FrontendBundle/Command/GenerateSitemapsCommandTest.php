@@ -86,6 +86,23 @@ class GenerateSitemapsCommandTest extends IntegrationTest
         $this->assertTheOutputDirectoryMatchesTheFixture($outputDirectory, 'overridePublicUrl');
     }
 
+    public function testGeneratesSitemapSingleSitemap()
+    {
+        $commandTester = $this->givenAGenerateSitemapsCommandTester();
+        $outputDirectory = $this->givenAnOutputDirectory();
+        $this->givenTheNodeAndPageFixture('nodeTree');
+
+        $commandTester->execute([
+            'output-directory' => $outputDirectory,
+            '--with-nodes' => true,
+            '--with-nodes-subpages' => true,
+            '--with-extensions' => true,
+            '--single-sitemap' => true,
+        ]);
+
+        $this->assertTheOutputDirectoryMatchesTheFixture($outputDirectory, 'singleSitemap');
+    }
+
     public function setUp()
     {
         parent::setUp();
