@@ -49,9 +49,19 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
     private $maxEntries;
 
     /**
+     * @var bool
+     */
+    private $singleSitemap;
+
+    /**
      * @var string[]
      */
     private $excludes = [];
+
+    /**
+     * @var string
+     */
+    private $publicUrl;
 
     protected function configure(): void
     {
@@ -111,6 +121,21 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY,
                 'Pattern to exclude all urls that match'
+            )->addOption(
+                'locale',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Explicitly select a locale for the generated URLs'
+            )->addOption(
+                'base-url',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Explicitly set the base URL for the sitemap URLs (defaults to publicUrl from project.yml)'
+            )->addOption(
+                'single-sitemap',
+                null,
+                InputOption::VALUE_NONE,
+                'Generate all sitemaps in a single sitemap.xml file'
             );
     }
 
@@ -121,6 +146,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->maxEntries = $input->getOption('max-entries');
+        $this->singleSitemap = $input->getOption('single-sitemap');
         $this->workingDir = uniqid(sprintf('%s/sitemap_', sys_get_temp_dir()));
         $this->excludes = $input->getOption('exclude');
         $this->filesystem = new Filesystem();
@@ -128,35 +154,64 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
 
         /** @var ContextService $contextService */
         $contextService = $this->getContainer()->get(ContextService::class);
+        $context = $contextService->getContext($input->getOption('locale'));
 
-        $context = $contextService->getContext();
+        $this->publicUrl = $this->determinePublicUrl($context, $input->getOption('base-url'));
 
         $sitemaps = [];
+        $entries = [];
+
         if ($input->getOption('all') || $input->getOption('with-nodes')) {
-            $sitemaps = array_merge($sitemaps, $this->generateNodeSitemap($context, $input, $output));
+            $result = $this->generateNodeSitemap($context, $input, $output);
+            if ($this->singleSitemap) {
+                $entries = array_merge($entries, $result);
+            } else {
+                $sitemaps = array_merge($sitemaps, $result);
+            }
         }
+
         if ($input->getOption('all') || $input->getOption('with-categories')) {
-            $sitemaps = array_merge($sitemaps, $this->generateCategorySitemap($context, $input, $output));
+            $result = $this->generateCategorySitemap($context, $input, $output);
+            if ($this->singleSitemap) {
+                $entries = array_merge($entries, $result);
+            } else {
+                $sitemaps = array_merge($sitemaps, $result);
+            }
         }
+
         if ($input->getOption('all') || $input->getOption('with-products')) {
-            $sitemaps = array_merge($sitemaps, $this->generateProductSitemap($context, $output));
+            $result = $this->generateProductSitemap($context, $output);
+            if ($this->singleSitemap) {
+                $entries = array_merge($entries, $result);
+            } else {
+                $sitemaps = array_merge($sitemaps, $result);
+            }
         }
+
         if ($input->getOption('all') || $input->getOption('with-extensions')) {
-            $sitemaps = array_merge($sitemaps, $this->generateSitemapExtensions($context, $output));
+            $result = $this->generateSitemapExtensions($context, $output);
+            if ($this->singleSitemap) {
+                $entries = array_merge($entries, $result);
+            } else {
+                $sitemaps = array_merge($sitemaps, $result);
+            }
         }
 
         $outputDir = $input->getArgument('output-directory');
+        // TODO: Proper error message for other paths
         list(, $basePath) = explode('public/', $outputDir);
+
         if ($basePath) {
             $basePath = trim($basePath, '/') . '/';
         }
 
-        $sitemaps = array_map(function ($sitemap) use ($basePath) {
-            return $basePath . $sitemap;
-        }, $sitemaps);
-
         $output->writeln('Generating sitemap index…');
-        $this->renderIndex($context, $sitemaps, 'sitemap_index.xml');
+        $filePath = 'sitemap_index.xml';
+        if ($this->singleSitemap) {
+            $this->renderSitemap($this->publicUrl, $this->filterEntries($entries), $filePath);
+        } else {
+            $this->renderIndex($this->publicUrl, $sitemaps, $filePath);
+        }
 
         $backupDir = null;
         if ($this->filesystem->exists($outputDir)) {
@@ -170,32 +225,75 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         }
     }
 
+    private function determinePublicUrl(Context $context, $overrideUrl = null): string
+    {
+        if ($overrideUrl !== null) {
+            return $overrideUrl;
+        }
+
+        if (isset($context->project->publicUrl)) {
+            return $context->project->publicUrl;
+        }
+
+        // Guess!
+        $previewUrlParts = parse_url($context->project->previewUrl);
+        return sprintf('%s://%s', $previewUrlParts['scheme'], $previewUrlParts['host']);
+    }
+
     private function generateSitemapExtensions(Context $context, OutputInterface $output): array
     {
         /** @var SitemapService $sitemapService */
         $sitemapService = $this->getContainer()->get(SitemapService::class);
 
         $sitemaps = [];
+        $allExtensionEntries = [];
         foreach ($sitemapService->getExtensions() as $extension) {
-            $entries = [];
-            foreach ($extension->getEntries() as $entry) {
-                if (!isset($entry['uri'])) {
-                    throw new \DomainException('uri needs to be set for entries returned by extension point!');
+            $output->writeln('Generating sitemaps for extension ' . get_class($extension) . ' …');
+
+            try {
+                $entries = [];
+                $urls = $extension->getEntries();
+
+                if (is_array(reset($urls))) {
+                    foreach ($urls as $entry) {
+                        $entries[] = [
+                            'uri' => $entry['uri'],
+                            'changed' => $entry['changed']
+                        ];
+                    }
+                } else {
+                    foreach ($urls as $url) {
+                        $entries[] = [
+                            'uri' => $url,
+                            'changed' => time()
+                        ];
+                    }
                 }
 
-                if (!isset($entry['changed'])) {
-                    $entry['changed'] = time();
-                }
+                $output->writeln("Generating {$extension->getName()} sitemaps…");
 
-                $entries[] = $entry;
+                if ($this->singleSitemap) {
+                    $allExtensionEntries = array_merge($allExtensionEntries, $entries);
+                } else {
+                    $sitemaps = array_merge(
+                        $sitemaps,
+                        $this->renderSitemaps($context, $entries, $extension->getName())
+                    );
+                }
+            } catch (\Throwable $error) {
+                $output->writeln(
+                    '<error>Sitemap extension ' . get_class($extension) . ' resulted in an error:</error>'
+                );
+                $output->writeln('<error>' . $error->getMessage() . '</error>');
+
+                $entries = [];
+                continue;
             }
 
-            $output->writeln("Generating {$extension->getName()} sitemaps…");
-
-            $sitemaps = array_merge($sitemaps, $this->renderSitemaps($context, $entries, $extension->getName()));
+            $output->writeln('<info>Sitemap extension ' . get_class($extension) . ' finished successfully.</info>');
         }
 
-        return $sitemaps;
+        return  $this->singleSitemap ? $allExtensionEntries : $sitemaps;
     }
 
     private function generateNodeSitemap(Context $context, InputInterface $input, OutputInterface $output): array
@@ -248,7 +346,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             );
         }
 
-        return $this->renderSitemaps($context, $entries, 'nodes');
+        return $this->singleSitemap ? $entries : $this->renderSitemaps($context, $entries, 'nodes');
     }
 
     private function generateCategorySitemap(Context $context, InputInterface $input, OutputInterface $output): array
@@ -313,7 +411,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             $query->offset += $limit;
         } while (count($result) > 0);
 
-        return $this->renderSitemaps($context, $entries, 'categories');
+        return $this->singleSitemap ? $entries : $this->renderSitemaps($context, $entries, 'categories');
     }
 
     private function generatePagerEntries(Node $node, Context $context, $baseUri): array
@@ -384,7 +482,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             $query->offset += $limit;
         } while ($result->count > 0);
 
-        return $this->renderSitemaps($context, $entries, 'products');
+        return $this->singleSitemap ? $entries : $this->renderSitemaps($context, $entries, 'products');
     }
 
     private function filterEntries(array $entries): array
@@ -407,33 +505,36 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         $entries = $this->filterEntries($entries);
 
         $sitemaps = [];
+
         while (count($entries) > 0) {
             $sitemaps[] = sprintf('sitemap_%s-%d.xml', $type, count($sitemaps));
+            $siteMapFileName = end($sitemaps);
+            $filePath = $siteMapFileName;
 
             $this->renderSitemap(
-                $context,
+                $this->publicUrl,
                 array_slice($entries, 0, $this->maxEntries),
-                end($sitemaps)
+                $filePath
             );
             $entries = array_slice($entries, $this->maxEntries);
         }
         return $sitemaps;
     }
 
-    private function renderSitemap(Context $context, array $entries, string $file): void
+    private function renderSitemap(string $publicUrl, array $entries, string $file): void
     {
         $this->render(
-            $context,
+            $publicUrl,
             ['urls' => $entries],
             'Sitemap/sitemap.xml.twig',
             $file
         );
     }
 
-    private function renderIndex(Context $context, array $sitemaps, string $file): void
+    private function renderIndex(string $publicUrl, array $sitemaps, string $file): void
     {
         $this->render(
-            $context,
+            $publicUrl,
             ['sitemaps' => array_map(
                 function ($sitemap) {
                     return ['uri' => $sitemap, 'changed' => time()];
@@ -445,12 +546,17 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         );
     }
 
-    private function render(Context $context, array $data, string $templateFile, string $file): void
-    {
+    private function render(
+        string $publicUrl,
+        array $data,
+        string $templateFile,
+        string $file,
+        bool $isSiteMapIndex = false
+    ): void {
         /** @var EngineInterface $template */
         $template = $this->getContainer()->get('templating');
 
-        $data['_publicUrl'] = rtrim($context->project->publicUrl, '/');
+        $data['_publicUrl'] = rtrim($publicUrl, '/');
 
         $this->filesystem->dumpFile(
             $this->workingDir . '/' . $file,
