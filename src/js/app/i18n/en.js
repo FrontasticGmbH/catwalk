@@ -296,5 +296,8 @@ export default {
     validation: {
         required: 'This field is required',
         email: 'Please enter valid email address',
+        passwordMatch: 'Passwords don\'t match',
+        minLength: 'Password must have at least 10 characters',
+        strongPassword: 'Password is not strong enough'
     },
 }

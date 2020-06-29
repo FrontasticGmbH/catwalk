@@ -337,5 +337,8 @@ export default {
     validation: {
         required: 'Dieses Feld muss ausgefüllt werden',
         email: 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
+        passwordMatch: 'Passwörter stimmen nicht überein',
+        minLength: 'Das Passwort muss mindestens 10 Zeichen lang sein.',
+        strongPassword: 'Das Passwort ist nicht stark genug'
     },
 }
