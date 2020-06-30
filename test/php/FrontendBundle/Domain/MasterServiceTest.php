@@ -140,4 +140,23 @@ class MasterServiceTest extends \PHPUnit\Framework\TestCase
             $pageFixture->regions['main']->elements[0]->tastics[1]->configuration->orders
         );
     }
+
+    public function testCompleteTasticStreamConfigWithMasterDefaultWithGroups()
+    {
+        \Phake::when($this->tasticService)->getTasticsMappedByType()->thenReturn(
+            require __DIR__ . '/_fixtures/master-service-complete-stream/tastic-map-with-groups.php'
+        );
+
+        /** @var Page $pageFixture */
+        $pageFixture = require __DIR__ . '/_fixtures/master-service-complete-stream/page-with-groups.php';
+
+        $this->masterService->completeTasticStreamConfigurationWithMasterDefault($pageFixture, 'accountOrders');
+
+        foreach ($pageFixture->regions['main']->elements[0]->tastics[1]->configuration->ordersGroup as $orderGroup) {
+            $this->assertEquals(
+                '__master',
+                $orderGroup['orders']
+            );
+        }
+    }
 }

@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
+use Frontastic\Catwalk\FrontendBundle\Domain\Tastic\Configuration;
 use Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 use RulerZ\RulerZ;
@@ -117,20 +118,52 @@ class MasterService implements Target
             foreach ($region->elements as $element) {
                 foreach ($element->tastics as $tasticInstance) {
                     $tasticDefinition = $tasticDefinitionMap[$tasticInstance->tasticType];
-
                     foreach ($tasticDefinition->configurationSchema['schema'] as $schema) {
-                        foreach ($schema['fields'] as $fieldDefinition) {
-                            if ($fieldDefinition['type'] === 'stream' && $fieldDefinition['streamType'] === $pageType) {
-                                $fieldIdentifier = $fieldDefinition['field'];
-                                if (!isset($tasticInstance->configuration->$fieldIdentifier)) {
-                                    $tasticInstance->configuration->$fieldIdentifier = '__master';
-                                }
-                            }
-                        }
+                        $tasticConfiguration = (array)$tasticInstance->configuration;
+
+                        $tasticConfiguration = $this->completeMasterDefaultIn(
+                            $tasticConfiguration,
+                            $schema['fields'],
+                            $pageType
+                        );
+
+                        $tasticInstance->configuration = new Configuration($tasticConfiguration);
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Complete all stream occurrences in $actualConfiguration recursively.
+     */
+    private function completeMasterDefaultIn(array $actualConfiguration, array $fieldDefinitions, $pageType): array
+    {
+        foreach ($fieldDefinitions as $fieldDefinition) {
+            if (!isset($fieldDefinition['field'])) {
+                continue;
+            }
+
+            $fieldIdentifier = $fieldDefinition['field'];
+
+            if ($fieldDefinition['type'] === 'stream' && $fieldDefinition['streamType'] === $pageType) {
+                if (!isset($actualConfiguration[$fieldIdentifier])) {
+                    $actualConfiguration[$fieldIdentifier] = '__master';
+                }
+            }
+
+            if ($fieldDefinition['type'] === 'group') {
+                foreach ($actualConfiguration[$fieldIdentifier] ?? [] as $groupIndex => $groupConfiguration) {
+                    $groupConfiguration = $this->completeMasterDefaultIn(
+                        $groupConfiguration,
+                        $fieldDefinition['fields'],
+                        $pageType
+                    );
+                    $actualConfiguration[$fieldIdentifier][$groupIndex] = $groupConfiguration;
+                }
+            }
+        }
+        return $actualConfiguration;
     }
 
     public function lastUpdate(): string
