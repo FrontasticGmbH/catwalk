@@ -54,9 +54,13 @@ class AccountController extends Controller
 
     private function getNode(Context $context, PageMatcherContext $pageMatcherContext): array
     {
+        /** @var MasterService */
         $masterService = $this->get(MasterService::class);
+        /** @var NodeService $nodeService */
         $nodeService = $this->get(NodeService::class);
+        /** @var ViewDataProvider $dataService */
         $dataService = $this->get(ViewDataProvider::class);
+        /** @var PageService $pageService */
         $pageService = $this->get(PageService::class);
 
         $queryData = array_filter((array) $pageMatcherContext);
