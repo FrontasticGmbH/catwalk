@@ -71,9 +71,13 @@ class AccountController extends Controller
             $context->session->account->accountId ?? null
         );
 
+        $page = $pageService->fetchForNode($node, $context);
+
+        $masterService->completeTasticStreamConfigurationWithMasterDefault($page, key($queryData));
+
         return [
             'node' => $node,
-            'page' => $page = $pageService->fetchForNode($node, $context),
+            'page' => $page,
             'data' => $dataService->fetchDataFor($node, $context, [], $page),
         ];
     }
