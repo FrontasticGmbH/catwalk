@@ -32,7 +32,7 @@ export default {
         inOrder: 'Um ',
         protect: 'Ihr Konto zu schützen, ',
         passwordContain: 'Ihr Passwort muss enthalten',
-        characters: 'Mindestens 10 Zeichen',
+        characters: 'Mindestens 6 Zeichen',
         upperCase: 'Ein Großbuchstabe',
         number: 'OEine Zahl',
         specialCharacter: 'Ein Sonderzeichen (! # % +)',
@@ -41,7 +41,7 @@ export default {
         form: {
             emailLabel: 'Email',
             passwordLabel: 'Passwort',
-            minimumLength: 'Muss mindestens 10 Zeichen lang sein',
+            minimumLength: 'Muss mindestens 6 Zeichen lang sein',
         },
         message: {
             registered: 'Anmeldung erfolgreich – wir haben Ihnen eine E-Mail geschickt mit der Sie Ihren Account aktivieren können',
@@ -337,5 +337,7 @@ export default {
     validation: {
         required: 'Dieses Feld muss ausgefüllt werden',
         email: 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
+        passwordMatch: 'Passwörter stimmen nicht überein',
+        minLength: 'Das Passwort muss mindestens 6 Zeichen lang sein.',
     },
 }
