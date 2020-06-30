@@ -34,7 +34,7 @@ return Frontastic\Catwalk\FrontendBundle\Domain\Page::__set_state(array(
              'desktop' => true,
           )),
            'customConfiguration' => 
-          stdClass::__set_state(array(
+          (object) (array(
           )),
            'tastics' => 
           array (
@@ -288,7 +288,7 @@ return Frontastic\Catwalk\FrontendBundle\Domain\Page::__set_state(array(
              'desktop' => true,
           )),
            'customConfiguration' => 
-          stdClass::__set_state(array(
+          (object) (array(
           )),
            'tastics' => 
           array (
@@ -474,7 +474,7 @@ return Frontastic\Catwalk\FrontendBundle\Domain\Page::__set_state(array(
              'desktop' => true,
           )),
            'customConfiguration' => 
-          stdClass::__set_state(array(
+          (object) (array(
           )),
            'tastics' => 
           array (
