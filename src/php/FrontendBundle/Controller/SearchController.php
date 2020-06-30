@@ -23,6 +23,8 @@ class SearchController extends Controller
         $dataProvider = $this->get(ViewDataProvider::class);
         /** @var PageService $pageService */
         $pageService = $this->get(PageService::class);
+        /** @var MasterService $masterService */
+        $masterService = $this->get(MasterService::class);
 
         $node = $nodeService->get($pageMatcherService->matchNodeId(new PageMatcherContext(['search' => $phrase])));
         $node->streams = $pageMatcherService->completeDefaultQuery($node->streams, 'search', $phrase);
@@ -32,9 +34,13 @@ class SearchController extends Controller
             ['__master' => ['query' => $phrase]]
         );
 
+        $page = $pageService->fetchForNode($node, $context);
+
+        $masterService->completeTasticStreamConfigurationWithMasterDefault($page, 'search');
+
         return [
             'node' => $node,
-            'page' => $page = $pageService->fetchForNode($node, $context),
+            'page' => $page,
             'data' => $dataProvider->fetchDataFor($node, $context, $parameters, $page),
         ];
     }
