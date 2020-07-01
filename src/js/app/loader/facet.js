@@ -20,7 +20,7 @@ let Loader = function (store, api) {
     this.api = api
 
     this.loadFacets = (parameters) => {
-        this.api.trigger('Frontastic.Frontend.Facet.all', parameters, 'facet')
+        return this.api.trigger('Frontastic.Frontend.Facet.all', parameters, 'facet')
     }
 }
 

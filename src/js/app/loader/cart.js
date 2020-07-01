@@ -33,7 +33,7 @@ let CartLoader = function (store, api) {
     }
 
     this.getOrder = (parameters = {}) => {
-        this.api.trigger('Frontastic.CartApi.Cart.getOrder', parameters)
+        return this.api.trigger('Frontastic.CartApi.Cart.getOrder', parameters)
     }
 
     this.setProductOption = (productId, option) => {
@@ -271,7 +271,6 @@ let CartLoader = function (store, api) {
             type: 'CartApi.Cart.loading',
         })
 
-        // TS, 2019-08-02: Permitted adjustment. Maybe merge upstream?
         return new Promise((resolve, reject) => {
             this.api.request(
                 'POST',

@@ -50,245 +50,308 @@ let Loader = function (store, api) {
     }
 
     this.register = (user, redirect = true) => {
-        this.api.request(
-            'POST',
-            'Frontastic.AccountApi.Api.register',
-            { ownErrorHandler: true },
-            user,
-            (json) => {
-                this.notifyUser(
-                    <Message
-                        code='account.message.registered'
-                        message='Registration successfull – we sent you an email to confirm your registration.'
-                    />,
-                    'success'
-                )
-                this.store.dispatch({
-                    type: 'Frontastic.AccountApi.Api.register.success',
-                    data: json,
-                })
-                this.refresh()
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.AccountApi.Api.register',
+                { ownErrorHandler: true },
+                user,
+                (json) => {
+                    this.notifyUser(
+                        <Message
+                            code='account.message.registered'
+                            message='Registration successfull – we sent you an email to confirm your registration.'
+                        />,
+                        'success'
+                    )
+                    this.store.dispatch({
+                        type: 'Frontastic.AccountApi.Api.register.success',
+                        data: json,
+                    })
 
-                if (redirect) {
-                    app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
+                    this.refresh().then(resolve).catch(reject)
+
+                    if (redirect) {
+                        app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
+                    }
+                },
+                (json) => {
+                    this.notifyUser(<Message {...json} />, 'error')
+
+                    reject()
                 }
-            },
-            (json) => {
-                this.notifyUser(<Message {...json} />, 'error')
-            }
-        )
+            )
+        })
     }
 
     this.login = (email, password, previous = null) => {
-        this.api.request(
-            'POST',
-            'Frontastic.AccountApi.Api.login',
-            { ownErrorHandler: true },
-            { email: email, password: password },
-            (json) => {
-                this.refresh()
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.AccountApi.Api.login',
+                { ownErrorHandler: true },
+                { email: email, password: password },
+                (json) => {
+                    this.refresh().then(resolve).catch(reject)
 
-                if (previous) {
-                    app.getRouter().replace(
-                        previous.route,
-                        previous.parameters
-                    )
+                    if (previous) {
+                        app.getRouter().replace(
+                            previous.route,
+                            previous.parameters
+                        )
+                    }
+                },
+                (json) => {
+                    reject()
+
+                    // @TODO: We should ensure Symfony auth errors contain sensible codes
+                    if (json.message === 'Unauthenticated: Your email address was not yet verified.') {
+                        this.notifyUser(<Message code='symfony.notVerified' {...json} />, 'error')
+                    } else {
+                        this.notifyUser(<Message code='symfony.invalid' {...json} />, 'error')
+                    }
                 }
-            },
-            (json) => {
-                // @TODO: We should ensure Symfony auth errors contain sensible codes
-                if (json.message === 'Unauthenticated: Your email address was not yet verified.') {
-                    this.notifyUser(<Message code='symfony.notVerified' {...json} />, 'error')
-                } else {
-                    this.notifyUser(<Message code='symfony.invalid' {...json} />, 'error')
-                }
-            }
-        )
+            )
+        })
     }
 
     this.logout = () => {
-        this.api.request(
-            'POST',
-            'Frontastic.AccountApi.Api.logout',
-            null,
-            null,
-            (json) => {
-                this.notifyUser(<Message code='account.message.logout' message='Successfully logged out' />, 'success')
-                this.refresh()
-            },
-            (json) => {
-                this.store.dispatch({
-                    type: 'ApiBundle.Api.context.error',
-                    data: json.message,
-                })
-            }
-        )
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.AccountApi.Api.logout',
+                null,
+                null,
+                (json) => {
+                    this.notifyUser(<Message code='account.message.logout' message='Successfully logged out' />, 'success')
+
+                    this.refresh().then(resolve).catch(reject)
+                },
+                (json) => {
+                    this.store.dispatch({
+                        type: 'ApiBundle.Api.context.error',
+                        data: json.message,
+                    })
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.addAddress = (address) => {
-        this.api.request(
-            'POST',
-            'Frontastic.AccountApi.Api.addAddress',
-            { ownErrorHandler: true },
-            address,
-            (json) => {
-                this.notifyUser(<Message code='account.message.addressNew' message='Added new address' />, 'success')
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.AccountApi.Api.addAddress',
+                { ownErrorHandler: true },
+                address,
+                (json) => {
+                    this.notifyUser(<Message code='account.message.addressNew' message='Added new address' />, 'success')
 
-                let route = this.store.getState().app.route
-                app.getLoader('node').loadMaster(route.route, route.parameters)
-                this.refresh()
-            },
-            (json) => {
-                this.notifyUser(<Message {...json} />, 'error')
-            }
-        )
+                    let route = this.store.getState().app.route
+                    app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                    this.refresh().then(resolve).catch(reject)
+                },
+                (json) => {
+                    this.notifyUser(<Message {...json} />, 'error')
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.updateAddress = (address) => {
-        this.api.request(
-            'POST',
-            'Frontastic.AccountApi.Api.updateAddress',
-            { ownErrorHandler: true },
-            address,
-            (json) => {
-                this.notifyUser(<Message code='account.message.addressUpdated' message='Updated address' />, 'success')
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.AccountApi.Api.updateAddress',
+                { ownErrorHandler: true },
+                address,
+                (json) => {
+                    this.notifyUser(<Message code='account.message.addressUpdated' message='Updated address' />, 'success')
 
-                let route = this.store.getState().app.route
-                app.getLoader('node').loadMaster(route.route, route.parameters)
-                this.refresh()
-            },
-            (json) => {
-                this.notifyUser(<Message {...json} />, 'error')
-            }
-        )
+                    let route = this.store.getState().app.route
+                    app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                    this.refresh().then(resolve).catch(reject)
+                },
+                (json) => {
+                    this.notifyUser(<Message {...json} />, 'error')
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.removeAddress = (address) => {
-        this.api.request(
-            'POST',
-            'Frontastic.AccountApi.Api.removeAddress',
-            { ownErrorHandler: true },
-            address,
-            (json) => {
-                this.notifyUser(<Message code='account.message.addressRemoved' message='Removed address' />, 'success')
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.AccountApi.Api.removeAddress',
+                { ownErrorHandler: true },
+                address,
+                (json) => {
+                    this.notifyUser(<Message code='account.message.addressRemoved' message='Removed address' />, 'success')
 
-                let route = this.store.getState().app.route
-                app.getLoader('node').loadMaster(route.route, route.parameters)
-                this.refresh()
-            },
-            (json) => {
-                this.notifyUser(<Message {...json} />, 'error')
-            }
-        )
+                    let route = this.store.getState().app.route
+                    app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                    this.refresh().then(resolve).catch(reject)
+                },
+                (json) => {
+                    this.notifyUser(<Message {...json} />, 'error')
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.setDefaultBillingAddress = (address) => {
-        this.api.request(
-            'POST',
-            'Frontastic.AccountApi.Api.setDefaultBillingAddress',
-            { ownErrorHandler: true },
-            address,
-            (json) => {
-                this.notifyUser(<Message code='account.message.billingDefault' message='Set new default billing address' />, 'success')
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.AccountApi.Api.setDefaultBillingAddress',
+                { ownErrorHandler: true },
+                address,
+                (json) => {
+                    this.notifyUser(<Message code='account.message.billingDefault' message='Set new default billing address' />, 'success')
 
-                let route = this.store.getState().app.route
-                app.getLoader('node').loadMaster(route.route, route.parameters)
-                this.refresh()
-            },
-            (json) => {
-                this.notifyUser(<Message {...json} />, 'error')
-            }
-        )
+                    let route = this.store.getState().app.route
+                    app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                    this.refresh().then(resolve).catch(reject)
+                },
+                (json) => {
+                    this.notifyUser(<Message {...json} />, 'error')
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.setDefaultShippingAddress = (address) => {
-        this.api.request(
-            'POST',
-            'Frontastic.AccountApi.Api.setDefaultShippingAddress',
-            { ownErrorHandler: true },
-            address,
-            (json) => {
-                this.notifyUser(<Message code='account.message.shippingDefault' message='Set new default shipping address' />, 'success')
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.AccountApi.Api.setDefaultShippingAddress',
+                { ownErrorHandler: true },
+                address,
+                (json) => {
+                    this.notifyUser(<Message code='account.message.shippingDefault' message='Set new default shipping address' />, 'success')
 
-                let route = this.store.getState().app.route
-                app.getLoader('node').loadMaster(route.route, route.parameters)
-                this.refresh()
-            },
-            (json) => {
-                this.notifyUser(<Message {...json} />, 'error')
-            }
-        )
+                    let route = this.store.getState().app.route
+                    app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                    this.refresh().then(resolve).catch(reject)
+                },
+                (json) => {
+                    this.notifyUser(<Message {...json} />, 'error')
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.updateUser = (user) => {
-        this.api.request(
-            'POST',
-            'Frontastic.AccountApi.Api.update',
-            { ownErrorHandler: true },
-            user,
-            (json) => {
-                this.notifyUser(<Message code='account.message.update' message='Account data updated' />, 'success')
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.AccountApi.Api.update',
+                { ownErrorHandler: true },
+                user,
+                (json) => {
+                    this.notifyUser(<Message code='account.message.update' message='Account data updated' />, 'success')
 
-                this.refresh()
-                this.store.dispatch({
-                    type: 'AccountApi.Api.get.success',
-                    data: json,
-                    id: user.email,
-                })
-            },
-            (json) => {
-                this.notifyUser(<Message {...json} />, 'error')
-            }
-        )
+                    this.store.dispatch({
+                        type: 'AccountApi.Api.get.success',
+                        data: json,
+                        id: user.email,
+                    })
+
+                    this.refresh().then(resolve).catch(reject)
+                },
+                (json) => {
+                    this.notifyUser(<Message {...json} />, 'error')
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.requestPasswordReset = (email) => {
-        this.api.request(
-            'POST',
-            'Frontastic.AccountApi.Api.requestReset',
-            { ownErrorHandler: true },
-            { email: email },
-            (json) => {
-                this.notifyUser(<Message code='account.message.reset' message='Password reset mail sent.' />, 'success')
-            },
-            (json) => {
-                this.notifyUser(<Message code='account.message.resetFail' message={'Could not find account with email ' + email} />, 'error')
-            }
-        )
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.AccountApi.Api.requestReset',
+                { ownErrorHandler: true },
+                { email: email },
+                (json) => {
+                    this.notifyUser(<Message code='account.message.reset' message='Password reset mail sent.' />, 'success')
+
+                    resolve()
+                },
+                (json) => {
+                    this.notifyUser(<Message code='account.message.resetFail' message={'Could not find account with email ' + email} />, 'error')
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.resetPassword = (token, newPassword) => {
-        this.api.request(
-            'POST',
-            'Frontastic.AccountApi.Api.reset',
-            { ownErrorHandler: true, token: token },
-            { newPassword: newPassword },
-            (json) => {
-                this.notifyUser(<Message code='account.message.passwordUpdate' message='Password updated' />, 'success')
-                app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
-            },
-            (json) => {
-                this.notifyUser(<Message {...json} />, 'error')
-            }
-        )
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.AccountApi.Api.reset',
+                { ownErrorHandler: true, token: token },
+                { newPassword: newPassword },
+                (json) => {
+                    this.notifyUser(<Message code='account.message.passwordUpdate' message='Password updated' />, 'success')
+
+                    resolve()
+
+                    app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
+                },
+                (json) => {
+                    this.notifyUser(<Message {...json} />, 'error')
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.updatePassword = (oldPassword, newPassword) => {
-        this.api.request(
-            'POST',
-            'Frontastic.AccountApi.Api.changePassword',
-            { ownErrorHandler: true },
-            {
-                oldPassword: oldPassword,
-                newPassword: newPassword,
-            },
-            (json) => {
-                this.notifyUser(<Message code='account.message.passwordUpdate' message='Password updated' />, 'success')
-            },
-            (json) => {
-                this.notifyUser(<Message {...json} />, 'error')
-            }
-        )
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.AccountApi.Api.changePassword',
+                { ownErrorHandler: true },
+                {
+                    oldPassword: oldPassword,
+                    newPassword: newPassword,
+                },
+                (json) => {
+                    this.notifyUser(<Message code='account.message.passwordUpdate' message='Password updated' />, 'success')
+
+                    resolve()
+                },
+                (json) => {
+                    this.notifyUser(<Message {...json} />, 'error')
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.notifyUser = (message, type = 'info', timeout = 5000) => {

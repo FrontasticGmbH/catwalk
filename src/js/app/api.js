@@ -118,29 +118,35 @@ let Api = function (router, store) {
     this.trigger = (route, parameters, actionId = null) => {
         let routeKey = route.substr(route.indexOf('.') + 1)
 
-        this.request(
-            'GET',
-            route,
-            parameters,
-            null,
-            (data, parameters) => {
-                this.store.dispatch({
-                    type: routeKey + '.success',
-                    id: actionId,
-                    cacheKey: UrlContext.getActionHash(parameters),
-                    data: data,
-                    parameters: parameters,
-                })
-            },
-            (error) => {
-                this.store.dispatch({
-                    type: routeKey + '.error',
-                    id: actionId,
-                    cacheKey: UrlContext.getActionHash(parameters),
-                    error: error,
-                })
-            }
-        )
+        return new Promise((resolve, reject) => {
+            this.request(
+                'GET',
+                route,
+                parameters,
+                null,
+                (data, parameters) => {
+                    this.store.dispatch({
+                        type: routeKey + '.success',
+                        id: actionId,
+                        cacheKey: UrlContext.getActionHash(parameters),
+                        data: data,
+                        parameters: parameters,
+                    })
+
+                    resolve()
+                },
+                (error) => {
+                    this.store.dispatch({
+                        type: routeKey + '.error',
+                        id: actionId,
+                        cacheKey: UrlContext.getActionHash(parameters),
+                        error: error,
+                    })
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.triggerContinuously = (route, parameters, cacheKey = null) => {

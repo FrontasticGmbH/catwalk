@@ -18,11 +18,11 @@ let Loader = function (store, api) {
     this.api = api
 
     this.find = (parameters) => {
-        this.api.trigger('Frontastic.ApiCoreBundle.App.data', parameters, JSON.stringify(parameters))
+        return this.api.trigger('Frontastic.ApiCoreBundle.App.data', parameters, JSON.stringify(parameters))
     }
 
     this.get = (parameters) => {
-        this.api.trigger('Frontastic.ApiCoreBundle.App.get', parameters, parameters.dataId)
+        return this.api.trigger('Frontastic.ApiCoreBundle.App.get', parameters, parameters.dataId)
     }
 }
 

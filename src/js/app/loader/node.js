@@ -31,93 +31,105 @@ let Loader = function (store, api) {
     this.api = api
 
     this.loadTree = (parameters) => {
-        this.api.trigger('Frontastic.Frontend.Node.tree', parameters, parameters.root || 'root')
+        return this.api.trigger('Frontastic.Frontend.Node.tree', parameters, parameters.root || 'root')
     }
 
     this.loadNode = (parameters) => {
-        withRetries(
-            (retry, tryCount) => {
-                this.api.request(
-                    'GET',
-                    'Frontastic.Frontend.Node.view',
-                    parameters,
-                    null,
-                    (data, parameters) => {
-                        const isRetry = tryCount < 2
-                        this.store.dispatch({
-                            type: 'Frontend.Node.view.success',
-                            id: parameters.nodeId,
-                            cacheKey: UrlContext.getActionHash(parameters),
-                            data: data,
-                            parameters: parameters,
-                            isRetry,
-                        })
-
-                        const nodeDataErrors = extractErrors(data.data)
-                        if (nodeDataErrors.length > 0) {
-                            // eslint-disable-next-line no-console
-                            console.info('Errors in node data, attempting to retry', nodeDataErrors)
-                            setTimeout(retry, 100)
-                        }
-                        if (!isRetry) {
-                            this.store.dispatch(trackingPageView({
-                                nodeId: parameters.nodeId,
+        return new Promise((resolve, reject) => {
+            withRetries(
+                (retry, tryCount) => {
+                    this.api.request(
+                        'GET',
+                        'Frontastic.Frontend.Node.view',
+                        parameters,
+                        null,
+                        (data, parameters) => {
+                            const isRetry = tryCount < 2
+                            this.store.dispatch({
+                                type: 'Frontend.Node.view.success',
+                                id: parameters.nodeId,
+                                cacheKey: UrlContext.getActionHash(parameters),
                                 data: data,
-                                isMasterPage: false,
-                            }))
+                                parameters: parameters,
+                                isRetry,
+                            })
+
+                            const nodeDataErrors = extractErrors(data.data)
+                            if (nodeDataErrors.length > 0) {
+                                // eslint-disable-next-line no-console
+                                console.info('Errors in node data, attempting to retry', nodeDataErrors)
+                                setTimeout(retry, 100)
+                            }
+                            if (!isRetry) {
+                                this.store.dispatch(trackingPageView({
+                                    nodeId: parameters.nodeId,
+                                    data: data,
+                                    isMasterPage: false,
+                                }))
+                            }
+
+                            resolve()
+                        },
+                        (error) => {
+                            this.store.dispatch({
+                                type: 'Frontend.Node.view.success.error',
+                                id: parameters.nodeId,
+                                cacheKey: UrlContext.getActionHash(parameters),
+                                error: error,
+                            })
+
+                            reject()
                         }
-                    },
-                    (error) => {
-                        this.store.dispatch({
-                            type: 'Frontend.Node.view.success.error',
-                            id: parameters.nodeId,
-                            cacheKey: UrlContext.getActionHash(parameters),
-                            error: error,
-                        })
-                    }
-                )
-            },
-            2,
-            () => {
-                // eslint-disable-next-line no-console
-                console.error('Giving up retrying to fetch data for node', parameters)
-            }
-        )
+                    )
+                },
+                2,
+                () => {
+                    // eslint-disable-next-line no-console
+                    console.error('Giving up retrying to fetch data for node', parameters)
+                }
+            )
+        })
     }
 
     this.reloadPreview = (parameters) => {
-        this.api.trigger('Frontastic.Frontend.Preview.view', parameters, parameters.preview)
+        return this.api.trigger('Frontastic.Frontend.Preview.view', parameters, parameters.preview)
     }
 
     this.loadMaster = (route, parameters) => {
-        this.api.request(
-            'GET',
-            route,
-            parameters,
-            null,
-            (data, parameters) => {
-                this.store.dispatch({
-                    id: data.node.nodeId,
-                    cacheKey: UrlContext.getActionHash({ route, parameters }),
-                    type: 'Frontend.Master.view.success',
-                    data: data,
-                    parameters: parameters,
-                })
-                this.store.dispatch(trackingPageView({
-                    nodeId: data.node.nodeId,
-                    isMasterPage: true,
-                    data,
-                }))
-            },
-            (error) => {
-                this.store.dispatch({
-                    id: null,
-                    cacheKey: UrlContext.getActionHash(parameters),
-                    type: 'Frontend.Master.view.error',
-                    error: error,
-                })
-            }
-        )
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'GET',
+                route,
+                parameters,
+                null,
+                (data, parameters) => {
+                    this.store.dispatch({
+                        id: data.node.nodeId,
+                        cacheKey: UrlContext.getActionHash({ route, parameters }),
+                        type: 'Frontend.Master.view.success',
+                        data: data,
+                        parameters: parameters,
+                    })
+                    this.store.dispatch(trackingPageView({
+                        nodeId: data.node.nodeId,
+                        isMasterPage: true,
+                        data,
+                    }))
+
+                    resolve()
+                },
+                (error) => {
+                    this.store.dispatch({
+                        id: null,
+                        cacheKey: UrlContext.getActionHash(parameters),
+                        type: 'Frontend.Master.view.error',
+                        error: error,
+                    })
+
+                    reject()
+                }
+            )
+        })
     }
 }
 

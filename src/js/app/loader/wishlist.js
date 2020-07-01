@@ -38,37 +38,43 @@ let WishlistLoader = function (store, api) {
             type: 'WishlistApi.Wishlist.loading',
         })
 
-        this.api.request(
-            'POST',
-            'Frontastic.WishlistApi.Wishlist.create',
-            null,
-            { name: name },
-            (data) => {
-                // FIXME: Also remove? See further calls to loadMaster() in this file
-                let route = this.store.getState().app.route
-                app.getLoader('node').loadMaster(route.route, route.parameters)
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.WishlistApi.Wishlist.create',
+                null,
+                { name: name },
+                (data) => {
+                    // FIXME: Also remove? See further calls to loadMaster() in this file
+                    let route = this.store.getState().app.route
+                    app.getLoader('node').loadMaster(route.route, route.parameters)
 
-                app.getLoader('context').notifyUser(
-                    <Message
-                        code='account.message.wishlist'
-                        parameters={{ wishlist: name }}
-                        message={'Created wishlist: ' + name}
-                    />,
-                    'success'
-                )
-                this.store.dispatch({
-                    type: 'WishlistApi.Wishlist.add.success',
-                    data: data,
-                })
-            },
-            (error) => {
-                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                this.store.dispatch({
-                    type: 'WishlistApi.Wishlist.add.error',
-                    error: error,
-                })
-            }
-        )
+                    app.getLoader('context').notifyUser(
+                        <Message
+                            code='account.message.wishlist'
+                            parameters={{ wishlist: name }}
+                            message={'Created wishlist: ' + name}
+                        />,
+                        'success'
+                    )
+                    this.store.dispatch({
+                        type: 'WishlistApi.Wishlist.add.success',
+                        data: data,
+                    })
+
+                    resolve()
+                },
+                (error) => {
+                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                    this.store.dispatch({
+                        type: 'WishlistApi.Wishlist.add.error',
+                        error: error,
+                    })
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.add = (product, variant, count, wishlist = null) => {
@@ -112,25 +118,31 @@ let WishlistLoader = function (store, api) {
             type: 'WishlistApi.Wishlist.loading',
         })
 
-        this.api.request(
-            'POST',
-            'Frontastic.WishlistApi.Wishlist.addMultiple',
-            { ownErrorHandler: true },
-            { lineItems },
-            (data) => {
-                this.store.dispatch({
-                    type: 'WishlistApi.Wishlist.add.success',
-                    data: data,
-                })
-            },
-            (error) => {
-                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                this.store.dispatch({
-                    type: 'WishlistApi.Wishlist.add.error',
-                    error: error,
-                })
-            }
-        )
+        return new Promise((resolve, reject) => {
+            this.api.request(
+                'POST',
+                'Frontastic.WishlistApi.Wishlist.addMultiple',
+                { ownErrorHandler: true },
+                { lineItems },
+                (data) => {
+                    this.store.dispatch({
+                        type: 'WishlistApi.Wishlist.add.success',
+                        data: data,
+                    })
+
+                    resolve()
+                },
+                (error) => {
+                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                    this.store.dispatch({
+                        type: 'WishlistApi.Wishlist.add.error',
+                        error: error,
+                    })
+
+                    reject()
+                }
+            )
+        })
     }
 
     this.updateLineItem = (wishlist, update) => {

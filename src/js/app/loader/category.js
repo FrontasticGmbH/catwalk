@@ -17,7 +17,7 @@ let Loader = function (store, api) {
     this.api = api
 
     this.loadCategories = (parameters) => {
-        this.api.trigger('Frontastic.Frontend.Category.all', parameters, 'category')
+        return this.api.trigger('Frontastic.Frontend.Category.all', parameters, 'category')
     }
 }
 
