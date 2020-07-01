@@ -21,6 +21,10 @@ let CartLoader = function (store, api) {
     this.store = store
     this.api = api
 
+    /**
+     * @param parameters
+     * @return void
+     */
     this.get = (parameters = {}) => {
         this.api.triggerContinuously(
             'Frontastic.CartApi.Cart.get',
@@ -32,6 +36,10 @@ let CartLoader = function (store, api) {
         )
     }
 
+    /**
+     * @param parameters
+     * @return Promise
+     */
     this.getOrder = (parameters = {}) => {
         return this.api.trigger('Frontastic.CartApi.Cart.getOrder', parameters)
     }
@@ -46,6 +54,8 @@ let CartLoader = function (store, api) {
 
     /**
      * Product is here for historical reasons, please submit null as first value.
+     *
+     * @return Promise
      */
     this.add = (product = null, variant, count, option = null) => {
         this.store.dispatch({
@@ -78,6 +88,10 @@ let CartLoader = function (store, api) {
         })
     }
 
+    /**
+     * @param lineItems
+     * @return Promise
+     */
     this.addMultiple = (lineItems) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
@@ -108,6 +122,10 @@ let CartLoader = function (store, api) {
         })
     }
 
+    /**
+     * @param cartInformation
+     * @return Promise
+     */
     this.addPayment = (cartInformation) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
@@ -138,6 +156,10 @@ let CartLoader = function (store, api) {
         })
     }
 
+    /**
+     * @param update
+     * @return Promise
+     */
     this.updateLineItem = (update) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
@@ -168,6 +190,10 @@ let CartLoader = function (store, api) {
         })
     }
 
+    /**
+     * @param update
+     * @return Promise
+     */
     this.removeLineItem = (update) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
@@ -198,6 +224,10 @@ let CartLoader = function (store, api) {
         })
     }
 
+    /**
+     * @param cartInformation
+     * @return Promise
+     */
     this.updateCart = (cartInformation) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
@@ -228,6 +258,10 @@ let CartLoader = function (store, api) {
         })
     }
 
+    /**
+     * @param code
+     * @return Promise
+     */
     this.redeemDiscount = (code) => {
         if (!code) {
             return
@@ -262,6 +296,10 @@ let CartLoader = function (store, api) {
         })
     }
 
+    /**
+     * @param discountId
+     * @return Promise
+     */
     this.removeDiscount = (discountId) => {
         if (!discountId) {
             return
@@ -296,6 +334,10 @@ let CartLoader = function (store, api) {
         })
     }
 
+    /**
+     * @param cartInformation
+     * @return Promise
+     */
     this.checkout = (cartInformation) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',

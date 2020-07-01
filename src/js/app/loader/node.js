@@ -30,10 +30,18 @@ let Loader = function (store, api) {
     this.store = store
     this.api = api
 
+    /**
+     * @param parameters
+     * @return Promise
+     */
     this.loadTree = (parameters) => {
         return this.api.trigger('Frontastic.Frontend.Node.tree', parameters, parameters.root || 'root')
     }
 
+    /**
+     * @param parameters
+     * @return Promise
+     */
     this.loadNode = (parameters) => {
         return new Promise((resolve, reject) => {
             withRetries(
@@ -91,10 +99,19 @@ let Loader = function (store, api) {
         })
     }
 
+    /**
+     * @param parameters
+     * @return Promise
+     */
     this.reloadPreview = (parameters) => {
         return this.api.trigger('Frontastic.Frontend.Preview.view', parameters, parameters.preview)
     }
 
+    /**
+     * @param route
+     * @param parameters
+     * @return Promise
+     */
     this.loadMaster = (route, parameters) => {
         return new Promise((resolve, reject) => {
             this.api.request(

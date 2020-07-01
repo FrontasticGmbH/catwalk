@@ -15,6 +15,10 @@ let Loader = function (store, api) {
     this.store = store
     this.api = api
 
+    /**
+     * @param parameters
+     * @return Promise
+     */
     this.refresh = (parameters) => {
         return new Promise((resolve, reject) => {
             this.api.request(

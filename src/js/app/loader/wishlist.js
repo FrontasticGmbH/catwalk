@@ -22,6 +22,10 @@ let WishlistLoader = function (store, api) {
     this.store = store
     this.api = api
 
+    /**
+     * @param parameters
+     * @return void
+     */
     this.get = (parameters = {}) => {
         this.api.triggerContinuously(
             'Frontastic.WishlistApi.Wishlist.get',
@@ -33,6 +37,10 @@ let WishlistLoader = function (store, api) {
         )
     }
 
+    /**
+     * @param name
+     * @return Promise
+     */
     this.create = (name) => {
         this.store.dispatch({
             type: 'WishlistApi.Wishlist.loading',
@@ -77,6 +85,13 @@ let WishlistLoader = function (store, api) {
         })
     }
 
+    /**
+     * @param product
+     * @param variant
+     * @param count
+     * @param wishlist
+     * @return Promise
+     */
     this.add = (product, variant, count, wishlist = null) => {
         return new Promise((resolve, reject) => {
             this.api.request(
@@ -113,6 +128,10 @@ let WishlistLoader = function (store, api) {
         })
     }
 
+    /**
+     * @param lineItems
+     * @return Promise
+     */
     this.addMultiple = (lineItems) => {
         this.store.dispatch({
             type: 'WishlistApi.Wishlist.loading',
@@ -145,6 +164,11 @@ let WishlistLoader = function (store, api) {
         })
     }
 
+    /**
+     * @param wishlist
+     * @param update
+     * @return Promise
+     */
     this.updateLineItem = (wishlist, update) => {
         return new Promise((resolve, reject) => {
             this.api.request(
@@ -174,6 +198,11 @@ let WishlistLoader = function (store, api) {
         })
     }
 
+    /**
+     * @param wishlist
+     * @param update
+     * @return Promise
+     */
     this.removeLineItem = (wishlist, update) => {
         return new Promise((resolve, reject) => {
             this.api.request(
