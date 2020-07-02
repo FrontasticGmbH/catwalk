@@ -46,43 +46,37 @@ let WishlistLoader = function (store, api) {
             type: 'WishlistApi.Wishlist.loading',
         })
 
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.WishlistApi.Wishlist.create',
-                null,
-                { name: name },
-                (data) => {
-                    // FIXME: Also remove? See further calls to loadMaster() in this file
-                    let route = this.store.getState().app.route
-                    app.getLoader('node').loadMaster(route.route, route.parameters)
+        return this.api.request(
+            'POST',
+            'Frontastic.WishlistApi.Wishlist.create',
+            null,
+            { name: name },
+            (data) => {
+                // FIXME: Also remove? See further calls to loadMaster() in this file
+                let route = this.store.getState().app.route
+                app.getLoader('node').loadMaster(route.route, route.parameters)
 
-                    app.getLoader('context').notifyUser(
-                        <Message
-                            code='account.message.wishlist'
-                            parameters={{ wishlist: name }}
-                            message={'Created wishlist: ' + name}
-                        />,
-                        'success'
-                    )
-                    this.store.dispatch({
-                        type: 'WishlistApi.Wishlist.add.success',
-                        data: data,
-                    })
-
-                    resolve()
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'WishlistApi.Wishlist.add.error',
-                        error: error,
-                    })
-
-                    reject()
-                }
-            )
-        })
+                app.getLoader('context').notifyUser(
+                    <Message
+                        code='account.message.wishlist'
+                        parameters={{ wishlist: name }}
+                        message={'Created wishlist: ' + name}
+                    />,
+                    'success'
+                )
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.add.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.add.error',
+                    error: error,
+                })
+            }
+        )
     }
 
     /**
@@ -93,39 +87,35 @@ let WishlistLoader = function (store, api) {
      * @return Promise
      */
     this.add = (product, variant, count, wishlist = null) => {
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.WishlistApi.Wishlist.add',
-                { wishlist: wishlist, ownErrorHandler: true },
-                { product, variant, count },
-                (data) => {
-                    // FIXME: No idea why this was here. Caused re-ordering of products in normal node. Can be removed?
-                    // let route = this.store.getState().app.route
-                    // app.getLoader('node').loadMaster(route.route, route.parameters)
-                    app.getLoader('context').notifyUser(
-                        <Message
-                            code='account.message.wishlistAdd'
-                            message='Added product to wishlist'
-                        />,
-                        'success'
-                    )
-                    this.store.dispatch({
-                        type: 'WishlistApi.Wishlist.add.success',
-                        data: data,
-                    })
-                    resolve()
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'WishlistApi.Wishlist.add.error',
-                        error: error,
-                    })
-                    reject(error)
-                }
-            )
-        })
+        return this.api.request(
+            'POST',
+            'Frontastic.WishlistApi.Wishlist.add',
+            { wishlist: wishlist, ownErrorHandler: true },
+            { product, variant, count },
+            (data) => {
+                // FIXME: No idea why this was here. Caused re-ordering of products in normal node. Can be removed?
+                // let route = this.store.getState().app.route
+                // app.getLoader('node').loadMaster(route.route, route.parameters)
+                app.getLoader('context').notifyUser(
+                    <Message
+                        code='account.message.wishlistAdd'
+                        message='Added product to wishlist'
+                    />,
+                    'success'
+                )
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.add.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.add.error',
+                    error: error,
+                })
+            }
+        )
     }
 
     /**
@@ -137,31 +127,25 @@ let WishlistLoader = function (store, api) {
             type: 'WishlistApi.Wishlist.loading',
         })
 
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.WishlistApi.Wishlist.addMultiple',
-                { ownErrorHandler: true },
-                { lineItems },
-                (data) => {
-                    this.store.dispatch({
-                        type: 'WishlistApi.Wishlist.add.success',
-                        data: data,
-                    })
-
-                    resolve()
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'WishlistApi.Wishlist.add.error',
-                        error: error,
-                    })
-
-                    reject()
-                }
-            )
-        })
+        return this.api.request(
+            'POST',
+            'Frontastic.WishlistApi.Wishlist.addMultiple',
+            { ownErrorHandler: true },
+            { lineItems },
+            (data) => {
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.add.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.add.error',
+                    error: error,
+                })
+            }
+        )
     }
 
     /**
@@ -170,32 +154,28 @@ let WishlistLoader = function (store, api) {
      * @return Promise
      */
     this.updateLineItem = (wishlist, update) => {
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.WishlistApi.Wishlist.updateLineItem',
-                { wishlist: wishlist, ownErrorHandler: true },
-                update,
-                (data) => {
-                    // FIXME: Also remove? See further calls to loadMaster() in this file
-                    let route = this.store.getState().app.route
-                    app.getLoader('node').loadMaster(route.route, route.parameters)
-                    this.store.dispatch({
-                        type: 'WishlistApi.Wishlist.update.success',
-                        data: data,
-                    })
-                    resolve()
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'WishlistApi.Wishlist.update.error',
-                        error: error,
-                    })
-                    reject(error)
-                }
-            )
-        })
+        return this.api.request(
+            'POST',
+            'Frontastic.WishlistApi.Wishlist.updateLineItem',
+            { wishlist: wishlist, ownErrorHandler: true },
+            update,
+            (data) => {
+                // FIXME: Also remove? See further calls to loadMaster() in this file
+                let route = this.store.getState().app.route
+                app.getLoader('node').loadMaster(route.route, route.parameters)
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.update.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.update.error',
+                    error: error,
+                })
+            }
+        )
     }
 
     /**
@@ -204,39 +184,35 @@ let WishlistLoader = function (store, api) {
      * @return Promise
      */
     this.removeLineItem = (wishlist, update) => {
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.WishlistApi.Wishlist.removeLineItem',
-                { wishlist: wishlist, ownErrorHandler: true },
-                update,
-                (data) => {
-                    // FIXME: No idea why this was here. Caused re-ordering of products in normal node. Can be removed?
-                    // let route = this.store.getState().app.route
-                    // app.getLoader('node').loadMaster(route.route, route.parameters)
-                    app.getLoader('context').notifyUser(
-                        <Message
-                            code='account.message.wishlistRemove'
-                            message='Removed product from wishlist'
-                        />,
-                        'success'
-                    )
-                    this.store.dispatch({
-                        type: 'WishlistApi.Wishlist.update.success',
-                        data: data,
-                    })
-                    resolve()
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'WishlistApi.Wishlist.update.error',
-                        error: error,
-                    })
-                    reject(error)
-                }
-            )
-        })
+        return this.api.request(
+            'POST',
+            'Frontastic.WishlistApi.Wishlist.removeLineItem',
+            { wishlist: wishlist, ownErrorHandler: true },
+            update,
+            (data) => {
+                // FIXME: No idea why this was here. Caused re-ordering of products in normal node. Can be removed?
+                // let route = this.store.getState().app.route
+                // app.getLoader('node').loadMaster(route.route, route.parameters)
+                app.getLoader('context').notifyUser(
+                    <Message
+                        code='account.message.wishlistRemove'
+                        message='Removed product from wishlist'
+                    />,
+                    'success'
+                )
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.update.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'WishlistApi.Wishlist.update.error',
+                    error: error,
+                })
+            }
+        )
     }
 }
 

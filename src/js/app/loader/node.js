@@ -86,7 +86,7 @@ let Loader = function (store, api) {
                                 error: error,
                             })
 
-                            reject()
+                            reject(error)
                         }
                     )
                 },
@@ -143,7 +143,7 @@ let Loader = function (store, api) {
                         error: error,
                     })
 
-                    reject()
+                    reject(error)
                 }
             )
         })
