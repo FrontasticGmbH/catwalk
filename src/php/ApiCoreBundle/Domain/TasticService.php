@@ -118,7 +118,7 @@ class TasticService implements Target
     {
         $tastic = $this->tasticGateway->get($tasticId);
         if (isset($this->tasticSchemaOverwrites[$tastic->tasticType])) {
-            $tastic->schema = $$this->tasticSchemaOverwrites[$tastic->tasticType];
+            $tastic->schema = $this->tasticSchemaOverwrites[$tastic->tasticType];
         }
 
         return $tastic;

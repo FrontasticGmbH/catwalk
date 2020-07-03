@@ -117,9 +117,13 @@ class MasterService implements Target
         foreach ($page->regions as $region) {
             foreach ($region->elements as $element) {
                 foreach ($element->tastics as $tasticInstance) {
+                    if (!isset($tasticDefinitionMap[$tasticInstance->tasticType])) {
+                        continue;
+                    }
+
                     $tasticDefinition = $tasticDefinitionMap[$tasticInstance->tasticType];
                     foreach ($tasticDefinition->configurationSchema['schema'] as $schema) {
-                        $tasticConfiguration = (array)$tasticInstance->configuration;
+                        $tasticConfiguration = (array) $tasticInstance->configuration;
 
                         $tasticConfiguration = $this->completeMasterDefaultIn(
                             $tasticConfiguration,
