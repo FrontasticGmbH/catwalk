@@ -22,7 +22,6 @@ let CartLoader = function (store, api) {
     this.api = api
 
     this.get = (parameters = {}, continuously = true) => {
-
         if (continuously) {
             this.api.triggerContinuously(
                 'Frontastic.CartApi.Cart.get',
