@@ -41,14 +41,16 @@ class TasticGateway
 
     public function getHighestSequence(): string
     {
-        $query = $this->manager->createQuery(
-            "SELECT
-                MAX(w.sequence)
-            FROM
-                Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Tastic w"
-        );
+        return $this->withoutUndeletedFilter(function () {
+            $query = $this->manager->createQuery(
+                "SELECT
+                    MAX(w.sequence)
+                FROM
+                    Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\Tastic w"
+            );
 
-        return $query->getSingleScalarResult() ?? '0';
+            return $query->getSingleScalarResult() ?? '0';
+        });
     }
 
     public function store(Tastic $tastic): Tastic
