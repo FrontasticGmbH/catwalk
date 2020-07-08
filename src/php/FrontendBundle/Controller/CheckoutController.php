@@ -33,11 +33,12 @@ class CheckoutController extends Controller
             new PageMatcherContext([
                 'checkoutFinished' => true,
                 'orderId' => $request->get('order', null)
-            ])
+            ]),
+            'order'
         );
     }
 
-    private function getNode(Context $context, PageMatcherContext $pageMatcherContext): array
+    private function getNode(Context $context, PageMatcherContext $pageMatcherContext, ?string $pageType = null): array
     {
         $masterService = $this->get(MasterService::class);
         $nodeService = $this->get(NodeService::class);
@@ -58,6 +59,11 @@ class CheckoutController extends Controller
         }
 
         $page = $pageService->fetchForNode($node, $context);
+
+        // Cart is available via tastify() in the front-end already
+        if ($pageType !== null) {
+            $masterService->completeTasticStreamConfigurationWithMasterDefault($page, $pageType);
+        }
 
         return [
             'node' => $node,

@@ -150,7 +150,7 @@ class ErrorNodeRenderer
                 "\n",
                 array_map(
                     function (array $traceLine): string {
-                        return $traceLine['file'] . ' +' . $traceLine['line'];
+                        return ($traceLine['file'] ?? 'unknown') . ' +' . ($traceLine['line'] ?? '???');
                     },
                     $exception->getTrace()
                 )

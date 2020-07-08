@@ -28,16 +28,21 @@ export default {
         inOrder: 'In order to ',
         protect: 'protect your account, ',
         passwordContain: 'your password must contain',
-        characters: 'At least 10 characters',
+        characters: 'At least 6 characters',
         upperCase: 'One uppercase letter',
         number: 'One number',
         specialCharacter: 'One special character (! # % +)',
         repeatEmail: 'Repeat email address',
         editDetails: 'Edit Details',
+        order: 'Order',
+        trackingNumber:'Tracking number: ',
+        quantity:'Quantity: ',
+        viewOrder:'View order',
+        totalAmountOrder:'Total amount: ',
         form: {
             emailLabel: 'Email',
             passwordLabel: 'Password',
-            minimumLength: 'Must be at least 10 characters',
+            minimumLength: 'Must be at least 6 characters',
         },
         address: {
             newAddress: 'Add new address',
@@ -296,5 +301,8 @@ export default {
     validation: {
         required: 'This field is required',
         email: 'Please enter valid email address',
+        emailMatch: 'Emails don\'t match',
+        passwordMatch: 'Passwords don\'t match',
+        minLength: 'Password must have at least 6 characters',
     },
 }

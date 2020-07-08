@@ -2,12 +2,14 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway;
 use Frontastic\Common\ProductApiBundle\Domain\Product;
 use RulerZ\Compiler\Compiler;
 use RulerZ\RulerZ;
 use RulerZ\Target\Native\Native;
+use stdClass;
 
 class MasterServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,12 +23,19 @@ class MasterServiceTest extends \PHPUnit\Framework\TestCase
      */
     private $masterService;
 
+    /**
+     * @var TasticService
+     */
+    private $tasticService;
+
     protected function setUp()
     {
         $this->rulesGateway = \Phake::mock(MasterPageMatcherRulesGateway::class);
+        $this->tasticService = \Phake::mock(TasticService::class);
 
         $this->masterService = new MasterService(
             $this->rulesGateway,
+            $this->tasticService,
             new RulerZ(Compiler::create(), [new Native()])
         );
     }
@@ -113,5 +122,41 @@ class MasterServiceTest extends \PHPUnit\Framework\TestCase
         $nodeId = $this->masterService->matchNodeId($context);
 
         $this->assertEquals('criterion_node_1', $nodeId);
+    }
+
+    public function testCompleteTasticStreamConfigWithMasterDefault()
+    {
+        \Phake::when($this->tasticService)->getTasticsMappedByType()->thenReturn(
+            require __DIR__ . '/_fixtures/master-service-complete-stream/tastic-map.php'
+        );
+
+        /** @var Page $pageFixture */
+        $pageFixture = require __DIR__ . '/_fixtures/master-service-complete-stream/page.php';
+
+        $this->masterService->completeTasticStreamConfigurationWithMasterDefault($pageFixture, 'accountOrders');
+
+        $this->assertEquals(
+            '__master',
+            $pageFixture->regions['main']->elements[0]->tastics[1]->configuration->orders
+        );
+    }
+
+    public function testCompleteTasticStreamConfigWithMasterDefaultWithGroups()
+    {
+        \Phake::when($this->tasticService)->getTasticsMappedByType()->thenReturn(
+            require __DIR__ . '/_fixtures/master-service-complete-stream/tastic-map-with-groups.php'
+        );
+
+        /** @var Page $pageFixture */
+        $pageFixture = require __DIR__ . '/_fixtures/master-service-complete-stream/page-with-groups.php';
+
+        $this->masterService->completeTasticStreamConfigurationWithMasterDefault($pageFixture, 'accountOrders');
+
+        foreach ($pageFixture->regions['main']->elements[0]->tastics[1]->configuration->ordersGroup as $orderGroup) {
+            $this->assertEquals(
+                '__master',
+                $orderGroup['orders']
+            );
+        }
     }
 }
