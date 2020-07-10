@@ -64,7 +64,6 @@ class WirecardServiceIntegrationTest extends IntegrationTest
 
     public function testRegisterCreditcardPayment()
     {
-        $this->markTestSkipped('This test fails during CI for some reason');
         $command = new RegisterPaymentCommand([
             'paymentId' => uniqid('', true),
             'amount' => 100,
