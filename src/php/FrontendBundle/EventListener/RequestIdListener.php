@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class RequestIdListener implements EventSubscriberInterface
 {
-    private const ATTRIBUTE_KEY = 'frontastic_request_id';
+    private const ATTRIBUTE_KEY = '_frontastic_request_id';
 
     public function onKernelRequest(GetResponseEvent $event): void
     {
