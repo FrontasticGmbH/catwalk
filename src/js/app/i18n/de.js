@@ -274,7 +274,14 @@ export default {
             title: 'Expres Lieferung:',
             message: 'Bestelle in den nächsten sechs Stunden und du erhälsts deine Lieferung morgen.',
         },
-
+        yourOrderCaps: 'IHRE BESTELLUNG',
+        colorOrder: 'Farbe: ',
+        sizeOrder: 'Größe: ',
+        shippingInformationCaps: 'VERSANDINFORMATIONEN',
+        billingInformationCaps: 'ABRECHNUNGSINFORMATIONEN',
+        subtotalOrder: 'Zwischensumme:',
+        shipping: 'Versand:',
+        includesVAT: '(Gesamtbetrag enthält 22,78 € Mehrwertsteuer)',
     },
     product: {
         description: 'Beschreibung',

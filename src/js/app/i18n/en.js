@@ -233,7 +233,14 @@ export default {
             title: 'Express delivery:',
             message: 'Order in the next six hours and you\'ll get your delivery tomorrow.',
         },
-
+        yourOrderCaps: 'YOUR ORDER',
+        colorOrder: 'Color: ',
+        sizeOrder: 'Size: ',
+        shippingInformationCaps: 'SHIPPING INFORMATION',
+        billingInformationCaps: 'BILLING INFORMATION',
+        subtotalOrder: 'Subtotal:',
+        shipping: 'Shipping:',
+        includesVAT: '(Total amount includes 22,78 € VAT)',
     },
     product: {
         description: 'Description',
