@@ -85,7 +85,7 @@ export default {
             billing: 'Rechnungsadresse',
             corresponds: 'Rechnungsadresse entspricht Lieferanschrift',
             invoiceAddress: 'Rechnungsadresse:',
-
+            addressEmpty: 'Ihr Adressbuch ist leer',
         },
         eMailChange: {
             text: 'Wir stellen sicher, dass alle E-Mails von Boost an deine neue E-Mail-Adresse geschickt werden.',
@@ -286,6 +286,7 @@ export default {
         subtotalOrder: 'Zwischensumme:',
         shipping: 'Versand:',
         includesVAT: '(Gesamtbetrag enthält 22,78 € Mehrwertsteuer)',
+        noOrders: 'Es sind keine Bestellungen auf Ihrem Konto',
     },
     product: {
         description: 'Beschreibung',

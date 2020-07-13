@@ -62,7 +62,7 @@ export default {
             billing: 'Billing address',
             corresponds: 'Invoice address corresponds to delivery address',
             invoiceAddress: 'Invoice address',
-
+            addressEmpty: 'Your address book is empty',
         },
         eMailChange: {
             text: 'We will make sure that all emails from Boost are sent to your new email address.',
@@ -245,6 +245,7 @@ export default {
         subtotalOrder: 'Subtotal:',
         shipping: 'Shipping:',
         includesVAT: '(Total amount includes 22,78 € VAT)',
+        noOrders: 'There are no orders in your account',
     },
     product: {
         description: 'Description',
