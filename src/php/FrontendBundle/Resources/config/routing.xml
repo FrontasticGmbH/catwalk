@@ -66,7 +66,7 @@
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::forgotPasswordAction</default>
     </route>
 
-    <route id="Frontastic.Frontend.Master.Account.confirm" path="/account/confirm/{token}" methods="GET">
+    <route id="Frontastic.Frontend.Master.Account.confirm" path="/account/confirm/{confirmationToken}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::confirmAction</default>
     </route>
 
