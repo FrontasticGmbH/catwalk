@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class RequestIdListener implements EventSubscriberInterface
 {
-    private const ATTRIBUTE_KEY = 'frontastic_request_id';
+    private const ATTRIBUTE_KEY = '_frontastic_request_id';
 
     public function onKernelRequest(GetResponseEvent $event): void
     {
@@ -28,9 +28,15 @@ class RequestIdListener implements EventSubscriberInterface
             return;
         }
 
-        $uuid = Uuid::uuid4()->toString();
-        $uuid = str_replace('-', '', $uuid);
-        $request->attributes->set(self::ATTRIBUTE_KEY, $uuid);
+        // The webserver *might* default this to -, so we always assume that - is a missing id
+        $traceId = $request->headers->get('X-Cloud-Trace-Context', '-');
+
+        if ($traceId === '-' || $traceId === '') {
+            $uuid = Uuid::uuid4()->toString();
+            $traceId = str_replace('-', '', $uuid);
+        }
+
+        $request->attributes->set(self::ATTRIBUTE_KEY, $traceId);
     }
 
     public static function getSubscribedEvents()

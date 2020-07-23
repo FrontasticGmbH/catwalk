@@ -124,7 +124,7 @@ class ProjectBasicAuthListener
         $username = $request->getUser();
         $password = $request->getPassword();
 
-        if ($username === null || $password === null) {
+        if (empty($username) || empty($password)) {
             return null;
         }
 
