@@ -68,7 +68,7 @@ class AccountResetPasswordTastic extends Component {
                                     event.stopPropagation()
 
                                     app.getLoader('context').resetPassword(
-                                        this.props.token,
+                                        this.props.confirmationToken,
                                         this.state.profile_password_new
                                     )
                                     this.setState({
@@ -86,7 +86,7 @@ class AccountResetPasswordTastic extends Component {
 }
 
 AccountResetPasswordTastic.propTypes = {
-    token: PropTypes.string,
+    confirmationToken: PropTypes.string,
 }
 
 AccountResetPasswordTastic.defaultProps = {
@@ -96,7 +96,7 @@ export default connect(
     (globalState, props) => {
         return {
             ...props,
-            token: globalState.app.route.get('token', null),
+            confirmationToken: globalState.app.route.get('confirmationToken', null),
         }
     }
 )(AccountResetPasswordTastic)
