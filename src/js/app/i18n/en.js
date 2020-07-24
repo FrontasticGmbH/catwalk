@@ -210,6 +210,7 @@ export default {
         title: 'Wishlist',
         no_items: 'The wishlist is still empty.',
         emptyWishlist: 'Your wishlist is empty',
+        errorMessage: 'Something when wrong. Try reloading this page or keep browsing.',
         keepBrowsing: 'Keep browsing',
     },
     order: {
