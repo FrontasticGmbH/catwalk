@@ -254,8 +254,8 @@ export default {
         emptyWishlist: 'Ihr Wunschzettel ist leer',
         errorMessage: 'Etwas, wenn etwas nicht stimmt. Versuchen Sie, diese Seite neu zu laden oder weiter zu browsen.',
         keepBrowsing: 'Weiter browsen',
-        product: 'Produkt',
-        products: 'Produkte',
+        product: '1 Produkt',
+        products: '{count} Produkte',
         myWishlist: 'Mein Wunschzettel',
     },
     order: {
