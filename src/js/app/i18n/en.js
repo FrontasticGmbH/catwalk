@@ -209,6 +209,8 @@ export default {
     wishlist: {
         title: 'Wishlist',
         no_items: 'The wishlist is still empty.',
+        emptyWishlist: 'Your wishlist is empty',
+        keepBrowsing: 'Keep browsing',
     },
     order: {
         myOrder: 'My Order',

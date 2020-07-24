@@ -251,6 +251,8 @@ export default {
     wishlist: {
         title: 'Wunschliste',
         no_items: 'Die Wunschliste ist noch leer.',
+        emptyWishlist: 'Ihr Wunschzettel ist leer',
+        keepBrowsing: 'Weiter browsen',
     },
     order: {
         myOrder: 'Meine Bestellung',
