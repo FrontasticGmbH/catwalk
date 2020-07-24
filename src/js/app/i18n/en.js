@@ -212,6 +212,9 @@ export default {
         emptyWishlist: 'Your wishlist is empty',
         errorMessage: 'Something when wrong. Try reloading this page or keep browsing.',
         keepBrowsing: 'Keep browsing',
+        product: 'Product',
+        products: 'Products',
+        myWishlist: 'My wishlist',
     },
     order: {
         myOrder: 'My Order',
