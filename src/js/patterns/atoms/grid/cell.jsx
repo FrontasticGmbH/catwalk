@@ -1,12 +1,14 @@
-import * as React from 'react'
+import React from 'react'
 
 // TODO: Make class style component
 /* eslint-disable react/prop-types */
 
-const cellStyle = (full, wWidth, gWidth) => {
+const calculateCellStyle = (full, wWidth, gWidth) => {
     const ml = (wWidth - gWidth) / 2
-    const w = wWidth
-    return full ? { marginLeft: ml * -1, width: w } : {}
+    // the toString is  a weird hack to make the first render (SSR)
+    // work as expected. The server of course doesn't have any information
+    // but somehow this seems to work
+    return full ? { width: `${wWidth.toString()}px`, marginLeft: ml * -1 } : {}
 }
 
 export default function Cell ({
@@ -24,12 +26,17 @@ export default function Cell ({
     if (!Array.isArray(hideOn)) {
         hideOnClasses = ` ${prefix}--hidden-${hideOn}`
     } else {
-        hideOnClasses = hideOn.reduce((acc, crnt) => { return acc + ` ${prefix}--hidden-${crnt}` }, '')
+        hideOnClasses = hideOn.reduce((acc, crnt) => {
+            return acc + ` ${prefix}--hidden-${crnt}`
+        }, '')
     }
+
     return (
         <div
-            style={cellStyle(fullWidth, windowWidth, gridWidth)}
-            className={`${prefix} ${prefix}--${size}${fullWidth ? ` ${prefix}--full` : ''} ${className} ${hideOnClasses}`}
+            style={calculateCellStyle(fullWidth, windowWidth, gridWidth)}
+            className={`${prefix} ${prefix}--${size}${
+                fullWidth ? ` ${prefix}--full` : ''
+            } ${className} ${hideOnClasses}`}
             >
             {children}
         </div>
