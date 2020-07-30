@@ -26,83 +26,69 @@ let Api = function (router, store) {
         }
 
         parameters = parameters || {}
-        return new Promise((resolve, reject) => {
-            fetch(
-                this.router.path(route, parameters),
-                {
-                    method: method,
-                    headers: new Headers({
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    }),
-                    body: stringifyBody(body),
-                    credentials: 'same-origin',
-                    cache: 'default',
-                    signal,
-                }
-            ).then((response) => {
-                let contentType = response.headers.get('Content-Type')
-                if (contentType && contentType.includes('application/json')) {
-                    return response.json().then((json) => {
-                        return {
-                            ok: response.ok,
-                            status: response.status,
-                            json: json,
-                        }
-                    })
-                }
+        return fetch(
+            this.router.path(route, parameters),
+            {
+                method: method,
+                headers: new Headers({
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }),
+                body: stringifyBody(body),
+                credentials: 'same-origin',
+                cache: 'default',
+                signal,
+            }
+        ).then((response) => {
+            let contentType = response.headers.get('Content-Type')
+            if (contentType && contentType.includes('application/json')) {
+                return response.json().then((json) => {
+                    return {
+                        ok: response.ok,
+                        status: response.status,
+                        json: json,
+                    }
+                })
+            }
 
+            // eslint-disable-next-line no-console
+            console.trace('Unhandled Response Type:', response)
+            throw new Error({ status: 500, message: 'Internal Server Error' });
+        }).then((response) => {
+            if (response.json && response.json['__DEBUG']) {
+                logDebugStatements(response.json['__DEBUG'], method, route)
+            }
+            if (response.ok) {
+                return response.json;
+            }
+
+            if (response.json &&
+                response.json.message &&
+                (typeof response.json.message === 'string')) {
                 // eslint-disable-next-line no-console
-                console.trace('Unhandled Response Type:', response)
-                if (error) {
-                    error({ status: 500, message: 'Internal Server Error' })
-                }
-            }).then((response) => {
-                if (response && response.json && response.json['__DEBUG']) {
-                    logDebugStatements(response.json['__DEBUG'], method, route)
-                }
-                return response
-            }).then((response) => {
-                if (!response) {
-                    // eslint-disable-next-line no-console
-                    console.error('Invalid Response:', response)
-                    if (error) {
-                        error({ status: 500, message: 'Internal Server Error' })
-                    }
-                    return
-                }
+                console.error('Error:', response.json)
+                throw new Error(response.json);
+            } else {
+                // eslint-disable-next-line no-console
+                console.error('Unhandled Error:', response)
+                throw new Error({ status: 500, message: 'Internal Server Error' });
+            }
+        }).then((response) => {
+            if (success) {
+                success(response.json, parameters)
+            }
+            return response;
+        }).catch((e) => {
+            if (error) {
+                error(e)
+            }
 
-                if (response.ok) {
-                    resolve(response.json, parameters)
-                    if (success) {
-                        return success(response.json, parameters)
-                    } else {
-                        return
-                    }
-                }
-
-                let parsedError = { status: 500, message: 'Internal Server Error' }
-                if (response.json &&
-                    response.json.message &&
-                    (typeof response.json.message === 'string')) {
-                    parsedError = response.json
-                    // eslint-disable-next-line no-console
-                    console.error('Error:', parsedError)
-                } else {
-                    // eslint-disable-next-line no-console
-                    console.error('Unhandled Error:', response)
-                }
-
-                if (error) {
-                    reject(parsedError)
-                    error(parsedError)
-                }
-
-                if (parameters && !parameters.hasError && !parameters.ownErrorHandler) {
-                    this.trigger('Frontastic.Frontend.Master.Error.view', { hasError: true }, 'error')
-                }
-            }).catch(error)
-        })
+            if (parameters && !parameters.hasError && !parameters.ownErrorHandler) {
+                this.trigger('Frontastic.Frontend.Master.Error.view', { hasError: true }, 'error')
+            } else if (!error) {
+                throw e;
+            }
+        });
     }
 
     this.requestContinuosly = function (method, route, parameters, success, error) {
