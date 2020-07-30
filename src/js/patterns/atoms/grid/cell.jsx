@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 // TODO: Make class style component
 /* eslint-disable react/prop-types */
@@ -41,4 +42,15 @@ export default function Cell ({
             {children}
         </div>
     )
+}
+
+Cell.propTypes = {
+    size: PropTypes.oneOf([1, 2, 3, 4, 6, 8, 12]),
+    children: PropTypes.node,
+    fullWidth: PropTypes.bool,
+    windowWidth: PropTypes.number,
+    gridWidth: PropTypes.number,
+    className: PropTypes.string,
+    prefix: PropTypes.string,
+    hideOn: PropTypes.arrayOf(PropTypes.string),
 }
