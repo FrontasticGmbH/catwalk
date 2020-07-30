@@ -1,4 +1,55 @@
+# Catwalk Changelog
 
+## `1.1.1` (2020-07-30)
+
+* fix: sets timeout for cron processes to 5min (default is 1)
+* fix(boost-theme): getting back the height transition + some refactor
+* feat: DISABLE_YARN_INSTALL=1 in vagrant provision.
+* feat(boost): adding products on wishlist brushed
+* refactor(boost-theme): error handling on wishlist page
+* change also resetPassword token to confirmationToken
+* fix: node-depth was missing in the tree
+* fix: confirmation-token was filtered
+* feat(boost-theme): functionality for empty state
+* feat: Use google trace id as request id
+* fix: preventing user from entering empty credentials and seeing parts of the page
+* feat(Nan): Empty state for orders and addresses
+* fix: Do not expose frontastic_request_id to client routes.
+* feat(BOOST-219): order detail UI finished
+* added translations
+* feat!: Catr/Wishlist Loaders separate methods for getContinuously().
+* fix: Even more resilient check for Master Page in frontend.
+* refactor: Adjusted routing order
+* refactor(account): using AccountMenu on different pages
+* fix(FT-19): Tastic replication happens over and over again.
+* feat: Allow cart fetch without fetching continuously.
+* Fixed loading indicator for nodes in intial request
+* Code resilience
+* adds ability for ip whitelisting again
+* feat(account): user details form validation
+* fix: Resilience in error rendering.
+* fix(FT-15): Fixed master stream completion for groups, too.
+* feat(account): simple password requirement
+* feat(account): Changing password by user
+* feat: custom fields
+* fix: Resilience for missing route in master page detection.
+* fix!: Context cache in ContextService not static anymore.
+* feat: Sitemap generation: Single file, override public URL & locale.
+* fix: eslint issues
+* feat(account): responsive account ui
+* Adds a null check to provided image sizes
+* Setting up basic password recovery.
+* connected with profile tastic and style improvemed
+* Implemented newrelic extension support
+* refresh after setting address
+* BC: Rename confirmation token route parameter
+* Add new RulerZ operator categorypathcontains
+* eslint fixes
+* Register and Login functionality.
+* Enable fecl for category detail pages
+* Renamed variables in page/tastic.jsx for readability.
+* Setting button loaders on checkout panels.
+* fixes setting proxy correctly
 
 ## `1.0.2` (2020-05-27)
 
