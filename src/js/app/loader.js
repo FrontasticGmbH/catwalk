@@ -68,8 +68,8 @@ let Loader = function (store, router, api) {
             console.groupEnd()
         }
 
-        this.loaders.cart.get()
-        this.loaders.wishlist.get()
+        this.loaders.cart.getContinuously()
+        this.loaders.wishlist.getContinuously()
 
         switch (route.route) {
         case 'Frontastic.Frontend.Master.Checkout.finished':

@@ -1,0 +1,5 @@
+# This should always be the last entry
+frontend_nodes:
+    resource: .
+    prefix:   /
+    type:     "frontastic"

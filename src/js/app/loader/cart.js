@@ -21,31 +21,26 @@ let CartLoader = function (store, api) {
     this.store = store
     this.api = api
 
-    /**
-     * @param parameters
-     * @return void
-     */
-    this.get = (parameters = {}, continuously = true) => {
+    this.getContinuously = (parameters = {}) => {
+        this.api.triggerContinuously(
+            'Frontastic.CartApi.Cart.get',
+            // Own error handler without error handler => Ignore all errors
+            _.extend(
+                { ownErrorHandler: true },
+                parameters
+            )
+        )
+    }
 
-        if (continuously) {
-            this.api.triggerContinuously(
-                'Frontastic.CartApi.Cart.get',
-                // Own error handler without error handler => Ignore all errors
-                _.extend(
-                    { ownErrorHandler: true },
-                    parameters
-                )
+    this.get = (parameters = {}) => {
+        return this.api.trigger(
+            'Frontastic.CartApi.Cart.get',
+            // Own error handler without error handler => Ignore all errors
+            _.extend(
+                { ownErrorHandler: true },
+                parameters
             )
-        } else {
-            return this.api.trigger(
-                'Frontastic.CartApi.Cart.get',
-                // Own error handler without error handler => Ignore all errors
-                _.extend(
-                    { ownErrorHandler: true },
-                    parameters
-                )
-            )
-        }
+        )
     }
 
     /**

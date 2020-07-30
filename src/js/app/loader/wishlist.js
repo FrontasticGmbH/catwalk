@@ -26,7 +26,7 @@ let WishlistLoader = function (store, api) {
      * @param parameters
      * @return void
      */
-    this.get = (parameters = {}) => {
+    this.getContinuously = (parameters = {}) => {
         this.api.triggerContinuously(
             'Frontastic.WishlistApi.Wishlist.get',
             // Own error handler without error handler => Ignore all errors
@@ -41,6 +41,17 @@ let WishlistLoader = function (store, api) {
      * @param name
      * @return Promise
      */
+    this.get = (parameters = {}) => {
+        this.api.trigger(
+            'Frontastic.WishlistApi.Wishlist.get',
+            // Own error handler without error handler => Ignore all errors
+            _.extend(
+                { ownErrorHandler: true },
+                parameters
+            )
+        )
+    }
+
     this.create = (name) => {
         this.store.dispatch({
             type: 'WishlistApi.Wishlist.loading',

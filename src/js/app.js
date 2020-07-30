@@ -114,7 +114,7 @@ function appCreator (mountNode, dataNode, tastics = null) {
             page: props.page,
             data: props.data,
         },
-        isMasterPage: (props.route.route || '').includes('.Master.'),
+        isMasterPage: props.route && props.route.route && props.route.route.includes('.Master.'),
     }))
 
     import('history').then(({ createBrowserHistory }) => {

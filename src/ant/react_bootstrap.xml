@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="React Bootstrap">
-    <target name="react:bootstrap" unless="${production}" extensionOf="-prepare:before~hook">
+
+    <target name="-react:yarn-manually-disabled">
+        <condition property="yarn-manually-disabled" else="false">
+            <equals arg1="${env.DISABLE_YARN_INSTALL}" arg2="1" /> 
+        </condition>
+    </target>
+
+    <target name="-react:should-yarn-install" depends="-react:yarn-manually-disabled">
+        <echo message="DISABLE_YARN_INSTALL: '${env.DISABLE_YARN_INSTALL}'" />
+        <condition property="perform-yarn-install" else="false">
+            <and>
+                <isfalse value="${production}" />
+                <not>
+                    <istrue value="${yarn-manually-disabled}" /> 
+                </not>
+            </and>
+        </condition>
+    </target>
+
+    <target name="react:bootstrap" if="${perform-yarn-install}" extensionOf="-prepare:before~hook" depends="-react:should-yarn-install">
         <tool-exists executable="yarn" />
 
         <echo>Executing global yarn install for all workspaces</echo>
@@ -23,5 +42,11 @@
 
             <arg value="install" />
         </exec>
+    </target>
+
+    <target name="-react:message-no-yarn-install" if="${yarn-manually-disabled}" extensionOf="-prepare:before~hook" depends="-react:yarn-manually-disabled">
+        <echo>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! yarn install DISABLED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</echo>
+        <echo>! You will need to install JS dependencies by yourself using `yarn install` in checkout root !</echo>
+        <echo>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</echo>
     </target>
 </project>

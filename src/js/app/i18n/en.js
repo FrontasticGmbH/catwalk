@@ -10,6 +10,7 @@ export default {
         newHere: "I'm new here",
         freeAccount: 'Free user account',
         save: 'Save',
+        delete: 'Delete',
         edit: 'Edit',
         choose: 'Choose',
         change: 'Change',
@@ -34,6 +35,11 @@ export default {
         specialCharacter: 'One special character (! # % +)',
         repeatEmail: 'Repeat email address',
         editDetails: 'Edit Details',
+        order: 'Order',
+        trackingNumber: 'Tracking number: ',
+        quantity: 'Quantity: ',
+        viewOrder: 'View order',
+        totalAmountOrder: 'Total amount: ',
         form: {
             emailLabel: 'Email',
             passwordLabel: 'Password',
@@ -44,6 +50,9 @@ export default {
             residential: 'Residential address',
             standardBilling: 'Standard billing address',
             standardDelivery: 'Standard delivery address',
+            standardShipping: 'Standard shipping address',
+            removeAddress: 'Remove address',
+            editAddress: 'Edit address',
             street: 'Street with Nr.',
             zip: 'Zip Code',
             location: 'Location',
@@ -53,7 +62,7 @@ export default {
             billing: 'Billing address',
             corresponds: 'Invoice address corresponds to delivery address',
             invoiceAddress: 'Invoice address',
-
+            addressEmpty: 'Your address book is empty',
         },
         eMailChange: {
             text: 'We will make sure that all emails from Boost are sent to your new email address.',
@@ -200,6 +209,12 @@ export default {
     wishlist: {
         title: 'Wishlist',
         no_items: 'The wishlist is still empty.',
+        emptyWishlist: 'Your wishlist is empty',
+        errorMessage: 'Something when wrong. Try reloading this page or keep browsing.',
+        keepBrowsing: 'Keep browsing',
+        product: '1 Product',
+        products: '{count} Products',
+        myWishlist: 'My wishlist',
     },
     order: {
         myOrder: 'My Order',
@@ -228,7 +243,15 @@ export default {
             title: 'Express delivery:',
             message: 'Order in the next six hours and you\'ll get your delivery tomorrow.',
         },
-
+        yourOrderCaps: 'YOUR ORDER',
+        colorOrder: 'Color: ',
+        sizeOrder: 'Size: ',
+        shippingInformationCaps: 'SHIPPING INFORMATION',
+        billingInformationCaps: 'BILLING INFORMATION',
+        subtotalOrder: 'Subtotal:',
+        shipping: 'Shipping:',
+        includesVAT: '(Total amount includes 22,78 € VAT)',
+        noOrders: 'There are no orders in your account',
     },
     product: {
         description: 'Description',
