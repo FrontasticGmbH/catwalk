@@ -24,7 +24,7 @@ class Layout extends Component {
 
         return (
             <Fragment>
-                <header className='c-page-head'>
+                <header className='c-page-head o-wrapper'>
                     {this.props.page.regions.head ? (
                         <Region
                             identifier='head'
@@ -50,7 +50,7 @@ class Layout extends Component {
                         ) : null}
                     </div>
                 </main>
-                <footer className='c-page-foot'>
+                <footer className='c-page-foot o-wrapper'>
                     {this.props.page.regions.footer ? (
                         <Region
                             identifier='footer'
