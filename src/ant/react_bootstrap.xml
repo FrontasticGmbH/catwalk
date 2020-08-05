@@ -3,17 +3,17 @@
 
     <target name="-react:yarn-manually-disabled">
         <condition property="yarn-manually-disabled" else="false">
-            <equals arg1="${env.DISABLE_YARN_INSTALL}" arg2="1" /> 
+            <equals arg1="${DISABLE_YARN_INSTALL}" arg2="1" />
         </condition>
     </target>
 
     <target name="-react:should-yarn-install" depends="-react:yarn-manually-disabled">
-        <echo message="DISABLE_YARN_INSTALL: '${env.DISABLE_YARN_INSTALL}'" />
+        <echo message="DISABLE_YARN_INSTALL: '${DISABLE_YARN_INSTALL}'" />
         <condition property="perform-yarn-install" else="false">
             <and>
                 <isfalse value="${production}" />
                 <not>
-                    <istrue value="${yarn-manually-disabled}" /> 
+                    <istrue value="${yarn-manually-disabled}" />
                 </not>
             </and>
         </condition>
