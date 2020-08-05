@@ -4,6 +4,21 @@
 
 * Fixed release script
 
+## `1.1.2` (2020-08-05)
+
+* build(frontasticli): release-notes for version 0.8.0
+* fix: remove outdated comment
+* feat: undelete old facets when they show up again
+* fix(frontasticli): Create files with normal user instead of root
+* feat(frontasticli): Put all config files into .frontasticli dir
+* fix: Removed prefix env. on yarn vairable
+* fix(frontasticli): Use a sane default location for traefik config
+* feat(custom query): Included RawApiInput as paratemer to all ProductApi/Query implementations
+* feat(custom query): Changed extension of Query from DataObject to ApiDataObject
+* fix: missing proptypes for catwalk cell
+* fix: Included statement to check OS version where releaseLibraries is running
+* fix: Resilience for non-string hydration errors.
+
 ## `1.1.1` (2020-07-30)
 
 * fix: sets timeout for cron processes to 5min (default is 1)
