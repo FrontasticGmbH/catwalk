@@ -1,4 +1,8 @@
+# catwalk Changelog
 
+## `1.1.3` (2020-08-05)
+
+* Fixed release script
 
 ## `1.1.1` (2020-07-30)
 
