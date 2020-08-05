@@ -175,6 +175,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
 
         return {
             ...globalState,
+            loading: !action.data.node,
             currentNodeId: action.data.node.nodeId,
             previewId: action.data.route.parameters.preview,
             nodes: {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <sitemap>
-        <loc>/sitemap_nodes-0.xml</loc>
+        <loc>https://example.com/sitemap_nodes-0.xml</loc>
         <lastmod>__CURRENT_DATE__</lastmod>
     </sitemap>
 </sitemapindex>

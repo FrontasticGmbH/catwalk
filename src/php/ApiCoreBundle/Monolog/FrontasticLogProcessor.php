@@ -10,7 +10,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class FrontasticLogProcessor
 {
-    private const ATTRIBUTE_KEY = 'frontastic_request_id';
+    private const ATTRIBUTE_KEY = '_frontastic_request_id';
+    private const LOG_KEY = 'requestId';
+
     /**
      * @var RequestStack
      */
@@ -34,7 +36,7 @@ class FrontasticLogProcessor
             return $record;
         }
 
-        $record['extra']['requestId'] = $request->attributes->get(self::ATTRIBUTE_KEY);
+        $record['extra'][self::LOG_KEY] = $request->attributes->get(self::ATTRIBUTE_KEY);
         $record['extra']['request'] = [
             'path' => $request->getPathInfo(),
             'host' => $request->getHost(),

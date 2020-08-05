@@ -114,7 +114,7 @@ function appCreator (mountNode, dataNode, tastics = null) {
             page: props.page,
             data: props.data,
         },
-        isMasterPage: props.route.route.includes('.Master.'),
+        isMasterPage: props.route && props.route.route && props.route.route.includes('.Master.'),
     }))
 
     import('history').then(({ createBrowserHistory }) => {
@@ -188,7 +188,7 @@ function appCreator (mountNode, dataNode, tastics = null) {
 
 function hasHydrationWarning (errors) {
     return errors.map((error) => {
-        return (error && error.length && !!error[0].match(/^Warning: /))
+        return (error && error.length && typeof error[0] === 'string' && !!error[0].match(/^Warning: /))
     }).reduce((accumulator, currentValue) => {
         return accumulator || currentValue
     }, false)

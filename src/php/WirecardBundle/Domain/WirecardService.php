@@ -36,7 +36,9 @@ class WirecardService
 
         $requestBody = [
             'payment' => [
-                'merchant-account-id' => ['value' => $credentials->merchant],
+                'merchant-account-id' => [
+                    'value' => $credentials->merchant,
+                ],
                 'locale' => 'de',
                 'request-id' => $command->paymentId,
                 'transaction-type' => 'purchase',
@@ -46,7 +48,9 @@ class WirecardService
                 ],
                 'payment-methods' => [
                     'payment-method' => [
-                        ['name' => $command->type],
+                        [
+                            'name' => $command->type,
+                        ],
                     ],
                 ],
                 'success-redirect-url' => 'https://frontastic.io/wirecard/confirm/success',
