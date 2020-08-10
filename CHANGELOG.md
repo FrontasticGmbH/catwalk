@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.1.6` (2020-08-10)
+
+* feat: Allow another webpack modification at the very end of config generation
+
 ## `1.1.5` (2020-08-05)
 
 * fix: Restore (again) missing CHANGELOG.md in catwalk
