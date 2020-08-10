@@ -66,6 +66,10 @@
 .o-cell--1\/12 {
     grid-column: span 1;
 }
+.o-cell--full {
+    width: 100vw;
+    background: red;
+}
 
 /*
 @include mq($from: lap) {

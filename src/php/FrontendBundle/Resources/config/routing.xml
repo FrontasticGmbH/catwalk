@@ -62,11 +62,11 @@
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::indexAction</default>
     </route>
 
-    <route id="Frontastic.Frontend.Master.Account.forgotPassword" path="/account/forgotPassword/{token}" methods="GET">
+    <route id="Frontastic.Frontend.Master.Account.forgotPassword" path="/account/forgotPassword/{confirmationToken}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::forgotPasswordAction</default>
     </route>
 
-    <route id="Frontastic.Frontend.Master.Account.confirm" path="/account/confirm/{token}" methods="GET">
+    <route id="Frontastic.Frontend.Master.Account.confirm" path="/account/confirm/{confirmationToken}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::confirmAction</default>
     </route>
 

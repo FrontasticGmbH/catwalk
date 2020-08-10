@@ -162,5 +162,6 @@ class AppKernel extends \Frontastic\Common\Kernel
 
 // @FIXME: Remove references to \AppKernel from Frontastic\Common
 // phpcs:disable
+\Doctrine\Common\Annotations\AnnotationReader::addGlobalIgnoredName('type');
 class_alias(AppKernel::class, '\\AppKernel');
 // phpcs:enable
