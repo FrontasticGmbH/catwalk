@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.1.7` (2020-08-11)
+
+* feat: Improved displaying of SSR error message
+* fix: Use default for undefined variable to not break SSR
+
 ## `1.1.6` (2020-08-10)
 
 * feat: Allow another webpack modification at the very end of config generation

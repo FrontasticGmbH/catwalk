@@ -83,6 +83,10 @@ class RenderService
 
         if ($response->status >= 400) {
             $this->responseDecorator->setTimedOut();
+            // For some reason we end up with double escaped entities here, otherwise:
+            if (preg_match('(<body>(?P<body>.*)</body>)s', $response->body, $match)) {
+                $response->body = strip_tags(html_entity_decode(htmlspecialchars_decode($match['body'], ENT_QUOTES)));
+            }
 
             $this->logger->error(
                 sprintf('Server side rendering (SSR) failed with status code %d', $response->status)
