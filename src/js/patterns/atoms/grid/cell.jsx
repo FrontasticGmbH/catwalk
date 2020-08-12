@@ -9,7 +9,7 @@ const calculateCellStyle = (full, wWidth, gWidth) => {
     // the toString is  a weird hack to make the first render (SSR)
     // work as expected. The server of course doesn't have any information
     // but somehow this seems to work
-    return full ? { width: `${wWidth.toString()}px`, marginLeft: ml * -1 } : {}
+    return full ? { width: `${(wWidth || 0).toString()}px`, marginLeft: ml * -1 } : {}
 }
 
 export default function Cell ({
