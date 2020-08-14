@@ -48,6 +48,7 @@ class CheckoutController extends Controller
         $node = $nodeService->get(
             $masterService->matchNodeId($pageMatcherContext)
         );
+        $node->nodeType = array_keys(array_filter((array) $pageMatcherContext))[0] ?? 'unknown';
 
         if ($pageMatcherContext->orderId !== null) {
             foreach ($node->streams as $streamKey => $streamConfig) {

@@ -65,6 +65,7 @@ class AccountController extends Controller
 
         $queryData = array_filter((array) $pageMatcherContext);
         $node = $nodeService->get($masterService->matchNodeId($pageMatcherContext));
+        $node->nodeType = array_keys(array_filter((array) $pageMatcherContext))[0] ?? 'unknown';
         $node->streams = $masterService->completeDefaultQuery(
             $node->streams,
             key($queryData),
