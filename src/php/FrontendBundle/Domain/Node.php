@@ -19,6 +19,11 @@ class Node extends DataObject
     /**
      * @var string
      */
+    public $nodeType = 'landingpage';
+
+    /**
+     * @var string
+     */
     public $sequence;
 
     /**

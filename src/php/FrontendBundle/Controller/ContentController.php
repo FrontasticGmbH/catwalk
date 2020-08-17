@@ -58,6 +58,7 @@ class ContentController extends Controller
                 'contentId' => $contentId,
             ]))
         );
+        $node->nodeType = 'content';
         $node->streams = $masterService->completeDefaultQuery(
             $node->streams,
             'content',

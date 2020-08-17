@@ -92,6 +92,7 @@ class ErrorNodeRenderer
                     ],
                 ]))
             );
+            $node->nodeType = 'error';
             $page = $this->pageService->fetchForNode($node, $context);
 
             if (!$context->isProduction()) {

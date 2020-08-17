@@ -53,7 +53,7 @@ class MasterService implements Target
         $this->rulerz = $rulerz;
     }
 
-    public function matchNodeId(PageMatcherContext $context)
+    public function matchNodeId(PageMatcherContext $context): string
     {
         $rules = $this->rulesGateway->get();
 
