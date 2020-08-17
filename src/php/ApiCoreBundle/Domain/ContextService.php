@@ -122,7 +122,7 @@ class ContextService
         $customer = $this->customerService->getCustomer();
         $project = $this->projectService->getProject();
 
-        if (!in_array($locale, $project->languages)) {
+        if ($locale === null) {
             $locale = $project->defaultLanguage;
         }
 
