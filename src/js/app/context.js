@@ -1,13 +1,13 @@
 let Locale = function (localeString) {
-    this.language
+    this.language = null
 
-    this.territory
+    this.territory = null
 
-    this.country
+    this.country = null
 
-    this.currency
+    this.currency = null
 
-    this.original
+    this.original = null
 
     const LOCALE = /^(?<language>[a-z]{2,})(?:_(?<territory>[A-Z]{2,}))?(?:\.(?<codeset>[A-Z0-9_+-]+))?(?:@(?<modifier>[A-Za-z]+))?$/
 
@@ -519,18 +519,18 @@ let Locale = function (localeString) {
         'en': 'GB',
     }
 
-    this.createFromPosix = function(locale) {
+    this.createFromPosix = function (locale) {
         let matches = locale.match(LOCALE)
         if (matches === null) {
             throw new Error(
-                "The given locale $locale does not match <language[_territory[.codeset]][@modifier]> (en_DE.UTF-8@EUR)"
+                'The given locale $locale does not match <language[_territory[.codeset]][@modifier]> (en_DE.UTF-8@EUR)'
             )
         }
 
         this.language = matches.groups.language
         this.territory = matches.groups.territory || this.guessTerritory(matches.groups.language)
         this.currency = matches.groups.modifier ?
-            this.modifierToCurrency(matches.groups.modifier):
+            this.modifierToCurrency(matches.groups.modifier) :
             this.guessCurrency(this.territory)
         this.country = this.guessCountry(this.territory)
 
@@ -542,22 +542,18 @@ let Locale = function (localeString) {
     }
 
     this.modifierToCurrency = function (modifier) {
-        for (let [territory, currency] of Object.entries(TERRITORY_TO_CURRENCY)) {
+        for (let currency of Object.values(TERRITORY_TO_CURRENCY)) {
             if (modifier === currency) {
                 return currency
             }
         }
 
         switch (modifier) {
-           case 'euro':
-                return 'EUR'
+        case 'euro':
+            return 'EUR'
+        default:
+            return TERRITORY_TO_CURRENCY[modifier] || modifier
         }
-
-        if (TERRITORY_TO_CURRENCY[modifier]) {
-            return modifier
-        }
-
-        throw new Error(`Unknown currency modifier ${modifier}.`)
     }
 
     this.guessCurrency = function (territory) {
