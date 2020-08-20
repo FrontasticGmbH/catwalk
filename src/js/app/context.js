@@ -576,7 +576,7 @@ let Locale = function (localeString) {
 let Context = function (context = {}) {
     this.environment = 'production'
     this.locale = 'en_GB'
-    this.currency = 'EUR'
+    this.currency = null
     this.session = {
         loggedIn: false,
         user: null,
@@ -602,6 +602,10 @@ let Context = function (context = {}) {
         }
     }
 
+    this.getEnvironment = function () {
+        return this.environment
+    }
+
     this.isDevelopment = function () {
         return this.environment === 'development' || this.environment === 'dev'
     }
@@ -611,7 +615,9 @@ let Context = function (context = {}) {
     }
 
     this.isProduction = function () {
-        return this.environment === 'production' || this.environment === 'prod'
+        return this.environment !== 'development' &&
+            this.environment !== 'dev' &&
+            this.environment !== 'staging'
     }
 
     this.getLanguage = function () {
@@ -632,6 +638,10 @@ let Context = function (context = {}) {
 
     this.getOriginal = function () {
         return this.locale
+    }
+
+    this.getSession = function () {
+        return this.session
     }
 
     this.update = function (context = {}) {

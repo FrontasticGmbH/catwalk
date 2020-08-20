@@ -1,26 +1,26 @@
 import Context from '../../../src/js/app/context'
 
 test.each([
-    ['environment', 'production'],
-    ['locale', 'en_GB'],
-    ['currency', 'EUR'],
-    ['session', { loggedIn: false, user: null, message: null }],
+    ['getEnvironment', 'production'],
+    ['getOriginal', 'en_GB'],
+    ['getCurrency', 'GBP'],
+    ['getSession', { loggedIn: false, user: null, message: null }],
 ])('it is created with sensible defaults', (property, expectedValue) => {
     let context = new Context()
 
-    expect(context[property]).toEqual(expectedValue)
+    expect(context[property]()).toEqual(expectedValue)
 })
 
 test.each([
     ['environment', 'development'],
     ['locale', 'de_DE'],
-    ['currency', 'GB'],
+    ['currency', 'EUR'],
     ['session', { loggedIn: true, user: { name: 'Kore' }, message: null }],
 ])('it is constructed from context', (property, expectedValue) => {
     let context = new Context({
         environment: 'development',
         locale: 'de_DE',
-        currency: 'GB',
+        currency: 'EUR',
         session: { loggedIn: true, user: { name: 'Kore' }, message: null },
     })
 
@@ -34,8 +34,10 @@ test.each([
     ['de_DE@euro', { 'language': 'de', 'territory': 'DE', 'currency': 'EUR', 'country': 'Germany', 'original': 'de_DE@euro' }],
     ['de_DE.UTF8@EUR', { 'language': 'de', 'territory': 'DE', 'currency': 'EUR', 'country': 'Germany', 'original': 'de_DE.UTF8@EUR' }],
     ['de_AT', { 'language': 'de', 'territory': 'AT', 'currency': 'EUR', 'country': 'Austria', 'original': 'de_AT' }],
-    ['en_GB@EUR', { 'language': 'en', 'territory': 'GB', 'currency': 'EUR', 'country': 'United Kingdom', 'original': 'en_GB@EUR' }],
-])('it is constructed from context', (locale, expectedProperties) => {
+    ['en_GB@GDB', { 'language': 'en', 'territory': 'GB', 'currency': 'GDB', 'country': 'United Kingdom', 'original': 'en_GB@GDB' }],
+    // Since the server has the authority on the locale we expect the client to even parse unknown locale data
+    ['aa_AA@AAA', { 'language': 'aa', 'territory': 'AA', 'currency': 'AAA', 'country': 'n.a.', 'original': 'aa_AA@AAA' }],
+])('it is constructed from POSIX locale', (locale, expectedProperties) => {
     let context = new Context({
         locale: locale,
     })
@@ -60,4 +62,28 @@ test.each([
     })
 
     expect(context.hasFeature(feature)).toBe(hasFeature)
+})
+
+test.each([
+    ['prod', 'isProduction', true],
+    ['prod', 'isStaging', false],
+    ['prod', 'isDevelopment', false],
+    ['production', 'isProduction', true],
+    ['production', 'isStaging', false],
+    ['production', 'isDevelopment', false],
+    ['staging', 'isProduction', false],
+    ['staging', 'isStaging', true],
+    ['staging', 'isDevelopment', false],
+    ['development', 'isProduction', false],
+    ['development', 'isStaging', false],
+    ['development', 'isDevelopment', true],
+    ['dev', 'isProduction', false],
+    ['dev', 'isStaging', false],
+    ['dev', 'isDevelopment', true],
+    ['unknown', 'isProduction', true],
+    ['unknown', 'isStaging', false],
+    ['unknown', 'isDevelopment', false],
+])('environment functions return correct boolean', (environment, method, expectedValue) => {
+    let context = new Context({ environment })
+    expect(context[method]()).toBe(expectedValue)
 })
