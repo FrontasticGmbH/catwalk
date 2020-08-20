@@ -3,7 +3,7 @@ import Context from '../../../src/js/app/context'
 test.each([
     ['getEnvironment', 'production'],
     ['getOriginal', 'en_GB'],
-    ['getCurrency', 'GBP'],
+    ['getCurrency', 'EUR'],
     ['getSession', { loggedIn: false, user: null, message: null }],
 ])('it is created with sensible defaults', (property, expectedValue) => {
     let context = new Context()
@@ -28,15 +28,15 @@ test.each([
 })
 
 test.each([
-    ['de', { 'language': 'de', 'territory': 'DE', 'currency': 'EUR', 'country': 'Germany', 'original': 'de' }],
-    ['de_DE', { 'language': 'de', 'territory': 'DE', 'currency': 'EUR', 'country': 'Germany', 'original': 'de_DE' }],
-    ['de_DE@EUR', { 'language': 'de', 'territory': 'DE', 'currency': 'EUR', 'country': 'Germany', 'original': 'de_DE@EUR' }],
-    ['de_DE@euro', { 'language': 'de', 'territory': 'DE', 'currency': 'EUR', 'country': 'Germany', 'original': 'de_DE@euro' }],
-    ['de_DE.UTF8@EUR', { 'language': 'de', 'territory': 'DE', 'currency': 'EUR', 'country': 'Germany', 'original': 'de_DE.UTF8@EUR' }],
-    ['de_AT', { 'language': 'de', 'territory': 'AT', 'currency': 'EUR', 'country': 'Austria', 'original': 'de_AT' }],
-    ['en_GB@GDB', { 'language': 'en', 'territory': 'GB', 'currency': 'GDB', 'country': 'United Kingdom', 'original': 'en_GB@GDB' }],
+    ['de', { 'language': 'de', 'territory': 'DE', 'currency': 'EUR', 'original': 'de' }],
+    ['de_DE', { 'language': 'de', 'territory': 'DE', 'currency': 'EUR', 'original': 'de_DE' }],
+    ['de_DE@EUR', { 'language': 'de', 'territory': 'DE', 'currency': 'EUR', 'original': 'de_DE@EUR' }],
+    ['de_DE@euro', { 'language': 'de', 'territory': 'DE', 'currency': 'EUR', 'original': 'de_DE@euro' }],
+    ['de_DE.UTF8@EUR', { 'language': 'de', 'territory': 'DE', 'currency': 'EUR', 'original': 'de_DE.UTF8@EUR' }],
+    ['de_AT', { 'language': 'de', 'territory': 'AT', 'currency': 'EUR', 'original': 'de_AT' }],
+    ['en_GB@GDB', { 'language': 'en', 'territory': 'GB', 'currency': 'GDB', 'original': 'en_GB@GDB' }],
     // Since the server has the authority on the locale we expect the client to even parse unknown locale data
-    ['aa_AA@AAA', { 'language': 'aa', 'territory': 'AA', 'currency': 'AAA', 'country': 'n.a.', 'original': 'aa_AA@AAA' }],
+    ['aa_AA@AAA', { 'language': 'aa', 'territory': 'AA', 'currency': 'AAA', 'original': 'aa_AA@AAA' }],
 ])('it is constructed from POSIX locale', (locale, expectedProperties) => {
     let context = new Context({
         locale: locale,
@@ -45,7 +45,6 @@ test.each([
     expect(context.getLanguage()).toEqual(expectedProperties.language)
     expect(context.getTerritory()).toEqual(expectedProperties.territory)
     expect(context.getCurrency()).toEqual(expectedProperties.currency)
-    expect(context.getCountry()).toEqual(expectedProperties.country)
     expect(context.getOriginal()).toEqual(expectedProperties.original)
 })
 
