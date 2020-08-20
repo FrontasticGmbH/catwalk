@@ -33,7 +33,6 @@
     <!--
         Custom modules
     -->
-    <import file="${basedir}/src/ant/react_bootstrap.xml" />
     <import file="${basedir}/src/ant/serve.xml" />
     <import file="${basedir}/src/ant/phpunit-feature.xml" />
 

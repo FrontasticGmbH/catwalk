@@ -27,6 +27,7 @@ class SearchController extends Controller
         $masterService = $this->get(MasterService::class);
 
         $node = $nodeService->get($pageMatcherService->matchNodeId(new PageMatcherContext(['search' => $phrase])));
+        $node->nodeType = 'search';
         $node->streams = $pageMatcherService->completeDefaultQuery($node->streams, 'search', $phrase);
 
         $parameters = array_merge_recursive(

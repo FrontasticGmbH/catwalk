@@ -35,6 +35,8 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Frontastic\Common\WishlistApiBundle\FrontasticCommonWishlistApiBundle(),
             new \Frontastic\Common\CartApiBundle\FrontasticCommonCartApiBundle(),
             new \Frontastic\Common\SapCommerceCloudBundle\FrontasticCommonSapCommerceCloudBundle(),
+            new \Frontastic\Common\ShopifyBundle\FrontasticCommonShopifyBundle(),
+            new \Frontastic\Common\SprykerBundle\FrontasticCommonSprykerBundle(),
             new \Frontastic\Catwalk\FrontendBundle\FrontasticCatwalkFrontendBundle(),
             new \Frontastic\Catwalk\ApiCoreBundle\FrontasticCatwalkApiCoreBundle(),
             new \Frontastic\Catwalk\DevVmBundle\FrontasticCatwalkDevVmBundle(),
@@ -161,5 +163,6 @@ class AppKernel extends \Frontastic\Common\Kernel
 
 // @FIXME: Remove references to \AppKernel from Frontastic\Common
 // phpcs:disable
+\Doctrine\Common\Annotations\AnnotationReader::addGlobalIgnoredName('type');
 class_alias(AppKernel::class, '\\AppKernel');
 // phpcs:enable

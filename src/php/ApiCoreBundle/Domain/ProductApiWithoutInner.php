@@ -47,6 +47,18 @@ class ProductApiWithoutInner implements ProductApi
         return $categories;
     }
 
+
+    public function queryCategories(CategoryQuery $query): Result
+    {
+        $categories = $this->getCategories($query);
+
+        return new Result([
+            'count' => count($categories),
+            'items' => $categories,
+            'query' => clone($query)
+        ]);
+    }
+
     /**
      * @param ProductTypeQuery $query
      * @return ProductType[]

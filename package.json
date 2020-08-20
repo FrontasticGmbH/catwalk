@@ -1,6 +1,6 @@
 {
     "name": "@frontastic/catwalk",
-    "version": "1.1.1",
+    "version": "1.1.7",
     "resolutions": {
         "unidragger": "2.2.3"
     },
@@ -74,6 +74,7 @@
         "imports-loader": "^0.8.0",
         "inuitcss": "^6.0.0",
         "jest": "24.8.0",
+        "js-yaml": "^3.14.0",
         "lodash": "^4.17.10",
         "markdown": "^0.5.0",
         "mime": "^1.4.1",

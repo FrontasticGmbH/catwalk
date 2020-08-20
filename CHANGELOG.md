@@ -1,4 +1,40 @@
-# Catwalk Changelog
+# catwalk Changelog
+
+## `1.1.7` (2020-08-11)
+
+* feat: Improved displaying of SSR error message
+* fix: Use default for undefined variable to not break SSR
+
+## `1.1.6` (2020-08-10)
+
+* feat: Allow another webpack modification at the very end of config generation
+
+## `1.1.5` (2020-08-05)
+
+* fix: Restore (again) missing CHANGELOG.md in catwalk
+
+## `1.1.4` (2020-08-05)
+
+* fix: Restore missing CHANGELOG.md in catwalk
+
+## `1.1.3` (2020-08-05)
+
+* Fixed release script
+
+## `1.1.2` (2020-08-05)
+
+* build(frontasticli): release-notes for version 0.8.0
+* fix: remove outdated comment
+* feat: undelete old facets when they show up again
+* fix(frontasticli): Create files with normal user instead of root
+* feat(frontasticli): Put all config files into .frontasticli dir
+* fix: Removed prefix env. on yarn vairable
+* fix(frontasticli): Use a sane default location for traefik config
+* feat(custom query): Included RawApiInput as paratemer to all ProductApi/Query implementations
+* feat(custom query): Changed extension of Query from DataObject to ApiDataObject
+* fix: missing proptypes for catwalk cell
+* fix: Included statement to check OS version where releaseLibraries is running
+* fix: Resilience for non-string hydration errors.
 
 ## `1.1.1` (2020-07-30)
 
