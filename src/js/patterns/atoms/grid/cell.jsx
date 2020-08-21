@@ -1,23 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-// TODO: Make class style component
-/* eslint-disable react/prop-types */
-
-const calculateCellStyle = (full, wWidth, gWidth) => {
-    const ml = (wWidth - gWidth) / 2
-    // the toString is  a weird hack to make the first render (SSR)
-    // work as expected. The server of course doesn't have any information
-    // but somehow this seems to work
-    return full ? { width: `${(wWidth || 0).toString()}px`, marginLeft: ml * -1 } : {}
-}
-
 export default function Cell ({
     size = 12,
     children,
     fullWidth = false,
-    windowWidth,
-    gridWidth,
     className = '',
     prefix = 'o-cell',
     hideOn = [],
@@ -32,9 +19,21 @@ export default function Cell ({
         }, '')
     }
 
+    // similar code lives also in the boost theme,
+    // and even though that's duplication, I try to
+    // keep boost and catwalk as decoupled as possible.
+    const fullWidthStyle = {
+        width: '100vw',
+        position: 'relative',
+        left: '50%',
+        right: '50%',
+        marginLeft: '-50vw',
+        marginRight: '-50vw',
+    }
+
     return (
         <div
-            style={calculateCellStyle(fullWidth, windowWidth, gridWidth)}
+            style={fullWidth ? fullWidthStyle : {}}
             className={`${prefix} ${prefix}--${size}${
                 fullWidth ? ` ${prefix}--full` : ''
             } ${className} ${hideOnClasses}`}
@@ -48,8 +47,6 @@ Cell.propTypes = {
     size: PropTypes.oneOf([1, 2, 3, 4, 6, 8, 12]),
     children: PropTypes.node,
     fullWidth: PropTypes.bool,
-    windowWidth: PropTypes.number,
-    gridWidth: PropTypes.number,
     className: PropTypes.string,
     prefix: PropTypes.string,
     hideOn: PropTypes.arrayOf(PropTypes.string),
