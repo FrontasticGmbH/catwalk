@@ -1,8 +1,51 @@
+let Locale = function (localeString) {
+    this.language = null
+
+    this.territory = null
+
+    this.currency = null
+
+    this.original = null
+
+    const LOCALE = /^(?<language>[a-z]{2,})(?:_(?<territory>[A-Z]{2,}))?(?:\.(?<codeset>[A-Z0-9_+-]+))?(?:@(?<modifier>[A-Za-z]+))?$/
+
+    const DEFAULT_CURRENCY = 'EUR'
+
+    this.createFromPosix = function (locale) {
+        let matches = locale.match(LOCALE)
+        if (matches === null) {
+            throw new Error(
+                'The given locale $locale does not match <language[_territory[.codeset]][@modifier]> (en_DE.UTF-8@EUR)'
+            )
+        }
+
+        this.language = matches.groups.language
+        this.territory = matches.groups.territory || this.guessTerritory(matches.groups.language)
+        this.currency = matches.groups.modifier ?
+            this.modifierToCurrency(matches.groups.modifier) :
+            DEFAULT_CURRENCY
+
+        return this
+    }
+
+    this.guessTerritory = function (language) {
+        return language.toUpperCase()
+    }
+
+    this.modifierToCurrency = function (modifier) {
+        switch (modifier) {
+        case 'euro':
+            return 'EUR'
+        default:
+            return modifier || DEFAULT_CURRENCY
+        }
+    }
+}
 
 let Context = function (context = {}) {
     this.environment = 'production'
     this.locale = 'en_GB'
-    this.currency = 'EUR'
+    this.currency = null
     this.session = {
         loggedIn: false,
         user: null,
@@ -28,6 +71,10 @@ let Context = function (context = {}) {
         }
     }
 
+    this.getEnvironment = function () {
+        return this.environment
+    }
+
     this.isDevelopment = function () {
         return this.environment === 'development' || this.environment === 'dev'
     }
@@ -37,15 +84,36 @@ let Context = function (context = {}) {
     }
 
     this.isProduction = function () {
-        return this.environment === 'production' || this.environment === 'prod'
+        return this.environment !== 'development' &&
+            this.environment !== 'dev' &&
+            this.environment !== 'staging'
     }
 
     this.getLanguage = function () {
-        return this.locale.substr(0, this.locale.indexOf('_'))
+        return this.parsedLocale.language
     }
 
+    /**
+     * @deprecated Use getTerritory() instead
+     */
     this.getCountry = function () {
-        return this.locale.substr(this.locale.indexOf('_') + 1, 2)
+        return this.parsedLocale.territory
+    }
+
+    this.getTerritory = function () {
+        return this.parsedLocale.territory
+    }
+
+    this.getCurrency = function () {
+        return this.currency || this.parsedLocale.currency
+    }
+
+    this.getOriginal = function () {
+        return this.locale
+    }
+
+    this.getSession = function () {
+        return this.session
     }
 
     this.update = function (context = {}) {
@@ -78,6 +146,8 @@ let Context = function (context = {}) {
     if (!this.project && this.customer) {
         this.project = this.customer.projects[0]
     }
+
+    this.parsedLocale = new Locale().createFromPosix(this.locale)
 }
 
 export default Context
