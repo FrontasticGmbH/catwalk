@@ -1,5 +1,18 @@
 # catwalk Changelog
 
+## `1.1.8` (2020-08-24)
+
+* fix: Ensure getCountry() BC and throw out mappings
+* fix: updates react-redux to fix ssr errors
+* fix: Extended and tested JavaScript locale handling
+* fix: Run yarn install lso for no-paas customers
+* feat: Read Boost Theme theme prperties from project.yml
+* fix(shopify integration): Implement missing queryCategories methods in Backstage and Catwalk
+* fix(webpack): Make linking dependencies more resilient
+* fix: adding resilience to StreamService when data is present but no streamId
+* Introduce nodeType and allow styling by this
+* Allow other locales than specified in the locale resolver.
+
 ## `1.1.7` (2020-08-11)
 
 * feat: Improved displaying of SSR error message
