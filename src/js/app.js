@@ -120,7 +120,7 @@ function appCreator (mountNode, dataNode, tastics = null) {
 }
 
 const hydrate = (store, mountNode, dispatchViewportDimensions) => {
-    import('history').then(({createBrowserHistory}) => {
+    import('history').then(({ createBrowserHistory }) => {
         const isDevelopment = app.getRouter().getContext().isDevelopment()
 
         let beforeHydrateHtml = null
