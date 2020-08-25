@@ -116,8 +116,11 @@ function appCreator (mountNode, dataNode, tastics = null) {
         },
         isMasterPage: props.route && props.route.route && props.route.route.includes('.Master.'),
     }))
+    hydrate(store, mountNode, dispatchViewportDimensions);
+}
 
-    import('history').then(({ createBrowserHistory }) => {
+const hydrate = (store, mountNode, dispatchViewportDimensions) => {
+    import('history').then(({createBrowserHistory}) => {
         const isDevelopment = app.getRouter().getContext().isDevelopment()
 
         let beforeHydrateHtml = null
