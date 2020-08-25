@@ -145,8 +145,8 @@ Image.propTypes = {
     context: PropTypes.object.isRequired,
     media: PropTypes.object.isRequired,
     title: PropTypes.string,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number,
     forceWidth: PropTypes.number,
     forceHeight: PropTypes.number,
     style: PropTypes.object,
@@ -165,6 +165,8 @@ Image.defaultProps = {
     cropRatio: null,
     className: '',
     loading: 'lazy',
+    width: null,
+    height: null,
 }
 
 export default connect((globalState) => {
