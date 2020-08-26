@@ -30,6 +30,7 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Frontastic\Common\ReplicatorBundle\FrontasticCommonReplicatorBundle(),
             new \Frontastic\Common\AccountApiBundle\FrontasticCommonAccountApiBundle(),
             new \Frontastic\Common\ProductApiBundle\FrontasticCommonProductApiBundle(),
+            new \Frontastic\Common\ProductSearchApiBundle\FrontasticCommonProductSearchApiBundle(),
             new \Frontastic\Common\ProjectApiBundle\FrontasticCommonProjectApiBundle(),
             new \Frontastic\Common\ContentApiBundle\FrontasticCommonContentApiBundle(),
             new \Frontastic\Common\WishlistApiBundle\FrontasticCommonWishlistApiBundle(),
