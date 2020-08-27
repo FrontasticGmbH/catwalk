@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { markdown } from 'markdown'
-import _ from 'lodash'
 
 import getTranslation from '../getTranslation'
 import ComponentInjector from '../app/injector'
@@ -13,7 +12,7 @@ class Markdown extends Component {
     componentDidMount = () => {
         let links = this.refs.markdown.querySelectorAll('a')
 
-        _.map(links, (link) => {
+        (links || []).map((link) => {
             link.onclick = (event) => {
                 event.preventDefault()
 

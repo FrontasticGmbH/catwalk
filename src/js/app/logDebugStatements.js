@@ -10,7 +10,7 @@ export default (debugStatements, method = '', route = '') => {
         method,
         route
     )
-    _.each(debugStatements, (debugLine) => {
+    debugStatements.map((debugLine) => {
         // eslint-disable-next-line no-console
         console.log(...debugLine)
     })

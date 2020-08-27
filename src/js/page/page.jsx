@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 
 import DefaultLayout from './layout'
 import Page from 'frontastic-common/src/js/domain/page'
@@ -38,7 +37,7 @@ const PageView = ({ page, tastics, node, data, highlight }) => {
         <Layout
             node={node}
             page={pageState}
-            data={!_.isArray(data) ? data : {}}
+            data={!Array.isArray(data) ? data : {}}
             highlight={highlight}
         />
     )

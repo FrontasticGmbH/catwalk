@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 
 import ErrorBoundary from '../app/errorBoundary'
 import configurationResolver from '../app/configurationResolver'
@@ -81,7 +80,7 @@ const TasticWrapper = (props) => {
                     (tasticToRenderConfiguration.schema.get('desktop') ? '' : 'e-tastic--hidden-desk ')
                 }
                 style={{
-                    outline: _.isEqual(tasticToRenderConfiguration.tasticId, props.highlight) ? '2px dashed #d73964' : null,
+                    outline: tasticToRenderConfiguration.tasticId === props.highlight ? '2px dashed #d73964' : null,
                 }}
                 id={tasticToRenderConfiguration.tasticId}
             >
