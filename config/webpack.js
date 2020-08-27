@@ -164,7 +164,6 @@ module.exports = (PRODUCTION, SERVER) => {
             },
     }
 
-    config = require('./webpack/lodash.js')(config, PRODUCTION, SERVER)
     config = require('./webpack/babel.js')(config, PRODUCTION, SERVER)
     config = require('./webpack/svgr.js')(config, PRODUCTION, SERVER)
     config = require('./webpack/compileSettings.js')(config, PRODUCTION, SERVER)
