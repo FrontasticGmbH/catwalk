@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { matchPath } from 'react-router'
 import levenshtein from 'fast-levenshtein'
 
@@ -14,7 +13,10 @@ let Router = function (history, routes = {}, context = null) {
     this.parameterMatcher = /\{([A-Za-z0-9]+)\}/g
 
     this.location = function (route, parameters = {}) {
-        let allParameters = _.extend({}, this.contextParameters(), parameters)
+        let allParameters = {
+            ...this.contextParameters(),
+            ...parameters,
+        }
 
         if (!this.hasRoute(route)) {
             throw new Error(
@@ -29,22 +31,33 @@ let Router = function (history, routes = {}, context = null) {
             keys.push(matches[1])
         }
 
-        let unknownKeys = _.difference(keys, _.keys(allParameters))
+        let unknownKeys = []
+        for (let key of keys) {
+            if (!allParameters[key]) {
+                unknownKeys.push(key)
+            }
+        }
+
         if (unknownKeys.length) {
             // eslint-disable-next-line no-console
             console.error('Missing values for ' + route + ': ' + unknownKeys.join(', '))
             return { pathname: '/', search: '' }
         }
 
-        let queryKeys = _.difference(_.keys(allParameters), keys)
+        let query = []
+        for (let [key, value] of Object.entries(allParameters)) {
+            if (!keys.includes(key)) {
+                query[key] = value
+            }
+        }
+
         let search = ''
-        if (queryKeys.length) {
-            search = '?' + httpBuildQuery(_.pick(allParameters, queryKeys))
+        if (Object.keys(query).length > 0) {
+            search = '?' + httpBuildQuery(query)
         }
 
         return {
-            pathname: _.reduce(
-                keys,
+            pathname: keys.reduce(
                 function (link, key) {
                     return link.replace('{' + key + '}', allParameters[key])
                 },
@@ -112,8 +125,7 @@ let Router = function (history, routes = {}, context = null) {
 
         const requirements = this.routes[route].requirements || {}
 
-        return _.reduce(
-            keys,
+        return keys.reduce(
             function (link, key) {
                 let keyRequirement = ''
                 if (requirements[key]) {
@@ -142,21 +154,17 @@ let Router = function (history, routes = {}, context = null) {
     }
 
     this.getSimilarRoutes = function (route) {
-        return _.map(
-            _.sortBy(
-                _.mapValues(
-                    this.routes,
-                    function (value, key) {
-                        return {
-                            route: key,
-                            distance: levenshtein.get(key, route),
-                        }
-                    }
-                ),
-                'distance'
-            ).slice(0, 5),
-            'route'
-        )
+        let distances = Object.keys(this.routes).map((key) => {
+            return { route: key, distance: levenshtein.get(key, route) }
+        })
+
+        distances.sort((a, b) => {
+            return a.distance - b.distance
+        })
+
+        return distances.slice(0, 5).map((value) => {
+            return value.route
+        })
     }
 }
 
