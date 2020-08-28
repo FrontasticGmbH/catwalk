@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 /**
  * @param {Object} parameters
  * @param {boolean} isReadOnly
@@ -51,7 +49,7 @@ let ProductStreamParameters = function (parameters, isReadOnly = true) {
 
         delete this.parameters.facets[filterHandle]
 
-        if (_.isEmpty(this.parameters.facets)) {
+        if (Object.keys(this.parameters.facets).length === 0) {
             delete this.parameters.facets
         }
     }
