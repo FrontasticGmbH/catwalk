@@ -47,14 +47,14 @@ const updateSettings = () => {
     fs.writeFileSync(
         paths.appSrc + '/scss/settings.scss',
         Object.entries(settings).reduce((head, [key, value]) => {
-            return head + `\$${key}: "${value}";\n`
+            return head + `\$${key}: '${value}';\n`
         }, `// This is an auto generated file, please edit config/project.yml instead\n\n`)
     )
 
     fs.writeFileSync(
         paths.appSrc + '/js/settings.js',
         Object.entries(settings).reduce((head, [key, value]) => {
-            return head + `    "${key}": "${value}",\n`
+            return head + `    ${key}: '${value}',\n`
         }, `// This is an auto generated file, please edit config/project.yml instead\n\nmodule.exports = {\n`) +
         `}\n`
     )
