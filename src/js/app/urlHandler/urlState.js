@@ -1,6 +1,3 @@
-
-import _ from 'lodash'
-
 /* eslint-disable no-unused-vars */
 // JSDoc imports
 import ProductStreamParameters from './productStreamParameters'
@@ -40,34 +37,16 @@ const UrlState = function (parameters, parameterHandlerFactory) {
      * @return {Object}
      */
     this.getParameters = () => {
-        let parameters = _.cloneDeep(this.parameters)
-
-        parameters.s = _.omitBy(
-            _.mapValues(
-                this.streamMap,
-                /**
-                 *
-                 * @param {ProductStreamParameters} stream
-                 * @return {Object}
-                 */
-                (stream) => {
-                    return stream.getParameters()
-                }
-            ),
-            (streamParameters) => {
-                return _.isEmpty(streamParameters)
+        let parameters = { s: {}, ...this.parameters }
+        let crawlable = true
+        for (let [streamId, stream] of Object.entries(this.streamMap)) {
+            let streamParameters = stream.getParameters()
+            if (Object.keys(streamParameters).length > 0) {
+                parameters.s[streamId] = streamParameters
             }
-        )
 
-        const crawlable = _.reduce(
-            _.map(this.streamMap, (stream) => {
-                return stream.isCrawlable()
-            }),
-            (aggregateCrawlable, isCrawlable) => {
-                return aggregateCrawlable && isCrawlable
-            },
-            true
-        )
+            crawlable = crawlable && stream.isCrawlable()
+        }
 
         if (crawlable) {
             delete parameters.nocrawl
