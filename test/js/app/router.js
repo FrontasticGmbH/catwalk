@@ -12,7 +12,7 @@ test.each([
 test('Route not found', () => {
     let router = new Router({}, { 'My.Test.Route': { path: '/path/to/{urlParameter}' } })
 
-    expect(() => router.location('Undefined.Route', {})).toThrow(
+    expect(() => { return router.location('Undefined.Route', {}) }).toThrow(
         new Error('Route Undefined.Route not defined, did you mean any of these: My.Test.Route')
     )
 })
@@ -23,7 +23,7 @@ test('Route not found with sorted suggestions', () => {
         'Undefined.Route.': { path: '/path/to/{urlParameter}' },
     })
 
-    expect(() => router.location('Undefined.Route', {})).toThrow(
+    expect(() => { return router.location('Undefined.Route', {}) }).toThrow(
         new Error('Route Undefined.Route not defined, did you mean any of these: Undefined.Route., My.Test.Route')
     )
 })

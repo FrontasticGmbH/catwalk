@@ -8,10 +8,10 @@ export default (debugStatements, method = '', route = '') => {
         method,
         route
     )
-    debugStatements.map((debugLine) => {
+    for (let debugLine of debugStatements) {
         // eslint-disable-next-line no-console
         console.log(...debugLine)
-    })
+    }
     // eslint-disable-next-line no-console
     console.groupEnd()
 }

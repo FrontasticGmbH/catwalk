@@ -338,7 +338,7 @@ let CartLoader = function (store, api) {
                 'Frontastic.Frontend.Master.Checkout.finished',
                 {
                     order: data.order.orderId,
-                    token: (order && order.custom && order.custom.viewToken) || null,
+                    token: (data.order && data.order.custom && data.order.custom.viewToken) || null,
                 }
             )
             return data

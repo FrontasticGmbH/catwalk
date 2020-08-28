@@ -27,7 +27,7 @@ class Node extends Component {
             ...configurationResolver(
                 new ConfigurationSchema(schemas.node.schema, nodeData.configuration),
                 (this.props.data.data || {}).stream || {}
-            )
+            ),
         }
 
         // the custom (css) classname can be added in backstage

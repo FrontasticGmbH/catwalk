@@ -9,17 +9,16 @@ import ComponentInjector from '../app/injector'
 import app from '../app/app'
 
 class Markdown extends Component {
-    componentDidMount = () => {
+    componentDidMount () {
         let links = this.refs.markdown.querySelectorAll('a')
-
-        (links || []).map((link) => {
+        for (let link of links) {
             link.onclick = (event) => {
                 event.preventDefault()
 
                 // @TODO: We might need handling for fragment links, too
                 app.getRouter().history.push(link.getAttribute('href'))
             }
-        })
+        }
     }
 
     render () {
