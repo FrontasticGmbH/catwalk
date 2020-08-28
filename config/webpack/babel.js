@@ -34,6 +34,18 @@ module.exports = (config, PRODUCTION, SERVER) => {
                             rootMode: 'upward',
                         },
                     },
+                    // Process TypeScript with Babel.
+                    {
+                        test: /\.(ts)$/,
+                        loader: require.resolve('ts-loader'),
+                    },
+                    {
+                        test: /\.(tsx)$/,
+                        loader: [
+                            require.resolve('babel-loader'),
+                            require.resolve('ts-loader'),
+                        ],
+                    },
                 ],
             },
         },
