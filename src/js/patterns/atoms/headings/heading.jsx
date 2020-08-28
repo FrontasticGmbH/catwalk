@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import _ from 'lodash'
 
+import omit from '@frontastic/common/src/js/helper/omit'
 import ComponentInjector from '../../../app/injector'
 
 class AtomsHeading extends Component {
@@ -19,7 +19,7 @@ class AtomsHeading extends Component {
         const Component = this.props.component || this.typeMap[this.props.type]
 
         return (<Component
-            {..._.omit(this.props, ['children', 'component', 'className', 'type'])}
+            {...omit(this.props, ['children', 'component', 'className', 'type'])}
             className={classnames(
                 'c-heading-' + this.props.type,
                 this.props.className

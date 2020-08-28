@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import _ from 'lodash'
 
+import omit from '@frontastic/common/src/js/helper/omit'
 import ComponentInjector from '../../../app/injector'
 
 class AtomsButton extends Component {
@@ -10,7 +10,7 @@ class AtomsButton extends Component {
         const Component = this.props.component
 
         return (<Component
-            {..._.omit(this.props, ['children', 'component', 'className', 'type', 'ghost', 'outline', 'rounded', 'full', 'htmlType'])}
+            {...omit(this.props, ['children', 'component', 'className', 'type', 'ghost', 'outline', 'rounded', 'full', 'htmlType'])}
             type={this.props.htmlType}
             className={classnames(
                 'c-button',

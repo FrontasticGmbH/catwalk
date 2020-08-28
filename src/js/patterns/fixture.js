@@ -1,228 +1,13 @@
-import _ from 'lodash'
-
 import icon from '../../layout/heart.jsx'
-
-function ucFirst (string) {
-    return string.charAt(0).toUpperCase() + string.slice(1)
-}
-
-class LoremIpsum {
-    static words = [
-        'a',
-        'ac',
-        'accumsan',
-        'ad',
-        'adipiscing',
-        'aenean',
-        'aenean',
-        'aliquam',
-        'aliquam',
-        'aliquet',
-        'amet',
-        'ante',
-        'aptent',
-        'arcu',
-        'at',
-        'auctor',
-        'augue',
-        'bibendum',
-        'blandit',
-        'class',
-        'commodo',
-        'condimentum',
-        'congue',
-        'consectetur',
-        'consequat',
-        'conubia',
-        'convallis',
-        'cras',
-        'cubilia',
-        'curabitur',
-        'curabitur',
-        'curae',
-        'cursus',
-        'dapibus',
-        'diam',
-        'dictum',
-        'dictumst',
-        'dolor',
-        'donec',
-        'donec',
-        'dui',
-        'duis',
-        'egestas',
-        'eget',
-        'eleifend',
-        'elementum',
-        'elit',
-        'enim',
-        'erat',
-        'eros',
-        'est',
-        'et',
-        'etiam',
-        'etiam',
-        'eu',
-        'euismod',
-        'facilisis',
-        'fames',
-        'faucibus',
-        'felis',
-        'fermentum',
-        'feugiat',
-        'fringilla',
-        'fusce',
-        'gravida',
-        'habitant',
-        'habitasse',
-        'hac',
-        'hendrerit',
-        'himenaeos',
-        'iaculis',
-        'id',
-        'imperdiet',
-        'in',
-        'inceptos',
-        'integer',
-        'interdum',
-        'ipsum',
-        'justo',
-        'lacinia',
-        'lacus',
-        'laoreet',
-        'lectus',
-        'leo',
-        'libero',
-        'ligula',
-        'litora',
-        'lobortis',
-        'lorem',
-        'luctus',
-        'maecenas',
-        'magna',
-        'malesuada',
-        'massa',
-        'mattis',
-        'mauris',
-        'metus',
-        'mi',
-        'molestie',
-        'mollis',
-        'morbi',
-        'nam',
-        'nec',
-        'neque',
-        'netus',
-        'nibh',
-        'nisi',
-        'nisl',
-        'non',
-        'nostra',
-        'nulla',
-        'nullam',
-        'nunc',
-        'odio',
-        'orci',
-        'ornare',
-        'pellentesque',
-        'per',
-        'pharetra',
-        'phasellus',
-        'placerat',
-        'platea',
-        'porta',
-        'porttitor',
-        'posuere',
-        'potenti',
-        'praesent',
-        'pretium',
-        'primis',
-        'proin',
-        'pulvinar',
-        'purus',
-        'quam',
-        'quis',
-        'quisque',
-        'quisque',
-        'rhoncus',
-        'risus',
-        'rutrum',
-        'sagittis',
-        'sapien',
-        'scelerisque',
-        'sed',
-        'sem',
-        'semper',
-        'senectus',
-        'sit',
-        'sociosqu',
-        'sodales',
-        'sollicitudin',
-        'suscipit',
-        'suspendisse',
-        'taciti',
-        'tellus',
-        'tempor',
-        'tempus',
-        'tincidunt',
-        'torquent',
-        'tortor',
-        'tristique',
-        'turpis',
-        'ullamcorper',
-        'ultrices',
-        'ultricies',
-        'urna',
-        'ut',
-        'ut',
-        'varius',
-        'vehicula',
-        'vel',
-        'velit',
-        'venenatis',
-        'vestibulum',
-        'vitae',
-        'vivamus',
-        'viverra',
-        'volutpat',
-        'vulputate',
-    ]
-
-    static word = (min, max) => {
-        var result = []
-        var count = _.random(min, max, false)
-
-        while (result.length < count) {
-            result.push(_.nth(LoremIpsum.words, _.random(0, LoremIpsum.words.length, false)))
-        }
-
-        return result.join(' ')
-    }
-
-    static heading = (min, max) => {
-        return _.map(LoremIpsum.word(min, max).split(' '), ucFirst).join(' ')
-    }
-
-    static sentence = (min, max) => {
-        var result = []
-        var count = _.random(min, max, false)
-
-        while (result.length < count) {
-            result.push(ucFirst(LoremIpsum.word(3, 10) + '. '))
-        }
-
-        return _.trim(result.join(' '))
-    }
-}
 
 export default {
     headline: {
-        xs: LoremIpsum.heading(2, 2),
-        short: LoremIpsum.heading(2, 4),
+        xs: 'Test Heading',
+        short: 'Another Test Heading',
     },
     excerpt: {
-        short: LoremIpsum.sentence(2, 6),
-        medium: LoremIpsum.sentence(5, 10),
+        short: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+        medium: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
     },
     image: {
         person: {
@@ -293,7 +78,7 @@ export default {
         },
     },
     product: {
-        name: LoremIpsum.heading(1, 3),
+        name: 'Some Product',
         productId: 'test-product',
         slug: 'test-product',
         _url: '/',
@@ -301,7 +86,7 @@ export default {
             {
                 sku: '6921103619958',
                 attributes: {
-                    designer: LoremIpsum.heading(1, 1),
+                    designer: 'Designer',
                     // Any attributes you want
                 },
                 images: ['https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/071983_1_large.jpg'],
@@ -311,7 +96,7 @@ export default {
             },
             {
                 attributes: {
-                    designer: LoremIpsum.heading(1, 1),
+                    designer: 'Designer',
                     promo_sticker: 'top_seller',
                 },
                 images: ['https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/071983_1_large.jpg'],
@@ -320,10 +105,10 @@ export default {
             },
         ],
     },
-    products: _.range(1, 5).map(
+    products: [1, 2, 3, 4, 5].map(
         (number) => {
             return {
-                name: LoremIpsum.heading(1, 3) + ' ' + number,
+                name: 'Product ' + number,
                 productId: 'test-product-' + number,
                 slug: 'test-product-' + number,
                 _url: '/',
@@ -331,7 +116,7 @@ export default {
                     {
                         sku: 'test-product-' + number + '-1',
                         attributes: {
-                            designer: LoremIpsum.heading(1, 1),
+                            designer: 'Designer',
                             // Any attributes you want
                         },
                         images: ['https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/071983_1_large.jpg'],
@@ -342,7 +127,7 @@ export default {
                     {
                         sku: 'test-product-' + number + '-2',
                         attributes: {
-                            designer: LoremIpsum.heading(1, 1),
+                            designer: 'Designer',
                             promo_sticker: 'top_seller',
                         },
                         images: ['https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/071983_1_large.jpg'],
