@@ -27,13 +27,16 @@ class RemoteImage extends Component {
             this.props.cropRatio
         )
 
-        if (this.state.error) {
+        if (this.state.error || !width || !height) {
             return (
                 <img
                     style={this.props.style}
                     width={width}
                     height={height}
                     alt={this.props.alt}
+                    // @TODO: Some blurred image would be great, because this
+                    // can also happen during loading. But this is ahrd for
+                    // random remote images:
                     src={NoImage}
                     {..._.omit(this.props, [
                         'context',

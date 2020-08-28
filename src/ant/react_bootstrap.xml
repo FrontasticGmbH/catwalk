@@ -1,27 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="React Bootstrap">
-    <target name="react:bootstrap" unless="${production}" extensionOf="-prepare:before~hook">
-        <tool-exists executable="yarn" />
-
-        <echo>Executing global yarn install for all workspaces</echo>
-        <echo>That might take some time, but its the only yarn install we need now</echo>
-        <echo>Please hang on and maybe get cold beverage ...</echo>
-
-        <!-- Perform global js-install -->
-        <!-- This is actually a global task but since Catwalk is used everywhere, we are doing it here -->
-        <exec executable="yarn" failonerror="true" dir="${frontastic_basedir}">
-            <env key="CI" value="true" />
-
-            <arg value="--network-timeout" />
-            <arg value="1000000000" />
-
-            <!-- This is a workaround for ENOENT errors: https://github.com/yarnpkg/yarn/issues/2629 -->
-            <arg value="--mutex" />
-            <arg value="network" />
-            <arg value="--network-concurrency" />
-            <arg value="1" />
-
-            <arg value="install" />
-        </exec>
-    </target>
+<project name="Dummy file for BC includes – implemented in paas/integration/react.xml now">
 </project>

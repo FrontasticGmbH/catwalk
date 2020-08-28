@@ -1,6 +1,6 @@
 {
     "name": "@frontastic/catwalk",
-    "version": "1.0.2",
+    "version": "1.1.8",
     "resolutions": {
         "unidragger": "2.2.3"
     },
@@ -75,6 +75,7 @@
         "imports-loader": "^0.8.0",
         "inuitcss": "^6.0.0",
         "jest": "24.8.0",
+        "js-yaml": "^3.14.0",
         "lodash": "^4.17.10",
         "markdown": "^0.5.0",
         "mime": "^1.4.1",
@@ -107,13 +108,13 @@
         "react-instagram-embed": "^1.4.0",
         "react-intl": "^2.4.0",
         "react-markdown": "^4.0.8",
-        "react-redux": "^7.1.0",
+        "react-redux": "^7.2.1",
         "react-router": "^5.0.1",
         "react-router-dom": "^5.0.1",
         "react-sizer": "^1.0.5",
         "react-transition-group": "^4.3.0",
         "react-vis": "^1.11.6",
-        "redux": "^4.0.0",
+        "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
         "resolve-url-loader": "^3.1.1",
         "route-pattern": "^0.0.6",

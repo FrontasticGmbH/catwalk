@@ -2,7 +2,9 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
+use Frontastic\Catwalk\FrontendBundle\Domain\Tastic\Configuration;
 use Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 use RulerZ\RulerZ;
@@ -14,6 +16,11 @@ class MasterService implements Target
      * @var MasterPageMatcherRulesGateway
      */
     private $rulesGateway;
+
+    /**
+     * @var TasticService
+     */
+    private $tasticService;
 
     /**
      * @var RulerZ
@@ -36,13 +43,17 @@ class MasterService implements Target
         'error',
     ];
 
-    public function __construct(MasterPageMatcherRulesGateway $rulesGateway, RulerZ $rulerz)
-    {
+    public function __construct(
+        MasterPageMatcherRulesGateway $rulesGateway,
+        TasticService $tasticService,
+        RulerZ $rulerz
+    ) {
         $this->rulesGateway = $rulesGateway;
+        $this->tasticService = $tasticService;
         $this->rulerz = $rulerz;
     }
 
-    public function matchNodeId(PageMatcherContext $context)
+    public function matchNodeId(PageMatcherContext $context): string
     {
         $rules = $this->rulesGateway->get();
 
@@ -90,6 +101,73 @@ class MasterService implements Target
         }
 
         return $streams;
+    }
+
+    /**
+     * Fixes that Backstage does not send proper __master for singleton master pages.
+     *
+     * This should eventually be fixed in Backstage, but requires a migration phase.
+     */
+    public function completeTasticStreamConfigurationWithMasterDefault(Page $page, string $pageType): void
+    {
+        $pageType = $this->propertyToRuleName($pageType, '-');
+
+        $tasticDefinitionMap = $this->tasticService->getTasticsMappedByType();
+
+        foreach ($page->regions as $region) {
+            foreach ($region->elements as $element) {
+                foreach ($element->tastics as $tasticInstance) {
+                    if (!isset($tasticDefinitionMap[$tasticInstance->tasticType])) {
+                        continue;
+                    }
+
+                    $tasticDefinition = $tasticDefinitionMap[$tasticInstance->tasticType];
+                    foreach ($tasticDefinition->configurationSchema['schema'] as $schema) {
+                        $tasticConfiguration = (array) $tasticInstance->configuration;
+
+                        $tasticConfiguration = $this->completeMasterDefaultIn(
+                            $tasticConfiguration,
+                            $schema['fields'],
+                            $pageType
+                        );
+
+                        $tasticInstance->configuration = new Configuration($tasticConfiguration);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Complete all stream occurrences in $actualConfiguration recursively.
+     */
+    private function completeMasterDefaultIn(array $actualConfiguration, array $fieldDefinitions, $pageType): array
+    {
+        foreach ($fieldDefinitions as $fieldDefinition) {
+            if (!isset($fieldDefinition['field'])) {
+                continue;
+            }
+
+            $fieldIdentifier = $fieldDefinition['field'];
+
+            if ($fieldDefinition['type'] === 'stream' && $fieldDefinition['streamType'] === $pageType) {
+                if (!isset($actualConfiguration[$fieldIdentifier])) {
+                    $actualConfiguration[$fieldIdentifier] = '__master';
+                }
+            }
+
+            if ($fieldDefinition['type'] === 'group') {
+                foreach ($actualConfiguration[$fieldIdentifier] ?? [] as $groupIndex => $groupConfiguration) {
+                    $groupConfiguration = $this->completeMasterDefaultIn(
+                        $groupConfiguration,
+                        $fieldDefinition['fields'],
+                        $pageType
+                    );
+                    $actualConfiguration[$fieldIdentifier][$groupIndex] = $groupConfiguration;
+                }
+            }
+        }
+        return $actualConfiguration;
     }
 
     public function lastUpdate(): string

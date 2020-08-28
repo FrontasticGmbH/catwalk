@@ -19,92 +19,61 @@ const fileExists = (path) => {
             return true
         }
 
-        // Seems unreachable. Seriuously?!?
+        // Seems unreachable. Seriously?!?
         return false
     } catch (e) {
         return false
     }
 }
 
-const ensureLinks = () => {
-    for (let package in links) {
-        let packageLocation = paths.appNodeModules + '/@frontastic/' + package
-        let packageSource = links[package]
+const linkPackage = (package, packageDirectory, packageSource) => {
 
-        if (!fileExists(packageSource)) {
-            // This repository does not have the link targets, so we are
-            // fine with normal packages.
-            console.info(chalk.bold('@frontastic/' + package) + ' installed as common package, since we have no PAAS modifications.')
-            continue
-        }
+    let packageLocation = path.join(packageDirectory, package)
 
-        if (fileExists(packageLocation) && fs.statSync(packageLocation).isSymbolicLink()) {
-            // All fine, this is the expected state
-            continue
-        }
-
-        if (os.platform() === 'win32') {
-            console.warn(' ⚠️  Changes in ' + chalk.bold('@frontastic/' + package) + ' won\'t be part of the build. Links required, but not supported on windows.')
-            continue
-        }
-
-        if (fileExists(packageLocation)) {
-            // Remove the copied package (from yarn install) to be able to
-            // create the links
-            rimraf.sync(packageLocation)
-        }
-
-        try {
-            // Create symlink with relative path to make sure it works inside
-            // and outside of the container / virtual machine.
-            fs.symlinkSync(
-                path.relative(paths.appNodeModules + '/@frontastic/', packageSource),
-                packageLocation
-            )
-        } catch (e) {
-            console.error(' ⚠️  Wasn\'t able to create symlink for ' + chalk.bold('@frontastic/' + package) + ': ' + e)
-            continue
-        }
+    if (!fileExists(packageSource)) {
+        // This repository does not have the link targets, so we are
+        // fine with normal packages.
+        console.info(chalk.bold('@frontastic/' + package) + ' installed as common package, since we have no PAAS modifications.')
+        return
     }
 
+    if (fileExists(packageLocation) && fs.statSync(packageLocation).isSymbolicLink()) {
+        // All fine, this is the expected state
+        return
+    }
+
+    if (os.platform() === 'win32') {
+        console.warn(' ⚠️  Changes in ' + chalk.bold('@frontastic/' + package) + ' won\'t be part of the build. Links required, but not supported on windows.')
+        return
+    }
+
+    if (fileExists(packageLocation)) {
+        // Remove the copied package (from yarn install) to be able to
+        // create the links
+        rimraf.sync(packageLocation)
+    }
+
+    try {
+        // Create symlink with relative path to make sure it works inside
+        // and outside of the container / virtual machine.
+        fs.mkdirSync(packageDirectory, { recursive: true })
+        fs.symlinkSync(
+            path.relative(packageDirectory, packageSource),
+            packageLocation
+        )
+    } catch (e) {
+        console.error(' ⚠️  Wasn\'t able to create symlink for ' + chalk.bold('@frontastic/' + package) + ': ' + e)
+        return
+    }
+}
+
+const ensureLinks = () => {
     for (let package in links) {
-        let packageLocation = paths.repositoryRoot + '/node_modules/@frontastic/' + package
-        let packageSource = links[package]
+        // link packages in the frontend project
+        linkPackage(package, path.join(paths.appNodeModules, '@frontastic'), links[package])
 
-        if (!fileExists(packageSource)) {
-            // This repository does not have the link targets, so we are
-            // fine with normal packages.
-            console.info(chalk.bold('@frontastic/' + package) + ' installed as common package, since we have no PAAS modifications.')
-            continue
-        }
-
-        if (fileExists(packageLocation) && fs.statSync(packageLocation).isSymbolicLink()) {
-            // All fine, this is the expected state
-            continue
-        }
-
-        if (os.platform() === 'win32') {
-            console.warn(' ⚠️  Changes in ' + chalk.bold('@frontastic/' + package) + ' won\'t be part of the build. Links required, but not supported on windows.')
-            continue
-        }
-
-        if (fileExists(packageLocation)) {
-            // Remove the copied package (from yarn install) to be able to
-            // create the links
-            rimraf.sync(packageLocation)
-        }
-
-        try {
-            // Create symlink with relative path to make sure it works inside
-            // and outside of the container / virtual machine.
-            fs.symlinkSync(
-                path.relative(paths.repositoryRoot + '/node_modules/@frontastic/', packageSource),
-                packageLocation
-            )
-        } catch (e) {
-            console.error(' ⚠️  Wasn\'t able to create symlink for ' + chalk.bold('@frontastic/' + package) + ': ' + e)
-            continue
-        }
+        // link packages in the root
+        linkPackage(package, path.join(paths.repositoryRoot, 'node_modules', '@frontastic'), links[package])
     }
 }
 

@@ -34,6 +34,7 @@ class CategoryController extends Controller
                 'categoryId' => $id,
             ]))
         );
+        $node->nodeType = 'category';
         $node->streams = $pageMatcherService->completeDefaultQuery(
             $node->streams,
             'category',

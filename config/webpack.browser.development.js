@@ -18,7 +18,16 @@ try {
     let projectWebpack = require(paths.appSrc + '/../config/webpack.browser.development.js')
     config = projectWebpack(config, PRODUCTION, SERVER)
 } catch (e) {
-    console.info('No build specific project webpack extension found in config/webpack.browser.development.js – skip.')
+    console.info('No build specific project webpack extension found in config/webpack.browser.development.js – skip: ' + e.message)
 }
 
-module.exports = libraryModifications(config, PRODUCTION, SERVER)
+config = libraryModifications(config, PRODUCTION, SERVER)
+
+try {
+    let webpackPostProcessing = require(paths.appSrc + '/../config/webpack.post.js')
+    config = webpackPostProcessing(config, PRODUCTION, SERVER)
+} catch (e) {
+    console.info('No project webpack post processing extension found in config/webpack.post.js – skip: ' + e.message)
+}
+
+module.exports = config

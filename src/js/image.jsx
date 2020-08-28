@@ -27,19 +27,37 @@ class Image extends Component {
     }
 
     getInputImageDimensions = () => {
-        if (
-            (this.props.forceWidth || this.props.forceHeight) &&
-            this.props.media &&
-            this.props.media.width &&
-            this.props.media.height
-        ) {
+        const { forceWidth, forceHeight, media, width, height } = this.props
+
+        if ((forceWidth || forceHeight) && media && media.width && media.height) {
             return [
-                this.props.forceWidth || (this.props.forceHeight / this.props.media.height) * this.props.media.width,
-                this.props.forceHeight || (this.props.forceWidth / this.props.media.width) * this.props.media.height,
+                forceWidth || (forceHeight / media.height) * media.width,
+                forceHeight || (forceWidth / media.width) * media.height,
             ]
         }
 
-        return [this.props.width, this.props.height]
+        // on initial load it can happen, especially in production, that props.width and height are NULL.
+        // This caused a bunch of issues with images being only a few pixels tall.
+        // So we do a NULL check on that. If that's the case we check if the media object is there
+        // and if we can use the metadata in there. Lastly it falls back to 0.
+        let inputHeight = height
+        if (height === null) {
+            if (media) {
+                inputHeight = media.height
+            } else {
+                inputHeight = 0
+            }
+        }
+        let inputWidth = width
+        if (width === null) {
+            if (media) {
+                inputWidth = media.width
+            } else {
+                inputWidth = 0
+            }
+        }
+
+        return [inputWidth, inputHeight]
     }
 
     render () {
@@ -68,7 +86,7 @@ class Image extends Component {
             this.props.cropRatio
         )
 
-        if (this.state.error) {
+        if (this.state.error || !width || !height) {
             return (
                 <img
                     style={this.props.style}
@@ -127,8 +145,8 @@ Image.propTypes = {
     context: PropTypes.object.isRequired,
     media: PropTypes.object.isRequired,
     title: PropTypes.string,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number,
     forceWidth: PropTypes.number,
     forceHeight: PropTypes.number,
     style: PropTypes.object,
@@ -147,6 +165,8 @@ Image.defaultProps = {
     cropRatio: null,
     className: '',
     loading: 'lazy',
+    width: null,
+    height: null,
 }
 
 export default connect((globalState) => {

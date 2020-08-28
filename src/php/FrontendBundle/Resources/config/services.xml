@@ -72,6 +72,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\MasterService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
             <argument type="service" id="rulerz" />
 
             <tag name="endpoint.target" channel="page-matcher" />

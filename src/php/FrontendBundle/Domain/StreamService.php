@@ -98,6 +98,14 @@ class StreamService
             ) {
                 $streamId = $configuration[$field['field']] ?? $field['default'];
 
+                if (!is_string($streamId)) {
+                    if (is_string($field['default'] ?? null)) {
+                        $streamId = $field['default'];
+                    } else {
+                        continue;
+                    }
+                }
+
                 $usage[$streamId]['count'][] = null;
                 $usage[$streamId]['tastics'][] = $tastic->tasticType;
 

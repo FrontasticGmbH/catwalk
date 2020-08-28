@@ -1,5 +1,3 @@
 env=test
 
 mailer_transport="null"
-
-frontastic_project_file="test/config/project.yml"

@@ -37,7 +37,7 @@ class Node extends Component {
         let customClassname = nodeData.configuration.displayClassname || ''
 
         return (
-            <div className={`s-node ${customClassname}`}>
+            <div className={`s-node s-node--${nodeData.nodeType} ${customClassname}`}>
                 {this.props.tastics.isComplete() && this.props.page.data && this.props.data.data ? (
                     <Fragment>
                         <MetaData node={nodeData} page={this.props.page.data} data={this.props.data.data} />
