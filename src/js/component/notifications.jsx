@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 
 import app from '../app/app'
 
@@ -9,7 +8,7 @@ import AtomsNotification from '../patterns/atoms/notifications/notification'
 
 class Notifications extends Component {
     render () {
-        return (_.map(_.values(this.props.notifications), (notification) => {
+        return Object.values(this.props.notifications).map((notification) => {
             return (<AtomsNotification open
                 key={notification.notificationId}
                 onClose={() => {
@@ -22,7 +21,7 @@ class Notifications extends Component {
                 type={notification.type}
                 message={notification.message}
             />)
-        }))
+        })
     }
 }
 

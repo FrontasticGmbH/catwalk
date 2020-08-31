@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import _ from 'lodash'
 import { Router } from 'react-router-dom'
 
+import debounce from '@frontastic/common/src/js/helper/debounce'
 import app from './app/app'
 import logDebugStatements from './app/logDebugStatements'
 import createStore from './app/store'
@@ -119,15 +119,20 @@ function appCreator (mountNode, dataNode, tastics = null) {
 
     // If you append ?_frontastic_disable_hydration to your URL, frontastic will not do the client side hydration.
     // You can use this to debug problems in server side rendering or in hydration.
-    if (!props.route.parameters.hasOwnProperty('_frontastic_disable_hydration')) {
-        hydrate(store, mountNode, dispatchViewportDimensions)
-    } else {
+    if (props.route.parameters.hasOwnProperty('_frontastic_disable_hydration')) {
         // this allows the developer to manually hydrate at some point
         window._frontastic_hydrate = () => {
             hydrate(store, mountNode, dispatchViewportDimensions)
             // hydration should only happen once, so we remove that callback
             delete window._frontastic_hydrate
         }
+    } else if (props.route.parameters.hasOwnProperty('_frontastic_delay_hydration')) {
+        document.addEventListener('DOMContentLoaded', () => {
+            return hydrate(store, mountNode, dispatchViewportDimensions)
+        })
+    } else {
+        // default: hydrate immediately
+        hydrate(store, mountNode, dispatchViewportDimensions)
     }
 }
 
@@ -180,7 +185,7 @@ const hydrate = (store, mountNode, dispatchViewportDimensions) => {
                 })
 
                 dispatchViewportDimensions()
-                window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
+                window.addEventListener('resize', debounce(dispatchViewportDimensions, 500))
 
                 if (isDevelopment && !isIE()) {
                     const diffLog = require('./app/htmlDiff/differ').default

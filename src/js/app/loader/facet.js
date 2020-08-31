@@ -1,6 +1,5 @@
 import Entity from '../entity'
 import emptyEntity from '../../helper/emptyEntity'
-import _ from 'lodash'
 
 import { ConfigurationSchema, FacetTypeSchemaMap } from 'frontastic-common'
 
@@ -38,8 +37,8 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         }
     case 'Frontend.Facet.all.success':
         facets = new Entity(
-            _.map(action.data, (facetConfig) => {
-                let facetConfigNew = _.cloneDeep(facetConfig)
+            (action.data || []).map((facetConfig) => {
+                let facetConfigNew = JSON.parse(JSON.stringify(facetConfig))
                 facetConfigNew.facetOptions = new ConfigurationSchema(
                     (FacetTypeSchemaMap[facetConfig.attributeType] || {}).schema || [],
                     facetConfig.facetOptions

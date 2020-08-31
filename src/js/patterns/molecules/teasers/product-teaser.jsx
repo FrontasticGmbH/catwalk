@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom'
 
 import ComponentInjector from '../../../app/injector'
 
-import fixture from '../../fixture'
-
 import AtomsPrice from '../../atoms/prices/price'
 
 import NoImage from '../../../../layout/noImage.svg'
@@ -70,13 +68,6 @@ MoleculesProductTeaser.defaultProps = {
     showStrikePrice: false,
     showPercent: false,
     variant: null,
-}
-
-// These are just default props for the pattern library
-MoleculesProductTeaser.testProps = {
-    product: fixture.product,
-    showStrikePrice: true,
-    showPercent: true,
 }
 
 export default ComponentInjector.return('MoleculesProductTeaser', MoleculesProductTeaser)

@@ -1,7 +1,5 @@
 import React from 'react'
 
-import _ from 'lodash'
-
 import Wishlist from '../../domain/wishlist'
 import app from '../app'
 import Entity from '../entity'
@@ -26,10 +24,10 @@ let WishlistLoader = function (store, api) {
         this.api.triggerContinuously(
             'Frontastic.WishlistApi.Wishlist.get',
             // Own error handler without error handler => Ignore all errors
-            _.extend(
-                { ownErrorHandler: true },
-                parameters
-            )
+            {
+                ownErrorHandler: true,
+                ...parameters,
+            },
         )
     }
 
@@ -37,10 +35,10 @@ let WishlistLoader = function (store, api) {
         this.api.trigger(
             'Frontastic.WishlistApi.Wishlist.get',
             // Own error handler without error handler => Ignore all errors
-            _.extend(
-                { ownErrorHandler: true },
-                parameters
-            )
+            {
+                ownErrorHandler: true,
+                ...parameters,
+            },
         )
     }
 

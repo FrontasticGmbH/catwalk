@@ -4,8 +4,6 @@ import classnames from 'classnames'
 
 import ComponentInjector from '../../../app/injector'
 
-import fixture from '../../fixture'
-
 import MediaImage from '../../../mediaImage'
 
 class MoleculesHero extends Component {
@@ -47,16 +45,6 @@ MoleculesHero.defaultProps = {
     size: 'normal',
     verticalAlign: 'center',
     horizontalAlign: 'center',
-}
-
-// These are just default props for the pattern library
-MoleculesHero.testProps = {
-    media: {
-        media: fixture.image.person,
-        title: fixture.headline.short,
-        ratio: '1:1',
-    },
-    caption: fixture.headline.xs,
 }
 
 export default ComponentInjector.return('MoleculesHero', MoleculesHero)

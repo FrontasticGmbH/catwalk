@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 
+import omit from '@frontastic/common/src/js/helper/omit'
 import app from './app'
 
 class SymfonyLinkContainer extends Component {
     render () {
-        let childProps = _.omit(this.props, ['route', 'params', 'router', 'dispatch', 'activeKey', 'activeHref'])
-        let params = _.extend({}, this.props.params)
+        let childProps = omit(this.props, ['route', 'params', 'router', 'dispatch', 'activeKey', 'activeHref'])
+        let params = { ...this.props.params }
 
         if (this.props.to || this.props.href) {
             throw new Error("Use route parameter with Symfony route ID to link '" + (this.props.to || this.props.href) + "'")
