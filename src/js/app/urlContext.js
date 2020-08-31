@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 /**
  * Provides unified handling of URL context.
  *
@@ -14,17 +12,15 @@ class UrlContext {
     }
 
     static getActionParameters = (parameters) => {
-        return _.pickBy(
-            parameters,
-            /**
-             * @param {*} value
-             * @param {string} key
-             * @returns {boolean}
-             */
-            (value, key) => {
-                return (key.match(UrlContext.parameterKeyFilter) === null)
+        let actionParameters = {}
+
+        for (let [parameter, value] of Object.entries(parameters)) {
+            if (parameter.match(UrlContext.parameterKeyFilter) === null) {
+                actionParameters[parameter] = value
             }
-        )
+        }
+
+        return actionParameters
     }
 
     static hasChanged = (lastRoute, route) => {

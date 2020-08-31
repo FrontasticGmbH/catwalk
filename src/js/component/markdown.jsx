@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { markdown } from 'markdown'
-import _ from 'lodash'
 
 import getTranslation from '../getTranslation'
 import ComponentInjector from '../app/injector'
@@ -10,17 +9,16 @@ import ComponentInjector from '../app/injector'
 import app from '../app/app'
 
 class Markdown extends Component {
-    componentDidMount = () => {
+    componentDidMount () {
         let links = this.refs.markdown.querySelectorAll('a')
-
-        _.map(links, (link) => {
+        for (let link of links) {
             link.onclick = (event) => {
                 event.preventDefault()
 
                 // @TODO: We might need handling for fragment links, too
                 app.getRouter().history.push(link.getAttribute('href'))
             }
-        })
+        }
     }
 
     render () {

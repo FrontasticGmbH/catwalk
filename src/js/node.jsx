@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 import { ConfigurationSchema } from 'frontastic-common'
 
 import emptyEntity from './helper/emptyEntity'
@@ -23,14 +22,13 @@ class Node extends Component {
         let nodeData = this.props.node.data || { configuration: {} }
 
         // Special handling for `path` property, which is always there even though not defined in schema
-        nodeData.configuration = _.extend(
-            {},
-            _.pick(nodeData.configuration, ['path']),
-            configurationResolver(
+        nodeData.configuration = {
+            path: nodeData.configuration.path || null,
+            ...configurationResolver(
                 new ConfigurationSchema(schemas.node.schema, nodeData.configuration),
                 (this.props.data.data || {}).stream || {}
-            )
-        )
+            ),
+        }
 
         // the custom (css) classname can be added in backstage
         // in the Display Properties of each Node Configuration (gear icon)

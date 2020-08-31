@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 let Route = function (route, query = {}, historyState = null) {
     this.get = function (parameter, fallback = null) {
         if (this.parameters &&
@@ -16,7 +14,7 @@ let Route = function (route, query = {}, historyState = null) {
 
     this.route = route.route
     this.query = query
-    this.urlParameters = _.cloneDeep(route.parameters)
+    this.urlParameters = JSON.parse(JSON.stringify(route.parameters))
     this.parameters = { ...route.parameters, ...this.query }
     this.historyState = historyState
 }

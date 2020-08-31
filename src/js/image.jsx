@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 
-import MediaApi from 'frontastic-common/src/js/mediaApi'
+import MediaApi from '@frontastic/common/src/js/mediaApi'
+import omit from '@frontastic/common/src/js/helper/omit'
 import sizer from './helper/reactSizer'
 import NoImage from '../layout/noImage.svg'
 
@@ -94,7 +94,7 @@ class Image extends Component {
                     height={height}
                     alt={this.getAltText()}
                     src={NoImage}
-                    {..._.omit(this.props, omitedProperties)}
+                    {...omit(this.props, omitedProperties)}
                 />
             )
         }
@@ -118,7 +118,7 @@ class Image extends Component {
                     this.props.cropRatio,
                     this.props.options
                 )}
-                srcSet={_.map([1, 2], (factor) => {
+                srcSet={[1, 2].map((factor) => {
                     return [
                         this.mediaApi.getImageLink(
                             this.props.media,
@@ -135,7 +135,7 @@ class Image extends Component {
                 onError={() => {
                     this.setState({ error: true })
                 }}
-                {..._.omit(this.props, omitedProperties)}
+                {...omit(this.props, omitedProperties)}
             />
         )
     }

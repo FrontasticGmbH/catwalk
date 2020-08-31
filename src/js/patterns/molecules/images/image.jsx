@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import ComponentInjector from '../../../app/injector'
 
-import fixture from '../../fixture'
-
 import AtomsIcon from '../../atoms/icons/icon'
 
 import Image from '../../../../js/image'
@@ -38,12 +36,6 @@ MoleculesImage.defaultProps = {
     ratio: 'custom',
     icon: null,
     iconSize: 'xxl',
-}
-
-// These are just default props for the pattern library
-MoleculesImage.testProps = {
-    media: fixture.image.person,
-    ratio: '16:9',
 }
 
 export default ComponentInjector.return('MoleculesImage', MoleculesImage)

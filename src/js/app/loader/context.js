@@ -1,5 +1,4 @@
 import React from 'react'
-import _ from 'lodash'
 
 import { generateId } from 'frontastic-common'
 
@@ -330,7 +329,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             notifications: globalState.notifications,
         }
     case 'AccountApi.Api.get.success':
-        users = _.extend({}, globalState.users)
+        users = { ...globalState.users }
         if (action.id) {
             users[action.id] = new Entity(action.data, 3600)
         }
@@ -340,7 +339,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             users: users,
         }
     case 'AccountApi.Api.get.error':
-        users = _.extend({}, globalState.users)
+        users = { ...globalState.users }
         if (action.id) {
             users[action.id] = new Entity().setError(action.error)
         }
@@ -351,7 +350,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         }
 
     case 'Frontastic.Notification.add':
-        notifications = _.extend({}, globalState.notifications)
+        notifications = { ...globalState.notifications }
         notifications[action.id] = action.data
 
         return {
@@ -359,7 +358,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             notifications: notifications,
         }
     case 'Frontastic.Notification.remove':
-        notifications = _.extend({}, globalState.notifications)
+        notifications = { ...globalState.notifications }
         delete notifications[action.id]
 
         return {

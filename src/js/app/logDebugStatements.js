@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 export default (debugStatements, method = '', route = '') => {
     // eslint-disable-next-line no-console
     console.groupCollapsed(
@@ -10,10 +8,10 @@ export default (debugStatements, method = '', route = '') => {
         method,
         route
     )
-    _.each(debugStatements, (debugLine) => {
+    for (let debugLine of debugStatements) {
         // eslint-disable-next-line no-console
         console.log(...debugLine)
-    })
+    }
     // eslint-disable-next-line no-console
     console.groupEnd()
 }

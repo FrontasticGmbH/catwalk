@@ -1,0 +1,221 @@
+{
+    "_type": "Frontastic\\Common\\CartApiBundle\\Domain\\Cart",
+    "cartId": "2edd29de-61c6-41c2-b291-02e7093ac4b5",
+    "cartVersion": "2",
+    "lineItems": [
+        {
+            "_type": "Frontastic\\Common\\CartApiBundle\\Domain\\LineItem\\Variant",
+            "variant": {
+                "_type": "Frontastic\\Common\\ProductApiBundle\\Domain\\Variant",
+                "id": "1",
+                "sku": "10108489",
+                "groupId": null,
+                "price": null,
+                "discountedPrice": null,
+                "discounts": [],
+                "currency": null,
+                "attributes": {
+                },
+                "images": [
+                    "https:\/\/cos.flexvault.de\/shop-images\/805289526575_Front_RayBan_V2.jpg",
+                    "https:\/\/cos.flexvault.de\/shop-images\/805289526575_Angle_RayBan_V2.jpg"
+                ],
+                "isOnStock": true
+            },
+            "type": "variant",
+            "lineItemId": "de74bc5c-9995-4a95-99d0-b6ba01769d85",
+            "name": "ray-ban sonnenbrillen herren",
+            "count": 1,
+            "price": 13000,
+            "discountedPrice": null,
+            "discountTexts": [],
+            "totalPrice": 13000,
+            "currency": "EUR",
+            "isGift": false,
+            "rawApiInput": [],
+            "projectSpecificData": []
+        },
+        {
+            "_type": "Frontastic\\Common\\CartApiBundle\\Domain\\LineItem\\Variant",
+            "variant": {
+                "_type": "Frontastic\\Common\\ProductApiBundle\\Domain\\Variant",
+                "id": "1",
+                "sku": "10108411",
+                "groupId": null,
+                "price": null,
+                "discountedPrice": null,
+                "discounts": [],
+                "currency": null,
+                "attributes": {
+                },
+                "images": [
+                    "https:\/\/cos.flexvault.de\/shop-images\/805289052418_Front_RayBan_V2.jpg",
+                    "https:\/\/cos.flexvault.de\/shop-images\/805289052418_Angle_RayBan_V2.jpg"
+                ],
+                "isOnStock": true
+            },
+            "type": "variant",
+            "lineItemId": "240e80b7-3931-40a6-b36c-bae540ae0c45",
+            "name": "ray-ban sonnenbrillen herren",
+            "count": 2,
+            "price": 10000,
+            "discountedPrice": null,
+            "discountTexts": [],
+            "totalPrice": 20000,
+            "currency": "EUR",
+            "isGift": false,
+            "rawApiInput": [],
+            "projectSpecificData": []
+        },
+        {
+            "_type": "Frontastic\\Common\\CartApiBundle\\Domain\\LineItem\\Variant",
+            "variant": {
+                "_type": "Frontastic\\Common\\ProductApiBundle\\Domain\\Variant",
+                "id": "1",
+                "sku": "10262227",
+                "groupId": null,
+                "price": null,
+                "discountedPrice": null,
+                "discounts": [],
+                "currency": null,
+                "attributes": {
+                },
+                "images": [
+                    "https:\/\/cos.flexvault.de\/shop-images\/8719154233036_FRONT_InStyle_HD.jpg",
+                    "https:\/\/cos.flexvault.de\/shop-images\/8719154233036_ANGLE_InStyle_HD.jpg"
+                ],
+                "isOnStock": true
+            },
+            "type": "variant",
+            "lineItemId": "573a8ea7-5912-414c-aade-12f7104ce591",
+            "name": "in-style sonnenbrillen herren",
+            "count": 1,
+            "price": 7000,
+            "discountedPrice": null,
+            "discountTexts": [
+                {
+                    "de": "Sonnenbrillen Special 2019 "
+                }
+            ],
+            "totalPrice": 2000,
+            "currency": "EUR",
+            "isGift": false,
+            "rawApiInput": [],
+            "projectSpecificData": []
+        },
+        {
+            "_type": "Frontastic\\Common\\CartApiBundle\\Domain\\LineItem",
+            "lineItemId": "de74bc5c-9995-4a95-99d0-b6ba01769d85",
+            "name": "ray-ban sonnenbrillen herren",
+            "type": null,
+            "count": 1,
+            "price": 5000,
+            "discountedPrice": null,
+            "discountTexts": [],
+            "totalPrice": 22000,
+            "currency": null,
+            "isGift": false,
+            "rawApiInput": [],
+            "projectSpecificData": []
+        }
+    ],
+    "email": "juergen@was-wollen-wir-trinken.de",
+    "birthday": null,
+    "shippingMethod": {
+        "_type": "Frontastic\\Common\\CartApiBundle\\Domain\\ShippingMethod",
+        "name": "Versand an Lieferadresse",
+        "price": 0
+    },
+    "shippingAddress": {
+        "_type": "Frontastic\\Common\\AccountApiBundle\\Domain\\Address",
+        "addressId": "vSO4VhF-",
+        "salutation": "Herr",
+        "firstName": "Max",
+        "lastName": "Mustermann",
+        "streetName": "Musterstrasse",
+        "streetNumber": "23",
+        "additionalStreetInfo": "",
+        "additionalAddressInfo": null,
+        "postalCode": "12345",
+        "city": "Musterstadt",
+        "country": "DE",
+        "state": null,
+        "phone": null,
+        "isDefaultBillingAddress": false,
+        "isDefaultShippingAddress": false,
+        "rawApiInput": [],
+        "projectSpecificData": []
+    },
+    "billingAddress": {
+        "_type": "Frontastic\\Common\\AccountApiBundle\\Domain\\Address",
+        "addressId": "hjnUSQo7",
+        "salutation": "Frau",
+        "firstName": "Erika",
+        "lastName": "Mustermann",
+        "streetName": "Musterstrasse",
+        "streetNumber": "23",
+        "additionalStreetInfo": "",
+        "additionalAddressInfo": null,
+        "postalCode": "12345",
+        "city": "Musterstadt",
+        "country": "DE",
+        "state": null,
+        "phone": null,
+        "isDefaultBillingAddress": false,
+        "isDefaultShippingAddress": false,
+        "rawApiInput": [],
+        "projectSpecificData": []
+    },
+    "sum": 35000,
+    "currency": "EUR",
+    "payments": [
+        {
+            "_type": "Frontastic\\Common\\CartApiBundle\\Domain\\Payment",
+            "id": null,
+            "paymentProvider": "paypal",
+            "paymentId": "7ba6efec-da46-4b06-98c0-412feb9180dd",
+            "amount": 20000,
+            "currency": "EUR",
+            "debug": "{\"id\":\"b8093489-8dfb-4143-b5fe-1d8f70054814\",\"version\":1,\"lastMessageSequenceNumber\":1,\"createdAt\":\"2019-04-15T12:24:47.708Z\",\"lastModifiedAt\":\"2019-04-15T12:24:47.708Z\",\"lastModifiedBy\":{\"clientId\":\"LCgPDfSYGJTHBUp71noJvQNA\",\"isPlatformClient\":false},\"createdBy\":{\"clientId\":\"LCgPDfSYGJTHBUp71noJvQNA\",\"isPlatformClient\":false},\"interfaceId\":\"7ba6efec-da46-4b06-98c0-412feb9180dd\",\"amountPlanned\":{\"type\":\"centPrecision\",\"currencyCode\":\"EUR\",\"centAmount\":10000,\"fractionDigits\":2},\"paymentMethodInfo\":{\"paymentInterface\":\"paypal\"},\"paymentStatus\":{\"interfaceCode\":\"paid\",\"interfaceText\":\"{}\"},\"transactions\":[],\"interfaceInteractions\":[]}",
+            "paymentStatus": "failed",
+            "version": 1,
+            "paymentMethod": null,
+            "paymentDetails": null,
+            "rawApiInput": [],
+            "projectSpecificData": []
+        },
+        {
+            "_type": "Frontastic\\Common\\CartApiBundle\\Domain\\Payment",
+            "id": null,
+            "paymentProvider": "paypal",
+            "paymentId": "7ba6efec-da46-4b06-98c0-412feb9180dd",
+            "amount": 20000,
+            "currency": "EUR",
+            "debug": "{\"id\":\"b8093489-8dfb-4143-b5fe-1d8f70054814\",\"version\":1,\"lastMessageSequenceNumber\":1,\"createdAt\":\"2019-04-15T12:24:47.708Z\",\"lastModifiedAt\":\"2019-04-15T12:24:47.708Z\",\"lastModifiedBy\":{\"clientId\":\"LCgPDfSYGJTHBUp71noJvQNA\",\"isPlatformClient\":false},\"createdBy\":{\"clientId\":\"LCgPDfSYGJTHBUp71noJvQNA\",\"isPlatformClient\":false},\"interfaceId\":\"7ba6efec-da46-4b06-98c0-412feb9180dd\",\"amountPlanned\":{\"type\":\"centPrecision\",\"currencyCode\":\"EUR\",\"centAmount\":10000,\"fractionDigits\":2},\"paymentMethodInfo\":{\"paymentInterface\":\"paypal\"},\"paymentStatus\":{\"interfaceCode\":\"paid\",\"interfaceText\":\"{}\"},\"transactions\":[],\"interfaceInteractions\":[]}",
+            "paymentStatus": "paid",
+            "version": 1,
+            "paymentMethod": null,
+            "paymentDetails": null,
+            "rawApiInput": [],
+            "projectSpecificData": []
+        },
+        {
+            "_type": "Frontastic\\Common\\CartApiBundle\\Domain\\Payment",
+            "id": null,
+            "paymentProvider": "paypal",
+            "paymentId": "79b37c00-f700-43c1-9b98-efc39d795f39",
+            "amount": 15000,
+            "currency": "EUR",
+            "debug": "{\"id\":\"a7def123-6b33-4491-a512-cb6fe75a2493\",\"version\":1,\"lastMessageSequenceNumber\":1,\"createdAt\":\"2019-04-24T08:51:29.845Z\",\"lastModifiedAt\":\"2019-04-24T08:51:29.845Z\",\"lastModifiedBy\":{\"clientId\":\"LCgPDfSYGJTHBUp71noJvQNA\",\"isPlatformClient\":false},\"createdBy\":{\"clientId\":\"LCgPDfSYGJTHBUp71noJvQNA\",\"isPlatformClient\":false},\"interfaceId\":\"79b37c00-f700-43c1-9b98-efc39d795f39\",\"amountPlanned\":{\"type\":\"centPrecision\",\"currencyCode\":\"EUR\",\"centAmount\":15000,\"fractionDigits\":2},\"paymentMethodInfo\":{\"paymentInterface\":\"paypal\"},\"paymentStatus\":{\"interfaceCode\":\"paid\",\"interfaceText\":\"{}\"},\"transactions\":[],\"interfaceInteractions\":[]}",
+            "paymentStatus": "paid",
+            "version": 1,
+            "paymentMethod": null,
+            "paymentDetails": null,
+            "rawApiInput": [],
+            "projectSpecificData": []
+        }
+    ],
+    "discountCodes": [],
+    "rawApiInput": [],
+    "projectSpecificData": []
+}

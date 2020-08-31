@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 
 import thunk from 'redux-thunk'
-import _ from 'lodash'
 
 import Entity from './entity'
 import createReducer from './reducer'
@@ -69,8 +68,8 @@ export default () => {
             facet: {
                 facets: new Entity(
                     // @TODO: Clone from app/loader/facet.js – extract!
-                    _.map(props.facets, (facetConfig) => {
-                        let facetConfigNew = _.cloneDeep(facetConfig)
+                    (props.facets || []).map((facetConfig) => {
+                        let facetConfigNew = JSON.parse(JSON.stringify(facetConfig))
                         facetConfigNew.facetOptions = new ConfigurationSchema(
                             (FacetTypeSchemaMap[facetConfig.attributeType] || {}).schema || [],
                             facetConfig.facetOptions

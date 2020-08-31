@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 import UrlState from './urlHandler/urlState'
 import ParameterHandlerFactory from './urlHandler/parameterHandlerFactory'
 
@@ -25,7 +23,7 @@ let UrlHandler = function (route, streamConfigurations) {
      */
     this.deriveParameters = (manipulator) => {
         const urlState = new UrlState(
-            _.cloneDeep(this.route.query),
+            JSON.parse(JSON.stringify(this.route.query)),
             new ParameterHandlerFactory(this.streamConfigurations, false)
         )
 

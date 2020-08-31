@@ -1,6 +1,3 @@
-
-import _ from 'lodash'
-
 import ProductStreamParameters from './productStreamParameters'
 
 /**
@@ -29,12 +26,12 @@ const ParameterHandlerFactory = function (streamConfigurations, readOnly = true)
      * @return {Object<string, ProductStreamParameters>}
      */
     this.createParameterHandlerMap = (parameters) => {
-        return _.mapValues(
-            _.keyBy(this.streamConfigurations, 'streamId'),
-            (streamConfiguration) => {
-                return this.createParameterHandler(streamConfiguration.streamId, parameters)
-            }
-        )
+        let streamConfigurations = {}
+        for (let streamConfiguration of this.streamConfigurations) {
+            streamConfigurations[streamConfiguration.streamId] = this.createParameterHandler(streamConfiguration.streamId, parameters)
+        }
+
+        return streamConfigurations
     }
 }
 
