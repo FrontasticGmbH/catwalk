@@ -41,10 +41,4 @@ AtomsHeading.defaultProps = {
     className: '',
 }
 
-// These are just default props for the pattern library
-AtomsHeading.testProps = {
-    children: 'Heading Example',
-    type: 'alpha',
-}
-
 export default ComponentInjector.return('AtomsHeading', AtomsHeading)

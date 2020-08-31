@@ -37,9 +37,4 @@ AtomsNotification.defaultProps = {
     autoHideDuration: null,
 }
 
-// These are just default props for the pattern library
-AtomsNotification.testProps = {
-    message: 'Notification!',
-}
-
 export default ComponentInjector.return('AtomsNotification', AtomsNotification)

@@ -4,8 +4,6 @@ import classnames from 'classnames'
 
 import ComponentInjector from '../../../app/injector'
 
-import fixture from '../../fixture'
-
 import MoleculesImage from '../images/image'
 
 class MoleculesBlockTextImage extends Component {
@@ -34,12 +32,6 @@ MoleculesBlockTextImage.defaultProps = {
     className: '',
     children: null,
     reverse: false,
-}
-
-// These are just default props for the pattern library
-MoleculesBlockTextImage.testProps = {
-    media: fixture.image.person,
-    children: fixture.excerpt.medium,
 }
 
 export default ComponentInjector.return('MoleculesBlockTextImage', MoleculesBlockTextImage)

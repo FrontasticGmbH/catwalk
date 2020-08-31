@@ -53,11 +53,4 @@ AtomsButton.defaultProps = {
     full: false,
 }
 
-// These are just default props for the pattern library
-AtomsButton.testProps = {
-    children: 'Button',
-    type: 'primary',
-    full: true,
-}
-
 export default ComponentInjector.return('AtomsButton', AtomsButton)
