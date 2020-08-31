@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router } from 'react-router-dom'
 
-import throttle from '@frontastic/common/src/js/helper/throttle'
+import debounce from '@frontastic/common/src/js/helper/debounce'
 import app from './app/app'
 import logDebugStatements from './app/logDebugStatements'
 import createStore from './app/store'
@@ -180,7 +180,7 @@ const hydrate = (store, mountNode, dispatchViewportDimensions) => {
                 })
 
                 dispatchViewportDimensions()
-                window.addEventListener('resize', throttle(dispatchViewportDimensions, 500))
+                window.addEventListener('resize', debounce(dispatchViewportDimensions, 500))
 
                 if (isDevelopment && !isIE()) {
                     const diffLog = require('./app/htmlDiff/differ').default
