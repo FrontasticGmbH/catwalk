@@ -11,7 +11,7 @@ class UrlContext {
         return route.route + '-' + JSON.stringify(UrlContext.getActionParameters(route.parameters))
     }
 
-    static getActionParameters = (parameters) => {
+    static getActionParameters = (parameters = {}) => {
         let actionParameters = {}
 
         for (let [parameter, value] of Object.entries(parameters)) {
