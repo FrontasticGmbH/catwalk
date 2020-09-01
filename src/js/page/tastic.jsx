@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import deprecate from '@frontastic/common/src/js/helper/deprecate'
 import ErrorBoundary from '../app/errorBoundary'
 import configurationResolver from '../app/configurationResolver'
 import { useDeviceType } from '../helper/hooks/useDeviceType'
@@ -61,6 +62,13 @@ const TasticWrapper = (props) => {
         )
     }
     let Tastic = allTasticComponentsMap[tasticToRenderConfiguration.tasticType]
+
+    // Check that all Tastics are wrapped into tastify() and trigger a
+    // deprecation notice otherwise
+    if (typeof Tastic !== 'function' || Tastic.name !== 'TastifiedTastic') {
+        let tasticName = Tastic.name || Tastic.WrappedComponent.name
+        deprecate(`Please wrap the Tastic ${tasticName} into tastify() (@frontastic/catwalk/src/js/helper/tastify / https://docs.frontastic.cloud/article/176-catwalk-performance#Tastify) for better rendering performance`)
+    }
 
     // Do not render the tastic if it was hidden for this device type
     if (!resolvedTasticData[deviceType]) {
