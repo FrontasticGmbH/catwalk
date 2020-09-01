@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import withTranslatedTasticData from '../component/withTranslatedTasticData'
+
 /**
  * An object of possible selectors for tastify()
  *
@@ -35,6 +37,10 @@ const availableSelectors = {
  */
 const connectedTasticForConfiguration = (Tastic, configuration) => {
     const selectors = {}
+
+    if (configuration.translate) {
+        Tastic = withTranslatedTasticData(Tastic)
+    }
 
     Object.keys(availableSelectors).forEach(selectorName => {
         if (configuration.connect[selectorName]) {
