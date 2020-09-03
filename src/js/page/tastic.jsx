@@ -6,6 +6,7 @@ import deprecate from '@frontastic/common/src/js/helper/deprecate'
 import ErrorBoundary from '../app/errorBoundary'
 import configurationResolver from '../app/configurationResolver'
 import { useDeviceType } from '../helper/hooks/useDeviceType'
+import tastify from '../helper/tastify'
 
 const getStreamIdsForTasticSchema = (schema) => {
     return Object.keys(schema.fields)
@@ -66,8 +67,12 @@ const TasticWrapper = (props) => {
     // Check that all Tastics are wrapped into tastify() and trigger a
     // deprecation notice otherwise
     if (typeof Tastic !== 'function' || Tastic.name !== 'TastifiedTastic') {
-        let tasticName = Tastic.name || Tastic.WrappedComponent.name || 'UnknownTastic'
-        deprecate(`Please wrap the Tastic ${tasticName} into tastify() (@frontastic/catwalk/src/js/helper/tastify / https://docs.frontastic.cloud/article/176-catwalk-performance#Tastify) for better rendering performance`)
+        if (props.autoTastify) {
+            Tastic = tastify({ translate: true })(Tastic)
+        } else {
+            let tasticName = Tastic.name || Tastic.WrappedComponent.name || 'UnknownTastic'
+            deprecate(`Please wrap the Tastic ${tasticName} into tastify() (@frontastic/catwalk/src/js/helper/tastify / https://docs.frontastic.cloud/article/176-catwalk-performance#Tastify) for better rendering performance`)
+        }
     }
 
     // Do not render the tastic if it was hidden for this device type
@@ -114,5 +119,6 @@ TasticWrapper.defaultProps = {
 export default connect((globalState) => {
     return {
         isDebug: !!(globalState.app.context && globalState.app.context.isDevelopment()),
+        autoTastify: !!(globalState.app.context?.project?.data?.autoTastify || false),
     }
 })(TasticWrapper)
