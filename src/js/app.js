@@ -46,12 +46,14 @@ function appCreator (mountNode, dataNode, tastics = null) {
     let props = JSON.parse(dataNode.getAttribute('data-props'))
     let context = new Context(props.context)
 
-    if (context.isDevelopment() && dataNode.hasAttribute('data-debug')) {
-        logDebugStatements(
-            JSON.parse(dataNode.getAttribute('data-debug')),
-            'GET (most likely)', // HTTP method cannot be detected in JS
-            ((window || {}).location || {}).pathname
-        )
+    try {
+		logDebugStatements(
+		    JSON.parse(dataNode.getAttribute('data-debug')),
+		    'GET (most likely)', // HTTP method cannot be detected in JS
+		    ((window || {}).location || {}).pathname
+		)
+    } catch (e) {
+        console.log('Error parsing debug JSON. This is a bug.', e)
     }
 
     let store = createStore()
