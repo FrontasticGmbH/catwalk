@@ -17,17 +17,19 @@ class Image extends Component {
         this.state = {
             loading: true,
             error: false,
+            width: null,
+            height: null,
         }
     }
 
-    mediaApi = new MediaApi()
+    static mediaApi = new MediaApi()
 
     getAltText = () => {
         return this.props.title || this.props.media.name
     }
 
-    getInputImageDimensions = () => {
-        const { forceWidth, forceHeight, media, width, height } = this.props
+    static getInputImageDimensions (props) {
+        const { forceWidth, forceHeight, media, width, height } = props
 
         if ((forceWidth || forceHeight) && media && media.width && media.height) {
             return [
@@ -36,16 +38,18 @@ class Image extends Component {
             ]
         }
 
-        // on initial load it can happen, especially in production, that props.width and height are NULL.
-        // This caused a bunch of issues with images being only a few pixels tall.
-        // So we do a NULL check on that. If that's the case we check if the media object is there
-        // and if we can use the metadata in there. Lastly it falls back to 0.
+        // On initial load it can happen, especially in production, that
+        // props.width and height are NULL. This caused a bunch of issues with
+        // images being only a few pixels tall. So we do a NULL check on that.
+        // If that's the case we check if the media object is there and if we
+        // can use the metadata in there. Lastly it falls back to a device
+        // default.
         let inputHeight = height
         if (height === null) {
             if (media) {
                 inputHeight = media.height
             } else {
-                inputHeight = 0
+                inputHeight = null
             }
         }
         let inputWidth = width
@@ -53,11 +57,38 @@ class Image extends Component {
             if (media) {
                 inputWidth = media.width
             } else {
-                inputWidth = 0
+                inputWidth = props.deviceType === 'mobile' ? 512 : 1024
             }
         }
 
         return [inputWidth, inputHeight]
+    }
+
+    static getDerivedStateFromProps (props, state) {
+        const [inputWidth, inputHeight] = Image.getInputImageDimensions(props)
+
+        const [width, height] = Image.mediaApi.getImageDimensions(
+            props.media,
+            inputWidth,
+            inputHeight,
+            props.cropRatio
+        )
+
+        // Obnly update actually rendered image width if the size of the image
+        // differes in a relevant way (needs be larger, needs to be more then
+        // three times smaller). Otherwise jsut keep the original image to not
+        // load stuff again and again.
+        if ((width > state.width) ||
+            (height > state.height) ||
+            (width < (state.width / 3))) {
+            return {
+                ...state,
+                width,
+                height,
+            }
+        } else {
+            return state
+        }
     }
 
     render () {
@@ -77,21 +108,12 @@ class Image extends Component {
             'dispatch',
         ]
 
-        const [inputWidth, inputHeight] = this.getInputImageDimensions()
-
-        const [width, height] = this.mediaApi.getImageDimensions(
-            this.props.media,
-            inputWidth,
-            inputHeight,
-            this.props.cropRatio
-        )
-
-        if (this.state.error || !width || !height) {
+        if (this.state.error || !this.state.width || !this.state.height) {
             return (
                 <img
                     style={this.props.style}
-                    width={width}
-                    height={height}
+                    width={this.state.width}
+                    height={this.state.height}
                     alt={this.getAltText()}
                     src={NoImage}
                     {...omit(this.props, omitedProperties)}
@@ -107,24 +129,24 @@ class Image extends Component {
                 onLoad={() => {
                     this.setState({ loading: false })
                 }}
-                width={width}
-                height={height}
+                width={this.state.width}
+                height={this.state.height}
                 alt={this.getAltText()}
-                src={this.mediaApi.getImageLink(
+                src={Image.mediaApi.getImageLink(
                     this.props.media,
                     this.props.context.project.configuration,
-                    inputWidth,
-                    inputHeight,
+                    this.state.width,
+                    this.state.height,
                     this.props.cropRatio,
                     this.props.options
                 )}
                 srcSet={[1, 2].map((factor) => {
                     return [
-                        this.mediaApi.getImageLink(
+                        Image.mediaApi.getImageLink(
                             this.props.media,
                             this.props.context.project.configuration,
-                            inputWidth,
-                            inputHeight,
+                            this.state.width,
+                            this.state.height,
                             this.props.cropRatio,
                             this.props.options,
                             factor
@@ -143,6 +165,7 @@ class Image extends Component {
 
 Image.propTypes = {
     context: PropTypes.object.isRequired,
+    deviceType: PropTypes.string.isRequired,
     media: PropTypes.object.isRequired,
     title: PropTypes.string,
     width: PropTypes.number,
@@ -172,5 +195,6 @@ Image.defaultProps = {
 export default connect((globalState) => {
     return {
         context: globalState.app.context,
+        deviceType: globalState.renderContext.deviceType,
     }
 })(sizer({ getSize: MediaApi.getElementDimensions })(Image))
