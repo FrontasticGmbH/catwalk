@@ -1,4 +1,8 @@
-export default (debugStatements, method = '', route = '') => {
+export default (debugStatements = null, method = '', route = '') => {
+    if (!debugStatements) {
+        return
+    }
+
     // eslint-disable-next-line no-console
     console.groupCollapsed(
         '%c💻 %c%s (%s: %s)',
