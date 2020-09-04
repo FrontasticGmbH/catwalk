@@ -81,6 +81,36 @@ class Preview extends Component {
         this.webSocket.onclose = this.connectWebSocket
     }
 
+    sendMessage (message) {
+        message.Channel = this.props.previewId
+        this.webSocket.send(JSON.stringify(message))
+    }
+
+    handleMessage (message) {
+        let page = null
+        let position = null
+        let highlight = null
+
+        switch (message.Name) {
+        case 'Refresh':
+            app.getLoader('node').reloadPreview({ preview: this.props.previewId })
+            break
+        case 'Highlight':
+            this.setState({ highlight: message.Payload.item })
+            break
+        case 'EndHighlight':
+            this.setState({ highlight: null })
+            break
+        case 'Ping':
+            // Ignore
+            break
+        default:
+            // eslint-disable-next-line no-console
+            console.info('Unknown message', message)
+            // Do nothing for other messages
+        }
+    }
+
     webSocket = null
 
     render () {
