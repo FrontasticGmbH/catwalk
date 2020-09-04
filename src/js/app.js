@@ -47,12 +47,13 @@ function appCreator (mountNode, dataNode, tastics = null) {
     let context = new Context(props.context)
 
     try {
-		logDebugStatements(
-		    JSON.parse(dataNode.getAttribute('data-debug')),
-		    'GET (most likely)', // HTTP method cannot be detected in JS
-		    ((window || {}).location || {}).pathname
-		)
+        logDebugStatements(
+            JSON.parse(dataNode.getAttribute('data-debug')),
+            'GET (most likely)', // HTTP method cannot be detected in JS
+            ((window || {}).location || {}).pathname
+        )
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.log('Error parsing debug JSON. This is a bug.', e)
     }
 
