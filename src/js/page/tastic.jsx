@@ -110,10 +110,12 @@ TasticWrapper.propTypes = {
     data: PropTypes.object.isRequired,
     highlight: PropTypes.any,
     isDebug: PropTypes.bool,
+    autoTastify: PropTypes.bool,
 }
 
 TasticWrapper.defaultProps = {
     isDebug: false,
+    autoTastify: false,
 }
 
 export default connect((globalState) => {
