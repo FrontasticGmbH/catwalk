@@ -12,11 +12,14 @@ class Markdown extends Component {
     componentDidMount () {
         let links = this.refs.markdown.querySelectorAll('a')
         for (let link of links) {
-            link.onclick = (event) => {
-                event.preventDefault()
+            const ref = link.getAttribute('href')
+            if (ref.indexOf('://') === -1) { // only prevent default if it's not an external link
+                link.onclick = (event) => {
+                    event.preventDefault()
 
-                // @TODO: We might need handling for fragment links, too
-                app.getRouter().history.push(link.getAttribute('href'))
+                    // @TODO: We might need handling for fragment links, too
+                    app.getRouter().history.push(link.getAttribute('href'))
+                }
             }
         }
     }
