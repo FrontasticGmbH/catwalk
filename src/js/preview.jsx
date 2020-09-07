@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import Notifier from '@frontastic/common/src/js/notifier'
 import app from './app/app'
 
 import Page from './page/page'
@@ -44,74 +45,35 @@ class Preview extends Component {
     }
 
     connectWebSocket () {
-        if (!this.props) {
+        if (!this.props || !this.props.previewId || this.notifier) {
             // If called when page is closing, web socket disconnects, but the
             // component does not exist any more
             return
         }
 
-        let socketUrl = ((this.props.context.environment === 'dev') ?
-            'ws://demo.frontastic.io.local:8080' :
-            // @TODO: Change this to the actual customer domain, like apollo.frontastic.io
-            'wss://demo.frontastic.io:8080') +
-            '/ws?preview=' + this.props.previewId
-
-        this.webSocket = new WebSocket(socketUrl)
-        this.webSocket.onmessage = (event) => {
-            let message = JSON.parse(event.data)
-            switch (message.Name) {
-            case 'Refresh':
-                app.getLoader('node').reloadPreview({ preview: this.props.previewId })
-                break
-            case 'Highlight':
-                this.setState({ highlight: message.Payload.item })
-                break
-            case 'EndHighlight':
-                this.setState({ highlight: null })
-                break
-            case 'Ping':
-                // Ignore
-                break
-            default:
-                // eslint-disable-next-line no-console
-                console.info(message)
-                // Do nothing for other messages
+        this.notifier = new Notifier(
+            {
+                isDebug: (this.props.context.environment === 'dev'),
+                previewId: this.props.previewId,
+            },
+            {
+                Refresh: () => {
+                    app.getLoader('node').reloadPreview({ preview: this.props.previewId })
+                },
+                Select: (payload) => {
+                    this.setState({ highlight: payload.item })
+                },
+                Highlight: (payload) => {
+                    this.setState({ highlight: payload.item })
+                },
+                EndHighlight: () => {
+                    this.setState({ highlight: null })
+                },
             }
-        }
-        this.webSocket.onclose = this.connectWebSocket
+        )
     }
 
-    sendMessage (message) {
-        message.Channel = this.props.previewId
-        this.webSocket.send(JSON.stringify(message))
-    }
-
-    handleMessage (message) {
-        let page = null
-        let position = null
-        let highlight = null
-
-        switch (message.Name) {
-        case 'Refresh':
-            app.getLoader('node').reloadPreview({ preview: this.props.previewId })
-            break
-        case 'Highlight':
-            this.setState({ highlight: message.Payload.item })
-            break
-        case 'EndHighlight':
-            this.setState({ highlight: null })
-            break
-        case 'Ping':
-            // Ignore
-            break
-        default:
-            // eslint-disable-next-line no-console
-            console.info('Unknown message', message)
-            // Do nothing for other messages
-        }
-    }
-
-    webSocket = null
+    notifier = null
 
     render () {
         if (!this.props.tastics.isComplete() ||
