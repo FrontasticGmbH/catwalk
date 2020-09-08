@@ -50,4 +50,3 @@ Argument|Type|Default|Description
 
 Return Value: `\GuzzleHttp\Promise\PromiseInterface`
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

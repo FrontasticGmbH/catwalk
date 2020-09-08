@@ -4,8 +4,7 @@
 
 **Extends**: [`Configuration`](../Configuration.md)
 
-Property|Type|Default|Required|Description
---------|----|-------|--------|-----------
-`size` | `` | `12` | - | 
+Property|Type|Default|Description
+--------|----|-------|-----------
+`size`|``|`12`|
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

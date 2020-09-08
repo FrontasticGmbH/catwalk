@@ -35,4 +35,3 @@ Argument|Type|Default|Description
 
 Return Value: `mixed`
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

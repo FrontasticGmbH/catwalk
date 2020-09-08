@@ -14,7 +14,6 @@ in a lifecycle event listener.
 
 * [__construct()](#__construct)
 * [getCategories()](#getcategories)
-* [queryCategories()](#querycategories)
 * [getProductTypes()](#getproducttypes)
 * [getProduct()](#getproduct)
 * [query()](#query)
@@ -47,20 +46,6 @@ Argument|Type|Default|Description
 `$query`|`\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery`||
 
 Return Value: `array`
-
-### queryCategories()
-
-```php
-public function queryCategories(
-    \Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery $query
-): \Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result
-```
-
-Argument|Type|Default|Description
---------|----|-------|-----------
-`$query`|`\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery`||
-
-Return Value: `\Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result`
 
 ### getProductTypes()
 
@@ -128,4 +113,3 @@ Frontastic about provising an abstraction.
 
 Return Value: `mixed`
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

@@ -34,4 +34,3 @@ public function provideContext(): Context
 
 Return Value: [`Context`](Context.md)
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

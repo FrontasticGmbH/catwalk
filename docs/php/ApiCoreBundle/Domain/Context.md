@@ -4,19 +4,19 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-Property|Type|Default|Required|Description
---------|----|-------|--------|-----------
-`environment` | `string` | `'prod'` | - | Symfony environment
-`customer` | `\Frontastic\Common\ReplicatorBundle\Domain\Customer` |  | - | 
-`project` | `\Frontastic\Common\ReplicatorBundle\Domain\Project` |  | - | 
-`projectConfiguration` | `array` | `[]` | - | 
-`projectConfigurationSchema` | `array` | `[]` | - | 
-`locale` | `string` |  | - | 
-`currency` | `string` | `'EUR'` | - | 
-`routes` | `string[]` | `[]` | - | 
-`session` | `\Frontastic\Common\AccountApiBundle\Domain\Session` | `null` | - | 
-`featureFlags` | `` | `[]` | - | 
-`host` | `string` |  | - | 
+Property|Type|Default|Description
+--------|----|-------|-----------
+`environment`|`string`|`'prod'`|Symfony environment
+`customer`|`\Frontastic\Common\ReplicatorBundle\Domain\Customer`||
+`project`|`\Frontastic\Common\ReplicatorBundle\Domain\Project`||
+`projectConfiguration`|`array`|`[]`|
+`projectConfigurationSchema`|`array`|`[]`|
+`locale`|`string`||
+`currency`|`string`|`'EUR'`|
+`routes`|`string[]`|`[]`|
+`session`|`\Frontastic\Common\AccountApiBundle\Domain\Session`|`null`|
+`featureFlags`|``|`[]`|
+`host`|`string`||
 
 ## Methods
 
@@ -69,4 +69,3 @@ public function isProduction(): bool
 
 Return Value: `bool`
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

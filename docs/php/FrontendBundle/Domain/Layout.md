@@ -4,14 +4,13 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-Property|Type|Default|Required|Description
---------|----|-------|--------|-----------
-`layoutId` | `string` |  | - | 
-`sequence` | `string` |  | - | 
-`name` | `string` |  | - | 
-`description` | `string` |  | - | 
-`image` | `string` |  | - | 
-`regions` | `string[]` | `[]` | - | 
-`metaData` | `\Frontastic\UserBundle\Domain\MetaData` |  | - | 
+Property|Type|Default|Description
+--------|----|-------|-----------
+`layoutId`|`string`||
+`sequence`|`string`||
+`name`|`string`||
+`description`|`string`||
+`image`|`string`||
+`regions`|`string[]`|`[]`|
+`metaData`|`\Frontastic\UserBundle\Domain\MetaData`||
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

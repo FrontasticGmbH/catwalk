@@ -87,4 +87,3 @@ public function getEnabled(): array
 
 Return Value: `array`
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

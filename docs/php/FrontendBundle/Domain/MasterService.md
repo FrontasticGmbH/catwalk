@@ -9,7 +9,6 @@
 * [__construct()](#__construct)
 * [matchNodeId()](#matchnodeid)
 * [completeDefaultQuery()](#completedefaultquery)
-* [completeTasticStreamConfigurationWithMasterDefault()](#completetasticstreamconfigurationwithmasterdefault)
 * [lastUpdate()](#lastupdate)
 * [replicate()](#replicate)
 
@@ -18,7 +17,6 @@
 ```php
 public function __construct(
     \Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway $rulesGateway,
-    TasticService $tasticService,
     \RulerZ\RulerZ $rulerz
 ): mixed
 ```
@@ -26,7 +24,6 @@ public function __construct(
 Argument|Type|Default|Description
 --------|----|-------|-----------
 `$rulesGateway`|`\Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway`||
-`$tasticService`|[`TasticService`](../../ApiCoreBundle/Domain/TasticService.md)||
 `$rulerz`|`\RulerZ\RulerZ`||
 
 Return Value: `mixed`
@@ -36,14 +33,14 @@ Return Value: `mixed`
 ```php
 public function matchNodeId(
     PageMatcherContext $context
-): string
+): mixed
 ```
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
 `$context`|[`PageMatcherContext`](PageMatcher/PageMatcherContext.md)||
 
-Return Value: `string`
+Return Value: `mixed`
 
 ### completeDefaultQuery()
 
@@ -62,26 +59,6 @@ Argument|Type|Default|Description
 `$itemId`|`?string`||
 
 Return Value: `array`
-
-### completeTasticStreamConfigurationWithMasterDefault()
-
-```php
-public function completeTasticStreamConfigurationWithMasterDefault(
-    Page $page,
-    string $pageType
-): void
-```
-
-*Fixes that Backstage does not send proper __master for singleton master pages.*
-
-This should eventually be fixed in Backstage, but requires a migration phase.
-
-Argument|Type|Default|Description
---------|----|-------|-----------
-`$page`|[`Page`](Page.md)||
-`$pageType`|`string`||
-
-Return Value: `void`
 
 ### lastUpdate()
 
@@ -105,4 +82,3 @@ Argument|Type|Default|Description
 
 Return Value: `void`
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

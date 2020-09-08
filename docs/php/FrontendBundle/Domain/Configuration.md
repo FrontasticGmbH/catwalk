@@ -4,11 +4,11 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-Property|Type|Default|Required|Description
---------|----|-------|--------|-----------
-`mobile` | `bool` | `true` | - | 
-`tablet` | `bool` | `true` | - | 
-`desktop` | `bool` | `true` | - | 
+Property|Type|Default|Description
+--------|----|-------|-----------
+`mobile`|`bool`|`true`|
+`tablet`|`bool`|`true`|
+`desktop`|`bool`|`true`|
 
 ## Methods
 
@@ -22,4 +22,3 @@ public function getVisibilityClasses(): string
 
 Return Value: `string`
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

@@ -4,10 +4,9 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-Property|Type|Default|Required|Description
---------|----|-------|--------|-----------
-`nodeId` | `string` |  | - | 
-`route` | `string` |  | - | 
-`locale` | `?string` |  | - | 
+Property|Type|Default|Description
+--------|----|-------|-----------
+`nodeId`|`string`||
+`route`|`string`||
+`locale`|`?string`||
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

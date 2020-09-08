@@ -2,12 +2,10 @@
 
 **Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator`](../../../../../src/php/FrontendBundle/Domain/RenderService/ResponseDecorator.php)
 
-This is important for SEO, otherwise the pages without SSR might end up in
-search engine indexes.
-
 ## Methods
 
 * [setTimedOut()](#settimedout)
+* [onKernelException()](#onkernelexception)
 * [onKernelResponse()](#onkernelresponse)
 
 ### setTimedOut()
@@ -18,18 +16,31 @@ public function setTimedOut(): mixed
 
 Return Value: `mixed`
 
-### onKernelResponse()
+### onKernelException()
 
 ```php
-public function onKernelResponse(
-    \Symfony\Component\HttpKernel\Event\ResponseEvent $event
+public function onKernelException(
+    \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
 ): mixed
 ```
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
-`$event`|`\Symfony\Component\HttpKernel\Event\ResponseEvent`||
+`$event`|`\Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent`||
 
 Return Value: `mixed`
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
+### onKernelResponse()
+
+```php
+public function onKernelResponse(
+    \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
+): mixed
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$event`|`\Symfony\Component\HttpKernel\Event\FilterResponseEvent`||
+
+Return Value: `mixed`
+

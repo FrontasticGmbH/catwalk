@@ -98,4 +98,3 @@ Argument|Type|Default|Description
 
 Return Value: `array`
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

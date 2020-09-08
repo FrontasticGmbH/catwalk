@@ -4,12 +4,11 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-Property|Type|Default|Required|Description
---------|----|-------|--------|-----------
-`projectConfigurationId` | `string` |  | - | 
-`configuration` | `` |  | - | array
-`metaData` | `\Frontastic\Backstage\UserBundle\Domain\MetaData` |  | - | 
-`sequence` | `string` |  | - | 
-`isDeleted` | `bool` | `false` | - | 
+Property|Type|Default|Description
+--------|----|-------|-----------
+`projectConfigurationId`|`string`||
+`configuration`|``||array
+`metaData`|`\Frontastic\Backstage\UserBundle\Domain\MetaData`||
+`sequence`|`string`||
+`isDeleted`|`bool`|`false`|
 
-Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
