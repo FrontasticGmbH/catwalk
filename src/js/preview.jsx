@@ -55,6 +55,7 @@ class Preview extends Component {
             {
                 isDebug: (this.props.context.environment === 'dev'),
                 previewId: this.props.previewId,
+                customer: this.props.context.customer.name,
             },
             {
                 Refresh: () => {
