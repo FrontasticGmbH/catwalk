@@ -39,7 +39,7 @@ class MinimalProduct implements StreamOptimizer
                 'name' => $product->name,
                 'variants' => array_filter([
                     // Only keep one single variant by default
-                    $product->variants[0] ?: new Variant([
+                    $product->variants[0] ? new Variant([
                         'sku' => $product->variants[0]->sku,
                         'price' => $product->variants[0]->price,
                         'images' => $product->variants[0]->images,
@@ -47,7 +47,7 @@ class MinimalProduct implements StreamOptimizer
                             $product->variants[0]->attributes,
                             $this->attributes
                         ),
-                    ])
+                    ]) : null,
                 ])
             ]);
         }

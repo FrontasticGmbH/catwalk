@@ -40,7 +40,7 @@ const detectingReducer = (state = initialState, action) => {
 
 const detectDeviceTypeByRenderContext = (renderContext) => {
     if (renderContext.viewportDimension && renderContext.breakpoints) {
-        const breakpointsSortedByMaxWidth = renderContext.breakpoints
+        const breakpointsSortedByMinWidth = renderContext.breakpoints
             .map((breakpoint) => {
                 if (breakpoint.minWidth) {
                     return breakpoint
@@ -54,10 +54,9 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
                 return b.minWidth - a.minWidth
             })
 
-        const possibleBreakpoints = breakpointsSortedByMaxWidth.filter((breakpoint) => {
+        const possibleBreakpoints = breakpointsSortedByMinWidth.filter((breakpoint) => {
             return breakpoint.minWidth < renderContext.viewportDimension.width
         })
-
         if (possibleBreakpoints.length > 0) {
             return possibleBreakpoints[0].identifier
         }

@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 export const getLabelFromAttribute = (variantAttributes, attributeName) => {
     if (variantAttributes[attributeName]) {
         return variantAttributes[attributeName].label || variantAttributes[attributeName]
@@ -21,10 +19,12 @@ export const getVariantAttributes = (productVariants) => {
         }
     }
 
-    return _.keys(_.pickBy(
-        _.mapValues(attributeValues, _.uniq),
-        (values) => {
-            return values.length > 1
+    let attributesWithMultipleValues = []
+    for (let [attribute, values] of Object.entries(attributeValues)) {
+        if ((new Set(values)).size > 1) {
+            attributesWithMultipleValues.push(attribute)
         }
-    ))
+    }
+
+    return attributesWithMultipleValues
 }

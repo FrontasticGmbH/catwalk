@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import _ from 'lodash'
 import { Router } from 'react-router-dom'
 
+import debounce from '@frontastic/common/src/js/helper/debounce'
 import app from './app/app'
 import logDebugStatements from './app/logDebugStatements'
 import createStore from './app/store'
@@ -46,12 +46,15 @@ function appCreator (mountNode, dataNode, tastics = null) {
     let props = JSON.parse(dataNode.getAttribute('data-props'))
     let context = new Context(props.context)
 
-    if (context.isDevelopment() && dataNode.hasAttribute('data-debug')) {
+    try {
         logDebugStatements(
             JSON.parse(dataNode.getAttribute('data-debug')),
             'GET (most likely)', // HTTP method cannot be detected in JS
             ((window || {}).location || {}).pathname
         )
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log('Error parsing debug JSON. This is a bug.', e)
     }
 
     let store = createStore()
@@ -114,9 +117,29 @@ function appCreator (mountNode, dataNode, tastics = null) {
             page: props.page,
             data: props.data,
         },
-        isMasterPage: props.route.route.includes('.Master.'),
+        isMasterPage: props.route && props.route.route && props.route.route.includes('.Master.'),
     }))
 
+    // If you append ?_frontastic_disable_hydration to your URL, frontastic will not do the client side hydration.
+    // You can use this to debug problems in server side rendering or in hydration.
+    if (props.route.parameters.hasOwnProperty('_frontastic_disable_hydration')) {
+        // this allows the developer to manually hydrate at some point
+        window._frontastic_hydrate = () => {
+            hydrate(store, mountNode, dispatchViewportDimensions)
+            // hydration should only happen once, so we remove that callback
+            delete window._frontastic_hydrate
+        }
+    } else if (props.route.parameters.hasOwnProperty('_frontastic_delay_hydration')) {
+        document.addEventListener('DOMContentLoaded', () => {
+            return hydrate(store, mountNode, dispatchViewportDimensions)
+        })
+    } else {
+        // default: hydrate immediately
+        hydrate(store, mountNode, dispatchViewportDimensions)
+    }
+}
+
+const hydrate = (store, mountNode, dispatchViewportDimensions) => {
     import('history').then(({ createBrowserHistory }) => {
         const isDevelopment = app.getRouter().getContext().isDevelopment()
 
@@ -165,7 +188,7 @@ function appCreator (mountNode, dataNode, tastics = null) {
                 })
 
                 dispatchViewportDimensions()
-                window.addEventListener('resize', _.throttle(dispatchViewportDimensions, 500))
+                window.addEventListener('resize', debounce(dispatchViewportDimensions, 500))
 
                 if (isDevelopment && !isIE()) {
                     const diffLog = require('./app/htmlDiff/differ').default
@@ -188,7 +211,7 @@ function appCreator (mountNode, dataNode, tastics = null) {
 
 function hasHydrationWarning (errors) {
     return errors.map((error) => {
-        return (error && error.length && !!error[0].match(/^Warning: /))
+        return (error && error.length && typeof error[0] === 'string' && !!error[0].match(/^Warning: /))
     }).reduce((accumulator, currentValue) => {
         return accumulator || currentValue
     }, false)

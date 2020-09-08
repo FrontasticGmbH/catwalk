@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 
-import MediaApi from 'frontastic-common/src/js/mediaApi'
+import omit from '@frontastic/common/src/js/helper/omit'
+import MediaApi from '@frontastic/common/src/js/mediaApi'
 import NoImage from '../layout/noImage.svg'
 import sizer from './helper/reactSizer'
 
@@ -27,15 +27,18 @@ class RemoteImage extends Component {
             this.props.cropRatio
         )
 
-        if (this.state.error) {
+        if (this.state.error || !width || !height) {
             return (
                 <img
                     style={this.props.style}
                     width={width}
                     height={height}
                     alt={this.props.alt}
+                    // @TODO: Some blurred image would be great, because this
+                    // can also happen during loading. But this is ahrd for
+                    // random remote images:
                     src={NoImage}
-                    {..._.omit(this.props, [
+                    {...omit(this.props, [
                         'context',
                         'url',
                         'alt',
@@ -68,7 +71,7 @@ class RemoteImage extends Component {
                     this.props.cropRatio,
                     this.props.options
                 )}
-                srcSet={_.map([1, 2], (factor) => {
+                srcSet={[1, 2].map((factor) => {
                     return [
                         this.mediaApi.getImageLink(
                             this.props.url,
@@ -84,7 +87,7 @@ class RemoteImage extends Component {
                 onError={() => {
                     this.setState({ error: true })
                 }}
-                {..._.omit(this.props, [
+                {...omit(this.props, [
                     'context',
                     'url',
                     'alt',

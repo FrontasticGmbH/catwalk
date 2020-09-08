@@ -43,10 +43,4 @@ AtomsIcon.defaultProps = {
     iconPrefix: '',
 }
 
-// These are just default props for the pattern library
-AtomsIcon.testProps = {
-    icon: 'cross',
-    iconSize: 'l',
-}
-
 export default ComponentInjector.return('AtomsIcon', AtomsIcon)

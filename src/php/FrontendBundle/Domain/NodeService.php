@@ -93,6 +93,7 @@ class NodeService implements Target
                 'configuration' => $node->configuration,
                 'name' => $node->name,
                 'path' => $node->path,
+                'depth' => $node->depth,
             ]);
         }
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import _ from 'lodash'
 
 import Cart from '../../domain/cart'
 import app from '../app'
@@ -21,14 +20,25 @@ let CartLoader = function (store, api) {
     this.store = store
     this.api = api
 
-    this.get = (parameters = {}) => {
+    this.getContinuously = (parameters = {}) => {
         this.api.triggerContinuously(
             'Frontastic.CartApi.Cart.get',
             // Own error handler without error handler => Ignore all errors
-            _.extend(
-                { ownErrorHandler: true },
-                parameters
-            )
+            {
+                ownErrorHandler: true,
+                ...parameters,
+            }
+        )
+    }
+
+    this.get = (parameters = {}) => {
+        return this.api.trigger(
+            'Frontastic.CartApi.Cart.get',
+            // Own error handler without error handler => Ignore all errors
+            {
+                ownErrorHandler: true,
+                ...parameters,
+            }
         )
     }
 
@@ -328,7 +338,7 @@ let CartLoader = function (store, api) {
                 'Frontastic.Frontend.Master.Checkout.finished',
                 {
                     order: data.order.orderId,
-                    token: _.get(data, 'order.custom.viewToken', null),
+                    token: (data.order && data.order.custom && data.order.custom.viewToken) || null,
                 }
             )
             return data
@@ -370,7 +380,7 @@ CartLoader.handleAction = (globalState = initialGlobalState, action) => {
         }
 
     case 'CartApi.Cart.productOption':
-        productOptions = _.extend(productOptions, globalState.productOptions)
+        productOptions = { ...productOptions, ...globalState.productOptions }
         productOptions[action.productId] = action.option
 
         return {
@@ -397,7 +407,7 @@ CartLoader.handleAction = (globalState = initialGlobalState, action) => {
         }
 
     case 'CartApi.Cart.checkout.success':
-        orders = _.extend(orders, globalState.orders)
+        orders = { ...orders, ...globalState.orders }
         orders[action.data.order.orderId] = new Entity(action.data.order)
 
         return {
@@ -408,7 +418,7 @@ CartLoader.handleAction = (globalState = initialGlobalState, action) => {
         }
 
     case 'CartApi.Cart.getOrder.success':
-        orders = _.extend(orders, globalState.orders)
+        orders = { ...orders, ...globalState.orders }
         orders[action.data.order.orderId] = new Entity(action.data.order)
 
         return {

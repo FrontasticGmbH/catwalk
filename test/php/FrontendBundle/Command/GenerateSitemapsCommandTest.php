@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\IntegrationTest;
@@ -66,6 +67,40 @@ class GenerateSitemapsCommandTest extends IntegrationTest
         ]);
 
         $this->assertTheOutputDirectoryMatchesTheFixture($outputDirectory, 'nodeTree');
+    }
+
+    public function testGeneratesSitemapOverridePublicUrl()
+    {
+        $commandTester = $this->givenAGenerateSitemapsCommandTester();
+        $outputDirectory = $this->givenAnOutputDirectory();
+        $this->givenTheNodeAndPageFixture('nodeTree');
+
+        $commandTester->execute([
+            'output-directory' => $outputDirectory,
+            '--with-nodes' => true,
+            '--with-nodes-subpages' => true,
+            '--with-extensions' => true,
+            '--base-url' => 'http://custom.site.example.com',
+        ]);
+
+        $this->assertTheOutputDirectoryMatchesTheFixture($outputDirectory, 'overridePublicUrl');
+    }
+
+    public function testGeneratesSitemapSingleSitemap()
+    {
+        $commandTester = $this->givenAGenerateSitemapsCommandTester();
+        $outputDirectory = $this->givenAnOutputDirectory();
+        $this->givenTheNodeAndPageFixture('nodeTree');
+
+        $commandTester->execute([
+            'output-directory' => $outputDirectory,
+            '--with-nodes' => true,
+            '--with-nodes-subpages' => true,
+            '--with-extensions' => true,
+            '--single-sitemap' => true,
+        ]);
+
+        $this->assertTheOutputDirectoryMatchesTheFixture($outputDirectory, 'singleSitemap');
     }
 
     public function setUp()

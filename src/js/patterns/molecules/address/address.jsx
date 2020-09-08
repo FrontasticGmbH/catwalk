@@ -60,23 +60,4 @@ MoleculesAddress.defaultProps = {
     short: false,
 }
 
-// These are just default props for the pattern library
-MoleculesAddress.testProps = {
-    address: {
-        addressId: 'test',
-        firstName: 'Erika',
-        lastName: 'Mustermann',
-        streetName: 'Musterweg',
-        streetNumber: '42',
-        additionalStreetInfo: '1. Etage',
-        postalCode: '12345',
-        city: 'Musterstadt',
-        country: 'DE',
-    },
-    setDefaultBillingAddress: () => {},
-    setDefaultShippingAddress: () => {},
-    editAddress: () => {},
-    removeAddress: () => {},
-}
-
 export default ComponentInjector.return('MoleculesAddress', MoleculesAddress)

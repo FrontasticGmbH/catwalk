@@ -62,6 +62,7 @@ class ProductController extends Controller
                 'productId' => $productId,
             ]))
         );
+        $node->nodeType = 'product';
         $node->streams = $masterService->completeDefaultQuery(
             $node->streams,
             'product',

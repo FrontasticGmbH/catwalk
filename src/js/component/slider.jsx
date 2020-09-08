@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import ComponentInjector from '../app/injector'
 
-import _ from 'lodash'
+import debounce from '@frontastic/common/src/js/helper/debounce'
 
 // import Flickity from 'react-flickity-component' // Imported dynamically in constructor
 
@@ -48,7 +48,7 @@ class Slider extends Component {
         }, 300)
     }
 
-    debouncedResize = _.debounce(() => {
+    debouncedResize = debounce(() => {
         if (!this.carousel) {
             return
         }

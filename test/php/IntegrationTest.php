@@ -18,7 +18,7 @@ abstract class IntegrationTest extends \PHPUnit\Framework\TestCase
 
     protected static function getContainer(): ContainerInterface
     {
-        AppKernel::$catwalkBaseDir = dirname(dirname(__DIR__));
+        AppKernel::$catwalkBaseDir = dirname(__DIR__);
 
         (new \Frontastic\Common\EnvironmentResolver())->loadEnvironmentVariables(
             [__DIR__ . '/../../../../', __DIR__ . '/../../', __DIR__ . '/../'],

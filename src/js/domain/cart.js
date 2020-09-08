@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 class Cart {
     constructor (cart = {}) {
         this.cartId = cart.cartId || null
@@ -22,26 +20,37 @@ class Cart {
     }
 
     getProductCount () {
-        return _.sumBy(
-            _.filter(
-                this.lineItems,
-                (lineItem) => {
-                    return !!lineItem.variant
-                }
-            ),
-            'count'
-        )
+        let productCount = 0
+        for (let lineItem of this.lineItems) {
+            if (!lineItem.variant) {
+                continue
+            }
+
+            productCount += lineItem.count
+        }
+
+        return productCount
     }
 
     getDiscount () {
-        return _.sum(this.lineItems.map((lineItem) => {
-            const basePrice = (lineItem.discountedPrice || lineItem.price)
-            return basePrice - lineItem.totalPrice
-        }))
+        let discount = 0
+        for (let lineItem of this.lineItems) {
+            discount += (lineItem.discountedPrice || lineItem.price) - lineItem.totalPrice
+        }
+        return discount
     }
 
     getPayedAmount () {
-        return _.sum(this.payments.map((payment) => { return payment.amount }))
+        let payed = 0
+        for (let payment of this.payments) {
+            if (payment.paymentStatus !== 'paid') {
+                continue
+            }
+
+            payed += payment.amount
+        }
+
+        return payed
     }
 
     getRemainingAmountToPay () {

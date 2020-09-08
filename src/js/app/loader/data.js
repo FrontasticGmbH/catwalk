@@ -1,7 +1,5 @@
 import Entity from '../entity'
 
-import _ from 'lodash'
-
 /**
  * Loader classes like this consolidate all loading monitors for a domain
  * concept.
@@ -40,7 +38,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         }
     case 'ApiCoreBundle.App.get.success':
     case 'ApiCoreBundle.App.data.success':
-        data = _.extend({}, globalState.data)
+        data = { ...globalState.data }
         data[action.id] = new Entity(action.data, 3600)
 
         return {
@@ -49,7 +47,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         }
     case 'ApiCoreBundle.App.get.error':
     case 'ApiCoreBundle.App.data.error':
-        data = _.extend({}, globalState.data)
+        data = { ...globalState.data }
         data[action.id] = new Entity().setError(action.error)
 
         return {

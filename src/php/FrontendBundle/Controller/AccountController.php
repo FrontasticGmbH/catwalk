@@ -54,22 +54,31 @@ class AccountController extends Controller
 
     private function getNode(Context $context, PageMatcherContext $pageMatcherContext): array
     {
+        /** @var MasterService */
         $masterService = $this->get(MasterService::class);
+        /** @var NodeService $nodeService */
         $nodeService = $this->get(NodeService::class);
+        /** @var ViewDataProvider $dataService */
         $dataService = $this->get(ViewDataProvider::class);
+        /** @var PageService $pageService */
         $pageService = $this->get(PageService::class);
 
         $queryData = array_filter((array) $pageMatcherContext);
         $node = $nodeService->get($masterService->matchNodeId($pageMatcherContext));
+        $node->nodeType = array_keys(array_filter((array) $pageMatcherContext))[0] ?? 'unknown';
         $node->streams = $masterService->completeDefaultQuery(
             $node->streams,
             key($queryData),
             $context->session->account->accountId ?? null
         );
 
+        $page = $pageService->fetchForNode($node, $context);
+
+        $masterService->completeTasticStreamConfigurationWithMasterDefault($page, key($queryData));
+
         return [
             'node' => $node,
-            'page' => $page = $pageService->fetchForNode($node, $context),
+            'page' => $page,
             'data' => $dataService->fetchDataFor($node, $context, [], $page),
         ];
     }

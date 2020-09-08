@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 /**
  * Provides unified handling of URL context.
  *
@@ -13,18 +11,16 @@ class UrlContext {
         return route.route + '-' + JSON.stringify(UrlContext.getActionParameters(route.parameters))
     }
 
-    static getActionParameters = (parameters) => {
-        return _.pickBy(
-            parameters,
-            /**
-             * @param {*} value
-             * @param {string} key
-             * @returns {boolean}
-             */
-            (value, key) => {
-                return (key.match(UrlContext.parameterKeyFilter) === null)
+    static getActionParameters = (parameters = {}) => {
+        let actionParameters = {}
+
+        for (let [parameter, value] of Object.entries(parameters)) {
+            if (parameter.match(UrlContext.parameterKeyFilter) === null) {
+                actionParameters[parameter] = value
             }
-        )
+        }
+
+        return actionParameters
     }
 
     static hasChanged = (lastRoute, route) => {

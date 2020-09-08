@@ -44,7 +44,7 @@ class ContextService
     /**
      * @HACK This is a hack to cache getting the same context over and over again.
      */
-    private static $contextCache = [];
+    private $contextCache = [];
 
     /**
      * @var ProjectService
@@ -115,14 +115,14 @@ class ContextService
     public function getContext(string $locale = null, Session $session = null, string $host = null): Context
     {
         $contextCacheHash = $locale . '-' . md5(json_encode($session));
-        if (isset(ContextService::$contextCache[$contextCacheHash])) {
-            return ContextService::$contextCache[$contextCacheHash];
+        if (isset($this->contextCache[$contextCacheHash])) {
+            return $this->contextCache[$contextCacheHash];
         }
 
         $customer = $this->customerService->getCustomer();
         $project = $this->projectService->getProject();
 
-        if (!in_array($locale, $project->languages)) {
+        if ($locale === null) {
             $locale = $project->defaultLanguage;
         }
 
@@ -147,7 +147,7 @@ class ContextService
             $context = $decorator->decorate($context);
         }
 
-        return ContextService::$contextCache[$contextCacheHash] = $context;
+        return $this->contextCache[$contextCacheHash] = $context;
     }
 
     public function getSession(Request $request): Session

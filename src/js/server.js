@@ -3,7 +3,6 @@ import bodyParser from 'body-parser'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom'
-import _ from 'lodash'
 
 import app from './app/app'
 import createStore from './app/store'
@@ -112,23 +111,23 @@ export default (tastics = null, port = 8000, renderWrapper = defaultRenderWrappe
             <AppComponent app={app} renderRouter={renderRouter} />
         )
 
+        let helmetMetaData = {}
+        let helmetRenderResult = Helmet.renderStatic()
+        for (let [property, value] of Object.entries(helmetRenderResult)) {
+            value = value.toString()
+
+            if (value) {
+                helmetMetaData[property] = value
+            }
+        }
+
         response.send({
             app: renderData.app,
             helmet: {
                 title: '',
                 meta: '',
                 styles: renderData.styles || '',
-                ...(_.omitBy(
-                    _.mapValues(
-                        Helmet.renderStatic(),
-                        (value, key) => {
-                            return value.toString()
-                        }
-                    ),
-                    (value) => {
-                        return !value
-                    }
-                )),
+                ...helmetMetaData,
             },
         })
     }

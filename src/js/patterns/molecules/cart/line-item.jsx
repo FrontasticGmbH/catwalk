@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import ComponentInjector from '../../../app/injector'
-import fixture from '../../fixture'
 
 import AtomsButton from '../../atoms/buttons/button'
 import AtomsHeading from '../../atoms/headings/heading'
@@ -122,24 +121,6 @@ MoleculesLineItem.defaultProps = {
     onRemove: null,
     onChangeCount: null,
     onAddToWishlist: null,
-}
-
-// These are just default props for the pattern library
-MoleculesLineItem.testProps = {
-    lineItem: {
-        lineItemId: 'test',
-        name: fixture.headline.short,
-        type: 'variant',
-        variant: fixture.product.variants[0],
-        count: 1,
-        price: 19999,
-        discountedPrice: 17999,
-        totalPrice: 17999,
-        isGift: false,
-    },
-    onRemove: () => {},
-    onChangeCount: () => {},
-    onAddToWishlist: () => {},
 }
 
 export default ComponentInjector.return('MoleculesLineItem', MoleculesLineItem)

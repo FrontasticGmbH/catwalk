@@ -10,27 +10,23 @@ const insertIf = (cond, ...els) => {
 
 const Cell = ({ node, page, region, cell, data, highlight }) => {
     let columns = cell.schema.get('size') || '12'
-
     return (
         <UICell
             size={columns}
             hideOn={[
                 ...insertIf(!cell.schema.get('mobile'), 'hand'),
-                ...insertIf(!cell.schema.get('tablet'), 'lap'),
+                ...insertIf(!cell.schema.get('tablet'), 'tablet'),
                 ...insertIf(!cell.schema.get('desktop'), 'desk'),
             ]}
             style={{
-                outline:
-                    cell.cellId === highlight ? '2px dashed #30a0bf' : null,
+                outline: cell.cellId === highlight ? '2px dashed #30a0bf' : null,
             }}
             >
             {cell && cell.tastics && cell.tastics.length
                 ? cell.tastics.map((tastic, i) => {
                       if (!tastic || !data) {
                           // eslint-disable-next-line no-console
-                          console.error(
-                              'Could not render tastic, because tastic data was missing'
-                          )
+                          console.error('Could not render tastic, because tastic data was missing')
                           return null
                       }
 

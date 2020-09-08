@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\HttpFoundation\IpUtils;
 
 class ProjectBasicAuthListener
 {
@@ -24,6 +25,7 @@ class ProjectBasicAuthListener
     private const USERNAME_FIELD_NAME = 'frontasticBasicAuthUsername';
     private const PASSWORD_FIELD_NAME = 'frontasticBasicAuthPassword';
     private const REALM_FIELD_NAME = 'frontasticBasicAuthRealm';
+    private const IPWHITELIST_FIELD_NAME = 'frontasticBasicAuthIpWhitelist';
 
     /*
      * This is only used if the realm is missing from the schema. Otherwise the default from the schema will be used.
@@ -54,6 +56,12 @@ class ProjectBasicAuthListener
             $context->projectConfigurationSchema,
             $context->projectConfiguration
         );
+
+        $whitelistedIps = $this->getWhitelistedIps($configuration);
+
+        if (!empty($whitelistedIps) && IpUtils::checkIp($request->getClientIp(), $whitelistedIps)) {
+            return;
+        }
 
         $expectedUser = $this->getExpectedUser($configuration);
         if ($expectedUser === null) {
@@ -116,7 +124,7 @@ class ProjectBasicAuthListener
         $username = $request->getUser();
         $password = $request->getPassword();
 
-        if ($username === null || $password === null) {
+        if (empty($username) || empty($password)) {
             return null;
         }
 
@@ -140,5 +148,26 @@ class ProjectBasicAuthListener
                 'WWW-Authenticate' => sprintf('Basic realm="%s"', $realm),
             ]
         );
+    }
+
+    private function getWhitelistedIps(ConfigurationSchema $configurationSchema): array
+    {
+        if ($configurationSchema->hasField(self::IPWHITELIST_FIELD_NAME)) {
+            $whitelistedIpGroup = $configurationSchema->getFieldValue(self::IPWHITELIST_FIELD_NAME);
+
+            return array_filter(
+                array_map(
+                    function ($whitelistedIp) {
+                        if (isset($whitelistedIp['ipRange'])) {
+                            return $whitelistedIp['ipRange'];
+                        }
+                        return false;
+                    },
+                    $whitelistedIpGroup
+                )
+            );
+        }
+
+        return [];
     }
 }

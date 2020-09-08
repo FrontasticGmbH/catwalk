@@ -48,11 +48,6 @@ AtomsPrice.defaultProps = {
     old: false,
 }
 
-// These are just default props for the pattern library
-AtomsPrice.testProps = {
-    value: 19999,
-}
-
 export default connect(
     (globalState, props) => {
         return {

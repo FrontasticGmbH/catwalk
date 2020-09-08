@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 import Entity from '../entity'
 import UrlContext from '../urlContext'
 
@@ -175,6 +173,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
 
         return {
             ...globalState,
+            loading: !action.data.node,
             currentNodeId: action.data.node.nodeId,
             previewId: action.data.route.parameters.preview,
             nodes: {
@@ -194,7 +193,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         }
 
     case 'Frontend.Node.tree.success':
-        trees = _.extend({}, globalState.trees)
+        trees = { ...globalState.trees }
         if (action.id) {
             trees[action.id] = new Entity(action.data, 3600)
         }
@@ -204,7 +203,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             trees: trees,
         }
     case 'Frontend.Node.tree.error':
-        trees = _.extend({}, globalState.trees)
+        trees = { ...globalState.trees }
         if (action.id) {
             trees[action.id] = new Entity().setError(action.error)
         }
@@ -218,9 +217,9 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
     case 'Frontend.Master.view.success':
     case 'Frontend.Preview.view.success':
     case 'Frontend.Master.Error.view.success':
-        nodes = _.extend({}, globalState.nodes)
-        nodeData = _.extend({}, globalState.nodeData)
-        pages = _.extend({}, globalState.pages)
+        nodes = { ...globalState.nodes }
+        nodeData = { ...globalState.nodeData }
+        pages = { ...globalState.pages }
         if (action.id) {
             nodes[action.id] = new Entity(action.data.node, 3600)
             nodeData[globalState.currentCacheKey] = new Entity(action.data.data, 3600)
@@ -238,18 +237,18 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             nodeData: nodeData,
             pages: pages,
             last: {
-                node: new Entity(_.extend({}, action.data.node)),
+                node: new Entity({ ...action.data.node }),
                 data: nextLoadingData,
-                page: new Entity(_.extend({}, action.data.page)),
+                page: new Entity({ ...action.data.page }),
             },
         }
     case 'Frontend.Node.view.error':
     case 'Frontend.Master.view.error':
     case 'Frontend.Preview.view.error':
     case 'Frontend.Master.Error.view.error':
-        nodes = _.extend({}, globalState.nodes)
-        nodeData = _.extend({}, globalState.nodeData)
-        pages = _.extend({}, globalState.pages)
+        nodes = { ...globalState.nodes }
+        nodeData = { ...globalState.nodeData }
+        pages = { ...globalState.pages }
         if (action.id) {
             nodes[action.id] = new Entity().setError(action.error)
             nodeData[action.cacheKey] = new Entity().setError(action.error)
