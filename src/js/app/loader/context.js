@@ -14,42 +14,42 @@ let Loader = function (store, api) {
     this.store = store
     this.api = api
 
+    /**
+     * @param parameters
+     * @return Promise
+     */
     this.refresh = (parameters) => {
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'GET',
-                'Frontastic.ApiCoreBundle.Api.context',
-                parameters,
-                null,
-                (data) => {
-                    let context = new Context(data)
+        return this.api.request(
+            'GET',
+            'Frontastic.ApiCoreBundle.Api.context',
+            parameters,
+            null,
+            (data) => {
+                let context = new Context(data)
 
-                    app.getRouter().setContext(context)
-                    app.getRouter().setRoutes(context.routes)
+                app.getRouter().setContext(context)
+                app.getRouter().setRoutes(context.routes)
 
-                    this.store.dispatch({
-                        type: 'ApiBundle.Api.context.success',
-                        data: data,
-                    })
-                    app.loadForLocation(window.location)
+                this.store.dispatch({
+                    type: 'ApiBundle.Api.context.success',
+                    data: data,
+                })
+                app.loadForLocation(window.location)
 
-                    // Restart continuous updates
-                    app.api.clearContinuousRequests()
-                    resolve()
-                },
-                (error) => {
-                    this.store.dispatch({
-                        type: 'ApiBundle.Api.context.error',
-                        data: error,
-                    })
-                    reject(error)
-                }
-            )
-        })
+                // Restart continuous updates
+                app.api.clearContinuousRequests()
+            },
+            (error) => {
+                this.store.dispatch({
+                    type: 'ApiBundle.Api.context.error',
+                    data: error,
+                })
+            }
+        )
     }
 
     this.register = (user, redirect = true) => {
-        this.api.request(
+        return this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.register',
             { ownErrorHandler: true },
@@ -66,7 +66,6 @@ let Loader = function (store, api) {
                     type: 'Frontastic.AccountApi.Api.register.success',
                     data: json,
                 })
-                this.refresh()
 
                 if (redirect) {
                     app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
@@ -79,14 +78,12 @@ let Loader = function (store, api) {
     }
 
     this.login = (email, password, previous = null) => {
-        this.api.request(
+        return this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.login',
             { ownErrorHandler: true },
             { email: email, password: password },
             (json) => {
-                this.refresh()
-
                 if (previous) {
                     app.getRouter().replace(
                         previous.route,
@@ -106,14 +103,13 @@ let Loader = function (store, api) {
     }
 
     this.logout = () => {
-        this.api.request(
+        return this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.logout',
             null,
             null,
             (json) => {
                 this.notifyUser(<Message code='account.message.logout' message='Successfully logged out' />, 'success')
-                this.refresh()
             },
             (json) => {
                 this.store.dispatch({
@@ -125,7 +121,7 @@ let Loader = function (store, api) {
     }
 
     this.addAddress = (address) => {
-        this.api.request(
+        return this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.addAddress',
             { ownErrorHandler: true },
@@ -135,7 +131,6 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
-                this.refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
@@ -144,7 +139,7 @@ let Loader = function (store, api) {
     }
 
     this.updateAddress = (address) => {
-        this.api.request(
+        return this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.updateAddress',
             { ownErrorHandler: true },
@@ -154,7 +149,6 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
-                this.refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
@@ -163,7 +157,7 @@ let Loader = function (store, api) {
     }
 
     this.removeAddress = (address) => {
-        this.api.request(
+        return this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.removeAddress',
             { ownErrorHandler: true },
@@ -173,7 +167,6 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
-                this.refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
@@ -182,7 +175,7 @@ let Loader = function (store, api) {
     }
 
     this.setDefaultBillingAddress = (address) => {
-        this.api.request(
+        return this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.setDefaultBillingAddress',
             { ownErrorHandler: true },
@@ -192,7 +185,6 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
-                this.refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
@@ -201,7 +193,7 @@ let Loader = function (store, api) {
     }
 
     this.setDefaultShippingAddress = (address) => {
-        this.api.request(
+        return this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.setDefaultShippingAddress',
             { ownErrorHandler: true },
@@ -211,7 +203,6 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
-                this.refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
@@ -220,7 +211,7 @@ let Loader = function (store, api) {
     }
 
     this.updateUser = (user) => {
-        this.api.request(
+        return this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.update',
             { ownErrorHandler: true },
@@ -228,7 +219,6 @@ let Loader = function (store, api) {
             (json) => {
                 this.notifyUser(<Message code='account.message.update' message='Account data updated' />, 'success')
 
-                this.refresh()
                 this.store.dispatch({
                     type: 'AccountApi.Api.get.success',
                     data: json,
@@ -242,7 +232,7 @@ let Loader = function (store, api) {
     }
 
     this.requestPasswordReset = (email) => {
-        this.api.request(
+        return this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.requestReset',
             { ownErrorHandler: true },
@@ -257,13 +247,14 @@ let Loader = function (store, api) {
     }
 
     this.resetPassword = (token, newPassword) => {
-        this.api.request(
+        return this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.reset',
             { ownErrorHandler: true, token: token },
             { newPassword: newPassword },
             (json) => {
                 this.notifyUser(<Message code='account.message.passwordUpdate' message='Password updated' />, 'success')
+
                 app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
             },
             (json) => {
@@ -273,7 +264,7 @@ let Loader = function (store, api) {
     }
 
     this.updatePassword = (oldPassword, newPassword) => {
-        this.api.request(
+        return this.api.request(
             'POST',
             'Frontastic.AccountApi.Api.changePassword',
             { ownErrorHandler: true },
