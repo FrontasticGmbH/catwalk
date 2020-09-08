@@ -113,7 +113,7 @@ const tastify = (configuration = {}) => {
             configuration.connect = {}
         }
 
-        class Tastic extends React.Component {
+        class TastifiedTastic extends React.Component {
             render () {
                 const props = filterPropsForConfiguration(configuration, this.props)
 
@@ -121,9 +121,9 @@ const tastify = (configuration = {}) => {
             }
         };
 
-        Tastic.displayName = `Tastic(${getDisplayName(WrappedComponent)})`
+        TastifiedTastic.displayName = `TastifiedTastic(${getDisplayName(WrappedComponent)})`
 
-        return connectedTasticForConfiguration(Tastic, configuration)
+        return connectedTasticForConfiguration(TastifiedTastic, configuration)
     }
 }
 
