@@ -5,12 +5,12 @@ target: docs
 autoloader: vendor/autoload.php
 nameSpace: "\\Frontastic\\Catwalk"
 typeScript:
-  target: src/js/types.ts
+  target: src/js/types
   nameSpace:
     search: '(^(?:([A-Za-z]+?)(?:Api)?Bundle\\)?(?:Domain\\)?)'
     replace: '\1\\'
   includes:
-    "Frontastic\\Common": '@frontastic/common/src/js/types'
+    "\\Frontastic\\Common": '@frontastic/common/src/js/types'
   indent: 4
 files:
  - php/ApiCoreBundle/Domain/*.php
