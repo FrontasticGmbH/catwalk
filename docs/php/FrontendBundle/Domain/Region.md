@@ -4,10 +4,11 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-Property|Type|Default|Description
---------|----|-------|-----------
-`regionId`|`string`||
-`configuration`|[`Configuration`](Region/Configuration.md)||
-`elements`|[`Cell`](Cell.md)[]|`[]`|
-`cells`|[`Cell`](Cell.md)[]|`[]`|
+Property|Type|Default|Required|Description
+--------|----|-------|--------|-----------
+`regionId` | `string` |  | - | 
+`configuration` | [`Configuration`](Region/Configuration.md) |  | - | 
+`elements` | [`Cell`](Cell.md)[] | `[]` | - | 
+`cells` | [`Cell`](Cell.md)[] | `[]` | - | 
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

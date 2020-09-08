@@ -29,3 +29,4 @@ public function getCustomer(): \Frontastic\Common\ReplicatorBundle\Domain\Custom
 
 Return Value: `\Frontastic\Common\ReplicatorBundle\Domain\Customer`
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

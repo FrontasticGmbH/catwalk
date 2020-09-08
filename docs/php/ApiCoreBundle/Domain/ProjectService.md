@@ -29,3 +29,4 @@ public function getProject(): \Frontastic\Common\ReplicatorBundle\Domain\Project
 
 Return Value: `\Frontastic\Common\ReplicatorBundle\Domain\Project`
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

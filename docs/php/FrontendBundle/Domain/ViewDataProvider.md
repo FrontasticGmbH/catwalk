@@ -43,3 +43,4 @@ Argument|Type|Default|Description
 
 Return Value: [`ViewData`](ViewData.md)
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

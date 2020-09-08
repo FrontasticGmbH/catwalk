@@ -4,9 +4,10 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-Property|Type|Default|Description
---------|----|-------|-----------
-`tasticId`|`string`||
-`tasticType`|`string`||
-`configuration`|[`Configuration`](Tastic/Configuration.md)||
+Property|Type|Default|Required|Description
+--------|----|-------|--------|-----------
+`tasticId` | `string` |  | - | 
+`tasticType` | `string` |  | - | 
+`configuration` | [`Configuration`](Tastic/Configuration.md) |  | - | 
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

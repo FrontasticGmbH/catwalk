@@ -107,3 +107,4 @@ Argument|Type|Default|Description
 
 Return Value: `\Frontastic\Common\AccountApiBundle\Domain\Session`
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

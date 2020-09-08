@@ -41,3 +41,4 @@ Argument|Type|Default|Description
 
 Return Value: `\Frontastic\Common\ProductApiBundle\Domain\ProductApi`
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

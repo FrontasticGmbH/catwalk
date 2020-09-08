@@ -4,26 +4,26 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-Property|Type|Default|Description
---------|----|-------|-----------
-`entity`|`?object`||
-`categoryId`|`?string`||
-`productId`|`?string`||
-`contentId`|`?string`||
-`search`|`?string`||
-`cart`|`?object`||
-`checkout`|`?object`||
-`checkoutFinished`|`?object`||
-`orderId`|`?string`||
-`account`|`?object`||
-`accountForgotPassword`|`?object`||
-`accountConfirm`|`?object`||
-`accountProfile`|`?object`||
-`accountAddresses`|`?object`||
-`accountOrders`|`?object`||
-`accountWishlists`|`?object`||
-`accountVouchers`|`?object`||
-`error`|`?object`||
+Property|Type|Default|Required|Description
+--------|----|-------|--------|-----------
+`entity` | `?object` |  | - | 
+`categoryId` | `?string` |  | - | 
+`productId` | `?string` |  | - | 
+`contentId` | `?string` |  | - | 
+`search` | `?string` |  | - | 
+`cart` | `?object` |  | - | 
+`checkout` | `?object` |  | - | 
+`checkoutFinished` | `?object` |  | - | 
+`orderId` | `?string` |  | - | 
+`account` | `?object` |  | - | 
+`accountForgotPassword` | `?object` |  | - | 
+`accountConfirm` | `?object` |  | - | 
+`accountProfile` | `?object` |  | - | 
+`accountAddresses` | `?object` |  | - | 
+`accountOrders` | `?object` |  | - | 
+`accountWishlists` | `?object` |  | - | 
+`accountVouchers` | `?object` |  | - | 
+`error` | `?object` |  | - | 
 
 ## Methods
 
@@ -43,3 +43,4 @@ Argument|Type|Default|Description
 
 Return Value: `mixed`
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
