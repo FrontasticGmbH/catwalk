@@ -1,7 +1,7 @@
 
 import {
-    Configuration,
+    Configuration as FrontendConfiguration,
 } from '..'
 
-export interface Configuration extends Configuration {
+export interface Configuration extends FrontendConfiguration {
 }

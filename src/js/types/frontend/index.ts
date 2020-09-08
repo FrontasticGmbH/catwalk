@@ -1,27 +1,27 @@
 
 import {
-    Configuration,
+    Configuration as FrontendCellConfiguration,
 } from 'cell'
 
 import {
-    FacetDefinition,
+    FacetDefinition as ProductProductApiFacetDefinition,
 } from '@frontastic/common/src/js/types/product/productapi'
 
 import {
-    Configuration,
+    Configuration as FrontendRegionConfiguration,
 } from 'region'
 
 import {
-    Context,
+    Context as ApiCoreContext,
 } from '../apicore'
 
 import {
-    Configuration,
+    Configuration as FrontendTasticConfiguration,
 } from 'tastic'
 
 export interface Cell {
      cellId?: string;
-     configuration?: Configuration;
+     configuration?: FrontendCellConfiguration;
      customConfiguration?: null | any /* \stdClass */;
      tastics?: Tastic[];
 }
@@ -32,7 +32,7 @@ export interface Configuration {
      desktop?: boolean;
 }
 
-export interface Facet extends FacetDefinition {
+export interface Facet extends ProductProductApiFacetDefinition {
      facetId?: string;
      sequence?: string;
      sort?: number;
@@ -123,7 +123,7 @@ export interface Redirect {
 
 export interface Region {
      regionId?: string;
-     configuration?: Configuration;
+     configuration?: FrontendRegionConfiguration;
      elements?: Cell[];
      cells?: Cell[];
 }
@@ -154,7 +154,7 @@ export interface Stream {
 export interface StreamContext {
      node?: Node;
      page?: Page;
-     context?: Context;
+     context?: ApiCoreContext;
      usingTastics?: Tastic[];
      parameters?: any;
 }
@@ -162,7 +162,7 @@ export interface StreamContext {
 export interface Tastic {
      tasticId?: string;
      tasticType?: string;
-     configuration?: Configuration;
+     configuration?: FrontendTasticConfiguration;
 }
 
 export interface ViewData {

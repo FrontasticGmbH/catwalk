@@ -1,11 +1,11 @@
 
 import {
-    Customer,
-    Project,
+    Customer as ReplicatorCustomer,
+    Project as ReplicatorProject,
 } from '@frontastic/common/src/js/types/replicator'
 
 import {
-    Session,
+    Session as AccountSession,
 } from '@frontastic/common/src/js/types/account'
 
 export interface App {
@@ -26,14 +26,14 @@ export interface AppRepository {
 
 export interface Context {
      environment?: string;
-     customer?: Customer;
-     project?: Project;
+     customer?: ReplicatorCustomer;
+     project?: ReplicatorProject;
      projectConfiguration?: any;
      projectConfigurationSchema?: any;
      locale?: string;
      currency?: string;
      routes?: string[];
-     session?: Session;
+     session?: AccountSession;
      featureFlags?: any;
      host?: string;
 }
