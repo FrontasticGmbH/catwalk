@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import withTranslatedTasticData from '../component/withTranslatedTasticData'
+
 /**
  * An object of possible selectors for tastify()
  *
@@ -35,6 +37,10 @@ const availableSelectors = {
  */
 const connectedTasticForConfiguration = (Tastic, configuration) => {
     const selectors = {}
+
+    if (configuration.translate) {
+        Tastic = withTranslatedTasticData(Tastic)
+    }
 
     Object.keys(availableSelectors).forEach(selectorName => {
         if (configuration.connect[selectorName]) {
@@ -106,6 +112,7 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
  * @param {boolean} configuration.connect.context - Whether to pass the frontastic context object.
  * @param {boolean} configuration.connect.deviceType - Whether to pass the deviceType
  * @param {boolean} configuration.connect.isServerSideRendering - Whether we should pass a flag `isServerSideRendering`
+ * @param {boolean} configuration.translate - Automatically translate tastic fields from backstage
  */
 const tastify = (configuration = {}) => {
     return (WrappedComponent) => {
