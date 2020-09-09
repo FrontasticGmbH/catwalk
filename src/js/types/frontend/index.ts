@@ -2,7 +2,7 @@
 
 import {
     Configuration as FrontendCellConfiguration,
-} from 'cell'
+} from './cell/'
 
 import {
     FacetDefinition as ProductProductApiFacetDefinition,
@@ -10,15 +10,15 @@ import {
 
 import {
     Configuration as FrontendRegionConfiguration,
-} from 'region'
+} from './region/'
 
 import {
     Context as ApiCoreContext,
-} from '../apicore'
+} from '../apicore/'
 
 import {
     Configuration as FrontendTasticConfiguration,
-} from 'tastic'
+} from './tastic/'
 
 export interface Cell {
      cellId?: string;

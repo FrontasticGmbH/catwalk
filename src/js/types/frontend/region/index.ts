@@ -2,7 +2,7 @@
 
 import {
     Configuration as FrontendConfiguration,
-} from '..'
+} from '../'
 
 export interface Configuration extends FrontendConfiguration {
      flexDirection?: string;
