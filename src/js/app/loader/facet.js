@@ -18,8 +18,12 @@ let Loader = function (store, api) {
     this.store = store
     this.api = api
 
+    /**
+     * @param parameters
+     * @return Promise
+     */
     this.loadFacets = (parameters) => {
-        this.api.trigger('Frontastic.Frontend.Facet.all', parameters, 'facet')
+        return this.api.trigger('Frontastic.Frontend.Facet.all', parameters, 'facet')
     }
 }
 

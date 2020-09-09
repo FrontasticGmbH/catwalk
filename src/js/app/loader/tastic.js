@@ -15,8 +15,12 @@ let Loader = function (store, api) {
     this.store = store
     this.api = api
 
+    /**
+     * @param parameters
+     * @return Promise
+     */
     this.loadTastics = (parameters) => {
-        this.api.trigger('Frontastic.Frontend.Tastic.all', parameters, 'tastic')
+        return this.api.trigger('Frontastic.Frontend.Tastic.all', parameters, 'tastic')
     }
 }
 

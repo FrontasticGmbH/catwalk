@@ -42,8 +42,12 @@ let CartLoader = function (store, api) {
         )
     }
 
+    /**
+     * @param parameters
+     * @return Promise
+     */
     this.getOrder = (parameters = {}) => {
-        this.api.trigger('Frontastic.CartApi.Cart.getOrder', parameters)
+        return this.api.trigger('Frontastic.CartApi.Cart.getOrder', parameters)
     }
 
     this.setProductOption = (productId, option) => {
@@ -56,188 +60,189 @@ let CartLoader = function (store, api) {
 
     /**
      * Product is here for historical reasons, please submit null as first value.
+     *
+     * @return Promise
      */
     this.add = (product = null, variant, count, option = null) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
         })
 
-        // TODO: Add to remainder methods
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.CartApi.Cart.add',
-                { ownErrorHandler: true },
-                { variant, count, option },
-                (data) => {
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.add.success',
-                        data: data,
-                    })
-                    resolve()
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.add.error',
-                        error: error,
-                    })
-                    reject(error)
-                }
-            )
-        })
+        return this.api.request(
+            'POST',
+            'Frontastic.CartApi.Cart.add',
+            { ownErrorHandler: true },
+            { variant, count, option },
+            (data) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.add.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'CartApi.Cart.add.error',
+                    error: error,
+                })
+            }
+        )
     }
 
+    /**
+     * @param lineItems
+     * @return Promise
+     */
     this.addMultiple = (lineItems) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
         })
 
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.CartApi.Cart.addMultiple',
-                { ownErrorHandler: true },
-                { lineItems },
-                (data) => {
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.add.success',
-                        data: data,
-                    })
-                    resolve()
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.add.error',
-                        error: error,
-                    })
-                    reject(error)
-                }
-            )
-        })
+        return this.api.request(
+            'POST',
+            'Frontastic.CartApi.Cart.addMultiple',
+            { ownErrorHandler: true },
+            { lineItems },
+            (data) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.add.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'CartApi.Cart.add.error',
+                    error: error,
+                })
+            }
+        )
     }
 
+    /**
+     * @param cartInformation
+     * @return Promise
+     */
     this.addPayment = (cartInformation) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
         })
 
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Demo.Payment.Invoice.add',
-                { ownErrorHandler: true },
-                cartInformation,
-                (data) => {
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.update.success',
-                        data: data,
-                    })
-                    resolve()
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.update.error',
-                        error: error,
-                    })
-                    reject(error)
-                }
-            )
-        })
+        return this.api.request(
+            'POST',
+            'Demo.Payment.Invoice.add',
+            { ownErrorHandler: true },
+            cartInformation,
+            (data) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.error',
+                    error: error,
+                })
+            }
+        )
     }
 
+    /**
+     * @param update
+     * @return Promise
+     */
     this.updateLineItem = (update) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
         })
 
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.CartApi.Cart.updateLineItem',
-                { ownErrorHandler: true },
-                update,
-                (data) => {
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.update.success',
-                        data: data,
-                    })
-                    resolve()
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.update.error',
-                        error: error,
-                    })
-                    reject(error)
-                }
-            )
-        })
+        return this.api.request(
+            'POST',
+            'Frontastic.CartApi.Cart.updateLineItem',
+            { ownErrorHandler: true },
+            update,
+            (data) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.error',
+                    error: error,
+                })
+            }
+        )
     }
 
+    /**
+     * @param update
+     * @return Promise
+     */
     this.removeLineItem = (update) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
         })
 
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.CartApi.Cart.removeLineItem',
-                { ownErrorHandler: true },
-                update,
-                (data) => {
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.remove.success',
-                        data: data,
-                    })
-                    resolve()
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.remove.error',
-                        error: error,
-                    })
-                    reject(error)
-                }
-            )
-        })
+        return this.api.request(
+            'POST',
+            'Frontastic.CartApi.Cart.removeLineItem',
+            { ownErrorHandler: true },
+            update,
+            (data) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.remove.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'CartApi.Cart.remove.error',
+                    error: error,
+                })
+            }
+        )
     }
 
+    /**
+     * @param cartInformation
+     * @return Promise
+     */
     this.updateCart = (cartInformation) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
         })
 
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.CartApi.Cart.update',
-                { ownErrorHandler: true },
-                cartInformation,
-                (data) => {
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.update.success',
-                        data: data,
-                    })
-                    resolve()
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.update.error',
-                        error: error,
-                    })
-                    reject(error)
-                }
-            )
-        })
+        return this.api.request(
+            'POST',
+            'Frontastic.CartApi.Cart.update',
+            { ownErrorHandler: true },
+            cartInformation,
+            (data) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.error',
+                    error: error,
+                })
+            }
+        )
     }
 
+    /**
+     * @param code
+     * @return Promise
+     */
     this.redeemDiscount = (code) => {
         if (!code) {
             return
@@ -247,31 +252,31 @@ let CartLoader = function (store, api) {
             type: 'CartApi.Cart.loading',
         })
 
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.CartApi.Cart.redeemDiscount',
-                { ownErrorHandler: true, code: code },
-                null,
-                (data) => {
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.update.success',
-                        data: data,
-                    })
-                    resolve(data)
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.update.error',
-                        error: error,
-                    })
-                    reject(error)
-                }
-            )
-        })
+        return this.api.request(
+            'POST',
+            'Frontastic.CartApi.Cart.redeemDiscount',
+            { ownErrorHandler: true, code: code },
+            null,
+            (data) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.error',
+                    error: error,
+                })
+            }
+        )
     }
 
+    /**
+     * @param discountId
+     * @return Promise
+     */
     this.removeDiscount = (discountId) => {
         if (!discountId) {
             return
@@ -281,59 +286,54 @@ let CartLoader = function (store, api) {
             type: 'CartApi.Cart.loading',
         })
 
-        // TS, 2019-08-02: Permitted adjustment. Maybe merge upstream?
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.CartApi.Cart.removeDiscount',
-                { ownErrorHandler: true },
-                { discountId: discountId },
-                (data) => {
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.update.success',
-                        data: data,
-                    })
-                    resolve(data)
-                },
-                (error) => {
-                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.update.error',
-                        error: error,
-                    })
-                    reject(error)
-                }
-            )
-        })
+        return this.api.request(
+            'POST',
+            'Frontastic.CartApi.Cart.removeDiscount',
+            { ownErrorHandler: true },
+            { discountId: discountId },
+            (data) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                this.store.dispatch({
+                    type: 'CartApi.Cart.update.error',
+                    error: error,
+                })
+            }
+        )
     }
 
+    /**
+     * @param cartInformation
+     * @return Promise
+     */
     this.checkout = (cartInformation) => {
         this.store.dispatch({
             type: 'CartApi.Cart.loading',
         })
 
-        return new Promise((resolve, reject) => {
-            this.api.request(
-                'POST',
-                'Frontastic.CartApi.Cart.checkout',
-                { ownErrorHandler: true },
-                cartInformation,
-                (data) => {
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.checkout.success',
-                        data: data,
-                    })
-                    resolve(data)
-                },
-                (error) => {
-                    this.store.dispatch({
-                        type: 'CartApi.Cart.checkout.error',
-                        error: error,
-                    })
-                    reject(error)
-                }
-            )
-        }).then((data) => {
+        return this.api.request(
+            'POST',
+            'Frontastic.CartApi.Cart.checkout',
+            { ownErrorHandler: true },
+            cartInformation,
+            (data) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.checkout.success',
+                    data: data,
+                })
+            },
+            (error) => {
+                this.store.dispatch({
+                    type: 'CartApi.Cart.checkout.error',
+                    error: error,
+                })
+            }
+        ).then((data) => {
             app.getRouter().push(
                 'Frontastic.Frontend.Master.Checkout.finished',
                 {
