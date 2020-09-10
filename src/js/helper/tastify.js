@@ -38,6 +38,9 @@ const availableSelectors = {
     isServerSideRendering: (state) => {
         return state.renderContext.serverSideRendering
     },
+    route: (state) => {
+        return state.app?.route
+    },
 }
 
 /**
@@ -128,6 +131,7 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
  * @param {boolean} configuration.connect.context - Whether to pass the frontastic context object.
  * @param {boolean} configuration.connect.deviceType - Whether to pass the deviceType
  * @param {boolean} configuration.connect.isServerSideRendering - Whether we should pass a flag `isServerSideRendering`
+ * @param {boolean} configuration.connect.route - Whether to pass information about the current route
  * @param {boolean} configuration.translate - Automatically translate tastic fields from backstage
  */
 const tastify = (configuration = {}) => {
