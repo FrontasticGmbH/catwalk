@@ -68,6 +68,7 @@ const TasticWrapper = (props) => {
     // deprecation notice otherwise
     let tasticName = Tastic.name || Tastic.WrappedComponent.name || 'UnknownTastic'
     if ((tasticName !== 'WithTranslatedTasticData') &&
+        (tasticName !== '_temp') &&
         (typeof Tastic !== 'function' || tasticName !== 'TastifiedTastic')) {
         if (props.autoTastify) {
             Tastic = tastify({ translate: true })(Tastic)
