@@ -106,6 +106,7 @@ class Image extends Component {
             'url',
             'alt',
             'dispatch',
+            'deviceType',
         ]
 
         if (this.state.error || !this.state.width || !this.state.height) {
