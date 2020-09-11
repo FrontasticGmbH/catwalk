@@ -323,4 +323,8 @@ export default {
         passwordMatch: 'Passwords don\'t match',
         minLength: 'Password must have at least 6 characters',
     },
+    slider: {
+        previous: 'Previous',
+        next: 'Next',
+    },
 }
