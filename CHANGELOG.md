@@ -1,5 +1,19 @@
 # catwalk Changelog
 
+## `1.1.9` (2020-09-11)
+
+* Added support for auto-tastify
+* Implementd translations directly in `tastify`
+* Deprecate Tastics not wrapped into tastify()
+* Got rid of lodash in catwalk
+* Allow disabling client side hydration
+* Return promise from all possible loader methods.
+* Implemented support for TypeScript
+* fix: Refresh context after login / logout
+* fix: Connect cart & wishlist; Added connecting notifications & order
+* fix: Dispatch correct result to success()
+* fix: Image rendering resilience
+
 ## `1.1.8` (2020-08-24)
 
 * fix: Ensure getCountry() BC and throw out mappings
