@@ -110,7 +110,6 @@ export default {
         },
 
     },
-
     header: {
         search: 'Search',
         myAccount: 'My account',
@@ -278,7 +277,9 @@ export default {
         },
         delivery24hs: 'Delivery in 24 hs',
         freeReturns: 'Free returns',
-
+        list: {
+            loadMore: 'Load More',
+        },
     },
     filters: {
         newArrivals: 'New arrivals',
