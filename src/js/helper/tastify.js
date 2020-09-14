@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import withTranslatedTasticData from '../component/withTranslatedTasticData'
+import emptyEntity from './emptyEntity'
 
 /**
  * An object of possible selectors for tastify()
@@ -16,16 +17,29 @@ const availableSelectors = {
         return state.app.context
     },
     cart: (state) => {
-        return state.cart
+        return state.cart?.cart || emptyEntity
+    },
+    order: (state) => {
+        if (state.app.route.has('order')) {
+            return state.cart.orders[state.app.route.get('order')] || emptyEntity
+        } else {
+            return state.cart.lastOrder || emptyEntity
+        }
     },
     wishlist: (state) => {
-        return state.wishlist
+        return state.wishlist?.wishlist || emptyEntity
+    },
+    notifications: (state) => {
+        return state.user.notifications
     },
     deviceType: (state) => {
         return state.renderContext.deviceType
     },
     isServerSideRendering: (state) => {
         return state.renderContext.serverSideRendering
+    },
+    route: (state) => {
+        return state.app?.route
     },
 }
 
@@ -82,6 +96,9 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
     if (!configuration.connect.cart) {
         delete props.cart
     }
+    if (!configuration.connect.order) {
+        delete props.order
+    }
     if (!configuration.connect.node) {
         delete props.node
     }
@@ -106,12 +123,15 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
  * @param {boolean} configuration.connect.rawData - Whether to pass "rawData". Should not be needed anymore.
  * @param {boolean} configuration.connect.node - Whether to pass information about the current node.
  * @param {boolean} configuration.connect.cart - Whether to pass information about the current cart.
+ * @param {boolean} configuration.connect.order - Whether to pass information about the last or currently selected order
  * @param {boolean} configuration.connect.page - Whether to pass information about the current page.
  * @param {boolean} configuration.connect.tastic - Whether to pass the schema of the current tastic. Rarely needed.
  * @param {boolean} configuration.connect.wishlist - Whether to pass information about the current wishlist.
+ * @param {boolean} configuration.connect.notifications - Whether to pass information about the current notifications.
  * @param {boolean} configuration.connect.context - Whether to pass the frontastic context object.
  * @param {boolean} configuration.connect.deviceType - Whether to pass the deviceType
  * @param {boolean} configuration.connect.isServerSideRendering - Whether we should pass a flag `isServerSideRendering`
+ * @param {boolean} configuration.connect.route - Whether to pass information about the current route
  * @param {boolean} configuration.translate - Automatically translate tastic fields from backstage
  */
 const tastify = (configuration = {}) => {

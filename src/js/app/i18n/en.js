@@ -110,7 +110,6 @@ export default {
         },
 
     },
-
     header: {
         search: 'Search',
         myAccount: 'My account',
@@ -278,7 +277,9 @@ export default {
         },
         delivery24hs: 'Delivery in 24 hs',
         freeReturns: 'Free returns',
-
+        list: {
+            loadMore: 'Load More',
+        },
     },
     filters: {
         newArrivals: 'New arrivals',
@@ -322,5 +323,9 @@ export default {
         emailMatch: 'Emails don\'t match',
         passwordMatch: 'Passwords don\'t match',
         minLength: 'Password must have at least 6 characters',
+    },
+    slider: {
+        previous: 'Previous',
+        next: 'Next',
     },
 }

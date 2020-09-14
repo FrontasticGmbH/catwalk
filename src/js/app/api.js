@@ -75,7 +75,7 @@ let Api = function (router, store) {
             }
         }).then((response) => {
             if (success) {
-                success(response.json, parameters)
+                success(response, parameters)
             }
             return response
         }).catch((e) => {

@@ -84,6 +84,7 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             { email: email, password: password },
             (json) => {
+                this.refresh()
                 if (previous) {
                     app.getRouter().replace(
                         previous.route,
@@ -110,6 +111,7 @@ let Loader = function (store, api) {
             null,
             (json) => {
                 this.notifyUser(<Message code='account.message.logout' message='Successfully logged out' />, 'success')
+                this.refresh()
             },
             (json) => {
                 this.store.dispatch({
