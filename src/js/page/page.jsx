@@ -6,7 +6,7 @@ import Page from 'frontastic-common/src/js/domain/page'
 
 const PageView = ({ page, tastics, node, data, highlight }) => {
     const [pageState, setStatePage] = useState(
-        new Page(page || {}, Object.keys(page.regions), tastics || [])
+        new Page(page || {}, Object.keys(page.regions || {}), tastics || [])
     )
     const [tasticsState, seTasticsState] = useState(tastics)
 
@@ -15,7 +15,7 @@ const PageView = ({ page, tastics, node, data, highlight }) => {
         tasticsState.length !== tastics.length
     ) {
         setStatePage(
-            new Page(page || {}, Object.keys(page.regions), tastics || [])
+            new Page(page || {}, Object.keys(page.regions || {}), tastics || [])
         )
         seTasticsState(tastics)
     }
