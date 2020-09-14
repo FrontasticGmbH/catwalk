@@ -11,16 +11,19 @@ class Region extends DataObject
 {
     /**
      * @var string
+     * @required
      */
     public $regionId;
 
     /**
      * @var Region\Configuration
+     * @required
      */
     public $configuration;
 
     /**
      * @var Cell[]
+     * @required
      */
     public $elements = [];
 

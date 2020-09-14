@@ -9,9 +9,15 @@ class RegisterPaymentResult extends DataObject
     public const PAYMENT_MODE_SEAMLESS = 'seamless';
     public const PAYMENT_MODE_EMBEDDED = 'embedded';
 
-    /** @var string */
+    /**
+     * @required
+     * @var string
+     */
     public $paymentUrl;
 
-    /** @var string self::PAYMENT_MODE_* */
+    /**
+     * @required
+     * @var string
+     */
     public $paymentMode;
 }

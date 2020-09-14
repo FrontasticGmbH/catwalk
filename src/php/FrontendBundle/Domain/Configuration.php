@@ -11,16 +11,19 @@ class Configuration extends DataObject
 {
     /**
      * @var boolean
+     * @required
      */
     public $mobile = true;
 
     /**
      * @var boolean
+     * @required
      */
     public $tablet = true;
 
     /**
      * @var boolean
+     * @required
      */
     public $desktop = true;
 

@@ -11,11 +11,13 @@ class Cell extends DataObject
 {
     /**
      * @var string
+     * @required
      */
     public $cellId;
 
     /**
      * @var Cell\Configuration
+     * @required
      */
     public $configuration;
 
@@ -26,6 +28,7 @@ class Cell extends DataObject
 
     /**
      * @var Tastic[]
+     * @required
      */
     public $tastics = [];
 }

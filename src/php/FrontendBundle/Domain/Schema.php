@@ -15,31 +15,37 @@ class Schema extends DataObject
 
     /**
      * @var string
+     * @required
      */
     public $schemaId;
 
     /**
      * @var string
+     * @required
      */
     public $schemaType;
 
     /**
      * @var array
+     * @required
      */
     public $schema;
 
     /**
      * @var \Frontastic\Backstage\UserBundle\Domain\MetaData
+     * @required
      */
     public $metaData;
 
     /**
      * @var string
+     * @required
      */
     public $sequence;
 
     /**
      * @var bool
+     * @required
      */
     public $isDeleted = false;
 

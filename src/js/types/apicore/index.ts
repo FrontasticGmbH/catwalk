@@ -27,13 +27,13 @@ export interface AppRepository {
 
 export interface Context {
      environment?: string;
-     customer?: ReplicatorCustomer;
-     project?: ReplicatorProject;
-     projectConfiguration?: any;
-     projectConfigurationSchema?: any;
-     locale?: string;
-     currency?: string;
-     routes?: string[];
+     customer: ReplicatorCustomer;
+     project: ReplicatorProject;
+     projectConfiguration: any;
+     projectConfigurationSchema: any;
+     locale: string;
+     currency: string;
+     routes: string[];
      session?: AccountSession;
      featureFlags?: any;
      host?: string;

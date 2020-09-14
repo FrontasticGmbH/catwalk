@@ -21,16 +21,16 @@ import {
 } from './tastic/'
 
 export interface Cell {
-     cellId?: string;
-     configuration?: FrontendCellConfiguration;
+     cellId: string;
+     configuration: FrontendCellConfiguration;
      customConfiguration?: null | any /* \stdClass */;
-     tastics?: Tastic[];
+     tastics: Tastic[];
 }
 
 export interface Configuration {
-     mobile?: boolean;
-     tablet?: boolean;
-     desktop?: boolean;
+     mobile: boolean;
+     tablet: boolean;
+     desktop: boolean;
 }
 
 export interface Facet extends ProductProductApiFacetDefinition {
@@ -123,41 +123,41 @@ export interface Redirect {
 }
 
 export interface Region {
-     regionId?: string;
-     configuration?: FrontendRegionConfiguration;
-     elements?: Cell[];
+     regionId: string;
+     configuration: FrontendRegionConfiguration;
+     elements: Cell[];
      cells?: Cell[];
 }
 
 export interface Route {
-     nodeId?: string;
-     route?: string;
+     nodeId: string;
+     route: string;
      locale?: null | string;
 }
 
 export interface Schema {
-     schemaId?: string;
-     schemaType?: string;
-     schema?: any;
-     metaData?: any /* \Frontastic\Backstage\UserBundle\Domain\MetaData */;
-     sequence?: string;
-     isDeleted?: boolean;
+     schemaId: string;
+     schemaType: string;
+     schema: any;
+     metaData: any /* \Frontastic\Backstage\UserBundle\Domain\MetaData */;
+     sequence: string;
+     isDeleted: boolean;
 }
 
 export interface Stream {
-     streamId?: string;
-     type?: string;
-     name?: string;
-     configuration?: any;
-     tastics?: Tastic[];
+     streamId: string;
+     type: string;
+     name: string;
+     configuration: any;
+     tastics: Tastic[];
 }
 
 export interface StreamContext {
-     node?: Node;
-     page?: Page;
-     context?: ApiCoreContext;
-     usingTastics?: Tastic[];
-     parameters?: any;
+     node: Node;
+     page: Page;
+     context: ApiCoreContext;
+     usingTastics: Tastic[];
+     parameters: any;
 }
 
 export interface Tastic {

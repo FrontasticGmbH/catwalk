@@ -25,36 +25,43 @@ class Context extends DataObject
 
     /**
      * @var Customer
+     * @required
      */
     public $customer;
 
     /**
      * @var Project
+     * @required
      */
     public $project;
 
     /**
      * @var array
+     * @required
      */
     public $projectConfiguration = [];
 
     /**
      * @var array
+     * @required
      */
     public $projectConfigurationSchema = [];
 
     /**
      * @var string
+     * @required
      */
     public $locale;
 
     /**
      * @var string
+     * @required
      */
     public $currency = 'EUR';
 
     /**
      * @var string[]
+     * @required
      */
     public $routes = [];
 
