@@ -11,16 +11,19 @@ class Tastic extends DataObject
 {
     /**
      * @var string
+     * @required
      */
     public $tasticId;
 
     /**
      * @var string
+     * @required
      */
     public $tasticType;
 
     /**
      * @var string
+     * @required
      */
     public $sequence;
 
@@ -36,6 +39,7 @@ class Tastic extends DataObject
 
     /**
      * @var \StdClass
+     * @required
      */
     public $configurationSchema;
 
@@ -46,11 +50,13 @@ class Tastic extends DataObject
 
     /**
      * @var \Frontastic\UserBundle\Domain\MetaData
+     * @required
      */
     public $metaData;
 
     /**
      * @var bool
+     * @required
      */
     public $isDeleted = false;
 }

@@ -34,25 +34,25 @@ export interface Configuration {
 }
 
 export interface Facet extends ProductProductApiFacetDefinition {
-     facetId?: string;
-     sequence?: string;
-     sort?: number;
-     isEnabled?: boolean;
+     facetId: string;
+     sequence: string;
+     sort: number;
+     isEnabled: boolean;
      label?: null | any;
      urlIdentifier?: string;
      facetOptions?: any;
-     metaData?: any /* \Frontastic\Catwalk\FrontendBundle\Domain\MetaData */;
-     isDeleted?: boolean;
+     metaData: any /* \Frontastic\Catwalk\FrontendBundle\Domain\MetaData */;
+     isDeleted: boolean;
 }
 
 export interface Layout {
-     layoutId?: string;
-     sequence?: string;
-     name?: string;
+     layoutId: string;
+     sequence: string;
+     name: string;
      description?: string;
      image?: string;
-     regions?: string[];
-     metaData?: any /* \Frontastic\UserBundle\Domain\MetaData */;
+     regions: string[];
+     metaData: any /* \Frontastic\UserBundle\Domain\MetaData */;
 }
 
 export interface MasterPageMatcherRules {
@@ -63,31 +63,31 @@ export interface MasterPageMatcherRules {
 }
 
 export interface Node {
-     nodeId?: string;
-     isMaster?: boolean;
-     nodeType?: string;
-     sequence?: string;
-     configuration?: any;
-     streams?: Stream[];
+     nodeId: string;
+     isMaster: boolean;
+     nodeType: string;
+     sequence: string;
+     configuration: any;
+     streams: Stream[];
      name?: string;
-     path?: string[];
+     path: string[];
      depth?: number;
-     sort?: number;
-     children?: Node[];
-     metaData?: any /* \Frontastic\Backstage\UserBundle\Domain\MetaData */;
+     sort: number;
+     children: Node[];
+     metaData: any /* \Frontastic\Backstage\UserBundle\Domain\MetaData */;
      error?: null | string;
-     isDeleted?: boolean;
+     isDeleted: boolean;
 }
 
 export interface Page {
-     pageId?: string;
-     sequence?: string;
-     node?: Node;
+     pageId: string;
+     sequence: string;
+     node: Node;
      layoutId?: string;
-     regions?: Region[];
-     metaData?: any /* \Frontastic\UserBundle\Domain\MetaData */;
-     isDeleted?: boolean;
-     state?: string;
+     regions: Region[];
+     metaData: any /* \Frontastic\UserBundle\Domain\MetaData */;
+     isDeleted: boolean;
+     state: string;
      scheduledFromTimestamp?: null | number;
      scheduledToTimestamp?: null | number;
      nodesPagesOfTypeSortIndex?: null | number;
@@ -95,31 +95,31 @@ export interface Page {
 }
 
 export interface Preview {
-     previewId?: string;
-     createdAt?: any /* \DateTime */;
-     node?: Node;
-     page?: Page;
-     metaData?: any /* \FrontendBundle\UserBundle\Domain\MetaData */;
+     previewId: string;
+     createdAt: any /* \DateTime */;
+     node: Node;
+     page: Page;
+     metaData: any /* \FrontendBundle\UserBundle\Domain\MetaData */;
 }
 
 export interface ProjectConfiguration {
-     projectConfigurationId?: string;
-     configuration?: any;
-     metaData?: any /* \Frontastic\Backstage\UserBundle\Domain\MetaData */;
-     sequence?: string;
-     isDeleted?: boolean;
+     projectConfigurationId: string;
+     configuration: any;
+     metaData: any /* \Frontastic\Backstage\UserBundle\Domain\MetaData */;
+     sequence: string;
+     isDeleted: boolean;
 }
 
 export interface Redirect {
-     redirectId?: string;
-     sequence?: string;
-     path?: string;
+     redirectId: string;
+     sequence: string;
+     path: string;
      query?: string;
-     targetType?: string;
-     target?: string;
+     targetType: string;
+     target: string;
      language?: null | string;
-     metaData?: any /* \Frontastic\Backstage\UserBundle\Domain\MetaData */;
-     isDeleted?: boolean;
+     metaData: any /* \Frontastic\Backstage\UserBundle\Domain\MetaData */;
+     isDeleted: boolean;
 }
 
 export interface Region {
@@ -161,9 +161,9 @@ export interface StreamContext {
 }
 
 export interface Tastic {
-     tasticId?: string;
-     tasticType?: string;
-     configuration?: FrontendTasticConfiguration;
+     tasticId: string;
+     tasticType: string;
+     configuration: FrontendTasticConfiguration;
 }
 
 export interface ViewData {

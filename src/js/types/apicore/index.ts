@@ -10,14 +10,14 @@ import {
 } from '@frontastic/common/src/js/types/account'
 
 export interface App {
-     appId?: string;
-     identifier?: string;
-     sequence?: string;
+     appId: string;
+     identifier: string;
+     sequence: string;
      name?: string;
      description?: string;
-     configurationSchema?: any /* \StdClass */;
+     configurationSchema: any /* \StdClass */;
      environment?: string;
-     metaData?: any /* \Frontastic\UserBundle\Domain\MetaData */;
+     metaData: any /* \Frontastic\UserBundle\Domain\MetaData */;
 }
 
 export interface AppRepository {
@@ -40,13 +40,13 @@ export interface Context {
 }
 
 export interface Tastic {
-     tasticId?: string;
-     tasticType?: string;
-     sequence?: string;
+     tasticId: string;
+     tasticType: string;
+     sequence: string;
      name?: string;
      description?: string;
-     configurationSchema?: any /* \StdClass */;
+     configurationSchema: any /* \StdClass */;
      environment?: string;
-     metaData?: any /* \Frontastic\UserBundle\Domain\MetaData */;
-     isDeleted?: boolean;
+     metaData: any /* \Frontastic\UserBundle\Domain\MetaData */;
+     isDeleted: boolean;
 }

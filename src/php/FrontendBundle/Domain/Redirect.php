@@ -15,16 +15,19 @@ class Redirect extends DataObject
 
     /**
      * @var string
+     * @required
      */
     public $redirectId;
 
     /**
      * @var string
+     * @required
      */
     public $sequence;
 
     /**
      * @var string
+     * @required
      */
     public $path;
 
@@ -37,11 +40,13 @@ class Redirect extends DataObject
      * One of TARGET_TYPE_* constants
      *
      * @var string
+     * @required
      */
     public $targetType;
 
     /**
      * @var string
+     * @required
      */
     public $target;
 
@@ -52,11 +57,13 @@ class Redirect extends DataObject
 
     /**
      * @var \Frontastic\Backstage\UserBundle\Domain\MetaData
+     * @required
      */
     public $metaData;
 
     /**
      * @var bool
+     * @required
      */
     public $isDeleted = false;
 
