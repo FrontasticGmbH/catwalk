@@ -69,6 +69,7 @@ module.exports = {
     servedPath: getServedPath(resolveApp('package.json')),
     commonSrc: resolveApp('../libraries'),
     repositoryRoot: repositoryRoot,
+    catwalk: repositoryRoot + '/node_modules/@frontastic/catwalk',
     theme: repositoryRoot + '/node_modules/@frontastic/theme-boost',
     themeSrc: repositoryRoot + '/node_modules/@frontastic/theme-boost/src',
 }
