@@ -4,6 +4,9 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Kore\DataObject\DataObject;
 
+/**
+ * @type
+ */
 class Schema extends DataObject
 {
     public const TYPE_NODE_CONFIGURATION = 'nodeConfiguration';
@@ -12,31 +15,37 @@ class Schema extends DataObject
 
     /**
      * @var string
+     * @required
      */
     public $schemaId;
 
     /**
      * @var string
+     * @required
      */
     public $schemaType;
 
     /**
      * @var array
+     * @required
      */
     public $schema;
 
     /**
      * @var \Frontastic\Backstage\UserBundle\Domain\MetaData
+     * @required
      */
     public $metaData;
 
     /**
      * @var string
+     * @required
      */
     public $sequence;
 
     /**
      * @var bool
+     * @required
      */
     public $isDeleted = false;
 

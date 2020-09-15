@@ -4,20 +4,26 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Kore\DataObject\DataObject;
 
+/**
+ * @type
+ */
 class Layout extends DataObject
 {
     /**
      * @var string
+     * @required
      */
     public $layoutId;
 
     /**
      * @var string
+     * @required
      */
     public $sequence;
 
     /**
      * @var string
+     * @required
      */
     public $name;
 
@@ -33,11 +39,13 @@ class Layout extends DataObject
 
     /**
      * @var string[]
+     * @required
      */
     public $regions = [];
 
     /**
      * @var \Frontastic\UserBundle\Domain\MetaData
+     * @required
      */
     public $metaData;
 }

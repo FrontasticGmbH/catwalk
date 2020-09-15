@@ -6,21 +6,38 @@ use Kore\DataObject\DataObject;
 
 class WirecardCredentials extends DataObject
 {
-    /** @var string */
+    /**
+     * @var string
+     * @required
+     */
     public $merchant;
 
-    /** @var string */
+    /**
+     * @var string
+     * @required
+     */
     public $user;
 
-    /** @var string */
+    /**
+     * @var string
+     * @required
+     */
     public $password;
 
-    /** @var string */
+    /**
+     * @var string
+     * @required
+     */
     public $secret;
 
-    /** @var string */
+    /**
+     * @var string
+     * @required
+     */
     public $host;
 
-    /** @var string|null */
+    /**
+     * @var string|null
+     */
     public $creditorId;
 }

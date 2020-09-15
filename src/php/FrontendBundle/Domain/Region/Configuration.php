@@ -4,12 +4,34 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain\Region;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\Configuration as BaseConfiguration;
 
+/**
+ * @type
+ */
 class Configuration extends BaseConfiguration
 {
+    /**
+     * @var string
+     */
     public $flexDirection = "column";
+
+    /**
+     * @var string
+     */
     public $flexWrap = "nowrap";
+
+    /**
+     * @var string
+     */
     public $justifyContent = "space-between";
+
+    /**
+     * @var string
+     */
     public $alignItems = "stretch";
+
+    /**
+     * @var string
+     */
     public $alignContent = "space-between";
 
     public function getStyle(): string

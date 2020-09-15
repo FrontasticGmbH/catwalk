@@ -4,6 +4,9 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\UserBundle\Domain\MetaData;
 
+/**
+ * @type
+ */
 class MasterPageMatcherRules
 {
     /**

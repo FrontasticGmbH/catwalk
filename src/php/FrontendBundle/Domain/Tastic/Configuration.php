@@ -4,6 +4,9 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain\Tastic;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\Configuration as BaseConfiguration;
 
+/**
+ * @type
+ */
 class Configuration extends BaseConfiguration
 {
     public function __get($name)

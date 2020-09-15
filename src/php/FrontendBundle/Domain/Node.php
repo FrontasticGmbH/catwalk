@@ -4,35 +4,44 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Kore\DataObject\DataObject;
 
+/**
+ * @type
+ */
 class Node extends DataObject
 {
     /**
      * @var string
+     * @required
      */
     public $nodeId;
 
     /**
      * @var bool
+     * @required
      */
     public $isMaster = false;
 
     /**
      * @var string
+     * @required
      */
     public $nodeType = 'landingpage';
 
     /**
      * @var string
+     * @required
      */
     public $sequence;
 
     /**
      * @var array
+     * @required
      */
     public $configuration = [];
 
     /**
      * @var Stream[]
+     * @required
      */
     public $streams = [];
 
@@ -43,6 +52,7 @@ class Node extends DataObject
 
     /**
      * @var string[]
+     * @required
      */
     public $path = [];
 
@@ -53,16 +63,19 @@ class Node extends DataObject
 
     /**
      * @var integer
+     * @required
      */
     public $sort = 0;
 
     /**
      * @var Node[]
+     * @required
      */
     public $children = [];
 
     /**
      * @var \Frontastic\Backstage\UserBundle\Domain\MetaData
+     * @required
      */
     public $metaData;
 
@@ -75,6 +88,7 @@ class Node extends DataObject
 
     /**
      * @var bool
+     * @required
      */
     public $isDeleted = false;
 }

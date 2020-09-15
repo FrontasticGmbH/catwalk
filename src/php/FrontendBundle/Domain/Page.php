@@ -4,20 +4,26 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Kore\DataObject\DataObject;
 
+/**
+ * @type
+ */
 class Page extends DataObject
 {
     /**
      * @var string
+     * @required
      */
     public $pageId;
 
     /**
      * @var string
+     * @required
      */
     public $sequence;
 
     /**
      * @var Node
+     * @required
      */
     public $node;
 
@@ -28,21 +34,25 @@ class Page extends DataObject
 
     /**
      * @var Region[]
+     * @required
      */
     public $regions = [];
 
     /**
      * @var \Frontastic\UserBundle\Domain\MetaData
+     * @required
      */
     public $metaData;
 
     /**
      * @var bool
+     * @required
      */
     public $isDeleted = false;
 
     /**
      * @var string
+     * @required
      */
     public $state;
 

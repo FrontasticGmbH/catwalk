@@ -6,6 +6,7 @@ use Kore\DataObject\DataObject;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields) FIXME: Refactor
+ * @type
  */
 class PageMatcherContext extends DataObject
 {

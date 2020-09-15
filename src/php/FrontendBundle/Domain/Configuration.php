@@ -4,20 +4,26 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Kore\DataObject\DataObject;
 
+/**
+ * @type
+ */
 class Configuration extends DataObject
 {
     /**
      * @var boolean
+     * @required
      */
     public $mobile = true;
 
     /**
      * @var boolean
+     * @required
      */
     public $tablet = true;
 
     /**
      * @var boolean
+     * @required
      */
     public $desktop = true;
 

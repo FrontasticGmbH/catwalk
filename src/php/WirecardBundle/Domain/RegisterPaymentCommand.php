@@ -9,19 +9,34 @@ class RegisterPaymentCommand extends DataObject
 {
     public const TYPE_CREDITCARD = 'creditcard';
 
-    /** @var string */
+    /**
+     * @var string
+     * @required
+     */
     public $paymentId;
 
-    /** @var int */
+    /**
+     * @var int
+     * @required
+     */
     public $amount;
 
-    /** @var Cart */
+    /**
+     * @var Cart
+     * @required
+     */
     public $cart;
 
-    /** @var string self::TYPE_* */
+    /**
+     * @var string
+     * @required
+     */
     public $type;
 
-    /** @var string|null */
+    /**
+     * @var ?string
+     * @required
+     */
     public $credentialsType;
 
     public function getCredentialsType(): string
