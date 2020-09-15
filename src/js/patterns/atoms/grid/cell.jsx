@@ -7,6 +7,7 @@ export default function Cell ({
     fullWidth = false,
     className = '',
     prefix = 'o-cell',
+    style = {},
     hideOn = [],
 }) {
     // exact same code as in Grid.jsx. Maybe time for a helper?
@@ -33,7 +34,7 @@ export default function Cell ({
 
     return (
         <div
-            style={fullWidth ? fullWidthStyle : {}}
+            style={fullWidth ? { ...fullWidthStyle, ...style} : style }
             className={`${prefix} ${prefix}--${size}${
                 fullWidth ? ` ${prefix}--full` : ''
             } ${className} ${hideOnClasses}`}
@@ -45,6 +46,7 @@ export default function Cell ({
 
 Cell.propTypes = {
     size: PropTypes.oneOf([1, 2, 3, 4, 6, 8, 12]),
+    style: PropTypes.object,
     children: PropTypes.node,
     fullWidth: PropTypes.bool,
     className: PropTypes.string,
