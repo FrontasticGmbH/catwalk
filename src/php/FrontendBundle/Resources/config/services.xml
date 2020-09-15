@@ -259,6 +259,15 @@
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
         </service>
 
+        <service id="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi" alias="frontastic.catwalk.product_search_api" />
+
+        <service id="frontastic.catwalk.product_search_api" class="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi">
+            <factory
+                service="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory"
+                method="factor" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
+
         <service id="frontastic.catwalk.content_api" class="Frontastic\Common\ContentApiBundle\Domain\ContentApi">
             <factory
                 service="Frontastic\Common\ContentApiBundle\Domain\ContentApiFactory"
