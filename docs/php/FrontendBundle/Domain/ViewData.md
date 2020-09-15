@@ -4,8 +4,9 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-Property|Type|Default|Description
---------|----|-------|-----------
-`stream`|`object`||Hash map of streams
-`tastic`|`object`||Hash map of tastic field data
+Property|Type|Default|Required|Description
+--------|----|-------|--------|-----------
+`stream` | `object` |  | - | Hash map of streams
+`tastic` | `object` |  | - | Hash map of tastic field data
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

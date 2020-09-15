@@ -61,3 +61,4 @@ Argument|Type|Default|Description
 
 Return Value: [`Context`](../../ApiCoreBundle/Domain/Context.md)
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

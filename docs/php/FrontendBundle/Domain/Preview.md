@@ -4,11 +4,12 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-Property|Type|Default|Description
---------|----|-------|-----------
-`previewId`|`string`||
-`createdAt`|`\DateTime`||
-`node`|[`Node`](Node.md)||
-`page`|[`Page`](Page.md)||
-`metaData`|`\FrontendBundle\UserBundle\Domain\MetaData`||
+Property|Type|Default|Required|Description
+--------|----|-------|--------|-----------
+`previewId` | `string` |  | *Yes* | 
+`createdAt` | `\DateTime` |  | *Yes* | 
+`node` | [`Node`](Node.md) |  | *Yes* | 
+`page` | [`Page`](Page.md) |  | *Yes* | 
+`metaData` | `\FrontendBundle\UserBundle\Domain\MetaData` |  | *Yes* | 
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

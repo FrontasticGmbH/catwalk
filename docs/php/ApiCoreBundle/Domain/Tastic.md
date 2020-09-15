@@ -4,15 +4,16 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-Property|Type|Default|Description
---------|----|-------|-----------
-`tasticId`|`string`||
-`tasticType`|`string`||
-`sequence`|`string`||
-`name`|`string`||
-`description`|`string`||
-`configurationSchema`|`\StdClass`||
-`environment`|`string`||
-`metaData`|`\Frontastic\UserBundle\Domain\MetaData`||
-`isDeleted`|`bool`|`false`|
+Property|Type|Default|Required|Description
+--------|----|-------|--------|-----------
+`tasticId` | `string` |  | *Yes* | 
+`tasticType` | `string` |  | *Yes* | 
+`sequence` | `string` |  | *Yes* | 
+`name` | `string` |  | - | 
+`description` | `string` |  | - | 
+`configurationSchema` | `\StdClass` |  | *Yes* | 
+`environment` | `string` |  | - | 
+`metaData` | `\Frontastic\UserBundle\Domain\MetaData` |  | *Yes* | 
+`isDeleted` | `bool` | `false` | *Yes* | 
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

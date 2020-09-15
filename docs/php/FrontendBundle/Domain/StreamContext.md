@@ -4,11 +4,12 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-Property|Type|Default|Description
---------|----|-------|-----------
-`node`|[`Node`](Node.md)||
-`page`|[`Page`](Page.md)||
-`context`|[`Context`](../../ApiCoreBundle/Domain/Context.md)||
-`usingTastics`|[`Tastic`](Tastic.md)[]|`[]`|
-`parameters`|`array`|`[]`|Parameters given to the stream in the current request context.
+Property|Type|Default|Required|Description
+--------|----|-------|--------|-----------
+`node` | [`Node`](Node.md) |  | *Yes* | 
+`page` | [`Page`](Page.md) |  | *Yes* | 
+`context` | [`Context`](../../ApiCoreBundle/Domain/Context.md) |  | *Yes* | 
+`usingTastics` | [`Tastic`](Tastic.md)[] | `[]` | *Yes* | 
+`parameters` | `array` | `[]` | *Yes* | Parameters given to the stream in the current request context.
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

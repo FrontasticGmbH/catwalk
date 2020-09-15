@@ -29,3 +29,4 @@ public function getExtensions(): iterable
 
 Return Value: `iterable`
 
+Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
