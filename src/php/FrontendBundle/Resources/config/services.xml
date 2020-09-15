@@ -146,7 +146,7 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ProductList">
-            <argument type="service" id="frontastic.catwalk.product_api" />
+            <argument type="service" id="frontastic.catwalk.product_search_api" />
 
              <tag name="frontend.streamHandler"/>
         </service>

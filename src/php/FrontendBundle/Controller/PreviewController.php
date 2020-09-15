@@ -76,9 +76,12 @@ class PreviewController extends Controller
                 $itemId = null;
                 switch ($pageType) {
                     case 'product':
-                        $result = $this->get('frontastic.catwalk.product_api')->query(new ProductQuery([
-                            'locale' => $context->locale,
-                        ]));
+                        $result = $this
+                            ->get('frontastic.catwalk.product_search_api')
+                            ->query(new ProductQuery([
+                                'locale' => $context->locale,
+                            ]))
+                            ->wait();
                         $itemId = $result->items[array_rand($result->items)]->productId;
                         break;
 

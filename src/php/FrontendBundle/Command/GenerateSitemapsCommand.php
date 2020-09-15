@@ -1,4 +1,5 @@
 <?php
+
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
@@ -17,6 +18,7 @@ use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result;
+use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -119,7 +121,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             ->addOption(
                 'exclude',
                 null,
-                InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 'Pattern to exclude all urls that match'
             )->addOption(
                 'locale',
@@ -258,14 +260,14 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                     foreach ($urls as $entry) {
                         $entries[] = [
                             'uri' => $entry['uri'],
-                            'changed' => $entry['changed']
+                            'changed' => $entry['changed'],
                         ];
                     }
                 } else {
                     foreach ($urls as $url) {
                         $entries[] = [
                             'uri' => $url,
-                            'changed' => time()
+                            'changed' => time(),
                         ];
                     }
                 }
@@ -293,7 +295,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             $output->writeln('<info>Sitemap extension ' . get_class($extension) . ' finished successfully.</info>');
         }
 
-        return  $this->singleSitemap ? $allExtensionEntries : $sitemaps;
+        return $this->singleSitemap ? $allExtensionEntries : $sitemaps;
     }
 
     private function generateNodeSitemap(Context $context, InputInterface $input, OutputInterface $output): array
@@ -330,7 +332,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
 
             $entries[] = [
                 'uri' => $route->route,
-                'changed' => strtotime($node->metaData['changed'])
+                'changed' => strtotime($node->metaData['changed']),
             ];
 
             if (!$input->getOption('with-nodes-subpages')) {
@@ -381,13 +383,13 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                     'Frontastic.Frontend.Master.Category.view',
                     [
                         'id' => $category->categoryId,
-                        'slug' => strtolower(rawurlencode($category->name))
+                        'slug' => strtolower(rawurlencode($category->name)),
                     ]
                 );
 
                 $entries[] = [
                     'uri' => $uri,
-                    'changed' => time()
+                    'changed' => time(),
                 ];
 
                 if (!$input->getOption('with-nodes-subpages')) {
@@ -396,7 +398,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
 
                 $node = $nodeService->get($masterService->matchNodeId(
                     new PageMatcherContext([
-                        'categoryId' => $category->categoryId
+                        'categoryId' => $category->categoryId,
                     ])
                 ));
                 $node->streams = $masterService->completeDefaultQuery(
@@ -439,7 +441,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                         $streamId,
                         $offset
                     ),
-                    'changed' => strtotime($node->metaData['changed'])
+                    'changed' => strtotime($node->metaData['changed']),
                 ];
                 $offset += $result->count;
             }
@@ -452,8 +454,8 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
     {
         $limit = min(500, $this->maxEntries);
 
-        /** @var ProductApi $productApi */
-        $productApi = $this->getContainer()->get(ProductApi::class);
+        /** @var ProductSearchApi $productSearchApi */
+        $productSearchApi = $this->getContainer()->get(ProductSearchApi::class);
         /** @var ProductRouter $productRouter */
         $productRouter = $this->getContainer()->get(ProductRouter::class);
 
@@ -468,14 +470,14 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         $entries = [];
 
         do {
-            $result = $productApi->query($query);
+            $result = $productSearchApi->query($query)->wait();
 
             /** @var \Frontastic\Common\ProductApiBundle\Domain\Product $product */
             foreach ($result as $product) {
                 $entries[] = [
                     'uri' => $productRouter->generateUrlFor($product),
                     'changed' => $product->changed ?? time(),
-                    'images' => $product->images
+                    'images' => $product->images,
                 ];
             }
 
@@ -535,12 +537,14 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
     {
         $this->render(
             $publicUrl,
-            ['sitemaps' => array_map(
-                function ($sitemap) {
-                    return ['uri' => $sitemap, 'changed' => time()];
-                },
-                $sitemaps
-            )],
+            [
+                'sitemaps' => array_map(
+                    function ($sitemap) {
+                        return ['uri' => $sitemap, 'changed' => time()];
+                    },
+                    $sitemaps
+                ),
+            ],
             'Sitemap/index.xml.twig',
             $file
         );

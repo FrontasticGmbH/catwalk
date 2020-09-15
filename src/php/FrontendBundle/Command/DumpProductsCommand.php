@@ -2,7 +2,6 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
-use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,8 +23,7 @@ class DumpProductsCommand extends ContainerAwareCommand
                 'c',
                 InputOption::VALUE_REQUIRED,
                 'Limit to a category ID'
-            )
-        ;
+            );
     }
 
     /**
@@ -35,17 +33,23 @@ class DumpProductsCommand extends ContainerAwareCommand
     {
         $context = $this->getContainer()->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
 
-        $productApi = $this->getContainer()->get('Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory')->factor(
-            $context->customer
-        );
+        $productSearchApi = $this->getContainer()
+            ->get('Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory')
+            ->factor(
+                $context->customer
+            );
 
         $output->write(
-            json_encode($productApi->query(
-                new ProductQuery([
-                    'locale' => $context->locale,
-                    'category' => $input->getOption('category'),
-                ])
-            ))
+            json_encode(
+                $productSearchApi
+                    ->query(
+                        new ProductQuery([
+                            'locale' => $context->locale,
+                            'category' => $input->getOption('category'),
+                        ])
+                    )
+                    ->wait()
+            )
         );
         $output->writeln('');
     }

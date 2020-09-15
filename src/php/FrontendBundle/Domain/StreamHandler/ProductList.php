@@ -5,17 +5,17 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
-use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQueryFactory;
+use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi;
 use GuzzleHttp\Promise\PromiseInterface;
 
 class ProductList extends StreamHandler
 {
-    private $productApi;
+    private $productSearchApi;
 
-    public function __construct(ProductApi $productApi)
+    public function __construct(ProductSearchApi $productSearchApi)
     {
-        $this->productApi = $productApi;
+        $this->productSearchApi = $productSearchApi;
     }
 
     public function getType(): string
@@ -31,6 +31,6 @@ class ProductList extends StreamHandler
             $stream->configuration
         );
 
-        return $this->productApi->query($query, ProductApi::QUERY_ASYNC);
+        return $this->productSearchApi->query($query);
     }
 }
