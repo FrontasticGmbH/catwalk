@@ -47,7 +47,6 @@ class ProductApiWithoutInner implements ProductApi
         return $categories;
     }
 
-
     public function queryCategories(CategoryQuery $query): Result
     {
         $categories = $this->getCategories($query);
@@ -55,7 +54,7 @@ class ProductApiWithoutInner implements ProductApi
         return new Result([
             'count' => count($categories),
             'items' => $categories,
-            'query' => clone($query)
+            'query' => clone($query),
         ]);
     }
 
@@ -106,25 +105,8 @@ class ProductApiWithoutInner implements ProductApi
      */
     public function query(ProductQuery $query, string $mode = self::QUERY_SYNC): object
     {
-        $result = $this->innerProductApi->query($query, $mode);
-        if ($result instanceof Result) {
-            $result->items = array_map([$this, 'removeInnerFromProduct'], $result->items);
-            return $result;
-        }
-
-        if ($result instanceof PromiseInterface) {
-            $result->then(
-                function (Result $queryResult) {
-                    $queryResult->items = array_map([$this, 'removeInnerFromProduct'], $queryResult->items);
-                    return $queryResult;
-                },
-                function ($value) {
-                    return $value;
-                }
-            );
-        }
-
-        return $result;
+        // We don't need to remove the inner data here since it will be removed inside the `ProductSearchApi`.
+        return $this->innerProductApi->query($query, $mode);
     }
 
     /**

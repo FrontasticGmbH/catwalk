@@ -19,6 +19,13 @@
             <argument>%kernel.debug%</argument>
         </service>
 
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProductSearchApiFactoryDecorator"
+                 decorates="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProductSearchApiFactoryDecorator.inner"/>
+            <argument type="service" id="cache.app.simple"/>
+            <argument>%kernel.debug%</argument>
+        </service>
+
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" autowire="true">
             <argument key="$router" type="service" id="router" />
             <argument key="$decorators" type="tagged" tag="context.decorator" />

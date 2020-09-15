@@ -3,14 +3,12 @@
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
 use Frontastic\Common\ProductApiBundle\Domain\Category;
-use Frontastic\Common\ProductApiBundle\Domain\Product;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductTypeQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result;
 use Frontastic\Common\ProductApiBundle\Domain\ProductType;
-use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\SimpleCache\CacheInterface;
 
@@ -65,7 +63,7 @@ class CachingProductApi implements ProductApi
         return new Result([
             'count' => count($categories),
             'items' => $categories,
-            'query' => clone($query)
+            'query' => clone($query),
         ]);
     }
 
@@ -99,25 +97,8 @@ class CachingProductApi implements ProductApi
      */
     public function query(ProductQuery $query, string $mode = self::QUERY_SYNC): object
     {
-        $cacheKey = 'frontastic.products.' . md5(json_encode($query));
-
-        $cacheEntry = $this->cache->get($cacheKey, null);
-        if (!$this->debug && $cacheEntry !== null) {
-            $resultPromise = Promise\promise_for($cacheEntry);
-        } else {
-            $resultPromise = $this->aggregate
-                ->query($query, self::QUERY_ASYNC)
-                ->then(function ($result) use ($cacheKey) {
-                    $this->cache->set($cacheKey, $result, 600);
-                    return $result;
-                });
-        }
-
-        if ($mode === self::QUERY_SYNC) {
-            return $resultPromise->wait();
-        }
-
-        return $resultPromise;
+        // We don't need to cache the result here since they will be cached inside the `ProductSearchApi`.
+        return $this->aggregate->query($query, $mode);
     }
 
     /**
