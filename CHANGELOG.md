@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.1.10` (2020-09-15)
+
+* Regenerated API documentation
+* Generated TypeScript types for catwalk & common domain models
+* Fix: Added default for regions access to work with empty object
+
 ## `1.1.9` (2020-09-11)
 
 * Added support for auto-tastify
