@@ -34,7 +34,7 @@ export default function Cell ({
 
     return (
         <div
-            style={fullWidth ? { ...fullWidthStyle, ...style} : style }
+            style={fullWidth ? { ...fullWidthStyle, ...style } : style}
             className={`${prefix} ${prefix}--${size}${
                 fullWidth ? ` ${prefix}--full` : ''
             } ${className} ${hideOnClasses}`}
