@@ -58,5 +58,4 @@ class CachingProductSearchApi extends ProductSearchApiBase
     {
         return $this->aggregate->getDangerousInnerClient();
     }
-
 }
