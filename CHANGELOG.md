@@ -1,5 +1,14 @@
 # catwalk Changelog
 
+## `1.1.11` (2020-09-17)
+
+**@TODO:** Please adapt these raw commit messages since last release into CHANGELOG entries – they will be added to the package changelog.
+
+* feat: call product search API directly
+* feat: move decorators to product search API
+* fix: Display outline on cells again
+* fix: Use correct notifier instance
+
 ## `1.1.10` (2020-09-15)
 
 * Regenerated API documentation
