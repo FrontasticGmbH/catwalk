@@ -299,6 +299,16 @@ export default {
         price: 'Price',
         sustainability: 'Sustainability',
         invalidPriceRange: 'Invalid price range',
+        filters: 'Filters',
+        clear: 'Clear',
+        clearAll: 'Clear all',
+        apply: 'Apply',
+        loadMore: 'Load more',
+        productsFound: 'Products found',
+        sortFilter: {
+            lowPrice: 'Lowest price',
+            highPrice: 'Highest price',
+        }
     },
     deleteItem: 'Delete Item',
     joinNewsletter: 'Join our newsletter',
