@@ -349,7 +349,7 @@ export default {
         sortFilter: {
             lowPrice: 'Niedriger Preis',
             highPrice: 'Hoher Preis',
-        }
+        },
     },
     deleteItem: 'Element löschen',
     joinNewsletter: 'Abonnieren Sie unseren Newsletter',

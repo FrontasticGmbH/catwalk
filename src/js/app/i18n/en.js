@@ -308,7 +308,7 @@ export default {
         sortFilter: {
             lowPrice: 'Lowest price',
             highPrice: 'Highest price',
-        }
+        },
     },
     deleteItem: 'Delete Item',
     joinNewsletter: 'Join our newsletter',
