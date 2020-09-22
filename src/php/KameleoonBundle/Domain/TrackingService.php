@@ -23,30 +23,28 @@ class TrackingService
         '(safari)i' => 3, // Safari
     ];
 
-    public function __construct($eventDispatcher)
+    public function __construct()
     {
-        $eventDispatcher->addListener('kernel.terminate', [$this, 'flush']);
-
         require_once(__DIR__ . '/../Kameleoon/KameleoonClientFactory.php');
         // @TODO: Get from configuration
         $this->client = \KameleoonClientFactory::create('hbj2kr4upb');
 
         // @TODO: Use a custom visitor code i session here, to not expose
         // Kameleoon cookie?
-        $this->visitorCode = $this->client->obtainVisitorCode($_SERVER['HTTP_HOST']);
+        $this->visitorCode = $this->client->obtainVisitorCode($_SERVER['HTTP_HOST'] ?? 'example.com');
     }
 
     public function trackPageView(Context $Context, string $pageType, ?string $path = null)
     {
         // @TODO: Track: Browser, device type, page type, actual page view
-        $path = $path ?: $_SERVER['REQUEST_URI'];
+        $path = $path ?: $_SERVER['REQUEST_URI'] ?? '/';
         $this->client->addData($this->visitorCode, new \Browser($this->getKameleoonBrowserId()));
         $this->client->addData($this->visitorCode, new \PageView($path, $pageType, $_SERVER['HTTP_REFERER'] ?? null));
     }
 
     private function getKameleoonBrowserId()
     {
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'None';
         foreach ($this->userAgentMap as $expression => $browserId) {
             if (preg_match($expression, $userAgent)) {
                 return $browserId;
@@ -87,7 +85,7 @@ class TrackingService
      */
     public function flush()
     {
-        file_put_contents('/home/kore/flush', time());
         $this->client->flush();
+        file_put_contents('/home/kore/flush', time());
     }
 }
