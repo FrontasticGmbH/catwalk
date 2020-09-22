@@ -9,6 +9,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter;
+use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -70,6 +71,9 @@ class ProductController extends Controller
         );
 
         $page = $pageService->fetchForNode($node, $context);
+
+        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
+        $this->get(TrackingService::class)->reachViewProduct($context, $product);
 
         return [
             'node' => $node,
