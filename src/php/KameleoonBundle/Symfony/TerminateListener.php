@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\KameleoonBundle\Symfony;
 
+use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
 
 class TerminateListener
@@ -13,12 +14,8 @@ class TerminateListener
         $this->trackingService = $trackingService;
     }
 
-    public function onKernelTerminate(PostResponseEvent $event)
+    public function onKernelTerminate(TerminateEvent $event)
     {
-        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
-            return;
-        }
-
         $this->trackingService->flush();
     }
 }

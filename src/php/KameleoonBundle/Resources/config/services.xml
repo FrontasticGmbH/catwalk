@@ -13,7 +13,7 @@
         <service id="Frontastic\Catwalk\KameleoonBundle\Symfony\TerminateListener">
             <argument type="service" id="Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService"/>
 
-             <tag name="kernel.event_listener" event="kernel.terminate" />
+             <tag name="kernel.event_listener" event="kernel.terminate" priority="100" />
         </service>
 
         <service id="Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService">
