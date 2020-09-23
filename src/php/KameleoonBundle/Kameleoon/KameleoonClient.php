@@ -9,4 +9,3 @@ interface KameleoonClient
     public function obtainVisitorCode($topLevelDomain, $visitorCode = NULL);
 }
 
-?>

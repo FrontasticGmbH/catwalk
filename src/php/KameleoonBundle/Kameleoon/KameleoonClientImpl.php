@@ -152,8 +152,8 @@ class KameleoonClientImpl implements KameleoonClient
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT_MS, $timeOut);
         $response = curl_exec($curl);
-        if (curl_errno($curl)) {
-            throw new Exception('API-SSX call returned status code 404');
+        if ($error = curl_error($curl)) {
+            throw new Exception('API-SSX call returned an error: ' . $error);
         }
         curl_close($curl);
         $this->experimentConfigurations = ExperimentsConfigurations::parse($response);
@@ -196,7 +196,7 @@ class KameleoonClientImpl implements KameleoonClient
             foreach ($this->getUnsentData($userID) as $d) {
                 $data .= $d->obtainFullPostTextLine() . "\n";
             }
-            $this->performPostServerCall($this->getDataTrackingURL($userID), 200, $data);
+            $this->performPostServerCall($this->getDataTrackingURL($userID), 500, $data);
             $this->emptyUnsentData($userID);
         }
         else
@@ -219,8 +219,8 @@ class KameleoonClientImpl implements KameleoonClient
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         }
         $response = curl_exec($curl);
-        if (curl_error($curl)) {
-            throw new Exception('API-SSX call returned status code 404');
+        if ($error = curl_error($curl)) {
+            throw new Exception('API-SSX call returned an error: ' . $error);
         }
         curl_close($curl);
         return $response;
@@ -305,4 +305,3 @@ class ExperimentsConfigurations
     }
 }
 
-?>
