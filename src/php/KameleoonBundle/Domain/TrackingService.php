@@ -86,6 +86,5 @@ class TrackingService
     public function flush()
     {
         $this->client->flush();
-        file_put_contents('/home/kore/flush', time());
     }
 }
