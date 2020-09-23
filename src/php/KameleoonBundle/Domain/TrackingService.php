@@ -16,9 +16,9 @@ class TrackingService
     private $clientSecret = 'VSn7JNH_L82YUsUZtsGWr1JPMh_HnWU--G0t0kSudcA';
 
     private $userAgentMap = [
-        '(opera|opr/)i' => 4, // Opera
-        '(edge|msie|trident/7)i' => 1, // Internet Explorer
+        '(opera|opr/)i' => 4, // Opera (must be before Internet Explorer)
         '(chrome)i' => 0, // Google Chrome
+        '(edge|msie|trident/7)i' => 1, // Internet Explorer
         '(firefox)i' => 2, // Firefox
         '(safari)i' => 3, // Safari
     ];
