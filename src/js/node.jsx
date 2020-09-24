@@ -14,6 +14,8 @@ import configurationResolver from './app/configurationResolver'
 import schemas from './schemas'
 import pageSelector from './helper/pageSelector'
 
+import Notifications from '../../../themes/frontastic/boost/src/js/patterns/molecules/Notifications/Default.jsx'
+
 class Node extends Component {
     render () {
         if (!this.props.node.data || !this.props.tastics.isComplete()) {
@@ -46,6 +48,7 @@ class Node extends Component {
                             data={this.props.data.data}
                             tastics={this.props.tastics.data}
                         />
+                        <Notifications />
                     </Fragment>
                 ) : null}
                 <Loading large entity={this.props.data} />
