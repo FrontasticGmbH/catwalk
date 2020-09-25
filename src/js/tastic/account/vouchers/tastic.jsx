@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 
 import AtomsHeading from '../../../patterns/atoms/headings/heading'
-import Notifications from '../../../component/notifications'
 
 import AccountLoginForm from '../login/form'
 import AccountBar from '../bar'
@@ -23,7 +22,6 @@ class AccountVouchersTastic extends Component {
                 <AtomsHeading type='alpha'>
                     <FormattedMessage id={'account.vouchers'} />
                 </AtomsHeading>
-                <Notifications />
                 <p>
                     @TODO: Content
                 </p>

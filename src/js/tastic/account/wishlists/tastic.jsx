@@ -6,7 +6,6 @@ import _ from 'lodash'
 
 import AtomsButton from '../../../patterns/atoms/buttons/button'
 import AtomsHeading from '../../../patterns/atoms/headings/heading'
-import Notifications from '../../../component/notifications'
 
 import app from '../../../app/app'
 
@@ -40,7 +39,6 @@ class AccountWishlistsTastic extends Component {
                 <AtomsHeading type='alpha'>
                     <FormattedMessage id={'account.wishlists'} />
                 </AtomsHeading>
-                <Notifications />
                 {selectedWishlist ?
                     <Fragment>
                         <AtomsButton

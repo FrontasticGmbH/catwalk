@@ -14,7 +14,7 @@ import configurationResolver from './app/configurationResolver'
 import schemas from './schemas'
 import pageSelector from './helper/pageSelector'
 
-import Notifications from '../../../themes/frontastic/boost/src/js/patterns/molecules/Notifications/Default.jsx'
+import Notifications from './component/notifications'
 
 class Node extends Component {
     render () {
