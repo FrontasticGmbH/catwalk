@@ -74,6 +74,10 @@ let CartLoader = function (store, api) {
             { ownErrorHandler: true },
             { variant, count, option },
             (data) => {
+                app.getLoader('context').notifyUser(
+                    <Message code='account.message.cartAdd' message='Added product to cart' />,
+                    'success'
+                )
                 this.store.dispatch({
                     type: 'CartApi.Cart.add.success',
                     data: data,
@@ -194,6 +198,10 @@ let CartLoader = function (store, api) {
             { ownErrorHandler: true },
             update,
             (data) => {
+                app.getLoader('context').notifyUser(
+                    <Message code='account.message.cartRemove' message='Removed product from cart' />,
+                    'success'
+                )
                 this.store.dispatch({
                     type: 'CartApi.Cart.remove.success',
                     data: data,
@@ -316,36 +324,38 @@ let CartLoader = function (store, api) {
             type: 'CartApi.Cart.loading',
         })
 
-        return this.api.request(
-            'POST',
-            'Frontastic.CartApi.Cart.checkout',
-            { ownErrorHandler: true },
-            cartInformation,
-            (data) => {
-                this.store.dispatch({
-                    type: 'CartApi.Cart.checkout.success',
-                    data: data,
-                })
-            },
-            (error) => {
-                this.store.dispatch({
-                    type: 'CartApi.Cart.checkout.error',
-                    error: error,
-                })
-            }
-        ).then((data) => {
-            app.getRouter().push(
-                'Frontastic.Frontend.Master.Checkout.finished',
-                {
-                    order: data.order.orderId,
-                    token: (data.order && data.order.custom && data.order.custom.viewToken) || null,
+        return this.api
+            .request(
+                'POST',
+                'Frontastic.CartApi.Cart.checkout',
+                { ownErrorHandler: true },
+                cartInformation,
+                (data) => {
+                    this.store.dispatch({
+                        type: 'CartApi.Cart.checkout.success',
+                        data: data,
+                    })
+                },
+                (error) => {
+                    this.store.dispatch({
+                        type: 'CartApi.Cart.checkout.error',
+                        error: error,
+                    })
                 }
             )
-            return data
-        }, (error) => {
-            app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-            return error
-        })
+            .then(
+                (data) => {
+                    app.getRouter().push('Frontastic.Frontend.Master.Checkout.finished', {
+                        order: data.order.orderId,
+                        token: (data.order && data.order.custom && data.order.custom.viewToken) || null,
+                    })
+                    return data
+                },
+                (error) => {
+                    app.getLoader('context').notifyUser(<Message {...error} />, 'error')
+                    return error
+                }
+            )
     }
 }
 
