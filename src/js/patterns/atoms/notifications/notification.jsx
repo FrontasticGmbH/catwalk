@@ -14,7 +14,6 @@ class AtomsNotification extends Component {
     }
 
     render () {
-        console.log('I am the old one')
         return (
             <div className={classnames('c-alert', 'c-alert--' + this.props.type)}>
                 <p className='c-alert__message'>{this.props.message}</p>
