@@ -10,6 +10,7 @@ import Context from './app/context'
 import AppComponent from './appComponent'
 import FrontasticRoute from './app/route'
 import { trackingPageView } from './app/loader/node'
+import { httpParseQuery } from 'frontastic-common'
 
 function appCreator (mountNode, dataNode, tastics = null) {
     if (!mountNode || !dataNode) {
@@ -65,7 +66,7 @@ function appCreator (mountNode, dataNode, tastics = null) {
 
     store.dispatch({
         type: 'FRONTASTIC_ROUTE',
-        route: new FrontasticRoute(props.route),
+        route: new FrontasticRoute(props.route, httpParseQuery(window.location.search.substr(1))),
         lastRoute: null,
     })
     store.dispatch({
