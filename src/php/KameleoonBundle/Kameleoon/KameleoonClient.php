@@ -1,5 +1,7 @@
 <?php
 
+// @codingStandardsIgnoreFile
+
 interface KameleoonClient
 {
     public function addData($userID, ...$data);

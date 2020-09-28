@@ -1,5 +1,7 @@
 <?php
 
+// @codingStandardsIgnoreFile
+
 interface Data
 {
     public function obtainFullPostTextLine();

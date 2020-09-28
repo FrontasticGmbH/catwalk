@@ -1,5 +1,7 @@
 <?php
 
+// @codingStandardsIgnoreFile
+
 require_once("KameleoonClient.php");
 require_once("KameleoonException.php");
 require_once("Data.php");

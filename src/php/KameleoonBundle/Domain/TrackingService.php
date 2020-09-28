@@ -15,6 +15,8 @@ class TrackingService
     private $clientId = 'kore-frontastic-cloud';
     private $clientSecret = 'VSn7JNH_L82YUsUZtsGWr1JPMh_HnWU--G0t0kSudcA';
 
+    private $visitorCode;
+
     private $userAgentMap = [
         '(opera|opr/)i' => 4, // Opera (must be before Internet Explorer)
         '(chrome)i' => 0, // Google Chrome
