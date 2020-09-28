@@ -6,6 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 use RulerZ\RulerZ;
+use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -22,10 +23,20 @@ class PageService implements Target
      */
     private $rulerz;
 
-    public function __construct(PageGateway $pageGateway, RulerZ $rulerz)
+    /**
+     * @HACK This hardcoded dependency on Kameleoon is nothing we really want
+     * in here, but for the PoC it will be sufficient and it could still be a
+     * base for future refactorings after multiple implementaions…
+     *
+     * @var TrackingService
+     */
+    private $trackingService;
+
+    public function __construct(PageGateway $pageGateway, RulerZ $rulerz, TrackingService $trackingService)
     {
         $this->pageGateway = $pageGateway;
         $this->rulerz = $rulerz;
+        $this->trackingService = $trackingService;
     }
 
     public function lastUpdate(): string
@@ -111,7 +122,12 @@ class PageService implements Target
 
         $pageCandidates = $this->pageGateway->fetchForNode($node->nodeId);
         foreach ($pageCandidates as $pageCandidate) {
-            if (empty($pageCandidate->scheduleCriterion)) {
+            if (empty($pageCandidate->scheduleCriterion) && empty($pageCandidate->scheduledExperiment)) {
+                return $pageCandidate;
+            }
+
+            if ($pageCandidate->scheduledExperiment &&
+                $this->trackingService->shouldRunExperiment($pageCandidate->scheduledExperiment)) {
                 return $pageCandidate;
             }
 

@@ -34,6 +34,20 @@ class TrackingService
         $this->visitorCode = $this->client->obtainVisitorCode($_SERVER['HTTP_HOST'] ?? 'example.com');
     }
 
+    public function shouldRunExperiment(string $experimentId): bool
+    {
+        try {
+            $experiment = $this->client->triggerExperiment($this->visitorCode, $experimentId, 1000);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        // `reference` indicates we should run origin – returns experiment ID
+        // otherwise. Since we only support two-variant experiments for now
+        // this results in boolean flag.
+        return $experiment !== 'reference';
+    }
+
     public function trackPageView(Context $Context, string $pageType, ?string $path = null)
     {
         // @TODO: Track: Browser, device type, page type, actual page view
