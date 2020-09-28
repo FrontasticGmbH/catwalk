@@ -14,13 +14,20 @@ class AtomsNotification extends Component {
     }
 
     render () {
-        return (<div className={classnames(
-            'c-alert',
-            'c-alert--' + this.props.type,
-        )}>
-            <p className='c-alert__message'>{this.props.message}</p>
-            {this.props.onClose ? <AtomsButton onClick={() => { this.props.onClose() }}>x</AtomsButton> : null}
-        </div>)
+        return (
+            <div className={classnames('c-alert', 'c-alert--' + this.props.type)}>
+                <p className='c-alert__message'>{this.props.message}</p>
+                {this.props.onClose ? (
+                    <AtomsButton
+                        onClick={() => {
+                            this.props.onClose()
+                        }}
+                    >
+                        x
+                    </AtomsButton>
+                ) : null}
+            </div>
+        )
     }
 }
 

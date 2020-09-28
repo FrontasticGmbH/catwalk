@@ -1,6 +1,6 @@
 import React from 'react' // eslint-disable-line no-unused-vars
 import { useSelector } from 'react-redux'
-import useComponentSize from '@rehooks/component-size'
+import useComponentSize from './useIsomorphicComponentSize'
 import MediaApi from 'frontastic-common/src/js/mediaApi'
 
 function useBackgroundImageUrl (ref, mediaObject) {

@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import AtomsButton from '../../../patterns/atoms/buttons/button'
 import AtomsHeading from '../../../patterns/atoms/headings/heading'
 import Grow from '../../../component/grow'
-import Notifications from '../../../component/notifications'
 import ComponentInjector from '../../../app/injector'
 
 import Login from './login'
@@ -21,67 +20,69 @@ class AccountLoginForm extends Component {
     }
 
     render () {
-        return (<div className='o-layout'>
-            <div className='o-layout__item u-1/1'>
-                <AtomsHeading type='alpha'>Anmelden oder Registrieren</AtomsHeading>
-                <Notifications />
+        return (
+            <div className='o-layout'>
+                <div className='o-layout__item u-1/1'>
+                    <AtomsHeading type='alpha'>Anmelden oder Registrieren</AtomsHeading>
+                </div>
+                <div className='o-layout__item u-1/1'>
+                    <span className='c-button-row'>
+                        <AtomsButton
+                            type='primary'
+                            full
+                            outline={!(this.state.form === 'login')}
+                            onClick={() => {
+                                this.setState({ form: 'login' })
+                            }}
+                        >
+                            Anmelden
+                        </AtomsButton>
+                        <AtomsButton
+                            type='primary'
+                            full
+                            outline={!(this.state.form === 'register')}
+                            onClick={() => {
+                                this.setState({ form: 'register' })
+                            }}
+                        >
+                            Registrieren
+                        </AtomsButton>
+                    </span>
+                </div>
+                <div
+                    className='o-layout__item u-1/1 u-2/3@lap u-1/2@desk'
+                    style={{ margin: '2em auto', display: 'block' }}
+                >
+                    <Grow in={this.state.form === 'login'}>
+                        <Login />
+                        <AtomsButton
+                            full
+                            onClick={() => {
+                                this.setState({ form: 'reset' })
+                            }}
+                        >
+                            Passwort vergessen
+                        </AtomsButton>
+                    </Grow>
+                    <Grow in={this.state.form === 'register'}>
+                        <Register />
+                    </Grow>
+                    <Grow in={this.state.form === 'reset'}>
+                        <Reset />
+                    </Grow>
+                </div>
             </div>
-            <div className='o-layout__item u-1/1'>
-                <span className='c-button-row'>
-                    <AtomsButton
-                        type='primary' full
-                        outline={!(this.state.form === 'login')}
-                        onClick={() => {
-                            this.setState({ form: 'login' })
-                        }}
-                    >
-                        Anmelden
-                    </AtomsButton>
-                    <AtomsButton
-                        type='primary' full
-                        outline={!(this.state.form === 'register')}
-                        onClick={() => {
-                            this.setState({ form: 'register' })
-                        }}
-                    >
-                        Registrieren
-                    </AtomsButton>
-                </span>
-            </div>
-            <div className='o-layout__item u-1/1 u-2/3@lap u-1/2@desk' style={{ margin: '2em auto', display: 'block' }}>
-                <Grow in={(this.state.form === 'login')}>
-                    <Login />
-                    <AtomsButton
-                        full
-                        onClick={() => {
-                            this.setState({ form: 'reset' })
-                        }}
-                    >
-                        Passwort vergessen
-                    </AtomsButton>
-                </Grow>
-                <Grow in={(this.state.form === 'register')}>
-                    <Register />
-                </Grow>
-                <Grow in={(this.state.form === 'reset')}>
-                    <Reset />
-                </Grow>
-            </div>
-        </div>)
+        )
     }
 }
 
-AccountLoginForm.propTypes = {
-}
+AccountLoginForm.propTypes = {}
 
-AccountLoginForm.defaultProps = {
-}
+AccountLoginForm.defaultProps = {}
 
-export default connect(
-    (globalState, props) => {
-        return {
-            ...props,
-            context: globalState.app.context,
-        }
+export default connect((globalState, props) => {
+    return {
+        ...props,
+        context: globalState.app.context,
     }
-)(ComponentInjector.return('AccountLoginForm', AccountLoginForm))
+})(ComponentInjector.return('AccountLoginForm', AccountLoginForm))

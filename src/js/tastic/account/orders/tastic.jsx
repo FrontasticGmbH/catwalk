@@ -6,7 +6,6 @@ import _ from 'lodash'
 
 import AtomsHeading from '../../../patterns/atoms/headings/heading'
 import MoleculesLineItem from '../../../patterns/molecules/cart/line-item'
-import Notifications from '../../../component/notifications'
 
 import AccountLoginForm from '../login/form'
 import AccountBar from '../bar'
@@ -20,35 +19,41 @@ class AccountOrdersTastic extends Component {
         }
 
         let orders = this.props.rawData.stream.__master
-        return (<div className='o-layout'>
-            <div className='o-layout__item u-1/1 u-1/3@lap u-1/4@desk'>
-                <AccountBar selected='orders' />
-            </div>
-            <div className='o-layout__item u-1/1 u-2/3@lap u-3/4@desk'>
-                <AtomsHeading type='alpha'>
-                    <FormattedMessage id={'account.orders'} />
-                </AtomsHeading>
-                <Notifications />
-                {_.map(orders, (order) => {
-                    order = new Order(order)
+        return (
+            <div className='o-layout'>
+                <div className='o-layout__item u-1/1 u-1/3@lap u-1/4@desk'>
+                    <AccountBar selected='orders' />
+                </div>
+                <div className='o-layout__item u-1/1 u-2/3@lap u-3/4@desk'>
+                    <AtomsHeading type='alpha'>
+                        <FormattedMessage id={'account.orders'} />
+                    </AtomsHeading>
+                    {_.map(orders, (order) => {
+                        order = new Order(order)
 
-                    return (<div className='c-order o-layout' key={order.orderId}>
-                        <div className='c-order__items o-layout__item u-1/1 u-3/4@lap u-3/4@desk'>
-                            <h2 className='c-heading-beta'>Ihre Bestellung ({order.orderId}, {order.getProductCount()} Artikel)</h2>
-                            {!order.lineItems.length ?
-                                <p className='c-order__message'>Nothing in here…</p> :
-                                _.map(order.lineItems, (lineItem) => {
-                                    return <MoleculesLineItem key={lineItem.lineItemId} lineItem={lineItem} />
-                                })
-                            }
-                        </div>
-                        <div className='o-layout__item u-1/1 u-1/4@lap u-1/4@desk'>
-                            {order ? <Summary cart={order} /> : null}
-                        </div>
-                    </div>)
-                })}
+                        return (
+                            <div className='c-order o-layout' key={order.orderId}>
+                                <div className='c-order__items o-layout__item u-1/1 u-3/4@lap u-3/4@desk'>
+                                    <h2 className='c-heading-beta'>
+                                        Ihre Bestellung ({order.orderId}, {order.getProductCount()} Artikel)
+                                    </h2>
+                                    {!order.lineItems.length ? (
+                                        <p className='c-order__message'>Nothing in here…</p>
+                                    ) : (
+                                        _.map(order.lineItems, (lineItem) => {
+                                            return <MoleculesLineItem key={lineItem.lineItemId} lineItem={lineItem} />
+                                        })
+                                    )}
+                                </div>
+                                <div className='o-layout__item u-1/1 u-1/4@lap u-1/4@desk'>
+                                    {order ? <Summary cart={order} /> : null}
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
-        </div>)
+        )
     }
 }
 
@@ -57,14 +62,11 @@ AccountOrdersTastic.propTypes = {
     rawData: PropTypes.object,
 }
 
-AccountOrdersTastic.defaultProps = {
-}
+AccountOrdersTastic.defaultProps = {}
 
-export default connect(
-    (globalState, props) => {
-        return {
-            ...props,
-            context: globalState.app.context,
-        }
+export default connect((globalState, props) => {
+    return {
+        ...props,
+        context: globalState.app.context,
     }
-)(AccountOrdersTastic)
+})(AccountOrdersTastic)
