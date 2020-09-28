@@ -97,6 +97,7 @@ class PageService implements Target
         $page->scheduledToTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledTo'] ?? null);
         $page->nodesPagesOfTypeSortIndex = $data['nodesPagesOfTypeSortIndex'] ?? null;
         $page->scheduleCriterion = $data['scheduleCriterion'] ?? '';
+        $page->scheduledExperiment = $data['scheduledExperiment'] ?? null;
 
         return $page;
     }
