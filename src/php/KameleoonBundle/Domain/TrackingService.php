@@ -42,9 +42,9 @@ class TrackingService
             return false;
         }
 
-        // `reference` indicates we should run origin – returns experiment ID
+        // `reference` indicates we should run original – returns experiment ID
         // otherwise. Since we only support two-variant experiments for now
-        // this results in boolean flag.
+        // this results in boolean
         return $experiment !== 'reference';
     }
 
