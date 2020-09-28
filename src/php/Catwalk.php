@@ -61,7 +61,9 @@ class Catwalk
             }
             echo "</body></html>";
         } finally {
-            $kernel->terminate($request, $response);
+            if (isset($kernel) && isset($request) && isset($response)) {
+                $kernel->terminate($request, $response);
+            }
         }
     }
 
