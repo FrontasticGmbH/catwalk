@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component } from 'react'
 
 import ComponentInjector from '../../../app/injector'
@@ -7,6 +10,8 @@ import AtomsIcon from '../../atoms/icons/icon'
 
 class MoleculesCartLink extends Component {
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         return (<AtomsButton component='a' href='#' className='c-navbar__button c-cart-link' aria-label='Mein Warenkorb'>
             <AtomsIcon icon='bag' iconSize='base' />
             <span className='c-cart-link__badge'>2</span>

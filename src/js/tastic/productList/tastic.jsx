@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
@@ -7,6 +10,8 @@ import MoleculesProductTeaser from '../../patterns/molecules/teasers/product-tea
 
 class ProductListTastic extends Component {
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         let productList = this.props.rawData.stream[this.props.tastic.configuration.stream]
         if (!productList) {
             return null

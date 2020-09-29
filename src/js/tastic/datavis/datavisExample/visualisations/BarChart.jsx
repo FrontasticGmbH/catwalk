@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component } from 'react'
 import * as d3 from 'd3'
 import chroma from 'chroma-js'
@@ -62,6 +65,8 @@ class BarChart extends Component {
     }
 
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         return (
             <svg id='barChart' width={width} height={height}>
                 {this.state.bars.map((d, i) => {

@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component } from 'react'
 
 import ComponentInjector from '../../../app/injector'
@@ -9,6 +12,8 @@ import MoleculesCartLink from '../../molecules/cart/cart-link'
 
 class OrganismsHead extends Component {
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         return (<header className='c-navbar c-page-head' id='js-banner' style={{ position: 'relative' }}>
             <button className='c-navbar__button' aria-label='Toggle Menu' title='Toggle label' data-ft-sequential-nav-controls='js-ft-sequential-nav-menu'>
                 <AtomsIcon icon='menu' iconSize='base' />

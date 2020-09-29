@@ -1,9 +1,14 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component } from 'react'
 
 import ComponentInjector from '../../../app/injector'
 
 class OrganismsFooter extends Component {
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         return (<footer className='c-page-foot'>
             <div className='o-wrapper'>
                 <nav>

@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
@@ -8,6 +11,8 @@ import MediaImage from '../../../mediaImage'
 
 class MoleculesHero extends Component {
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         return (<div className={'c-hero ' + this.props.className}>
             <figure
                 className={classnames(

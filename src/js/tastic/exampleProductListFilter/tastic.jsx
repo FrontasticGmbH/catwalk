@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -12,6 +15,8 @@ import urlHandlerConnector from '../../app/connector/urlHandler'
 
 class ExampleProductListFilterTastic extends Component {
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         const productList = this.props.data.stream
 
         if (!productList || !productList.facets || productList.facets.length === 0) {

@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component, Fragment } from 'react'
 
 import ComponentInjector from '../../../app/injector'
@@ -6,6 +9,8 @@ import AtomsNotification from './notification'
 
 class AtomsNotifications extends Component {
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         return (<Fragment>
             <AtomsNotification message='Default Info Notification' />
 

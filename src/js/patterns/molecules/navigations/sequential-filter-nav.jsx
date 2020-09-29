@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component } from 'react'
 
 import ComponentInjector from '../../../app/injector'
@@ -7,6 +10,8 @@ import AtomsIcon from '../../atoms/icons/icon'
 
 class MoleculesSequentialFilterNav extends Component {
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         return (<div className='c-overlay' data-ft-sequential-nav-overlay id='js-ft-sequential-nav-filter'>
             <nav className='c-sequential-nav' data-ft-sequential-nav>
                 <div className='c-sequential-nav__panel c-sequential-nav__panel--level-1' id='ft-nav-filter-level-1'

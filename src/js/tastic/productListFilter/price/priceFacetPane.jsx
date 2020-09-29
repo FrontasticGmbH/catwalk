@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import 'rc-slider/assets/index.css'
 
 import React, { PureComponent } from 'react'
@@ -43,6 +46,8 @@ class PriceFacetPane extends PureComponent {
     }
 
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         const min = this.props.facet.min
         const max = this.props.facet.max
         const step = this.props.facet.step || 1

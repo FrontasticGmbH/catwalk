@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component, Fragment } from 'react'
 
 import ComponentInjector from '../../../app/injector'
@@ -7,6 +10,8 @@ import AtomsIcon from '../../atoms/icons/icon'
 
 class MoleculesFilterBar extends Component {
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         return (<Fragment>
             <div className='c-filter-bar'>
                 <div className='c-filter-bar__scrollable'>

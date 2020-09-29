@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component } from 'react'
 
 import AtomsButton from '../../../patterns/atoms/buttons/button'
@@ -14,6 +17,8 @@ class Reset extends Component {
     }
 
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         return (<form className='c-form'>
             <div className='c-form__item'>
                 <label htmlFor='reset_email' className='c-form__label'>E-Mail</label>

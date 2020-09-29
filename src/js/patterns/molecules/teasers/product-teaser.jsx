@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -11,6 +14,8 @@ import RemoteImage from '../../../remoteImage'
 
 class MoleculesProductTeaser extends Component {
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         let product = this.props.product
         let variant = this.props.variant || product.variants[0]
 

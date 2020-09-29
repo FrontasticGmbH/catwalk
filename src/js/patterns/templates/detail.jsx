@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component, Fragment } from 'react'
 
 import fixture from '../fixture'
@@ -14,6 +17,8 @@ import OrganismsFoot from '../organisms/base/foot'
 
 class TemplatesDetail extends Component {
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         return (<Fragment>
             <OrganismsHead />
 

@@ -1,3 +1,6 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
@@ -14,6 +17,8 @@ class AtomsNotification extends Component {
     }
 
     render () {
+        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+
         return (
             <div className={classnames('c-alert', 'c-alert--' + this.props.type)}>
                 <p className='c-alert__message'>{this.props.message}</p>
