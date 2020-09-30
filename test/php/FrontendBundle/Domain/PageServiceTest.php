@@ -107,6 +107,7 @@ class PageServiceTest extends \PHPUnit\Framework\TestCase
             [[$this->getPage('a-f', 'active', 'false'), $this->getPage('criterion', null, 'true'), $this->getPage('default')], 'criterion'],
             [[$this->getPage('i-t', 'inactive', 'true'), $this->getPage('criterion', null, 'true'), $this->getPage('default')], 'criterion'],
             [[$this->getPage('a-t', 'active', 'true'), $this->getPage('criterion', null, 'true'), $this->getPage('default')], 'a-t'],
+            [[$this->getPage('i-t', 'inactive', 'true'), $this->getPage('criterion', null, 'false'), $this->getPage('experiment', 'inactive'), $this->getPage('default')], 'default'],
         );
     }
 
