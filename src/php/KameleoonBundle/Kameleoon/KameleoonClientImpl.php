@@ -222,7 +222,7 @@ class KameleoonClientImpl implements KameleoonClient
         }
         $response = curl_exec($curl);
         if ($error = curl_error($curl)) {
-            throw new Exception('API-SSX call returned an error: ' . $error);
+            throw new Exception('API-SSX call to ' . $url . ' returned an error: ' . $error);
         }
         curl_close($curl);
         return $response;
@@ -255,7 +255,7 @@ class KameleoonClientImpl implements KameleoonClient
             }
         }
 
-        setcookie("kameleoonVisitorCode", $visitorCode, time() + 32832000, "/", $topLevelDomain);
+        @setcookie("kameleoonVisitorCode", $visitorCode, time() + 32832000, "/", $topLevelDomain);
         
         return $visitorCode;
     }
