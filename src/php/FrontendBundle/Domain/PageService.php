@@ -122,22 +122,19 @@ class PageService implements Target
 
         $pageCandidates = $this->pageGateway->fetchForNode($node->nodeId);
         foreach ($pageCandidates as $pageCandidate) {
-            if (empty($pageCandidate->scheduleCriterion) && empty($pageCandidate->scheduledExperiment)) {
-                return $pageCandidate;
-            }
-
-            if ($pageCandidate->scheduledExperiment &&
-                $this->trackingService->shouldRunExperiment($pageCandidate->scheduledExperiment)) {
-                return $pageCandidate;
-            }
-
             try {
-                if ($this->rulerz->satisfies($criterionTarget, $pageCandidate->scheduleCriterion)) {
+                $scheduled = empty($pageCandidate->scheduledExperiment) || 
+                    $this->trackingService->shouldRunExperiment($pageCandidate->scheduledExperiment);
+                $satisfied = empty($pageCandidate->scheduleCriterion) || 
+                    $this->rulerz->satisfies($criterionTarget, $pageCandidate->scheduleCriterion);
+
+                if ($scheduled && $satisfied) {
                     return $pageCandidate;
                 }
             } catch (\Throwable $exception) {
-                // Silently ignore errors in the rule. If a rule can not be checked it makes more sense to ignore
-                // the rule than to report an error.
+                // Silently ignore errors in the rule. If a rule can not be
+                // checked it makes more sense to ignore the rule than to
+                // report an error.
             }
         }
 
