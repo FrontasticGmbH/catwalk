@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway;
 use RulerZ\RulerZ;
+use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
 
 class PageServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,12 +23,18 @@ class PageServiceTest extends \PHPUnit\Framework\TestCase
      */
     private $pageGatewayMock;
 
+    /**
+     * @var TrackingService
+     */
+    private $trackingServiceMock;
+
     public function setUp()
     {
         $this->pageGatewayMock = \Phake::mock(PageGateway::class);
         $this->rulerZMock = \Phake::mock(RulerZ::class);
+        $this->trackingServiceMock = \Phake::mock(TrackingService::class);
 
-        $this->pageService = new PageService($this->pageGatewayMock, $this->rulerZMock);
+        $this->pageService = new PageService($this->pageGatewayMock, $this->rulerZMock, $this->trackingServiceMock);
     }
 
     public function testReplicateDeleteWhenExists()
