@@ -1,5 +1,13 @@
 # catwalk Changelog
 
+## `1.1.12` (2020-10-01)
+
+* fix: Clear caches after adding bundle
+* fix: Registered missing ShopwareBundle
+* fix: Initialize query parameters for initial page
+* feat: Adds notifications for add/remove from cart
+* refactor: Adds Notifications to global layout
+
 ## `1.1.11` (2020-09-17)
 
 **@TODO:** Please adapt these raw commit messages since last release into CHANGELOG entries – they will be added to the package changelog.
