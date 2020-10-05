@@ -73,6 +73,10 @@ class CreateBundleCommand extends ContainerAwareCommand
             $bundleDefinitionFile,
             "<?php\n\nreturn [\n    new " . implode("(),\n    new ", $bundles) . "(),\n];\n"
         );
+
+        // Clear Caches
+        $cacheClearer = $this->getContainer()->get('cache_clearer');
+        $cacheClearer->clear($this->getContainer()->getParameter('kernel.cache_dir'));
     }
 
     private function fixNames(string $input, string $namespace, string $bundleName): string
