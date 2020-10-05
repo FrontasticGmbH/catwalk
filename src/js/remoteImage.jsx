@@ -22,7 +22,7 @@ class RemoteImage extends Component {
 
     render () {
         if (typeof this.props.cropRatio === 'number') {
-            depreacte('Numeric crop ratios are deprecated, please use a crop ratio like 3:4')
+            deprecate('Numeric crop ratios are deprecated, please use a crop ratio like 3:4')
         }
 
         let [width, height] = this.mediaApi.getImageDimensions(
