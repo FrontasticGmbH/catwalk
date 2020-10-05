@@ -1,6 +1,7 @@
 //
 // Deprecated: This component is deprecated and should not be used any more
 //
+import deprecate from '@frontastic/common/src/js/helper/deprecate'
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -27,7 +28,7 @@ class ProductListFilterTastic extends Component {
     }
 
     render () {
-        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+        deprecate('The component ' + (this.displayName || this.constructor.name) + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
 
         let productList = this.props.rawData.stream[this.props.tastic.configuration.stream]
         if (!productList || !productList.facets || productList.facets.length === 0) {

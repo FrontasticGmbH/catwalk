@@ -1,6 +1,7 @@
 //
 // Deprecated: This component is deprecated and should not be used any more
 //
+import deprecate from '@frontastic/common/src/js/helper/deprecate'
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -15,7 +16,7 @@ import Order from '../../domain/order'
 
 class Ordered extends Component {
     render () {
-        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+        deprecate('The component ' + (this.displayName || this.constructor.name) + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
 
         let order = null
         if (this.props.order.data) {

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import deprecate from '@frontastic/common/src/js/helper/deprecate'
 import omit from '@frontastic/common/src/js/helper/omit'
 import MediaApi from '@frontastic/common/src/js/mediaApi'
 import NoImage from '../layout/noImage.svg'
@@ -20,6 +21,10 @@ class RemoteImage extends Component {
     mediaApi = new MediaApi()
 
     render () {
+        if (typeof this.props.cropRatio === 'number') {
+            depreacte('Numeric crop ratios are deprecated, please use a crop ratio like 3:4')
+        }
+
         let [width, height] = this.mediaApi.getImageDimensions(
             this.props.url,
             this.props.width,

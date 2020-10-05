@@ -1,6 +1,7 @@
 //
 // Deprecated: This component is deprecated and should not be used any more
 //
+import deprecate from '@frontastic/common/src/js/helper/deprecate'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
@@ -11,7 +12,7 @@ import icons from '../../../../icons/icomoon_icons/symbol-defs.svg'
 
 class AtomsIcon extends Component {
     render () {
-        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+        deprecate('The component ' + (this.displayName || this.constructor.name) + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
 
         return (<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xlinkHref='http://www.w3.org/1999/xlink'
             className={classnames(

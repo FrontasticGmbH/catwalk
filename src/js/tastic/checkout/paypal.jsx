@@ -1,6 +1,7 @@
 //
 // Deprecated: This component is deprecated and should not be used any more
 //
+import deprecate from '@frontastic/common/src/js/helper/deprecate'
 import React, { Component, Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
@@ -12,7 +13,7 @@ import Context from '../../app/context'
 
 class Paypal extends Component {
     render () {
-        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+        deprecate('The component ' + (this.displayName || this.constructor.name) + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
 
         if (!this.props.sandboxClientId || !this.props.productionClientId) {
             return null

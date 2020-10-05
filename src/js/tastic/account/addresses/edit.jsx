@@ -1,6 +1,7 @@
 //
 // Deprecated: This component is deprecated and should not be used any more
 //
+import deprecate from '@frontastic/common/src/js/helper/deprecate'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
@@ -51,7 +52,7 @@ class Address extends Component {
     }
 
     render () {
-        console.info('The component ' + this.displayName + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+        deprecate('The component ' + (this.displayName || this.constructor.name) + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
 
         return (<div className='c-form o-layout'>
             <div className='c-form__item o-layout__item u-1/1 u-1/3@lap'>
