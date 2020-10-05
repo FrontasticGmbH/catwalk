@@ -375,4 +375,8 @@ export default {
         passwordMatch: 'Passwörter stimmen nicht überein',
         minLength: 'Das Passwort muss mindestens 6 Zeichen lang sein.',
     },
+    slider: {
+        previous: 'Zurück',
+        next: 'Nächster',
+    },
 }
