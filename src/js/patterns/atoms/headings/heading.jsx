@@ -1,8 +1,11 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
-import omit from '@frontastic/common/src/js/helper/omit'
+import { deprecate, omit } from '@frontastic/common'
 import ComponentInjector from '../../../app/injector'
 
 class AtomsHeading extends Component {
@@ -16,6 +19,8 @@ class AtomsHeading extends Component {
     }
 
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         const Component = this.props.component || this.typeMap[this.props.type]
 
         return (<Component

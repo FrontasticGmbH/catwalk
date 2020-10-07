@@ -1,3 +1,5 @@
+import { deprecate } from '@frontastic/common'
+
 let Locale = function (localeString) {
     this.language = null
 
@@ -97,6 +99,7 @@ let Context = function (context = {}) {
      * @deprecated Use getTerritory() instead
      */
     this.getCountry = function () {
+        deprecate('getCountry() should actually return a country and not the territory – please use getTerritory() instead.')
         return this.parsedLocale.territory
     }
 

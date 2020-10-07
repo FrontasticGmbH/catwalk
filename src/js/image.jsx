@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import MediaApi from '@frontastic/common/src/js/mediaApi'
-import omit from '@frontastic/common/src/js/helper/omit'
+import { deprecate, omit, MediaApi } from '@frontastic/common'
 import sizer from './helper/reactSizer'
 import NoImage from '../layout/noImage.svg'
 
@@ -92,6 +91,10 @@ class Image extends Component {
     }
 
     render () {
+        if (typeof this.props.cropRatio === 'number') {
+            deprecate('Numeric crop ratios are deprecated, please use a crop ratio like 3:4')
+        }
+
         const omitedProperties = [
             'context',
             'media',

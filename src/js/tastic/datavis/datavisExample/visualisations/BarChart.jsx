@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 import * as d3 from 'd3'
 import chroma from 'chroma-js'
@@ -62,6 +66,8 @@ class BarChart extends Component {
     }
 
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         return (
             <svg id='barChart' width={width} height={height}>
                 {this.state.bars.map((d, i) => {

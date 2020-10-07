@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
@@ -6,6 +10,8 @@ import Price from '../../patterns/atoms/prices/price'
 
 class Summary extends Component {
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         let cart = this.props.cart
 
         return (<Fragment>

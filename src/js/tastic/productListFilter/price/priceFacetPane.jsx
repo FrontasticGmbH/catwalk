@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import 'rc-slider/assets/index.css'
 
 import React, { PureComponent } from 'react'
@@ -43,6 +47,8 @@ class PriceFacetPane extends PureComponent {
     }
 
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         const min = this.props.facet.min
         const max = this.props.facet.max
         const step = this.props.facet.step || 1

@@ -5,8 +5,8 @@ import { ConfigurationSchema } from 'frontastic-common'
 import configurationResolver from '../app/configurationResolver'
 import { useDeviceType } from '../helper/hooks/useDeviceType'
 
-import Grid from '../patterns/atoms/grid/grid'
-import Row from '../patterns/atoms/grid/row'
+import Grid from './grid/grid'
+import Row from './grid/row'
 import Cell from './cell'
 import schemas from '../schemas'
 

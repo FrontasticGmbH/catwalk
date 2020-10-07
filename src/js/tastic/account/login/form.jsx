@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
@@ -20,6 +24,8 @@ class AccountLoginForm extends Component {
     }
 
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         return (
             <div className='o-layout'>
                 <div className='o-layout__item u-1/1'>

@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 
 import AtomsButton from '../../../patterns/atoms/buttons/button'
@@ -15,6 +19,8 @@ class Login extends Component {
     }
 
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         return (<form className='c-form'>
             <div className='c-form__item'>
                 <label htmlFor='login_email' className='c-form__label'>E-Mail</label>

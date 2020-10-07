@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
@@ -9,6 +13,8 @@ import Image from '../../../../js/image'
 
 class MoleculesImage extends Component {
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         return (<figure className={'c-figure ' + this.props.className}>
             {!this.props.icon ? null : <AtomsIcon
                 icon={this.props.icon}
