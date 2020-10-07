@@ -1,7 +1,7 @@
 //
 // Deprecated: This component is deprecated and should not be used any more
 //
-import deprecate from '@frontastic/common/src/js/helper/deprecate'
+import { deprecate } from '@frontastic/common'
 import React, { Component, Fragment } from 'react'
 
 import ComponentInjector from '../../../app/injector'
@@ -12,7 +12,7 @@ import MoleculesHero from './hero'
 
 class MoleculesHeroes extends Component {
     render () {
-        deprecate('The component ' + (this.displayName || this.constructor.name) + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
 
         return (<Fragment>
             <MoleculesHero

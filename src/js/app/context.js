@@ -1,4 +1,4 @@
-import deprecate from '@frontastic/common/src/js/helper/deprecate'
+import { deprecate } from '@frontastic/common'
 
 let Locale = function (localeString) {
     this.language = null

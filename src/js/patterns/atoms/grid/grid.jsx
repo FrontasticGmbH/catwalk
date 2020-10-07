@@ -1,12 +1,12 @@
 //
 // Deprecated: This component is deprecated and should not be used any more
 //
-import deprecate from '@frontastic/common/src/js/helper/deprecate'
+import { deprecate } from '@frontastic/common'
 import React from 'react'
 import PropTypes from 'prop-types'
 
 const Grid = ({ debug, style, className, hideOn, prefix, children }) => {
-    deprecate('The component ' + (this.displayName || this.constructor.name) + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+    deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
 
     // exact same code as in Cell.jsx. Maybe time for a helper?
     let hideOnClasses = ''

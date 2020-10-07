@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import deprecate from '@frontastic/common/src/js/helper/deprecate'
+import { deprecate } from '@frontastic/common'
 import ErrorBoundary from '../app/errorBoundary'
 import configurationResolver from '../app/configurationResolver'
 import { useDeviceType } from '../helper/hooks/useDeviceType'

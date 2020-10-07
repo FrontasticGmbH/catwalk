@@ -1,7 +1,7 @@
 //
 // Deprecated: This component is deprecated and should not be used any more
 //
-import deprecate from '@frontastic/common/src/js/helper/deprecate'
+import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 
 import ComponentInjector from '../../../app/injector'
@@ -11,7 +11,7 @@ import AtomsIcon from '../../atoms/icons/icon'
 
 class MoleculesCartLink extends Component {
     render () {
-        deprecate('The component ' + (this.displayName || this.constructor.name) + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
 
         return (<AtomsButton component='a' href='#' className='c-navbar__button c-cart-link' aria-label='Mein Warenkorb'>
             <AtomsIcon icon='bag' iconSize='base' />

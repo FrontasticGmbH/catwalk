@@ -1,7 +1,7 @@
 //
 // Deprecated: This component is deprecated and should not be used any more
 //
-import deprecate from '@frontastic/common/src/js/helper/deprecate'
+import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 
 import ComponentInjector from '../../../app/injector'
@@ -13,7 +13,7 @@ import MoleculesProductTeaser from '../../molecules/teasers/product-teaser'
 
 class OrganismsProductSlider extends Component {
     render () {
-        deprecate('The component ' + (this.displayName || this.constructor.name) + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
 
         return (<Slider>
             <div className='c-slider__item    js-slider__item    u-3/4    u-2/5@lap    u-2/7@desk'>

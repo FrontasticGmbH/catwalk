@@ -1,7 +1,7 @@
 //
 // Deprecated: This component is deprecated and should not be used any more
 //
-import deprecate from '@frontastic/common/src/js/helper/deprecate'
+import { deprecate } from '@frontastic/common'
 import { generateId } from 'frontastic-common'
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
@@ -43,7 +43,7 @@ class Checkout extends Component {
     }
 
     render () {
-        deprecate('The component ' + (this.displayName || this.constructor.name) + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
 
         return (<div className='c-checkout o-layout'>
             <div className='c-cart__items o-layout__item u-1/1 u-3/4@lap u-3/4@desk'>

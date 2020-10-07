@@ -1,7 +1,7 @@
 //
 // Deprecated: This component is deprecated and should not be used any more
 //
-import deprecate from '@frontastic/common/src/js/helper/deprecate'
+import { deprecate } from '@frontastic/common'
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
@@ -24,7 +24,7 @@ class NavigationTastic extends Component {
     }
 
     render () {
-        deprecate('The component ' + (this.displayName || this.constructor.name) + ' is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.')
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
 
         let customLogo = this.props.tastic.schema.get('logo') || null
 
