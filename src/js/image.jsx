@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { deprecate } from '@frontastic/common'
-import MediaApi from '@frontastic/common/src/js/mediaApi'
-import omit from '@frontastic/common/src/js/helper/omit'
+import { deprecate, omit, MediaApi } from '@frontastic/common'
 import sizer from './helper/reactSizer'
 import NoImage from '../layout/noImage.svg'
 

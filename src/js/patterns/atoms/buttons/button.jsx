@@ -1,12 +1,11 @@
 //
 // Deprecated: This component is deprecated and should not be used any more
 //
-import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
-import omit from '@frontastic/common/src/js/helper/omit'
+import { deprecate, omit } from '@frontastic/common'
 import ComponentInjector from '../../../app/injector'
 
 class AtomsButton extends Component {
