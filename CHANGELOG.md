@@ -1,5 +1,13 @@
 # catwalk Changelog
 
+## `1.1.14` (2020-10-07)
+
+* chore: Merged imports
+* fix: Import deprecate helper in a way it also works in tests
+* chore: Added translation
+* chore: Use deprecate() helper to announce deprecation notices
+* chore: Moved page grid to page/ and deprecated all patterns
+
 ## `1.1.13` (2020-10-02)
 
 * fix: Clear caches after adding bundle
