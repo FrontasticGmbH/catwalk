@@ -44,12 +44,12 @@ class Image extends Component {
         // If that's the case we check if the media object is there and if we
         // can use the metadata in there. Lastly it falls back to a device
         // default.
-        let inputHeight = forceHeight || height
+        let inputHeight = height || null
         if (height === null) {
             inputHeight = null
         }
 
-        let inputWidth = width
+        let inputWidth = width || null
         if (width === null) {
             inputWidth = inputHeight && media && media.width && media.height ?
                 inputHeight / cropRatio :
@@ -193,8 +193,9 @@ Image.defaultProps = {
     height: null,
 }
 
-export default connect((globalState) => {
+export default connect((globalState, props) => {
     return {
+        ...props,
         context: globalState.app.context,
         deviceType: globalState.renderContext.deviceType,
     }

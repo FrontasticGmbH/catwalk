@@ -19,12 +19,12 @@ test.each([
     [{ width: 300, height: 200 }, { width: 300, height: 200 }],
     [{ width: 200, height: 300 }, { width: 200, height: 300 }],
     [{ width: 200, height: 200, cropRatio: '16:9' }, { width: 200, height: 113 }],
-    [{ width: null, height: null }, { width: 512, height: 384 }],
-    [{ width: 200, height: null }, { width: 200, height: 150 }],
+    [{ width: null, height: null }, { width: 512, height: null }],
+    [{ width: 200, height: null }, { width: 200, height: null }],
     [{ width: null, height: 200 }, { width: 267, height: 200 }],
     [{ width: null, height: null, cropRatio: '16:9' }, { width: 512, height: 288 }],
     [{ width: 200, height: null, cropRatio: '16:9' }, { width: 200, height: 113 }],
-    [{ width: null, height: 200, cropRatio: '16:9' }, { width: 356, height: 201 }], // Rounding problem…
+    [{ width: null, height: 200, cropRatio: '16:9' }, { width: 356, height: 200 }],
     [{ width: 200, height: 200, forceWidth: 320 }, { width: 320, height: 240 }],
     [{ width: 300, height: 200, forceWidth: 320 }, { width: 320, height: 240 }],
     [{ width: 200, height: 300, forceWidth: 320 }, { width: 320, height: 240 }],
@@ -34,15 +34,15 @@ test.each([
     [{ width: 200, height: 200, forceHeight: 150 }, { width: 200, height: 150 }],
     [{ width: 300, height: 200, forceHeight: 150 }, { width: 200, height: 150 }],
     [{ width: 200, height: 300, forceHeight: 150 }, { width: 200, height: 150 }],
-    [{ width: 200, height: 200, forceHeight: 150, cropRatio: '16:9' }, { width: 267, height: 151 }], // Rounding problem…
-    [{ width: 300, height: 200, forceHeight: 150, cropRatio: '16:9' }, { width: 267, height: 151 }], // Rounding problem…
-    [{ width: 200, height: 300, forceHeight: 150, cropRatio: '16:9' }, { width: 267, height: 151 }], // Rounding problem…
+    [{ width: 200, height: 200, forceHeight: 150, cropRatio: '16:9' }, { width: 267, height: 150 }],
+    [{ width: 300, height: 200, forceHeight: 150, cropRatio: '16:9' }, { width: 267, height: 150 }],
+    [{ width: 200, height: 300, forceHeight: 150, cropRatio: '16:9' }, { width: 267, height: 150 }],
     [{ width: 200, height: 200, forceWidth: 150, forceHeight: 150 }, { width: 150, height: 150 }],
     [{ width: 300, height: 200, forceWidth: 150, forceHeight: 150 }, { width: 150, height: 150 }],
     [{ width: 200, height: 300, forceWidth: 150, forceHeight: 150 }, { width: 150, height: 150 }],
-    [{ width: 200, height: 200, forceWidth: 150, forceHeight: 150, cropRatio: '16:9' }, { width: 150, height: 85 }],
-    [{ width: 300, height: 200, forceWidth: 150, forceHeight: 150, cropRatio: '16:9' }, { width: 150, height: 85 }],
-    [{ width: 200, height: 300, forceWidth: 150, forceHeight: 150, cropRatio: '16:9' }, { width: 150, height: 85 }],
+    [{ width: 200, height: 200, forceWidth: 150, forceHeight: 150, cropRatio: '16:9' }, { width: 150, height: 84 }],
+    [{ width: 300, height: 200, forceWidth: 150, forceHeight: 150, cropRatio: '16:9' }, { width: 150, height: 84 }],
+    [{ width: 200, height: 300, forceWidth: 150, forceHeight: 150, cropRatio: '16:9' }, { width: 150, height: 84 }],
 ])('image dimensions of large media are set properly on mobile', (properties, imageSize) => {
     const imageState = Image.WrappedComponent.getDerivedStateFromProps(
         {
