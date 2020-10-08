@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { deprecate, omit, MediaApi } from '@frontastic/common'
+import getImageDimensions from './helper/getImageDimension'
 import NoImage from '../layout/noImage.svg'
 import sizer from './helper/reactSizer'
 
@@ -20,54 +21,8 @@ class RemoteImage extends Component {
 
     static mediaApi = new MediaApi()
 
-    static getInputImageDimensions (props) {
-        const { forceWidth, forceHeight, width, height } = props
-
-        if (forceWidth || forceHeight) {
-            return [
-                forceWidth || null,
-                forceHeight || null,
-            ]
-        }
-
-        // On initial load it can happen, especially in production, that
-        // state.width and height are NULL. This caused a bunch of issues with
-        // images being only a few pixels tall. So we do a NULL check on that.
-        // If that's the case we check if the media object is there and if we
-        // can use the metadata in there. Lastly it falls back to a device
-        // default.
-        let inputHeight = height || null
-        let inputWidth = width || (height ? null : (props.deviceType === 'mobile' ? 512 : 1024))
-
-        return [inputWidth, inputHeight]
-    }
-
     static getDerivedStateFromProps (props, state) {
-        const [inputWidth, inputHeight] = RemoteImage.getInputImageDimensions(props)
-
-        const [width, height] = RemoteImage.mediaApi.getImageDimensions(
-            null,
-            inputWidth,
-            inputHeight,
-            props.cropRatio
-        )
-
-        // Obnly update actually rendered image width if the size of the image
-        // differes in a relevant way (needs be larger, needs to be more then
-        // three times smaller). Otherwise jsut keep the original image to not
-        // load stuff again and again.
-        if ((width > (state.width * 1.25)) ||
-            (height > (state.height * 1.25)) ||
-            (width < (state.width / 3)) ||
-            (Math.abs(width / height - state.width / state.height) > 0.01)) {
-            return {
-                ...state,
-                width,
-                height,
-            }
-        } else {
-            return state
-        }
+        return getImageDimensions(RemoteImage.mediaApi, props, state)
     }
 
     render () {
