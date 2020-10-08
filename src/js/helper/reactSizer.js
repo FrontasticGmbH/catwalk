@@ -65,7 +65,7 @@ export default function sizer ({
             }
 
             getWindow () {
-                return this.DOMNode ? this.DOMNode.ownerDocument.defaultView || window : window // eslint-disable-line no-undef
+                return this.DOMNode?.ownerDocument?.defaultView || window // eslint-disable-line no-undef
             }
 
             onResize () {
