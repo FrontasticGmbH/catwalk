@@ -76,7 +76,7 @@ class Image extends Component {
         if ((width > (state.width * 1.25)) ||
             (height > (state.height * 1.25)) ||
             (width < (state.width / 3)) ||
-            (Math.abs(width / height - state.width / state.height) > .01)) {
+            (Math.abs(width / height - state.width / state.height) > 0.01)) {
             return {
                 ...state,
                 width,

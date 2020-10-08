@@ -22,7 +22,6 @@ class RemoteImage extends Component {
 
     static getInputImageDimensions (props) {
         const { forceWidth, forceHeight, width, height } = props
-        const cropRatio = RemoteImage.mediaApi.getFloatRatio(null, props.cropRatio)
 
         if (forceWidth || forceHeight) {
             return [
@@ -60,7 +59,7 @@ class RemoteImage extends Component {
         if ((width > (state.width * 1.25)) ||
             (height > (state.height * 1.25)) ||
             (width < (state.width / 3)) ||
-            (Math.abs(width / height - state.width / state.height) > .01)) {
+            (Math.abs(width / height - state.width / state.height) > 0.01)) {
             return {
                 ...state,
                 width,
