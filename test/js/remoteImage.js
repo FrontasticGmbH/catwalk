@@ -30,12 +30,18 @@ test.each([
     [{ width: 200, height: 200, forceHeight: 150, cropRatio: '16:9' }, { width: 267, height: 150 }],
     [{ width: 300, height: 200, forceHeight: 150, cropRatio: '16:9' }, { width: 267, height: 150 }],
     [{ width: 200, height: 300, forceHeight: 150, cropRatio: '16:9' }, { width: 267, height: 150 }],
+    [{ width: null, height: null, forceHeight: 150 }, { width: null, height: 150 }],
+    [{ width: 200, height: null, forceHeight: 150 }, { width: null, height: 150 }],
+    [{ width: null, height: 200, forceHeight: 150 }, { width: null, height: 150 }],
     [{ width: 200, height: 200, forceWidth: 150, forceHeight: 150 }, { width: 150, height: 150 }],
     [{ width: 300, height: 200, forceWidth: 150, forceHeight: 150 }, { width: 150, height: 150 }],
     [{ width: 200, height: 300, forceWidth: 150, forceHeight: 150 }, { width: 150, height: 150 }],
     [{ width: 200, height: 200, forceWidth: 150, forceHeight: 150, cropRatio: '16:9' }, { width: 150, height: 84 }],
     [{ width: 300, height: 200, forceWidth: 150, forceHeight: 150, cropRatio: '16:9' }, { width: 150, height: 84 }],
     [{ width: 200, height: 300, forceWidth: 150, forceHeight: 150, cropRatio: '16:9' }, { width: 150, height: 84 }],
+    [{ width: null, height: null, forceWidth: 200 }, { width: 200, height: null }],
+    [{ width: 200, height: null, forceWidth: 200 }, { width: 200, height: null }],
+    [{ width: null, height: 200, forceWidth: 200 }, { width: 200, height: null }],
 ])('remote image dimensions of large media are set properly on mobile', (properties, imageSize) => {
     const imageState = RemoteImage.WrappedComponent.getDerivedStateFromProps(
         {
