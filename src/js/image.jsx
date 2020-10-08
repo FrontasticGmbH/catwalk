@@ -29,11 +29,12 @@ class Image extends Component {
 
     static getInputImageDimensions (props) {
         const { forceWidth, forceHeight, media, width, height } = props
+        const cropRatio = Image.mediaApi.getFloatRatio(media, props.cropRatio)
 
         if ((forceWidth || forceHeight) && media && media.width && media.height) {
             return [
-                forceWidth || (forceHeight / media.height) * media.width,
-                forceHeight || (forceWidth / media.width) * media.height,
+                forceWidth || forceHeight / cropRatio,
+                forceHeight || forceWidth * cropRatio,
             ]
         }
 
@@ -43,21 +44,16 @@ class Image extends Component {
         // If that's the case we check if the media object is there and if we
         // can use the metadata in there. Lastly it falls back to a device
         // default.
-        let inputHeight = height
+        let inputHeight = forceHeight || height
         if (height === null) {
-            if (media) {
-                inputHeight = media.height
-            } else {
-                inputHeight = null
-            }
+            inputHeight = null
         }
+
         let inputWidth = width
         if (width === null) {
-            if (media) {
-                inputWidth = media.width
-            } else {
-                inputWidth = props.deviceType === 'mobile' ? 512 : 1024
-            }
+            inputWidth = inputHeight && media && media.width && media.height ?
+                inputHeight / cropRatio :
+                props.deviceType === 'mobile' ? 512 : 1024
         }
 
         return [inputWidth, inputHeight]
@@ -77,9 +73,10 @@ class Image extends Component {
         // differes in a relevant way (needs be larger, needs to be more then
         // three times smaller). Otherwise jsut keep the original image to not
         // load stuff again and again.
-        if ((width > state.width) ||
-            (height > state.height) ||
-            (width < (state.width / 3))) {
+        if ((width > (state.width * 1.25)) ||
+            (height > (state.height * 1.25)) ||
+            (width < (state.width / 3)) ||
+            (Math.abs(width / height - state.width / state.height) > .01)) {
             return {
                 ...state,
                 width,
