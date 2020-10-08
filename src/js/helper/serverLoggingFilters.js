@@ -10,9 +10,9 @@ export const filterPayload = payload => {
     switch (payload.severity) {
     case 'INFO':
     case 'DEBUG':
-    case 'ERROR':
-        return false
     case 'WARNING':
+        return false
+    case 'ERROR':
         return filterWarning(payload)
     default:
         return false
