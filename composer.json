@@ -11,12 +11,12 @@
     ],
     "config": {
         "platform": {
-            "php": "7.4"
+            "php": "7.2"
         },
         "discard-changes": true
     },
     "require":      {
-        "php": ">=7.4",
+        "php": ">=7.2",
         "ext-json": "*",
 
         "symfony/symfony": "^4.1",
@@ -51,7 +51,7 @@
     },
     "require-dev":  {
         "frontastic/apidocs": "^1.0.0@alpha",
-        "phpunit/phpunit": "@stable",
+        "phpunit/phpunit": "^7",
         "phpmd/phpmd": "@stable",
         "pdepend/pdepend": "@stable",
         "phploc/phploc": "@stable",
