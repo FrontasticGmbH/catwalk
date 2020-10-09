@@ -103,14 +103,14 @@ class GenerateSitemapsCommandTest extends IntegrationTest
         $this->assertTheOutputDirectoryMatchesTheFixture($outputDirectory, 'singleSitemap');
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->filesystem = new Filesystem();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->filesystem->remove($this->removeFilesOnTearDown);
         $this->removeFilesOnTearDown = [];

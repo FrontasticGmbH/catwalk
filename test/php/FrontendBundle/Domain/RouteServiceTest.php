@@ -20,7 +20,7 @@ class RouteServiceTest extends TestCase
      */
     private $customerServiceMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->customerServiceMock = $this->getMockBuilder(CustomerService::class)->disableOriginalConstructor()
             ->getMock();

@@ -23,7 +23,7 @@ class RedirectServiceTest extends TestCase
 
     private $contextFixture;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->redirectGatewayMock = \Phake::mock(RedirectGateway::class);
         $this->routerMock = \Phake::mock(Router::class);

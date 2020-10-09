@@ -51,7 +51,7 @@
     },
     "require-dev":  {
         "frontastic/apidocs": "^1.0.0@alpha",
-        "phpunit/phpunit": "^6",
+        "phpunit/phpunit": "@stable",
         "phpmd/phpmd": "@stable",
         "pdepend/pdepend": "@stable",
         "phploc/phploc": "@stable",

@@ -28,7 +28,7 @@ class MasterServiceTest extends \PHPUnit\Framework\TestCase
      */
     private $tasticService;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->rulesGateway = \Phake::mock(MasterPageMatcherRulesGateway::class);
         $this->tasticService = \Phake::mock(TasticService::class);

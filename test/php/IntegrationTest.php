@@ -34,7 +34,7 @@ abstract class IntegrationTest extends \PHPUnit\Framework\TestCase
         return self::$container;
     }
 
-    public static function setUpBeforeClass()
+    public static function setupBeforeClass(): void
     {
         self::$container = null;
         self::$databaseFailure = false;
@@ -68,7 +68,7 @@ abstract class IntegrationTest extends \PHPUnit\Framework\TestCase
         $schemaTool->createSchema($entityMetaData);
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

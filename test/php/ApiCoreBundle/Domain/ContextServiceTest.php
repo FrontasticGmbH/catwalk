@@ -56,7 +56,7 @@ class ContextServiceTest extends TestCase
      */
     private $httpSessionMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->routerMock = $this->getMockBuilder(Router::class)
             ->disableOriginalConstructor()
