@@ -6,7 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Common\JsonSerializer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ContextExtension extends \Twig_Extension
+class ContextExtension extends \Twig\Extension\AbstractExtension
 {
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
@@ -25,7 +25,7 @@ class ContextExtension extends \Twig_Extension
     public function getFunctions(): array
     {
         return [
-            new \Twig_Function('frontastic_context', [$this, 'getContext']),
+            new \Twig\TwigFunction('frontastic_context', [$this, 'getContext']),
         ];
     }
 

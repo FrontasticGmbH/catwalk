@@ -3,9 +3,9 @@
 namespace Frontastic\Catwalk\FrontendBundle\Twig;
 
 use Frontastic\Common\JsonSerializer;
-use Twig_Extension;
+use Twig\Extension\AbstractExtension;
 
-class JsonExtension extends Twig_Extension
+class JsonExtension extends AbstractExtension
 {
     /**
      * @var JsonSerializer
@@ -20,7 +20,7 @@ class JsonExtension extends Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_Filter(
+            new \Twig\TwigFilter(
                 'frontastic_json_serialize',
                 [$this->jsonSerializer, 'serialize']
             ),

@@ -39,12 +39,12 @@ class NodeExtension extends AbstractExtension implements GlobalsInterface
     public function getFunctions(): array
     {
         return [
-            new \Twig_Function('frontastic_tree', [$this->container->get(NodeService::class), 'getTree']),
-            new \Twig_Function('completeInformation', [$this, 'completeInformation']),
+            new \Twig\TwigFunction('frontastic_tree', [$this->container->get(NodeService::class), 'getTree']),
+            new \Twig\TwigFunction('completeInformation', [$this, 'completeInformation']),
         ];
     }
 
-    public function getGlobals()
+    public function getGlobals(): array
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
 
