@@ -2,6 +2,8 @@
 
 namespace Frontastic\Catwalk\KameleoonBundle\Domain;
 
+use Kameleoon\KameleoonClientFactory;
+
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
 use Frontastic\Common\CartApiBundle\Domain\Cart;
@@ -27,11 +29,10 @@ class TrackingService
 
     public function __construct()
     {
-        require_once(__DIR__ . '/../Kameleoon/KameleoonClientFactory.php');
         // @TODO: Get from configuration
-        $this->client = \KameleoonClientFactory::create('hbj2kr4upb');
+        $this->client = KameleoonClientFactory::create('hbj2kr4upb');
 
-        // @TODO: Use a custom visitor code i session here, to not expose
+        // @TODO: Use a custom visitor code in session here, to not expose
         // Kameleoon cookie?
         $this->visitorCode = $this->client->obtainVisitorCode($_SERVER['HTTP_HOST'] ?? 'example.com');
     }

@@ -275,7 +275,7 @@ class KameleoonClientImpl implements KameleoonClient
             }
         }
 
-        setcookie("kameleoonVisitorCode", $visitorCode, time() + 32832000, "/", $topLevelDomain);
+        @setcookie("kameleoonVisitorCode", $visitorCode, time() + 32832000, "/", $topLevelDomain);
         
         return $visitorCode;
     }
