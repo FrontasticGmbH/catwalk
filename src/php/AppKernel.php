@@ -43,6 +43,8 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Frontastic\Catwalk\FrontendBundle\FrontasticCatwalkFrontendBundle(),
             new \Frontastic\Catwalk\ApiCoreBundle\FrontasticCatwalkApiCoreBundle(),
             new \Frontastic\Catwalk\DevVmBundle\FrontasticCatwalkDevVmBundle(),
+            // @TODO: This should be a generic tracking bundle if we include it here…
+            new \Frontastic\Catwalk\KameleoonBundle\FrontasticCatwalkKameleoonBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
