@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { deprecate, omit, MediaApi } from '@frontastic/common'
+import getImageDimensions from './helper/getImageDimension'
 import NoImage from '../layout/noImage.svg'
 import sizer from './helper/reactSizer'
 
@@ -13,20 +14,26 @@ class RemoteImage extends Component {
         this.state = {
             loading: true,
             error: false,
+            width: null,
+            height: null,
         }
     }
 
-    mediaApi = new MediaApi()
+    static mediaApi = new MediaApi()
+
+    static getDerivedStateFromProps (props, state) {
+        return getImageDimensions(RemoteImage.mediaApi, props, state)
+    }
 
     render () {
         if (typeof this.props.cropRatio === 'number') {
             deprecate('Numeric crop ratios are deprecated, please use a crop ratio like 3:4')
         }
 
-        let [width, height] = this.mediaApi.getImageDimensions(
+        let [width, height] = RemoteImage.mediaApi.getImageDimensions(
             this.props.url,
-            this.props.width,
-            this.props.height,
+            this.state.width,
+            this.state.height,
             this.props.cropRatio
         )
 
@@ -50,6 +57,7 @@ class RemoteImage extends Component {
                         'height',
                         'dispatch',
                         'options',
+                        'deviceType',
                     ])}
                 />
             )
@@ -66,21 +74,21 @@ class RemoteImage extends Component {
                 width={width}
                 height={height}
                 alt={this.props.alt}
-                src={this.mediaApi.getImageLink(
+                src={RemoteImage.mediaApi.getImageLink(
                     this.props.url,
                     this.props.context.project.configuration,
-                    this.props.width,
-                    this.props.height,
+                    this.state.width,
+                    this.state.height,
                     this.props.cropRatio,
                     this.props.options
                 )}
                 srcSet={[1, 2].map((factor) => {
                     return [
-                        this.mediaApi.getImageLink(
+                        RemoteImage.mediaApi.getImageLink(
                             this.props.url,
                             this.props.context.project.configuration,
-                            this.props.width,
-                            this.props.height,
+                            this.state.width,
+                            this.state.height,
                             this.props.cropRatio,
                             this.props.options
                         ),
@@ -99,6 +107,7 @@ class RemoteImage extends Component {
                     'height',
                     'dispatch',
                     'options',
+                    'deviceType',
                 ])}
             />
         )
@@ -107,6 +116,7 @@ class RemoteImage extends Component {
 
 RemoteImage.propTypes = {
     context: PropTypes.object.isRequired,
+    deviceType: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
     width: PropTypes.number,
@@ -131,6 +141,7 @@ export default connect((globalState, props) => {
     return {
         ...props,
         context: globalState.app.context,
+        deviceType: globalState.renderContext.deviceType,
     }
 })(
     sizer({

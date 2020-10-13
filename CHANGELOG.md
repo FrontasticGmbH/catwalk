@@ -1,5 +1,16 @@
 # catwalk Changelog
 
+## `1.1.15` (2020-10-13)
+
+**@TODO:** Please adapt these raw commit messages since last release into CHANGELOG entries – they will be added to the package changelog.
+
+* fix: Also tested RemoteImage and fixed various issues
+* fix: Do not pass height if not necessary
+* fix: Tested dimension calculation in image component
+* Deprecate all tastics and patterns in catwalk
+* fix: Initialize query parameters for initial page
+* feat: moves notifications to more global place
+
 ## `1.1.14` (2020-10-07)
 
 * chore: Merged imports
