@@ -123,9 +123,9 @@ class PageService implements Target
         $pageCandidates = $this->pageGateway->fetchForNode($node->nodeId);
         foreach ($pageCandidates as $pageCandidate) {
             try {
-                $scheduled = empty($pageCandidate->scheduledExperiment) || 
+                $scheduled = empty($pageCandidate->scheduledExperiment) ||
                     $this->trackingService->shouldRunExperiment($pageCandidate->scheduledExperiment);
-                $satisfied = empty($pageCandidate->scheduleCriterion) || 
+                $satisfied = empty($pageCandidate->scheduleCriterion) ||
                     $this->rulerz->satisfies($criterionTarget, $pageCandidate->scheduleCriterion);
 
                 if ($scheduled && $satisfied) {
