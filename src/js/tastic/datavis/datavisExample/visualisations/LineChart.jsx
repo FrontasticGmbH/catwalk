@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 import * as d3 from 'd3'
 
@@ -50,6 +54,8 @@ class LineChart extends Component {
     }
 
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         return (
             <svg id='lineChart' width={width} height={height}>
                 <path d={this.state.highs} fill='none' stroke={red} strokeWidth='2' />

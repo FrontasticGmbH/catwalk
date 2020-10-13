@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
@@ -9,6 +13,8 @@ import ProductDescription from './description/tastic.jsx'
 
 class ProductTastic extends Component {
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         return (<Fragment>
             <ProductImage data={this.props.data} tastic={this.props.tastic} rawData={this.props.rawData} />
             <ProductTitle data={this.props.data} tastic={this.props.tastic} rawData={this.props.rawData} />

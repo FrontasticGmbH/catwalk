@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import React, { Component, Fragment } from 'react'
 
 import ComponentInjector from '../../../app/injector'
@@ -6,6 +10,8 @@ import AtomsIcon from './icon'
 
 class AtomsIconUi extends Component {
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         return (<Fragment>
             <AtomsIcon icon='arrow-left' iconSize='xl' />
             <AtomsIcon icon='bag' iconSize='xl' />

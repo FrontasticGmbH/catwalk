@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import React, { Component, Fragment } from 'react'
 
 import ComponentInjector from '../../../app/injector'
@@ -6,6 +10,8 @@ import AtomsNotification from './notification'
 
 class AtomsNotifications extends Component {
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         return (<Fragment>
             <AtomsNotification message='Default Info Notification' />
 

@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
@@ -12,6 +16,8 @@ import 'react-vis/dist/style.css'
 
 class LineChart extends Component {
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         const config = this.props.data
 
         const chartData = [

@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
@@ -15,6 +19,8 @@ class BrandContentfulTastic extends Component {
     }
 
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         let content = this.props.rawData.stream[this.props.tastic.configuration.stream]
 
         if (!content || !content.attributes || !this.haveAllTheAttributes(content.attributes)) {

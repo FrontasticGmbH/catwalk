@@ -1,3 +1,7 @@
+//
+// Deprecated: This component is deprecated and should not be used any more
+//
+import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 
 import ComponentInjector from '../../../app/injector'
@@ -7,6 +11,8 @@ import AtomsIcon from '../../atoms/icons/icon'
 
 class MoleculesSequentialNav extends Component {
     render () {
+        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
+
         return (<div className='c-overlay' data-ft-sequential-nav-overlay id='js-ft-sequential-nav-menu'>
             <nav className='c-sequential-nav' data-ft-sequential-nav>
                 <div className='c-sequential-nav__panel c-sequential-nav__panel--level-1' id='ft-nav-menu-level-1'
