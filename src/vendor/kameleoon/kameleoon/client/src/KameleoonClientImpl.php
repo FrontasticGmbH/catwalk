@@ -1,10 +1,5 @@
 <?php
-
-// @codingStandardsIgnoreFile
-
-require_once("KameleoonClient.php");
-require_once("KameleoonException.php");
-require_once("Data.php");
+namespace Kameleoon;
 
 class KameleoonClientImpl implements KameleoonClient
 {
@@ -13,25 +8,35 @@ class KameleoonClientImpl implements KameleoonClient
     const API_SSX_URL = "https://api-ssx.kameleoon.com";
     const HEXADECIMAL_ALPHABET = "0123456789ABCDEF";
     const NONCE_BYTE_LENGTH = 8;
+    const DEFAULT_KAMELEOON_WORK_DIR = "/tmp/kameleoon/php-client/";
 
     private $siteCode;
     private $blockingClient;
     private $experimentConfigurations;
     private $unsentData;
     private $configurationFilePath;
+    private $commonConfiguration;
 
-    public function __construct($siteCode, $blocking, $configurationPath)
+    public function __construct($siteCode, $blocking, $configurationFilePath)
     {
         $this->siteCode = $siteCode;
         $this->blockingClient = $blocking;
         $this->experimentConfigurations = array();
         $this->unsentData = array();
-        $this->configurationFilePath = $configurationPath;
+
+        $this->commonConfiguration = ConfigurationParser::parse($configurationFilePath);
+        $this->kameleoonWorkDir = isset($this->commonConfiguration["kameleoon_work_dir"]) ? $this->commonConfiguration["kameleoon_work_dir"] : self::DEFAULT_KAMELEOON_WORK_DIR;
+        $this->configurationFilePath = $this->kameleoonWorkDir . "kameleoonConfiguration.json";
+        $this->refreshInterval = isset($this->commonConfiguration["actions_configuration_refresh_interval"]) ? $this->commonConfiguration["actions_configuration_refresh_interval"] : self::SECONDS_BETWEEN_CONFIGURATION_UPDATE;
+
+        if (!is_dir($this->kameleoonWorkDir)) {
+            mkdir($this->kameleoonWorkDir, 0755, true);
+        }
     }
 
     public function trackConversion($userID, $goalID, $revenue = 0.0)
     {
-        $this->addData($userID, new Conversion($goalID));
+        $this->addData($userID, new Data\Conversion($goalID));
         $this->flush($userID);
     }
 
@@ -48,7 +53,7 @@ class KameleoonClientImpl implements KameleoonClient
                 $fp = fopen($this->configurationFilePath, "r+");
                 if
                 (
-                    time() < filemtime($this->configurationFilePath) + self::SECONDS_BETWEEN_CONFIGURATION_UPDATE ||
+                    time() < filemtime($this->configurationFilePath) + $this->refreshInterval ||
                     !flock($fp, LOCK_EX)
                 )
                 {
@@ -77,13 +82,13 @@ class KameleoonClientImpl implements KameleoonClient
                 $hashDouble = $this->obtainHashDouble($experimentID, $userID, $xpConf->variationConfigurations);
                 $total = 0.0;
     
-                foreach ($xpConf->variationConfigurations as $variationId => $variationConfiguration)
+                foreach ($xpConf->variationConfigurations as $vid => $variationConfiguration)
                 {
                     $total += $variationConfiguration->deviation;
                     if ($total >= $hashDouble)
                     {
                         $noneVariation = false;
-                        $variationId = $variationId;
+                        $variationId = $vid;
                         break;
                     }
                 }
@@ -91,11 +96,11 @@ class KameleoonClientImpl implements KameleoonClient
                 foreach ($this->getUnsentData($userID) as $d) {
                     $data .= $d->obtainFullPostTextLine() . "\n";
                 }
-                $this->performPostServerCall($this->getExperimentRegisterURL($userID, $experimentID, $variationId, $noneVariation), 200, $data);
+                $this->writeRequestToFile($this->getExperimentRegisterURL($userID, $experimentID, $variationId, $noneVariation), $data);
             }
             else
             {
-                throw new ExperimentConfigurationNotFound('Experiment configuration not found');
+                throw new Exceptions\ExperimentConfigurationNotFound('Experiment configuration not found');
             }
             return $variationId;
         }
@@ -116,7 +121,7 @@ class KameleoonClientImpl implements KameleoonClient
 
     private function getCommonSSXParameters ($userID)
     {
-        return "&nonce=" . self::obtainNonce() . "&siteCode=" . $this->siteCode . "&visitorCode=" . $userID;
+        return "siteCode=" . $this->siteCode . "&visitorCode=" . $userID;
     }
 
     private function getDataTrackingURL ($userID)
@@ -126,7 +131,7 @@ class KameleoonClientImpl implements KameleoonClient
 
     private function getExperimentRegisterURL ($userID, $experimentID, $variationId = NULL, $noneVariation = NULL)
     {
-        $url = self::API_SSX_URL . "/experimentTracking?" . $this->getCommonSSXParameters($userID) . "&experimentId=" . $experimentID . "";
+        $url = self::API_SSX_URL . "/experimentTracking?nonce=" . self::obtainNonce() . $this->getCommonSSXParameters($userID) . "&experimentId=" . $experimentID . "";
         if (!is_null($variationId))
         {
             $url .= "&variationId=" . $variationId;
@@ -154,8 +159,8 @@ class KameleoonClientImpl implements KameleoonClient
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT_MS, $timeOut);
         $response = curl_exec($curl);
-        if ($error = curl_error($curl)) {
-            throw new Exception('API-SSX call returned an error: ' . $error);
+        if (curl_errno($curl)) {
+            throw new \Exception('API-SSX call returned status code 404');
         }
         curl_close($curl);
         $this->experimentConfigurations = ExperimentsConfigurations::parse($response);
@@ -196,9 +201,9 @@ class KameleoonClientImpl implements KameleoonClient
         {
             $data = "";
             foreach ($this->getUnsentData($userID) as $d) {
-                $data .= $d->obtainFullPostTextLine() . "\n";
+                $data .= $d->obtainFullPostTextLine() . PHP_EOL;
             }
-            $this->performPostServerCall($this->getDataTrackingURL($userID), 500, $data);
+            $this->writeRequestToFile($this->getDataTrackingURL($userID), $data);
             $this->emptyUnsentData($userID);
         }
         else
@@ -221,11 +226,26 @@ class KameleoonClientImpl implements KameleoonClient
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         }
         $response = curl_exec($curl);
-        if ($error = curl_error($curl)) {
-            throw new Exception('API-SSX call to ' . $url . ' returned an error: ' . $error);
+        if (curl_error($curl)) {
+            throw new \Exception('API-SSX call returned status code 404');
         }
         curl_close($curl);
         return $response;
+    }
+
+    private function getRequestsFileName()
+    {
+        return "requests-" . floor(time() / 60) . ".sh";
+    }
+
+    private function writeRequestToFile($url, $data)
+    {
+        $requestText = "curl -X POST \"" . $url . "\"";
+        if ($data != NULL) {
+            $requestText .= " -d '" . $data . "'";
+        }
+        $requestText .= " & r=\${r:=0};((r=r+1));if [ \$r -eq 1000 ];then r=0;wait;fi;" . PHP_EOL;
+        file_put_contents($this->kameleoonWorkDir . $this->getRequestsFileName(), $requestText, FILE_APPEND | LOCK_EX);
     }
 
     // Here you must provide your own base domain, eg mydomain.com
@@ -236,7 +256,7 @@ class KameleoonClientImpl implements KameleoonClient
             $value = $_COOKIE["kameleoonVisitorCode"];
             if (strpos($value, "_js_") !== false)
             {
-                $visitorCode = substr($value, 0, 4);
+                $visitorCode = substr($value, 4);
             }
             else
             {
@@ -255,7 +275,7 @@ class KameleoonClientImpl implements KameleoonClient
             }
         }
 
-        @setcookie("kameleoonVisitorCode", $visitorCode, time() + 32832000, "/", $topLevelDomain);
+        setcookie("kameleoonVisitorCode", $visitorCode, time() + 32832000, "/", $topLevelDomain);
         
         return $visitorCode;
     }
@@ -302,8 +322,31 @@ class ExperimentsConfigurations
                 $experimentID = $parameters[0];
                 $experimentsConfigurations[$experimentID] = new ExperimentConfiguration($parameters);
             }
-        } catch (Exception $e) {}
+        } catch (\Exception $e) {}
         return $experimentsConfigurations;
     }
 }
 
+class ConfigurationParser
+{
+    public static function parse($configurationFilePath)
+    {
+        $configuration = array();
+        try {
+            if (file_exists($configurationFilePath) && is_file($configurationFilePath))
+            {
+                $config = file_get_contents($configurationFilePath, true);
+                foreach (preg_split("/\n/", $config) as $line)
+                {
+                    $parameters = explode("=", $line);
+                    $key = trim($parameters[0]);
+                    $value = trim($parameters[1]);
+                    $configuration[$key] = $value;
+                }
+            }
+        } catch (\Exception $e) {}
+        return $configuration;
+    }
+}
+
+?>

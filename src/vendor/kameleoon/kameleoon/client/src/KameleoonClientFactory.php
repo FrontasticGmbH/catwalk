@@ -1,21 +1,14 @@
 <?php
-
-// @codingStandardsIgnoreFile
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-require_once("KameleoonClientImpl.php");
+namespace Kameleoon;
 
 class KameleoonClientFactory
 {
     private $clients = [];
 
-    public static function create($siteCode, $blocking = false, $configurationPath = "/tmp/kameleoon-client-configuration.json")
+    public static function create($siteCode, $blocking = false, $configurationFilePath = "/etc/kameleoon/php-client.conf")
     {
         if (!in_array($siteCode, self::getInstance()->clients)) {
-            self::getInstance()->clients[$siteCode] = new KameleoonClientImpl($siteCode, $blocking, $configurationPath);
+            self::getInstance()->clients[$siteCode] = new KameleoonClientImpl($siteCode, $blocking, $configurationFilePath);
         }
         return self::getInstance()->clients[$siteCode];
     }
@@ -37,3 +30,4 @@ class KameleoonClientFactory
     }
 }
 
+?>
