@@ -10,6 +10,7 @@ use Frontastic\Common\CartApiBundle\Domain\Cart;
 use Frontastic\Common\CartApiBundle\Domain\LineItem;
 use Frontastic\Common\CartApiBundle\Domain\Order;
 use Frontastic\Common\ProductApiBundle\Domain\Product;
+use Frontastic\Common\ReplicatorBundle\Domain\Project;
 
 class TrackingService
 {
@@ -27,14 +28,36 @@ class TrackingService
         '(safari)i' => 3, // Safari
     ];
 
-    public function __construct()
+    public function __construct(Project $project, string $configuration)
     {
-        // @TODO: Get from configuration
-        $this->client = KameleoonClientFactory::create('hbj2kr4upb');
+        $kameleoonConfigFile = $this->ensureConfigFile($project, $configuration);
+        $this->client = KameleoonClientFactory::create(
+            $project->configuration['abtesting']['siteCode'] ?? null,
+            false,
+            $kameleoonConfigFile
+        );
 
         // @TODO: Use a custom visitor code in session here, to not expose
         // Kameleoon cookie?
         $this->visitorCode = $this->client->obtainVisitorCode($_SERVER['HTTP_HOST'] ?? 'example.com');
+    }
+
+    private function ensureConfigFile(Project $project, string $configuration): string
+    {
+        $kameleoonConfigFile = $configuration . '/kameleoon.conf';
+        if (!file_exists($kameleoonConfigFile)) {
+            @mkdir(dirname($kameleoonConfigFile), 0755, true);
+            file_put_contents(
+                $kameleoonConfigFile,
+                sprintf(
+                    "kameleoon_work_dir = /var/cache/frontastic/%s_%s/kameleoon/\nactions_configuration_refresh_interval = 60\n",
+                    $project->customer,
+                    $project->projectId
+                )
+            );
+        }
+
+        return $kameleoonConfigFile;
     }
 
     public function shouldRunExperiment(string $experimentId): bool
