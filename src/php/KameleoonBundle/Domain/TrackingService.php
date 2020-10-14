@@ -3,6 +3,9 @@
 namespace Frontastic\Catwalk\KameleoonBundle\Domain;
 
 use Kameleoon\KameleoonClientFactory;
+use Kameleoon\Data\Browser;
+use Kameleoon\Data\PageView;
+use Kameleoon\Data\Conversion;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
@@ -86,8 +89,8 @@ class TrackingService
     {
         // @TODO: Track: Browser, device type, page type, actual page view
         $path = $path ?: $_SERVER['REQUEST_URI'] ?? '/';
-        $this->client->addData($this->visitorCode, new \Kameleoon\Data\Browser($this->getKameleoonBrowserId()));
-        $this->client->addData($this->visitorCode, new \Kameleoon\Data\PageView($path, $pageType, $_SERVER['HTTP_REFERER'] ?? null));
+        $this->client->addData($this->visitorCode, new Browser($this->getKameleoonBrowserId()));
+        $this->client->addData($this->visitorCode, new PageView($path, $pageType, $_SERVER['HTTP_REFERER'] ?? null));
     }
 
     private function getKameleoonBrowserId()
@@ -110,7 +113,7 @@ class TrackingService
     public function reachOrder(Context $context, Order $order)
     {
         // @TODO: How to know the goal ID?
-        $this->client->addData($this->visitorCode, new \Kameleoon\Data\Conversion(220195, $order->sum / 100));
+        $this->client->addData($this->visitorCode, new Conversion(220195, $order->sum / 100));
     }
 
     public function reachRegistration(Context $context, Account $account)
