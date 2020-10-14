@@ -13,6 +13,7 @@ do
 		;;
 	esac
 done
+
 if [ -f "$conf_file" ]
 then
     kameleoon_work_dir=$("cat" $conf_file | "grep" kameleoon_work_dir | "sed" -r 's/[ \t]*kameleoon_work_dir[ \t]*=[ \t]*([^ \t]*)[ \t]*/\1/')
@@ -21,17 +22,14 @@ if [ -z "$kameleoon_work_dir" ]
 then
 	kameleoon_work_dir=/tmp/kameleoon/php-client/
 fi
-request_files=$("ls" -rt $kameleoon_work_dir/requests-*.sh)
-for request_file in $request_files
-do
-    "mv" -f $request_file "${request_file}.lock"
-done
+
+request_files=$("ls" -rt $kameleoon_work_dir/requests-*.sh 2>/dev/null)
 for request_file in $request_files
 do
 	previous_minute=$(($("date" +"%s")/60-1))
-	request_file_minute=$("echo" "${request_file}.lock" | "sed" "s/.*requests\-\(.*\)\.sh\.lock/\1/")
+	request_file_minute=$("echo" "${request_file}" | "sed" "s/.*requests\-\(.*\)\.sh/\1/")
 	if [ $request_file_minute -lt $previous_minute ]
 	then
-		"source" "${request_file}.lock";"rm" -f "${request_file}.lock"
+		"source" "${request_file}";"rm" -f "${request_file}"
 	fi
 done
