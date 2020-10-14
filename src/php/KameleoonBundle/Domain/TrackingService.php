@@ -46,13 +46,21 @@ class TrackingService
     {
         $kameleoonConfigFile = $configuration . '/kameleoon.conf';
         if (!file_exists($kameleoonConfigFile)) {
+            $kameleoonWorkingDir = sprintf(
+                '/var/cache/frontastic/%s_%s/kameleoon/',
+                $project->customer,
+                $project->projectId
+            );
+            if (!file_exists($kameleoonWorkingDir)) {
+                mkdir($kameleoonWorkingDir, 0755, true);
+            }
+
             @mkdir(dirname($kameleoonConfigFile), 0755, true);
             file_put_contents(
                 $kameleoonConfigFile,
                 sprintf(
-                    "kameleoon_work_dir = /var/cache/frontastic/%s_%s/kameleoon/\nactions_configuration_refresh_interval = 60\n",
-                    $project->customer,
-                    $project->projectId
+                    "kameleoon_work_dir = %s\nactions_configuration_refresh_interval = 60\n",
+                    $kameleoonWorkingDir
                 )
             );
         }
@@ -78,8 +86,8 @@ class TrackingService
     {
         // @TODO: Track: Browser, device type, page type, actual page view
         $path = $path ?: $_SERVER['REQUEST_URI'] ?? '/';
-        $this->client->addData($this->visitorCode, new \Browser($this->getKameleoonBrowserId()));
-        $this->client->addData($this->visitorCode, new \PageView($path, $pageType, $_SERVER['HTTP_REFERER'] ?? null));
+        $this->client->addData($this->visitorCode, new \Kameleoon\Data\Browser($this->getKameleoonBrowserId()));
+        $this->client->addData($this->visitorCode, new \Kameleoon\Data\PageView($path, $pageType, $_SERVER['HTTP_REFERER'] ?? null));
     }
 
     private function getKameleoonBrowserId()
@@ -101,7 +109,8 @@ class TrackingService
 
     public function reachOrder(Context $context, Order $order)
     {
-        $this->client->addData($this->visitorCode, new \Conversion(220195, $order->sum / 100));
+        // @TODO: How to know the goal ID?
+        $this->client->addData($this->visitorCode, new \Kameleoon\Data\Conversion(220195, $order->sum / 100));
     }
 
     public function reachRegistration(Context $context, Account $account)
