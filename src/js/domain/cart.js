@@ -13,6 +13,7 @@ class Cart {
         this.shippingAddress = cart.shippingAddress || null
         this.billingAddress = cart.billingAddress || null
         this.payments = cart.payments || []
+        this.projectSpecificData = cart.projectSpecificData || {}
     }
 
     getLineItems () {
