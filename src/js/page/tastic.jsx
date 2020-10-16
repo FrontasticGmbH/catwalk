@@ -66,7 +66,14 @@ const TasticWrapper = (props) => {
 
     // Check that all Tastics are wrapped into tastify() and trigger a
     // deprecation notice otherwise
-    let tasticName = Tastic.name || Tastic.WrappedComponent.name || 'UnknownTastic'
+    let tasticName = Tastic.name
+    if (!tasticName && Tastic.WrappedComponent) {
+        tasticName = Tastic.WrappedComponent.name
+    }
+    if (!tasticName) {
+        tasticName = tasticToRenderConfiguration.tasticType
+    }
+
     if ((tasticName !== 'WithTranslatedTasticData') &&
         (tasticName !== '_temp') &&
         (typeof Tastic !== 'function' || tasticName !== 'TastifiedTastic')) {
