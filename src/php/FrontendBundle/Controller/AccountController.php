@@ -8,6 +8,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
+use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class AccountController extends Controller
@@ -75,6 +76,8 @@ class AccountController extends Controller
         $page = $pageService->fetchForNode($node, $context);
 
         $masterService->completeTasticStreamConfigurationWithMasterDefault($page, key($queryData));
+
+        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,
