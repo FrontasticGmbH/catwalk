@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { deprecate, omit, MediaApi } from '@frontastic/common'
 import getImageDimensions from './helper/getImageDimension'
-import NoImage from '../layout/noImage.svg'
+import NoImage from '../layout/noImage2.svg'
 import sizer from './helper/reactSizer'
 
 class RemoteImage extends Component {
@@ -82,19 +82,21 @@ class RemoteImage extends Component {
                     this.props.cropRatio,
                     this.props.options
                 )}
-                srcSet={[1, 2].map((factor) => {
-                    return [
-                        RemoteImage.mediaApi.getImageLink(
-                            this.props.url,
-                            this.props.context.project.configuration,
-                            this.state.width,
-                            this.state.height,
-                            this.props.cropRatio,
-                            this.props.options
-                        ),
-                        factor + 'x',
-                    ].join(' ')
-                }).join(', ')}
+                srcSet={[1, 2]
+                    .map((factor) => {
+                        return [
+                            RemoteImage.mediaApi.getImageLink(
+                                this.props.url,
+                                this.props.context.project.configuration,
+                                this.state.width,
+                                this.state.height,
+                                this.props.cropRatio,
+                                this.props.options
+                            ),
+                            factor + 'x',
+                        ].join(' ')
+                    })
+                    .join(', ')}
                 onError={() => {
                     this.setState({ error: true })
                 }}
