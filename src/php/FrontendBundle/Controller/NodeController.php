@@ -10,7 +10,6 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
-use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
 
 class NodeController extends Controller
 {
@@ -31,8 +30,6 @@ class NodeController extends Controller
         }
 
         $page = $pageService->fetchForNode($node, $context);
-
-        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,

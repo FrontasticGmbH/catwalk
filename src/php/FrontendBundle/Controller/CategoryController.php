@@ -11,7 +11,6 @@ use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Common\ProductApiBundle\Domain\Category;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
-use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -41,8 +40,6 @@ class CategoryController extends Controller
             'category',
             $id
         );
-
-        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,

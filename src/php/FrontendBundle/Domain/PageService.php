@@ -6,7 +6,6 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 use RulerZ\RulerZ;
-use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -23,20 +22,10 @@ class PageService implements Target
      */
     private $rulerz;
 
-    /**
-     * @HACK This hardcoded dependency on Kameleoon is nothing we really want
-     * in here, but for the PoC it will be sufficient and it could still be a
-     * base for future refactorings after multiple implementaions…
-     *
-     * @var TrackingService
-     */
-    private $trackingService;
-
-    public function __construct(PageGateway $pageGateway, RulerZ $rulerz, TrackingService $trackingService)
+    public function __construct(PageGateway $pageGateway, RulerZ $rulerz)
     {
         $this->pageGateway = $pageGateway;
         $this->rulerz = $rulerz;
-        $this->trackingService = $trackingService;
     }
 
     public function lastUpdate(): string
@@ -108,7 +97,6 @@ class PageService implements Target
         $page->scheduledToTimestamp = $this->dateTimeStringToUnixTimestamp($data['scheduledTo'] ?? null);
         $page->nodesPagesOfTypeSortIndex = $data['nodesPagesOfTypeSortIndex'] ?? null;
         $page->scheduleCriterion = $data['scheduleCriterion'] ?? '';
-        $page->scheduledExperiment = $data['scheduledExperiment'] ?? null;
 
         return $page;
     }
@@ -122,19 +110,17 @@ class PageService implements Target
 
         $pageCandidates = $this->pageGateway->fetchForNode($node->nodeId);
         foreach ($pageCandidates as $pageCandidate) {
-            try {
-                $scheduled = empty($pageCandidate->scheduledExperiment) ||
-                    $this->trackingService->shouldRunExperiment($pageCandidate->scheduledExperiment);
-                $satisfied = empty($pageCandidate->scheduleCriterion) ||
-                    $this->rulerz->satisfies($criterionTarget, $pageCandidate->scheduleCriterion);
+            if (empty($pageCandidate->scheduleCriterion)) {
+                return $pageCandidate;
+            }
 
-                if ($scheduled && $satisfied) {
+            try {
+                if ($this->rulerz->satisfies($criterionTarget, $pageCandidate->scheduleCriterion)) {
                     return $pageCandidate;
                 }
             } catch (\Throwable $exception) {
-                // Silently ignore errors in the rule. If a rule can not be
-                // checked it makes more sense to ignore the rule than to
-                // report an error.
+                // Silently ignore errors in the rule. If a rule can not be checked it makes more sense to ignore
+                // the rule than to report an error.
             }
         }
 

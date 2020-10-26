@@ -84,11 +84,4 @@ class Page extends DataObject
      * @var string
      */
     public $scheduleCriterion = '';
-
-    /**
-     * An experiment ID from a third party system like Kameleoon
-     *
-     * @var ?string
-     */
-    public $scheduledExperiment = null;
 }

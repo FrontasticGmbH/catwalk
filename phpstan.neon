@@ -7,12 +7,4 @@ parameters:
         - '#Tideways\\Profiler#'
         - '#Call to static method getDebug\(\) on an unknown class AppKernel.#'
         - '#Function debug not found.*#'
-        - '#Instantiated class (Browser|PageView|Conversion) not found.#'
-        - '#Kameleoon#'
     reportUnmatchedIgnoredErrors: false
-    excludes_analyse:
-        - src/php/KameleoonBundle/Kameleoon/Data.php
-        - src/php/KameleoonBundle/Kameleoon/KameleoonClient.php
-        - src/php/KameleoonBundle/Kameleoon/KameleoonClientFactory.php
-        - src/php/KameleoonBundle/Kameleoon/KameleoonClientImpl.php
-        - src/php/KameleoonBundle/Kameleoon/KameleoonException.php
