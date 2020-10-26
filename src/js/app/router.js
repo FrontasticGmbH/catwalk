@@ -33,7 +33,7 @@ let Router = function (history, routes = {}, context = null) {
 
         let unknownKeys = []
         for (let key of keys) {
-            if (!allParameters[key]) {
+            if (!allParameters.hasOwnProperty(key)) {
                 unknownKeys.push(key)
             }
         }

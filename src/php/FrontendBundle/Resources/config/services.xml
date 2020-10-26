@@ -61,6 +61,7 @@
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\PageService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway" />
             <argument type="service" id="rulerz" />
+            <argument type="service" id="Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService" />
         </service>
 
         <service id="frontastic.catwalk.frontend_bundle.domain.page.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">

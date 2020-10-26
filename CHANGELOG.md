@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.1.16` (2020-10-16)
+
+* fix: More resilient determination of Tastic name for BC check.
+* fix: bugfixes, types and cleanups for tile2
+* fix: Expose projectSpecificData through client side Cart domain model.
+
 ## `1.1.15` (2020-10-13)
 
 **@TODO:** Please adapt these raw commit messages since last release into CHANGELOG entries – they will be added to the package changelog.

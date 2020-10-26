@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { deprecate, omit, MediaApi } from '@frontastic/common'
 import getImageDimensions from './helper/getImageDimension'
 import sizer from './helper/reactSizer'
-import NoImage from '../layout/noImage.svg'
+import NoImage from '../layout/noImage2.svg'
 
 /**
  * This component renders an image from the Media API. If you need to render an image from a URL, use RemoteImage!
@@ -86,20 +86,22 @@ class Image extends Component {
                     this.props.cropRatio,
                     this.props.options
                 )}
-                srcSet={[1, 2].map((factor) => {
-                    return [
-                        Image.mediaApi.getImageLink(
-                            this.props.media,
-                            this.props.context.project.configuration,
-                            this.state.width,
-                            this.state.height,
-                            this.props.cropRatio,
-                            this.props.options,
-                            factor
-                        ),
-                        factor + 'x',
-                    ].join(' ')
-                }).join(', ')}
+                srcSet={[1, 2]
+                    .map((factor) => {
+                        return [
+                            Image.mediaApi.getImageLink(
+                                this.props.media,
+                                this.props.context.project.configuration,
+                                this.state.width,
+                                this.state.height,
+                                this.props.cropRatio,
+                                this.props.options,
+                                factor
+                            ),
+                            factor + 'x',
+                        ].join(' ')
+                    })
+                    .join(', ')}
                 onError={() => {
                     this.setState({ error: true })
                 }}
