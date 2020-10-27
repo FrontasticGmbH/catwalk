@@ -1,9 +1,9 @@
 <?php
 
-namespace Frontastic\Catwalk\KameleoonBundle\Symfony;
+namespace Frontastic\Catwalk\TrackingBundle\Symfony;
 
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
-use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
+use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 
 class TerminateListener
 {

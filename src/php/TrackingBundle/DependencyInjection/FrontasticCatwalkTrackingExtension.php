@@ -1,6 +1,6 @@
 <?php
 
-namespace Frontastic\Catwalk\KameleoonBundle\DependencyInjection;
+namespace Frontastic\Catwalk\TrackingBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Loader;
 /**
  * This is the class that loads and manages your bundle configuration
  */
-class FrontasticCatwalkKameleoonExtension extends Extension
+class FrontasticCatwalkTrackingExtension extends Extension
 {
     /**
      * {@inheritdoc}

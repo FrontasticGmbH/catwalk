@@ -10,13 +10,13 @@
     <services>
         <defaults public="true" />
 
-        <service id="Frontastic\Catwalk\KameleoonBundle\Symfony\TerminateListener">
-            <argument type="service" id="Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService"/>
+        <service id="Frontastic\Catwalk\TrackingBundle\Symfony\TerminateListener">
+            <argument type="service" id="Frontastic\Catwalk\TrackingBundle\Domain\TrackingService"/>
 
              <tag name="kernel.event_listener" event="kernel.terminate" priority="100" />
         </service>
 
-        <service id="Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService">
+        <service id="Frontastic\Catwalk\TrackingBundle\Domain\TrackingService">
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project"/>
             <argument>%kernel.project_dir%/config/</argument>
         </service>

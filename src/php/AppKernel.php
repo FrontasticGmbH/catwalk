@@ -34,6 +34,7 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Frontastic\Common\ProjectApiBundle\FrontasticCommonProjectApiBundle(),
             new \Frontastic\Common\ContentApiBundle\FrontasticCommonContentApiBundle(),
             new \Frontastic\Common\WishlistApiBundle\FrontasticCommonWishlistApiBundle(),
+            new \Frontastic\Catwalk\TrackingBundle\FrontasticCatwalkTrackingBundle(),
             new \Frontastic\Common\CartApiBundle\FrontasticCommonCartApiBundle(),
             new \Frontastic\Common\SapCommerceCloudBundle\FrontasticCommonSapCommerceCloudBundle(),
             new \Frontastic\Common\ShopifyBundle\FrontasticCommonShopifyBundle(),
@@ -43,8 +44,6 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Frontastic\Catwalk\FrontendBundle\FrontasticCatwalkFrontendBundle(),
             new \Frontastic\Catwalk\ApiCoreBundle\FrontasticCatwalkApiCoreBundle(),
             new \Frontastic\Catwalk\DevVmBundle\FrontasticCatwalkDevVmBundle(),
-            // @TODO: This should be a generic tracking bundle if we include it here…
-            new \Frontastic\Catwalk\KameleoonBundle\FrontasticCatwalkKameleoonBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

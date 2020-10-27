@@ -8,7 +8,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
-use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
+use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class AccountController extends Controller

@@ -1,12 +1,13 @@
 <?php
 
-namespace Frontastic\Catwalk\KameleoonBundle\Domain;
+namespace Frontastic\Catwalk\TrackingBundle\Domain\Tracker;
 
 use Kameleoon\KameleoonClientFactory;
 use Kameleoon\Data\Browser;
 use Kameleoon\Data\PageView;
 use Kameleoon\Data\Conversion;
 
+use Frontastic\Catwalk\TrackingBundle\Domain\Tracker;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
 use Frontastic\Common\CartApiBundle\Domain\Cart;
@@ -15,11 +16,12 @@ use Frontastic\Common\CartApiBundle\Domain\Order;
 use Frontastic\Common\ProductApiBundle\Domain\Product;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 
-class TrackingService
+class Kameleoon extends Tracker
 {
     private $client;
-    private $clientId = 'kore-frontastic-cloud';
-    private $clientSecret = 'VSn7JNH_L82YUsUZtsGWr1JPMh_HnWU--G0t0kSudcA';
+    private $clientId;
+    private $clientSecret;
+    private $goal;
 
     private $visitorCode;
 
@@ -31,44 +33,47 @@ class TrackingService
         '(safari)i' => 3, // Safari
     ];
 
-    public function __construct(Project $project, string $configuration)
+    public function __construct(Project $project, string $configDirectory)
     {
-        $kameleoonConfigFile = $this->ensureConfigFile($project, $configuration);
+        $trackingConfigFile = $this->ensureConfigFile($project, $configDirectory);
+        debug($trackingConfigFile);
         $this->client = KameleoonClientFactory::create(
             $project->configuration['abtesting']['siteCode'] ?? null,
             false,
-            $kameleoonConfigFile
+            $trackingConfigFile
         );
+        $this->clientId = $project->configuration['abtesting']['clientId'] ?? null;
+        $this->clientSecret = $project->configuration['abtesting']['clientSecret'] ?? null;
+        $this->goal = $project->configuration['abtesting']['mainGoal'] ?? null;
 
         // @TODO: Use a custom visitor code in session here, to not expose
-        // Kameleoon cookie?
+        // Tracking cookie?
         $this->visitorCode = $this->client->obtainVisitorCode($_SERVER['HTTP_HOST'] ?? 'example.com');
     }
 
-    private function ensureConfigFile(Project $project, string $configuration): string
+    private function ensureConfigFile(Project $project, string $configDirectory): string
     {
-        $kameleoonConfigFile = $configuration . '/kameleoon.conf';
-        if (!file_exists($kameleoonConfigFile)) {
-            $kameleoonWorkingDir = sprintf(
-                '/var/cache/frontastic/%s_%s/kameleoon/',
-                $project->customer,
-                $project->projectId
-            );
-            if (!file_exists($kameleoonWorkingDir)) {
-                mkdir($kameleoonWorkingDir, 0755, true);
-            }
+        $trackingConfigFile = $configDirectory . '/tracking.conf';
+        $trackingWorkingDir = sprintf(
+            '/var/cache/frontastic/%s_%s/tracking/',
+            $project->customer,
+            $project->projectId
+        );
 
-            @mkdir(dirname($kameleoonConfigFile), 0755, true);
+        if (!file_exists($trackingConfigFile) || !file_exists($trackingWorkingDir)) {
+            @mkdir($trackingWorkingDir, 0755, true);
+            @mkdir(dirname($trackingConfigFile), 0755, true);
+
             file_put_contents(
-                $kameleoonConfigFile,
+                $trackingConfigFile,
                 sprintf(
                     "kameleoon_work_dir = %s\nactions_configuration_refresh_interval = 60\n",
-                    $kameleoonWorkingDir
+                    $trackingWorkingDir
                 )
             );
         }
 
-        return $kameleoonConfigFile;
+        return $trackingConfigFile;
     }
 
     public function shouldRunExperiment(string $experimentId): bool
@@ -85,15 +90,16 @@ class TrackingService
         return $experiment !== 'reference';
     }
 
-    public function trackPageView(Context $Context, string $pageType, ?string $path = null)
+    public function trackPageView(Context $context, string $pageType, ?string $path = null): void
     {
-        // @TODO: Track: Browser, device type, page type, actual page view
         $path = $path ?: $_SERVER['REQUEST_URI'] ?? '/';
-        $this->client->addData($this->visitorCode, new Browser($this->getKameleoonBrowserId()));
+        debug($this->visitorCode, $this->getTrackingBrowserId());
+        debug($this->visitorCode, $path, $pageType, $_SERVER['HTTP_REFERER'] ?? null);
+        $this->client->addData($this->visitorCode, new Browser($this->getTrackingBrowserId()));
         $this->client->addData($this->visitorCode, new PageView($path, $pageType, $_SERVER['HTTP_REFERER'] ?? null));
     }
 
-    private function getKameleoonBrowserId()
+    private function getTrackingBrowserId(): int
     {
         $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'None';
         foreach ($this->userAgentMap as $expression => $browserId) {
@@ -105,28 +111,27 @@ class TrackingService
         return 5; // Other
     }
 
-    public function reachStartCheckout(Context $context)
+    public function reachStartCheckout(Context $context): void
     {
         debug('Start Checkout');
     }
 
-    public function reachOrder(Context $context, Order $order)
+    public function reachOrder(Context $context, Order $order): void
     {
-        // @TODO: How to know the goal ID?
-        $this->client->addData($this->visitorCode, new Conversion(220195, $order->sum / 100));
+        $this->client->addData($this->visitorCode, new Conversion($this->goal, $order->sum / 100));
     }
 
-    public function reachRegistration(Context $context, Account $account)
+    public function reachRegistration(Context $context, Account $account): void
     {
         debug('Registration', $account->email);
     }
 
-    public function reachViewProduct(Context $context, Product $product)
+    public function reachViewProduct(Context $context, Product $product): void
     {
         debug('View Product', $product->sku);
     }
 
-    public function reachAddToBasket(Context $context, Cart $cart, LineItem $lineItem)
+    public function reachAddToBasket(Context $context, Cart $cart, LineItem $lineItem): void
     {
         debug('Added to cart', $lineItem->variant->sku);
     }
@@ -135,8 +140,9 @@ class TrackingService
      * Only call this on kernel.terminate to now cause any negative performance
      * impact on page delivery.
      */
-    public function flush()
+    public function flush(): void
     {
-        $this->client->flush();
+        $this->client->flush($this->visitorCode);
+        throw new \Exception(__METHOD__);
     }
 }

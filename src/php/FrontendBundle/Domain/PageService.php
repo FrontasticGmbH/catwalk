@@ -6,7 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 use RulerZ\RulerZ;
-use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
+use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -24,10 +24,6 @@ class PageService implements Target
     private $rulerz;
 
     /**
-     * @HACK This hardcoded dependency on Kameleoon is nothing we really want
-     * in here, but for the PoC it will be sufficient and it could still be a
-     * base for future refactorings after multiple implementaions…
-     *
      * @var TrackingService
      */
     private $trackingService;
