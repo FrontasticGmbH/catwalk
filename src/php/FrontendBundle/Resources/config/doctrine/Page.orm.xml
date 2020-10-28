@@ -26,7 +26,6 @@
         <field name="scheduledToTimestamp" column="p_scheduled_to_timestamp" type="integer" nullable="true" />
         <field name="nodesPagesOfTypeSortIndex" column="p_nodes_pages_of_type_sort_index" type="integer" nullable="true" />
         <field name="scheduleCriterion" column="p_schedule_criterion" type="string" />
-        <field name="scheduledExperiment" column="p_scheduled_experiment" type="string" nullable="true" />
 
         <indexes>
             <index columns="p_id"/>

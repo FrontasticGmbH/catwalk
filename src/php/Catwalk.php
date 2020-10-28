@@ -48,6 +48,7 @@ class Catwalk
             $kernel = new AppKernel($env, $debug);
             $response = $kernel->handle($request);
             $response->send();
+            $kernel->terminate($request, $response);
         } catch (\Throwable $e) {
             syslog(LOG_CRIT, $e->getMessage() . PHP_EOL . $e->getTraceAsString());
 
@@ -60,10 +61,6 @@ class Catwalk
                 echo '<pre style="white-space: pre-wrap;">', $e, '</pre>';
             }
             echo "</body></html>";
-        } finally {
-            if (isset($kernel) && isset($request) && isset($response)) {
-                $kernel->terminate($request, $response);
-            }
         }
     }
 

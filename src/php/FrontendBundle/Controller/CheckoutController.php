@@ -8,7 +8,6 @@ use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
-use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,7 +22,6 @@ class CheckoutController extends Controller
     public function checkoutAction(Context $context): array
     {
         // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        $this->get(TrackingService::class)->reachStartCheckout($context);
         return $this->getNode($context, new PageMatcherContext(['checkout' => true]));
     }
 
@@ -67,8 +65,6 @@ class CheckoutController extends Controller
         if ($pageType !== null) {
             $masterService->completeTasticStreamConfigurationWithMasterDefault($page, $pageType);
         }
-
-        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,

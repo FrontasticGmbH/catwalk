@@ -1,1 +1,0 @@
-*/5 * * * * bash /usr/local/opt/bin/kameleoon-process-php-client-queries.sh
