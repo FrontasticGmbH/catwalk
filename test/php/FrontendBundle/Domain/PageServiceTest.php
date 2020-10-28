@@ -4,7 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway;
 use RulerZ\RulerZ;
-use Frontastic\Catwalk\KameleoonBundle\Domain\TrackingService;
+use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class PageServiceTest extends \PHPUnit\Framework\TestCase
