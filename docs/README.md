@@ -12,15 +12,12 @@ Here you find the API documentation for the relevant classes:
 * ApiCoreBundle
   * Domain
     * [App](php/ApiCoreBundle/Domain/App.md)
-    * App
-      * [FeatureFlag](php/ApiCoreBundle/Domain/App/FeatureFlag.md)
-      * [Storefinder](php/ApiCoreBundle/Domain/App/Storefinder.md)
-      * [Teaser](php/ApiCoreBundle/Domain/App/Teaser.md)
     * [AppDataTarget](php/ApiCoreBundle/Domain/AppDataTarget.md)
     * [AppRepository](php/ApiCoreBundle/Domain/AppRepository.md)
     * [AppRepositoryService](php/ApiCoreBundle/Domain/AppRepositoryService.md)
     * [AppService](php/ApiCoreBundle/Domain/AppService.md)
     * [CachingProductApi](php/ApiCoreBundle/Domain/CachingProductApi.md)
+    * [CachingProductSearchApi](php/ApiCoreBundle/Domain/CachingProductSearchApi.md)
     * CommerceTools
       * [ClientFactory](php/ApiCoreBundle/Domain/CommerceTools/ClientFactory.md)
     * [Context](php/ApiCoreBundle/Domain/Context.md)
@@ -35,6 +32,8 @@ Here you find the API documentation for the relevant classes:
     * [EnvironmentReplicationFilter](php/ApiCoreBundle/Domain/EnvironmentReplicationFilter.md)
     * [ProductApiFactoryDecorator](php/ApiCoreBundle/Domain/ProductApiFactoryDecorator.md)
     * [ProductApiWithoutInner](php/ApiCoreBundle/Domain/ProductApiWithoutInner.md)
+    * [ProductSearchApiFactoryDecorator](php/ApiCoreBundle/Domain/ProductSearchApiFactoryDecorator.md)
+    * [ProductSearchApiWithoutInner](php/ApiCoreBundle/Domain/ProductSearchApiWithoutInner.md)
     * [ProjectService](php/ApiCoreBundle/Domain/ProjectService.md)
     * [Tastic](php/ApiCoreBundle/Domain/Tastic.md)
     * [TasticService](php/ApiCoreBundle/Domain/TasticService.md)

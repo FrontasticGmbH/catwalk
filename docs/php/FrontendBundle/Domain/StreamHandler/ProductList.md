@@ -14,13 +14,13 @@
 
 ```php
 public function __construct(
-    \Frontastic\Common\ProductApiBundle\Domain\ProductApi $productApi
+    \Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi $productSearchApi
 ): mixed
 ```
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
-`$productApi`|`\Frontastic\Common\ProductApiBundle\Domain\ProductApi`||
+`$productSearchApi`|`\Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi`||
 
 Return Value: `mixed`
 

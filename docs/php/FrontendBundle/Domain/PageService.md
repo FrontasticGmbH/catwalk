@@ -20,7 +20,8 @@
 ```php
 public function __construct(
     \Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway $pageGateway,
-    \RulerZ\RulerZ $rulerz
+    \RulerZ\RulerZ $rulerz,
+    \Frontastic\Catwalk\TrackingBundle\Domain\TrackingService $trackingService
 ): mixed
 ```
 
@@ -28,6 +29,7 @@ Argument|Type|Default|Description
 --------|----|-------|-----------
 `$pageGateway`|`\Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway`||
 `$rulerz`|`\RulerZ\RulerZ`||
+`$trackingService`|`\Frontastic\Catwalk\TrackingBundle\Domain\TrackingService`||
 
 Return Value: `mixed`
 
