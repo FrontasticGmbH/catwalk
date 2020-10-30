@@ -11,7 +11,7 @@ class EnvironmentReplicationFilterTest extends \PHPUnit\Framework\TestCase
      */
     private $innerTargetMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->innerTargetMock = \Phake::mock(Target::class);
     }

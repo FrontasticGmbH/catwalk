@@ -27,7 +27,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
      */
     private $fieldService;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fieldHandlerMock = $this->getMockBuilder(TasticFieldHandlerV2::class)
             ->disableOriginalConstructor()

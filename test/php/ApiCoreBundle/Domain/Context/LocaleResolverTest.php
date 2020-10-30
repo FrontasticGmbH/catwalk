@@ -15,7 +15,7 @@ class LocaleResolverTest extends TestCase
      */
     private $localeDeterminer;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->localeDeterminer = new LocaleResolver();
     }

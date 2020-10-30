@@ -29,7 +29,7 @@ class PageServiceTest extends \PHPUnit\Framework\TestCase
      */
     private $trackingServiceMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->pageGatewayMock = \Phake::mock(PageGateway::class);
         $this->rulerZMock = \Phake::mock(RulerZ::class);

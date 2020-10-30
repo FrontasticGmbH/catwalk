@@ -21,7 +21,7 @@ class NodeServiceTest extends \PHPUnit\Framework\TestCase
      */
     private $routeServiceMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->nodeGatewayMock = \Phake::mock(NodeGateway::class);
         $this->routeServiceMock = \Phake::mock(RouteService::class);

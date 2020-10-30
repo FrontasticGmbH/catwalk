@@ -22,7 +22,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
      */
     private $node;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->tasticDefinitionServiceMock = $this->getMockBuilder(TasticService::class)
             ->disableOriginalConstructor()

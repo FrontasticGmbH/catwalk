@@ -17,7 +17,7 @@ class ContextInContainerDeprecationProviderTest extends TestCase
      */
     private $contextProvider;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->contextServiceMock = $this->getMockBuilder(ContextService::class)
             ->disableOriginalConstructor()
@@ -26,9 +26,6 @@ class ContextInContainerDeprecationProviderTest extends TestCase
         $this->contextProvider = new ContextInContainerDeprecationProvider($this->contextServiceMock);
     }
 
-    /**
-     * @expectedException \Frontastic\Catwalk\ApiCoreBundle\Exception\DeprecationException
-     */
     public function testProvideContextThrowsExceptionInDevelopment()
     {
         $this->contextServiceMock->expects($this->any())
@@ -37,8 +34,7 @@ class ContextInContainerDeprecationProviderTest extends TestCase
                 new Context(['environment' => 'dev'])
             ));
 
-        $this->setExpectedExceptionFromAnnotation();
-
+        $this->expectException('\Frontastic\Catwalk\ApiCoreBundle\Exception\DeprecationException');
         $this->contextProvider->provideContext();
     }
 

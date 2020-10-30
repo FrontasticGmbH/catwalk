@@ -143,8 +143,8 @@ class AppRepositoryService
         array $properties,
         array $indexes
     ) {
-        $templating = new \Twig_Environment(
-            new \Twig_Loader_Filesystem([__DIR__ . '/../Resources/views/App/'])
+        $templating = new \Twig\Environment(
+            new \Twig\Loader\FilesystemLoader([__DIR__ . '/../Resources/views/App/'])
         );
 
         // @TODO: Map PHP type information for better autocompletion

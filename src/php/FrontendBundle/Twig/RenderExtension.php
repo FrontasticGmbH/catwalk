@@ -4,7 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Twig;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\RenderService;
 
-class RenderExtension extends \Twig_Extension
+class RenderExtension extends \Twig\Extension\AbstractExtension
 {
     private $renderService;
 
@@ -16,7 +16,7 @@ class RenderExtension extends \Twig_Extension
     public function getFunctions(): array
     {
         return [
-            new \Twig_Function('frontastic_render', [$this->renderService, 'render']),
+            new \Twig\TwigFunction('frontastic_render', [$this->renderService, 'render']),
         ];
     }
 }

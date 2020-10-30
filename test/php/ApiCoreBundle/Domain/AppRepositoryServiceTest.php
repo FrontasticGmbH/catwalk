@@ -69,7 +69,7 @@ class AppRepositoryServiceTest extends IntegrationTest
         ];
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         foreach (glob(__DIR__ . '/App/*.php') as $classFile) {
             unlink($classFile);
