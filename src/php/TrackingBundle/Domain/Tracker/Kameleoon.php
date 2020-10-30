@@ -143,6 +143,5 @@ class Kameleoon extends Tracker
     public function flush(): void
     {
         $this->client->flush($this->visitorCode);
-        throw new \Exception(__METHOD__);
     }
 }

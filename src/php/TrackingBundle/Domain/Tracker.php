@@ -36,5 +36,9 @@ abstract class Tracker
         return false;
     }
 
+    /**
+     * Only call this on kernel.terminate to now cause any negative performance
+     * impact on page delivery.
+     */
     abstract public function flush(): void;
 }
