@@ -483,6 +483,7 @@
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
 
             <tag name="kernel.event_listener" event="kernel.request" />
+            <tag name="kernel.event_listener" event="kernel.exception" priority="9" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ReferrerPolicy">

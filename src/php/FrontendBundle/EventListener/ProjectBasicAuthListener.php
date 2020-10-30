@@ -6,6 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Common\SpecificationBundle\Domain\ConfigurationSchema;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\HttpFoundation\IpUtils;
@@ -44,42 +45,12 @@ class ProjectBasicAuthListener
 
     public function onKernelRequest(GetResponseEvent $event): void
     {
-        $request = $event->getRequest();
+        $this->handleAuthRequest($event);
+    }
 
-        if (!$this->isAuthenticationRequired($request)) {
-            return;
-        }
-
-        $context = $this->contextService->createContextFromRequest($request);
-
-        $configuration = ConfigurationSchema::fromSchemaAndConfiguration(
-            $context->projectConfigurationSchema,
-            $context->projectConfiguration
-        );
-
-        $whitelistedIps = $this->getWhitelistedIps($configuration);
-
-        if (!empty($whitelistedIps) && IpUtils::checkIp($request->getClientIp(), $whitelistedIps)) {
-            return;
-        }
-
-        $expectedUser = $this->getExpectedUser($configuration);
-        if ($expectedUser === null) {
-            return;
-        }
-
-        $requestUser = $this->getUserFromRequest($request);
-        if ($requestUser === null) {
-            $event->setResponse($this->buildUnauthorizedResponse($configuration));
-            return;
-        }
-
-        // Compare the passwords even if the usernames don't match to prevent timing attacks
-        $usernameMatches = hash_equals($expectedUser->getUsername(), $requestUser->getUsername());
-        $passwordMatches = hash_equals($expectedUser->getPassword(), $requestUser->getPassword());
-        if (!$usernameMatches || !$passwordMatches) {
-            $event->setResponse($this->buildUnauthorizedResponse($configuration));
-        }
+    public function onKernelException(ExceptionEvent $event): void
+    {
+        $this->handleAuthRequest($event);
     }
 
     private function isAuthenticationRequired(Request $request): bool
@@ -169,5 +140,48 @@ class ProjectBasicAuthListener
         }
 
         return [];
+    }
+
+    /**
+     * @param GetResponseEvent $event
+     */
+    private function handleAuthRequest(GetResponseEvent $event)
+    {
+        $request = $event->getRequest();
+
+        if (!$this->isAuthenticationRequired($request)) {
+            return;
+        }
+
+        $context = $this->contextService->createContextFromRequest($request);
+
+        $configuration = ConfigurationSchema::fromSchemaAndConfiguration(
+            $context->projectConfigurationSchema,
+            $context->projectConfiguration
+        );
+
+        $whitelistedIps = $this->getWhitelistedIps($configuration);
+
+        if (!empty($whitelistedIps) && IpUtils::checkIp($request->getClientIp(), $whitelistedIps)) {
+            return;
+        }
+
+        $expectedUser = $this->getExpectedUser($configuration);
+        if ($expectedUser === null) {
+            return;
+        }
+
+        $requestUser = $this->getUserFromRequest($request);
+        if ($requestUser === null) {
+            $event->setResponse($this->buildUnauthorizedResponse($configuration));
+            return;
+        }
+
+        // Compare the passwords even if the usernames don't match to prevent timing attacks
+        $usernameMatches = hash_equals($expectedUser->getUsername(), $requestUser->getUsername());
+        $passwordMatches = hash_equals($expectedUser->getPassword(), $requestUser->getPassword());
+        if (!$usernameMatches || !$passwordMatches) {
+            $event->setResponse($this->buildUnauthorizedResponse($configuration));
+        }
     }
 }
