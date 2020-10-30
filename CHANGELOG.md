@@ -1,5 +1,13 @@
 # catwalk Changelog
 
+## `1.1.17` (2020-10-30)
+
+* feat: Implement Kameleoon tracking if configured for abtesting
+* fix: ProjectBasicAuth listener should also deal with kernel exceptions
+* fix: Do not pass height to Cloudinary if not necessary
+* fix: Tested dimension calculation in image component
+* fix: A little more resilience
+
 ## `1.1.16` (2020-10-16)
 
 * fix: More resilient determination of Tastic name for BC check.
