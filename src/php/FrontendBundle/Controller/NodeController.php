@@ -25,10 +25,8 @@ class NodeController extends Controller
 
         $node = $nodeService->get($nodeId);
 
-        if (
-            class_exists('Tideways\Profiler') &&
-            ($node->configuration['separateTidewaysTransaction'] ?? false) === true
-        ) {
+        if (class_exists('Tideways\Profiler') &&
+            ($node->configuration['separateTidewaysTransaction'] ?? false) === true) {
             \Tideways\Profiler::setTransactionName('Node: ' . $node->nodeId);
         }
 
