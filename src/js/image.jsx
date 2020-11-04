@@ -54,7 +54,7 @@ class Image extends Component {
             'deviceType',
         ]
 
-        if (this.state.error || !this.state.width || !this.state.height) {
+        if (this.state.error || !(this.state.width || this.state.height)) {
             return (
                 <img
                     style={this.props.style}
