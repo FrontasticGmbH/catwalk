@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.1.18` (2020-11-04)
+
+* fix: allows for images with only one size prop
+
 ## `1.1.17` (2020-10-30)
 
 * feat: Implement Kameleoon tracking if configured for abtesting
