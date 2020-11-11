@@ -15,6 +15,7 @@ class AppRepositoryServiceTest extends IntegrationTest
             $this->getContainer()->get('doctrine.orm.entity_manager'),
             $this->getContainer()->get(\Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway::class),
             $this->getContainer()->get('logger'),
+            $this->getContainer()->get('filesystem'),
             __DIR__
         );
     }
