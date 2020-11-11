@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Tools\SchemaTool;
 use Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class AppRepositoryService
 {
@@ -39,6 +40,11 @@ class AppRepositoryService
     private $logger;
 
     /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    /**
      * Internal <alert>STATE</alert> - did we have synced the current auto
      * generated custom app code, with the current state of the database?
      *
@@ -50,11 +56,13 @@ class AppRepositoryService
         EntityManager $entityManager,
         AppGateway $appGateway,
         LoggerInterface $logger,
+        Filesystem $filesystem,
         string $sourceDir = ''
     ) {
         $this->entityManager = $entityManager;
         $this->appGateway = $appGateway;
         $this->logger = $logger;
+        $this->filesystem = $filesystem;
         $this->sourceDir = $sourceDir ?: __DIR__;
     }
 
@@ -95,7 +103,7 @@ class AppRepositoryService
             );
             $this->updateDatabaseSchema($app->name ?? $app->appId ?? $className, $schemaUpdateClassName);
         } finally {
-            \unlink($schemaUpdateFileName);
+            $this->filesystem->remove($schemaUpdateFileName);
         }
 
         $this->generateEntityClass(
