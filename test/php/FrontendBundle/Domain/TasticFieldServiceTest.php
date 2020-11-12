@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Psr\Log\LoggerInterface;
 
 class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -45,6 +46,7 @@ class TasticFieldServiceTest extends \PHPUnit\Framework\TestCase
 
         $this->fieldService = new TasticFieldService(
             $this->tasticDefinitionServiceMock,
+            $this->getMockBuilder(LoggerInterface::class)->getMock(),
             [$this->fieldHandlerMock]
         );
     }

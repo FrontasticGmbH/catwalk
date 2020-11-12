@@ -30,6 +30,8 @@ class TasticFieldService
     private $tasticDefinitionMapCache;
 
     /**
+     * @param TasticService $tasticDefinitionService
+     * @param LoggerInterface $logger
      * @param TasticFieldHandler[]|TasticFieldHandlerV2[] $fieldHandlers
      */
     public function __construct(
