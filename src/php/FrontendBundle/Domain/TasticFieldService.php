@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Psr\Log\LoggerInterface;
 
 class TasticFieldService
 {
@@ -12,6 +13,11 @@ class TasticFieldService
      * @var TasticService
      */
     private $tasticDefinitionService;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * @var TasticFieldHandlerV2[]
@@ -26,9 +32,13 @@ class TasticFieldService
     /**
      * @param TasticFieldHandler[]|TasticFieldHandlerV2[] $fieldHandlers
      */
-    public function __construct(TasticService $tasticDefinitionService, iterable $fieldHandlers = [])
-    {
+    public function __construct(
+        TasticService $tasticDefinitionService,
+        LoggerInterface $logger,
+        iterable $fieldHandlers = []
+    ) {
         $this->tasticDefinitionService = $tasticDefinitionService;
+        $this->logger = $logger;
         foreach ($fieldHandlers as $fieldHandler) {
             $this->addFieldHandler($fieldHandler);
         }
@@ -154,7 +164,14 @@ class TasticFieldService
                 $handledFieldData[$fieldName] =
                     $this->fieldHandlers[$streamType]->handle($context, $node, $page, $fieldValue);
             } catch (\Throwable $throwable) {
-                // debug($throwable->getMessage());
+                $this->logger->error(
+                    'Error in custom field handler: {message}',
+                    [
+                        'message' => $throwable->getMessage(),
+                        'exception' => $throwable,
+                    ]
+                );
+                \debug($throwable->getMessage());
             }
         }
 

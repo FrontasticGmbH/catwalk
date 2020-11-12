@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Psr\Log\LoggerInterface;
 
 class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
 {
@@ -326,6 +327,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
 
         $fieldService = new TasticFieldService(
             $this->tasticDefinitionServiceMock,
+            $this->getMockBuilder(LoggerInterface::class)->getMock(),
             $fieldHandlerMocks
         );
 
@@ -375,6 +377,7 @@ class TasticFieldServiceRegressionTest extends \PHPUnit\Framework\TestCase
 
         $fieldService = new TasticFieldService(
             $this->tasticDefinitionServiceMock,
+            $this->getMockBuilder(LoggerInterface::class)->getMock(),
             $fieldHandlerMocks
         );
 
