@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.1.19` (2020-11-13)
+
+* fix: Set required values on images test
+* fix: Added mock logger to unit test
+* feat: log errors in custom stream handlers
+* fix: use Filesystem to delete schema update file
+
 ## `1.1.18` (2020-11-04)
 
 * fix: allows for images with only one size prop
