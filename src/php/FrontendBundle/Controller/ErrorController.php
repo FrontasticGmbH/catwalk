@@ -71,6 +71,6 @@ class ErrorController extends AbstractController
             return $exception->getStatusCode();
         }
 
-        return 500;
+        return 200;
     }
 }

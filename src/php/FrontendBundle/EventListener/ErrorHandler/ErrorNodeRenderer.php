@@ -81,7 +81,8 @@ class ErrorNodeRenderer
             $this->getViewData($context, $throwable)
         );
     }
-    private function getViewData(Context $context, \Throwable $throwable): array
+
+    public function getViewData(Context $context, \Throwable $throwable): array
     {
         try {
             $node = $this->nodeService->get(
