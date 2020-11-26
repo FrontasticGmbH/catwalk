@@ -17,6 +17,7 @@ public function __construct(
     \Doctrine\ORM\EntityManager $entityManager,
     \Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway $appGateway,
     \Psr\Log\LoggerInterface $logger,
+    \Symfony\Component\Filesystem\Filesystem $filesystem,
     string $sourceDir = ''
 ): mixed
 ```
@@ -26,6 +27,7 @@ Argument|Type|Default|Description
 `$entityManager`|`\Doctrine\ORM\EntityManager`||
 `$appGateway`|`\Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway`||
 `$logger`|`\Psr\Log\LoggerInterface`||
+`$filesystem`|`\Symfony\Component\Filesystem\Filesystem`||
 `$sourceDir`|`string`|`''`|
 
 Return Value: `mixed`

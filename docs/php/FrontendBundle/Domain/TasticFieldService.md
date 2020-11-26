@@ -12,6 +12,7 @@
 ```php
 public function __construct(
     TasticService $tasticDefinitionService,
+    \Psr\Log\LoggerInterface $logger,
     iterable $fieldHandlers = []
 ): mixed
 ```
@@ -19,6 +20,7 @@ public function __construct(
 Argument|Type|Default|Description
 --------|----|-------|-----------
 `$tasticDefinitionService`|[`TasticService`](../../ApiCoreBundle/Domain/TasticService.md)||
+`$logger`|`\Psr\Log\LoggerInterface`||
 `$fieldHandlers`|`iterable`|`[]`|
 
 Return Value: `mixed`
