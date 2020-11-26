@@ -219,8 +219,10 @@ function hasHydrationWarning (errors) {
 }
 
 function isIE () {
-    // eslint-disable-next-line
-    return ((window && window.navigator) && window.navigator.userAgent.indexOf('MSIE ') == !-1 || !!window.navigator.userAgent.match(/Trident.*rv\:11\./))
+    return (
+        window && window.navigator &&
+        (window.navigator.userAgent.indexOf('MSIE ') > -1 || !!window.navigator.userAgent.match(/Trident.*rv:11\./))
+    )
 }
 
 function consoleCaptureStart () {
