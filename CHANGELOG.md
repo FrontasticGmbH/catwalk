@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.1.20` (2020-11-26)
+
+* fix: return error code in debug error controller
+* fix: correctly render error pages on locale change
+
 ## `1.1.19` (2020-11-13)
 
 * fix: Set required values on images test
