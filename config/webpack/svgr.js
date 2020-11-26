@@ -19,7 +19,7 @@ module.exports = (config, PRODUCTION, SERVER) => {
                 {
                     test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
                     issuer: {
-                        test: /\.jsx?$/,
+                        test: /\.(jsx|tsx)?$/,
                     },
                     use: [
                         {
