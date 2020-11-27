@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.2.0` (2020-11-27)
+
+* feat: CategoryRouter for Category Master Pages.
+* Built assets for release 2020.11.26.17.12
+* fix: IE detection function
+
 ## `1.1.20` (2020-11-26)
 
 * fix: return error code in debug error controller
