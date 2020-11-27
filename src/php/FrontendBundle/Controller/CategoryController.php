@@ -8,6 +8,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
+use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\CategoryRouter;
 use Frontastic\Common\ProductApiBundle\Domain\Category;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CategoryController extends Controller
 {
-    public function viewAction(Context $context, Request $request, $id): array
+    public function viewAction(Context $context, Request $request): array
     {
         /** @var MasterService $pageMatcherService */
         $pageMatcherService = $this->get(MasterService::class);
@@ -27,6 +28,10 @@ class CategoryController extends Controller
         $dataProvider = $this->get(ViewDataProvider::class);
         /** @var PageService $pageService */
         $pageService = $this->get(PageService::class);
+        /** @var CategoryRouter $categoryRouter */
+        $categoryRouter = $this->get(CategoryRouter::class);
+
+        $id = $categoryRouter->identifyFrom($request, $context);
 
         $category = $this->findCategoryById($id, $context);
         $node = $nodeService->get(
