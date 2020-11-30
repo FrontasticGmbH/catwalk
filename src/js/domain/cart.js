@@ -2,7 +2,7 @@ class Cart {
     constructor (cart = {}) {
         this.cartId = cart.cartId || null
         this.cartVersion = cart.cartVersion || 0
-        this.custom = cart.custom || {}
+        this.projectSpecificData = cart.projectSpecificData || {}
         this.discountCodes = cart.discountCodes || []
         this.lineItems = cart.lineItems || []
         this.sum = +cart.sum || 0
