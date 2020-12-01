@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.2.1` (2020-12-01)
+
+* fix: Parameter order deprecated
+* fix: Switch to `apply spaceless` instead of `spaceless` in twig templates
+* fix: map projectSpecificData in Cart
+* fix: Set composer platform to PHP 7.4
+
 ## `1.2.0` (2020-11-27)
 
 * feat: CategoryRouter for Category Master Pages.
