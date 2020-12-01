@@ -1,5 +1,5 @@
 {# @var Response response #}
-{% spaceless %}
+{% apply spaceless %}
     {% set context = frontastic_context() %}
     {% if response.status >= 400 and context.environment != 'prod' and context.environment != 'production' %}
     <script type="text/javascript">
@@ -26,4 +26,4 @@
          data-props="{{ pageData|frontastic_json_serialize|json_encode }}"
          data-user-agent="{{ app.request.headers.get('User-Agent') }}"
      />
-{% endspaceless %}
+{% endapply %}
