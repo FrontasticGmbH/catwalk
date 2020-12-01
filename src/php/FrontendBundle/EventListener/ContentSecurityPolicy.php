@@ -66,6 +66,7 @@ class ContentSecurityPolicy
         $responseHeaders->set(
             'Content-Security-Policy',
             implode(
+                '; ',
                 array_map(
                     function (string $type, array $values): string {
                         return sprintf(
@@ -88,8 +89,7 @@ class ContentSecurityPolicy
                     },
                     array_keys($policies),
                     $policies
-                ),
-                '; '
+                )
             )
         );
     }
