@@ -182,6 +182,7 @@
         "extends": "react-app"
     },
     "devDependencies": {
+        "@types/react": "16.9.34",
         "prebuild-webpack-plugin": "^1.1.0"
     }
 }
