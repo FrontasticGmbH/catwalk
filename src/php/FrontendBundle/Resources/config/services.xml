@@ -25,12 +25,25 @@
                     type="service"
                     id="Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter"
                 />
+                <argument
+                    key="Frontastic\Common\ProductApiBundle\Domain\Category"
+                    type="service"
+                    id="Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\CategoryRouter"
+                />
             </argument>
 
             <tag name="frontastic.json_serializer.enhancer" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter">
+            <!--
+             * IMPORTANT: We must use the container here, otherwise we try to load
+             * the ContextService in context free situations.
+            -->
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\CategoryRouter">
             <!--
              * IMPORTANT: We must use the container here, otherwise we try to load
              * the ContextService in context free situations.
