@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
 
 class CronCommand extends ContainerAwareCommand
@@ -50,7 +51,17 @@ class CronCommand extends ContainerAwareCommand
             $verbose && $output->writeln("Running: {$command}");
             $process = new Process($command, $projectDir);
             $process->setTimeout(300);
-            $process->run();
+
+            try {
+                $process->run();
+            } catch (ProcessTimedOutException $exception) {
+                $verbose && $output->writeln(
+                    sprintf(
+                        'ERROR! Cronjob %s timed out.',
+                        $command
+                    )
+                );
+            }
 
             $processOutput = trim($process->getOutput());
             $processErrorOutput = trim($process->getErrorOutput());
