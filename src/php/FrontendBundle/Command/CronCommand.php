@@ -5,8 +5,6 @@ use Cron\CronExpression;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
 
 class CronCommand extends ContainerAwareCommand
@@ -46,37 +44,55 @@ class CronCommand extends ContainerAwareCommand
             }
         }
 
-        $logger = $this->getContainer()->get('logger');
         foreach ($commands as $command) {
-            $verbose && $output->writeln("Running: {$command}");
-            $process = new Process($command, $projectDir);
-            $process->setTimeout(300);
-
             try {
-                $process->run();
-            } catch (ProcessTimedOutException $exception) {
-                $verbose && $output->writeln(
-                    sprintf(
-                        'ERROR! Cronjob %s timed out.',
-                        $command
-                    )
-                );
+                $this->processCommand($verbose, $output, $command, $projectDir);
+            } catch (\Exception $e) {
+                $this
+                    ->getContainer()
+                    ->get('logger')
+                    ->alert(
+                        sprintf(
+                            "Cronjob '%s' failed:\nMESSAGE: %s\nSTACKTRACE:\n%s",
+                            $command,
+                            $e->getMessage(),
+                            $e->getTraceAsString()
+                        )
+                    );
             }
+        }
+    }
 
-            $processOutput = trim($process->getOutput());
-            $processErrorOutput = trim($process->getErrorOutput());
-            $result =sprintf(
-                'Cronjob %s %s: STDOUT: %s STDERR: %s',
-                $command,
-                $process->isSuccessful() ? 'succeeded' : 'failed',
-                $processOutput,
-                $processErrorOutput
-            );
-            $verbose && $output->writeln($result);
+    protected function processCommand(
+        OutputInterface $output,
+        bool $verbose,
+        string $command,
+        string $projectDir
+    ): void {
+        $verbose && $output->writeln("Running: {$command}");
 
-            if ($processOutput || $processErrorOutput || !$process->isSuccessful()) {
-                $logger->warn($result);
-            }
+        $process = new Process($command, $projectDir);
+        $process->setTimeout(300);
+        $process->run();
+
+        $processOutput = trim($process->getOutput());
+        $processErrorOutput = trim($process->getErrorOutput());
+        $result = sprintf(
+            'Cronjob %s (%d, %s) %s: STDOUT: %s STDERR: %s',
+            $command,
+            $process->getExitCode(),
+            $process->getExitCodeText(),
+            $process->isSuccessful() ? 'succeeded' : 'failed',
+            $processOutput,
+            $processErrorOutput,
+        );
+        $verbose && $output->writeln($result);
+
+        if ($processOutput || $processErrorOutput || !$process->isSuccessful() || $process->getExitCode() != 0) {
+            $this
+                ->getContainer()
+                ->get('logger')
+                ->warn($result);
         }
     }
 }
