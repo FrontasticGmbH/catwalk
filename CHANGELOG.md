@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.2.2` (2020-12-09)
+
+* fix(FT-514): Track errors from a cron job.
+* fix: increasing timeout and adding timeout logging
+* locks @types/react version
+* feat: adds typescript to svgr loader
+
 ## `1.2.1` (2020-12-01)
 
 * fix: Parameter order deprecated
