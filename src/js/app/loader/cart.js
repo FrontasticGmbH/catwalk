@@ -315,24 +315,35 @@ let CartLoader = function (store, api) {
         )
     }
 
-    this.getAvailableShippingMethods = (parameters = {}) => {
+    /**
+     * Returns the available shipping methods for a given cart.
+     *
+     * @returns Promise
+     */
+    this.getAvailableShippingMethods = () => {
         return this.api.trigger(
             'Frontastic.CartApi.Cart.getAvailableShippingMethods',
             // Own error handler without error handler => Ignore all errors
             {
                 ownErrorHandler: true,
-                ...parameters,
             }
         )
     }
 
-    this.getShippingMethods = (parameters = {}) => {
+    /**
+     * Returns all shipping methods.
+     *
+     * If the parameter onlyMatching = true, only such shipping methods are returned
+     * which are eligible for the territory of the $locale.
+     *
+     * @returns Promise
+     */
+    this.getShippingMethods = () => {
         return this.api.trigger(
             'Frontastic.CartApi.Cart.getShippingMethods',
             // Own error handler without error handler => Ignore all errors
             {
                 ownErrorHandler: true,
-                ...parameters,
             }
         )
     }
