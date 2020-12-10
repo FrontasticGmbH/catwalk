@@ -315,6 +315,28 @@ let CartLoader = function (store, api) {
         )
     }
 
+    this.getAvailableShippingMethods = (parameters = {}) => {
+        return this.api.trigger(
+            'Frontastic.CartApi.Cart.getAvailableShippingMethods',
+            // Own error handler without error handler => Ignore all errors
+            {
+                ownErrorHandler: true,
+                ...parameters,
+            }
+        )
+    }
+
+    this.getShippingMethods = (parameters = {}) => {
+        return this.api.trigger(
+            'Frontastic.CartApi.Cart.getShippingMethods',
+            // Own error handler without error handler => Ignore all errors
+            {
+                ownErrorHandler: true,
+                ...parameters,
+            }
+        )
+    }
+
     /**
      * @param cartInformation
      * @return Promise
