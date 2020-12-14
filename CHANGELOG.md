@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.3.0` (2020-12-14)
+
+* fix(FT-519): removed available shipping controller and use method as part of cart info
+* fix(FT-519): removed parameters and included method documentation
+* feat(FT-519): included shipping methods loaders
+
 ## `1.2.2` (2020-12-09)
 
 * fix(FT-514): Track errors from a cron job.
