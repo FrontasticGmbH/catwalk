@@ -49,13 +49,16 @@ class ErrorController extends AbstractController
         $error->browser = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown Browser';
         $error->clientIp = $request->getClientIp();
 
+        // We could load the session key from the config but skipped that to avoid adding more dependencies here
+        $error->sessionId = $_COOKIE['FCSESSID0815'];
+
         file_put_contents(
             $this->getParameter('kernel.logs_dir') . '/javascript.log',
             json_encode($error) . PHP_EOL,
             FILE_APPEND
         );
 
-        return new JsonResponse($error);
+        return new JsonResponse();
     }
 
     /**
