@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.4.1` (2020-12-18)
+
+* fix: ContextService and RedirectService use 2 different router services.
+* fix: removed extra comma at the end of parameter list
+
 ## `1.4.0` (2020-12-18)
 
 * feat: Log frontend errors without creating a DB connection
