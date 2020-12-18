@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.4.0` (2020-12-18)
+
+* feat: Log frontend errors without creating a DB connection
+
 ## `1.3.0` (2020-12-14)
 
 * fix(FT-519): removed available shipping controller and use method as part of cart info
