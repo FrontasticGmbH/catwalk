@@ -113,7 +113,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway" />
-            <argument type="service" id="router.default" />
+            <argument type="service" id="router" />
         </service>
 
         <service id="frontastic.catwalk.frontend_bundle.domain.redirect.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
