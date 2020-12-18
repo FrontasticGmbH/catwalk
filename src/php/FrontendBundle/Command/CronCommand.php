@@ -84,7 +84,7 @@ class CronCommand extends ContainerAwareCommand
             $process->getExitCodeText(),
             $process->isSuccessful() ? 'succeeded' : 'failed',
             $processOutput,
-            $processErrorOutput,
+            $processErrorOutput
         );
         $verbose && $output->writeln($result);
 
