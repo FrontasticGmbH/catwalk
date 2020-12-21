@@ -30,13 +30,13 @@ const availableSelectors = {
         return state.wishlist?.wishlist || emptyEntity
     },
     notifications: (state) => {
-        return state.user.notifications
+        return state.user?.notifications || emptyEntity
     },
     deviceType: (state) => {
-        return state.renderContext.deviceType
+        return state.renderContext?.deviceType || emptyEntity
     },
     isServerSideRendering: (state) => {
-        return state.renderContext.serverSideRendering
+        return state.renderContext?.serverSideRendering || emptyEntity
     },
     route: (state) => {
         return state.app?.route
