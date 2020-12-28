@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,7 +15,7 @@ use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 
 class NodeController extends Controller
 {
-    public function viewAction(Request $request, Context $context, string $nodeId)
+    public function viewAction(Request $request, Context $context, string $nodeId, LoggerInterface $logger)
     {
         /** @var NodeService $nodeService */
         $nodeService = $this->get(NodeService::class);
@@ -34,10 +35,22 @@ class NodeController extends Controller
 
         $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
 
+        $streamParameters = $request->query->get('s', []);
+
+        if(!is_array($streamParameters)) {
+            $streamParameters = [];
+            $logger->warning(
+                'Stream Parameters in {controller} were no array, falling back to an empty array',
+                [
+                    'controller', self::class
+                ]
+            );
+        }
+
         return [
             'node' => $node,
             'page' => $page,
-            'data' => $dataProvider->fetchDataFor($node, $context, $request->query->get('s', []), $page),
+            'data' => $dataProvider->fetchDataFor($node, $context, $streamParameters, $page),
         ];
     }
 
