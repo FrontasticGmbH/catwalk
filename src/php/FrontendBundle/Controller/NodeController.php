@@ -37,7 +37,7 @@ class NodeController extends Controller
 
         $streamParameters = $request->query->get('s', []);
 
-        if(!is_array($streamParameters)) {
+        if (!is_array($streamParameters)) {
             $streamParameters = [];
             $logger->warning(
                 'Stream Parameters in {controller} were no array, falling back to an empty array',
