@@ -55,7 +55,7 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
             })
 
         const possibleBreakpoints = breakpointsSortedByMinWidth.filter((breakpoint) => {
-            return breakpoint.minWidth < renderContext.viewportDimension.width
+            return breakpoint.minWidth <= renderContext.viewportDimension.width
         })
         if (possibleBreakpoints.length > 0) {
             return possibleBreakpoints[0].identifier
