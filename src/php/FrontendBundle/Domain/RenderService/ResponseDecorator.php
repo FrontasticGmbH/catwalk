@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain\RenderService;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
@@ -32,6 +33,16 @@ class ResponseDecorator
         }
 
         $response = $event->getResponse();
+
+        // Redirects do not require SSR
+        if ($response instanceof RedirectResponse) {
+            return;
+        }
+
+        // There is already an error status set
+        if ($response->getStatusCode() >= 400) {
+            return;
+        }
         $response->setStatusCode($this->statusCode);
     }
 }
