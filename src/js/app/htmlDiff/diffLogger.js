@@ -84,6 +84,10 @@ function formatElement (element, indent = 0) {
  * @param {Array} route
  */
 function htmlPath (htmlStructure, route) {
+    if (!htmlStructure) {
+        return []
+    }
+
     if (route.length === 0) {
         return htmlPathElements(htmlStructure)
     }
