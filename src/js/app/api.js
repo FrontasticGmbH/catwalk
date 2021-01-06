@@ -40,6 +40,7 @@ let Api = function (router, store) {
                 signal,
             }
         ).then((response) => {
+            this.handleFrontasticRedirect(response);
             let contentType = response.headers.get('Content-Type')
             if (contentType && contentType.includes('application/json')) {
                 return response.json().then((json) => {
@@ -188,6 +189,24 @@ let Api = function (router, store) {
 
     this.getReloadInterval = function () {
         return 5 * 60 * 1000
+    }
+
+    /**
+     * Handles the Frontastic-Location Header, which will do a redirect within the PWA
+     *
+     * The Frontastic-Location header is similar to an traditional Location: header,
+     * but is being used for API calls, where a Location header might look like the API
+     * has been moved. The Frontastic-Location header advises the Frontastic SPA to redirect to a new URl.
+     *
+     * @param {Response} response
+     * @returns {void}
+     */
+    this.handleFrontasticRedirect = function (response) {
+      if(!response.headers.has('Frontastic-Location')) {
+        return
+      }
+
+      this.router.history.push(response.headers.get('Frontastic-Location'))
     }
 }
 
