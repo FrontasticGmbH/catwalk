@@ -15,8 +15,4 @@
  * this for increased cionfidence in the production builds.
  */
 
-/* eslint-disable import/first */
-import register from 'ignore-styles'
-register(['.sass', '.scss', '.svg', '.png', '.css'])
-
 import '../src/js/server.js'
