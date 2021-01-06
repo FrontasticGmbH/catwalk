@@ -1,7 +1,3 @@
-//
-// Deprecated: This component is deprecated and should not be used any more
-//
-import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
@@ -12,8 +8,6 @@ import MediaImage from '../../../mediaImage'
 
 class MoleculesHero extends Component {
     render () {
-        deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
-
         return (<div className={'c-hero ' + this.props.className}>
             <figure
                 className={classnames(
@@ -37,6 +31,7 @@ class MoleculesHero extends Component {
 
 MoleculesHero.propTypes = {
     media: PropTypes.object.isRequired,
+    mediaTitle: PropTypes.string,
     caption: PropTypes.string,
     className: PropTypes.string,
     size: PropTypes.oneOf(['small', 'normal', 'large']),
