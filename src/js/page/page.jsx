@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import DefaultLayout from './layout'
@@ -8,17 +8,26 @@ const PageView = ({ page, tastics, node, data, highlight }) => {
     const [pageState, setStatePage] = useState(
         new Page(page || {}, Object.keys(page.regions || {}), tastics || [])
     )
-    const [tasticsState, seTasticsState] = useState(tastics)
+    const [tasticsState, setTasticsState] = useState(tastics)
+
+    const setPageAndTastics = (page, tastics) => {
+        setStatePage(
+            new Page(page || {}, Object.keys(page.regions), tastics || [])
+        )
+        setTasticsState(tastics)
+    }
 
     if (
         pageState.pageId !== page.pageId ||
         tasticsState.length !== tastics.length
     ) {
-        setStatePage(
-            new Page(page || {}, Object.keys(page.regions || {}), tastics || [])
-        )
-        seTasticsState(tastics)
+        setPageAndTastics(page, tastics)
     }
+
+    useEffect(() => {
+        setPageAndTastics(page, tastics)
+        // Requires page in case of Chronext because page does not contain all translations
+    }, [page, tastics])
 
     const layouts = {
         // @TODO: Add more complex layouts here
