@@ -50,7 +50,7 @@ Translatable.defaultProps = {
 export default connect(
     (globalState, props) => {
         return {
-            currentLocale: globalState.app.context.locale,
+            currentLocale: globalState.app.context.getLanguage(),
             defaultLocale: globalState.app.context.project.defaultLanguage,
             value: props.value,
         }

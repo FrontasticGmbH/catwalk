@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import { connect } from 'react-redux'
 import { markdown } from 'markdown'
 
@@ -44,6 +45,7 @@ Markdown.propTypes = {
         PropTypes.object,
         PropTypes.string,
     ]).isRequired,
+    classes: PropTypes.string,
 }
 
 Markdown.defaultProps = {
