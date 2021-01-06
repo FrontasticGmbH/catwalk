@@ -33,6 +33,9 @@ class ApiController extends Controller
         try {
             $this->verifyRequest($request);
 
+            /* HACK: This request is stateless, so let the ContextService know that we do not need a session. */
+            $request->attributes->set(Session::STATELESS, true);
+
             if (!$request->getContent() ||
                 !($body = json_decode($request->getContent(), true))) {
                 throw new \InvalidArgumentException("Invalid data passed: " . $request->getContent());
