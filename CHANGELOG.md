@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.4.2` (2021-01-06)
+
+* fix!: Switch to default symfony error handling
+* fix: Define fallback values in case properties are undefined
+
 ## `1.4.1` (2020-12-18)
 
 * fix: ContextService and RedirectService use 2 different router services.
