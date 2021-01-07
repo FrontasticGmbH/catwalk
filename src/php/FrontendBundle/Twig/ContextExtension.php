@@ -13,6 +13,8 @@ class ContextExtension extends \Twig\Extension\AbstractExtension
      */
     private $container;
 
+    private $serializedContext;
+
     public function __construct(ContainerInterface $container)
     {
         /*
@@ -30,6 +32,14 @@ class ContextExtension extends \Twig\Extension\AbstractExtension
     }
 
     public function getContext()
+    {
+        if(!isset($this->serializedContext)) {
+            $this->serializedContext = $this->serializeContext();
+        }
+        return $this->serializedContext;
+    }
+
+    private function serializeContext()
     {
         $jsonSerializer = $this->container->get(JsonSerializer::class);
         $contextService = $this->container->get(ContextService::class);
