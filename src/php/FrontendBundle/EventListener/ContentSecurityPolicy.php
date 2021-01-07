@@ -5,8 +5,6 @@ namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-
 class ContentSecurityPolicy
 {
     const DEFAULT = [
@@ -37,6 +35,11 @@ class ContentSecurityPolicy
             'self',
             'https://www.facebook.com',
             'https://s-static.ak.facebook.com',
+        ],
+        'frame-ancestors' => [
+            'self',
+            'https://*.frontastic.io',
+            'frontastic.io.local',
         ],
         'object-src' => [
             'self',
