@@ -92,7 +92,7 @@ class TasticFieldService
             $fieldHandler = new TasticFieldHandlerAdapterV2($fieldHandler);
         }
 
-        if($fieldHandler instanceof TasticFieldHandlerV2) {
+        if ($fieldHandler instanceof TasticFieldHandlerV2) {
             $fieldHandler = new TasticFieldHandlerAdapterV3($fieldHandler);
         }
 

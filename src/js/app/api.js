@@ -40,7 +40,7 @@ let Api = function (router, store) {
                 signal,
             }
         ).then((response) => {
-            this.handleFrontasticRedirect(response);
+            this.handleFrontasticRedirect(response)
             let contentType = response.headers.get('Content-Type')
             if (contentType && contentType.includes('application/json')) {
                 return response.json().then((json) => {
@@ -202,11 +202,11 @@ let Api = function (router, store) {
      * @returns {void}
      */
     this.handleFrontasticRedirect = function (response) {
-      if(!response.headers.has('Frontastic-Location')) {
-        return
-      }
+        if (!response.headers.has('Frontastic-Location')) {
+            return
+        }
 
-      this.router.history.push(response.headers.get('Frontastic-Location'))
+        this.router.history.push(response.headers.get('Frontastic-Location'))
     }
 }
 

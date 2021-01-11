@@ -33,7 +33,7 @@ class ContextExtension extends \Twig\Extension\AbstractExtension
 
     public function getContext()
     {
-        if(!isset($this->serializedContext)) {
+        if (!isset($this->serializedContext)) {
             $this->serializedContext = $this->serializeContext();
         }
         return $this->serializedContext;
