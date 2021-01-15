@@ -212,6 +212,10 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         if ($this->singleSitemap) {
             $this->renderSitemap($this->publicUrl, $this->filterEntries($entries), $filePath);
         } else {
+            $sitemaps = array_map(function ($sitemap) use ($basePath) {
+                return $basePath . $sitemap;
+            }, $sitemaps);
+
             $this->renderIndex($this->publicUrl, $sitemaps, $filePath);
         }
 
