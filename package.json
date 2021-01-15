@@ -88,8 +88,6 @@
         "react-addons-css-transition-group": "^15.6.2",
         "react-custom-scrollbars": "^4.2.1",
         "react-dev-utils": "^9.0.1",
-        "react-dnd": "^8.0.2",
-        "react-dnd-html5-backend": "^8.0.2",
         "react-dom": "^16.8.6",
         "react-easy-swipe": "^0.0.18",
         "react-flickity-component": "^3.1.0",
@@ -182,7 +180,7 @@
         "extends": "react-app"
     },
     "devDependencies": {
-        "@types/react": "16.9.34",
+        "@types/react": "17.0.0",
         "prebuild-webpack-plugin": "^1.1.0"
     }
 }
