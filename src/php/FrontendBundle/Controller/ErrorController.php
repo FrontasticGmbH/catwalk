@@ -25,7 +25,7 @@ class ErrorController extends AbstractController
         // We just throw an exception in here, because our ErrorHandler takes care of the rest :parrot:
         throw new HttpException(
             $code,
-            'Error page was triggered intentionally for status code ' . $code
+            'Error page was triggered for frontend error'
         );
     }
 
@@ -72,6 +72,12 @@ class ErrorController extends AbstractController
 
         if ($exception instanceof HttpExceptionInterface) {
             return $exception->getStatusCode();
+        }
+
+        // We don't have an error at all, so we should not send a server error
+        // (e.g. frontend had an error and loaded error master page)
+        if (!$exception) {
+            return 200;
         }
 
         return 500;
