@@ -1,5 +1,19 @@
 # catwalk Changelog
 
+## `1.5.0` (2021-01-18)
+
+* feat: Use locale data only if our own IntlProvider is used
+* fix: sitemap paths were missing the generated subpath and therefore faulty
+* fix: Upgraded @types/react consistently to 17.0.0
+* fix: Prevent our loader API from going to error when loading a error master page.
+* fix: Resilience for empty debug statements.
+* feat: Cache serialized context in Twig extension.
+* feat(CartFetcher): Make CartFetcher available in Catwalk.
+* feat: TasticFieldHandlerV3 retrieving the Tastic definition in addition.
+* fix: Do not override errors or redirect status codes when SSR fails.
+* fix: Avoid sessions being created for Frontastic API requests.
+* feat: Allow API responses to trigger redirects
+
 ## `1.4.2` (2021-01-06)
 
 * fix!: Switch to default symfony error handling
