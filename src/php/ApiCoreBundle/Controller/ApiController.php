@@ -33,7 +33,7 @@ class ApiController extends Controller
         try {
             $this->verifyRequest($request);
 
-            /* HACK: This request is stateless, so let the ContextService know that we do not need a session. */
+            /* API requests don't need a session. */
             $request->attributes->set(Session::STATELESS, true);
 
             if (!$request->getContent() ||
