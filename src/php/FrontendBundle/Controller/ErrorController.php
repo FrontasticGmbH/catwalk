@@ -47,12 +47,11 @@ class ErrorController extends AbstractController
         $message = $error['message'] ?? 'Unknown Frontend Error';
 
         $error['browser'] = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown Browser';
-        $error['time'] = date('r');
         $error['stack'] = array_slice(
             array_map('trim', preg_split('(\r|\n|\r\n)', $error['stack'] ?? '')),
             1
         );
-        $error['source'] = 'catwalk-browser';
+        $error['logSource'] = 'catwalk-browser';
 
         $logger->error(
             $message,
