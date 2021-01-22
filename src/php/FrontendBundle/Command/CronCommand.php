@@ -46,7 +46,7 @@ class CronCommand extends ContainerAwareCommand
 
         foreach ($commands as $command) {
             try {
-                $this->processCommand($verbose, $output, $command, $projectDir);
+                $this->processCommand($output, $verbose, $command, $projectDir);
             } catch (\Exception $e) {
                 $this
                     ->getContainer()
