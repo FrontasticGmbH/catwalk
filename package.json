@@ -10,11 +10,12 @@
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "@babel/preset-env": "^7.5.4",
         "@babel/preset-react": "^7.0.0",
+        "@babel/types": "^7.12.6",
         "@frontastic/common": "latest",
         "@svgr/webpack": "^4.3.3",
         "autoprefixer": "9.7.2",
         "babel-eslint": "10.0.2",
-        "babel-jest": "24.8.0",
+        "babel-jest": "26.6.3",
         "babel-loader": "8.0.6",
         "babel-plugin-module-resolver": "^3.2.0",
         "babel-plugin-transform-require-ignore": "^0.1.1",
@@ -57,7 +58,7 @@
         "i": "^0.3.6",
         "ignore-loader": "^0.1.2",
         "inuitcss": "^6.0.0",
-        "jest": "24.8.0",
+        "jest": "26.6.3",
         "js-yaml": "^3.14.0",
         "markdown": "^0.5.0",
         "mini-css-extract-plugin": "^0.8.0",
@@ -95,6 +96,8 @@
         "style-loader": "^1.0.0",
         "sw-precache-webpack-plugin": "0.11.5",
         "ts-loader": "^7.0.5",
+        "ts-jest": "^26.4.4",
+        "ts-node": "^9.0.0",
         "typescript": "^3.9.5",
         "url-loader": "^2.2.0",
         "webpack": "4.41.2",
@@ -104,6 +107,9 @@
         "webpack-manifest-plugin": "2.2.0",
         "webpack-merge": "^4.2.2",
         "webpack-node-externals": "^1.7.2",
+        "@types/react": "17.0.0",
+        "@types/jest": "^26.0.15",
+        "prebuild-webpack-plugin": "^1.1.0",
         "whatwg-fetch": "3.0.0"
     },
     "module": "src/js/index.js",
@@ -156,9 +162,5 @@
     ],
     "eslintConfig": {
         "extends": "react-app"
-    },
-    "devDependencies": {
-        "@types/react": "17.0.0",
-        "prebuild-webpack-plugin": "^1.1.0"
     }
 }
