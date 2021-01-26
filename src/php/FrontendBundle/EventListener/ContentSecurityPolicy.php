@@ -32,6 +32,11 @@ class ContentSecurityPolicy
         'frame-src' => [
             'self',
         ],
+        'frame-ancestors' => [
+            'self',
+            'https://*.frontastic.io',
+            'frontastic.io.local',
+        ],
         'object-src' => [
             'self',
         ],
