@@ -5,11 +5,9 @@ namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-
 class ContentSecurityPolicy
 {
-    const DEFAULT = [
+    const BASELINE = [
         'default-src' => [
             'self',
         ],
@@ -17,8 +15,6 @@ class ContentSecurityPolicy
             'self',
             'unsafe-inline',
             'unsafe-eval',
-            'https://ssl.google-analytics.com',
-            'https://connect.facebook.net',
         ],
         'img-src' => [
             'self',
@@ -35,8 +31,6 @@ class ContentSecurityPolicy
         ],
         'frame-src' => [
             'self',
-            'https://www.facebook.com',
-            'https://s-static.ak.facebook.com',
         ],
         'object-src' => [
             'self',
@@ -45,6 +39,17 @@ class ContentSecurityPolicy
             'self',
             'ws:',
             'wss:',
+        ],
+    ];
+
+    const DEFAULT = [
+        'script-src' => [
+            'https://ssl.google-analytics.com',
+            'https://connect.facebook.net',
+        ],
+        'frame-src' => [
+            'https://www.facebook.com',
+            'https://s-static.ak.facebook.com',
         ],
     ];
 
@@ -61,7 +66,10 @@ class ContentSecurityPolicy
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $responseHeaders = $event->getResponse()->headers;
-        $policies = $this->project->configuration['policy'] ?? self::DEFAULT;
+        $policies = $this->merge(
+            self::BASELINE,
+            $this->project->configuration['policy'] ?? self::DEFAULT
+        );
 
         $responseHeaders->set(
             'Content-Security-Policy',
@@ -82,7 +90,7 @@ class ContentSecurityPolicy
 
                                         return $target;
                                     },
-                                    $values
+                                    array_unique($values)
                                 )
                             )
                         );
@@ -92,5 +100,10 @@ class ContentSecurityPolicy
                 )
             )
         );
+    }
+
+    private function merge($policy, $additions): array
+    {
+        return array_merge_recursive($policy, $additions);
     }
 }
