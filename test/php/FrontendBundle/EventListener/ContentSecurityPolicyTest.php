@@ -45,6 +45,7 @@ img-src 'self' data: *;
 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
 font-src 'self' https://themes.googleusercontent.com;
 frame-src 'self' https://www.facebook.com https://s-static.ak.facebook.com;
+frame-ancestors 'self' https://*.frontastic.io frontastic.io.local;
 object-src 'self';
 connect-src 'self' ws: wss:
 CSP,
@@ -68,6 +69,7 @@ img-src 'self' data: *;
 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
 font-src 'self' https://themes.googleusercontent.com;
 frame-src 'self';
+frame-ancestors 'self' https://*.frontastic.io frontastic.io.local;
 object-src 'self';
 connect-src 'self' ws: wss:
 CSP,
@@ -92,6 +94,7 @@ img-src 'self' data: * https://img.example.com;
 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
 font-src 'self' https://themes.googleusercontent.com;
 frame-src 'self';
+frame-ancestors 'self' https://*.frontastic.io frontastic.io.local;
 object-src 'self';
 connect-src 'self' ws: wss:;
 new-src new-value
