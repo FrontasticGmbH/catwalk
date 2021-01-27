@@ -16,7 +16,7 @@ class Cart {
         this.payments = cart.payments || []
         this.projectSpecificData = cart.projectSpecificData || {}
         this.taxed = cart.taxed || null
-
+    }
 
     getLineItems () {
         return this.lineItems
