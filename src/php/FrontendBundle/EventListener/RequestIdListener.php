@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class RequestIdListener implements EventSubscriberInterface
 {
-    private const ATTRIBUTE_KEY = '_frontastic_request_id';
+    public const REQUEST_ID_ATTRIBUTE_KEY = '_frontastic_request_id';
 
     public function onKernelRequest(GetResponseEvent $event): void
     {
@@ -24,7 +24,7 @@ class RequestIdListener implements EventSubscriberInterface
         }
         $request = $event->getRequest();
 
-        if ($request->attributes->has(self::ATTRIBUTE_KEY)) {
+        if ($request->attributes->has(self::REQUEST_ID_ATTRIBUTE_KEY)) {
             return;
         }
 
@@ -36,7 +36,7 @@ class RequestIdListener implements EventSubscriberInterface
             $traceId = str_replace('-', '', $uuid);
         }
 
-        $request->attributes->set(self::ATTRIBUTE_KEY, $traceId);
+        $request->attributes->set(self::REQUEST_ID_ATTRIBUTE_KEY, $traceId);
     }
 
     public static function getSubscribedEvents()

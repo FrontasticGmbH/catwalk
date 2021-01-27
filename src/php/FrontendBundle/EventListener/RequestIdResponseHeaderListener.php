@@ -11,17 +11,20 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class RequestIdResponseHeaderListener implements EventSubscriberInterface
 {
-    private const ATTRIBUTE_KEY = '_frontastic_request_id';
-
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $requestAttributes = $event->getRequest()->attributes;
 
-        if (!$requestAttributes->has(self::ATTRIBUTE_KEY)) {
+        if (!$requestAttributes->has(RequestIdListener::REQUEST_ID_ATTRIBUTE_KEY)) {
             return;
         }
 
-        $event->getResponse()->headers->set('Frontastic-Request-Id', $requestAttributes->get(self::ATTRIBUTE_KEY));
+        $event->getResponse()->headers->set(
+            'Frontastic-Request-Id',
+            $requestAttributes->get(
+                RequestIdListener::REQUEST_ID_ATTRIBUTE_KEY
+            )
+        );
     }
 
     public static function getSubscribedEvents()
