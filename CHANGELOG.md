@@ -1,5 +1,17 @@
 # catwalk Changelog
 
+## `1.6.0` (2021-01-27)
+
+* feat: included shippingInfo and taxed fields to Cart.js
+* feat(FP-190): Mergeable CSP
+* feat(FP-177): fcli addition of generate Tastic command (#562)
+* fix: used correct parm order for processCommand
+* refactor: replaced source by logSource and remove error time
+* feat(FP-102): used error as array and use different source on logging
+* fix: removes unused packages from catwalk
+* fix: project instance instead of customer
+* feat: Prevent click-jacking via CSP frame-ancestors
+
 ## `1.5.0` (2021-01-18)
 
 * feat: Use locale data only if our own IntlProvider is used
