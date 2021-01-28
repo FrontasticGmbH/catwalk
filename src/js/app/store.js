@@ -72,7 +72,9 @@ if (typeof window !== 'undefined') {
     }
 
     /* eslint-disable no-underscore-dangle */
-    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(reduxDevtoolsOptions) || compose
+    if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
+        composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(reduxDevtoolsOptions)
+    }
     /* eslint-enable */
 }
 
