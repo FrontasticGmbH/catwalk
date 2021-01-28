@@ -9,11 +9,13 @@ class Cart {
         this.currency = cart.currency || null
         this.email = cart.email || null
         this.birthday = cart.birthday || null
+        this.shippingInfo = cart.shippingInfo || null
         this.shippingMethod = cart.shippingMethod || null
         this.shippingAddress = cart.shippingAddress || null
         this.billingAddress = cart.billingAddress || null
         this.payments = cart.payments || []
         this.projectSpecificData = cart.projectSpecificData || {}
+        this.taxed = cart.taxed || null
     }
 
     getLineItems () {

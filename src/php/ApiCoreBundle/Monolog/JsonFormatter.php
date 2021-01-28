@@ -87,7 +87,7 @@ class JsonFormatter implements FormatterInterface
     {
         // Format see https://www.notion.so/frontastic/JSON-Logging-Format-7aa12f53846041f08f4d1526b64bd335
         return [
-            'logSource' => self::LOG_SOURCE,
+            'logSource' => $record['logSource'] ?? self::LOG_SOURCE,
             'project' => $this->getProjectId(),
 
             '@timestamp' => (isset($record['datetime']) && ($record['datetime'] instanceof \DateTimeInterface)

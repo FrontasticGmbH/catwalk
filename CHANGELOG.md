@@ -1,5 +1,58 @@
 # catwalk Changelog
 
+## `1.6.0` (2021-01-27)
+
+* feat: included shippingInfo and taxed fields to Cart.js
+* feat(FP-190): Mergeable CSP
+* feat(FP-177): fcli addition of generate Tastic command (#562)
+* fix: used correct parm order for processCommand
+* refactor: replaced source by logSource and remove error time
+* feat(FP-102): used error as array and use different source on logging
+* fix: removes unused packages from catwalk
+* fix: project instance instead of customer
+* feat: Prevent click-jacking via CSP frame-ancestors
+
+## `1.5.0` (2021-01-18)
+
+* feat: Use locale data only if our own IntlProvider is used
+* fix: sitemap paths were missing the generated subpath and therefore faulty
+* fix: Upgraded @types/react consistently to 17.0.0
+* fix: Prevent our loader API from going to error when loading a error master page.
+* fix: Resilience for empty debug statements.
+* feat: Cache serialized context in Twig extension.
+* feat(CartFetcher): Make CartFetcher available in Catwalk.
+* feat: TasticFieldHandlerV3 retrieving the Tastic definition in addition.
+* fix: Do not override errors or redirect status codes when SSR fails.
+* fix: Avoid sessions being created for Frontastic API requests.
+* feat: Allow API responses to trigger redirects
+
+## `1.4.2` (2021-01-06)
+
+* fix!: Switch to default symfony error handling
+* fix: Define fallback values in case properties are undefined
+
+## `1.4.1` (2020-12-18)
+
+* fix: ContextService and RedirectService use 2 different router services.
+* fix: removed extra comma at the end of parameter list
+
+## `1.4.0` (2020-12-18)
+
+* feat: Log frontend errors without creating a DB connection
+
+## `1.3.0` (2020-12-14)
+
+* fix(FT-519): removed available shipping controller and use method as part of cart info
+* fix(FT-519): removed parameters and included method documentation
+* feat(FT-519): included shipping methods loaders
+
+## `1.2.2` (2020-12-09)
+
+* fix(FT-514): Track errors from a cron job.
+* fix: increasing timeout and adding timeout logging
+* locks @types/react version
+* feat: adds typescript to svgr loader
+
 ## `1.2.1` (2020-12-01)
 
 * fix: Parameter order deprecated

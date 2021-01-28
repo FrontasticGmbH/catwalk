@@ -3,7 +3,6 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Psr\Log\LoggerInterface;
 
@@ -20,7 +19,7 @@ class TasticFieldService
     private $logger;
 
     /**
-     * @var TasticFieldHandlerV2[]
+     * @var TasticFieldHandlerV3[]
      */
     private $fieldHandlers = [];
 
@@ -32,7 +31,7 @@ class TasticFieldService
     /**
      * @param TasticService $tasticDefinitionService
      * @param LoggerInterface $logger
-     * @param TasticFieldHandler[]|TasticFieldHandlerV2[] $fieldHandlers
+     * @param TasticFieldHandler[]|TasticFieldHandlerV2[]|TasticFieldHandlerV3[] $fieldHandlers
      */
     public function __construct(
         TasticService $tasticDefinitionService,
@@ -68,6 +67,7 @@ class TasticFieldService
                                 $context,
                                 $node,
                                 $page,
+                                $tastic,
                                 $fieldSet['fields'],
                                 $currentTasticFieldData,
                                 (array)$tastic->configuration
@@ -84,12 +84,16 @@ class TasticFieldService
     }
 
     /**
-     * @param TasticFieldHandler|TasticFieldHandlerV2 $fieldHandler
+     * @param TasticFieldHandler|TasticFieldHandlerV2|TasticFieldHandlerV3 $fieldHandler
      */
     private function addFieldHandler($fieldHandler)
     {
         if ($fieldHandler instanceof TasticFieldHandler) {
             $fieldHandler = new TasticFieldHandlerAdapterV2($fieldHandler);
+        }
+
+        if ($fieldHandler instanceof TasticFieldHandlerV2) {
+            $fieldHandler = new TasticFieldHandlerAdapterV3($fieldHandler);
         }
 
         if (isset($this->fieldHandlers[$fieldHandler->getType()])) {
@@ -106,6 +110,7 @@ class TasticFieldService
         Context $context,
         Node $node,
         Page $page,
+        Tastic $tastic,
         array $fieldDefinitions,
         array $handledFieldData,
         array $configuration
@@ -115,6 +120,7 @@ class TasticFieldService
                 $context,
                 $node,
                 $page,
+                $tastic,
                 $fieldDefinition,
                 $handledFieldData,
                 $configuration
@@ -127,6 +133,7 @@ class TasticFieldService
         Context $context,
         Node $node,
         Page $page,
+        Tastic $tastic,
         array $fieldDefinition,
         array $handledFieldData,
         array $configuration
@@ -151,6 +158,7 @@ class TasticFieldService
                     $context,
                     $node,
                     $page,
+                    $tastic,
                     $fieldDefinition['fields'],
                     [],
                     $groupElementConfiguration
@@ -164,7 +172,7 @@ class TasticFieldService
                 }
 
                 $handledFieldData[$fieldName] =
-                    $this->fieldHandlers[$streamType]->handle($context, $node, $page, $fieldValue);
+                    $this->fieldHandlers[$streamType]->handle($context, $node, $page, $tastic, $fieldValue);
             } catch (\Throwable $throwable) {
                 $this->logger->error(
                     'Error in custom field handler: {message}',

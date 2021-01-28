@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Monolog;
 
+use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -10,7 +11,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class FrontasticLogProcessor
 {
-    private const ATTRIBUTE_KEY = '_frontastic_request_id';
     private const LOG_KEY = 'requestId';
 
     /**
@@ -32,11 +32,11 @@ class FrontasticLogProcessor
             return $record;
         }
 
-        if (!$request->attributes->has(self::ATTRIBUTE_KEY)) {
+        if (!$request->attributes->has(RequestIdListener::REQUEST_ID_ATTRIBUTE_KEY)) {
             return $record;
         }
 
-        $record['extra'][self::LOG_KEY] = $request->attributes->get(self::ATTRIBUTE_KEY);
+        $record['extra'][self::LOG_KEY] = $request->attributes->get(RequestIdListener::REQUEST_ID_ATTRIBUTE_KEY);
         $record['extra']['request'] = [
             'path' => $request->getPathInfo(),
             'host' => $request->getHost(),

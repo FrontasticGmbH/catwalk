@@ -316,6 +316,18 @@ let CartLoader = function (store, api) {
     }
 
     /**
+     * Returns all shipping methods.
+     *
+     * If the parameter onlyMatching = true, only such shipping methods are returned
+     * which are eligible for the territory of the $locale.
+     *
+     * @returns Promise
+     */
+    this.getShippingMethods = () => {
+        return this.api.trigger('Frontastic.CartApi.Cart.getShippingMethods')
+    }
+
+    /**
      * @param cartInformation
      * @return Promise
      */
@@ -364,12 +376,14 @@ const initialGlobalState = {
     orders: {},
     lastOrder: null,
     productOptions: {},
+    availableShippingMethods: null,
 }
 
 CartLoader.handleAction = (globalState = initialGlobalState, action) => {
     let cart = null
     let orders = {}
     let productOptions = {}
+    let availableShippingMethods = null
 
     switch (action.type) {
     case 'FRONTASTIC_ROUTE':
@@ -378,15 +392,20 @@ CartLoader.handleAction = (globalState = initialGlobalState, action) => {
             orders: Entity.purgeMap(globalState.orders),
             lastOrder: Entity.purge(globalState.lastOrder),
             productOptions: globalState.productOptions,
+            availableShippingMethods: Entity.purge(globalState.availableShippingMethods),
         }
 
     case 'CartApi.Cart.loading':
         cart = new Entity(globalState.cart.data)
         cart.loading = true
 
+        availableShippingMethods = new Entity(globalState.availableShippingMethods.data)
+        availableShippingMethods.loading = true
+
         return {
             ...globalState,
             cart: cart,
+            availableShippingMethods: availableShippingMethods,
         }
 
     case 'CartApi.Cart.productOption':
@@ -405,6 +424,7 @@ CartLoader.handleAction = (globalState = initialGlobalState, action) => {
         return {
             ...globalState,
             cart: new Entity(new Cart(action.data.cart)),
+            availableShippingMethods: new Entity(action.data.availableShippingMethods || null),
         }
     case 'CartApi.Cart.get.error':
     case 'CartApi.Cart.add.error':
@@ -414,6 +434,7 @@ CartLoader.handleAction = (globalState = initialGlobalState, action) => {
         return {
             ...globalState,
             cart: new Entity(globalState.cart.data).setError(action.error),
+            availableShippingMethods: new Entity(globalState.availableShippingMethods.data).setError(action.error),
         }
 
     case 'CartApi.Cart.checkout.success':

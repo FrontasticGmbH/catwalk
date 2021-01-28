@@ -9,6 +9,12 @@ if (typeof Promise === 'undefined') {
 // fetch() polyfill for making API calls.
 require('whatwg-fetch')
 
+// Includes polyfills for ECMAScript 5, ECMAScript 6: promises, symbols, collections, iterators, typed arrays, ECMAScript 7+ proposals, setImmediate, etc
+require('core-js/stable')
+
+// async poylfill
+require('regenerator-runtime/runtime')
+
 // Object.assign() is commonly used with React.
 // It will use the native implementation if it's present and isn't buggy.
 Object.assign = require('object-assign')

@@ -36,7 +36,7 @@ class DumpProductsCommand extends ContainerAwareCommand
         $productSearchApi = $this->getContainer()
             ->get('Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory')
             ->factor(
-                $context->customer
+                $context->project
             );
 
         $output->write(

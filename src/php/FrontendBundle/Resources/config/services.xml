@@ -113,7 +113,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway" />
-            <argument type="service" id="router.default" />
+            <argument type="service" id="router" />
         </service>
 
         <service id="frontastic.catwalk.frontend_bundle.domain.redirect.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
@@ -194,6 +194,13 @@
 
              <tag name="frontend.streamHandler"/>
         </service>
+
+        <service id="Frontastic\Common\CartApiBundle\Controller\CartFetcher">
+            <argument type="service" id="frontastic.catwalk.cart_api" />
+            <argument type="service" id="logger" />
+        </service>
+
+        <service id="frontastic.catwalk.cart_fetcher" alias="Frontastic\Common\CartApiBundle\Controller\CartFetcher" />
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountWishlists">
             <argument type="service" id="frontastic.catwalk.wishlist_api" />

@@ -12,7 +12,7 @@ export default (debugStatements = null, method = '', route = '') => {
         method,
         route
     )
-    for (let debugLine of debugStatements) {
+    for (let debugLine of (debugStatements || [])) {
         // eslint-disable-next-line no-console
         console.log(...debugLine)
     }

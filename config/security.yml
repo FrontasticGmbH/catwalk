@@ -17,6 +17,11 @@ security:
             stateless: true
             security: false
 
+        logging:
+            pattern: ^/_recordFrontendError$
+            stateless: true
+            security: false
+
         main:
             pattern: ^/
             anonymous: ~

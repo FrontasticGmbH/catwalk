@@ -17,6 +17,7 @@ class ProjectBasicAuthListener
         'Frontastic.Frontend.Category.all',
         'Frontastic.Frontend.Preview.view',
         'Frontastic.Frontend.Preview.store',
+        'Frontastic.Frontend.Master.Error.recordFrontendError',
     ];
 
     private const ALLOWED_PATH_PREFIXES = [

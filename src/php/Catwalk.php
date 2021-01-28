@@ -41,30 +41,22 @@ class Catwalk
         static::setTrustedProxies();
         static::setTrustedHosts();
 
-        try {
-            AnnotationRegistry::registerLoader(array($autoloader, 'loadClass'));
+        AnnotationRegistry::registerLoader(array($autoloader, 'loadClass'));
 
-            $request = Request::createFromGlobals();
-            $kernel = new AppKernel($env, $debug);
-            $response = $kernel->handle($request);
-            $response->send();
-        } catch (\Throwable $e) {
-            syslog(LOG_CRIT, $e->getMessage() . PHP_EOL . $e->getTraceAsString());
+        $request = Request::createFromGlobals();
+        $kernel = new AppKernel($env, $debug);
 
-            if (!headers_sent()) {
-                header("HTTP/1.0 500 Internal Server Error");
-            }
-
-            echo "<html><body><h1>Frontastic Internal Server Error</h1>";
-            if (AppKernel::getDebug()) {
-                echo '<pre style="white-space: pre-wrap;">', $e, '</pre>';
-            }
-            echo "</body></html>";
-        } finally {
-            if (isset($kernel) && isset($request) && isset($response)) {
-                $kernel->terminate($request, $response);
-            }
-        }
+        // We deliberately do not catch exceptions here, because this is how symfony wants it.
+        // Symfony instead registers exception & error handlers as well as a shutdown handler,
+        // which will then in turn trigger the frontastic error listener.
+        //
+        // If we would catch Throwable in here, the symfony error handling will not work,
+        // as it relies on the exception bubbling up. Exception handling will work as expected,
+        // because for exceptions symfony does a catch(Exception), but not for Throwable,
+        // which means Errors are excluded.
+        $response = $kernel->handle($request);
+        $response->send();
+        $kernel->terminate($request, $response);
     }
 
     public static function runCommandline(string $projectDirectory, $autoloader): void

@@ -12,6 +12,10 @@ Here you find the API documentation for the relevant classes:
 * ApiCoreBundle
   * Domain
     * [App](php/ApiCoreBundle/Domain/App.md)
+    * App
+      * [FeatureFlag](php/ApiCoreBundle/Domain/App/FeatureFlag.md)
+      * [Storefinder](php/ApiCoreBundle/Domain/App/Storefinder.md)
+      * [Teaser](php/ApiCoreBundle/Domain/App/Teaser.md)
     * [AppDataTarget](php/ApiCoreBundle/Domain/AppDataTarget.md)
     * [AppRepository](php/ApiCoreBundle/Domain/AppRepository.md)
     * [AppRepositoryService](php/ApiCoreBundle/Domain/AppRepositoryService.md)
@@ -102,7 +106,9 @@ Here you find the API documentation for the relevant classes:
       * [BreadcrumbFieldHandler](php/FrontendBundle/Domain/TasticFieldHandler/BreadcrumbFieldHandler.md)
       * [TreeFieldHandler](php/FrontendBundle/Domain/TasticFieldHandler/TreeFieldHandler.md)
     * [TasticFieldHandlerAdapterV2](php/FrontendBundle/Domain/TasticFieldHandlerAdapterV2.md)
+    * [TasticFieldHandlerAdapterV3](php/FrontendBundle/Domain/TasticFieldHandlerAdapterV3.md)
     * [TasticFieldHandlerV2](php/FrontendBundle/Domain/TasticFieldHandlerV2.md)
+    * [TasticFieldHandlerV3](php/FrontendBundle/Domain/TasticFieldHandlerV3.md)
     * [TasticFieldService](php/FrontendBundle/Domain/TasticFieldService.md)
     * [ViewData](php/FrontendBundle/Domain/ViewData.md)
     * [ViewDataProvider](php/FrontendBundle/Domain/ViewDataProvider.md)

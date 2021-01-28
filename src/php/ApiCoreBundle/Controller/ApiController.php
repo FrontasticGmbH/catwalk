@@ -33,6 +33,9 @@ class ApiController extends Controller
         try {
             $this->verifyRequest($request);
 
+            /* API requests don't need a session. */
+            $request->attributes->set(Session::STATELESS, true);
+
             if (!$request->getContent() ||
                 !($body = json_decode($request->getContent(), true))) {
                 throw new \InvalidArgumentException("Invalid data passed: " . $request->getContent());
