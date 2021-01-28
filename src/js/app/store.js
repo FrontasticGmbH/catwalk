@@ -33,8 +33,46 @@ if (typeof document !== 'undefined') {
 // Use thunk if available (not available during SSR)
 let composeEnhancers = compose
 if (typeof window !== 'undefined') {
+    let reduxDevtoolsOptions = {}
+    const urlParams = new URLSearchParams(window.location.search)
+    const optimizeReduxDevtools = urlParams.get('_frontastic_disable_redux_devtools_optimization') === null
+    const stripString = 'Stripped from redux-dev-tools for performance reasons. You can temporarily disable this by adding ?_frontastic_disable_redux_devtools_optimization to your URL'
+
+    if (optimizeReduxDevtools) {
+        reduxDevtoolsOptions = {
+            actionSanitizer: (action) => {
+                if (action.type !== 'Frontend.App.initialize') {
+                    return action
+                }
+
+                return {
+                    ...action,
+                    data: {
+                        ...action.data,
+                        // This contains our loader, which contains the api and all loaders, which all contain the api.
+                        // BIG object, and I think not useful to look at in the redux devtools most of the time.
+                        loader: stripString,
+                    },
+                }
+            },
+            stateSanitizer: (state) => {
+                return {
+                    ...state,
+                    app: {
+                        ...state.app,
+                        context: {
+                            ...state.app.context,
+                            // The routes tend do be a rather large collection that is rarely needed in debugging.
+                            routes: stripString,
+                        },
+                    },
+                }
+            },
+        }
+    }
+
     /* eslint-disable no-underscore-dangle */
-    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(reduxDevtoolsOptions) || compose
     /* eslint-enable */
 }
 
