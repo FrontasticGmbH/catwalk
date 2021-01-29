@@ -336,15 +336,16 @@ class ConfigurationParser
             if (file_exists($configurationFilePath) && is_file($configurationFilePath))
             {
                 $config = file_get_contents($configurationFilePath, true);
-                foreach (preg_split("/\n/", $config) as $line)
+                $lines = array_values(array_filter(array_map('trim', preg_split("/\n/", $config))));
+                foreach ($lines as $line)
                 {
                     $parameters = explode("=", $line);
-                    $key = trim($parameters[0]);
-                    $value = trim($parameters[1]);
+                    $key = trim($parameters[0] ?? '');
+                    $value = trim($parameters[1] ?? '');
                     $configuration[$key] = $value;
                 }
             }
-        } catch (\Exception $e) {}
+        } catch (\Throwable $e) {}
         return $configuration;
     }
 }
