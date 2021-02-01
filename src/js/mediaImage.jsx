@@ -58,6 +58,7 @@ class MediaImage extends Component {
                 forceWidth={this.props.width}
                 forceHeight={this.props.height}
                 style={this.props.style}
+                loading={this.props.loading}
             />
         )
     }
@@ -73,11 +74,13 @@ MediaImage.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     style: PropTypes.object,
+    loading: PropTypes.oneOf(['lazy', 'auto', 'eager']),
 }
 
 MediaImage.defaultProps = {
     className: '',
     options: {},
+    loading: 'lazy',
 }
 
 export default connect((globalState) => {
