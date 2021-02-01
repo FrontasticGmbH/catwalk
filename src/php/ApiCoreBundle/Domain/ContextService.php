@@ -3,8 +3,10 @@
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver;
+use Frontastic\Catwalk\AppKernel as AppKernelAlias;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
 use Frontastic\Common\AccountApiBundle\Domain\Session;
+use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Locale;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use QafooLabs\MVC\Exception\UnauthenticatedUserException;
@@ -114,7 +116,7 @@ class ContextService
      */
     public function getContext(string $locale = null, Session $session = null, string $host = null): Context
     {
-        $contextCacheHash = $locale . '-' . md5(json_encode($session));
+        $contextCacheHash = $locale . '-' . md5(Json::encode($session));
         if (isset($this->contextCache[$contextCacheHash])) {
             return $this->contextCache[$contextCacheHash];
         }
@@ -195,7 +197,7 @@ class ContextService
             ]);
         }
 
-        $anonymousId = md5(json_encode([
+        $anonymousId = md5(Json::encode([
             'languages' => $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '',
             'agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
             'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
