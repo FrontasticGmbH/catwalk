@@ -1,5 +1,6 @@
 const paths = require('./paths')
 const libraryModifications = require('./libraryModifications')
+const { isModuleNotFoundError } = require('./webpack/helpers')
 
 const PRODUCTION = true
 const SERVER = true
@@ -14,19 +15,27 @@ config = require('./webpack/linkDependencies.js')(config, PRODUCTION, SERVER)
 config.optimization = { minimize: true }
 config.output.filename = 'assets/js/server.js'
 
+let customConfigPath = paths.appSrc + '/../config/webpack.server.production.js'
 try {
-    let projectWebpack = require(paths.appSrc + '/../config/webpack.server.production.js')
+    let projectWebpack = require(customConfigPath)
     config = projectWebpack(config, PRODUCTION, SERVER)
 } catch (e) {
+    if (!isModuleNotFoundError(customConfigPath, e.message)) {
+        throw e
+    }
     console.info('No build specific project webpack extension found in config/webpack.server.production.js – skip: ' + e.message)
 }
 
 config = libraryModifications(config, PRODUCTION, SERVER)
 
+customConfigPath = paths.appSrc + '/../config/webpack.post.js'
 try {
-    let webpackPostProcessing = require(paths.appSrc + '/../config/webpack.post.js')
+    let webpackPostProcessing = require(customConfigPath)
     config = webpackPostProcessing(config, PRODUCTION, SERVER)
 } catch (e) {
+    if (!isModuleNotFoundError(customConfigPath, e.message)) {
+        throw e
+    }
     console.info('No project webpack post processing extension found in config/webpack.post.js – skip: ' + e.message)
 }
 

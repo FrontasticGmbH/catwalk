@@ -1,4 +1,5 @@
 const merge = require('webpack-merge')
+const path = require('path')
 
 // @TODO: Make this more readable and especially extensible:
 const ie11packages = require('../ie11packages')
@@ -32,6 +33,7 @@ module.exports = (config, PRODUCTION, SERVER) => {
                             cacheDirectory: true,
                             // Uses the babel.config.js in the project root
                             rootMode: 'upward',
+                            sourceType: "unambiguous"
                         },
                     },
                     // Process TypeScript with Babel.
@@ -43,7 +45,7 @@ module.exports = (config, PRODUCTION, SERVER) => {
                         test: /\.(tsx)$/,
                         loader: [
                             require.resolve('babel-loader'),
-                            require.resolve('ts-loader'),
+                            require.resolve('ts-loader')
                         ],
                     },
                 ],
