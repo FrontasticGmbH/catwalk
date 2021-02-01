@@ -33,7 +33,13 @@ module.exports = (config, PRODUCTION, SERVER) => {
                             cacheDirectory: true,
                             // Uses the babel.config.js in the project root
                             rootMode: 'upward',
-                            sourceType: "unambiguous"
+                            // Added due to the way babel resolves domino modules on Windows, otherwise
+                            // babel forces strict mode and and it crashes due to with statements in
+                            // domino/lib/.../sloppy.js
+                            overrides: [{
+                                test: /domino\\lib/,
+                                sourceType: "unambiguous",
+                            }],
                         },
                     },
                     // Process TypeScript with Babel.
