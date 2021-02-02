@@ -2,6 +2,8 @@
 import fs from 'fs'
 import { filterPayload } from './serverLoggingFilters'
 
+const pathToJsonLogfile = process.env.JSON_LOG_PATH || '/var/log/frontastic/json.log'
+
 /**
  * Will overwrite the console.log command in order to activate logging to elk
  */
@@ -24,7 +26,7 @@ export const activateFileLogging = (logSource, project) => {
     }
 
     const writePayloadToFile = payload => {
-        fs.appendFile('/var/log/frontastic/json.log', JSON.stringify(payload) + '\n', (err) => {
+        fs.appendFile(pathToJsonLogfile, JSON.stringify(payload) + '\n', (err) => {
             if (err) {
                 originalConsoleError(err)
             }
