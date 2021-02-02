@@ -63,7 +63,7 @@
     "autoload": {
         "psr-4": {
             "Frontastic\\Catwalk\\": "src/php",
-            "Kameleoon\\": "src/vendor/kameleoon/kameleoon/client/src"
+            "Kameleoon\\": "libraries/kameleoon/kameleoon/client/src"
         }
     },
     "autoload-dev": {
