@@ -195,12 +195,12 @@
              <tag name="frontend.streamHandler"/>
         </service>
 
-        <service id="Frontastic\Common\CartApiBundle\Controller\CartFetcher">
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\CartFetcher">
             <argument type="service" id="frontastic.catwalk.cart_api" />
             <argument type="service" id="logger" />
         </service>
 
-        <service id="frontastic.catwalk.cart_fetcher" alias="Frontastic\Common\CartApiBundle\Controller\CartFetcher" />
+        <service id="frontastic.catwalk.cart_fetcher" alias="Frontastic\Catwalk\FrontendBundle\Controller\CartFetcher" />
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\AccountWishlists">
             <argument type="service" id="frontastic.catwalk.wishlist_api" />

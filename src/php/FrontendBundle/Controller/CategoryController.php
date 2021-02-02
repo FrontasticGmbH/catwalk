@@ -69,7 +69,7 @@ class CategoryController extends Controller
             ])),
         ];
     }
-
+    
     private function findCategoryById(string $categoryId, Context $context): ?Category
     {
         $productApi = $this->get('frontastic.catwalk.product_api');

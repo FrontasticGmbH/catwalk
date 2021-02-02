@@ -5,7 +5,7 @@ namespace Frontastic\Catwalk\WirecardBundle\Controller;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\WirecardBundle\Domain\RegisterPaymentCommand;
 use Frontastic\Catwalk\WirecardBundle\Domain\WirecardService;
-use Frontastic\Common\CartApiBundle\Controller\CartController;
+use Frontastic\Catwalk\FrontendBundle\Controller\CartController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException;
 
