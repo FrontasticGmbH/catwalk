@@ -26,7 +26,7 @@ class ComponentInjector {
     }
 
     static get (name) {
-        return this.registry[name]
+        return this.registry[name] || null
     }
 
     static set (name, component) {
