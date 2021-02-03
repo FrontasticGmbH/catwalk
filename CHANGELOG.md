@@ -1,5 +1,15 @@
 # catwalk Changelog
 
+## `1.7.0` (2021-02-02)
+
+* feat: required library common 2.7 or higher on catwalk/composer.json
+* !feat(fp-90): catwalk controllers (#580)
+* chore: Increase body size limit to value required by prym
+* feat: Allow to inject customer response handler
+* chore: Moved external library from src/vendor to libraries/
+* feat: allow lazy loading of media images
+* fix: Made stupid custom ini parser more resilient
+
 ## `1.6.0` (2021-01-27)
 
 * feat: included shippingInfo and taxed fields to Cart.js

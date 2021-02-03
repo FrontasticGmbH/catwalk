@@ -4,6 +4,66 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
+    <route id="Frontastic.AccountApi.Api.session" path="/api/account">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountAuthController::indexAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.login" path="/api/account/login" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountAuthController::indexAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.logout" path="/api/account/logout" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountAuthController::logoutAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.register" path="/api/account/register" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountAuthController::registerAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.resendInvitation" path="/api/account/resendinvitation" methods="PUT">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountAuthController::resendInvitationEmail</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.confirm" path="/api/account/confirm/{confirmationToken}" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountAuthController::confirmAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.requestReset" path="/api/account/request" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountAuthController::requestResetAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.reset" path="/api/account/reset/{token}" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountAuthController::resetAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.changePassword" path="/api/account/password" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountAuthController::changePasswordAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.update" path="/update" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountAuthController::updateAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.addAddress" path="/api/account/address/new" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountApiController::addAddressAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.updateAddress" path="/api/account/address/update" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountApiController::updateAddressAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.removeAddress" path="/api/account/address/remove" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountApiController::removeAddressAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.setDefaultBillingAddress" path="/api/account/address/setDefaultBilling" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountApiController::setDefaultBillingAddressAction</default>
+    </route>
+
+    <route id="Frontastic.AccountApi.Api.setDefaultShippingAddress" path="/api/account/address/setDefaultShipping" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountApiController::setDefaultShippingAddressAction</default>
+    </route>
+
     <route id="Frontastic.Frontend.Node.view" path="/node/{nodeId}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\NodeController::viewAction</default>
     </route>
@@ -19,6 +79,20 @@
         <requirement key="url">.+</requirement>
     </route>
 
+    <route id="Frontastic.ProductApi.Api.productTypes" path="/api/product/productTypes">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ProductTypeController::listAction</default>
+    </route>
+
+    <route id="Frontastic.ProductApi.Api.search" path="/api/product/search" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ProductSearchController::listAction</default>
+    </route>
+
+    <route id="Frontastic.ProjectApi.Api.searchableAttributes" path="/api/project/searchableAttributes">
+        <default key="_controller">
+            Frontastic\Catwalk\FrontendBundle\Controller\AttributesController::searchableAttributesAction
+        </default>
+    </route>
+
     <route id="Frontastic.Frontend.Master.Content.view" path="/{url}/z/{identifier}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ContentController::viewAction</default>
 
@@ -30,12 +104,76 @@
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\SearchController::searchAction</default>
     </route>
 
+    <route id="Frontastic.ContentApi.Api.contentTypes" path="/api/contents/contentTypes">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ContentTypeController::listAction</default>
+    </route>
+
+    <route id="Frontastic.ContentApi.Api.get" path="/api/contents/get" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ContentSearchController::showAction</default>
+    </route>
+
+    <route id="Frontastic.ContentApi.Api.search" path="/api/contents/search" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ContentSearchController::listAction</default>
+    </route>
+
+    <route id="Frontastic.ContentApi.Api.contentId" path="/api/contents/contentId" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ContentIdController::listAction</default>
+    </route>
+
     <route id="Frontastic.Frontend.Master.Category.view" path="/c/{id}/{slug}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CategoryController::viewAction</default>
     </route>
 
+    <route id="Frontastic.CartApi.Cart.get" path="/api/cart/cart">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CartController::getAction</default>
+    </route>
+
+    <route id="Frontastic.CartApi.Cart.getOrder" path="/api/cart/order/{order}">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CartController::getOrderAction</default>
+    </route>
+
+    <route id="Frontastic.CartApi.Cart.add" path="/api/cart/cart/add" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CartController::addAction</default>
+    </route>
+
+    <route id="Frontastic.CartApi.Cart.addMultiple" path="/api/cart/cart/addMultiple" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CartController::addMultipleAction</default>
+    </route>
+
+    <route id="Frontastic.CartApi.Cart.updateLineItem" path="/api/cart/cart/lineItem" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CartController::updateLineItemAction</default>
+    </route>
+
+    <route id="Frontastic.CartApi.Cart.removeLineItem" path="/api/cart/cart/lineItem/remove" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CartController::removeLineItemAction</default>
+    </route>
+
+    <route id="Frontastic.CartApi.Cart.redeemDiscount" path="/api/cart/cart/discount/{code}" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CartController::redeemDiscountAction</default>
+    </route>
+
+    <route id="Frontastic.CartApi.Cart.removeDiscount" path="/api/cart/cart/discount-remove" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CartController::removeDiscountAction</default>
+    </route>
+
+    <route id="Frontastic.CartApi.Cart.getShippingMethods" path="/api/cart/shipping-methods">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CartController::getShippingMethodsAction</default>
+    </route>
+
+    <route id="Frontastic.CartApi.Cart.update" path="/api/cart/cart/update" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CartController::updateAction</default>
+    </route>
+
+    <route id="Frontastic.CartApi.Cart.checkout" path="/api/cart/cart/checkout" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CartController::checkoutAction</default>
+    </route>
+
     <route id="Frontastic.Frontend.Category.all" path="/categories" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CategoryController::allAction</default>
+    </route>
+
+    <route id="Frontastic.ProductApi.Api.categories" path="/api/product/categories">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ProductCategoryController::listAction</default>
     </route>
 
     <route id="Frontastic.Frontend.Master.Error.recordFrontendError" path="/_recordFrontendError" methods="POST">
@@ -116,5 +254,33 @@
 
     <route id="Frontastic.Frontend.PatternLibrary.view" path="/_patterns/show" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\PatternLibraryController::indexAction</default>
+    </route>
+
+    <route id="Frontastic.WishlistApi.Wishlist.get" path="/api/cart/wishlist">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\WishlistController::getAction</default>
+    </route>
+
+    <route id="Frontastic.WishlistApi.Wishlist.create" path="/api/cart/wishlist/create" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\WishlistController::createAction</default>
+    </route>
+
+    <route id="Frontastic.WishlistApi.Wishlist.add" path="/api/cart/wishlist/add" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\WishlistController::addAction</default>
+    </route>
+
+    <route id="Frontastic.WishlistApi.Wishlist.addMultiple" path="/api/cart/wishlist/addMultiple" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\WishlistController::addMultipleAction</default>
+    </route>
+
+    <route id="Frontastic.WishlistApi.Wishlist.updateLineItem" path="/api/cart/wishlist/lineItem" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\WishlistController::updateLineItemAction</default>
+    </route>
+
+    <route id="Frontastic.WishlistApi.Wishlist.removeLineItem" path="/api/cart/wishlist/lineItem/remove" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\WishlistController::removeLineItemAction</default>
+    </route>
+
+    <route id="Frontastic.WishlistApi.Wishlist.checkout" path="/api/cart/wishlist/checkout" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\WishlistController::checkoutAction</default>
     </route>
 </routes>

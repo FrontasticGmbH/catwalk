@@ -1,5 +1,6 @@
 import logDebugStatements from './logDebugStatements'
 import UrlContext from './urlContext'
+import ComponentInjector from './injector'
 
 let Api = function (router, store) {
     this.router = router
@@ -40,8 +41,15 @@ let Api = function (router, store) {
                 signal,
             }
         ).then((response) => {
+            const responseHandler = ComponentInjector.get('App.ResponseHandler')
+            let reponseUpdate = null
+            if (responseHandler && (reponseUpdate = responseHandler(response))) {
+                return reponseUpdate
+            }
+
             this.handleFrontasticRedirect(response)
-            let contentType = response.headers.get('Content-Type')
+
+            const contentType = response.headers.get('Content-Type')
             if (contentType && contentType.includes('application/json')) {
                 return response.json().then((json) => {
                     return {

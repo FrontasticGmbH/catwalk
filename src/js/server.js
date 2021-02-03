@@ -50,7 +50,7 @@ export default (tastics = null, port = 8000, renderWrapper = defaultRenderWrappe
 
     // We increase the body data limit because we can recieve quite some data from
     // Catwalk inclduing product lists, etc.
-    express.use(bodyParser.json({ limit: '5MB' }))
+    express.use(bodyParser.json({ limit: '10MB' }))
     express.use(handleRender)
 
     function handleRender (request, response) {
