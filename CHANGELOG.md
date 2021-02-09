@@ -1,5 +1,16 @@
 # catwalk Changelog
 
+## `1.8.0` (2021-02-09)
+
+* chore: moved new scripts to paas/catwalk and modified templates accordingly
+* fix: checked if request content exist before decode
+* feat: Add index for faster session cleanup
+* changed unambigious sourceType to target only domino packages
+* chore: Faster JSON encoding in ContextService
+* modification of build process to throw error when there's an error in the customer's config. 
+* fix: Do not crash on `?s` in the URL
+* fix: create package symlinks also on windows
+
 ## `1.7.0` (2021-02-02)
 
 * feat: required library common 2.7 or higher on catwalk/composer.json
