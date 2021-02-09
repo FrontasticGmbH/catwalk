@@ -5,6 +5,7 @@ const env = require('./env')
 
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
+const { isModuleNotFoundError } = require('./webpack/helpers')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -169,10 +170,14 @@ module.exports = (PRODUCTION, SERVER) => {
     config = require('./webpack/svgr.js')(config, PRODUCTION, SERVER)
     config = require('./webpack/compileSettings.js')(config, PRODUCTION, SERVER)
 
+    let customConfigPath = paths.appSrc + '/../config/webpack.js'
     try {
-        let projectWebpack = require(paths.appSrc + '/../config/webpack.js')
+        let projectWebpack = require(customConfigPath)
         config = projectWebpack(config, PRODUCTION, SERVER)
     } catch (e) {
+        if (!isModuleNotFoundError(customConfigPath, e.message)) {
+            throw e
+        }
         console.info('No project webpack extension found in config/webpack.js – skip: ' + e.message)
     }
 

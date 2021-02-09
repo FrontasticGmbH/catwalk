@@ -42,11 +42,6 @@ const linkPackage = (package, packageDirectory, packageSource) => {
         return
     }
 
-    if (os.platform() === 'win32') {
-        console.warn(' ⚠️  Changes in ' + chalk.bold('@frontastic/' + package) + ' won\'t be part of the build. Links required, but not supported on windows.')
-        return
-    }
-
     if (fileExists(packageLocation)) {
         // Remove the copied package (from yarn install) to be able to
         // create the links
@@ -54,13 +49,22 @@ const linkPackage = (package, packageDirectory, packageSource) => {
     }
 
     try {
-        // Create symlink with relative path to make sure it works inside
-        // and outside of the container / virtual machine.
         fs.mkdirSync(packageDirectory, { recursive: true })
-        fs.symlinkSync(
-            path.relative(packageDirectory, packageSource),
-            packageLocation
-        )
+        if (os.platform() === 'win32') {
+            // Windows directory symlinks should be created as junctions because dir-type symlinks require administrator privileges. Junktion symlinks need absolute path, which will be automatically created from the given relative path. But this is fine as we are not inside a container or VM.
+            fs.symlinkSync(
+                path.relative(packageDirectory, packageSource),
+                packageLocation,
+                'junction'
+            )
+        } else {
+            // Create symlink with relative path to make sure it works inside
+            // and outside of the container / virtual machine.
+            fs.symlinkSync(
+                path.relative(packageDirectory, packageSource),
+                packageLocation
+            )
+        }
     } catch (e) {
         console.error(' ⚠️  Wasn\'t able to create symlink for ' + chalk.bold('@frontastic/' + package) + ': ' + e)
         return
