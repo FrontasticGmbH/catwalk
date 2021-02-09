@@ -17,7 +17,7 @@ class ProductSearchController extends Controller
 
         $query = ProductQueryFactory::queryFromParameters(
             ['locale' => $context->locale],
-            Json::decode($request->getContent(), true)
+            $request->getContent() ? Json::decode($request->getContent(), true) : []
         );
 
         return [
