@@ -3,7 +3,7 @@ import fs from 'fs'
 import { filterPayload } from './serverLoggingFilters'
 
 const pathToJsonLogfile = process.env.JSON_LOG_PATH || '/var/log/frontastic/json.log'
-const spawnedByCli = process.env.SPAWNED_BY === "FCLI"
+const spawnedByCli = process.env.SPAWNED_BY === 'FCLI'
 
 /**
  * Will overwrite the console.log command in order to activate logging to elk
@@ -26,6 +26,12 @@ export const activateFileLogging = (logSource, project) => {
         }
     }
 
+    /**
+    * If server:watch/start is called by the CLI it wipes this function to avoid the error of the 
+    * file not existing on the user's PC, this can be revisited later if we want to log to a local 
+    * file on the user's pc by instead passing the JSON_LOG_PATH env through the CLI with the absolute 
+    * path to the user's repo (or wherever) and creating that file.
+    */
     const writePayloadToFile = spawnedByCli ? payload => {} : payload => {
         fs.appendFile(pathToJsonLogfile, JSON.stringify(payload) + '\n', (err) => {
             if (err) {
