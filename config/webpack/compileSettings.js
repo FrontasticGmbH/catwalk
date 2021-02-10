@@ -41,7 +41,8 @@ const updateSettings = () => {
         let layout = yaml.safeLoad(config).data.layout || {}
         settings = propertiesToHashmap(layout)
     } catch (e) {
-        console.error("Could not read theme configuration:" + e)
+        console.error("Could not read theme configuration: " + e)
+        return
     }
 
     fs.writeFileSync(
