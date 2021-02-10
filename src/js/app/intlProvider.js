@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { IntlProvider, addLocaleData } from 'react-intl'
+import { IntlProvider } from 'react-intl'
 import dot from 'dot-object'
 
 import ComponentInjector from './injector'
