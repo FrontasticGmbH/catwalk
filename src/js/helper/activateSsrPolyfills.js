@@ -2,6 +2,7 @@
  * Creates polyfills for window and document globals.
  * Should result in less problems with SSR.
  */
+import ComponentInjector from '../app/injector'
 import { activateFileLogging } from './serverLoggingOverride'
 
 const activateSsrPolyfills = () => {
@@ -21,4 +22,4 @@ const activateSsrPolyfills = () => {
     }
 }
 
-export default activateSsrPolyfills
+export default ComponentInjector.return('App.SsrPolyfills', activateSsrPolyfills)
