@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.9.0` (2021-02-11)
+
+* fix: Only include module webpack configuration if module is mentioned in package.json
+* chore (catwalk): fixed eslint errors
+* chore (catwalk): update linting errors
+* feat: Allow to override SSR polyfills
+
 ## `1.8.0` (2021-02-09)
 
 * chore: moved new scripts to paas/catwalk and modified templates accordingly
