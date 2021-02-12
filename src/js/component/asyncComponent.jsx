@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
 
 const asyncComponent = (component) => {
-    return class extends React.Component {
+    return connect((globalState, props) => {
+        console.log(arguments)
+        return {
+            deviceType: globalState?.renderContext?.deviceType || 'mobile',
+            ...props,
+        }
+    })((props) => {
+        /*
+        const [component, setComponent] = useState
         state = {
             component: null,
         }
@@ -13,23 +22,24 @@ const asyncComponent = (component) => {
                 })
         }
 
-        render () {
+        render ({ deviceType = 'mobile' }) {
             const InnerComponent = this.state.component
 
+            let height = component?.height?.desktop || 12
+            if (deviceType && component.height[deviceType]) {
+                height = component.height[deviceType]
+            }
+
+            console.log(deviceType, height)
+
             if (!InnerComponent) {
-                // @TODO: Is there a sensible way to pre-render height device
-                // specific?
-                return (
-                    <div
-                        className='c-asyc-component'
-                        style={{ height: component.height.desktop + 'px' }}
-                    />
-                )
+                return <div className='c-asyc-component' style={{ height: height + 'px' }} />
             }
 
             return <InnerComponent {...this.props} />
         }
-    }
+        */
+    })
 }
 
 export default asyncComponent
