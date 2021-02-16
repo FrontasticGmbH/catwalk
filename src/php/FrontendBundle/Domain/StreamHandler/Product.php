@@ -7,6 +7,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 
 class Product extends StreamHandler
@@ -38,6 +39,11 @@ class Product extends StreamHandler
             $query,
             ProductApi::QUERY_ASYNC
         );
+
+        // TODO: This needs a more structural fix
+        if (!$res instanceof PromiseInterface) {
+            return new FulfilledPromise($res);
+        }
 
         return $res;
     }

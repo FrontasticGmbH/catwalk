@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!--
+            WARNING: This file is only loaded conditionally if the frontastic_enable_hooks environment variable is set to true
+        -->
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators\AccountDecorator">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" />
+            <tag name="accountApi.lifecycleEventListener" />
+        </service>
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators\CartDecorator">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" />
+            <tag name="cartApi.lifecycleEventListener" />
+        </service>
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators\ContentDecorator">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" />
+            <tag name="contentApi.lifecycleEventListener" />
+        </service>
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators\ProductDecorator">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" />
+            <tag name="productApi.lifecycleEventListener" />
+        </service>
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators\ProductSearchDecorator">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" />
+            <tag name="productSearchApi.lifecycleEventListener" />
+        </service>
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators\WishlistDecorator">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" />
+            <tag name="wishlistApi.lifecycleEventListener" />
+        </service>
+
+    </services>
+</container>
