@@ -16,6 +16,11 @@ services:
             - 'mysql:dbname=%env(database_name)%; host=%env(database_host)%; port=%env(database_port)%'
             - { db_table: 'http_session', db_username: '%env(database_user)%', db_password: '%env(database_password)%', lock_mode: 0 }
 
+    Frontastic\Catwalk\FrontendBundle\Session\TimeFrameSessionProxy:
+        arguments:
+            - '@Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler'
+            - '3600'
+
 framework:
     secret:          "%env(secret)%"
     router:
@@ -30,7 +35,7 @@ framework:
     default_locale:  "%env(locale)%"
     trusted_hosts:   ~
     session:
-        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        handler_id: Frontastic\Catwalk\FrontendBundle\Session\TimeFrameSessionProxy
         name: 'FCSESSID0815'
     fragments:       ~
     http_method_override: true
@@ -91,7 +96,7 @@ monolog:
             type:                stream
             path:                /var/log/frontastic/json.log # This global path was agreed upon with Frontastic Ops.
             formatter:           Frontastic\Catwalk\ApiCoreBundle\Monolog\JsonFormatter
-            
+
 doctrine:
     orm:
         filters:
