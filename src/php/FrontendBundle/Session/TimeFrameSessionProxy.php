@@ -9,17 +9,17 @@ class TimeFrameSessionProxy extends SessionHandlerProxy
     /**
      * @var int
      */
-    private int $ttl;
+    private $ttl;
 
     /**
      * @var int
      */
-    private int $lastUpdated = 0;
+    private $lastUpdated = 0;
 
     /**
      * @var string
      */
-    private string $sfAttributes;
+    private $sfAttributes;
 
     public function __construct(\SessionHandlerInterface $handler, int $ttl)
     {
