@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.9.1` (2021-02-16)
+
+* chore (catwalk): updated deprecated scss elseif
+* fix: Reverted accidetally comitted experiemnt
+* fix: Set ansible roles path
+
 ## `1.9.0` (2021-02-11)
 
 * fix: Only include module webpack configuration if module is mentioned in package.json
