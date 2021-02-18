@@ -1,5 +1,16 @@
 # catwalk Changelog
 
+## `1.9.2` (2021-02-18)
+
+* fix: Set default stream to first of its kind
+* fix: Use master stream as stream, if non defined
+* fix: Always preserve master streams
+* fix: Wording
+* fix: Wording & case
+* fix: Added missing template
+* fix: PHP 7.2 compatibility
+* fix: POC to avoid massive mysql update attacks due to session writes (#603)
+
 ## `1.9.1` (2021-02-16)
 
 * chore (catwalk): updated deprecated scss elseif
