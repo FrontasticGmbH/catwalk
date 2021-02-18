@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.9.4` (2021-02-18)
+
+* hotfix: Handle iinitial session
+
 ## `1.9.3` (2021-02-18)
 
 * fix: Created dummy cart stream handler
