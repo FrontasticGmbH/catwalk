@@ -31,6 +31,13 @@ class TimeFrameSessionProxy extends SessionHandlerProxy
     public function read($sessionId)
     {
         $data = parent::read($sessionId);
+
+        // Session data does not contain the meta part, we can not explode by
+        // this and so also not retrieve the metaData entry
+        if (!str_contains($data, '_sf2_meta|')) {
+            return $data;
+        }
+
         list($this->sfAttributes, $metaData) = explode("_sf2_meta|", $data);
 
         if (is_array($metaData = @unserialize($metaData))) {
