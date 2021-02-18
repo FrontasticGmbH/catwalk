@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.9.6` (2021-02-18)
+
+* fix: Do not override selected stream with default
+* fix: ensured page exist before complete default streams
+
 ## `1.9.5` (2021-02-18)
 
 ## `1.9.4` (2021-02-18)
