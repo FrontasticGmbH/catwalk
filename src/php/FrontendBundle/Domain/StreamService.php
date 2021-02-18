@@ -151,7 +151,9 @@ class StreamService
     {
         $tasticMap = $this->tasticService->getTasticsMappedByType();
 
-        $usage = [];
+        $usage = [
+            '__master' => ['tastics' => []],
+        ];
         foreach ($page->regions as $region) {
             foreach ($region->elements as $cell) {
                 foreach ($cell->tastics as $tastic) {
@@ -166,7 +168,7 @@ class StreamService
         }
 
         foreach ($usage as $streamId => $usages) {
-            $usage[$streamId]['count'] = max($usages['count']);
+            $usage[$streamId]['count'] = !empty($usages['count']) ? max($usages['count']) : null;
             $usage[$streamId]['tastics'] = array_values(array_filter(array_unique($usages['tastics'])));
         }
 
