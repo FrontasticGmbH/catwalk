@@ -200,6 +200,45 @@ class StreamService
         return $streams;
     }
 
+    public function completeDefaultStreams(Node $node, Page $page): Page
+    {
+        $tasticMap = $this->tasticService->getTasticsMappedByType();
+
+        $defaultStreams = [];
+        foreach ($node->streams as $stream) {
+            if (!isset($stream['type'])) {
+                continue;
+            }
+
+            if (!isset($defaultStreams[$stream['type']])) {
+                $defaultStreams[$stream['type']] = $stream;
+            }
+        }
+
+        foreach ($page->regions as $region) {
+            foreach ($region->elements as $cell) {
+                foreach ($cell->tastics as $tastic) {
+                    if (!isset($tasticMap[$tastic->tasticType])) {
+                        continue;
+                    }
+
+                    // @TODO: Recurse into groups
+                    $schema = $tasticMap[$tastic->tasticType]->configurationSchema['schema'];
+                    foreach ($schema as $group) {
+                        foreach ($group['fields'] as $field) {
+                            if ($field['type'] === 'stream' &&
+                                isset($defaultStreams[$field['streamType']])) {
+                                $tastic->configuration->{$field['field']} = $defaultStreams[$field['streamType']]['streamId'];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $page;
+    }
+
     /**
      * @param Node $node
      * @param array $parameterMap Mapping stream IDs to parameter arrays
@@ -208,6 +247,8 @@ class StreamService
      */
     public function getStreamData(Node $node, Context $context, array $parameterMap = [], Page $page = null): array
     {
+        $page = $this->completeDefaultStreams($node, $page);
+
         if ($page) {
             $streams = $this->getUsedStreams($node, $page, $parameterMap);
         } else {
