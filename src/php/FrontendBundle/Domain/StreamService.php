@@ -227,6 +227,7 @@ class StreamService
                     foreach ($schema as $group) {
                         foreach ($group['fields'] as $field) {
                             if ($field['type'] === 'stream' &&
+                                empty($tastic->configuration->{$field['field']}) &&
                                 isset($defaultStreams[$field['streamType']])) {
                                 $tastic->configuration->{$field['field']} = $defaultStreams[$field['streamType']]['streamId'];
                             }
