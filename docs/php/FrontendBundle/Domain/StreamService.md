@@ -8,6 +8,7 @@
 * [addStreamHandler()](#addstreamhandler)
 * [addStreamOptimizer()](#addstreamoptimizer)
 * [getUsedStreams()](#getusedstreams)
+* [completeDefaultStreams()](#completedefaultstreams)
 * [getStreamData()](#getstreamdata)
 
 ### __construct()
@@ -77,6 +78,22 @@ Argument|Type|Default|Description
 `&$parameterMap`|`array`||
 
 Return Value: `array`
+
+### completeDefaultStreams()
+
+```php
+public function completeDefaultStreams(
+    Node $node,
+    Page $page
+): Page
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$node`|[`Node`](Node.md)||
+`$page`|[`Page`](Page.md)||
+
+Return Value: [`Page`](Page.md)
 
 ### getStreamData()
 
