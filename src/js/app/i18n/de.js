@@ -104,7 +104,7 @@ export default {
         },
         register: {
             alreadyRegistered: 'Bereits registriert?',
-            joinCatwalk: 'Abonnieren Catwalk',
+            joinCatwalk: 'Jetzt beitreten',
             register: 'Registrieren',
             joinUs: 'Jetzt Anmelden',
             genderMale: 'Herr',
