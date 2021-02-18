@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.9.3` (2021-02-18)
+
+* fix: Created dummy cart stream handler
+
 ## `1.9.2` (2021-02-18)
 
 * fix: Set default stream to first of its kind
