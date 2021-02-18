@@ -3,23 +3,16 @@
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
-use Frontastic\Catwalk\ApiCoreBundle\Exception\InvalidHookObjectTypeException;
 
 trait DecoratorCallTrait
 {
-    private HooksService $hooksService;
+    private $hooksService;
 
     public function __construct(HooksService $hooksService)
     {
         $this->hooksService = $hooksService;
     }
 
-    /**
-     * @param string $hook
-     * @param array $parameters
-     * @return Mixed
-     * @throws InvalidHookObjectTypeException
-     */
     protected function callExpectList(string $hook, array $parameters)
     {
         //$paramsTypes = [];
@@ -34,7 +27,7 @@ trait DecoratorCallTrait
 
         //foreach ($result as $key => $item) {
         //    if (!is_a($item, $paramsTypes[$key], true)) {
-        //        throw new InvalidHookObjectTypeException;
+        //        throw new \Exception();
         //    }
         //}
 
