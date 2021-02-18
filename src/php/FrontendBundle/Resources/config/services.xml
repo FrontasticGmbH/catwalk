@@ -214,6 +214,12 @@
             <tag name="frontend.streamHandler"/>
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Cart">
+            <argument type="service" id="frontastic.catwalk.cart_api" />
+
+            <tag name="frontend.streamHandler"/>
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldService">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
             <argument type="service" id="logger" />
