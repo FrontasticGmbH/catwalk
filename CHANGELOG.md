@@ -1,5 +1,7 @@
 # catwalk Changelog
 
+## `1.9.5` (2021-02-18)
+
 ## `1.9.4` (2021-02-18)
 
 * hotfix: Handle iinitial session
