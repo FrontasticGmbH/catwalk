@@ -247,9 +247,8 @@ class StreamService
      */
     public function getStreamData(Node $node, Context $context, array $parameterMap = [], Page $page = null): array
     {
-        $page = $this->completeDefaultStreams($node, $page);
-
         if ($page) {
+            $page = $this->completeDefaultStreams($node, $page);
             $streams = $this->getUsedStreams($node, $page, $parameterMap);
         } else {
             $streams = $node->streams ?? [];
