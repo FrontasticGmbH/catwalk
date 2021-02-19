@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.9.7` (2021-02-19)
+
+* fix: Fixed webpack post processing import path
+* feat: adyen integration, discounts, taxes
+* chore: Tested default stream assignment
+* chore: Clean up unused exception
+
 ## `1.9.6` (2021-02-18)
 
 * fix: Do not override selected stream with default
