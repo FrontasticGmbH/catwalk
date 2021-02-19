@@ -216,7 +216,7 @@ export default {
         shipping: 'Versand',
         payment: 'Zahlung',
         overview: 'Überivew',
-        orderConfirmed: 'Hurra! Ihre Bestellung wurde bestätigt',
+        orderConfirmed: 'Ihre Bestellung wurde bestätigt',
         orderConfirmation: 'Wir haben Ihre Auftragsbestätigung gesendet und Rechnung an:',
         continueShopping: 'Weiter einkaufen',
         wentWrong: 'Etwas ging schief während der Zahlung',
@@ -237,6 +237,12 @@ export default {
         orderId: 'Bestell ID',
         invoice: 'Rechnung',
         edit: 'Bearbeiten',
+        shippingMethods: 'Versandarten',
+        freeShipping: 'kostenlos',
+        discount: {
+            message: 'Hast du einen Gutscheincode?',
+            apply: 'Einlösen',
+        },
         form: {
             firstName: 'Vorname',
             lastName: 'Nachname',

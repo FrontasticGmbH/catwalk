@@ -173,7 +173,7 @@ export default {
         shipping: 'Shipping',
         payment: 'Payment',
         overview: 'Overivew',
-        orderConfirmed: 'Hooray! Your order was confirmed',
+        orderConfirmed: 'Your order was confirmed',
         orderConfirmation: 'We have sent your order confirmation and invoice to:',
         continueShopping: 'Continue shopping',
         wentWrong: 'Something went wrong during payment',
@@ -194,6 +194,12 @@ export default {
         orderId: 'Order ID',
         invoice: 'Invoice',
         edit: 'Edit',
+        shippingMethods: 'Shipping methods',        
+        freeShipping: 'FREE',
+        discount: {
+            message: 'Do you have a discount code?',
+            apply: 'Apply',
+        },
         form: {
             firstName: 'First name',
             lastName: 'Last name',
