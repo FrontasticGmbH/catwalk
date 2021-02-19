@@ -194,6 +194,7 @@ export default {
         orderId: 'Order ID',
         invoice: 'Invoice',
         edit: 'Edit',
+        pay: 'Pay',
         shippingMethods: 'Shipping methods',
         freeShipping: 'FREE',
         discount: {

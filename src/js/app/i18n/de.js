@@ -237,6 +237,7 @@ export default {
         orderId: 'Bestell ID',
         invoice: 'Rechnung',
         edit: 'Bearbeiten',
+        pay: 'Zahlen',
         shippingMethods: 'Versandarten',
         freeShipping: 'kostenlos',
         discount: {
