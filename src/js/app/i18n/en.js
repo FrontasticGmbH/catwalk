@@ -194,7 +194,7 @@ export default {
         orderId: 'Order ID',
         invoice: 'Invoice',
         edit: 'Edit',
-        shippingMethods: 'Shipping methods',        
+        shippingMethods: 'Shipping methods',
         freeShipping: 'FREE',
         discount: {
             message: 'Do you have a discount code?',
