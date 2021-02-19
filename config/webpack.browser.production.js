@@ -55,7 +55,7 @@ try {
 
 config = libraryModifications(config, PRODUCTION, SERVER)
 
-customConfigPath = paths.appSrc + paths.appSrc + '/../config/webpack.post.js'
+customConfigPath = paths.appSrc + '/../config/webpack.post.js'
 try {
     let webpackPostProcessing = require(customConfigPath)
     config = webpackPostProcessing(config, PRODUCTION, SERVER)
