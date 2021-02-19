@@ -5,10 +5,27 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use GuzzleHttp\Promise;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\FrontendBundle\Domain\Page;
+use Frontastic\Catwalk\FrontendBundle\Domain\Tastic;
 use Psr\Log\LoggerInterface;
 
 class StreamServiceTest extends \PHPUnit\Framework\TestCase
 {
+    private function findTastic(Page $page, string $tasticId): Tastic
+    {
+        foreach ($page->regions as $region) {
+            foreach ($region->elements as $cell) {
+                foreach ($cell->tastics as $tastic) {
+                    if ($tastic->tasticId === $tasticId) {
+                        return $tastic;
+                    }
+                }
+            }
+        }
+
+        throw new \OutOfBoundsException('No Tastic with ID ' . $tasticId . ' found.');
+    }
+
     public function testRemoveUnusedStream()
     {
         $node = include __DIR__ . '/__fixtures/Node.php';
@@ -193,6 +210,50 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
                 '7440' => 'optimized data',
             ],
             $streamData
+        );
+    }
+
+    public function testSetDefaultStream()
+    {
+        $node = include __DIR__ . '/__fixtures/Node.php';
+        $page = include __DIR__ . '/__fixtures/Page.php';
+        $tastics = include __DIR__ . '/__fixtures/tastics.php';
+
+        $tasticService = \Phake::mock(TasticService::class);
+        \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
+
+        $logger = \Phake::mock(LoggerInterface::class);
+
+        $streamService = new StreamService($tasticService, $logger, []);
+
+        $parameters = [];
+        $page = $streamService->completeDefaultStreams($node, $page, $parameters);
+
+        $this->assertEquals(
+            'aabf67e7-8134-451e-85f5-4e069d0e41d4',
+            $this->findTastic($page, '2e9680e0-9125-4b07-9bba-no-stream')->configuration->stream
+        );
+    }
+
+    public function testDoNotOverwriteDefinedStream()
+    {
+        $node = include __DIR__ . '/__fixtures/Node.php';
+        $page = include __DIR__ . '/__fixtures/Page.php';
+        $tastics = include __DIR__ . '/__fixtures/tastics.php';
+
+        $tasticService = \Phake::mock(TasticService::class);
+        \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
+
+        $logger = \Phake::mock(LoggerInterface::class);
+
+        $streamService = new StreamService($tasticService, $logger, []);
+
+        $parameters = [];
+        $page = $streamService->completeDefaultStreams($node, $page, $parameters);
+
+        $this->assertEquals(
+            '7440',
+            $this->findTastic($page, '2e9680e0-9125-4b07-9bba-7440')->configuration->stream
         );
     }
 }

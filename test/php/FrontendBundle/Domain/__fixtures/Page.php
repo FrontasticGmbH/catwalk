@@ -255,7 +255,7 @@ return Frontastic\Catwalk\FrontendBundle\Domain\Page::__set_state(array(
             )),
             7 => 
             Frontastic\Catwalk\FrontendBundle\Domain\Tastic::__set_state(array(
-               'tasticId' => '2e9680e0-9125-4b07-9bba-3f0547a5f00b',
+               'tasticId' => '2e9680e0-9125-4b07-9bba-7440',
                'tasticType' => 'frontastic/boost/product-slider',
                'configuration' => 
               Frontastic\Catwalk\FrontendBundle\Domain\Tastic\Configuration::__set_state(array(
@@ -267,6 +267,17 @@ return Frontastic\Catwalk\FrontendBundle\Domain\Page::__set_state(array(
               )),
             )),
             8 => 
+            Frontastic\Catwalk\FrontendBundle\Domain\Tastic::__set_state(array(
+               'tasticId' => '2e9680e0-9125-4b07-9bba-no-stream',
+               'tasticType' => 'frontastic/boost/product-slider',
+               'configuration' => 
+              Frontastic\Catwalk\FrontendBundle\Domain\Tastic\Configuration::__set_state(array(
+                 'mobile' => true,
+                 'tablet' => true,
+                 'desktop' => true,
+              )),
+            )),
+            9 => 
             Frontastic\Catwalk\FrontendBundle\Domain\Tastic::__set_state(array(
                'tasticId' => 'd7376d7e-cf92-4e19-869d-dd8f87e4c346',
                'tasticType' => 'frontastic/boost/newsletter',
