@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.9.8` (2021-02-22)
+
+* fix FP-316: Throw error objects without casting thme to string
+* Added translations
+
 ## `1.9.7` (2021-02-19)
 
 * fix: Fixed webpack post processing import path
