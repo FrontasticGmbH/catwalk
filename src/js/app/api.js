@@ -62,7 +62,7 @@ let Api = function (router, store) {
 
             // eslint-disable-next-line no-console
             console.trace('Unhandled Response Type:', response)
-            throw new Error({ status: 500, message: 'Internal Server Error' })
+            throw { status: 500, message: 'Internal Server Error' }
         }).then((response) => {
             if (response.json && response.json['__DEBUG']) {
                 logDebugStatements(response.json['__DEBUG'], method, route)
@@ -76,11 +76,11 @@ let Api = function (router, store) {
                 (typeof response.json.message === 'string')) {
                 // eslint-disable-next-line no-console
                 console.error('Error:', response.json)
-                throw new Error(response.json)
+                throw response.json
             } else {
                 // eslint-disable-next-line no-console
                 console.error('Unhandled Error:', response)
-                throw new Error({ status: 500, message: 'Internal Server Error' })
+                throw { status: 500, message: 'Internal Server Error' }
             }
         }).then((response) => {
             if (success) {
