@@ -19,6 +19,7 @@ const activateSsrPolyfills = () => {
         global['navigator'] = win.navigator
         global['localStorage'] = win.localStorage
         global['Element'] = domino.impl.Element
+        global['Image'] = domino.impl.Element
     }
 }
 
