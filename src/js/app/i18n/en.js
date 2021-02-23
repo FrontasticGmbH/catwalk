@@ -162,6 +162,8 @@ export default {
         gratis: 'gratis',
         totalAmount: 'Total amount',
         inclVat: 'incl.VAT',
+        discounts: 'Discounts',
+        removeDiscount: 'Remove discount',
         emptyCart: {
             title: 'My cart',
             text: 'Your shopping cart is empty.',

@@ -67,6 +67,8 @@ export default {
             wishlistRemove: 'Produkt vom Wunschzettel entfernt',
             confirmSuccess: 'Account ist bestätigt',
             confirmError: 'Account-Bestätigung ist leider fehlgeschlagen',
+            cartAdd: 'Produkt in den Warenkorb gelegt',
+            cartRemove: 'Produkt aus dem Warenkorb entfernt',
         },
         address: {
             newAddress: 'Neue Adresse hinzufügen',
@@ -205,6 +207,8 @@ export default {
         gratis: 'kostenlos',
         inclVat: 'inkl. Mwst',
         totalAmount: 'Gesamtbetrag',
+        discounts: 'Rabatte',
+        removeDiscount: 'Rabatt entfernen',
         emptyCart: {
             title: 'Mein Warenkorb',
             text: 'Der Warenkorb ist noch leer.',
