@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.9.9` (2021-02-23)
+
+* fix: adds noop Element for Image element during SSR
+
 ## `1.9.8` (2021-02-22)
 
 * fix FP-316: Throw error objects without casting thme to string
