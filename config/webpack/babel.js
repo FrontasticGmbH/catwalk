@@ -12,7 +12,7 @@ module.exports = (config, PRODUCTION, SERVER) => {
                 rules: [
                     // Process JS with Babel.
                     {
-                        test: /\.(js|jsx)$/,
+                        test: /\.(mjs|js|jsx)$/,
                         // HACK - primarily for IE11
                         //
                         // Some packages we use don't come transpiled for older JS versions
