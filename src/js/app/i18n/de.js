@@ -227,7 +227,7 @@ export default {
         beenCharged: 'Keine Sorge, die Bestellung ist nur eine Testbestellung, ihr Konto wird nicht belastet. Sie können es jederzeit wieder versuchen',
         tryAgain: 'Erneut versuchen',
         backToCart: 'Zurück zum Warenkorb',
-        nextPayment: 'Nächste: Zahlung',
+        nextPayment: 'Jetzt kaufen',
         nextOverview: 'Nächste: Übersicht',
         placeOrder: 'Bestellung aufgeben',
         shippingTo: 'Versand nach',

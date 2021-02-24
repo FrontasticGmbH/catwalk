@@ -182,7 +182,7 @@ export default {
         beenCharged: 'Don\'t worry you haven\'t been charged, but you can always try again',
         tryAgain: 'Try again',
         backToCart: 'Back to cart',
-        nextPayment: 'Next: payment',
+        nextPayment: 'Order now',
         nextOverview: 'Next: overview',
         placeOrder: 'Place order',
         shippingTo: 'Shipping to',
