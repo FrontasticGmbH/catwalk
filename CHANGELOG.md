@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.9.10` (2021-02-24)
+
+* fix: Work with babel 7.13.* by also processing .mjs files
+
 ## `1.9.9` (2021-02-23)
 
 * fix: adds noop Element for Image element during SSR
