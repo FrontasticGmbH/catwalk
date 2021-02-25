@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.9.11` (2021-02-25)
+
+* Added checkout translations
+* Renamed next:payment to order now
+* fix: Work with babel 7.13.* by also processing .mjs files
+* New session handler that produces fewer db writes
+
 ## `1.9.10` (2021-02-24)
 
 * fix: Work with babel 7.13.* by also processing .mjs files
