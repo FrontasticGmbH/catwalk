@@ -60,7 +60,8 @@ SQL;
 
     protected function doWrite($sessionId, $data)
     {
-        if ($data === $this->sessions[$sessionId]['data']
+        if (isset($this->sessions[$sessionId])
+            && $data === $this->sessions[$sessionId]['data']
             && time() > $this->sessions[$sessionId]['time'] - $this->writeThresholdInSeconds
         ) {
             return true;
