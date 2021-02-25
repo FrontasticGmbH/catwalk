@@ -11,15 +11,10 @@ imports:
     - { resource: doctrine.yml }
 
 services:
-    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+    Frontastic\Catwalk\FrontendBundle\Session\FrontasticSessionHandler:
+        autowire: true
         arguments:
-            - 'mysql:dbname=%env(database_name)%; host=%env(database_host)%; port=%env(database_port)%'
-            - { db_table: 'http_session', db_username: '%env(database_user)%', db_password: '%env(database_password)%', lock_mode: 0 }
-
-    Frontastic\Catwalk\FrontendBundle\Session\TimeFrameSessionProxy:
-        arguments:
-            - '@Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler'
-            - '3600'
+            $writeThresholdInSeconds: "%session.metadata.update_threshold%"
 
 framework:
     secret:          "%env(secret)%"
@@ -35,8 +30,9 @@ framework:
     default_locale:  "%env(locale)%"
     trusted_hosts:   ~
     session:
-        handler_id: Frontastic\Catwalk\FrontendBundle\Session\TimeFrameSessionProxy
+        handler_id: Frontastic\Catwalk\FrontendBundle\Session\FrontasticSessionHandler
         name: 'FCSESSID0815'
+        metadata_update_threshold: 3600
     fragments:       ~
     http_method_override: true
     assets: ~
