@@ -107,6 +107,12 @@ SQL;
 
     public function updateTimestamp($sessionId, $data)
     {
+        // We need to implment this as AbstractSessionHandler uses \SessionUpdateTimestampHandlerInterface
+
+        // The actual functionally is covered by how Symfony handles session data.
+        // The session's data will change when it is older than session.metadata.update_threshold
+        // and this is when we update the timestamps as well ensuring that sessions also get refreshed
+        // even if no session data changes.
         return true;
     }
 
