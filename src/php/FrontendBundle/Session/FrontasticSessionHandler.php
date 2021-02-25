@@ -70,7 +70,8 @@ SQL;
 INSERT INTO http_session
     (sess_id, sess_data, sess_lifetime, sess_time)
     VALUES (:id, :data, :expiry, :time)
-    ON DUPLICATE KEY UPDATE sess_data = VALUES(sess_data), sess_lifetime = VALUES(sess_lifetime), sess_time = VALUES(sess_time)
+    ON DUPLICATE KEY UPDATE
+        sess_data = VALUES(sess_data), sess_lifetime = VALUES(sess_lifetime), sess_time = VALUES(sess_time)
 SQL;
         $insert = $this->connection()->prepare($query);
         $insert->bindParam(':id', $sessionId, PDO::PARAM_STR);
@@ -126,7 +127,7 @@ SQL;
 
             $sql = "DELETE FROM http_session WHERE sess_time < :time LIMIT 10000";
             $delete = $this->connection()->prepare($sql);
-            $delete->bindValue(':time', time() + $maxLifetime , PDO::PARAM_INT);
+            $delete->bindValue(':time', time() + $maxLifetime, PDO::PARAM_INT);
             $delete->execute();
         }
         return true;
