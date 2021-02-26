@@ -90,8 +90,8 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
         ...originalProps,
     }
 
-    if (!props.data.stream && props.rawData.stream.__master) {
-        props.data.stream = props.rawData.stream.__master
+    if (!props.data?.stream && props.rawData?.stream?.__master) {
+        props.data.stream = props.rawData?.stream?.__master || null
     }
 
     if (!configuration.connect.rawData) {
