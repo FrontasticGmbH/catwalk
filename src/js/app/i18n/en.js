@@ -208,6 +208,7 @@ export default {
         pay: 'Pay',
         shippingMethods: 'Shipping methods',
         freeShipping: 'FREE',
+        outOfStock: 'Some products are out of stock',
         discount: {
             message: 'Do you have a discount code?',
             apply: 'Apply',

@@ -253,6 +253,7 @@ export default {
         pay: 'Zahlen',
         shippingMethods: 'Versandarten',
         freeShipping: 'kostenlos',
+        outOfStock: 'Einige Produkte sind nicht vorrätig',
         discount: {
             message: 'Hast du einen Gutscheincode?',
             apply: 'Einlösen',
