@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.9.12` (2021-03-01)
+
+* fix(FP-395): implemented build query for next page and calculate last (#623)
+* fix: remove wirecard test
+* fix: Code resilience
+* fix: Fix E_NOTICE when writing uninitialized sessions
+
 ## `1.9.11` (2021-02-25)
 
 * Added checkout translations
