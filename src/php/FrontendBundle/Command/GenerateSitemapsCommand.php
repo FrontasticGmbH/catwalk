@@ -467,7 +467,6 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
 
         $query = new ProductQuery([
             'locale' => $context->locale,
-            'offset' => 0,
             'limit' => $limit,
         ]);
 
@@ -485,8 +484,8 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 ];
             }
 
-            $query->offset += $limit;
-        } while ($result->count > 0);
+            $query->cursor = $result->nextCursor;
+        } while (!is_null($result->nextCursor));
 
         return $this->singleSitemap ? $entries : $this->renderSitemaps($context, $entries, 'products');
     }
