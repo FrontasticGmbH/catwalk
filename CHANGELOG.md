@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.9.13` (2021-03-02)
+
+* added error message in checkuot if products are out of stock
+
 ## `1.9.12` (2021-03-01)
 
 * fix(FP-395): implemented build query for next page and calculate last (#623)
