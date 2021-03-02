@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\ErrorHandler\ErrorNodeRenderer;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\EventListener\ErrorListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,16 +35,31 @@ class ErrorHandler implements EventSubscriberInterface
      */
     private $errorNodeRenderer;
 
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         ContextService $contextService,
-        ErrorNodeRenderer $errorNodeRenderer
+        ErrorNodeRenderer $errorNodeRenderer,
+        LoggerInterface $logger
     ) {
         $this->contextService = $contextService;
         $this->errorNodeRenderer = $errorNodeRenderer;
+        $this->logger = $logger;
     }
 
     public function getResponseForErrorEvent(ExceptionEvent $event)
     {
+        $this->logger->error(
+            'Error handler: {message}',
+            [
+                'message' => $event->getThrowable()->getMessage(),
+                'exception' => $event->getThrowable(),
+            ]
+        );
+
         $request = $event->getRequest();
 
         $route = $request->get('_route');
