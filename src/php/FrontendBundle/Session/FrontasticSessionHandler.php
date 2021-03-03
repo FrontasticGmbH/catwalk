@@ -128,7 +128,7 @@ SQL;
 
             $sql = "DELETE FROM http_session WHERE sess_time < :time LIMIT 10000";
             $delete = $this->connection()->prepare($sql);
-            $delete->bindValue(':time', time() + $maxLifetime, PDO::PARAM_INT);
+            $delete->bindValue(':time', time() - $maxLifetime, PDO::PARAM_INT);
             $delete->execute();
         }
         return true;
