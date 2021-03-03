@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.9.14` (2021-03-03)
+
+* fix(FP-421): logged error at ErrorHandler level
+
 ## `1.9.13` (2021-03-02)
 
 * added error message in checkuot if products are out of stock
