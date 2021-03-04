@@ -46,12 +46,16 @@ module.exports = (config, PRODUCTION, SERVER) => {
                     {
                         test: /\.(ts)$/,
                         loader: require.resolve('ts-loader'),
+                        options: { allowTsInNodeModules: true },
                     },
                     {
                         test: /\.(tsx)$/,
-                        loader: [
+                        loaders: [
                             require.resolve('babel-loader'),
-                            require.resolve('ts-loader')
+                            {
+                                loader: require.resolve('ts-loader'),
+                                options: { allowTsInNodeModules: true },
+                            }
                         ],
                     },
                 ],
