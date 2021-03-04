@@ -225,7 +225,7 @@ export default {
         orderConfirmation: 'Wir haben Ihre Auftragsbestätigung gesendet und Rechnung an:',
         continueShopping: 'Weiter einkaufen',
         wentWrong: 'Etwas ging schief während der Zahlung',
-        beenCharged: 'Keine Sorge, die Bestellung ist nur eine Testbestellung, ihr Konto wird nicht belastet. Sie können es jederzeit wieder versuchen',        
+        beenCharged: 'Keine Sorge, die Bestellung ist nur eine Testbestellung, ihr Konto wird nicht belastet. Sie können es jederzeit wieder versuchen',
         yourOrderId: 'Bestellnummer: ',
         tryAgain: 'Erneut versuchen',
         backToShop: 'Zurück zum Shop',
