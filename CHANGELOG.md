@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.9.15` (2021-03-04)
+
+* feat: Allow TypeScript in node_modules
+* fix: Session expiration in GC cases failed
+
 ## `1.9.14` (2021-03-03)
 
 * fix(FP-421): logged error at ErrorHandler level
