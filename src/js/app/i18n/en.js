@@ -181,7 +181,7 @@ export default {
         continueShopping: 'Continue shopping',
         wentWrong: 'Something went wrong during payment',
         beenCharged: 'Don\'t worry you haven\'t been charged, but you can always try again',
-        yourOrderId: 'Your order id: ',
+        yourOrderId: 'Order id: ',
         tryAgain: 'Try again',
         backToShop: 'Back to shop',
         backToCart: 'Back to cart',
