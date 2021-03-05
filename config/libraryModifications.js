@@ -3,13 +3,13 @@ const glob = require('glob')
 const path = require('path')
 const fs = require('fs')
 
-module.exports = (config, PRODUCTION, SERVER) => {
+module.exports = (config, PRODUCTION, SERVER, appSrc = "") => {
     const extensions = [].concat(
-        glob.sync(paths.appSrc + '/../node_modules/*/*/.webpack.module.js'),
-        glob.sync(paths.appSrc + '/../../node_modules/*/*/.webpack.module.js')
+        glob.sync(path.join(appSrc || paths.appSrc, '/../node_modules/*/*/.webpack.module.js')),
+        glob.sync(path.join(appSrc || paths.appSrc, '/../../node_modules/*/*/.webpack.module.js'))
     )
 
-    const packageJson = JSON.parse(fs.readFileSync(paths.appPackageJson))
+    const packageJson = JSON.parse(fs.readFileSync(appSrc ? path.join(appSrc, '../package.json') : paths.packageJson))
     const packages = Object.keys(packageJson.dependencies || {}).concat(Object.keys(packageJson.devDependencies || {}))
 
     for (let extension of extensions) {

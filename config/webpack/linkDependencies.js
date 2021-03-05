@@ -13,18 +13,7 @@ const links = {
     'theme-boost': paths.repositoryRoot + '/paas/themes/frontastic/boost',
 }
 
-const fileExists = (path) => {
-    try {
-        if (fs.existsSync(path)) {
-            return true
-        }
-
-        // Seems unreachable. Seriously?!?
-        return false
-    } catch (e) {
-        return false
-    }
-}
+const fileExists = (path) => fs.existsSync(path)
 
 const linkPackage = (package, packageDirectory, packageSource) => {
 
