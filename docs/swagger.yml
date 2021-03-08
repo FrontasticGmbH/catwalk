@@ -3209,3 +3209,336 @@ paths:
                           nullable: true
                         dangerousInnerShippingMethod:
                           nullable: true
+  //show-demo.frontastic.io/api/cart/wishlist:
+    get:
+      summary: 'Get wishlist for curent user'
+      description: "The idea behind this method is:\n\n* If a wishlist has been selected (passed $wishlistId), use that\n\n* If no wishlist is explicitely selected (no $wishlistId) then:\n\n  * If the user does not have a wishlist yet, create a default wishlist\n\n    * This means creating an anonymous wishlist for customers who are\n      not logged in\n\n  * Select the first wishlist, if one exists"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'null'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  wishlist:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\WishlistApiBundle\Domain\Wishlist$
+                      wishlistId:
+                        type: string
+                      wishlistVersion:
+                        type: string
+                      anonymousId:
+                        type: string
+                      accountId:
+                        type: string
+                      name:
+                        type: array
+                        items:
+                          type: string
+                      lineItems:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\WishlistApiBundle\Domain\LineItem$
+                            lineItemId:
+                              type: string
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            addedAt:
+                              type: string
+                            count:
+                              type: integer
+                            dangerousInnerItem: {  }
+                      dangerousInnerWishlist: {  }
+  //show-demo.frontastic.io/api/cart/wishlist/addMultiple:
+    post:
+      summary: 'Add multiple line items to a wishlist'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                lineItems:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^object$
+                      variant:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^object$
+                          sku:
+                            type: string
+                            nullable: true
+                      count:
+                        type: integer
+                        nullable: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  wishlist:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\WishlistApiBundle\Domain\Wishlist$
+                      wishlistId:
+                        type: string
+                      wishlistVersion:
+                        type: string
+                      anonymousId:
+                        type: string
+                      accountId:
+                        type: string
+                      name:
+                        type: array
+                        items:
+                          type: string
+                      lineItems:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\WishlistApiBundle\Domain\LineItem$
+                            lineItemId:
+                              type: string
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            addedAt:
+                              type: string
+                            count:
+                              type: integer
+                            dangerousInnerItem: {  }
+                      dangerousInnerWishlist: {  }
+  //show-demo.frontastic.io/api/cart/wishlist/create:
+    post:
+      summary: 'Create new wishlist'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                name:
+                  type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^\Frontastic\Common\WishlistApiBundle\Domain\Wishlist$
+                  wishlistId:
+                    type: string
+                  wishlistVersion:
+                    type: string
+                  anonymousId:
+                    type: string
+                  accountId:
+                    type: string
+                  name:
+                    type: array
+                    items:
+                      type: string
+                  lineItems:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\WishlistApiBundle\Domain\LineItem$
+                        lineItemId:
+                          type: string
+                        name:
+                          type: string
+                        type:
+                          type: string
+                        addedAt:
+                          type: string
+                        count:
+                          type: integer
+                        dangerousInnerItem: {  }
+                  dangerousInnerWishlist: {  }
+  //show-demo.frontastic.io/api/cart/wishlist/lineItem:
+    post:
+      summary: 'Remove item from wishlist'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                lineItemId:
+                  type: string
+                count:
+                  type: integer
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  wishlist:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\WishlistApiBundle\Domain\Wishlist$
+                      wishlistId:
+                        type: string
+                      wishlistVersion:
+                        type: string
+                      anonymousId:
+                        type: string
+                      accountId:
+                        type: string
+                      name:
+                        type: array
+                        items:
+                          type: string
+                      lineItems:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\WishlistApiBundle\Domain\LineItem$
+                            lineItemId:
+                              type: string
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            addedAt:
+                              type: string
+                            count:
+                              type: integer
+                            dangerousInnerItem: {  }
+                      dangerousInnerWishlist: {  }
+  //show-demo.frontastic.io/api/cart/wishlist/lineItem/remove:
+    post:
+      summary: 'Remove item from wishlist'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                lineItemId:
+                  type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  wishlist:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\WishlistApiBundle\Domain\Wishlist$
+                      wishlistId:
+                        type: string
+                      wishlistVersion:
+                        type: string
+                      anonymousId:
+                        type: string
+                      accountId:
+                        type: string
+                      name:
+                        type: array
+                        items:
+                          type: string
+                      lineItems:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\WishlistApiBundle\Domain\LineItem$
+                            lineItemId:
+                              type: string
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            addedAt:
+                              type: string
+                            count:
+                              type: integer
+                            dangerousInnerItem: {  }
+                      dangerousInnerWishlist: {  }

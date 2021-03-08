@@ -5,6 +5,7 @@
 Download the [Swagger File](swagger.yml)
 
 * [FrontendBundle\Controller\CartController](php/FrontendBundle/Controller/CartController.rest.md)
+* [FrontendBundle\Controller\WishlistController](php/FrontendBundle/Controller/WishlistController.rest.md)
 
 ##  API Documentation
 

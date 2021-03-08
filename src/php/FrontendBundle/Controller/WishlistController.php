@@ -21,6 +21,31 @@ class WishlistController extends CrudController
      */
     protected $wishlistApi;
 
+    /**
+     * Get wishlist for curent user
+     *
+     * The idea behind this method is:
+     *
+     * * If a wishlist has been selected (passed $wishlistId), use that
+     *
+     * * If no wishlist is explicitely selected (no $wishlistId) then:
+     *
+     *   * If the user does not have a wishlist yet, create a default wishlist
+     *
+     *     * This means creating an anonymous wishlist for customers who are
+     *       not logged in
+     *
+     *   * Select the first wishlist, if one exists
+     *
+     * @Docs\Request(
+     *  "GET",
+     *  "//show-demo.frontastic.io/api/cart/wishlist"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{wishlist: Wishlist}"
+     * )
+     */
     public function getAction(Context $context, Request $request): array
     {
         return [
@@ -28,6 +53,19 @@ class WishlistController extends CrudController
         ];
     }
 
+    /**
+     * Add single variant to wishlist
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/wishlist/addMultiple",
+     *  "object{variant: object{sku: ?string}, count: ?int}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{wishlist: Wishlist}"
+     * )
+     */
     public function addAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
@@ -48,6 +86,19 @@ class WishlistController extends CrudController
         ];
     }
 
+    /**
+     * Add multiple line items to a wishlist
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/wishlist/addMultiple",
+     *  "object{lineItems: object{variant: object{sku: ?string}, count: ?int}[]}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{wishlist: Wishlist}"
+     * )
+     */
     public function addMultipleAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
@@ -77,6 +128,19 @@ class WishlistController extends CrudController
         ];
     }
 
+    /**
+     * Create new wishlist
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/wishlist/create",
+     *  "object{name: string}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "Wishlist"
+     * )
+     */
     public function createAction(Context $context, Request $request): Wishlist
     {
         if (!$context->session->loggedIn) {
@@ -91,6 +155,20 @@ class WishlistController extends CrudController
         ]), $context->locale);
     }
 
+
+    /**
+     * Remove item from wishlist
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/wishlist/lineItem",
+     *  "object{lineItemId: string, count: int}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{wishlist: Wishlist}"
+     * )
+     */
     public function updateLineItemAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
@@ -109,6 +187,19 @@ class WishlistController extends CrudController
         ];
     }
 
+    /**
+     * Remove item from wishlist
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/wishlist/lineItem/remove",
+     *  "object{lineItemId: string}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{wishlist: Wishlist}"
+     * )
+     */
     public function removeLineItemAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
@@ -149,6 +240,8 @@ class WishlistController extends CrudController
     }
 
     /**
+     * Get wishlist for curent user
+     *
      * The idea behind this method is:
      *
      * * If a wishlist has been selected (passed $wishlistId), use that
@@ -161,6 +254,7 @@ class WishlistController extends CrudController
      *       not logged in
      *
      *   * Select the first wishlist, if one exists
+     *
      */
     protected function getWishlist(Context $context, ?string $wishlistId): Wishlist
     {
