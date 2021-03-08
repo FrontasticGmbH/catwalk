@@ -22,3 +22,5 @@ reference:
  - ../../libraries/common/src/php/*Bundle/Domain/*.php
  - ../../libraries/common/src/php/*Bundle/Domain/*/*.php
  - ../../libraries/common/src/php/*Bundle/Domain/*/*/*.php
+http:
+ - php/FrontendBundle/Controller/CartController.php

@@ -6,8 +6,10 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Frontastic\Common\AccountApiBundle\Domain\Address;
 use Frontastic\Common\CartApiBundle\Domain\Cart;
+use Frontastic\Common\CartApiBundle\Domain\Order;
 use Frontastic\Common\CartApiBundle\Domain\CartApi;
 use Frontastic\Common\CartApiBundle\Domain\LineItem;
+use Frontastic\Common\CartApiBundle\Domain\ShippingMethod;
 use Frontastic\Common\CoreBundle\Controller\CrudController;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\ProductApiBundle\Domain\Variant;
@@ -27,6 +29,18 @@ class CartController extends CrudController
      */
     private $cartFetcher;
 
+    /**
+     * Get the current cart
+     *
+     * @Docs\Request(
+     *  "GET",
+     *  "//show-demo.frontastic.io/api/cart/cart"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{cart: Cart, availableShippingMethods: ShippingMethod[]}"
+     * )
+     */
     public function getAction(Context $context, Request $request): array
     {
         $cart = $this->getCart($context, $request);
@@ -39,6 +53,21 @@ class CartController extends CrudController
         ];
     }
 
+    /**
+     * Get order by order ID
+     *
+     * The returned order is an extension of the cart, therefore all cart
+     * properties also exist.
+     *
+     * @Docs\Request(
+     *  "GET",
+     *  "//show-demo.frontastic.io/api/cart/order/{order}
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{order: Order}"
+     * )
+     */
     public function getOrderAction(Context $context, Request $request, string $order): array
     {
         $cartApi = $this->getCartApi($context);
@@ -51,6 +80,22 @@ class CartController extends CrudController
         ];
     }
 
+    /**
+     * Adds a single line item to th cart
+     *
+     * The line item has to be identified wither by its variant ID or its SKU.
+     * Optionally you can pass additional attributes with the line item.
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/cart/add",
+     *  "object{variant: object{id: ?string, sku: ?string, attributes: ?mixed}, count: ?int}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{cart: Cart, addedItems: string[], availableShippingMethods: ShippingMethod[]}"
+     * )
+     */
     public function addAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
@@ -96,6 +141,22 @@ class CartController extends CrudController
         ];
     }
 
+    /**
+     * Add multiple line items at once
+     *
+     * Each line item has to be identified wither by its variant ID or its SKU.
+     * Optionally you can pass additional attributes with each line item.
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/cart/addMultiple",
+     *  "object{lineItems: object{variant: object{id: ?string, sku: ?string, attributes: ?mixed}, count: ?int}[]}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{cart: Cart, addedItems: string[], availableShippingMethods: ShippingMethod[]}"
+     * )
+     */
     public function addMultipleAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
@@ -148,6 +209,19 @@ class CartController extends CrudController
         ];
     }
 
+    /**
+     * Change count for line item in cart
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/cart/lineItem",
+     *  "object{lineItemId: string, count: int}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{cart: Cart, availableShippingMethods: ShippingMethod[]}"
+     * )
+     */
     public function updateLineItemAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
@@ -176,6 +250,20 @@ class CartController extends CrudController
         ];
     }
 
+
+    /**
+     * Remove line item from cart
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/cart/lineItem/remove",
+     *  "object{lineItemId: string}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{cart: Cart, availableShippingMethods: ShippingMethod[]}"
+     * )
+     */
     public function removeLineItemAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
@@ -233,6 +321,19 @@ class CartController extends CrudController
         );
     }
 
+    /**
+     * Update cart properties
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/cart/update",
+     *  "object{account: ?object{email: string}, shipping: ?Address, billing: ?Address, shippingMethodName: ?string, custom:?mixed}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{cart: Cart, availableShippingMethods: ShippingMethod[]}"
+     * )
+     */
     public function updateAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
@@ -284,6 +385,18 @@ class CartController extends CrudController
         ];
     }
 
+    /**
+     * Convert a (complete) cart into an order
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/cart/checkout"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{order: Order}"
+     * )
+     */
     public function checkoutAction(Context $context, Request $request): array
     {
         $cartApi = $this->getCartApi($context);
@@ -308,6 +421,18 @@ class CartController extends CrudController
         ];
     }
 
+    /**
+     * Redeem a discount code
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/cart/discount/{code}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{cart: Cart, availableShippingMethods: ShippingMethod[]}"
+     * )
+     */
     public function redeemDiscountAction(Context $context, Request $request, string $code): array
     {
         $cartApi = $this->getCartApi($context);
@@ -321,6 +446,19 @@ class CartController extends CrudController
         ];
     }
 
+    /**
+     * Remove a discount code
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "//show-demo.frontastic.io/api/cart/cart/discount-remove",
+     *  "object{discountId: string}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{cart: Cart, availableShippingMethods: ShippingMethod[]}"
+     * )
+     */
     public function removeDiscountAction(Context $context, Request $request): array
     {
         $cartApi = $this->getCartApi($context);
@@ -338,6 +476,18 @@ class CartController extends CrudController
         ];
     }
 
+    /**
+     * Retrieve a list of all shipping methods
+     *
+     * @Docs\Request(
+     *  "GET",
+     *  "//show-demo.frontastic.io/api/cart/shipping-methods"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "object{shippingMethods: ShippingMethod[]}"
+     * )
+     */
     public function getShippingMethodsAction(Context $context, Request $request): array
     {
         return [

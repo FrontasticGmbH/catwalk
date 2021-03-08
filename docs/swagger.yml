@@ -2,4 +2,3210 @@ openapi: 3.0.0
 info:
   title: 'Frontastic Catwalk'
   version: 1.0.0
-paths: {  }
+paths:
+  //show-demo.frontastic.io/api/cart/cart:
+    get:
+      summary: 'Get the current cart'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'null'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  cart:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\CartApiBundle\Domain\Cart$
+                      cartId:
+                        type: string
+                      cartVersion:
+                        type: string
+                      lineItems:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\LineItem$
+                            lineItemId:
+                              type: string
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            count:
+                              type: integer
+                            price:
+                              type: integer
+                            discountedPrice:
+                              type: integer
+                              nullable: true
+                            discountTexts:
+                              type: array
+                              items: {  }
+                            discounts:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  _type:
+                                    type: string
+                                    pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                                  discountId:
+                                    type: string
+                                  code:
+                                    type: string
+                                  state:
+                                    type: string
+                                  name:
+                                    type: \Frontastic\Common\Translatable
+                                  description:
+                                    type: \Frontastic\Common\Translatable
+                                  discountedAmount:
+                                    type: integer
+                                    nullable: true
+                                  dangerousInnerDiscount: {  }
+                            totalPrice:
+                              type: integer
+                            currency:
+                              type: string
+                            isGift:
+                              type: boolean
+                            dangerousInnerItem: {  }
+                      email:
+                        type: string
+                      birthday:
+                        type: string
+                      shippingInfo:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingInfo$
+                          price:
+                            type: integer
+                          dangerousInnerShippingInfo:
+                            nullable: true
+                        nullable: true
+                      shippingMethod:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                          shippingMethodId:
+                            type: string
+                          name:
+                            type: string
+                          price:
+                            type: integer
+                          description:
+                            type: string
+                          rates:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                                zoneId:
+                                  type: string
+                                name:
+                                  type: string
+                                locations:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _type: { type: string, pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$ }
+                                      country: { type: string }
+                                      state: { type: string, nullable: true }
+                                      dangerousInnerShippingLocation: { nullable: true }
+                                  nullable: true
+                                currency:
+                                  type: string
+                                price:
+                                  type: integer
+                                dangerousInnerShippingRate:
+                                  nullable: true
+                            nullable: true
+                          dangerousInnerShippingMethod:
+                            nullable: true
+                        nullable: true
+                      shippingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      billingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      sum:
+                        type: integer
+                      currency:
+                        type: string
+                      payments:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Payment$
+                            id:
+                              type: string
+                            paymentProvider:
+                              type: string
+                            paymentId:
+                              type: string
+                            amount:
+                              type: integer
+                            currency:
+                              type: string
+                            debug:
+                              type: string
+                            paymentStatus:
+                              type: string
+                            version:
+                              type: integer
+                            paymentMethod:
+                              type: string
+                            paymentDetails:
+                              oneOf:
+                                -
+                                  type: array
+                                  items: {  }
+                                -
+                                  type: 'null'
+                      discountCodes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                            discountId:
+                              type: string
+                            code:
+                              type: string
+                            state:
+                              type: string
+                            name:
+                              type: \Frontastic\Common\Translatable
+                            description:
+                              type: \Frontastic\Common\Translatable
+                            discountedAmount:
+                              type: integer
+                              nullable: true
+                            dangerousInnerDiscount: {  }
+                      taxed:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\Tax$
+                          amount:
+                            type: integer
+                          currency:
+                            type: string
+                          taxPortions:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\TaxPortion$
+                                amount:
+                                  type: integer
+                                currency:
+                                  type: string
+                                name:
+                                  type: string
+                                rate:
+                                  type: number
+                        nullable: true
+                      dangerousInnerCart: {  }
+                  availableShippingMethods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                        shippingMethodId:
+                          type: string
+                        name:
+                          type: string
+                        price:
+                          type: integer
+                        description:
+                          type: string
+                        rates:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _type:
+                                type: string
+                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                              zoneId:
+                                type: string
+                              name:
+                                type: string
+                              locations:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    _type:
+                                      type: string
+                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
+                                    country:
+                                      type: string
+                                    state:
+                                      type: string
+                                      nullable: true
+                                    dangerousInnerShippingLocation:
+                                      nullable: true
+                                nullable: true
+                              currency:
+                                type: string
+                              price:
+                                type: integer
+                              dangerousInnerShippingRate:
+                                nullable: true
+                          nullable: true
+                        dangerousInnerShippingMethod:
+                          nullable: true
+  '//show-demo.frontastic.io/api/cart/order/{order}':
+    get:
+      summary: 'Get order by order ID'
+      description: "The returned order is an extension of the cart, therefore all cart\nproperties also exist."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'null'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  order:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\CartApiBundle\Domain\Order$
+                      orderId:
+                        type: string
+                      orderVersion:
+                        type: string
+                      orderState:
+                        type: string
+                      createdAt:
+                        type: string
+                      dangerousInnerOrder: {  }
+  //show-demo.frontastic.io/api/cart/cart/add:
+    post:
+      summary: 'Adds a single line item to th cart'
+      description: "The line item has to be identified wither by its variant ID or its SKU.\nOptionally you can pass additional attributes with the line item."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                variant:
+                  type: object
+                  properties:
+                    _type:
+                      type: string
+                      pattern: ^object$
+                    id:
+                      type: string
+                      nullable: true
+                    sku:
+                      type: string
+                      nullable: true
+                    attributes:
+                      nullable: true
+                count:
+                  type: integer
+                  nullable: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  cart:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\CartApiBundle\Domain\Cart$
+                      cartId:
+                        type: string
+                      cartVersion:
+                        type: string
+                      lineItems:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\LineItem$
+                            lineItemId:
+                              type: string
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            count:
+                              type: integer
+                            price:
+                              type: integer
+                            discountedPrice:
+                              type: integer
+                              nullable: true
+                            discountTexts:
+                              type: array
+                              items: {  }
+                            discounts:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  _type:
+                                    type: string
+                                    pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                                  discountId:
+                                    type: string
+                                  code:
+                                    type: string
+                                  state:
+                                    type: string
+                                  name:
+                                    type: \Frontastic\Common\Translatable
+                                  description:
+                                    type: \Frontastic\Common\Translatable
+                                  discountedAmount:
+                                    type: integer
+                                    nullable: true
+                                  dangerousInnerDiscount: {  }
+                            totalPrice:
+                              type: integer
+                            currency:
+                              type: string
+                            isGift:
+                              type: boolean
+                            dangerousInnerItem: {  }
+                      email:
+                        type: string
+                      birthday:
+                        type: string
+                      shippingInfo:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingInfo$
+                          price:
+                            type: integer
+                          dangerousInnerShippingInfo:
+                            nullable: true
+                        nullable: true
+                      shippingMethod:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                          shippingMethodId:
+                            type: string
+                          name:
+                            type: string
+                          price:
+                            type: integer
+                          description:
+                            type: string
+                          rates:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                                zoneId:
+                                  type: string
+                                name:
+                                  type: string
+                                locations:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _type: { type: string, pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$ }
+                                      country: { type: string }
+                                      state: { type: string, nullable: true }
+                                      dangerousInnerShippingLocation: { nullable: true }
+                                  nullable: true
+                                currency:
+                                  type: string
+                                price:
+                                  type: integer
+                                dangerousInnerShippingRate:
+                                  nullable: true
+                            nullable: true
+                          dangerousInnerShippingMethod:
+                            nullable: true
+                        nullable: true
+                      shippingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      billingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      sum:
+                        type: integer
+                      currency:
+                        type: string
+                      payments:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Payment$
+                            id:
+                              type: string
+                            paymentProvider:
+                              type: string
+                            paymentId:
+                              type: string
+                            amount:
+                              type: integer
+                            currency:
+                              type: string
+                            debug:
+                              type: string
+                            paymentStatus:
+                              type: string
+                            version:
+                              type: integer
+                            paymentMethod:
+                              type: string
+                            paymentDetails:
+                              oneOf:
+                                -
+                                  type: array
+                                  items: {  }
+                                -
+                                  type: 'null'
+                      discountCodes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                            discountId:
+                              type: string
+                            code:
+                              type: string
+                            state:
+                              type: string
+                            name:
+                              type: \Frontastic\Common\Translatable
+                            description:
+                              type: \Frontastic\Common\Translatable
+                            discountedAmount:
+                              type: integer
+                              nullable: true
+                            dangerousInnerDiscount: {  }
+                      taxed:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\Tax$
+                          amount:
+                            type: integer
+                          currency:
+                            type: string
+                          taxPortions:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\TaxPortion$
+                                amount:
+                                  type: integer
+                                currency:
+                                  type: string
+                                name:
+                                  type: string
+                                rate:
+                                  type: number
+                        nullable: true
+                      dangerousInnerCart: {  }
+                  addedItems:
+                    type: array
+                    items:
+                      type: string
+                  availableShippingMethods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                        shippingMethodId:
+                          type: string
+                        name:
+                          type: string
+                        price:
+                          type: integer
+                        description:
+                          type: string
+                        rates:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _type:
+                                type: string
+                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                              zoneId:
+                                type: string
+                              name:
+                                type: string
+                              locations:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    _type:
+                                      type: string
+                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
+                                    country:
+                                      type: string
+                                    state:
+                                      type: string
+                                      nullable: true
+                                    dangerousInnerShippingLocation:
+                                      nullable: true
+                                nullable: true
+                              currency:
+                                type: string
+                              price:
+                                type: integer
+                              dangerousInnerShippingRate:
+                                nullable: true
+                          nullable: true
+                        dangerousInnerShippingMethod:
+                          nullable: true
+  //show-demo.frontastic.io/api/cart/cart/addMultiple:
+    post:
+      summary: 'Add multiple line items at once'
+      description: "Each line item has to be identified wither by its variant ID or its SKU.\nOptionally you can pass additional attributes with each line item."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                lineItems:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^object$
+                      variant:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^object$
+                          id:
+                            type: string
+                            nullable: true
+                          sku:
+                            type: string
+                            nullable: true
+                          attributes:
+                            nullable: true
+                      count:
+                        type: integer
+                        nullable: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  cart:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\CartApiBundle\Domain\Cart$
+                      cartId:
+                        type: string
+                      cartVersion:
+                        type: string
+                      lineItems:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\LineItem$
+                            lineItemId:
+                              type: string
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            count:
+                              type: integer
+                            price:
+                              type: integer
+                            discountedPrice:
+                              type: integer
+                              nullable: true
+                            discountTexts:
+                              type: array
+                              items: {  }
+                            discounts:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  _type:
+                                    type: string
+                                    pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                                  discountId:
+                                    type: string
+                                  code:
+                                    type: string
+                                  state:
+                                    type: string
+                                  name:
+                                    type: \Frontastic\Common\Translatable
+                                  description:
+                                    type: \Frontastic\Common\Translatable
+                                  discountedAmount:
+                                    type: integer
+                                    nullable: true
+                                  dangerousInnerDiscount: {  }
+                            totalPrice:
+                              type: integer
+                            currency:
+                              type: string
+                            isGift:
+                              type: boolean
+                            dangerousInnerItem: {  }
+                      email:
+                        type: string
+                      birthday:
+                        type: string
+                      shippingInfo:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingInfo$
+                          price:
+                            type: integer
+                          dangerousInnerShippingInfo:
+                            nullable: true
+                        nullable: true
+                      shippingMethod:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                          shippingMethodId:
+                            type: string
+                          name:
+                            type: string
+                          price:
+                            type: integer
+                          description:
+                            type: string
+                          rates:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                                zoneId:
+                                  type: string
+                                name:
+                                  type: string
+                                locations:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _type: { type: string, pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$ }
+                                      country: { type: string }
+                                      state: { type: string, nullable: true }
+                                      dangerousInnerShippingLocation: { nullable: true }
+                                  nullable: true
+                                currency:
+                                  type: string
+                                price:
+                                  type: integer
+                                dangerousInnerShippingRate:
+                                  nullable: true
+                            nullable: true
+                          dangerousInnerShippingMethod:
+                            nullable: true
+                        nullable: true
+                      shippingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      billingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      sum:
+                        type: integer
+                      currency:
+                        type: string
+                      payments:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Payment$
+                            id:
+                              type: string
+                            paymentProvider:
+                              type: string
+                            paymentId:
+                              type: string
+                            amount:
+                              type: integer
+                            currency:
+                              type: string
+                            debug:
+                              type: string
+                            paymentStatus:
+                              type: string
+                            version:
+                              type: integer
+                            paymentMethod:
+                              type: string
+                            paymentDetails:
+                              oneOf:
+                                -
+                                  type: array
+                                  items: {  }
+                                -
+                                  type: 'null'
+                      discountCodes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                            discountId:
+                              type: string
+                            code:
+                              type: string
+                            state:
+                              type: string
+                            name:
+                              type: \Frontastic\Common\Translatable
+                            description:
+                              type: \Frontastic\Common\Translatable
+                            discountedAmount:
+                              type: integer
+                              nullable: true
+                            dangerousInnerDiscount: {  }
+                      taxed:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\Tax$
+                          amount:
+                            type: integer
+                          currency:
+                            type: string
+                          taxPortions:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\TaxPortion$
+                                amount:
+                                  type: integer
+                                currency:
+                                  type: string
+                                name:
+                                  type: string
+                                rate:
+                                  type: number
+                        nullable: true
+                      dangerousInnerCart: {  }
+                  addedItems:
+                    type: array
+                    items:
+                      type: string
+                  availableShippingMethods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                        shippingMethodId:
+                          type: string
+                        name:
+                          type: string
+                        price:
+                          type: integer
+                        description:
+                          type: string
+                        rates:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _type:
+                                type: string
+                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                              zoneId:
+                                type: string
+                              name:
+                                type: string
+                              locations:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    _type:
+                                      type: string
+                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
+                                    country:
+                                      type: string
+                                    state:
+                                      type: string
+                                      nullable: true
+                                    dangerousInnerShippingLocation:
+                                      nullable: true
+                                nullable: true
+                              currency:
+                                type: string
+                              price:
+                                type: integer
+                              dangerousInnerShippingRate:
+                                nullable: true
+                          nullable: true
+                        dangerousInnerShippingMethod:
+                          nullable: true
+  //show-demo.frontastic.io/api/cart/cart/lineItem:
+    post:
+      summary: 'Change count for line item in cart'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                lineItemId:
+                  type: string
+                count:
+                  type: integer
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  cart:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\CartApiBundle\Domain\Cart$
+                      cartId:
+                        type: string
+                      cartVersion:
+                        type: string
+                      lineItems:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\LineItem$
+                            lineItemId:
+                              type: string
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            count:
+                              type: integer
+                            price:
+                              type: integer
+                            discountedPrice:
+                              type: integer
+                              nullable: true
+                            discountTexts:
+                              type: array
+                              items: {  }
+                            discounts:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  _type:
+                                    type: string
+                                    pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                                  discountId:
+                                    type: string
+                                  code:
+                                    type: string
+                                  state:
+                                    type: string
+                                  name:
+                                    type: \Frontastic\Common\Translatable
+                                  description:
+                                    type: \Frontastic\Common\Translatable
+                                  discountedAmount:
+                                    type: integer
+                                    nullable: true
+                                  dangerousInnerDiscount: {  }
+                            totalPrice:
+                              type: integer
+                            currency:
+                              type: string
+                            isGift:
+                              type: boolean
+                            dangerousInnerItem: {  }
+                      email:
+                        type: string
+                      birthday:
+                        type: string
+                      shippingInfo:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingInfo$
+                          price:
+                            type: integer
+                          dangerousInnerShippingInfo:
+                            nullable: true
+                        nullable: true
+                      shippingMethod:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                          shippingMethodId:
+                            type: string
+                          name:
+                            type: string
+                          price:
+                            type: integer
+                          description:
+                            type: string
+                          rates:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                                zoneId:
+                                  type: string
+                                name:
+                                  type: string
+                                locations:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _type: { type: string, pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$ }
+                                      country: { type: string }
+                                      state: { type: string, nullable: true }
+                                      dangerousInnerShippingLocation: { nullable: true }
+                                  nullable: true
+                                currency:
+                                  type: string
+                                price:
+                                  type: integer
+                                dangerousInnerShippingRate:
+                                  nullable: true
+                            nullable: true
+                          dangerousInnerShippingMethod:
+                            nullable: true
+                        nullable: true
+                      shippingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      billingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      sum:
+                        type: integer
+                      currency:
+                        type: string
+                      payments:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Payment$
+                            id:
+                              type: string
+                            paymentProvider:
+                              type: string
+                            paymentId:
+                              type: string
+                            amount:
+                              type: integer
+                            currency:
+                              type: string
+                            debug:
+                              type: string
+                            paymentStatus:
+                              type: string
+                            version:
+                              type: integer
+                            paymentMethod:
+                              type: string
+                            paymentDetails:
+                              oneOf:
+                                -
+                                  type: array
+                                  items: {  }
+                                -
+                                  type: 'null'
+                      discountCodes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                            discountId:
+                              type: string
+                            code:
+                              type: string
+                            state:
+                              type: string
+                            name:
+                              type: \Frontastic\Common\Translatable
+                            description:
+                              type: \Frontastic\Common\Translatable
+                            discountedAmount:
+                              type: integer
+                              nullable: true
+                            dangerousInnerDiscount: {  }
+                      taxed:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\Tax$
+                          amount:
+                            type: integer
+                          currency:
+                            type: string
+                          taxPortions:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\TaxPortion$
+                                amount:
+                                  type: integer
+                                currency:
+                                  type: string
+                                name:
+                                  type: string
+                                rate:
+                                  type: number
+                        nullable: true
+                      dangerousInnerCart: {  }
+                  availableShippingMethods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                        shippingMethodId:
+                          type: string
+                        name:
+                          type: string
+                        price:
+                          type: integer
+                        description:
+                          type: string
+                        rates:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _type:
+                                type: string
+                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                              zoneId:
+                                type: string
+                              name:
+                                type: string
+                              locations:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    _type:
+                                      type: string
+                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
+                                    country:
+                                      type: string
+                                    state:
+                                      type: string
+                                      nullable: true
+                                    dangerousInnerShippingLocation:
+                                      nullable: true
+                                nullable: true
+                              currency:
+                                type: string
+                              price:
+                                type: integer
+                              dangerousInnerShippingRate:
+                                nullable: true
+                          nullable: true
+                        dangerousInnerShippingMethod:
+                          nullable: true
+  //show-demo.frontastic.io/api/cart/cart/lineItem/remove:
+    post:
+      summary: 'Remove line item from cart'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                lineItemId:
+                  type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  cart:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\CartApiBundle\Domain\Cart$
+                      cartId:
+                        type: string
+                      cartVersion:
+                        type: string
+                      lineItems:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\LineItem$
+                            lineItemId:
+                              type: string
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            count:
+                              type: integer
+                            price:
+                              type: integer
+                            discountedPrice:
+                              type: integer
+                              nullable: true
+                            discountTexts:
+                              type: array
+                              items: {  }
+                            discounts:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  _type:
+                                    type: string
+                                    pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                                  discountId:
+                                    type: string
+                                  code:
+                                    type: string
+                                  state:
+                                    type: string
+                                  name:
+                                    type: \Frontastic\Common\Translatable
+                                  description:
+                                    type: \Frontastic\Common\Translatable
+                                  discountedAmount:
+                                    type: integer
+                                    nullable: true
+                                  dangerousInnerDiscount: {  }
+                            totalPrice:
+                              type: integer
+                            currency:
+                              type: string
+                            isGift:
+                              type: boolean
+                            dangerousInnerItem: {  }
+                      email:
+                        type: string
+                      birthday:
+                        type: string
+                      shippingInfo:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingInfo$
+                          price:
+                            type: integer
+                          dangerousInnerShippingInfo:
+                            nullable: true
+                        nullable: true
+                      shippingMethod:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                          shippingMethodId:
+                            type: string
+                          name:
+                            type: string
+                          price:
+                            type: integer
+                          description:
+                            type: string
+                          rates:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                                zoneId:
+                                  type: string
+                                name:
+                                  type: string
+                                locations:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _type: { type: string, pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$ }
+                                      country: { type: string }
+                                      state: { type: string, nullable: true }
+                                      dangerousInnerShippingLocation: { nullable: true }
+                                  nullable: true
+                                currency:
+                                  type: string
+                                price:
+                                  type: integer
+                                dangerousInnerShippingRate:
+                                  nullable: true
+                            nullable: true
+                          dangerousInnerShippingMethod:
+                            nullable: true
+                        nullable: true
+                      shippingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      billingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      sum:
+                        type: integer
+                      currency:
+                        type: string
+                      payments:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Payment$
+                            id:
+                              type: string
+                            paymentProvider:
+                              type: string
+                            paymentId:
+                              type: string
+                            amount:
+                              type: integer
+                            currency:
+                              type: string
+                            debug:
+                              type: string
+                            paymentStatus:
+                              type: string
+                            version:
+                              type: integer
+                            paymentMethod:
+                              type: string
+                            paymentDetails:
+                              oneOf:
+                                -
+                                  type: array
+                                  items: {  }
+                                -
+                                  type: 'null'
+                      discountCodes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                            discountId:
+                              type: string
+                            code:
+                              type: string
+                            state:
+                              type: string
+                            name:
+                              type: \Frontastic\Common\Translatable
+                            description:
+                              type: \Frontastic\Common\Translatable
+                            discountedAmount:
+                              type: integer
+                              nullable: true
+                            dangerousInnerDiscount: {  }
+                      taxed:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\Tax$
+                          amount:
+                            type: integer
+                          currency:
+                            type: string
+                          taxPortions:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\TaxPortion$
+                                amount:
+                                  type: integer
+                                currency:
+                                  type: string
+                                name:
+                                  type: string
+                                rate:
+                                  type: number
+                        nullable: true
+                      dangerousInnerCart: {  }
+                  availableShippingMethods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                        shippingMethodId:
+                          type: string
+                        name:
+                          type: string
+                        price:
+                          type: integer
+                        description:
+                          type: string
+                        rates:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _type:
+                                type: string
+                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                              zoneId:
+                                type: string
+                              name:
+                                type: string
+                              locations:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    _type:
+                                      type: string
+                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
+                                    country:
+                                      type: string
+                                    state:
+                                      type: string
+                                      nullable: true
+                                    dangerousInnerShippingLocation:
+                                      nullable: true
+                                nullable: true
+                              currency:
+                                type: string
+                              price:
+                                type: integer
+                              dangerousInnerShippingRate:
+                                nullable: true
+                          nullable: true
+                        dangerousInnerShippingMethod:
+                          nullable: true
+  //show-demo.frontastic.io/api/cart/cart/update:
+    post:
+      summary: 'Update cart properties'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                account:
+                  type: object
+                  properties:
+                    _type:
+                      type: string
+                      pattern: ^object$
+                    email:
+                      type: string
+                  nullable: true
+                shipping:
+                  type: object
+                  properties:
+                    _type:
+                      type: string
+                      pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                    addressId:
+                      type: string
+                    salutation:
+                      type: string
+                    firstName:
+                      type: string
+                    lastName:
+                      type: string
+                    streetName:
+                      type: string
+                    streetNumber:
+                      type: string
+                    additionalStreetInfo:
+                      type: string
+                    additionalAddressInfo:
+                      type: string
+                    postalCode:
+                      type: string
+                    city:
+                      type: string
+                    country:
+                      type: string
+                    state:
+                      type: string
+                    phone:
+                      type: string
+                    isDefaultBillingAddress:
+                      type: boolean
+                    isDefaultShippingAddress:
+                      type: boolean
+                    dangerousInnerAddress: {  }
+                  nullable: true
+                billing:
+                  type: object
+                  properties:
+                    _type:
+                      type: string
+                      pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                    addressId:
+                      type: string
+                    salutation:
+                      type: string
+                    firstName:
+                      type: string
+                    lastName:
+                      type: string
+                    streetName:
+                      type: string
+                    streetNumber:
+                      type: string
+                    additionalStreetInfo:
+                      type: string
+                    additionalAddressInfo:
+                      type: string
+                    postalCode:
+                      type: string
+                    city:
+                      type: string
+                    country:
+                      type: string
+                    state:
+                      type: string
+                    phone:
+                      type: string
+                    isDefaultBillingAddress:
+                      type: boolean
+                    isDefaultShippingAddress:
+                      type: boolean
+                    dangerousInnerAddress: {  }
+                  nullable: true
+                shippingMethodName:
+                  type: string
+                  nullable: true
+                custom:
+                  nullable: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  cart:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\CartApiBundle\Domain\Cart$
+                      cartId:
+                        type: string
+                      cartVersion:
+                        type: string
+                      lineItems:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\LineItem$
+                            lineItemId:
+                              type: string
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            count:
+                              type: integer
+                            price:
+                              type: integer
+                            discountedPrice:
+                              type: integer
+                              nullable: true
+                            discountTexts:
+                              type: array
+                              items: {  }
+                            discounts:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  _type:
+                                    type: string
+                                    pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                                  discountId:
+                                    type: string
+                                  code:
+                                    type: string
+                                  state:
+                                    type: string
+                                  name:
+                                    type: \Frontastic\Common\Translatable
+                                  description:
+                                    type: \Frontastic\Common\Translatable
+                                  discountedAmount:
+                                    type: integer
+                                    nullable: true
+                                  dangerousInnerDiscount: {  }
+                            totalPrice:
+                              type: integer
+                            currency:
+                              type: string
+                            isGift:
+                              type: boolean
+                            dangerousInnerItem: {  }
+                      email:
+                        type: string
+                      birthday:
+                        type: string
+                      shippingInfo:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingInfo$
+                          price:
+                            type: integer
+                          dangerousInnerShippingInfo:
+                            nullable: true
+                        nullable: true
+                      shippingMethod:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                          shippingMethodId:
+                            type: string
+                          name:
+                            type: string
+                          price:
+                            type: integer
+                          description:
+                            type: string
+                          rates:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                                zoneId:
+                                  type: string
+                                name:
+                                  type: string
+                                locations:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _type: { type: string, pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$ }
+                                      country: { type: string }
+                                      state: { type: string, nullable: true }
+                                      dangerousInnerShippingLocation: { nullable: true }
+                                  nullable: true
+                                currency:
+                                  type: string
+                                price:
+                                  type: integer
+                                dangerousInnerShippingRate:
+                                  nullable: true
+                            nullable: true
+                          dangerousInnerShippingMethod:
+                            nullable: true
+                        nullable: true
+                      shippingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      billingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      sum:
+                        type: integer
+                      currency:
+                        type: string
+                      payments:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Payment$
+                            id:
+                              type: string
+                            paymentProvider:
+                              type: string
+                            paymentId:
+                              type: string
+                            amount:
+                              type: integer
+                            currency:
+                              type: string
+                            debug:
+                              type: string
+                            paymentStatus:
+                              type: string
+                            version:
+                              type: integer
+                            paymentMethod:
+                              type: string
+                            paymentDetails:
+                              oneOf:
+                                -
+                                  type: array
+                                  items: {  }
+                                -
+                                  type: 'null'
+                      discountCodes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                            discountId:
+                              type: string
+                            code:
+                              type: string
+                            state:
+                              type: string
+                            name:
+                              type: \Frontastic\Common\Translatable
+                            description:
+                              type: \Frontastic\Common\Translatable
+                            discountedAmount:
+                              type: integer
+                              nullable: true
+                            dangerousInnerDiscount: {  }
+                      taxed:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\Tax$
+                          amount:
+                            type: integer
+                          currency:
+                            type: string
+                          taxPortions:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\TaxPortion$
+                                amount:
+                                  type: integer
+                                currency:
+                                  type: string
+                                name:
+                                  type: string
+                                rate:
+                                  type: number
+                        nullable: true
+                      dangerousInnerCart: {  }
+                  availableShippingMethods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                        shippingMethodId:
+                          type: string
+                        name:
+                          type: string
+                        price:
+                          type: integer
+                        description:
+                          type: string
+                        rates:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _type:
+                                type: string
+                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                              zoneId:
+                                type: string
+                              name:
+                                type: string
+                              locations:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    _type:
+                                      type: string
+                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
+                                    country:
+                                      type: string
+                                    state:
+                                      type: string
+                                      nullable: true
+                                    dangerousInnerShippingLocation:
+                                      nullable: true
+                                nullable: true
+                              currency:
+                                type: string
+                              price:
+                                type: integer
+                              dangerousInnerShippingRate:
+                                nullable: true
+                          nullable: true
+                        dangerousInnerShippingMethod:
+                          nullable: true
+  //show-demo.frontastic.io/api/cart/cart/checkout:
+    post:
+      summary: 'Convert a (complete) cart into an order'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'null'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  order:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\CartApiBundle\Domain\Order$
+                      orderId:
+                        type: string
+                      orderVersion:
+                        type: string
+                      orderState:
+                        type: string
+                      createdAt:
+                        type: string
+                      dangerousInnerOrder: {  }
+  '//show-demo.frontastic.io/api/cart/cart/discount/{code}':
+    post:
+      summary: 'Redeem a discount code'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'null'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  cart:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\CartApiBundle\Domain\Cart$
+                      cartId:
+                        type: string
+                      cartVersion:
+                        type: string
+                      lineItems:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\LineItem$
+                            lineItemId:
+                              type: string
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            count:
+                              type: integer
+                            price:
+                              type: integer
+                            discountedPrice:
+                              type: integer
+                              nullable: true
+                            discountTexts:
+                              type: array
+                              items: {  }
+                            discounts:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  _type:
+                                    type: string
+                                    pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                                  discountId:
+                                    type: string
+                                  code:
+                                    type: string
+                                  state:
+                                    type: string
+                                  name:
+                                    type: \Frontastic\Common\Translatable
+                                  description:
+                                    type: \Frontastic\Common\Translatable
+                                  discountedAmount:
+                                    type: integer
+                                    nullable: true
+                                  dangerousInnerDiscount: {  }
+                            totalPrice:
+                              type: integer
+                            currency:
+                              type: string
+                            isGift:
+                              type: boolean
+                            dangerousInnerItem: {  }
+                      email:
+                        type: string
+                      birthday:
+                        type: string
+                      shippingInfo:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingInfo$
+                          price:
+                            type: integer
+                          dangerousInnerShippingInfo:
+                            nullable: true
+                        nullable: true
+                      shippingMethod:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                          shippingMethodId:
+                            type: string
+                          name:
+                            type: string
+                          price:
+                            type: integer
+                          description:
+                            type: string
+                          rates:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                                zoneId:
+                                  type: string
+                                name:
+                                  type: string
+                                locations:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _type: { type: string, pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$ }
+                                      country: { type: string }
+                                      state: { type: string, nullable: true }
+                                      dangerousInnerShippingLocation: { nullable: true }
+                                  nullable: true
+                                currency:
+                                  type: string
+                                price:
+                                  type: integer
+                                dangerousInnerShippingRate:
+                                  nullable: true
+                            nullable: true
+                          dangerousInnerShippingMethod:
+                            nullable: true
+                        nullable: true
+                      shippingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      billingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      sum:
+                        type: integer
+                      currency:
+                        type: string
+                      payments:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Payment$
+                            id:
+                              type: string
+                            paymentProvider:
+                              type: string
+                            paymentId:
+                              type: string
+                            amount:
+                              type: integer
+                            currency:
+                              type: string
+                            debug:
+                              type: string
+                            paymentStatus:
+                              type: string
+                            version:
+                              type: integer
+                            paymentMethod:
+                              type: string
+                            paymentDetails:
+                              oneOf:
+                                -
+                                  type: array
+                                  items: {  }
+                                -
+                                  type: 'null'
+                      discountCodes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                            discountId:
+                              type: string
+                            code:
+                              type: string
+                            state:
+                              type: string
+                            name:
+                              type: \Frontastic\Common\Translatable
+                            description:
+                              type: \Frontastic\Common\Translatable
+                            discountedAmount:
+                              type: integer
+                              nullable: true
+                            dangerousInnerDiscount: {  }
+                      taxed:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\Tax$
+                          amount:
+                            type: integer
+                          currency:
+                            type: string
+                          taxPortions:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\TaxPortion$
+                                amount:
+                                  type: integer
+                                currency:
+                                  type: string
+                                name:
+                                  type: string
+                                rate:
+                                  type: number
+                        nullable: true
+                      dangerousInnerCart: {  }
+                  availableShippingMethods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                        shippingMethodId:
+                          type: string
+                        name:
+                          type: string
+                        price:
+                          type: integer
+                        description:
+                          type: string
+                        rates:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _type:
+                                type: string
+                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                              zoneId:
+                                type: string
+                              name:
+                                type: string
+                              locations:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    _type:
+                                      type: string
+                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
+                                    country:
+                                      type: string
+                                    state:
+                                      type: string
+                                      nullable: true
+                                    dangerousInnerShippingLocation:
+                                      nullable: true
+                                nullable: true
+                              currency:
+                                type: string
+                              price:
+                                type: integer
+                              dangerousInnerShippingRate:
+                                nullable: true
+                          nullable: true
+                        dangerousInnerShippingMethod:
+                          nullable: true
+  //show-demo.frontastic.io/api/cart/cart/discount-remove:
+    post:
+      summary: 'Remove a discount code'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                discountId:
+                  type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  cart:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\CartApiBundle\Domain\Cart$
+                      cartId:
+                        type: string
+                      cartVersion:
+                        type: string
+                      lineItems:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\LineItem$
+                            lineItemId:
+                              type: string
+                            name:
+                              type: string
+                            type:
+                              type: string
+                            count:
+                              type: integer
+                            price:
+                              type: integer
+                            discountedPrice:
+                              type: integer
+                              nullable: true
+                            discountTexts:
+                              type: array
+                              items: {  }
+                            discounts:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  _type:
+                                    type: string
+                                    pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                                  discountId:
+                                    type: string
+                                  code:
+                                    type: string
+                                  state:
+                                    type: string
+                                  name:
+                                    type: \Frontastic\Common\Translatable
+                                  description:
+                                    type: \Frontastic\Common\Translatable
+                                  discountedAmount:
+                                    type: integer
+                                    nullable: true
+                                  dangerousInnerDiscount: {  }
+                            totalPrice:
+                              type: integer
+                            currency:
+                              type: string
+                            isGift:
+                              type: boolean
+                            dangerousInnerItem: {  }
+                      email:
+                        type: string
+                      birthday:
+                        type: string
+                      shippingInfo:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingInfo$
+                          price:
+                            type: integer
+                          dangerousInnerShippingInfo:
+                            nullable: true
+                        nullable: true
+                      shippingMethod:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                          shippingMethodId:
+                            type: string
+                          name:
+                            type: string
+                          price:
+                            type: integer
+                          description:
+                            type: string
+                          rates:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                                zoneId:
+                                  type: string
+                                name:
+                                  type: string
+                                locations:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _type: { type: string, pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$ }
+                                      country: { type: string }
+                                      state: { type: string, nullable: true }
+                                      dangerousInnerShippingLocation: { nullable: true }
+                                  nullable: true
+                                currency:
+                                  type: string
+                                price:
+                                  type: integer
+                                dangerousInnerShippingRate:
+                                  nullable: true
+                            nullable: true
+                          dangerousInnerShippingMethod:
+                            nullable: true
+                        nullable: true
+                      shippingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      billingAddress:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                          addressId:
+                            type: string
+                          salutation:
+                            type: string
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          streetName:
+                            type: string
+                          streetNumber:
+                            type: string
+                          additionalStreetInfo:
+                            type: string
+                          additionalAddressInfo:
+                            type: string
+                          postalCode:
+                            type: string
+                          city:
+                            type: string
+                          country:
+                            type: string
+                          state:
+                            type: string
+                          phone:
+                            type: string
+                          isDefaultBillingAddress:
+                            type: boolean
+                          isDefaultShippingAddress:
+                            type: boolean
+                          dangerousInnerAddress: {  }
+                        nullable: true
+                      sum:
+                        type: integer
+                      currency:
+                        type: string
+                      payments:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Payment$
+                            id:
+                              type: string
+                            paymentProvider:
+                              type: string
+                            paymentId:
+                              type: string
+                            amount:
+                              type: integer
+                            currency:
+                              type: string
+                            debug:
+                              type: string
+                            paymentStatus:
+                              type: string
+                            version:
+                              type: integer
+                            paymentMethod:
+                              type: string
+                            paymentDetails:
+                              oneOf:
+                                -
+                                  type: array
+                                  items: {  }
+                                -
+                                  type: 'null'
+                      discountCodes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _type:
+                              type: string
+                              pattern: ^\Frontastic\Common\CartApiBundle\Domain\Discount$
+                            discountId:
+                              type: string
+                            code:
+                              type: string
+                            state:
+                              type: string
+                            name:
+                              type: \Frontastic\Common\Translatable
+                            description:
+                              type: \Frontastic\Common\Translatable
+                            discountedAmount:
+                              type: integer
+                              nullable: true
+                            dangerousInnerDiscount: {  }
+                      taxed:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                            pattern: ^\Frontastic\Common\CartApiBundle\Domain\Tax$
+                          amount:
+                            type: integer
+                          currency:
+                            type: string
+                          taxPortions:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                  pattern: ^\Frontastic\Common\CartApiBundle\Domain\TaxPortion$
+                                amount:
+                                  type: integer
+                                currency:
+                                  type: string
+                                name:
+                                  type: string
+                                rate:
+                                  type: number
+                        nullable: true
+                      dangerousInnerCart: {  }
+                  availableShippingMethods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                        shippingMethodId:
+                          type: string
+                        name:
+                          type: string
+                        price:
+                          type: integer
+                        description:
+                          type: string
+                        rates:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _type:
+                                type: string
+                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                              zoneId:
+                                type: string
+                              name:
+                                type: string
+                              locations:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    _type:
+                                      type: string
+                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
+                                    country:
+                                      type: string
+                                    state:
+                                      type: string
+                                      nullable: true
+                                    dangerousInnerShippingLocation:
+                                      nullable: true
+                                nullable: true
+                              currency:
+                                type: string
+                              price:
+                                type: integer
+                              dangerousInnerShippingRate:
+                                nullable: true
+                          nullable: true
+                        dangerousInnerShippingMethod:
+                          nullable: true
+  //show-demo.frontastic.io/api/cart/shipping-methods:
+    get:
+      summary: 'Retrieve a list of all shipping methods'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'null'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^object$
+                  shippingMethods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
+                        shippingMethodId:
+                          type: string
+                        name:
+                          type: string
+                        price:
+                          type: integer
+                        description:
+                          type: string
+                        rates:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _type:
+                                type: string
+                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
+                              zoneId:
+                                type: string
+                              name:
+                                type: string
+                              locations:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    _type:
+                                      type: string
+                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
+                                    country:
+                                      type: string
+                                    state:
+                                      type: string
+                                      nullable: true
+                                    dangerousInnerShippingLocation:
+                                      nullable: true
+                                nullable: true
+                              currency:
+                                type: string
+                              price:
+                                type: integer
+                              dangerousInnerShippingRate:
+                                nullable: true
+                          nullable: true
+                        dangerousInnerShippingMethod:
+                          nullable: true
