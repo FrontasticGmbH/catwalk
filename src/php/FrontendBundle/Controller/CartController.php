@@ -327,7 +327,12 @@ class CartController extends CrudController
      * @Docs\Request(
      *  "POST",
      *  "//show-demo.frontastic.io/api/cart/cart/update",
-     *  "object{account: ?object{email: string}, shipping: ?Address, billing: ?Address, shippingMethodName: ?string, custom:?mixed}"
+     *  "object{
+     *      account: ?object{email: string},
+     *      shipping: ?Address,
+     *      billing: ?Address,
+     *      shippingMethodName: ?string, custom:?mixed
+     *  }"
      * )
      * @Docs\Response(
      *  "200",
