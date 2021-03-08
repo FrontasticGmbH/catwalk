@@ -39,7 +39,7 @@ class WishlistController extends CrudController
      *
      * @Docs\Request(
      *  "GET",
-     *  "//show-demo.frontastic.io/api/cart/wishlist"
+     *  "/api/cart/wishlist"
      * )
      * @Docs\Response(
      *  "200",
@@ -58,7 +58,7 @@ class WishlistController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/wishlist/addMultiple",
+     *  "/api/cart/wishlist/addMultiple",
      *  "object{variant: object{sku: ?string}, count: ?int}"
      * )
      * @Docs\Response(
@@ -91,7 +91,7 @@ class WishlistController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/wishlist/addMultiple",
+     *  "/api/cart/wishlist/addMultiple",
      *  "object{lineItems: object{variant: object{sku: ?string}, count: ?int}[]}"
      * )
      * @Docs\Response(
@@ -133,7 +133,7 @@ class WishlistController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/wishlist/create",
+     *  "/api/cart/wishlist/create",
      *  "object{name: string}"
      * )
      * @Docs\Response(
@@ -161,7 +161,7 @@ class WishlistController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/wishlist/lineItem",
+     *  "/api/cart/wishlist/lineItem",
      *  "object{lineItemId: string, count: int}"
      * )
      * @Docs\Response(
@@ -192,7 +192,7 @@ class WishlistController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/wishlist/lineItem/remove",
+     *  "/api/cart/wishlist/lineItem/remove",
      *  "object{lineItemId: string}"
      * )
      * @Docs\Response(

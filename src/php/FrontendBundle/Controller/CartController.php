@@ -34,7 +34,7 @@ class CartController extends CrudController
      *
      * @Docs\Request(
      *  "GET",
-     *  "//show-demo.frontastic.io/api/cart/cart"
+     *  "/api/cart/cart"
      * )
      * @Docs\Response(
      *  "200",
@@ -61,7 +61,7 @@ class CartController extends CrudController
      *
      * @Docs\Request(
      *  "GET",
-     *  "//show-demo.frontastic.io/api/cart/order/{order}
+     *  "/api/cart/order/{order}
      * )
      * @Docs\Response(
      *  "200",
@@ -88,7 +88,7 @@ class CartController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/cart/add",
+     *  "/api/cart/cart/add",
      *  "object{variant: object{id: ?string, sku: ?string, attributes: ?mixed}, count: ?int}"
      * )
      * @Docs\Response(
@@ -149,7 +149,7 @@ class CartController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/cart/addMultiple",
+     *  "/api/cart/cart/addMultiple",
      *  "object{lineItems: object{variant: object{id: ?string, sku: ?string, attributes: ?mixed}, count: ?int}[]}"
      * )
      * @Docs\Response(
@@ -214,7 +214,7 @@ class CartController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/cart/lineItem",
+     *  "/api/cart/cart/lineItem",
      *  "object{lineItemId: string, count: int}"
      * )
      * @Docs\Response(
@@ -256,7 +256,7 @@ class CartController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/cart/lineItem/remove",
+     *  "/api/cart/cart/lineItem/remove",
      *  "object{lineItemId: string}"
      * )
      * @Docs\Response(
@@ -326,7 +326,7 @@ class CartController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/cart/update",
+     *  "/api/cart/cart/update",
      *  "object{
      *      account: ?object{email: string},
      *      shipping: ?Address,
@@ -395,7 +395,7 @@ class CartController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/cart/checkout"
+     *  "/api/cart/cart/checkout"
      * )
      * @Docs\Response(
      *  "200",
@@ -431,7 +431,7 @@ class CartController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/cart/discount/{code}"
+     *  "/api/cart/cart/discount/{code}"
      * )
      * @Docs\Response(
      *  "200",
@@ -456,7 +456,7 @@ class CartController extends CrudController
      *
      * @Docs\Request(
      *  "POST",
-     *  "//show-demo.frontastic.io/api/cart/cart/discount-remove",
+     *  "/api/cart/cart/discount-remove",
      *  "object{discountId: string}"
      * )
      * @Docs\Response(
@@ -486,7 +486,7 @@ class CartController extends CrudController
      *
      * @Docs\Request(
      *  "GET",
-     *  "//show-demo.frontastic.io/api/cart/shipping-methods"
+     *  "/api/cart/shipping-methods"
      * )
      * @Docs\Response(
      *  "200",
