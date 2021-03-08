@@ -92,6 +92,7 @@ export interface Page {
      scheduledToTimestamp?: null | number;
      nodesPagesOfTypeSortIndex?: null | number;
      scheduleCriterion?: string;
+     scheduledExperiment?: null | string;
 }
 
 export interface Preview {
