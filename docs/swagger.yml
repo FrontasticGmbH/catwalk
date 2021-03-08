@@ -3,7 +3,7 @@ info:
   title: 'Frontastic Catwalk'
   version: 1.0.0
 paths:
-  //show-demo.frontastic.io/api/cart/cart:
+  /api/cart/cart:
     get:
       summary: 'Get the current cart'
       description: ''
@@ -364,7 +364,7 @@ paths:
                           nullable: true
                         dangerousInnerShippingMethod:
                           nullable: true
-  '//show-demo.frontastic.io/api/cart/order/{order}':
+  '/api/cart/order/{order}':
     get:
       summary: 'Get order by order ID'
       description: "The returned order is an extension of the cart, therefore all cart\nproperties also exist."
@@ -400,7 +400,7 @@ paths:
                       createdAt:
                         type: string
                       dangerousInnerOrder: {  }
-  //show-demo.frontastic.io/api/cart/cart/add:
+  /api/cart/cart/add:
     post:
       summary: 'Adds a single line item to th cart'
       description: "The line item has to be identified wither by its variant ID or its SKU.\nOptionally you can pass additional attributes with the line item."
@@ -786,7 +786,7 @@ paths:
                           nullable: true
                         dangerousInnerShippingMethod:
                           nullable: true
-  //show-demo.frontastic.io/api/cart/cart/addMultiple:
+  /api/cart/cart/addMultiple:
     post:
       summary: 'Add multiple line items at once'
       description: "Each line item has to be identified wither by its variant ID or its SKU.\nOptionally you can pass additional attributes with each line item."
@@ -1180,7 +1180,7 @@ paths:
                           nullable: true
                         dangerousInnerShippingMethod:
                           nullable: true
-  //show-demo.frontastic.io/api/cart/cart/lineItem:
+  /api/cart/cart/lineItem:
     post:
       summary: 'Change count for line item in cart'
       description: ''
@@ -1549,7 +1549,7 @@ paths:
                           nullable: true
                         dangerousInnerShippingMethod:
                           nullable: true
-  //show-demo.frontastic.io/api/cart/cart/lineItem/remove:
+  /api/cart/cart/lineItem/remove:
     post:
       summary: 'Remove line item from cart'
       description: ''
@@ -1916,7 +1916,7 @@ paths:
                           nullable: true
                         dangerousInnerShippingMethod:
                           nullable: true
-  //show-demo.frontastic.io/api/cart/cart/update:
+  /api/cart/cart/update:
     post:
       summary: 'Update cart properties'
       description: ''
@@ -2371,7 +2371,7 @@ paths:
                           nullable: true
                         dangerousInnerShippingMethod:
                           nullable: true
-  //show-demo.frontastic.io/api/cart/cart/checkout:
+  /api/cart/cart/checkout:
     post:
       summary: 'Convert a (complete) cart into an order'
       description: ''
@@ -2407,7 +2407,7 @@ paths:
                       createdAt:
                         type: string
                       dangerousInnerOrder: {  }
-  '//show-demo.frontastic.io/api/cart/cart/discount/{code}':
+  '/api/cart/cart/discount/{code}':
     post:
       summary: 'Redeem a discount code'
       description: ''
@@ -2768,7 +2768,7 @@ paths:
                           nullable: true
                         dangerousInnerShippingMethod:
                           nullable: true
-  //show-demo.frontastic.io/api/cart/cart/discount-remove:
+  /api/cart/cart/discount-remove:
     post:
       summary: 'Remove a discount code'
       description: ''
@@ -3135,7 +3135,7 @@ paths:
                           nullable: true
                         dangerousInnerShippingMethod:
                           nullable: true
-  //show-demo.frontastic.io/api/cart/shipping-methods:
+  /api/cart/shipping-methods:
     get:
       summary: 'Retrieve a list of all shipping methods'
       description: ''
@@ -3209,7 +3209,7 @@ paths:
                           nullable: true
                         dangerousInnerShippingMethod:
                           nullable: true
-  //show-demo.frontastic.io/api/cart/wishlist:
+  /api/cart/wishlist:
     get:
       summary: 'Get wishlist for curent user'
       description: "The idea behind this method is:\n\n* If a wishlist has been selected (passed $wishlistId), use that\n\n* If no wishlist is explicitely selected (no $wishlistId) then:\n\n  * If the user does not have a wishlist yet, create a default wishlist\n\n    * This means creating an anonymous wishlist for customers who are\n      not logged in\n\n  * Select the first wishlist, if one exists"
@@ -3268,7 +3268,7 @@ paths:
                               type: integer
                             dangerousInnerItem: {  }
                       dangerousInnerWishlist: {  }
-  //show-demo.frontastic.io/api/cart/wishlist/addMultiple:
+  /api/cart/wishlist/addMultiple:
     post:
       summary: 'Add multiple line items to a wishlist'
       description: ''
@@ -3351,7 +3351,7 @@ paths:
                               type: integer
                             dangerousInnerItem: {  }
                       dangerousInnerWishlist: {  }
-  //show-demo.frontastic.io/api/cart/wishlist/create:
+  /api/cart/wishlist/create:
     post:
       summary: 'Create new wishlist'
       description: ''
@@ -3410,7 +3410,7 @@ paths:
                           type: integer
                         dangerousInnerItem: {  }
                   dangerousInnerWishlist: {  }
-  //show-demo.frontastic.io/api/cart/wishlist/lineItem:
+  /api/cart/wishlist/lineItem:
     post:
       summary: 'Remove item from wishlist'
       description: ''
@@ -3477,7 +3477,7 @@ paths:
                               type: integer
                             dangerousInnerItem: {  }
                       dangerousInnerWishlist: {  }
-  //show-demo.frontastic.io/api/cart/wishlist/lineItem/remove:
+  /api/cart/wishlist/lineItem/remove:
     post:
       summary: 'Remove item from wishlist'
       description: ''

@@ -1,6 +1,6 @@
 # 
 
-## `GET` `//show-demo.frontastic.io/api/cart/wishlist`
+## `GET` `/api/cart/wishlist`
 
 *Get wishlist for curent user*
 
@@ -68,7 +68,7 @@ not logged in
 
     * `dangerousInnerWishlist`: `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/wishlist/addMultiple`
+## `POST` `/api/cart/wishlist/addMultiple`
 
 *Add single variant to wishlist*
 
@@ -116,7 +116,7 @@ Status: 200
 
     * `dangerousInnerWishlist`: `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/wishlist/addMultiple`
+## `POST` `/api/cart/wishlist/addMultiple`
 
 *Add multiple line items to a wishlist*
 
@@ -166,7 +166,7 @@ Status: 200
 
     * `dangerousInnerWishlist`: `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/wishlist/create`
+## `POST` `/api/cart/wishlist/create`
 
 *Create new wishlist*
 
@@ -208,7 +208,7 @@ Status: 200
 
   * `dangerousInnerWishlist`: `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/wishlist/lineItem`
+## `POST` `/api/cart/wishlist/lineItem`
 
 *Remove item from wishlist*
 
@@ -254,7 +254,7 @@ Status: 200
 
     * `dangerousInnerWishlist`: `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/wishlist/lineItem/remove`
+## `POST` `/api/cart/wishlist/lineItem/remove`
 
 *Remove item from wishlist*
 

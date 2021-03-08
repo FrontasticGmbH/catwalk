@@ -1,6 +1,6 @@
 # 
 
-## `GET` `//show-demo.frontastic.io/api/cart/cart`
+## `GET` `/api/cart/cart`
 
 *Get the current cart*
 
@@ -266,7 +266,7 @@ Status: 200
 
     * `dangerousInnerShippingMethod`: *optional* `mixed`
 
-## `GET` `//show-demo.frontastic.io/api/cart/order/{order}`
+## `GET` `/api/cart/order/{order}`
 
 *Get order by order ID*
 
@@ -298,7 +298,7 @@ also exist.
 
     * `dangerousInnerOrder`: `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/cart/add`
+## `POST` `/api/cart/cart/add`
 
 *Adds a single line item to th cart*
 
@@ -582,7 +582,7 @@ Optionally you can pass additional attributes with the line item.
 
     * `dangerousInnerShippingMethod`: *optional* `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/cart/addMultiple`
+## `POST` `/api/cart/cart/addMultiple`
 
 *Add multiple line items at once*
 
@@ -868,7 +868,7 @@ Optionally you can pass additional attributes with each line item.
 
     * `dangerousInnerShippingMethod`: *optional* `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/cart/lineItem`
+## `POST` `/api/cart/cart/lineItem`
 
 *Change count for line item in cart*
 
@@ -1138,7 +1138,7 @@ Status: 200
 
     * `dangerousInnerShippingMethod`: *optional* `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/cart/lineItem/remove`
+## `POST` `/api/cart/cart/lineItem/remove`
 
 *Remove line item from cart*
 
@@ -1406,7 +1406,7 @@ Status: 200
 
     * `dangerousInnerShippingMethod`: *optional* `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/cart/update`
+## `POST` `/api/cart/cart/update`
 
 *Update cart properties*
 
@@ -1748,7 +1748,7 @@ Status: 200
 
     * `dangerousInnerShippingMethod`: *optional* `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/cart/checkout`
+## `POST` `/api/cart/cart/checkout`
 
 *Convert a (complete) cart into an order*
 
@@ -1774,7 +1774,7 @@ Status: 200
 
     * `dangerousInnerOrder`: `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/cart/discount/{code}`
+## `POST` `/api/cart/cart/discount/{code}`
 
 *Redeem a discount code*
 
@@ -2040,7 +2040,7 @@ Status: 200
 
     * `dangerousInnerShippingMethod`: *optional* `mixed`
 
-## `POST` `//show-demo.frontastic.io/api/cart/cart/discount-remove`
+## `POST` `/api/cart/cart/discount-remove`
 
 *Remove a discount code*
 
@@ -2308,7 +2308,7 @@ Status: 200
 
     * `dangerousInnerShippingMethod`: *optional* `mixed`
 
-## `GET` `//show-demo.frontastic.io/api/cart/shipping-methods`
+## `GET` `/api/cart/shipping-methods`
 
 *Retrieve a list of all shipping methods*
 
