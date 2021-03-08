@@ -25,3 +25,5 @@ reference:
 http:
  - php/FrontendBundle/Controller/CartController.php
  - php/FrontendBundle/Controller/WishlistController.php
+ - php/FrontendBundle/Controller/AccountAuthController.php
+ - php/FrontendBundle/Controller/AccountApiController.php

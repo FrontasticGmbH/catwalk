@@ -28,6 +28,25 @@ class AccountAuthController extends Controller
         return new JsonResponse($this->getAccountService()->getSessionFor($account));
     }
 
+    /**
+     * Register a new user
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "/api/account/register",
+     *  "Account{
+     *      birthday: ?string,
+     *      phone: ?string,
+     *      phonePrefix: ?string,
+     *      billingAddress: ?Address,
+     *      shippingAddress: ?Address
+     *  }"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "Session"
+     * )
+     */
     public function registerAction(Request $request, Context $context): Response
     {
         $body = $this->getJsonBody($request);
@@ -83,6 +102,18 @@ class AccountAuthController extends Controller
         return $this->loginAccount($account, $request);
     }
 
+    /**
+     * Confirm user by their confirmation token (from email)
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "/api/account/confirm/{confirmationToken}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "Session"
+     * )
+     */
     public function confirmAction(Request $request, Context $context, string $confirmationToken): Response
     {
         $account = $this->getAccountService()->confirmEmail($confirmationToken, $context->locale);
@@ -90,6 +121,19 @@ class AccountAuthController extends Controller
         return $this->loginAccount($account, $request);
     }
 
+    /**
+     * Request new reset token
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "/api/account/request",
+     *  "object{email: string}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "Session"
+     * )
+     */
     public function requestResetAction(Request $request): RedirectRoute
     {
         $body = $this->getJsonBody($request);
@@ -98,6 +142,19 @@ class AccountAuthController extends Controller
         return new RedirectRoute('Frontastic.AccountBundle.Account.logout');
     }
 
+    /**
+     * Request new reset token
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "/api/account/reset/{token}",
+     *  "object{newPassword: string}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "Session"
+     * )
+     */
     public function resetAction(Request $request, Context $context, string $token): Response
     {
         $body = $this->getJsonBody($request);
@@ -106,6 +163,19 @@ class AccountAuthController extends Controller
         return $this->loginAccount($account, $request);
     }
 
+    /**
+     * Change password of current account
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "/api/account/password",
+     *  "object{oldPassword: string, newPassword: string}"
+     * )
+     * @Docs\Response(
+     *  "201",
+     *  "Account"
+     * )
+     */
     public function changePasswordAction(Request $request, Context $context): JsonResponse
     {
         $this->assertIsAuthenticated($context);
@@ -118,6 +188,19 @@ class AccountAuthController extends Controller
         return new JsonResponse($account, 201);
     }
 
+    /**
+     * Update properties in user acccount
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "/api/account/update",
+     *  "Account{birthday: ?string}"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "Account"
+     * )
+     */
     public function updateAction(Request $request, Context $context): JsonResponse
     {
         $this->assertIsAuthenticated($context);

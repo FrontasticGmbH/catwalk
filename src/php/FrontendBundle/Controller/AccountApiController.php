@@ -12,6 +12,19 @@ use Frontastic\Common\CoreBundle\Domain\Json\Json;
 
 class AccountApiController extends Controller
 {
+    /**
+     * Add a new address to account
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "/api/account/address/new",
+     *  "Address"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "Account"
+     * )
+     */
     public function addAddressAction(Request $request, Context $context): JsonResponse
     {
         if (!$context->session->loggedIn) {
@@ -27,6 +40,21 @@ class AccountApiController extends Controller
         return new JsonResponse($account, 200);
     }
 
+    /**
+     * Update address information
+     *
+     * Requires the addressId to be specified in the address to update
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "/api/account/address/update",
+     *  "Address"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "Account"
+     * )
+     */
     public function updateAddressAction(Request $request, Context $context): JsonResponse
     {
         if (!$context->session->loggedIn) {
@@ -42,6 +70,21 @@ class AccountApiController extends Controller
         return new JsonResponse($account, 200);
     }
 
+    /**
+     * Remove address information
+     *
+     * Requires (only) the addressId to be specified in the address to remove
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "/api/account/address/remove",
+     *  "Address"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "Account"
+     * )
+     */
     public function removeAddressAction(Request $request, Context $context): JsonResponse
     {
         if (!$context->session->loggedIn) {
@@ -57,6 +100,21 @@ class AccountApiController extends Controller
         return new JsonResponse([], 200);
     }
 
+    /**
+     * Set an address as default billing address
+     *
+     * Requires (only) the addressId to be specified in the address
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "/api/account/address/setDefaultBilling",
+     *  "Address"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "Account"
+     * )
+     */
     public function setDefaultBillingAddressAction(Request $request, Context $context): JsonResponse
     {
         if (!$context->session->loggedIn) {
@@ -72,6 +130,21 @@ class AccountApiController extends Controller
         return new JsonResponse($account, 200);
     }
 
+    /**
+     * Set an address as default shipping address
+     *
+     * Requires (only) the addressId to be specified in the address
+     *
+     * @Docs\Request(
+     *  "POST",
+     *  "/api/account/address/setDefaultShipping",
+     *  "Address"
+     * )
+     * @Docs\Response(
+     *  "200",
+     *  "Account"
+     * )
+     */
     public function setDefaultShippingAddressAction(Request $request, Context $context): JsonResponse
     {
         if (!$context->session->loggedIn) {

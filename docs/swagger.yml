@@ -3542,3 +3542,805 @@ paths:
                               type: integer
                             dangerousInnerItem: {  }
                       dangerousInnerWishlist: {  }
+  /api/account/register:
+    post:
+      summary: 'Register a new user'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Account$
+                accountId:
+                  type: string
+                email:
+                  type: string
+                salutation:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                birthday:
+                  type: string
+                  nullable: true
+                groups:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Group$
+                      groupId:
+                        type: string
+                      name:
+                        type: string
+                      permissions:
+                        type: array
+                        items:
+                          type: string
+                confirmationToken:
+                  type: string
+                confirmed:
+                  type: boolean
+                tokenValidUntil:
+                  type: \DateTime
+                addresses:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                      addressId:
+                        type: string
+                      salutation:
+                        type: string
+                      firstName:
+                        type: string
+                      lastName:
+                        type: string
+                      streetName:
+                        type: string
+                      streetNumber:
+                        type: string
+                      additionalStreetInfo:
+                        type: string
+                      additionalAddressInfo:
+                        type: string
+                      postalCode:
+                        type: string
+                      city:
+                        type: string
+                      country:
+                        type: string
+                      state:
+                        type: string
+                      phone:
+                        type: string
+                      isDefaultBillingAddress:
+                        type: boolean
+                      isDefaultShippingAddress:
+                        type: boolean
+                      dangerousInnerAddress: {  }
+                authToken:
+                  oneOf:
+                    -
+                      type: string
+                    -
+                      type: 'null'
+                dangerousInnerAccount: {  }
+                phone:
+                  type: string
+                  nullable: true
+                phonePrefix:
+                  type: string
+                  nullable: true
+                billingAddress:
+                  type: object
+                  properties:
+                    _type:
+                      type: string
+                      pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                    addressId:
+                      type: string
+                    salutation:
+                      type: string
+                    firstName:
+                      type: string
+                    lastName:
+                      type: string
+                    streetName:
+                      type: string
+                    streetNumber:
+                      type: string
+                    additionalStreetInfo:
+                      type: string
+                    additionalAddressInfo:
+                      type: string
+                    postalCode:
+                      type: string
+                    city:
+                      type: string
+                    country:
+                      type: string
+                    state:
+                      type: string
+                    phone:
+                      type: string
+                    isDefaultBillingAddress:
+                      type: boolean
+                    isDefaultShippingAddress:
+                      type: boolean
+                    dangerousInnerAddress: {  }
+                  nullable: true
+                shippingAddress:
+                  type: object
+                  properties:
+                    _type:
+                      type: string
+                      pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                    addressId:
+                      type: string
+                    salutation:
+                      type: string
+                    firstName:
+                      type: string
+                    lastName:
+                      type: string
+                    streetName:
+                      type: string
+                    streetNumber:
+                      type: string
+                    additionalStreetInfo:
+                      type: string
+                    additionalAddressInfo:
+                      type: string
+                    postalCode:
+                      type: string
+                    city:
+                      type: string
+                    country:
+                      type: string
+                    state:
+                      type: string
+                    phone:
+                      type: string
+                    isDefaultBillingAddress:
+                      type: boolean
+                    isDefaultShippingAddress:
+                      type: boolean
+                    dangerousInnerAddress: {  }
+                  nullable: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: \Frontastic\Catwalk\FrontendBundle\Controller\Session
+  '/api/account/confirm/{confirmationToken}':
+    post:
+      summary: 'Confirm user by their confirmation token (from email)'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'null'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: \Frontastic\Catwalk\FrontendBundle\Controller\Session
+  /api/account/request:
+    post:
+      summary: 'Request new reset token'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                email:
+                  type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: \Frontastic\Catwalk\FrontendBundle\Controller\Session
+  '/api/account/reset/{token}':
+    post:
+      summary: 'Request new reset token'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                newPassword:
+                  type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: \Frontastic\Catwalk\FrontendBundle\Controller\Session
+  /api/account/password:
+    post:
+      summary: 'Change password of current account'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^object$
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Account$
+                  accountId:
+                    type: string
+                  email:
+                    type: string
+                  salutation:
+                    type: string
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  birthday:
+                    type: \DateTime
+                  groups:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Group$
+                        groupId:
+                          type: string
+                        name:
+                          type: string
+                        permissions:
+                          type: array
+                          items:
+                            type: string
+                  confirmationToken:
+                    type: string
+                  confirmed:
+                    type: boolean
+                  tokenValidUntil:
+                    type: \DateTime
+                  addresses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                        addressId:
+                          type: string
+                        salutation:
+                          type: string
+                        firstName:
+                          type: string
+                        lastName:
+                          type: string
+                        streetName:
+                          type: string
+                        streetNumber:
+                          type: string
+                        additionalStreetInfo:
+                          type: string
+                        additionalAddressInfo:
+                          type: string
+                        postalCode:
+                          type: string
+                        city:
+                          type: string
+                        country:
+                          type: string
+                        state:
+                          type: string
+                        phone:
+                          type: string
+                        isDefaultBillingAddress:
+                          type: boolean
+                        isDefaultShippingAddress:
+                          type: boolean
+                        dangerousInnerAddress: {  }
+                  authToken:
+                    oneOf:
+                      -
+                        type: string
+                      -
+                        type: 'null'
+                  dangerousInnerAccount: {  }
+  /api/account/update:
+    post:
+      summary: 'Update properties in user acccount'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Account$
+                accountId:
+                  type: string
+                email:
+                  type: string
+                salutation:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                birthday:
+                  type: string
+                  nullable: true
+                groups:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Group$
+                      groupId:
+                        type: string
+                      name:
+                        type: string
+                      permissions:
+                        type: array
+                        items:
+                          type: string
+                confirmationToken:
+                  type: string
+                confirmed:
+                  type: boolean
+                tokenValidUntil:
+                  type: \DateTime
+                addresses:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      _type:
+                        type: string
+                        pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                      addressId:
+                        type: string
+                      salutation:
+                        type: string
+                      firstName:
+                        type: string
+                      lastName:
+                        type: string
+                      streetName:
+                        type: string
+                      streetNumber:
+                        type: string
+                      additionalStreetInfo:
+                        type: string
+                      additionalAddressInfo:
+                        type: string
+                      postalCode:
+                        type: string
+                      city:
+                        type: string
+                      country:
+                        type: string
+                      state:
+                        type: string
+                      phone:
+                        type: string
+                      isDefaultBillingAddress:
+                        type: boolean
+                      isDefaultShippingAddress:
+                        type: boolean
+                      dangerousInnerAddress: {  }
+                authToken:
+                  oneOf:
+                    -
+                      type: string
+                    -
+                      type: 'null'
+                dangerousInnerAccount: {  }
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _type:
+                    type: string
+                    pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Account$
+                  accountId:
+                    type: string
+                  email:
+                    type: string
+                  salutation:
+                    type: string
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  birthday:
+                    type: \DateTime
+                  groups:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Group$
+                        groupId:
+                          type: string
+                        name:
+                          type: string
+                        permissions:
+                          type: array
+                          items:
+                            type: string
+                  confirmationToken:
+                    type: string
+                  confirmed:
+                    type: boolean
+                  tokenValidUntil:
+                    type: \DateTime
+                  addresses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _type:
+                          type: string
+                          pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                        addressId:
+                          type: string
+                        salutation:
+                          type: string
+                        firstName:
+                          type: string
+                        lastName:
+                          type: string
+                        streetName:
+                          type: string
+                        streetNumber:
+                          type: string
+                        additionalStreetInfo:
+                          type: string
+                        additionalAddressInfo:
+                          type: string
+                        postalCode:
+                          type: string
+                        city:
+                          type: string
+                        country:
+                          type: string
+                        state:
+                          type: string
+                        phone:
+                          type: string
+                        isDefaultBillingAddress:
+                          type: boolean
+                        isDefaultShippingAddress:
+                          type: boolean
+                        dangerousInnerAddress: {  }
+                  authToken:
+                    oneOf:
+                      -
+                        type: string
+                      -
+                        type: 'null'
+                  dangerousInnerAccount: {  }
+  /api/account/address/new:
+    post:
+      summary: 'Add a new address to account'
+      description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                addressId:
+                  type: string
+                salutation:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                streetName:
+                  type: string
+                streetNumber:
+                  type: string
+                additionalStreetInfo:
+                  type: string
+                additionalAddressInfo:
+                  type: string
+                postalCode:
+                  type: string
+                city:
+                  type: string
+                country:
+                  type: string
+                state:
+                  type: string
+                phone:
+                  type: string
+                isDefaultBillingAddress:
+                  type: boolean
+                isDefaultShippingAddress:
+                  type: boolean
+                dangerousInnerAddress: {  }
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: \Frontastic\Catwalk\FrontendBundle\Controller\Account
+  /api/account/address/update:
+    post:
+      summary: 'Update address information'
+      description: 'Requires the addressId to be specified in the address to update'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                addressId:
+                  type: string
+                salutation:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                streetName:
+                  type: string
+                streetNumber:
+                  type: string
+                additionalStreetInfo:
+                  type: string
+                additionalAddressInfo:
+                  type: string
+                postalCode:
+                  type: string
+                city:
+                  type: string
+                country:
+                  type: string
+                state:
+                  type: string
+                phone:
+                  type: string
+                isDefaultBillingAddress:
+                  type: boolean
+                isDefaultShippingAddress:
+                  type: boolean
+                dangerousInnerAddress: {  }
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: \Frontastic\Catwalk\FrontendBundle\Controller\Account
+  /api/account/address/remove:
+    post:
+      summary: 'Remove address information'
+      description: 'Requires (only) the addressId to be specified in the address to remove'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                addressId:
+                  type: string
+                salutation:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                streetName:
+                  type: string
+                streetNumber:
+                  type: string
+                additionalStreetInfo:
+                  type: string
+                additionalAddressInfo:
+                  type: string
+                postalCode:
+                  type: string
+                city:
+                  type: string
+                country:
+                  type: string
+                state:
+                  type: string
+                phone:
+                  type: string
+                isDefaultBillingAddress:
+                  type: boolean
+                isDefaultShippingAddress:
+                  type: boolean
+                dangerousInnerAddress: {  }
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: \Frontastic\Catwalk\FrontendBundle\Controller\Account
+  /api/account/address/setDefaultBilling:
+    post:
+      summary: 'Set an address as default billing address'
+      description: 'Requires (only) the addressId to be specified in the address'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                addressId:
+                  type: string
+                salutation:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                streetName:
+                  type: string
+                streetNumber:
+                  type: string
+                additionalStreetInfo:
+                  type: string
+                additionalAddressInfo:
+                  type: string
+                postalCode:
+                  type: string
+                city:
+                  type: string
+                country:
+                  type: string
+                state:
+                  type: string
+                phone:
+                  type: string
+                isDefaultBillingAddress:
+                  type: boolean
+                isDefaultShippingAddress:
+                  type: boolean
+                dangerousInnerAddress: {  }
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: \Frontastic\Catwalk\FrontendBundle\Controller\Account
+  /api/account/address/setDefaultShipping:
+    post:
+      summary: 'Set an address as default shipping address'
+      description: 'Requires (only) the addressId to be specified in the address'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _type:
+                  type: string
+                  pattern: ^\Frontastic\Common\AccountApiBundle\Domain\Address$
+                addressId:
+                  type: string
+                salutation:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                streetName:
+                  type: string
+                streetNumber:
+                  type: string
+                additionalStreetInfo:
+                  type: string
+                additionalAddressInfo:
+                  type: string
+                postalCode:
+                  type: string
+                city:
+                  type: string
+                country:
+                  type: string
+                state:
+                  type: string
+                phone:
+                  type: string
+                isDefaultBillingAddress:
+                  type: boolean
+                isDefaultShippingAddress:
+                  type: boolean
+                dangerousInnerAddress: {  }
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: \Frontastic\Catwalk\FrontendBundle\Controller\Account
