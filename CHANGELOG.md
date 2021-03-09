@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.9.17` (2021-03-09)
+
+* fix: Ignore annotations for Symfony
+
 ## `1.9.16` (2021-03-09)
 
 * chore(FP-447): improved documentation and log messages
