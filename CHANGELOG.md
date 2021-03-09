@@ -1,5 +1,17 @@
 # catwalk Changelog
 
+## `1.9.16` (2021-03-09)
+
+* chore(FP-447): improved documentation and log messages
+* docs: Also documented HTTP account API
+* fix: Remove host from swagger file
+* fix: Removed host from URLs
+* fix: improve SSR start scripts
+* docs: HTTP API docs for wishlist API
+* docs: Documented cart HTTP API
+* fix(FP-447): throw and handle Cart not active exception
+* checkout moved pay button to right column in last checkout step
+
 ## `1.9.15` (2021-03-04)
 
 * feat: Allow TypeScript in node_modules
