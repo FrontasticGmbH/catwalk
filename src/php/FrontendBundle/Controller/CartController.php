@@ -17,6 +17,10 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+/**
+ * @IgnoreAnnotation("Docs\Request")
+ * @IgnoreAnnotation("Docs\Response")
+ */
 class CartController extends CrudController
 {
     /**

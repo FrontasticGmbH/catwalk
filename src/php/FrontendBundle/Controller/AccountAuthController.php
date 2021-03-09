@@ -19,6 +19,10 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 
+/**
+ * @IgnoreAnnotation("Docs\Request")
+ * @IgnoreAnnotation("Docs\Response")
+ */
 class AccountAuthController extends Controller
 {
     public function indexAction(Request $request, UserInterface $account = null): JsonResponse

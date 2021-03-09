@@ -14,6 +14,10 @@ use Frontastic\Common\WishlistApiBundle\Domain\LineItem;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 
+/**
+ * @IgnoreAnnotation("Docs\Request")
+ * @IgnoreAnnotation("Docs\Response")
+ */
 class WishlistController extends CrudController
 {
     /**

@@ -10,6 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 
+/**
+ * @IgnoreAnnotation("Docs\Request")
+ * @IgnoreAnnotation("Docs\Response")
+ */
 class AccountApiController extends Controller
 {
     /**
