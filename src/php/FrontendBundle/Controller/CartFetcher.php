@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Controller;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\CartApiBundle\Domain\Cart;
 use Frontastic\Common\CartApiBundle\Domain\CartApi;
+use Frontastic\Common\CartApiBundle\Domain\CartApi\Exception\CartNotActiveException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -40,6 +41,17 @@ class CartFetcher
                 $cartId = $symfonySession->get('cart_id');
                 try {
                     return $this->cartApi->getById($cartId, $context->locale);
+                } catch (CartNotActiveException $exception) {
+                    // This exception will be thrown if the $cartId belongs to a cart that is not active
+                    // (maybe deleted or already processed/completed). Therefore it can not be used.
+                    $this->logger
+                        ->info(
+                            'The cart {cartId} is not active, creating new one',
+                            [
+                                'cartId' => $cartId,
+                                'exception' => $exception,
+                            ]
+                        );
                 } catch (\Exception $exception) {
                     $this->logger
                         ->info(
