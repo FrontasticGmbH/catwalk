@@ -42,10 +42,13 @@ class CartFetcher
                 try {
                     return $this->cartApi->getById($cartId, $context->locale);
                 } catch (CartNotActiveException $exception) {
+                    // This exception will be thrown if the $cartId belongs to a cart that is not active
+                    // (maybe deleted or already processed/completed). Therefore it can not be used.
                     $this->logger
                         ->info(
-                            $exception->getMessage(),
+                            'The cart {cartId} is not active, creating new one',
                             [
+                                'cartId' => $cartId,
                                 'exception' => $exception,
                             ]
                         );
