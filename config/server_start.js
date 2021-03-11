@@ -24,9 +24,9 @@ exec('node-full-icu-path', function(error, stdout, stderr) {
 });
 */
 
-const onWindows = process.platform == 'win32'
 // is required to avoid ENOENT error on windows, see
 // https://stackoverflow.com/a/54515183/390808
+const shell = process.platform == 'win32'
 
 console.log('starting server')
 console.log('sync!')
@@ -36,7 +36,7 @@ spawnSync(
     ['-e', 'js', '--watch', path, '--legacy-watch', path, path],
     {
         stdio: 'inherit',
-        shell: onWindows,
+        shell: shell,
         detached: false
     }
 );
