@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.9.19` (2021-03-11)
+
+* chore(catwalk): conformed shell variable name
+* chore(catwalk): removed node signal handling, undefined AbortController
+* feat: Also build and commit server source map
+
 ## `1.9.18` (2021-03-11)
 
 * fix: wrapped custom fields action in an array
