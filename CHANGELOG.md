@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.9.18` (2021-03-11)
+
+* fix: wrapped custom fields action in an array
+
 ## `1.9.17` (2021-03-09)
 
 * fix: Ignore annotations for Symfony
