@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.9.20` (2021-03-15)
+
+* fix: typecast depth param used in NodeService:getTree()
+
 ## `1.9.19` (2021-03-11)
 
 * chore(catwalk): conformed shell variable name
