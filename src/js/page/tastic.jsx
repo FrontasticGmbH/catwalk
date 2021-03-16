@@ -8,15 +8,9 @@ import configurationResolver from '../app/configurationResolver'
 import { useDeviceType } from '../helper/hooks/useDeviceType'
 import tastify from '../helper/tastify'
 
-const getStreamIdsForTasticSchema = (schema) => {
-    return Object.keys(schema.fields)
-        .filter((fieldName) => {
-            return schema.fields[fieldName].type === 'stream'
-        })
-        .map((fieldName) => {
-            return schema.get(fieldName)
-        })
-}
+const getStreamIdsForTasticSchema = (schema) => Object.keys(schema.fields)
+    .filter(fieldName => schema.fields[fieldName].type === 'stream')
+    .map(fieldName => schema.get(fieldName))
 
 const TasticWrapper = (props) => {
     const deviceType = useDeviceType()
@@ -46,7 +40,8 @@ const TasticWrapper = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.tastic.schema, props.data.stream, streamOrCustomFieldData, tasticToRenderConfiguration.tasticId, ...streamIdsUsedByTastic])
 
-    if (!allTasticComponentsMap[tasticToRenderConfiguration.tasticType]) {
+    let Tastic = allTasticComponentsMap[tasticToRenderConfiguration.tasticType]
+    if (!Tastic) {
         if (!props.isDebug) {
             return null
         }
@@ -62,7 +57,6 @@ const TasticWrapper = (props) => {
             </div>
         )
     }
-    let Tastic = allTasticComponentsMap[tasticToRenderConfiguration.tasticType]
 
     // Check that all Tastics are wrapped into tastify() and trigger a
     // deprecation notice otherwise
@@ -127,9 +121,11 @@ TasticWrapper.defaultProps = {
     autoTastify: false,
 }
 
-export default connect((globalState) => {
+const mapStateToProps = (globalState) => {
     return {
         isDebug: !!(globalState.app.context && globalState.app.context.isDevelopment()),
         autoTastify: !!(globalState.app.context?.project?.data?.autoTastify || false),
     }
-})(TasticWrapper)
+}
+
+export default connect(mapStateToProps)(TasticWrapper)

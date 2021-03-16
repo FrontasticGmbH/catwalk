@@ -24,15 +24,13 @@ const defaultRenderWrapper = (appComponent) => { // TODO: share
 * @return {RenderData}
 */
 
-
-
 /**
  *
  * @param {Object} tastics - A key-value pair object, where the key is the projectName (for example demo_project) and value the tastics. Optional on a by project basis.
  * @param {Object} renderWrappers - A key-value pair object, where the key is the projectName (for example demo_project) and value the renderWrapper. Optional on a by project basis.
  */
 export default (projectsTastics = {}, projectsRenderWrappers = {}) => {
-    //global.tastics = tastics //TODO: figure out how to handle this 
+    global.tastics = tastics //TODO: figure out how to handle this 
     global.btoa = (b) => {
         return Buffer.from(b).toString('base64')
     }
@@ -48,6 +46,9 @@ export default (projectsTastics = {}, projectsRenderWrappers = {}) => {
         app.initialize(store)
 
         window.location.href = request.body.requestUri
+
+        //TODO: set from request
+        const projectKey = 'demo_english'
 
         // This usually is done by createStore() and reading the
         // properties directly from the DOM.  This does not work, thus
@@ -95,7 +96,7 @@ export default (projectsTastics = {}, projectsRenderWrappers = {}) => {
             )
         }
 
-        const renderData = renderWrapper( //TODO: handle sharing this
+        const renderData = (projectsRenderWrappers[projectKey] || defaultRenderWrapper)(
             <AppComponent app={app} renderRouter={renderRouter} />
         )
 

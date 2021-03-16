@@ -2,10 +2,11 @@
 const fs = require('fs')
 const path = require('path')
 const paths = require('./paths')
+const libraryModifications = require('./libraryModifications')
+const { isModuleNotFoundError } = require('./webpack/helpers')
 
 const PRODUCTION = true
 const SERVER = true
-const repositoryRoot = paths.repositoryRoot
 
 const deepClone = function (obj) {
     if (obj === null || typeof (obj) !== 'object' || 'isActiveClone' in obj)
@@ -28,20 +29,24 @@ const deepClone = function (obj) {
     return temp
 }
 
-const projectRootPaths = fs.readdirSync(repositoryRoot)
-    .map(pathName => path.join(repositoryRoot, pathName))
-    .filter(pathName => fs.lstatSync(pathName).isDirectory())
-    .filter(dir => fs.existsSync(path.join(dir, 'config/project.yml')))
+// TODO: compare package.jsons, check for different versions, error if found?
+var projectPackages = paths.projectRootPaths.map(projectRoot => {
+    const packageJson = JSON.parse(fs.readFileSync(path.join(projectRoot, 'package.json')))
+    let packages = {
+        ...(packageJson.dependencies || {}),
+        ...(packageJson.devDependencies || {})
+    }
+    return { projectRoot, packages }
+})
 
-
-let config = require('./webpack.js')(PRODUCTION, SERVER)
+let config = require('./webpack.js')(PRODUCTION, SERVER) // TODO: handle project specific config overrides here too, modify file maybe...
 
 config = require('./webpack/ignoreScss.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/provideDomOnServer.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/singleChunk.js')(config, PRODUCTION, SERVER)
-config = require('./webpack/linkDependencies.js')(config, PRODUCTION, SERVER)
+config = require('./webpack/linkDependencies.js')(config, PRODUCTION, SERVER) // TODO: per project
 
-var projectSpecificConfigs = projectRootPaths.map(projectRoot => {
+let projectSpecificConfigs = paths.projectRootPaths.map(projectRoot => {
     let projectSpecificConfig = deepClone(config)
     let customConfigPath = path.join(projectRoot, 'config/webpack.server.production.js')
     let hasModifications = false
@@ -70,7 +75,7 @@ var projectSpecificConfigs = projectRootPaths.map(projectRoot => {
         console.info(`No build specific project webpack extension found in ${customConfigPath} – skip: ` + e.message)
     }
     return {
-        customConfigPath,
+        projectRoot,
         projectSpecificConfig,
         hasModifications
     }
