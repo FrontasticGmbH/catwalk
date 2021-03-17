@@ -2,7 +2,8 @@
 import fs from 'fs'
 import { filterPayload } from './serverLoggingFilters'
 
-const pathToJsonLogfile = process.env.JSON_LOG_PATH || '/var/log/frontastic/json.log'
+const defaultLogFilePath = '/var/log/frontastic/json.log'
+const pathToJsonLogfile = process.env.JSON_LOG_PATH || defaultLogFilePath
 const spawnedByCli = process.env.SPAWNED_BY === 'FCLI'
 
 /**
@@ -27,15 +28,15 @@ export const activateFileLogging = (logSource, project) => {
     }
 
     /**
-    * If server:watch/start is called by the CLI it wipes this function to avoid the error of the
-    * file not existing on the user's PC, this can be revisited later if we want to log to a local
-    * file on the user's pc by instead passing the JSON_LOG_PATH env through the CLI with the absolute
-    * path to the user's repo (or wherever) and creating that file.
+    * If server:watch/start is called by the CLI without specifying a JSON_LOG_PATH it wipes this function
+    * to avoid the error of the file not existing on the user's PC, this can be revisited later if we want
+    * to log to a local file on the user's pc by instead passing the JSON_LOG_PATH env through the CLI with
+    * the absolute path to the user's repo (or wherever) and creating that file.
     */
-    const writePayloadToFile = spawnedByCli ? payload => {} : payload => {
+    const writePayloadToFile = (spawnedByCli && pathToJsonLogfile === defaultLogFilePath) ? payload => { } : payload => {
         fs.appendFile(pathToJsonLogfile, JSON.stringify(payload) + '\n', (err) => {
             if (err) {
-                originalConsoleError(err)
+                originalConsoleError(spawnedByCli ? JSON.stringify(err) : err)
             }
         })
     }
@@ -44,7 +45,7 @@ export const activateFileLogging = (logSource, project) => {
         if (args.length > 0) {
             const payload = getPayload(args, 'INFO')
             if (!filterPayload(payload)) {
-                originalConsoleLog(payload)
+                originalConsoleLog(spawnedByCli ? JSON.stringify(payload) : payload)
                 writePayloadToFile(payload)
             }
         }
@@ -53,7 +54,7 @@ export const activateFileLogging = (logSource, project) => {
         if (args.length > 0) {
             const payload = getPayload(args, 'INFO')
             if (!filterPayload(payload)) {
-                originalConsoleInfo(payload)
+                originalConsoleInfo(spawnedByCli ? JSON.stringify(payload) : payload)
                 writePayloadToFile(payload)
             }
         }
@@ -62,7 +63,7 @@ export const activateFileLogging = (logSource, project) => {
         if (args.length > 0) {
             const payload = getPayload(args, 'WARNING')
             if (!filterPayload(payload)) {
-                originalConsoleWarn(payload)
+                originalConsoleWarn(spawnedByCli ? JSON.stringify(payload) : payload)
                 writePayloadToFile(payload)
             }
         }
@@ -71,7 +72,7 @@ export const activateFileLogging = (logSource, project) => {
         if (args.length > 0) {
             const payload = getPayload(args, 'ERROR')
             if (!filterPayload(payload)) {
-                originalConsoleError(payload)
+                originalConsoleError(spawnedByCli ? JSON.stringify(payload) : payload)
                 writePayloadToFile(payload)
             }
         }
@@ -80,7 +81,7 @@ export const activateFileLogging = (logSource, project) => {
         if (args.length > 0) {
             const payload = getPayload(args, 'DEBUG')
             if (!filterPayload(payload)) {
-                originalConsoleDebug(payload)
+                originalConsoleDebug(spawnedByCli ? JSON.stringify(payload) : payload)
                 writePayloadToFile(payload)
             }
         }
