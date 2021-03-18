@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.9.21` (2021-03-18)
+
+* fix!: properly arrange import order for encrypted vaults
+* chore(webpack): explicity set useYarn to true in createCompiler
+* chore(catwalk): made wiping the writePayloadToFile overridable by providing a JSON_LOG_PATH
+
 ## `1.9.20` (2021-03-15)
 
 * fix: typecast depth param used in NodeService:getTree()
