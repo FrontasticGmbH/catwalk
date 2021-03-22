@@ -10,6 +10,7 @@ Property|Type|Default|Required|Description
 `sequence` | `string` |  | *Yes* | 
 `path` | `string` |  | *Yes* | 
 `query` | `string` |  | - | 
+`statusCode` | `int` | `301` | - | 
 `targetType` | `string` |  | *Yes* | One of TARGET_TYPE_* constants
 `target` | `string` |  | *Yes* | 
 `language` | `?string` | `null` | - | 
