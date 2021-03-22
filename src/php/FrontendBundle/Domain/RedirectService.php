@@ -53,7 +53,7 @@ class RedirectService implements Target
         return $this->redirectGateway->get($redirectId);
     }
 
-    public function getRedirectUrlForRequest(string $path, ParameterBag $queryParameters, Context $context): ?string
+    public function getRedirectUrlForRequest(string $path, ParameterBag $queryParameters, Context $context): ?object
     {
         $redirect = $this->getRedirectForRequest($path, $queryParameters);
         if ($redirect === null) {
@@ -98,7 +98,10 @@ class RedirectService implements Target
             array_diff_key($queryParameters->all(), $redirect->getQueryParameters()->all())
         );
 
-        return $this->appendQueryParametersToTargetUrl($targetUrl, $additionalParameters);
+        return (object) [
+            'target' => $this->appendQueryParametersToTargetUrl($targetUrl, $additionalParameters),
+            'statusCode' => $redirect->statusCode ?? 301,
+        ];
     }
 
     /**
@@ -152,6 +155,7 @@ class RedirectService implements Target
         $redirect->sequence = $data['sequence'];
         $redirect->path = $data['path'];
         $redirect->query = $data['query'];
+        $redirect->statusCode = $data['statusCode'] ?? 301;
         $redirect->targetType = $data['target']['targetType'];
         $redirect->target = $data['target']['target'];
         $redirect->language = $data['language'] ?? null;

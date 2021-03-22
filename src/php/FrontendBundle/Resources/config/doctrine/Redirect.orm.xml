@@ -12,6 +12,7 @@
         <field name="sequence" column="rd_sequence" type="string" />
         <field name="path" column="rd_path" type="string" />
         <field name="query" column="rd_query" type="string" />
+        <field name="statusCode" column="rd_status_code" type="integer" />
         <field name="targetType" column="rd_target_type" type="string" />
         <field name="target" column="rd_target" type="string" />
         <field name="language" column="rd_language" type="string" />
