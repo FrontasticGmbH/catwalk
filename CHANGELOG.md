@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.10.0` (2021-03-23)
+
+* feat: Allow to specify status code for redirects
+* chore(webpack): override the 'To create a production build, run npm build' message on yarn run
+
 ## `1.9.21` (2021-03-18)
 
 * fix!: properly arrange import order for encrypted vaults
