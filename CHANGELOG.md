@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.10.1` (2021-03-25)
+
+* fix: Do not include tailwind in CSS module processing
+
 ## `1.10.0` (2021-03-23)
 
 * feat: Allow to specify status code for redirects
