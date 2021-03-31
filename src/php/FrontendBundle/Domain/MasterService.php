@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Frontastic\Catwalk\FrontendBundle\Controller\WishlistController;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\Tastic\Configuration;
 use Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway;
@@ -190,6 +191,12 @@ class MasterService implements Target
         }
 
         foreach ($updates as $update) {
+            // LEGACY FIX: The Backstage entity uses `deleted` instead of `isDeleted` so the EnvironmentReplicationFilter
+            //works only with this fix (mapping back `isDeleted` to the `deleted` flag used by this entity
+            if (isset($update['isDeleted'])) {
+                $update['deleted'] = $update['isDeleted'];
+            }
+
             $this->fill($rules, $update);
         }
         $this->rulesGateway->store($rules);
