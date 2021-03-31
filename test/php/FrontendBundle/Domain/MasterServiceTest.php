@@ -159,4 +159,29 @@ class MasterServiceTest extends \PHPUnit\Framework\TestCase
             );
         }
     }
+
+    /**
+     * @group regression
+     */
+    public function testReplicationCreatesValidMasterPageMatcherRules()
+    {
+        $pageMatcherRules = new MasterPageMatcherRules();
+
+        \Phake::when($this->rulesGateway)->get->thenReturn($pageMatcherRules);
+
+        $updatesFixture = include __DIR__ . '/_fixtures/master-service-replication-regression/fixture.export.php';
+
+        $actualStates = [clone $pageMatcherRules];
+        foreach ($updatesFixture as $singleUpdateBatchFixture) {
+            $this->masterService->replicate($singleUpdateBatchFixture);
+            $actualStates[] = clone $pageMatcherRules;
+        }
+
+        $expectedStates = include __DIR__ . '/_fixtures/master-service-replication-regression/expected.export.php';
+
+        $this->assertEquals(
+            $expectedStates,
+            $actualStates
+        );
+    }
 }
