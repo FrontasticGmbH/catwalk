@@ -191,8 +191,9 @@ class MasterService implements Target
         }
 
         foreach ($updates as $update) {
-            // LEGACY FIX: The Backstage entity uses `deleted` instead of `isDeleted` so the EnvironmentReplicationFilter
-            //works only with this fix (mapping back `isDeleted` to the `deleted` flag used by this entity
+            // LEGACY FIX: The Backstage entity uses `deleted` instead of `isDeleted` so the
+            // EnvironmentReplicationFilter works only with this fix (mapping back `isDeleted` to the `deleted` flag
+            // used by this entity
             if (isset($update['isDeleted'])) {
                 $update['deleted'] = $update['isDeleted'];
             }
