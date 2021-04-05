@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Assert\Assertion;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\FrontendBundle\Security\Authenticator;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
 use Frontastic\Common\AccountApiBundle\Domain\AccountService;
@@ -11,20 +12,57 @@ use Frontastic\Common\AccountApiBundle\Domain\Address;
 use Frontastic\Common\AccountApiBundle\Domain\DuplicateAccountException;
 use Frontastic\Common\CoreBundle\Domain\ErrorResult;
 use QafooLabs\MVC\RedirectRoute;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 /**
  * @IgnoreAnnotation("Docs\Request")
  * @IgnoreAnnotation("Docs\Response")
  */
-class AccountAuthController extends Controller
+class AccountAuthController extends AbstractController
 {
+    /**
+     * @var TrackingService
+     */
+    private TrackingService $trackingService;
+    /**
+     * @var AccountService
+     */
+    private AccountService $accountService;
+    /**
+     * @var Authenticator
+     */
+    private Authenticator $authenticator;
+    /**
+     * @var CartFetcher
+     */
+    private CartFetcher $cartFetcher;
+    /**
+     * @var GuardAuthenticatorHandler
+     */
+    private GuardAuthenticatorHandler $guardAuthenticatorHandler;
+
+    public function __construct(
+        TrackingService $trackingService,
+        AccountService $accountService,
+        Authenticator $authenticator,
+        CartFetcher $cartFetcher,
+        GuardAuthenticatorHandler $guardAuthenticatorHandler
+    ) {
+
+        $this->trackingService = $trackingService;
+        $this->accountService = $accountService;
+        $this->authenticator = $authenticator;
+        $this->cartFetcher = $cartFetcher;
+        $this->guardAuthenticatorHandler = $guardAuthenticatorHandler;
+    }
+
     public function indexAction(Request $request, UserInterface $account = null): JsonResponse
     {
         Assertion::isInstanceOf($account, Account::class);
@@ -65,8 +103,8 @@ class AccountAuthController extends Controller
                      * Remove the commented lines below if the data is already handle in MapAccountDataDecorator
                      */
                     // 'data' => [
-                       // 'phonePrefix' => $body['phonePrefix'] ?? null,
-                       // 'phone' => $body['phone'] ?? null,
+                    // 'phonePrefix' => $body['phonePrefix'] ?? null,
+                    // 'phone' => $body['phone'] ?? null,
                     // ],
                 ]
             )
@@ -90,7 +128,7 @@ class AccountAuthController extends Controller
         try {
             $account = $this->getAccountService()->create(
                 $account,
-                $this->get('frontastic.catwalk.cart_fetcher')->fetchCart($context, $request),
+                $this->cartFetcher->fetchCart($context, $request),
                 $context->locale
             );
         } catch (DuplicateAccountException $exception) {
@@ -101,7 +139,7 @@ class AccountAuthController extends Controller
             $this->getAccountService()->sendConfirmationMail($account);
         }
 
-        $this->get(TrackingService::class)->reachRegistration($context, $account);
+        $this->trackingService->reachRegistration($context, $account);
 
         return $this->loginAccount($account, $request);
     }
@@ -222,8 +260,8 @@ class AccountAuthController extends Controller
                      * Remove the commented lines below if the data is already handle in MapAccountDataDecorator
                      */
                     // 'data' => [
-                       // 'phonePrefix' => $body['phonePrefix'] ?? null,
-                       // 'phone' => $body['phone'] ?? null,
+                    // 'phonePrefix' => $body['phonePrefix'] ?? null,
+                    // 'phone' => $body['phone'] ?? null,
                     // ]
                 ]
             )
@@ -249,7 +287,7 @@ class AccountAuthController extends Controller
      */
     protected function getAccountService(): AccountService
     {
-        return $this->get('Frontastic\Common\AccountApiBundle\Domain\AccountService');
+        return $this->accountService;
     }
 
     protected function getJsonBody(Request $request): array
@@ -264,10 +302,10 @@ class AccountAuthController extends Controller
 
     protected function loginAccount(Account $account, Request $request): Response
     {
-        return $this->get('frontastic.user.guard_handler')->authenticateUserAndHandleSuccess(
+        return $this->guardAuthenticatorHandler->authenticateUserAndHandleSuccess(
             $account,
             $request,
-            $this->get('Frontastic\Catwalk\FrontendBundle\Security\Authenticator'),
+            $this->authenticator,
             'api'
         );
     }

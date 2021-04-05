@@ -14,7 +14,7 @@ use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier;
 use Frontastic\Common\ReplicatorBundle\Domain\Result;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @TODO Extract MasterPage related code into service
  */
-class PreviewController extends Controller
+class PreviewController extends AbstractController
 {
     public function viewAction(Request $request, Context $context, string $preview): array
     {

@@ -13,23 +13,44 @@ use Frontastic\Common\ProductApiBundle\Domain\Category;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class CategoryController extends Controller
+class CategoryController extends AbstractController
 {
+    private MasterService $masterService;
+    private NodeService $nodeService;
+    private ViewDataProvider $viewDataProvider;
+    private PageService $pageService;
+    private CategoryRouter $categoryRouter;
+    private TrackingService $trackingService;
+    private ProductApi $productApi;
+
+    public function __construct(
+        MasterService $masterService,
+        NodeService $nodeService,
+        ViewDataProvider $viewDataProvider,
+        PageService $pageService,
+        CategoryRouter $categoryRouter,
+        TrackingService $trackingService,
+        ProductApi $productApi
+    ) {
+        $this->masterService = $masterService;
+        $this->nodeService = $nodeService;
+        $this->viewDataProvider = $viewDataProvider;
+        $this->pageService = $pageService;
+        $this->categoryRouter = $categoryRouter;
+        $this->trackingService = $trackingService;
+        $this->productApi = $productApi;
+    }
+
     public function viewAction(Context $context, Request $request): array
     {
-        /** @var MasterService $pageMatcherService */
-        $pageMatcherService = $this->get(MasterService::class);
-        /** @var NodeService $nodeService */
-        $nodeService = $this->get(NodeService::class);
-        /** @var ViewDataProvider $dataProvider */
-        $dataProvider = $this->get(ViewDataProvider::class);
-        /** @var PageService $pageService */
-        $pageService = $this->get(PageService::class);
-        /** @var CategoryRouter $categoryRouter */
-        $categoryRouter = $this->get(CategoryRouter::class);
+        $pageMatcherService = $this->masterService;
+        $nodeService = $this->nodeService;
+        $dataProvider = $this->viewDataProvider;
+        $pageService = $this->pageService;
+        $categoryRouter = $this->categoryRouter;
 
         $id = $categoryRouter->identifyFrom($request, $context);
 
@@ -47,7 +68,7 @@ class CategoryController extends Controller
             $id
         );
 
-        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
+        $this->trackingService->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,
@@ -59,7 +80,7 @@ class CategoryController extends Controller
     public function allAction(Context $context)
     {
         /** @var ProductApi $productApi */
-        $productApi = $this->get(ProductApi::class);
+        $productApi = $this->productApi;
 
         // TODO: Allow fetching of more than 500 categories by paging
         return [
@@ -69,10 +90,10 @@ class CategoryController extends Controller
             ])),
         ];
     }
-    
+
     private function findCategoryById(string $categoryId, Context $context): ?Category
     {
-        $productApi = $this->get('frontastic.catwalk.product_api');
+        $productApi = $this->productApi;
 
         $categoryQuery = new CategoryQuery([
             'locale' => $context->locale,

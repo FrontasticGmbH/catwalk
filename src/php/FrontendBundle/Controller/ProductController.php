@@ -11,30 +11,53 @@ use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ProductController extends Controller
+class ProductController extends AbstractController
 {
+
+    private MasterService $masterService;
+    private NodeService $nodeService;
+    private ViewDataProvider $viewDataProvider;
+    private PageService $pageService;
+    private ProductRouter $productRouter;
+    private TrackingService $trackingService;
+    private ProductApi $productApi;
+
+    public function __construct(
+        MasterService $masterService,
+        NodeService $nodeService,
+        ViewDataProvider $viewDataProvider,
+        PageService $pageService,
+        ProductRouter $productRouter,
+        TrackingService $trackingService,
+        ProductApi $productApi
+    ) {
+
+        $this->masterService = $masterService;
+        $this->nodeService = $nodeService;
+        $this->viewDataProvider = $viewDataProvider;
+        $this->pageService = $pageService;
+        $this->productRouter = $productRouter;
+        $this->trackingService = $trackingService;
+        $this->productApi = $productApi;
+    }
+
     const PRODUCT_STREAM_KEY = '__product';
 
     public function viewAction(Context $context, Request $request)
     {
-        /** @var MasterService $masterService */
-        $masterService = $this->get(MasterService::class);
-        /** @var NodeService $nodeService */
-        $nodeService = $this->get(NodeService::class);
-        /** @var ViewDataProvider $dataService */
-        $dataService = $this->get(ViewDataProvider::class);
-        /** @var PageService $pageService */
-        $pageService = $this->get(PageService::class);
+        $masterService = $this->masterService;
+        $nodeService = $this->nodeService;
+        $dataService = $this->viewDataProvider;
+        $pageService = $this->pageService;
 
-        /** @var ProductApi $productApi */
-        $productApi = $this->get('frontastic.catwalk.product_api');
-        /** @var ProductRouter $productRouter */
-        $productRouter = $this->get(ProductRouter::class);
+        $productApi = $this->productApi;
+        $productRouter = $this->productRouter;
 
         // FIXME: Product is loaded to often in this request (1x identify, 1x generate URL, 1x stream), needs optimize!
 
@@ -73,8 +96,8 @@ class ProductController extends Controller
 
         $page = $pageService->fetchForNode($node, $context);
 
-        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
-        $this->get(TrackingService::class)->reachViewProduct($context, $product);
+        $this->trackingService->trackPageView($context, $node->nodeType);
+        $this->trackingService->reachViewProduct($context, $product);
 
         return [
             'node' => $node,

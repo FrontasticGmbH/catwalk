@@ -7,34 +7,53 @@ use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
+use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Content;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ContentRouter;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
-use Frontastic\Common\ContentApiBundle\Domain\ContentApi;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ContentController extends Controller
+class ContentController extends AbstractController
 {
     const PRODUCT_STREAM_KEY = '__content';
+    private MasterService $masterService;
+    private NodeService $nodeService;
+    private ViewDataProvider $viewDataProvider;
+    private PageService $pageService;
+    private Content $contentApi;
+    private ContentRouter $contentRouter;
+    private TrackingService $trackingService;
+
+    public function __construct(
+        MasterService $masterService,
+        NodeService $nodeService,
+        ViewDataProvider $viewDataProvider,
+        PageService $pageService,
+        Content $contentApi,
+        ContentRouter $contentRouter,
+        TrackingService $trackingService
+    ) {
+        $this->masterService = $masterService;
+        $this->nodeService = $nodeService;
+        $this->viewDataProvider = $viewDataProvider;
+        $this->pageService = $pageService;
+        $this->contentApi = $contentApi;
+        $this->contentRouter = $contentRouter;
+        $this->trackingService = $trackingService;
+    }
 
     public function viewAction(Context $context, Request $request)
     {
-        /** @var MasterService $masterService */
-        $masterService = $this->get(MasterService::class);
-        /** @var NodeService $nodeService */
-        $nodeService = $this->get(NodeService::class);
-        /** @var ViewDataProvider $dataService */
-        $dataService = $this->get(ViewDataProvider::class);
-        /** @var PageService $pageService */
-        $pageService = $this->get(PageService::class);
+        $masterService = $this->masterService;
+        $nodeService = $this->nodeService;
+        $dataService = $this->viewDataProvider;
+        $pageService = $this->pageService;
 
-        /** @var ContentApi $contentApi */
-        $contentApi = $this->get('frontastic.catwalk.content_api');
-        /** @var ContentRouter $contentRouter */
-        $contentRouter = $this->get(ContentRouter::class);
+        $contentApi = $this->contentApi;
+        $contentRouter = $this->contentRouter;
 
         $contentId = $contentRouter->identifyFrom($request, $context);
         if (!$contentId) {
@@ -68,7 +87,7 @@ class ContentController extends Controller
 
         $page = $pageService->fetchForNode($node, $context);
 
-        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
+        $this->contentRouter->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,

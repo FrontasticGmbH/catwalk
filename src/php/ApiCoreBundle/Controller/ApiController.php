@@ -2,25 +2,39 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Controller;
 
-use Frontastic\ApiBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Common\AccountApiBundle\Domain\Session;
 use Frontastic\Common\ReplicatorBundle\Domain\Command;
 use Frontastic\Common\ReplicatorBundle\Domain\EndpointService;
 use Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier;
 use Frontastic\Common\ReplicatorBundle\Domain\Result;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class ApiController extends Controller
+class ApiController extends AbstractController
 {
     const VERSION_PARAMETER_NAME = 'version';
     const DEFAULT_VERSION = 'unknown';
 
+    private ContextService $contextService;
+    private EndpointService $endpointService;
+    private RequestVerifier $requestVerifier;
+
+    public function __construct(
+        ContextService $contextService,
+        EndpointService $endpointService,
+        RequestVerifier $requestVerifier
+    ) {
+
+        $this->contextService = $contextService;
+        $this->endpointService = $endpointService;
+        $this->requestVerifier = $requestVerifier;
+    }
+
     public function contextAction(Request $request)
     {
-        $contextService = $this->get(ContextService::class);
+        $contextService = $this->contextService;
         return $contextService->createContextFromRequest($request);
     }
 
@@ -42,7 +56,7 @@ class ApiController extends Controller
             }
 
             $command = new Command($body, true);
-            $endpoint = $this->get(EndpointService::class);
+            $endpoint = $this->endpointService;
             return new JsonResponse($endpoint->dispatch($command));
         } catch (\Throwable $e) {
             return new JsonResponse(Result::fromThrowable($e));
@@ -73,7 +87,7 @@ class ApiController extends Controller
 
     private function verifyRequest(Request $request): void
     {
-        $requestVerifier = $this->get(RequestVerifier::class);
+        $requestVerifier = $this->requestVerifier;
         $requestVerifier->ensure($request, $this->getParameter('secret'));
 
         /* HACK: This request is stateless, so let the ContextService know that we do not need a session. */

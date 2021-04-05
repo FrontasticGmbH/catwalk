@@ -9,10 +9,31 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class AccountController extends Controller
+class AccountController extends AbstractController
 {
+    private MasterService $masterService;
+    private NodeService $nodeService;
+    private ViewDataProvider $viewDataProvider;
+    private PageService $pageService;
+    private TrackingService $trackingService;
+
+    public function __construct(
+        MasterService $masterService,
+        NodeService $nodeService,
+        ViewDataProvider $viewDataProvider,
+        PageService $pageService,
+        TrackingService $trackingService
+    ) {
+
+        $this->masterService = $masterService;
+        $this->nodeService = $nodeService;
+        $this->viewDataProvider = $viewDataProvider;
+        $this->pageService = $pageService;
+        $this->trackingService = $trackingService;
+    }
+
     public function indexAction(Context $context): array
     {
         return $this->getNode($context, new PageMatcherContext(['account' => $context->session]));
@@ -55,18 +76,14 @@ class AccountController extends Controller
 
     private function getNode(Context $context, PageMatcherContext $pageMatcherContext): array
     {
-        /** @var MasterService */
-        $masterService = $this->get(MasterService::class);
-        /** @var NodeService $nodeService */
-        $nodeService = $this->get(NodeService::class);
-        /** @var ViewDataProvider $dataService */
-        $dataService = $this->get(ViewDataProvider::class);
-        /** @var PageService $pageService */
-        $pageService = $this->get(PageService::class);
+        $masterService = $this->masterService;
+        $nodeService = $this->nodeService;
+        $dataService = $this->viewDataProvider;
+        $pageService = $this->pageService;
 
-        $queryData = array_filter((array) $pageMatcherContext);
+        $queryData = array_filter((array)$pageMatcherContext);
         $node = $nodeService->get($masterService->matchNodeId($pageMatcherContext));
-        $node->nodeType = array_keys(array_filter((array) $pageMatcherContext))[0] ?? 'unknown';
+        $node->nodeType = array_keys(array_filter((array)$pageMatcherContext))[0] ?? 'unknown';
         $node->streams = $masterService->completeDefaultQuery(
             $node->streams,
             key($queryData),
@@ -77,7 +94,7 @@ class AccountController extends Controller
 
         $masterService->completeTasticStreamConfigurationWithMasterDefault($page, key($queryData));
 
-        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
+        $this->trackingService->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,

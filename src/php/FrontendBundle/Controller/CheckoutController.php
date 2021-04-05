@@ -9,11 +9,31 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class CheckoutController extends Controller
+class CheckoutController extends AbstractController
 {
+    private TrackingService $trackingService;
+    private MasterService $masterService;
+    private NodeService $nodeService;
+    private ViewDataProvider $viewDataProvider;
+    private PageService $pageService;
+
+    public function __construct(
+        TrackingService $trackingService,
+        MasterService $masterService,
+        NodeService $nodeService,
+        ViewDataProvider $viewDataProvider,
+        PageService $pageService
+    ) {
+        $this->trackingService = $trackingService;
+        $this->masterService = $masterService;
+        $this->nodeService = $nodeService;
+        $this->viewDataProvider = $viewDataProvider;
+        $this->pageService = $pageService;
+    }
+
     public function cartAction(Context $context): array
     {
         // @TODO: Add information about cart here, so that we can build selectors on top if this?
@@ -23,7 +43,7 @@ class CheckoutController extends Controller
     public function checkoutAction(Context $context): array
     {
         // @TODO: Add information about cart here, so that we can build selectors on top if this?
-        $this->get(TrackingService::class)->reachStartCheckout($context);
+        $this->trackingService->reachStartCheckout($context);
         return $this->getNode($context, new PageMatcherContext(['checkout' => true]));
     }
 
@@ -42,15 +62,15 @@ class CheckoutController extends Controller
 
     private function getNode(Context $context, PageMatcherContext $pageMatcherContext, ?string $pageType = null): array
     {
-        $masterService = $this->get(MasterService::class);
-        $nodeService = $this->get(NodeService::class);
-        $dataService = $this->get(ViewDataProvider::class);
-        $pageService = $this->get(PageService::class);
+        $masterService = $this->masterService;
+        $nodeService = $this->nodeService;
+        $dataService = $this->viewDataProvider;
+        $pageService = $this->pageService;
 
         $node = $nodeService->get(
             $masterService->matchNodeId($pageMatcherContext)
         );
-        $node->nodeType = array_keys(array_filter((array) $pageMatcherContext))[0] ?? 'unknown';
+        $node->nodeType = array_keys(array_filter((array)$pageMatcherContext))[0] ?? 'unknown';
 
         if ($pageMatcherContext->orderId !== null) {
             foreach ($node->streams as $streamKey => $streamConfig) {
@@ -68,7 +88,7 @@ class CheckoutController extends Controller
             $masterService->completeTasticStreamConfigurationWithMasterDefault($page, $pageType);
         }
 
-        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
+        $this->trackingService->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,

@@ -5,15 +5,24 @@ namespace Frontastic\Catwalk\FrontendBundle\Controller;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQueryFactory;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 
-class ProductSearchController extends Controller
+class ProductSearchController extends AbstractController
 {
+
+    private ProductSearchApi $productSearchApi;
+
+    public function __construct(ProductSearchApi $productSearchApi)
+    {
+        $this->productSearchApi = $productSearchApi;
+    }
+
     public function listAction(Request $request, Context $context): array
     {
-        $productSearchApi = $this->get('frontastic.catwalk.product_search_api');
+        $productSearchApi = $this->productSearchApi;
 
         $query = ProductQueryFactory::queryFromParameters(
             ['locale' => $context->locale],

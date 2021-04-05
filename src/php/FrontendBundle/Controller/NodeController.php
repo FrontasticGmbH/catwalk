@@ -2,7 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
@@ -12,16 +12,32 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 
-class NodeController extends Controller
+class NodeController extends AbstractController
 {
+
+    private NodeService $nodeService;
+    private PageService $pageService;
+    private ViewDataProvider $viewDataProvider;
+    private TrackingService $trackingService;
+
+    public function __construct(
+        NodeService $nodeService,
+        PageService $pageService,
+        ViewDataProvider $viewDataProvider,
+        TrackingService $trackingService
+    ) {
+        $this->nodeService = $nodeService;
+        $this->pageService = $pageService;
+        $this->viewDataProvider = $viewDataProvider;
+        $this->trackingService = $trackingService;
+    }
+
     public function viewAction(Request $request, Context $context, string $nodeId)
     {
-        /** @var NodeService $nodeService */
-        $nodeService = $this->get(NodeService::class);
-        /** @var PageService $pageService */
-        $pageService = $this->get(PageService::class);
-        /** @var ViewDataProvider $dataProvider */
-        $dataProvider = $this->get(ViewDataProvider::class);
+
+        $nodeService = $this->nodeService;
+        $pageService = $this->pageService;
+        $dataProvider = $this->viewDataProvider;
 
         $node = $nodeService->get($nodeId);
 
@@ -32,7 +48,7 @@ class NodeController extends Controller
 
         $page = $pageService->fetchForNode($node, $context);
 
-        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
+        $this->trackingService->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,
@@ -44,7 +60,7 @@ class NodeController extends Controller
     public function treeAction(Request $request): Node
     {
         /** @var NodeService $nodeService */
-        $nodeService = $this->get(NodeService::class);
+        $nodeService = $this->nodeService;
         $root = $request->get('root', null);
         $depth = $request->get('depth', 1);
 

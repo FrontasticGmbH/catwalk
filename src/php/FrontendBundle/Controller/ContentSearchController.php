@@ -4,18 +4,25 @@ namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Common\ContentApiBundle\Domain;
 use Frontastic\Common\ContentApiBundle\Domain\ContentQueryFactory;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 
-class ContentSearchController extends Controller
+class ContentSearchController extends AbstractController
 {
+    private Domain\DefaultContentApiFactory $defaultContentApiFactory;
+
+    public function __construct(Domain\DefaultContentApiFactory $defaultContentApiFactory)
+    {
+        $this->defaultContentApiFactory = $defaultContentApiFactory;
+    }
+
     public function showAction(Request $request, Context $context): array
     {
-        $contentApiFactory = $this->get('Frontastic\Common\ContentApiBundle\Domain\ContentApiFactory');
-        /** @var Domain\ContentApi $contentApi */
+        $contentApiFactory = $this->defaultContentApiFactory;
         $contentApi = $contentApiFactory->factor($context->project);
 
         $requestParameters = Json::decode($request->getContent(), true);
@@ -37,8 +44,7 @@ class ContentSearchController extends Controller
 
     public function listAction(Request $request, Context $context): array
     {
-        $contentApiFactory = $this->get('Frontastic\Common\ContentApiBundle\Domain\ContentApiFactory');
-        /** @var Domain\ContentApi $contentApi */
+        $contentApiFactory = $this->defaultContentApiFactory;
         $contentApi = $contentApiFactory->factor($context->project);
 
         $query = ContentQueryFactory::queryFromRequest($request);

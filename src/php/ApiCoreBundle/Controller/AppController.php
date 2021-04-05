@@ -2,16 +2,26 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Controller;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class AppController extends Controller
+class AppController extends AbstractController
 {
+
+    private AppRepositoryService $appRepositoryService;
+
+    public function __construct(AppRepositoryService $appRepositoryService)
+    {
+
+        $this->appRepositoryService = $appRepositoryService;
+    }
+
     public function dataAction(string $app, Context $context, Request $request): JsonResponse
     {
-        $repository = $this->get('Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService')->getRepository($app);
+        $repository = $this->appRepositoryService->getRepository($app);
 
         if ($repository === null) {
             return new JsonResponse([]);
@@ -44,7 +54,7 @@ class AppController extends Controller
 
     public function getAction(string $app, string $dataId, Context $context): JsonResponse
     {
-        $repository = $this->get('Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService')->getRepository($app);
+        $repository = $this->appRepositoryService->getRepository($app);
 
         if ($repository === null) {
             return new JsonResponse([]);

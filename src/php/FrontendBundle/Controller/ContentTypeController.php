@@ -2,18 +2,24 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
-use Frontastic\Common\ContentApiBundle\Domain\ContentApiFactory;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Frontastic\Common\ContentApiBundle\Domain\DefaultContentApiFactory;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
-class ContentTypeController extends Controller
+class ContentTypeController extends AbstractController
 {
+    private DefaultContentApiFactory $defaultContentApiFactory;
+
+    public function __construct(DefaultContentApiFactory $defaultContentApiFactory)
+    {
+        $this->defaultContentApiFactory = $defaultContentApiFactory;
+    }
+
     public function listAction(Context $context): array
     {
-        /** @var ContentApiFactory $contentApiFactory */
-        $contentApiFactory = $this->get(ContentApiFactory::class);
+        $contentApiFactory = $this->defaultContentApiFactory;
         $contentApi = $contentApiFactory->factor($context->project);
 
         return [

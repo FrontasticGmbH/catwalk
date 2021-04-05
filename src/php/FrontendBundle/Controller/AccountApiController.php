@@ -3,8 +3,9 @@
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Common\AccountApiBundle\Domain\AccountApiFactory;
 use Frontastic\Common\AccountApiBundle\Domain\Address;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -14,8 +15,17 @@ use Frontastic\Common\CoreBundle\Domain\Json\Json;
  * @IgnoreAnnotation("Docs\Request")
  * @IgnoreAnnotation("Docs\Response")
  */
-class AccountApiController extends Controller
+class AccountApiController extends AbstractController
 {
+
+    private AccountApiFactory $accountApiFactory;
+
+    public function __construct(AccountApiFactory $accountApiFactory)
+    {
+
+        $this->accountApiFactory = $accountApiFactory;
+    }
+
     /**
      * Add a new address to account
      *
@@ -35,9 +45,7 @@ class AccountApiController extends Controller
             throw new AuthenticationException('Not logged in.');
         }
 
-        $accountApi = $this->get(
-            'Frontastic\Common\AccountApiBundle\Domain\AccountApiFactory'
-        )->factor($context->project);
+        $accountApi = $this->accountApiFactory->factor($context->project);
         $address = Address::newWithProjectSpecificData($this->getJsonBody($request));
         $account = $accountApi->addAddress($context->session->account, $address);
 
@@ -65,9 +73,7 @@ class AccountApiController extends Controller
             throw new AuthenticationException('Not logged in.');
         }
 
-        $accountApi = $this->get(
-            'Frontastic\Common\AccountApiBundle\Domain\AccountApiFactory'
-        )->factor($context->project);
+        $accountApi = $this->accountApiFactory->factor($context->project);
         $address = Address::newWithProjectSpecificData($this->getJsonBody($request));
         $account = $accountApi->updateAddress($context->session->account, $address);
 
@@ -95,9 +101,7 @@ class AccountApiController extends Controller
             throw new AuthenticationException('Not logged in.');
         }
 
-        $accountApi = $this->get(
-            'Frontastic\Common\AccountApiBundle\Domain\AccountApiFactory'
-        )->factor($context->project);
+        $accountApi = $this->accountApiFactory->factor($context->project);
         $address = Address::newWithProjectSpecificData($this->getJsonBody($request));
         $accountApi->removeAddress($context->session->account, $address->addressId);
 
@@ -125,9 +129,7 @@ class AccountApiController extends Controller
             throw new AuthenticationException('Not logged in.');
         }
 
-        $accountApi = $this->get(
-            'Frontastic\Common\AccountApiBundle\Domain\AccountApiFactory'
-        )->factor($context->project);
+        $accountApi = $this->accountApiFactory->factor($context->project);
         $address = Address::newWithProjectSpecificData($this->getJsonBody($request));
         $account = $accountApi->setDefaultBillingAddress($context->session->account, $address->addressId);
 
@@ -155,9 +157,7 @@ class AccountApiController extends Controller
             throw new AuthenticationException('Not logged in.');
         }
 
-        $accountApi = $this->get(
-            'Frontastic\Common\AccountApiBundle\Domain\AccountApiFactory'
-        )->factor($context->project);
+        $accountApi = $this->accountApiFactory->factor($context->project);
         $address = Address::newWithProjectSpecificData($this->getJsonBody($request));
         $account = $accountApi->setDefaultShippingAddress($context->session->account, $address->addressId);
 

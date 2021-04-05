@@ -3,13 +3,20 @@
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\FacetService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class FacetController extends Controller
+class FacetController extends AbstractController
 {
+    private FacetService $facetService;
+
+    public function __construct(FacetService $facetService)
+    {
+        $this->facetService = $facetService;
+    }
+
     public function allAction(): array
     {
-        $facetService = $this->get(FacetService::class);
+        $facetService = $this->facetService;
 
         return $facetService->getEnabled();
     }
