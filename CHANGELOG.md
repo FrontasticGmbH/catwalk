@@ -1,5 +1,15 @@
 # catwalk Changelog
 
+## `1.10.1` (2021-04-06)
+
+* fix: Missing DataObject base class for MasterPageMatcherRules.
+* fix(FP-565): CS.
+* fix(FP-565): Test case to ensure all replication targets filter.
+* fix(FP-565): Wrap endpoint for page-matcher in EnvironmentReplicationFilter.
+* fix(FP-565): Make EnvironmentReplicationFilter work for MasterServiceTest.
+* fix(FP-565): Regression test for MasterService replication.
+* fix: Missing DataObject base class for MasterPageMatcherRules.
+
 ## `1.10.1` (2021-03-25)
 
 * fix: Do not include tailwind in CSS module processing
