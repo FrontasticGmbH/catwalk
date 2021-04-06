@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway;
@@ -158,5 +159,55 @@ class MasterServiceTest extends \PHPUnit\Framework\TestCase
                 $orderGroup['orders']
             );
         }
+    }
+
+    /**
+     * @group regression
+     */
+    public function testReplicationCreatesValidMasterPageMatcherRules()
+    {
+        $pageMatcherRules = new MasterPageMatcherRules();
+        \Phake::when($this->rulesGateway)->get->thenReturn($pageMatcherRules);
+
+        $updatesFixture = include __DIR__ . '/_fixtures/master-service-replication-regression/fixture.export.php';
+
+        $actualStates = [clone $pageMatcherRules];
+        foreach ($updatesFixture as $singleUpdateBatchFixture) {
+            $this->masterService->replicate($singleUpdateBatchFixture);
+            $actualStates[] = clone $pageMatcherRules;
+        }
+
+        $expectedStates = include __DIR__ . '/_fixtures/master-service-replication-regression/expected_no_filter.export.php';
+
+        $this->assertEquals(
+            $expectedStates,
+            $actualStates
+        );
+    }
+
+    public function testReplicationWithReplicationFilterWorks()
+    {
+        $pageMatcherRules = new MasterPageMatcherRules();
+        \Phake::when($this->rulesGateway)->get->thenReturn($pageMatcherRules);
+
+        $filteredReplicationMasterService = new EnvironmentReplicationFilter(
+            $this->masterService,
+            'production'
+        );
+
+        $updatesFixture = include __DIR__ . '/_fixtures/master-service-replication-regression/fixture.export.php';
+
+        $actualStates = [clone $pageMatcherRules];
+        foreach ($updatesFixture as $singleUpdateBatchFixture) {
+            $filteredReplicationMasterService->replicate($singleUpdateBatchFixture);
+            $actualStates[] = clone $pageMatcherRules;
+        }
+
+        $expectedStates = include __DIR__ . '/_fixtures/master-service-replication-regression/expected_filter.export.php';
+
+        $this->assertEquals(
+            $expectedStates,
+            $actualStates
+        );
     }
 }
