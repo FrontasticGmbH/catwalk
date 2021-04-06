@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.10.3` (2021-04-06)
+
+* fix: removed extra logs in catwalk CHANGELOG
+
 ## `1.10.2` (2021-04-06)
 
 * fix: Missing DataObject base class for MasterPageMatcherRules.
