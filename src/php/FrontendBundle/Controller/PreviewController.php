@@ -10,8 +10,10 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Preview;
 use Frontastic\Catwalk\FrontendBundle\Domain\PreviewService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
+use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi;
 use Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier;
 use Frontastic\Common\ReplicatorBundle\Domain\Result;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,10 +27,36 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class PreviewController extends AbstractController
 {
+    private PreviewService $previewService;
+    private ViewDataProvider $viewDataProvider;
+    private ProductSearchApi $productSearchApi;
+    private RequestVerifier $requestVerifier;
+    private NodeService $nodeService;
+    private PageService $pageService;
+    private ProductApi $productApi;
+
+    public function __construct(
+        PreviewService $previewService,
+        ViewDataProvider $viewDataProvider,
+        ProductSearchApi $productSearchApi,
+        ProductApi $productApi,
+        RequestVerifier $requestVerifier,
+        NodeService $nodeService,
+        PageService $pageService
+    ) {
+        $this->previewService = $previewService;
+        $this->viewDataProvider = $viewDataProvider;
+        $this->productSearchApi = $productSearchApi;
+        $this->requestVerifier = $requestVerifier;
+        $this->nodeService = $nodeService;
+        $this->pageService = $pageService;
+        $this->productApi = $productApi;
+    }
+
     public function viewAction(Request $request, Context $context, string $preview): array
     {
-        $previewService = $this->get(PreviewService::class);
-        $dataProvider = $this->get(ViewDataProvider::class);
+        $previewService = $this->previewService;
+        $dataProvider = $this->viewDataProvider;
 
         // @TODO: Build query from request (facet selections, …))
         // $query = new Query();
@@ -76,8 +104,7 @@ class PreviewController extends AbstractController
                 $itemId = null;
                 switch ($pageType) {
                     case 'product':
-                        $result = $this
-                            ->get('frontastic.catwalk.product_search_api')
+                        $result = $this->productSearchApi
                             ->query(new ProductQuery([
                                 'locale' => $context->locale,
                             ]))
@@ -87,7 +114,7 @@ class PreviewController extends AbstractController
 
                     case 'category':
                     default:
-                        $categories = $this->get('frontastic.catwalk.product_api')
+                        $categories = $this->productApi
                             ->getCategories(new CategoryQuery([
                                 'locale' => $context->locale,
                                 'limit' => 250,
@@ -104,10 +131,10 @@ class PreviewController extends AbstractController
     public function storeAction(Request $request): JsonResponse
     {
         try {
-            $requestVerifier = $this->get(RequestVerifier::class);
+            $requestVerifier = $this->requestVerifier;
             $requestVerifier->ensure($request, $this->getParameter('secret'));
 
-            $previewService = $this->get(PreviewService::class);
+            $previewService = $this->previewService;
 
             if (!$request->getContent() ||
                 !($body = json_decode($request->getContent(), true))) {
@@ -121,12 +148,12 @@ class PreviewController extends AbstractController
                 $preview = new Preview(['previewId' => $previewId]);
             }
 
-            $nodeService = $this->get(NodeService::class);
+            $nodeService = $this->nodeService;
             if ($body['node']) {
                 $preview->node = $nodeService->fill(new Node(), $body['node']);
             }
 
-            $pageService = $this->get(PageService::class);
+            $pageService = $this->pageService;
             $preview->page = $pageService->fill(new Page(), $body['page']);
 
             $preview->createdAt = new \DateTime();

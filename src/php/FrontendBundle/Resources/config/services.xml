@@ -287,6 +287,16 @@
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\PreviewController">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\PreviewService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider" />
+            <argument type="service" id="frontastic.catwalk.product_search_api" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\PageService" />
+            <argument type="service" id="frontastic.catwalk.product_api" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Controller\ProductTypeController">
             <argument type="service" id="frontastic.catwalk.product_api" />
         </service>
