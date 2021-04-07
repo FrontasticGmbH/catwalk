@@ -2,14 +2,12 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\ContentApiBundle\Domain;
 use Frontastic\Common\ContentApiBundle\Domain\ContentQueryFactory;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class ContentSearchController extends AbstractController
 {

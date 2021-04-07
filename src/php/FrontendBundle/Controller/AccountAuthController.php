@@ -11,6 +11,7 @@ use Frontastic\Common\AccountApiBundle\Domain\AccountService;
 use Frontastic\Common\AccountApiBundle\Domain\Address;
 use Frontastic\Common\AccountApiBundle\Domain\DuplicateAccountException;
 use Frontastic\Common\CoreBundle\Domain\ErrorResult;
+use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use QafooLabs\MVC\RedirectRoute;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,7 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 /**
@@ -27,25 +27,10 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
  */
 class AccountAuthController extends AbstractController
 {
-    /**
-     * @var TrackingService
-     */
     private TrackingService $trackingService;
-    /**
-     * @var AccountService
-     */
     private AccountService $accountService;
-    /**
-     * @var Authenticator
-     */
     private Authenticator $authenticator;
-    /**
-     * @var CartFetcher
-     */
     private CartFetcher $cartFetcher;
-    /**
-     * @var GuardAuthenticatorHandler
-     */
     private GuardAuthenticatorHandler $guardAuthenticatorHandler;
 
     public function __construct(

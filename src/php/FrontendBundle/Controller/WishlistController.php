@@ -2,7 +2,6 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -24,6 +23,13 @@ class WishlistController extends CrudController
      * @var WishlistApi
      */
     protected $wishlistApi;
+
+    private $newWishlistApi;
+
+    public function __construct(WishlistApi $newWishlistApi)
+    {
+        $this->newWishlistApi = $newWishlistApi;
+    }
 
     /**
      * Get wishlist for curent user
@@ -238,9 +244,7 @@ class WishlistController extends CrudController
             return $this->wishlistApi;
         }
 
-        /** @var \Frontastic\Common\WishlistApiBundle\Domain\WishlistApiFactory $wishlistApiFactory */
-        $wishlistApiFactory = $this->get('Frontastic\Common\WishlistApiBundle\Domain\WishlistApiFactory');
-        return $this->wishlistApi = $wishlistApiFactory->factor($context->project);
+        return $this->newWishlistApi;
     }
 
     /**

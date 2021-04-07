@@ -3,16 +3,23 @@
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ProductApiFactoryDecorator;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class ProductCategoryController extends Controller
+class ProductCategoryController extends AbstractController
 {
+    private ProductApiFactoryDecorator $productApiFactory;
+
+    public function __construct(ProductApiFactoryDecorator $productApiFactory)
+    {
+        $this->productApiFactory = $productApiFactory;
+    }
+
     public function listAction(Request $request, Context $context): array
     {
-        /** @var \Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory $productApiFactory */
-        $productApiFactory = $this->get('Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory');
+        $productApiFactory = $this->productApiFactory;
 
         $productApi = $productApiFactory->factor($context->project);
 

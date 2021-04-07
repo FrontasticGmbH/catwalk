@@ -11,13 +11,11 @@ use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ProductController extends AbstractController
+class ProductController
 {
 
     private MasterService $masterService;

@@ -6,14 +6,11 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Frontastic\Common\AccountApiBundle\Domain\Address;
 use Frontastic\Common\CartApiBundle\Domain\Cart;
-use Frontastic\Common\CartApiBundle\Domain\Order;
 use Frontastic\Common\CartApiBundle\Domain\CartApi;
 use Frontastic\Common\CartApiBundle\Domain\LineItem;
-use Frontastic\Common\CartApiBundle\Domain\ShippingMethod;
 use Frontastic\Common\CoreBundle\Controller\CrudController;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\ProductApiBundle\Domain\Variant;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -32,6 +29,14 @@ class CartController extends CrudController
      * @var CartFetcher
      */
     private $cartFetcher;
+    private TrackingService $trackingService;
+    private CartApi $newCartApi;
+
+    public function __construct(TrackingService $trackingService, CartApi $newCartApi)
+    {
+        $this->trackingService = $trackingService;
+        $this->newCartApi = $newCartApi;
+    }
 
     /**
      * Get the current cart
@@ -127,7 +132,7 @@ class CartController extends CrudController
         $cartApi->addToCart($cart, $lineItemVariant, $context->locale);
         $cart = $cartApi->commit($context->locale);
 
-        $this->get(TrackingService::class)->reachAddToBasket($context, $cart, $lineItemVariant);
+        $this->trackingService->reachAddToBasket($context, $cart, $lineItemVariant);
 
         return [
             'cart' => $cart,
@@ -192,7 +197,7 @@ class CartController extends CrudController
             // BC
             $lineItemVariant->projectSpecificData = $this->parseProjectSpecificDataByKey($lineItemData, 'option');
 
-            $this->get(TrackingService::class)->reachAddToBasket($context, $cart, $lineItemVariant);
+            $this->trackingService->reachAddToBasket($context, $cart, $lineItemVariant);
             $cartApi->addToCart($cart, $lineItemVariant, $context->locale);
         }
         $cart = $cartApi->commit($context->locale);
@@ -372,7 +377,7 @@ class CartController extends CrudController
                 $context->locale
             );
         }
-        
+
         if (array_key_exists('shippingMethodName', $payload)) {
             $cart = $cartApi->setShippingMethod(
                 $cart,
@@ -416,7 +421,7 @@ class CartController extends CrudController
         }
 
         $order = $cartApi->order($cart, $context->locale);
-        $this->get(TrackingService::class)->reachOrder($context, $order);
+        $this->trackingService->reachOrder($context, $order);
 
         $symfonySession = $request->hasSession() ? $request->getSession() : null;
         if ($symfonySession !== null) {
@@ -513,9 +518,7 @@ class CartController extends CrudController
             return $this->cartApi;
         }
 
-        /** @var \Frontastic\Common\CartApiBundle\Domain\CartApiFactory $cartApiFactory */
-        $cartApiFactory = $this->get('Frontastic\Common\CartApiBundle\Domain\CartApiFactory');
-        return $this->cartApi = $cartApiFactory->factor($context->project);
+        return $this->newCartApi;
     }
 
     protected function getCart(Context $context, Request $request): Cart

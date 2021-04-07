@@ -9,23 +9,37 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class SearchController extends Controller
+class SearchController
 {
+    private MasterService $masterService;
+    private NodeService $nodeService;
+    private ViewDataProvider $viewDataProvider;
+    private PageService $pageService;
+    private TrackingService $trackingService;
+
+    public function __construct(
+        MasterService $masterService,
+        NodeService $nodeService,
+        ViewDataProvider $viewDataProvider,
+        PageService $pageService,
+        TrackingService $trackingService
+    ) {
+        $this->masterService = $masterService;
+        $this->nodeService = $nodeService;
+        $this->viewDataProvider = $viewDataProvider;
+        $this->pageService = $pageService;
+        $this->trackingService = $trackingService;
+    }
+
     public function searchAction(Request $request, Context $context, string $phrase): array
     {
-        /** @var MasterService $pageMatcherService */
-        $pageMatcherService = $this->get(MasterService::class);
-        /** @var NodeService $nodeService */
-        $nodeService = $this->get(NodeService::class);
-        /** @var ViewDataProvider $dataProvider */
-        $dataProvider = $this->get(ViewDataProvider::class);
-        /** @var PageService $pageService */
-        $pageService = $this->get(PageService::class);
-        /** @var MasterService $masterService */
-        $masterService = $this->get(MasterService::class);
+        $pageMatcherService = $this->masterService;
+        $nodeService = $this->nodeService;
+        $dataProvider = $this->viewDataProvider;
+        $pageService = $this->pageService;
+        $masterService = $this->masterService;
 
         $node = $nodeService->get($pageMatcherService->matchNodeId(new PageMatcherContext(['search' => $phrase])));
         $node->nodeType = 'search';
@@ -40,7 +54,7 @@ class SearchController extends Controller
 
         $masterService->completeTasticStreamConfigurationWithMasterDefault($page, 'search');
 
-        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
+        $this->trackingService->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,

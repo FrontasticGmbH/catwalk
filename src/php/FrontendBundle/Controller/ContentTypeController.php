@@ -2,11 +2,9 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\ContentApiBundle\Domain\DefaultContentApiFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class ContentTypeController extends AbstractController
 {
