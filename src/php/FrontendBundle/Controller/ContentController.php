@@ -11,12 +11,11 @@ use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Content;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ContentRouter;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ContentController extends AbstractController
+class ContentController
 {
     const PRODUCT_STREAM_KEY = '__content';
     private MasterService $masterService;

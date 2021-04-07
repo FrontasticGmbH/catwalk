@@ -13,10 +13,9 @@ use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Frontastic\Common\ProductApiBundle\Domain\Category;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class CategoryController extends AbstractController
+class CategoryController
 {
     private MasterService $masterService;
     private NodeService $nodeService;

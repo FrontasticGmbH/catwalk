@@ -3,9 +3,8 @@
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\FacetService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class FacetController extends AbstractController
+class FacetController
 {
     private FacetService $facetService;
 

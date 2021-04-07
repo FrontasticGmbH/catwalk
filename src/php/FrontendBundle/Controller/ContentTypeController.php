@@ -4,9 +4,8 @@ namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\ContentApiBundle\Domain\DefaultContentApiFactory;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class ContentTypeController extends AbstractController
+class ContentTypeController
 {
     private DefaultContentApiFactory $defaultContentApiFactory;
 

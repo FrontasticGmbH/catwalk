@@ -9,10 +9,9 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class CheckoutController extends AbstractController
+class CheckoutController
 {
     private TrackingService $trackingService;
     private MasterService $masterService;

@@ -3,9 +3,8 @@
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class PatternLibraryController extends AbstractController
+class PatternLibraryController
 {
     public function indexAction(Context $context)
     {

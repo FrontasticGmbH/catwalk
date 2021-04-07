@@ -5,10 +5,9 @@ namespace Frontastic\Catwalk\FrontendBundle\Controller;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ProductApiFactoryDecorator;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class ProductCategoryController extends AbstractController
+class ProductCategoryController
 {
     private ProductApiFactoryDecorator $productApiFactory;
 

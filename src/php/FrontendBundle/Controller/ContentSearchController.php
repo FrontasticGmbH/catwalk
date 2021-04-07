@@ -6,10 +6,9 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\ContentApiBundle\Domain;
 use Frontastic\Common\ContentApiBundle\Domain\ContentQueryFactory;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class ContentSearchController extends AbstractController
+class ContentSearchController
 {
     private Domain\DefaultContentApiFactory $defaultContentApiFactory;
 

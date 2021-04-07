@@ -6,11 +6,10 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQueryFactory;
 use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 
-class ProductSearchController extends AbstractController
+class ProductSearchController
 {
 
     private ProductSearchApi $productSearchApi;

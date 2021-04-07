@@ -4,11 +4,10 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class AppController extends AbstractController
+class AppController
 {
 
     private AppRepositoryService $appRepositoryService;
