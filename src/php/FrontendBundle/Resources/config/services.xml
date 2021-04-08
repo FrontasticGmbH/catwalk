@@ -88,6 +88,11 @@
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\MasterPageMatcherRulesGateway" />
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService" />
             <argument type="service" id="rulerz" />
+        </service>
+
+        <service id="frontastic.catwalk.frontend_bundle.domain.page_matcher.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\MasterService" />
+            <argument>%frontastic.environment%</argument>
 
             <tag name="endpoint.target" channel="page-matcher" />
         </service>

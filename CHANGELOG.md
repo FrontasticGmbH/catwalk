@@ -1,5 +1,48 @@
 # catwalk Changelog
 
+## `1.10.3` (2021-04-06)
+
+* fix: removed extra logs in catwalk CHANGELOG
+
+## `1.10.2` (2021-04-06)
+
+* fix: Missing DataObject base class for MasterPageMatcherRules.
+* fix(FP-565): CS.
+* fix(FP-565): Test case to ensure all replication targets filter.
+* fix(FP-565): Wrap endpoint for page-matcher in EnvironmentReplicationFilter.
+* fix(FP-565): Make EnvironmentReplicationFilter work for MasterServiceTest.
+* fix(FP-565): Regression test for MasterService replication.
+* fix: Missing DataObject base class for MasterPageMatcherRules.
+
+## `1.10.1` (2021-03-25)
+
+* fix: Do not include tailwind in CSS module processing
+
+## `1.10.0` (2021-03-23)
+
+* feat: Allow to specify status code for redirects
+* chore(webpack): override the 'To create a production build, run npm build' message on yarn run
+
+## `1.9.21` (2021-03-18)
+
+* fix!: properly arrange import order for encrypted vaults
+* chore(webpack): explicity set useYarn to true in createCompiler
+* chore(catwalk): made wiping the writePayloadToFile overridable by providing a JSON_LOG_PATH
+
+## `1.9.20` (2021-03-15)
+
+* fix: typecast depth param used in NodeService:getTree()
+
+## `1.9.19` (2021-03-11)
+
+* chore(catwalk): conformed shell variable name
+* chore(catwalk): removed node signal handling, undefined AbortController
+* feat: Also build and commit server source map
+
+## `1.9.18` (2021-03-11)
+
+* fix: wrapped custom fields action in an array
+
 ## `1.9.17` (2021-03-09)
 
 * fix: Ignore annotations for Symfony

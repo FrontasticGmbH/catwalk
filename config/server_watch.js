@@ -5,18 +5,6 @@ const process = require('process');
 // https://stackoverflow.com/a/54515183/390808
 const shell = process.platform == 'win32'
 
-const ac = new AbortController();
-
-function handleStop() {
-    console.log('Received signal. Stopping child.');
-    ac.abort();
-    process.exit(0);
-}
-
-process.on('SIGINT', handleStop)
-process.on('SIGTERM', handleStop)
-process.on('SIGBREAK', handleStop)
-
 console.log('starting ssr compile')
 
 process.env.NODE_ENV = 'development'
@@ -28,7 +16,6 @@ spawnSync(
         stdio: 'inherit',
         shell: shell,
         env: process.env,
-        detached: false,
-        abort: ac
+        detached: false
     }
 );

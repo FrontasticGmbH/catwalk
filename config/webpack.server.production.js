@@ -6,6 +6,7 @@ const PRODUCTION = true
 const SERVER = true
 
 let config = require('./webpack.js')(PRODUCTION, SERVER)
+config.devtool = 'cheap-module-source-map'
 
 config = require('./webpack/ignoreScss.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/provideDomOnServer.js')(config, PRODUCTION, SERVER)

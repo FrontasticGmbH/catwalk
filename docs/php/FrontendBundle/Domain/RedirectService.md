@@ -72,7 +72,7 @@ public function getRedirectUrlForRequest(
     string $path,
     \Symfony\Component\HttpFoundation\ParameterBag $queryParameters,
     Context $context
-): ?string
+): ?object
 ```
 
 Argument|Type|Default|Description
@@ -81,7 +81,7 @@ Argument|Type|Default|Description
 `$queryParameters`|`\Symfony\Component\HttpFoundation\ParameterBag`||
 `$context`|[`Context`](../../ApiCoreBundle/Domain/Context.md)||
 
-Return Value: `?string`
+Return Value: `?object`
 
 ### getRedirects()
 

@@ -2,6 +2,8 @@
 
 **Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\MasterPageMatcherRules`](../../../../src/php/FrontendBundle/Domain/MasterPageMatcherRules.php)
 
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
+
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
 `rulesId` | `string` |  | - | 

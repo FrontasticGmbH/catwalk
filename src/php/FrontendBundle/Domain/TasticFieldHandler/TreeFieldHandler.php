@@ -37,7 +37,7 @@ class TreeFieldHandler extends TasticFieldHandler
     {
         return $this->nodeService->getTree(
             (empty($fieldValue['node']) ? null : $fieldValue['node']),
-            ((empty($fieldValue['depth']) && intval($fieldValue['depth']) !== 0) ? null : $fieldValue['depth'])
+            ((empty($fieldValue['depth']) && (int)$fieldValue['depth'] !== 0) ? null : (int)$fieldValue['depth'])
         );
     }
 }

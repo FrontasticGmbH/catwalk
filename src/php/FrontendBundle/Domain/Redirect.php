@@ -37,6 +37,11 @@ class Redirect extends DataObject
     public $query;
 
     /**
+     * @var int
+     */
+    public $statusCode = 301;
+
+    /**
      * One of TARGET_TYPE_* constants
      *
      * @var string

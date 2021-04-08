@@ -6,8 +6,8 @@ const process = require('process');
 const path = 'build/assets/js/devServer.js'
 try {
     fs.writeFileSync(path, '', { flag: 'wx' }); // throws error if file exists
-    console.log("touched "+path);
-} catch(err) {
+    console.log("touched " + path);
+} catch (err) {
     // ignore, we only want the file to exist
 }
 
@@ -24,25 +24,9 @@ exec('node-full-icu-path', function(error, stdout, stderr) {
 });
 */
 
-const onWindows = process.platform == 'win32'
 // is required to avoid ENOENT error on windows, see
 // https://stackoverflow.com/a/54515183/390808
-const shell = onWindows
-
-const ac = new AbortController();
-
-function handleStop() {
-    console.log('Received signal. Stopping child.');
-    ac.abort();
-    process.exit(1);
-}
-
-// TODO: windows seems to  make problems when listening to these events, only do on non-windows
-if (!onWindows) {
-    process.once('SIGINT', handleStop)
-    process.once('SIGTERM', handleStop)
-    process.once('SIGBREAK', handleStop)
-}
+const shell = process.platform == 'win32'
 
 console.log('starting server')
 console.log('sync!')
@@ -53,7 +37,6 @@ spawnSync(
     {
         stdio: 'inherit',
         shell: shell,
-        detached: false,
-        abort: ac
+        detached: false
     }
 );
