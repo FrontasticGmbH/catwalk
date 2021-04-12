@@ -7,19 +7,20 @@ use Frontastic\Common\ContentApiBundle\Domain;
 use Frontastic\Common\ContentApiBundle\Domain\ContentQueryFactory;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Symfony\Component\HttpFoundation\Request;
+use Frontastic\Common\ContentApiBundle\Domain\ContentApiFactory;
 
 class ContentSearchController
 {
-    private Domain\DefaultContentApiFactory $defaultContentApiFactory;
+    private ContentApiFactory $contentApiFactory;
 
-    public function __construct(Domain\DefaultContentApiFactory $defaultContentApiFactory)
+    public function __construct(ContentApiFactory $contentApiFactory)
     {
-        $this->defaultContentApiFactory = $defaultContentApiFactory;
+        $this->contentApiFactory = $contentApiFactory;
     }
 
     public function showAction(Request $request, Context $context): array
     {
-        $contentApiFactory = $this->defaultContentApiFactory;
+        $contentApiFactory = $this->contentApiFactory;
         $contentApi = $contentApiFactory->factor($context->project);
 
         $requestParameters = Json::decode($request->getContent(), true);
@@ -41,7 +42,7 @@ class ContentSearchController
 
     public function listAction(Request $request, Context $context): array
     {
-        $contentApiFactory = $this->defaultContentApiFactory;
+        $contentApiFactory = $this->contentApiFactory;
         $contentApi = $contentApiFactory->factor($context->project);
 
         $query = ContentQueryFactory::queryFromRequest($request);

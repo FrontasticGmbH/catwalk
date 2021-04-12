@@ -19,16 +19,12 @@ use Frontastic\Common\CoreBundle\Domain\Json\Json;
  */
 class WishlistController extends CrudController
 {
-    /**
-     * @var WishlistApi
-     */
-    protected $wishlistApi;
 
-    private $newWishlistApi;
+    private WishlistApi $wishlistApi;
 
-    public function __construct(WishlistApi $newWishlistApi)
+    public function __construct(WishlistApi $wishlistApi)
     {
-        $this->newWishlistApi = $newWishlistApi;
+        $this->wishlistApi = $wishlistApi;
     }
 
     /**

@@ -341,6 +341,7 @@
         <service id="Frontastic\Catwalk\FrontendBundle\Controller\CartController">
             <argument type="service" id="Frontastic\Catwalk\TrackingBundle\Domain\TrackingService" />
             <argument type="service" id="frontastic.catwalk.cart_api" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Controller\CartFetcher" />
         </service>
 
         <service id="frontastic.catwalk.account_api" class="Frontastic\Common\AccountApiBundle\Domain\AccountApi">

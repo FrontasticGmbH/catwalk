@@ -25,7 +25,6 @@ class AccountController
         PageService $pageService,
         TrackingService $trackingService
     ) {
-
         $this->masterService = $masterService;
         $this->nodeService = $nodeService;
         $this->viewDataProvider = $viewDataProvider;

@@ -35,7 +35,6 @@ class ProductController
         TrackingService $trackingService,
         ProductApi $productApi
     ) {
-
         $this->masterService = $masterService;
         $this->nodeService = $nodeService;
         $this->viewDataProvider = $viewDataProvider;

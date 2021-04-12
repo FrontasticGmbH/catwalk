@@ -40,7 +40,6 @@ class AccountAuthController extends AbstractController
         CartFetcher $cartFetcher,
         GuardAuthenticatorHandler $guardAuthenticatorHandler
     ) {
-
         $this->trackingService = $trackingService;
         $this->accountService = $accountService;
         $this->authenticator = $authenticator;

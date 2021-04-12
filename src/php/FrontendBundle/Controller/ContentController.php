@@ -86,7 +86,7 @@ class ContentController
 
         $page = $pageService->fetchForNode($node, $context);
 
-        $this->contentRouter->trackPageView($context, $node->nodeType);
+        $this->trackingService->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,

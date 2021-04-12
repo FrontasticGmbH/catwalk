@@ -21,21 +21,17 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class CartController extends CrudController
 {
     /**
-     * @var CartApi
-     */
-    protected $cartApi;
-
-    /**
      * @var CartFetcher
      */
     private $cartFetcher;
     private TrackingService $trackingService;
-    private CartApi $newCartApi;
+    private CartApi $cartApi;
 
-    public function __construct(TrackingService $trackingService, CartApi $newCartApi)
+    public function __construct(TrackingService $trackingService, CartApi $cartApi, CartFetcher $cartFetcher)
     {
         $this->trackingService = $trackingService;
-        $this->newCartApi = $newCartApi;
+        $this->cartApi = $cartApi;
+        $this->cartFetcher = $cartFetcher;
     }
 
     /**

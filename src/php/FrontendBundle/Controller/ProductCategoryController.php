@@ -3,15 +3,15 @@
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\ProductApiFactoryDecorator;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Symfony\Component\HttpFoundation\Request;
 
 class ProductCategoryController
 {
-    private ProductApiFactoryDecorator $productApiFactory;
+    private ProductApiFactory $productApiFactory;
 
-    public function __construct(ProductApiFactoryDecorator $productApiFactory)
+    public function __construct(ProductApiFactory $productApiFactory)
     {
         $this->productApiFactory = $productApiFactory;
     }

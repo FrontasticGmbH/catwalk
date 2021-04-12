@@ -18,7 +18,6 @@ class AttributesController extends AbstractController
         RequestVerifier $requestVerifier,
         ProductSearchApiFactory $productSearchApiFactory
     ) {
-
         $this->requestVerifier = $requestVerifier;
         $this->productSearchApiFactory = $productSearchApiFactory;
     }
