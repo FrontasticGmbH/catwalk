@@ -45,23 +45,17 @@ class CategoryController
 
     public function viewAction(Context $context, Request $request): array
     {
-        $pageMatcherService = $this->masterService;
-        $nodeService = $this->nodeService;
-        $dataProvider = $this->viewDataProvider;
-        $pageService = $this->pageService;
-        $categoryRouter = $this->categoryRouter;
-
-        $id = $categoryRouter->identifyFrom($request, $context);
+        $id = $this->categoryRouter->identifyFrom($request, $context);
 
         $category = $this->findCategoryById($id, $context);
-        $node = $nodeService->get(
-            $pageMatcherService->matchNodeId(new PageMatcherContext([
+        $node = $this->nodeService->get(
+            $this->masterService->matchNodeId(new PageMatcherContext([
                 'entity' => $category,
                 'categoryId' => $id,
             ]))
         );
         $node->nodeType = 'category';
-        $node->streams = $pageMatcherService->completeDefaultQuery(
+        $node->streams = $this->masterService->completeDefaultQuery(
             $node->streams,
             'category',
             $id
@@ -71,19 +65,16 @@ class CategoryController
 
         return [
             'node' => $node,
-            'page' => $page = $pageService->fetchForNode($node, $context),
-            'data' => $dataProvider->fetchDataFor($node, $context, $request->query->get('s', []), $page),
+            'page' => $page = $this->pageService->fetchForNode($node, $context),
+            'data' => $this->viewDataProvider->fetchDataFor($node, $context, $request->query->get('s', []), $page),
         ];
     }
 
     public function allAction(Context $context)
     {
-        /** @var ProductApi $productApi */
-        $productApi = $this->productApi;
-
         // TODO: Allow fetching of more than 500 categories by paging
         return [
-            'categories' => $productApi->getCategories(new CategoryQuery([
+            'categories' => $this->productApi->getCategories(new CategoryQuery([
                 'locale' => $context->locale,
                 'limit' => 500,
             ])),
@@ -92,14 +83,12 @@ class CategoryController
 
     private function findCategoryById(string $categoryId, Context $context): ?Category
     {
-        $productApi = $this->productApi;
-
         $categoryQuery = new CategoryQuery([
             'locale' => $context->locale,
             'limit' => 500,
             'parentId' => $categoryId,
         ]);
-        foreach ($productApi->getCategories($categoryQuery) as $category) {
+        foreach ($this->productApi->getCategories($categoryQuery) as $category) {
             if ($category->categoryId === $categoryId) {
                 return $category;
             }

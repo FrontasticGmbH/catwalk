@@ -26,7 +26,6 @@ class ApiController extends AbstractController
         EndpointService $endpointService,
         RequestVerifier $requestVerifier
     ) {
-
         $this->contextService = $contextService;
         $this->endpointService = $endpointService;
         $this->requestVerifier = $requestVerifier;
@@ -34,8 +33,7 @@ class ApiController extends AbstractController
 
     public function contextAction(Request $request)
     {
-        $contextService = $this->contextService;
-        return $contextService->createContextFromRequest($request);
+        return $this->contextService->createContextFromRequest($request);
     }
 
     public function endpointAction(Request $request): JsonResponse
@@ -56,8 +54,7 @@ class ApiController extends AbstractController
             }
 
             $command = new Command($body, true);
-            $endpoint = $this->endpointService;
-            return new JsonResponse($endpoint->dispatch($command));
+            return new JsonResponse($this->endpointService->dispatch($command));
         } catch (\Throwable $e) {
             return new JsonResponse(Result::fromThrowable($e));
         }
@@ -87,8 +84,7 @@ class ApiController extends AbstractController
 
     private function verifyRequest(Request $request): void
     {
-        $requestVerifier = $this->requestVerifier;
-        $requestVerifier->ensure($request, $this->getParameter('secret'));
+        $this->requestVerifier->ensure($request, $this->getParameter('secret'));
 
         /* HACK: This request is stateless, so let the ContextService know that we do not need a session. */
         $request->attributes->set(Session::STATELESS, true);

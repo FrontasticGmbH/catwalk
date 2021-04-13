@@ -61,13 +61,8 @@ class CheckoutController
 
     private function getNode(Context $context, PageMatcherContext $pageMatcherContext, ?string $pageType = null): array
     {
-        $masterService = $this->masterService;
-        $nodeService = $this->nodeService;
-        $dataService = $this->viewDataProvider;
-        $pageService = $this->pageService;
-
-        $node = $nodeService->get(
-            $masterService->matchNodeId($pageMatcherContext)
+        $node = $this->nodeService->get(
+            $this->masterService->matchNodeId($pageMatcherContext)
         );
         $node->nodeType = array_keys(array_filter((array)$pageMatcherContext))[0] ?? 'unknown';
 
@@ -80,11 +75,11 @@ class CheckoutController
             }
         }
 
-        $page = $pageService->fetchForNode($node, $context);
+        $page = $this->pageService->fetchForNode($node, $context);
 
         // Cart is available via tastify() in the front-end already
         if ($pageType !== null) {
-            $masterService->completeTasticStreamConfigurationWithMasterDefault($page, $pageType);
+            $this->masterService->completeTasticStreamConfigurationWithMasterDefault($page, $pageType);
         }
 
         $this->trackingService->trackPageView($context, $node->nodeType);
@@ -92,7 +87,7 @@ class CheckoutController
         return [
             'node' => $node,
             'page' => $page,
-            'data' => $dataService->fetchDataFor($node, $context, [], $page),
+            'data' => $this->viewDataProvider->fetchDataFor($node, $context, [], $page),
         ];
     }
 }

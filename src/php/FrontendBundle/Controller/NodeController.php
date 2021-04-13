@@ -32,36 +32,29 @@ class NodeController
 
     public function viewAction(Request $request, Context $context, string $nodeId)
     {
-
-        $nodeService = $this->nodeService;
-        $pageService = $this->pageService;
-        $dataProvider = $this->viewDataProvider;
-
-        $node = $nodeService->get($nodeId);
+        $node = $this->nodeService->get($nodeId);
 
         if (class_exists('Tideways\Profiler') &&
             ($node->configuration['separateTidewaysTransaction'] ?? false) === true) {
             \Tideways\Profiler::setTransactionName('Node: ' . $node->nodeId);
         }
 
-        $page = $pageService->fetchForNode($node, $context);
+        $page = $this->pageService->fetchForNode($node, $context);
 
         $this->trackingService->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,
             'page' => $page,
-            'data' => $dataProvider->fetchDataFor($node, $context, $request->query->get('s', []), $page),
+            'data' => $this->viewDataProvider->fetchDataFor($node, $context, $request->query->get('s', []), $page),
         ];
     }
 
     public function treeAction(Request $request): Node
     {
-        /** @var NodeService $nodeService */
-        $nodeService = $this->nodeService;
         $root = $request->get('root', null);
         $depth = $request->get('depth', 1);
 
-        return $nodeService->getTree($root, $depth);
+        return $this->nodeService->getTree($root, $depth);
     }
 }

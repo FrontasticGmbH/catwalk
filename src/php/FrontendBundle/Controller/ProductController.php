@@ -48,27 +48,19 @@ class ProductController
 
     public function viewAction(Context $context, Request $request)
     {
-        $masterService = $this->masterService;
-        $nodeService = $this->nodeService;
-        $dataService = $this->viewDataProvider;
-        $pageService = $this->pageService;
-
-        $productApi = $this->productApi;
-        $productRouter = $this->productRouter;
-
         // FIXME: Product is loaded to often in this request (1x identify, 1x generate URL, 1x stream), needs optimize!
 
-        $productId = $productRouter->identifyFrom($request, $context);
+        $productId = $this->productRouter->identifyFrom($request, $context);
         if (!$productId) {
             throw new NotFoundHttpException();
         }
 
-        $product = $productApi->getProduct(
+        $product = $this->productApi->getProduct(
             ProductApi\Query\SingleProductQuery::byProductIdWithLocale($productId, $context->locale)
         );
 
         $currentUrl = parse_url($request->getRequestUri(), PHP_URL_PATH);
-        $correctUrl = $productRouter->generateUrlFor($product);
+        $correctUrl = $this->productRouter->generateUrlFor($product);
         if ($currentUrl !== $correctUrl) {
             // Race condition: this redirect is not handled gracefully by the JS stack
             return new RedirectResponse($correctUrl, 301);
@@ -78,20 +70,20 @@ class ProductController
             throw new NotFoundHttpException();
         }
 
-        $node = $nodeService->get(
-            $masterService->matchNodeId(new PageMatcherContext([
+        $node = $this->nodeService->get(
+            $this->masterService->matchNodeId(new PageMatcherContext([
                 'entity' => $product,
                 'productId' => $productId,
             ]))
         );
         $node->nodeType = 'product';
-        $node->streams = $masterService->completeDefaultQuery(
+        $node->streams = $this->masterService->completeDefaultQuery(
             $node->streams,
             'product',
             $productId
         );
 
-        $page = $pageService->fetchForNode($node, $context);
+        $page = $this->pageService->fetchForNode($node, $context);
 
         $this->trackingService->trackPageView($context, $node->nodeType);
         $this->trackingService->reachViewProduct($context, $product);
@@ -99,7 +91,7 @@ class ProductController
         return [
             'node' => $node,
             'page' => $page,
-            'data' => $dataService->fetchDataFor($node, $context, [], $page),
+            'data' => $this->viewDataProvider->fetchDataFor($node, $context, [], $page),
         ];
     }
 }

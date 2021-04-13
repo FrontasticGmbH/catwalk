@@ -46,23 +46,15 @@ class ContentController
 
     public function viewAction(Context $context, Request $request)
     {
-        $masterService = $this->masterService;
-        $nodeService = $this->nodeService;
-        $dataService = $this->viewDataProvider;
-        $pageService = $this->pageService;
-
-        $contentApi = $this->contentApi;
-        $contentRouter = $this->contentRouter;
-
-        $contentId = $contentRouter->identifyFrom($request, $context);
+        $contentId = $this->contentRouter->identifyFrom($request, $context);
         if (!$contentId) {
             throw new NotFoundHttpException();
         }
 
-        $content = $contentApi->getContent($contentId, $context->locale);
+        $content = $this->contentApi->getContent($contentId, $context->locale);
 
         $currentUrl = parse_url($request->getRequestUri(), PHP_URL_PATH);
-        if ($currentUrl !== ($correctUrl = $contentRouter->generateUrlFor($content))) {
+        if ($currentUrl !== ($correctUrl = $this->contentRouter->generateUrlFor($content))) {
             // Race condition: this redirect is not handled gracefully by the JS stack
             return new RedirectResponse($correctUrl, 301);
         }
@@ -71,27 +63,27 @@ class ContentController
             throw new NotFoundHttpException();
         }
 
-        $node = $nodeService->get(
-            $masterService->matchNodeId(new PageMatcherContext([
+        $node = $this->nodeService->get(
+            $this->masterService->matchNodeId(new PageMatcherContext([
                 'entity' => $content,
                 'contentId' => $contentId,
             ]))
         );
         $node->nodeType = 'content';
-        $node->streams = $masterService->completeDefaultQuery(
+        $node->streams = $this->masterService->completeDefaultQuery(
             $node->streams,
             'content',
             $contentId
         );
 
-        $page = $pageService->fetchForNode($node, $context);
+        $page = $this->pageService->fetchForNode($node, $context);
 
         $this->trackingService->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,
             'page' => $page,
-            'data' => $dataService->fetchDataFor($node, $context, [], $page),
+            'data' => $this->viewDataProvider->fetchDataFor($node, $context, [], $page),
         ];
     }
 }

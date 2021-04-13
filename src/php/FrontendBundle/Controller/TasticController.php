@@ -15,8 +15,6 @@ class TasticController
 
     public function allAction(): array
     {
-        $tasticService = $this->tasticService;
-
-        return $tasticService->getAll();
+        return $this->tasticService->getAll();
     }
 }

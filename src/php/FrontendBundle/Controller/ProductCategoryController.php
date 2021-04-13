@@ -3,25 +3,21 @@
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Symfony\Component\HttpFoundation\Request;
 
 class ProductCategoryController
 {
-    private ProductApiFactory $productApiFactory;
+    private ProductApi $productApi;
 
-    public function __construct(ProductApiFactory $productApiFactory)
+    public function __construct(ProductApi $productApi)
     {
-        $this->productApiFactory = $productApiFactory;
+        $this->productApi = $productApi;
     }
 
     public function listAction(Request $request, Context $context): array
     {
-        $productApiFactory = $this->productApiFactory;
-
-        $productApi = $productApiFactory->factor($context->project);
-
         $query = new CategoryQuery([
             'locale' => $context->locale,
             'limit' => $request->query->getInt('limit', 250),
@@ -31,7 +27,7 @@ class ProductCategoryController
         ]);
 
         return [
-            'categories' => $productApi->getCategories($query),
+            'categories' => $this->productApi->getCategories($query),
         ];
     }
 }

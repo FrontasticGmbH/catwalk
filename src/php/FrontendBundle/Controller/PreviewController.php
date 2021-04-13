@@ -55,13 +55,10 @@ class PreviewController extends AbstractController
 
     public function viewAction(Request $request, Context $context, string $preview): array
     {
-        $previewService = $this->previewService;
-        $dataProvider = $this->viewDataProvider;
-
         // @TODO: Build query from request (facet selections, …))
         // $query = new Query();
 
-        $preview = $previewService->get($preview);
+        $preview = $this->previewService->get($preview);
 
         if ($preview->node && $preview->node->isMaster) {
             $this->completeMasterNode($context, $preview->node);
@@ -69,7 +66,7 @@ class PreviewController extends AbstractController
 
         $data = new \stdClass();
         if ($preview->node) {
-            $data = $dataProvider->fetchDataFor($preview->node, $context, [], $preview->page);
+            $data = $this->viewDataProvider->fetchDataFor($preview->node, $context, [], $preview->page);
         }
 
         return [
@@ -131,10 +128,7 @@ class PreviewController extends AbstractController
     public function storeAction(Request $request): JsonResponse
     {
         try {
-            $requestVerifier = $this->requestVerifier;
-            $requestVerifier->ensure($request, $this->getParameter('secret'));
-
-            $previewService = $this->previewService;
+            $this->requestVerifier->ensure($request, $this->getParameter('secret'));
 
             if (!$request->getContent() ||
                 !($body = json_decode($request->getContent(), true))) {
@@ -143,18 +137,16 @@ class PreviewController extends AbstractController
             $previewId = $body['previewId'];
 
             try {
-                $preview = $previewService->get($previewId);
+                $preview = $this->previewService->get($previewId);
             } catch (\OutOfBoundsException $e) {
                 $preview = new Preview(['previewId' => $previewId]);
             }
 
-            $nodeService = $this->nodeService;
             if ($body['node']) {
-                $preview->node = $nodeService->fill(new Node(), $body['node']);
+                $preview->node = $this->nodeService->fill(new Node(), $body['node']);
             }
 
-            $pageService = $this->pageService;
-            $preview->page = $pageService->fill(new Page(), $body['page']);
+            $preview->page = $this->pageService->fill(new Page(), $body['page']);
 
             $preview->createdAt = new \DateTime();
             $preview->metaData = $body['metaData'];
@@ -166,7 +158,7 @@ class PreviewController extends AbstractController
                     ['preview' => $preview->previewId],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 ),
-                'preview' => $previewService->store($preview),
+                'preview' => $this->previewService->store($preview),
             ]);
         } catch (\Throwable $e) {
             $this->get('logger')->error(

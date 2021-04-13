@@ -14,7 +14,6 @@ class AppController
 
     public function __construct(AppRepositoryService $appRepositoryService)
     {
-
         $this->appRepositoryService = $appRepositoryService;
     }
 

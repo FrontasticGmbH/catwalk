@@ -21,15 +21,13 @@ class ProductSearchController
 
     public function listAction(Request $request, Context $context): array
     {
-        $productSearchApi = $this->productSearchApi;
-
         $query = ProductQueryFactory::queryFromParameters(
             ['locale' => $context->locale],
             $request->getContent() ? Json::decode($request->getContent(), true) : []
         );
 
         return [
-            'result' => $productSearchApi->query($query)->wait(),
+            'result' => $this->productSearchApi->query($query)->wait(),
         ];
     }
 }

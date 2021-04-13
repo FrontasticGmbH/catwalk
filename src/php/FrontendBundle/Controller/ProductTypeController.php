@@ -17,14 +17,12 @@ class ProductTypeController
 
     public function listAction(Context $context): array
     {
-        $productApi = $this->productApi;
-
         $query = new ProductTypeQuery([
             'locale' => $context->locale,
         ]);
 
         return [
-            'productTypes' => $productApi->getProductTypes($query),
+            'productTypes' => $this->productApi->getProductTypes($query),
         ];
     }
 }

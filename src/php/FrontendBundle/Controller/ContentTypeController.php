@@ -3,24 +3,21 @@
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Frontastic\Common\ContentApiBundle\Domain\ContentApiFactory;
+use Frontastic\Common\ContentApiBundle\Domain\ContentApi;
 
 class ContentTypeController
 {
-    private ContentApiFactory $contentApiFactory;
+    private ContentApi $contentApi;
 
-    public function __construct(ContentApiFactory $contentApiFactory)
+    public function __construct(ContentApi $contentApi)
     {
-        $this->contentApiFactory = $contentApiFactory;
+        $this->contentApi = $contentApi;
     }
 
     public function listAction(Context $context): array
     {
-        $contentApiFactory = $this->contentApiFactory;
-        $contentApi = $contentApiFactory->factor($context->project);
-
         return [
-            'contentTypes' => $contentApi->getContentTypes(),
+            'contentTypes' => $this->contentApi->getContentTypes(),
         ];
     }
 }

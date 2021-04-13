@@ -74,30 +74,25 @@ class AccountController
 
     private function getNode(Context $context, PageMatcherContext $pageMatcherContext): array
     {
-        $masterService = $this->masterService;
-        $nodeService = $this->nodeService;
-        $dataService = $this->viewDataProvider;
-        $pageService = $this->pageService;
-
         $queryData = array_filter((array)$pageMatcherContext);
-        $node = $nodeService->get($masterService->matchNodeId($pageMatcherContext));
+        $node = $this->nodeService->get($this->masterService->matchNodeId($pageMatcherContext));
         $node->nodeType = array_keys(array_filter((array)$pageMatcherContext))[0] ?? 'unknown';
-        $node->streams = $masterService->completeDefaultQuery(
+        $node->streams = $this->masterService->completeDefaultQuery(
             $node->streams,
             key($queryData),
             $context->session->account->accountId ?? null
         );
 
-        $page = $pageService->fetchForNode($node, $context);
+        $page = $this->pageService->fetchForNode($node, $context);
 
-        $masterService->completeTasticStreamConfigurationWithMasterDefault($page, key($queryData));
+        $this->masterService->completeTasticStreamConfigurationWithMasterDefault($page, key($queryData));
 
         $this->trackingService->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,
             'page' => $page,
-            'data' => $dataService->fetchDataFor($node, $context, [], $page),
+            'data' => $this->viewDataProvider->fetchDataFor($node, $context, [], $page),
         ];
     }
 }

@@ -8,9 +8,9 @@ use Frontastic\Common\AccountApiBundle\Domain\Address;
 use Frontastic\Common\CartApiBundle\Domain\Cart;
 use Frontastic\Common\CartApiBundle\Domain\CartApi;
 use Frontastic\Common\CartApiBundle\Domain\LineItem;
-use Frontastic\Common\CoreBundle\Controller\CrudController;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\ProductApiBundle\Domain\Variant;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  * @IgnoreAnnotation("Docs\Request")
  * @IgnoreAnnotation("Docs\Response")
  */
-class CartController extends CrudController
+class CartController extends AbstractController
 {
     /**
      * @var CartFetcher
@@ -51,7 +51,7 @@ class CartController extends CrudController
         $cart = $this->getCart($context, $request);
         return [
             'cart' => $cart,
-            'availableShippingMethods' => $this->getCartApi($context)->getAvailableShippingMethods(
+            'availableShippingMethods' => $this->cartApi->getAvailableShippingMethods(
                 $cart,
                 $context->locale
             ),
@@ -75,7 +75,7 @@ class CartController extends CrudController
      */
     public function getOrderAction(Context $context, Request $request, string $order): array
     {
-        $cartApi = $this->getCartApi($context);
+        $cartApi = $this->cartApi;
         return [
             'order' => $cartApi->getOrder(
                 $context->session->account,
@@ -104,7 +104,7 @@ class CartController extends CrudController
     public function addAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
-        $cartApi = $this->getCartApi($context);
+        $cartApi = $this->cartApi;
 
         $cart = $this->getCart($context, $request);
         $beforeItemIds = $this->getLineItemIds($cart);
@@ -170,7 +170,7 @@ class CartController extends CrudController
             throw new BadRequestHttpException('Parameter "lineItems" in payload is not an array.');
         }
 
-        $cartApi = $this->getCartApi($context);
+        $cartApi = $this->cartApi;
 
         $cart = $this->getCart($context, $request);
         $beforeItemIds = $this->getLineItemIds($cart);
@@ -230,7 +230,7 @@ class CartController extends CrudController
     public function updateLineItemAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
-        $cartApi = $this->getCartApi($context);
+        $cartApi = $this->cartApi;
 
         $cart = $this->getCart($context, $request);
         $lineItem = $this->getLineItem($cart, $payload['lineItemId']);
@@ -272,7 +272,7 @@ class CartController extends CrudController
     public function removeLineItemAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
-        $cartApi = $this->getCartApi($context);
+        $cartApi = $this->cartApi;
 
         $cart = $this->getCart($context, $request);
 
@@ -347,7 +347,7 @@ class CartController extends CrudController
     public function updateAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
-        $cartApi = $this->getCartApi($context);
+        $cartApi = $this->cartApi;
 
         $cart = $this->getCart($context, $request);
         $cartApi->startTransaction($cart);
@@ -409,7 +409,7 @@ class CartController extends CrudController
      */
     public function checkoutAction(Context $context, Request $request): array
     {
-        $cartApi = $this->getCartApi($context);
+        $cartApi = $this->cartApi;
         $cart = $this->getCart($context, $request);
 
         if (!$cart->isReadyForCheckout()) {
@@ -445,7 +445,7 @@ class CartController extends CrudController
      */
     public function redeemDiscountAction(Context $context, Request $request, string $code): array
     {
-        $cartApi = $this->getCartApi($context);
+        $cartApi = $this->cartApi;
         $cart = $cartApi->redeemDiscountCode($this->getCart($context, $request), $code, $context->locale);
         return [
             'cart' => $cart,
@@ -471,7 +471,7 @@ class CartController extends CrudController
      */
     public function removeDiscountAction(Context $context, Request $request): array
     {
-        $cartApi = $this->getCartApi($context);
+        $cartApi = $this->cartApi;
         $payload = $this->getJsonContent($request);
         $cart = $cartApi->removeDiscountCode(
             $this->getCart($context, $request),
@@ -501,20 +501,11 @@ class CartController extends CrudController
     public function getShippingMethodsAction(Context $context, Request $request): array
     {
         return [
-            'shippingMethods' => $this->getCartApi($context)->getShippingMethods(
+            'shippingMethods' => $this->cartApi->getShippingMethods(
                 $context->locale,
                 $request->query->getBoolean('onlyMatching')
             ),
         ];
-    }
-
-    protected function getCartApi(Context $context): CartApi
-    {
-        if ($this->cartApi) {
-            return $this->cartApi;
-        }
-
-        return $this->newCartApi;
     }
 
     protected function getCart(Context $context, Request $request): Cart
@@ -525,7 +516,7 @@ class CartController extends CrudController
     private function getCartFetcher(Context $context): CartFetcher
     {
         if (!isset($this->cartFetcher)) {
-            $this->cartFetcher = new CartFetcher($this->getCartApi($context), $this->get('logger'));
+            $this->cartFetcher = new CartFetcher($this->cartApi, $this->get('logger'));
         }
         return $this->cartFetcher;
     }

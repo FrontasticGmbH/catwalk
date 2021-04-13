@@ -327,6 +327,18 @@
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ContentTypeController" >
+            <argument type="service" id="frontastic.catwalk.content_api" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ProductCategoryController" >
+            <argument type="service" id="frontastic.catwalk.content_api" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ContentSearchController" >
+            <argument type="service" id="frontastic.catwalk.content_api" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Controller\ContentIdController" >
             <argument type="service" id="frontastic.catwalk.content_api" />
         </service>

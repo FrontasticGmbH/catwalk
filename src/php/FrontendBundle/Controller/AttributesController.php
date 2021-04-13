@@ -30,8 +30,7 @@ class AttributesController extends AbstractController
         /* HACK: This request is stateless, so let the ContextService know that we do not need a session. */
         $request->attributes->set(Session::STATELESS, true);
 
-        $productSearchApiFactory = $this->productSearchApiFactory;
-        $productSearchApi = $productSearchApiFactory->factor($context->project);
+        $productSearchApi = $this->productSearchApiFactory->factor($context->project);
 
         $attributes = $productSearchApi->getSearchableAttributes()->wait();
 

@@ -35,31 +35,27 @@ class SearchController
 
     public function searchAction(Request $request, Context $context, string $phrase): array
     {
-        $pageMatcherService = $this->masterService;
-        $nodeService = $this->nodeService;
-        $dataProvider = $this->viewDataProvider;
-        $pageService = $this->pageService;
-        $masterService = $this->masterService;
-
-        $node = $nodeService->get($pageMatcherService->matchNodeId(new PageMatcherContext(['search' => $phrase])));
+        $node = $this->nodeService->get(
+            $this->masterService->matchNodeId(new PageMatcherContext(['search' => $phrase]))
+        );
         $node->nodeType = 'search';
-        $node->streams = $pageMatcherService->completeDefaultQuery($node->streams, 'search', $phrase);
+        $node->streams = $this->masterService->completeDefaultQuery($node->streams, 'search', $phrase);
 
         $parameters = array_merge_recursive(
             $request->query->get('s', []),
             ['__master' => ['query' => $phrase]]
         );
 
-        $page = $pageService->fetchForNode($node, $context);
+        $page = $this->pageService->fetchForNode($node, $context);
 
-        $masterService->completeTasticStreamConfigurationWithMasterDefault($page, 'search');
+        $this->masterService->completeTasticStreamConfigurationWithMasterDefault($page, 'search');
 
         $this->trackingService->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,
             'page' => $page,
-            'data' => $dataProvider->fetchDataFor($node, $context, $parameters, $page),
+            'data' => $this->viewDataProvider->fetchDataFor($node, $context, $parameters, $page),
         ];
     }
 }

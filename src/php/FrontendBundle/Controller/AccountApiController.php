@@ -43,7 +43,6 @@ class AccountApiController
             throw new AuthenticationException('Not logged in.');
         }
 
-
         $address = Address::newWithProjectSpecificData($this->getJsonBody($request));
         $account = $this->accountApi->addAddress($context->session->account, $address);
 
@@ -99,7 +98,6 @@ class AccountApiController
             throw new AuthenticationException('Not logged in.');
         }
 
-
         $address = Address::newWithProjectSpecificData($this->getJsonBody($request));
         $this->accountApi->removeAddress($context->session->account, $address->addressId);
 
@@ -126,7 +124,6 @@ class AccountApiController
         if (!$context->session->loggedIn) {
             throw new AuthenticationException('Not logged in.');
         }
-
 
         $address = Address::newWithProjectSpecificData($this->getJsonBody($request));
         $account = $this->accountApi->setDefaultBillingAddress($context->session->account, $address->addressId);
