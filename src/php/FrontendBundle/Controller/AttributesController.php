@@ -4,7 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\AccountApiBundle\Domain\Session;
-use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory;
+use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi;
 use Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,27 +12,25 @@ use Symfony\Component\HttpFoundation\Request;
 class AttributesController extends AbstractController
 {
     private RequestVerifier $requestVerifier;
-    private ProductSearchApiFactory $productSearchApiFactory;
+    private ProductSearchApi $productSearchApi;
 
     public function __construct(
         RequestVerifier $requestVerifier,
-        ProductSearchApiFactory $productSearchApiFactory
+        ProductSearchApi $productSearchApi
     ) {
         $this->requestVerifier = $requestVerifier;
-        $this->productSearchApiFactory = $productSearchApiFactory;
+        $this->productSearchApi = $productSearchApi;
     }
 
     public function searchableAttributesAction(Request $request, Context $context): array
     {
         $requestVerifier = $this->requestVerifier;
-        $requestVerifier->ensure($request, $this->getParameter('secret'));
+        $requestVerifier->ensure($request, $context->customer->secret);
 
         /* HACK: This request is stateless, so let the ContextService know that we do not need a session. */
         $request->attributes->set(Session::STATELESS, true);
 
-        $productSearchApi = $this->productSearchApiFactory->factor($context->project);
-
-        $attributes = $productSearchApi->getSearchableAttributes()->wait();
+        $attributes = $this->productSearchApi->getSearchableAttributes()->wait();
 
         return [
             'attributes' => $attributes,

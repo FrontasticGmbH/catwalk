@@ -2,15 +2,14 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
-use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\Content;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ContentRouter;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
+use Frontastic\Common\ContentApiBundle\Domain\ContentApi;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -22,7 +21,7 @@ class ContentController
     private NodeService $nodeService;
     private ViewDataProvider $viewDataProvider;
     private PageService $pageService;
-    private Content $contentApi;
+    private ContentApi $contentApi;
     private ContentRouter $contentRouter;
     private TrackingService $trackingService;
 
@@ -31,7 +30,7 @@ class ContentController
         NodeService $nodeService,
         ViewDataProvider $viewDataProvider,
         PageService $pageService,
-        Content $contentApi,
+        ContentApi $contentApi,
         ContentRouter $contentRouter,
         TrackingService $trackingService
     ) {
@@ -44,7 +43,7 @@ class ContentController
         $this->trackingService = $trackingService;
     }
 
-    public function viewAction(Context $context, Request $request)
+    public function viewAction(ContentApi $context, Request $request)
     {
         $contentId = $this->contentRouter->identifyFrom($request, $context);
         if (!$contentId) {
