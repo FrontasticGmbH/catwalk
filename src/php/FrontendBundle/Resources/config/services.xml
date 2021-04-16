@@ -295,11 +295,13 @@
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\PageService" />
             <argument type="service" id="frontastic.catwalk.product_api" />
+            <argument>%secret%</argument>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Controller\AttributesController">
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier" />
             <argument type="service" id="frontastic.catwalk.product_search_api" />
+            <argument>%secret%</argument>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Controller\ProductTypeController">

@@ -34,6 +34,7 @@ class PreviewController extends AbstractController
     private NodeService $nodeService;
     private PageService $pageService;
     private ProductApi $productApi;
+    private string $secret;
 
     public function __construct(
         PreviewService $previewService,
@@ -42,7 +43,8 @@ class PreviewController extends AbstractController
         RequestVerifier $requestVerifier,
         NodeService $nodeService,
         PageService $pageService,
-        ProductApi $productApi
+        ProductApi $productApi,
+        string $secret
     ) {
         $this->previewService = $previewService;
         $this->viewDataProvider = $viewDataProvider;
@@ -51,6 +53,7 @@ class PreviewController extends AbstractController
         $this->nodeService = $nodeService;
         $this->pageService = $pageService;
         $this->productApi = $productApi;
+        $this->secret = $secret;
     }
 
     public function viewAction(Request $request, Context $context, string $preview): array
@@ -125,10 +128,10 @@ class PreviewController extends AbstractController
         }
     }
 
-    public function storeAction(Request $request, Context $context): JsonResponse
+    public function storeAction(Request $request): JsonResponse
     {
         try {
-            $this->requestVerifier->ensure($request, $context->customer->secret);
+            $this->requestVerifier->ensure($request, $this->secret);
 
             if (!$request->getContent() ||
                 !($body = json_decode($request->getContent(), true))) {
