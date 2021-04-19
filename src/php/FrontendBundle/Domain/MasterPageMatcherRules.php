@@ -3,11 +3,12 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\UserBundle\Domain\MetaData;
+use Kore\DataObject\DataObject;
 
 /**
  * @type
  */
-class MasterPageMatcherRules
+class MasterPageMatcherRules extends DataObject
 {
     /**
      * @var string

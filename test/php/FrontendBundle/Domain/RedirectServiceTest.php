@@ -70,7 +70,7 @@ class RedirectServiceTest extends TestCase
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
-        $this->assertEquals($target, $url);
+        $this->assertEquals($target, $url->target);
     }
 
     public function testGetRedirectWithQueryParametersInTargetUrl()
@@ -94,7 +94,7 @@ class RedirectServiceTest extends TestCase
             $this->contextFixture
         );
 
-        $this->assertEquals($target, $url);
+        $this->assertEquals($target, $url->target);
     }
 
     public function testGetRedirectWithQueryParametersAndFragmentInTargetUrl()
@@ -115,7 +115,7 @@ class RedirectServiceTest extends TestCase
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
-        $this->assertEquals($target . $targetFragment, $url);
+        $this->assertEquals($target . $targetFragment, $url->target);
     }
 
     public function testGetRedirectWithQueryParametersAndFragmentInTargetUrlAndWithAdditionalParameters()
@@ -144,7 +144,7 @@ class RedirectServiceTest extends TestCase
             $targetFragment
         );
 
-        $this->assertEquals($targetWithAdditionalParameters, $url);
+        $this->assertEquals($targetWithAdditionalParameters, $url->target);
     }
 
     public function testGetRedirectWithFragmentInTargetUrl()
@@ -165,7 +165,7 @@ class RedirectServiceTest extends TestCase
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
-        $this->assertEquals($target . $targetFragment, $url);
+        $this->assertEquals($target . $targetFragment, $url->target);
     }
 
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithRedirectLanguage()
@@ -189,7 +189,7 @@ class RedirectServiceTest extends TestCase
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
-        $this->assertEquals($nodeUrl, $url);
+        $this->assertEquals($nodeUrl, $url->target);
     }
 
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithContextLocale()
@@ -212,7 +212,7 @@ class RedirectServiceTest extends TestCase
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
-        $this->assertEquals($nodeUrl, $url);
+        $this->assertEquals($nodeUrl, $url->target);
     }
 
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithContextLanguage()
@@ -237,7 +237,7 @@ class RedirectServiceTest extends TestCase
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
-        $this->assertEquals($nodeUrl, $url);
+        $this->assertEquals($nodeUrl, $url->target);
     }
 
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithDefaultLocale()
@@ -264,7 +264,7 @@ class RedirectServiceTest extends TestCase
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
-        $this->assertEquals($nodeUrl, $url);
+        $this->assertEquals($nodeUrl, $url->target);
     }
 
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithDefaultLanguage()
@@ -293,7 +293,7 @@ class RedirectServiceTest extends TestCase
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
-        $this->assertEquals($nodeUrl, $url);
+        $this->assertEquals($nodeUrl, $url->target);
     }
 
     public function testGetRedirectForRequestWithoutParametersWithSingleMatchingNodeRedirectWithUnmatchedLocale()
@@ -384,7 +384,7 @@ class RedirectServiceTest extends TestCase
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
         $targetWithAdditionalParameters = sprintf('%s?otherParam=4711', $target);
 
-        $this->assertEquals($targetWithAdditionalParameters, $url);
+        $this->assertEquals($targetWithAdditionalParameters, $url->target);
     }
 
     public function testGetRedirectForRequestWithArrayParametersInWrongOrder()
@@ -443,7 +443,7 @@ class RedirectServiceTest extends TestCase
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
-        $this->assertEquals($target, $url);
+        $this->assertEquals($target, $url->target);
     }
 
     public function testGetRedirectForRequestSortsMatchingRedirectsByNumberOfParameters()
@@ -484,6 +484,6 @@ class RedirectServiceTest extends TestCase
 
         $url = $this->redirectService->getRedirectUrlForRequest($path, $queryParameters, $this->contextFixture);
 
-        $this->assertEquals($target, $url);
+        $this->assertEquals($target, $url->target);
     }
 }

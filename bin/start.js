@@ -28,8 +28,6 @@ const paths = require('../config/paths')
 const config = require('../config/webpack.browser.development')
 const createDevServerConfig = require('../config/webpackDevServer.config')
 
-const useYarn = fs.existsSync(paths.yarnLockFile)
-
 // Tools like Cloud9 rely on this.
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3001
 const HOST = process.env.HOST || '127.0.0.1'
@@ -45,6 +43,7 @@ choosePort(HOST, DEFAULT_PORT)
         const protocol = process.env.HTTPS === 'true' ? 'https' : 'http'
         const appName = require(paths.appPackageJson).name
         const urls = prepareUrls(protocol, HOST, port)
+        const useYarn = true
         // Create a webpack compiler that is configured with custom messages.
         const compiler = createCompiler({ webpack, config, appName, urls, useYarn })
         // Load proxy config
@@ -63,6 +62,19 @@ choosePort(HOST, DEFAULT_PORT)
                 return console.log(err)
             }
             console.log(chalk.cyan('Starting the development server...\n'))
+
+            // The console.log override below is stop react-dev-utils\WebpackDevServerUtils giving incorrect build help.
+            // Bit hacky but was the only relatively easy way to fix it short of forking the library or submitting a PR
+            // and waiting for/hoping the react team approve.
+            const originalConsoleLog = console.log
+            console.log = (args) => {
+                if (typeof args === 'string' && args.indexOf("To create a production build, use ") !== -1) {
+                    let stringToReplace = `use ${chalk.cyan(`${useYarn ? 'yarn' : 'npm run'} build`)}`
+                    args = args.replace(stringToReplace, `follow the instructions in\nthis article: ${chalk.cyan('https://docs.frontastic.cloud/docs/deployment')}`)
+                    console.log = originalConsoleLog
+                }
+                args ? originalConsoleLog(args) : originalConsoleLog()
+            }
         });
 
         ['SIGINT', 'SIGTERM'].forEach(function (sig) {

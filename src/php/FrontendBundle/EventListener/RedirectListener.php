@@ -32,16 +32,17 @@ class RedirectListener
             return;
         }
 
-        $targetUrl = $this->redirectService->getRedirectUrlForRequest(
+        $redirect = $this->redirectService->getRedirectUrlForRequest(
             $event->getRequest()->getPathInfo(),
             $event->getRequest()->query,
             $this->contextService->createContextFromRequest($event->getRequest())
         );
-        if ($targetUrl === null) {
+
+        if ($redirect === null) {
             return;
         }
 
-        $event->setResponse(new RedirectResponse($targetUrl, 301));
+        $event->setResponse(new RedirectResponse($redirect->target, $redirect->statusCode));
     }
 
     protected function isNotFoundException(GetResponseForExceptionEvent $event): bool
