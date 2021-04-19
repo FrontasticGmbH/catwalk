@@ -6,10 +6,9 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\AccountApiBundle\Domain\Session;
 use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi;
 use Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class AttributesController extends AbstractController
+class AttributesController
 {
     private RequestVerifier $requestVerifier;
     private ProductSearchApi $productSearchApi;

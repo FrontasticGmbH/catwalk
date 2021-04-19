@@ -12,8 +12,8 @@ use Frontastic\Common\AccountApiBundle\Domain\Address;
 use Frontastic\Common\AccountApiBundle\Domain\DuplicateAccountException;
 use Frontastic\Common\CoreBundle\Domain\ErrorResult;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
+use Monolog\Logger;
 use QafooLabs\MVC\RedirectRoute;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,26 +25,29 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
  * @IgnoreAnnotation("Docs\Request")
  * @IgnoreAnnotation("Docs\Response")
  */
-class AccountAuthController extends AbstractController
+class AccountAuthController
 {
     private TrackingService $trackingService;
     private AccountService $accountService;
     private Authenticator $authenticator;
     private CartFetcher $cartFetcher;
     private GuardAuthenticatorHandler $guardAuthenticatorHandler;
+    private Logger $logger;
 
     public function __construct(
         TrackingService $trackingService,
         AccountService $accountService,
         Authenticator $authenticator,
         CartFetcher $cartFetcher,
-        GuardAuthenticatorHandler $guardAuthenticatorHandler
+        GuardAuthenticatorHandler $guardAuthenticatorHandler,
+        Logger $logger
     ) {
         $this->trackingService = $trackingService;
         $this->accountService = $accountService;
         $this->authenticator = $authenticator;
         $this->cartFetcher = $cartFetcher;
         $this->guardAuthenticatorHandler = $guardAuthenticatorHandler;
+        $this->logger = $logger;
     }
 
     public function indexAction(Request $request, UserInterface $account = null): JsonResponse
@@ -312,7 +315,7 @@ class AccountAuthController extends AbstractController
 
         foreach ($keys as $key) {
             if (!key_exists($key, $projectSpecificData) && key_exists($key, $requestBody)) {
-                $this->get('logger')
+                $this->logger
                     ->warning(
                         'This usage of the key "{key}" is deprecated, move it into "projectSpecificData" instead',
                         ['key' => $key]

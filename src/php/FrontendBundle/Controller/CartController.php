@@ -10,7 +10,7 @@ use Frontastic\Common\CartApiBundle\Domain\CartApi;
 use Frontastic\Common\CartApiBundle\Domain\LineItem;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\ProductApiBundle\Domain\Variant;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  * @IgnoreAnnotation("Docs\Request")
  * @IgnoreAnnotation("Docs\Response")
  */
-class CartController extends AbstractController
+class CartController
 {
     /**
      * @var CartFetcher
@@ -26,12 +26,18 @@ class CartController extends AbstractController
     private $cartFetcher;
     private TrackingService $trackingService;
     private CartApi $cartApi;
+    private Logger $logger;
 
-    public function __construct(TrackingService $trackingService, CartApi $cartApi, CartFetcher $cartFetcher)
-    {
+    public function __construct(
+        TrackingService $trackingService,
+        CartApi $cartApi,
+        CartFetcher $cartFetcher,
+        Logger $logger
+    ) {
         $this->trackingService = $trackingService;
         $this->cartApi = $cartApi;
         $this->cartFetcher = $cartFetcher;
+        $this->logger = $logger;
     }
 
     /**
@@ -516,7 +522,7 @@ class CartController extends AbstractController
     private function getCartFetcher(Context $context): CartFetcher
     {
         if (!isset($this->cartFetcher)) {
-            $this->cartFetcher = new CartFetcher($this->cartApi, $this->get('logger'));
+            $this->cartFetcher = new CartFetcher($this->cartApi, $this->logger);
         }
         return $this->cartFetcher;
     }
@@ -541,7 +547,7 @@ class CartController extends AbstractController
         $projectSpecificData = $requestBody['projectSpecificData'] ?? [];
 
         if (!key_exists($key, $projectSpecificData) && key_exists($key, $requestBody)) {
-            $this->get('logger')
+            $this->logger
                 ->warning(
                     'This usage of the key "{key}" is deprecated, move it into "projectSpecificData" instead',
                     ['key' => $key]

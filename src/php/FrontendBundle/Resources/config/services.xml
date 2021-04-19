@@ -371,6 +371,7 @@
             <argument type="service" id="Frontastic\Catwalk\TrackingBundle\Domain\TrackingService" />
             <argument type="service" id="frontastic.catwalk.cart_api" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Controller\CartFetcher" />
+            <argument type="service" id="logger" />
         </service>
 
         <service id="frontastic.catwalk.account_api" class="Frontastic\Common\AccountApiBundle\Domain\AccountApi">
@@ -382,6 +383,15 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Controller\AccountApiController" >
             <argument type="service" id="frontastic.catwalk.account_api" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\AccountAuthController" >
+            <argument type="service" id="Frontastic\Catwalk\TrackingBundle\Domain\TrackingService" />
+            <argument type="service" id="Frontastic\Common\AccountApiBundle\Domain\AccountService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Security\Authenticator" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Controller\CartFetcher" />
+            <argument type="service" id="Symfony\Component\Security\Guard\GuardAuthenticatorHandler" />
+            <argument type="service" id="logger" />
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Controller\AppController" >
