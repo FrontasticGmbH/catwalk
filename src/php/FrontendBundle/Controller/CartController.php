@@ -7,10 +7,12 @@ use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Frontastic\Common\AccountApiBundle\Domain\Address;
 use Frontastic\Common\CartApiBundle\Domain\Cart;
 use Frontastic\Common\CartApiBundle\Domain\CartApi;
+use Frontastic\Common\CartApiBundle\Domain\CartApiFactory;
 use Frontastic\Common\CartApiBundle\Domain\LineItem;
+use Frontastic\Common\CoreBundle\Controller\CrudController;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\ProductApiBundle\Domain\Variant;
-use Symfony\Bridge\Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -18,26 +20,34 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  * @IgnoreAnnotation("Docs\Request")
  * @IgnoreAnnotation("Docs\Response")
  */
-class CartController
+class CartController extends CrudController
 {
+    /**
+     * @var CartApi
+     */
+    protected $cartApi;
+
     /**
      * @var CartFetcher
      */
     private $cartFetcher;
     private TrackingService $trackingService;
-    private CartApi $cartApi;
-    private Logger $logger;
+    private CartApi $cartApiService;
+    private LoggerInterface $logger;
+    private CartApiFactory $cartApiFactory;
 
     public function __construct(
         TrackingService $trackingService,
-        CartApi $cartApi,
+        CartApi $cartApiService,
         CartFetcher $cartFetcher,
-        Logger $logger
+        LoggerInterface $logger,
+        CartApiFactory $cartApiFactory
     ) {
         $this->trackingService = $trackingService;
-        $this->cartApi = $cartApi;
+        $this->cartApi = $cartApiService;
         $this->cartFetcher = $cartFetcher;
         $this->logger = $logger;
+        $this->cartApiFactory = $cartApiFactory;
     }
 
     /**
@@ -57,7 +67,7 @@ class CartController
         $cart = $this->getCart($context, $request);
         return [
             'cart' => $cart,
-            'availableShippingMethods' => $this->cartApi->getAvailableShippingMethods(
+            'availableShippingMethods' => $this->getCartApi($context)->getAvailableShippingMethods(
                 $cart,
                 $context->locale
             ),
@@ -81,7 +91,7 @@ class CartController
      */
     public function getOrderAction(Context $context, Request $request, string $order): array
     {
-        $cartApi = $this->cartApi;
+        $cartApi = $this->getCartApi($context);
         return [
             'order' => $cartApi->getOrder(
                 $context->session->account,
@@ -110,7 +120,7 @@ class CartController
     public function addAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
-        $cartApi = $this->cartApi;
+        $cartApi = $this->getCartApi($context);
 
         $cart = $this->getCart($context, $request);
         $beforeItemIds = $this->getLineItemIds($cart);
@@ -134,7 +144,7 @@ class CartController
         $cartApi->addToCart($cart, $lineItemVariant, $context->locale);
         $cart = $cartApi->commit($context->locale);
 
-        $this->trackingService->reachAddToBasket($context, $cart, $lineItemVariant);
+        $this->get(TrackingService::class)->reachAddToBasket($context, $cart, $lineItemVariant);
 
         return [
             'cart' => $cart,
@@ -176,7 +186,7 @@ class CartController
             throw new BadRequestHttpException('Parameter "lineItems" in payload is not an array.');
         }
 
-        $cartApi = $this->cartApi;
+        $cartApi = $this->getCartApi($context);
 
         $cart = $this->getCart($context, $request);
         $beforeItemIds = $this->getLineItemIds($cart);
@@ -236,7 +246,7 @@ class CartController
     public function updateLineItemAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
-        $cartApi = $this->cartApi;
+        $cartApi = $this->getCartApi($context);
 
         $cart = $this->getCart($context, $request);
         $lineItem = $this->getLineItem($cart, $payload['lineItemId']);
@@ -278,7 +288,7 @@ class CartController
     public function removeLineItemAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
-        $cartApi = $this->cartApi;
+        $cartApi = $this->getCartApi($context);
 
         $cart = $this->getCart($context, $request);
 
@@ -353,7 +363,7 @@ class CartController
     public function updateAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
-        $cartApi = $this->cartApi;
+        $cartApi = $this->getCartApi($context);
 
         $cart = $this->getCart($context, $request);
         $cartApi->startTransaction($cart);
@@ -415,7 +425,7 @@ class CartController
      */
     public function checkoutAction(Context $context, Request $request): array
     {
-        $cartApi = $this->cartApi;
+        $cartApi = $this->getCartApi($context);
         $cart = $this->getCart($context, $request);
 
         if (!$cart->isReadyForCheckout()) {
@@ -423,7 +433,7 @@ class CartController
         }
 
         $order = $cartApi->order($cart, $context->locale);
-        $this->trackingService->reachOrder($context, $order);
+        $this->get(TrackingService::class)->reachOrder($context, $order);
 
         $symfonySession = $request->hasSession() ? $request->getSession() : null;
         if ($symfonySession !== null) {
@@ -451,7 +461,7 @@ class CartController
      */
     public function redeemDiscountAction(Context $context, Request $request, string $code): array
     {
-        $cartApi = $this->cartApi;
+        $cartApi = $this->getCartApi($context);
         $cart = $cartApi->redeemDiscountCode($this->getCart($context, $request), $code, $context->locale);
         return [
             'cart' => $cart,
@@ -477,7 +487,7 @@ class CartController
      */
     public function removeDiscountAction(Context $context, Request $request): array
     {
-        $cartApi = $this->cartApi;
+        $cartApi = $this->getCartApi($context);
         $payload = $this->getJsonContent($request);
         $cart = $cartApi->removeDiscountCode(
             $this->getCart($context, $request),
@@ -507,11 +517,22 @@ class CartController
     public function getShippingMethodsAction(Context $context, Request $request): array
     {
         return [
-            'shippingMethods' => $this->cartApi->getShippingMethods(
+            'shippingMethods' => $this->getCartApi($context)->getShippingMethods(
                 $context->locale,
                 $request->query->getBoolean('onlyMatching')
             ),
         ];
+    }
+
+    protected function getCartApi(Context $context): CartApi
+    {
+        if ($this->cartApi) {
+            return $this->cartApi;
+        }
+
+        /** @var \Frontastic\Common\CartApiBundle\Domain\CartApiFactory $cartApiFactory */
+        $cartApiFactory = $this->get('Frontastic\Common\CartApiBundle\Domain\CartApiFactory');
+        return $this->cartApi = $cartApiFactory->factor($context->project);
     }
 
     protected function getCart(Context $context, Request $request): Cart
@@ -522,7 +543,7 @@ class CartController
     private function getCartFetcher(Context $context): CartFetcher
     {
         if (!isset($this->cartFetcher)) {
-            $this->cartFetcher = new CartFetcher($this->cartApi, $this->logger);
+            $this->cartFetcher = new CartFetcher($this->getCartApi($context), $this->get('logger'));
         }
         return $this->cartFetcher;
     }

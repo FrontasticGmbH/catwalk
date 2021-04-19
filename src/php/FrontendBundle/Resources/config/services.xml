@@ -371,7 +371,8 @@
             <argument type="service" id="Frontastic\Catwalk\TrackingBundle\Domain\TrackingService" />
             <argument type="service" id="frontastic.catwalk.cart_api" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Controller\CartFetcher" />
-            <argument type="service" id="logger" />
+            <argument type="service" id="Psr\Log\LoggerInterface" />
+            <argument type="service" id="Frontastic\Common\CartApiBundle\Domain\CartApiFactory" />
         </service>
 
         <service id="frontastic.catwalk.account_api" class="Frontastic\Common\AccountApiBundle\Domain\AccountApi">
