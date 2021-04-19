@@ -1,17 +1,29 @@
 import Express from 'express'
+import bodyParser from 'body-parser'
+import React from 'react'
+import { renderToString } from 'react-dom/server'
+import { StaticRouter } from 'react-router-dom'
+
+import app from './app/app'
+import createStore from './app/store'
+import Context from './app/context'
+import FrontasticRoute from './app/route'
+
+import { Helmet } from 'react-helmet'
+import AppComponent from './appComponent'
 
 // @TODO: Fork: http://rowanmanning.com/posts/node-cluster-and-express/
 // @TODO: Supervise forks
 const express = Express()
-const PORT = process.env.PORT || 8000
+// Defined for use in subsequent files only
+const PRODUCTION = true // eslint-disable-line no-unused-vars
 
-const defaultRenderWrapper = (appComponent) => { // TODO: share
+const defaultRenderWrapper = (appComponent) => {
     return {
         app: renderToString(appComponent),
     }
 }
 
-//TODO: share
 /**
  * @typedef {Object} RenderData
  * @property {string} app - The server-side-rendered react component. Most likely just by calling `renderToString(appComponent)`
@@ -19,23 +31,25 @@ const defaultRenderWrapper = (appComponent) => { // TODO: share
  */
 
 /**
-* @callback renderWrapper
-* @param {React.Component} appComponent
-* @return {RenderData}
-*/
+ * @callback renderWrapper
+ * @param {React.Component} appComponent
+ * @return {RenderData}
+ */
 
 /**
  *
- * @param {Object} tastics - A key-value pair object, where the key is the projectName (for example demo_project) and value the tastics. Optional on a by project basis.
- * @param {Object} renderWrappers - A key-value pair object, where the key is the projectName (for example demo_project) and value the renderWrapper. Optional on a by project basis.
+ * @param {Array} tastics - The Array of Tastics (default: null)
+ * @param {Number} port - The port on which the server should run (default: 8000)
+ * @param {renderWrapper} renderWrapper - The renderWrapper method that renders the app and could be used to hook in for generating the StyledComponents SSR result
  */
-export default (projectsTastics = {}, projectsRenderWrappers = {}) => {
-    global.tastics = tastics //TODO: figure out how to handle this 
+export default (tastics = null, port = 8000, renderWrapper = defaultRenderWrapper) => {
+    global.tastics = tastics
     global.btoa = (b) => {
         return Buffer.from(b).toString('base64')
     }
 
-    //TODO: find way to split shared logic
+    // We increase the body data limit because we can recieve quite some data from
+    // Catwalk inclduing product lists, etc.
     express.use(bodyParser.json({ limit: '10MB' }))
     express.use(handleRender)
 
@@ -46,9 +60,6 @@ export default (projectsTastics = {}, projectsRenderWrappers = {}) => {
         app.initialize(store)
 
         window.location.href = request.body.requestUri
-
-        //TODO: set from request
-        const projectKey = 'demo_english'
 
         // This usually is done by createStore() and reading the
         // properties directly from the DOM.  This does not work, thus
@@ -96,7 +107,7 @@ export default (projectsTastics = {}, projectsRenderWrappers = {}) => {
             )
         }
 
-        const renderData = (projectsRenderWrappers[projectKey] || defaultRenderWrapper)(
+        const renderData = renderWrapper(
             <AppComponent app={app} renderRouter={renderRouter} />
         )
 
@@ -121,5 +132,5 @@ export default (projectsTastics = {}, projectsRenderWrappers = {}) => {
         })
     }
 
-    express.listen(PORT)
+    express.listen(port)
 }
