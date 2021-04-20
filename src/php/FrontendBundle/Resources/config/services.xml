@@ -292,6 +292,37 @@
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\PreviewController">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\PreviewService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider" />
+            <argument type="service" id="frontastic.catwalk.product_search_api" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\PageService" />
+            <argument type="service" id="frontastic.catwalk.product_api" />
+            <argument>%secret%</argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\AttributesController">
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier" />
+            <argument type="service" id="frontastic.catwalk.product_search_api" />
+            <argument>%secret%</argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ProductTypeController">
+            <argument type="service" id="frontastic.catwalk.product_api" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ProductController">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\MasterService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\PageService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter" />
+            <argument type="service" id="Frontastic\Catwalk\TrackingBundle\Domain\TrackingService" />
+            <argument type="service" id="frontastic.catwalk.product_api" />
+        </service>
+
         <service id="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi" alias="frontastic.catwalk.product_search_api" />
 
         <service id="frontastic.catwalk.product_search_api" class="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi">
@@ -308,11 +339,45 @@
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ContentController">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\MasterService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\PageService" />
+            <argument type="service" id="frontastic.catwalk.content_api" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ContentRouter" />
+            <argument type="service" id="Frontastic\Catwalk\TrackingBundle\Domain\TrackingService" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ContentTypeController" >
+            <argument type="service" id="frontastic.catwalk.content_api" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ProductCategoryController" >
+            <argument type="service" id="frontastic.catwalk.content_api" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ContentSearchController" >
+            <argument type="service" id="frontastic.catwalk.content_api" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ContentIdController" >
+            <argument type="service" id="frontastic.catwalk.content_api" />
+        </service>
+
         <service id="frontastic.catwalk.cart_api" class="Frontastic\Common\CartApiBundle\Domain\CartApi">
             <factory
                 service="Frontastic\Common\CartApiBundle\Domain\CartApiFactory"
                 method="factor" />
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\CartController">
+            <argument type="service" id="Frontastic\Catwalk\TrackingBundle\Domain\TrackingService" />
+            <argument type="service" id="frontastic.catwalk.cart_api" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Controller\CartFetcher" />
+            <argument type="service" id="Psr\Log\LoggerInterface" />
+            <argument type="service" id="Frontastic\Common\CartApiBundle\Domain\CartApiFactory" />
         </service>
 
         <service id="frontastic.catwalk.account_api" class="Frontastic\Common\AccountApiBundle\Domain\AccountApi">
@@ -322,11 +387,32 @@
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\AccountApiController" >
+            <argument type="service" id="frontastic.catwalk.account_api" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\AccountAuthController" >
+            <argument type="service" id="Frontastic\Catwalk\TrackingBundle\Domain\TrackingService" />
+            <argument type="service" id="Frontastic\Common\AccountApiBundle\Domain\AccountService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Security\Authenticator" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Controller\CartFetcher" />
+            <argument type="service" id="Symfony\Component\Security\Guard\GuardAuthenticatorHandler" />
+            <argument type="service" id="logger" />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Controller\AppController" >
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService" />
+        </service>
+
         <service id="frontastic.catwalk.wishlist_api" class="Frontastic\Common\WishlistApiBundle\Domain\WishlistApi">
             <factory
                 service="Frontastic\Common\WishlistApiBundle\Domain\WishlistApiFactory"
                 method="factor" />
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\WishlistController">
+            <argument type="service" id="frontastic.catwalk.wishlist_api" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService">
