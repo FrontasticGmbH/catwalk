@@ -43,7 +43,7 @@ class MasterLoader extends BaseLoader
 
     protected function addMasterRoutesToRouteCollection(RouteCollection $routes): void
     {
-        $masterRoutes = $this->projectService->getProject()->configuration['masterRoutes'];
+        $masterRoutes = $this->projectService->getProject()->configuration['masterRoutes'] ?? [];
 
         foreach ($masterRoutes as $masterRoute) {
             if (!isset($masterRoute['id']) ||
