@@ -1,4 +1,6 @@
 _base:
   resource: ./routing_base.yml
+_master:
+  resource: ./routing_master.yml
 _dynamic:
   resource: ./routing_dynamic.yml

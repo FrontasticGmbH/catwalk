@@ -340,6 +340,12 @@
             <tag name="routing.loader" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Routing\MasterLoader">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProjectService" />
+
+            <tag name="routing.loader" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\Http2LinkListener">
             <argument>%kernel.root_dir%</argument>
 

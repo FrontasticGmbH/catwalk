@@ -72,13 +72,6 @@
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\NodeController::treeAction</default>
     </route>
 
-    <route id="Frontastic.Frontend.Master.Product.view" path="/{url}/p/{identifier}" methods="GET">
-        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ProductController::viewAction</default>
-
-        <!-- explicitly allow / in url parts -->
-        <requirement key="url">.+</requirement>
-    </route>
-
     <route id="Frontastic.ProductApi.Api.productTypes" path="/api/product/productTypes">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ProductTypeController::listAction</default>
     </route>
@@ -91,17 +84,6 @@
         <default key="_controller">
             Frontastic\Catwalk\FrontendBundle\Controller\AttributesController::searchableAttributesAction
         </default>
-    </route>
-
-    <route id="Frontastic.Frontend.Master.Content.view" path="/{url}/z/{identifier}" methods="GET">
-        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ContentController::viewAction</default>
-
-        <!-- explicitly allow / in url parts -->
-        <requirement key="url">.+</requirement>
-    </route>
-
-    <route id="Frontastic.Frontend.Master.Search.search" path="/q/{phrase}" methods="GET">
-        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\SearchController::searchAction</default>
     </route>
 
     <route id="Frontastic.ContentApi.Api.contentTypes" path="/api/contents/contentTypes">
@@ -118,10 +100,6 @@
 
     <route id="Frontastic.ContentApi.Api.contentId" path="/api/contents/contentId" methods="POST">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ContentIdController::listAction</default>
-    </route>
-
-    <route id="Frontastic.Frontend.Master.Category.view" path="/c/{id}/{slug}" methods="GET">
-        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CategoryController::viewAction</default>
     </route>
 
     <route id="Frontastic.CartApi.Cart.get" path="/api/cart/cart">
@@ -174,6 +152,56 @@
 
     <route id="Frontastic.ProductApi.Api.categories" path="/api/product/categories">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ProductCategoryController::listAction</default>
+    </route>
+
+    <!--
+        Default route configuration for Master Pages. To modify, please use masterRoutes node under configuration in
+        project.yml using the following scheme:
+
+        masterRoutes:
+          - id(*): <route_id>
+            defaults(*):
+              <key>: <value>
+            path(*): <route_path>
+            methods:
+              - <method>
+            requirements:
+              <key>: <value>
+
+        * Please, note that the "id", "path", and "defaults" nodes are mandatory.
+
+        Eg.:
+        masterRoutes:
+          - id: "Product.view"
+            defaults:
+              _controller: "Frontastic\\Catwalk\\FrontendBundle\\Controller\\ProductController::viewAction"
+            path: "/{url}/p/{identifier}"
+            methods:
+              - "GET"
+            requirements:
+              url: ".+"
+    -->
+
+    <route id="Frontastic.Frontend.Master.Product.view" path="/{url}/p/{identifier}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ProductController::viewAction</default>
+
+        <!-- explicitly allow / in url parts -->
+        <requirement key="url">.+</requirement>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Content.view" path="/{url}/z/{identifier}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ContentController::viewAction</default>
+
+        <!-- explicitly allow / in url parts -->
+        <requirement key="url">.+</requirement>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Search.search" path="/q/{phrase}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\SearchController::searchAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Category.view" path="/c/{id}/{slug}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CategoryController::viewAction</default>
     </route>
 
     <route id="Frontastic.Frontend.Master.Error.recordFrontendError" path="/_recordFrontendError" methods="POST">
