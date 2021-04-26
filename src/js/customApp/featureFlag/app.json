@@ -1,6 +1,6 @@
 {
     "identifier": "featureFlag",
-    "name": "Feature Flags",
+    "name": "Feature flags",
     "icon": "local_offer",
     "fields": [
         {
