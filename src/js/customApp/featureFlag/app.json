@@ -8,13 +8,13 @@
             "field": "key"
         },
         {
-            "label": "Turned On",
+            "label": "Turned on",
             "field": "on"
         }
     ],
     "schema": [
         {
-            "name": "Base Data",
+            "name": "Base data",
             "fields": [
                 {
                     "label": "Key",
@@ -24,19 +24,19 @@
                     "type": "string"
                 },
                 {
-                    "label": "Turned On (production)",
+                    "label": "Turned on (production)",
                     "field": "on",
                     "type": "boolean",
                     "default": false
                 },
                 {
-                    "label": "Turned On (staging)",
+                    "label": "Turned on (staging)",
                     "field": "onStaging",
                     "type": "boolean",
                     "default": false
                 },
                 {
-                    "label": "Turned On (development)",
+                    "label": "Turned on (development)",
                     "field": "onDevelopment",
                     "type": "boolean",
                     "default": false
