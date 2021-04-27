@@ -309,6 +309,10 @@
             <argument>%secret%</argument>
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ProductCategoryController" >
+            <argument type="service" id="frontastic.catwalk.product_api" />
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Controller\ProductTypeController">
             <argument type="service" id="frontastic.catwalk.product_api" />
         </service>
@@ -350,10 +354,6 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Controller\ContentTypeController" >
-            <argument type="service" id="frontastic.catwalk.content_api" />
-        </service>
-
-        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ProductCategoryController" >
             <argument type="service" id="frontastic.catwalk.content_api" />
         </service>
 
