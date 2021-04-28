@@ -234,37 +234,7 @@ Status: 200
 
     * `dangerousInnerCart`: `mixed`
 
-  * `availableShippingMethods` as collection of `ShippingMethod`
-
-    * `shippingMethodId`: `string`
-
-    * `name`: `string`
-
-    * `price`: `int`
-
-    * `description`: `string`
-
-    * `rates`: *optional* collection of `ShippingRate`
-
-      * `zoneId`: `string`
-
-      * `name`: `string`
-
-      * `locations`: *optional* collection of `ShippingLocation`
-
-        * `country`: `string`
-
-        * `state`: *optional* `string`
-
-        * `dangerousInnerShippingLocation`: *optional* `mixed`
-
-      * `currency`: `string`
-
-      * `price`: `int`
-
-      * `dangerousInnerShippingRate`: *optional* `mixed`
-
-    * `dangerousInnerShippingMethod`: *optional* `mixed`
+  * `availableShippingMethods` as collection of `\Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod`
 
 ## `GET` `/api/cart/order/{order}`
 
@@ -286,17 +256,7 @@ also exist.
 
 * `object` with:
 
-  * `order` as `Order`
-
-    * `orderId`: `string`
-
-    * `orderVersion`: `string`
-
-    * `orderState`: `string`
-
-    * `createdAt`: `\DateTimeImmutable`
-
-    * `dangerousInnerOrder`: `mixed`
+  * `order` as `\Frontastic\Catwalk\FrontendBundle\Controller\Order`
 
 ## `POST` `/api/cart/cart/add`
 
@@ -550,37 +510,7 @@ Optionally you can pass additional attributes with the line item.
 
   * `addedItems` as collection of `string`
 
-  * `availableShippingMethods` as collection of `ShippingMethod`
-
-    * `shippingMethodId`: `string`
-
-    * `name`: `string`
-
-    * `price`: `int`
-
-    * `description`: `string`
-
-    * `rates`: *optional* collection of `ShippingRate`
-
-      * `zoneId`: `string`
-
-      * `name`: `string`
-
-      * `locations`: *optional* collection of `ShippingLocation`
-
-        * `country`: `string`
-
-        * `state`: *optional* `string`
-
-        * `dangerousInnerShippingLocation`: *optional* `mixed`
-
-      * `currency`: `string`
-
-      * `price`: `int`
-
-      * `dangerousInnerShippingRate`: *optional* `mixed`
-
-    * `dangerousInnerShippingMethod`: *optional* `mixed`
+  * `availableShippingMethods` as collection of `\Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod`
 
 ## `POST` `/api/cart/cart/addMultiple`
 
@@ -836,37 +766,7 @@ Optionally you can pass additional attributes with each line item.
 
   * `addedItems` as collection of `string`
 
-  * `availableShippingMethods` as collection of `ShippingMethod`
-
-    * `shippingMethodId`: `string`
-
-    * `name`: `string`
-
-    * `price`: `int`
-
-    * `description`: `string`
-
-    * `rates`: *optional* collection of `ShippingRate`
-
-      * `zoneId`: `string`
-
-      * `name`: `string`
-
-      * `locations`: *optional* collection of `ShippingLocation`
-
-        * `country`: `string`
-
-        * `state`: *optional* `string`
-
-        * `dangerousInnerShippingLocation`: *optional* `mixed`
-
-      * `currency`: `string`
-
-      * `price`: `int`
-
-      * `dangerousInnerShippingRate`: *optional* `mixed`
-
-    * `dangerousInnerShippingMethod`: *optional* `mixed`
+  * `availableShippingMethods` as collection of `\Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod`
 
 ## `POST` `/api/cart/cart/lineItem`
 
@@ -1106,37 +1006,7 @@ Status: 200
 
     * `dangerousInnerCart`: `mixed`
 
-  * `availableShippingMethods` as collection of `ShippingMethod`
-
-    * `shippingMethodId`: `string`
-
-    * `name`: `string`
-
-    * `price`: `int`
-
-    * `description`: `string`
-
-    * `rates`: *optional* collection of `ShippingRate`
-
-      * `zoneId`: `string`
-
-      * `name`: `string`
-
-      * `locations`: *optional* collection of `ShippingLocation`
-
-        * `country`: `string`
-
-        * `state`: *optional* `string`
-
-        * `dangerousInnerShippingLocation`: *optional* `mixed`
-
-      * `currency`: `string`
-
-      * `price`: `int`
-
-      * `dangerousInnerShippingRate`: *optional* `mixed`
-
-    * `dangerousInnerShippingMethod`: *optional* `mixed`
+  * `availableShippingMethods` as collection of `\Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod`
 
 ## `POST` `/api/cart/cart/lineItem/remove`
 
@@ -1374,37 +1244,7 @@ Status: 200
 
     * `dangerousInnerCart`: `mixed`
 
-  * `availableShippingMethods` as collection of `ShippingMethod`
-
-    * `shippingMethodId`: `string`
-
-    * `name`: `string`
-
-    * `price`: `int`
-
-    * `description`: `string`
-
-    * `rates`: *optional* collection of `ShippingRate`
-
-      * `zoneId`: `string`
-
-      * `name`: `string`
-
-      * `locations`: *optional* collection of `ShippingLocation`
-
-        * `country`: `string`
-
-        * `state`: *optional* `string`
-
-        * `dangerousInnerShippingLocation`: *optional* `mixed`
-
-      * `currency`: `string`
-
-      * `price`: `int`
-
-      * `dangerousInnerShippingRate`: *optional* `mixed`
-
-    * `dangerousInnerShippingMethod`: *optional* `mixed`
+  * `availableShippingMethods` as collection of `\Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod`
 
 ## `POST` `/api/cart/cart/update`
 
@@ -1716,37 +1556,7 @@ Status: 200
 
     * `dangerousInnerCart`: `mixed`
 
-  * `availableShippingMethods` as collection of `ShippingMethod`
-
-    * `shippingMethodId`: `string`
-
-    * `name`: `string`
-
-    * `price`: `int`
-
-    * `description`: `string`
-
-    * `rates`: *optional* collection of `ShippingRate`
-
-      * `zoneId`: `string`
-
-      * `name`: `string`
-
-      * `locations`: *optional* collection of `ShippingLocation`
-
-        * `country`: `string`
-
-        * `state`: *optional* `string`
-
-        * `dangerousInnerShippingLocation`: *optional* `mixed`
-
-      * `currency`: `string`
-
-      * `price`: `int`
-
-      * `dangerousInnerShippingRate`: *optional* `mixed`
-
-    * `dangerousInnerShippingMethod`: *optional* `mixed`
+  * `availableShippingMethods` as collection of `\Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod`
 
 ## `POST` `/api/cart/cart/checkout`
 
@@ -1762,17 +1572,7 @@ Status: 200
 
 * `object` with:
 
-  * `order` as `Order`
-
-    * `orderId`: `string`
-
-    * `orderVersion`: `string`
-
-    * `orderState`: `string`
-
-    * `createdAt`: `\DateTimeImmutable`
-
-    * `dangerousInnerOrder`: `mixed`
+  * `order` as `\Frontastic\Catwalk\FrontendBundle\Controller\Order`
 
 ## `POST` `/api/cart/cart/discount/{code}`
 
@@ -2008,37 +1808,7 @@ Status: 200
 
     * `dangerousInnerCart`: `mixed`
 
-  * `availableShippingMethods` as collection of `ShippingMethod`
-
-    * `shippingMethodId`: `string`
-
-    * `name`: `string`
-
-    * `price`: `int`
-
-    * `description`: `string`
-
-    * `rates`: *optional* collection of `ShippingRate`
-
-      * `zoneId`: `string`
-
-      * `name`: `string`
-
-      * `locations`: *optional* collection of `ShippingLocation`
-
-        * `country`: `string`
-
-        * `state`: *optional* `string`
-
-        * `dangerousInnerShippingLocation`: *optional* `mixed`
-
-      * `currency`: `string`
-
-      * `price`: `int`
-
-      * `dangerousInnerShippingRate`: *optional* `mixed`
-
-    * `dangerousInnerShippingMethod`: *optional* `mixed`
+  * `availableShippingMethods` as collection of `\Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod`
 
 ## `POST` `/api/cart/cart/discount-remove`
 
@@ -2276,37 +2046,7 @@ Status: 200
 
     * `dangerousInnerCart`: `mixed`
 
-  * `availableShippingMethods` as collection of `ShippingMethod`
-
-    * `shippingMethodId`: `string`
-
-    * `name`: `string`
-
-    * `price`: `int`
-
-    * `description`: `string`
-
-    * `rates`: *optional* collection of `ShippingRate`
-
-      * `zoneId`: `string`
-
-      * `name`: `string`
-
-      * `locations`: *optional* collection of `ShippingLocation`
-
-        * `country`: `string`
-
-        * `state`: *optional* `string`
-
-        * `dangerousInnerShippingLocation`: *optional* `mixed`
-
-      * `currency`: `string`
-
-      * `price`: `int`
-
-      * `dangerousInnerShippingRate`: *optional* `mixed`
-
-    * `dangerousInnerShippingMethod`: *optional* `mixed`
+  * `availableShippingMethods` as collection of `\Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod`
 
 ## `GET` `/api/cart/shipping-methods`
 
@@ -2322,36 +2062,6 @@ Status: 200
 
 * `object` with:
 
-  * `shippingMethods` as collection of `ShippingMethod`
-
-    * `shippingMethodId`: `string`
-
-    * `name`: `string`
-
-    * `price`: `int`
-
-    * `description`: `string`
-
-    * `rates`: *optional* collection of `ShippingRate`
-
-      * `zoneId`: `string`
-
-      * `name`: `string`
-
-      * `locations`: *optional* collection of `ShippingLocation`
-
-        * `country`: `string`
-
-        * `state`: *optional* `string`
-
-        * `dangerousInnerShippingLocation`: *optional* `mixed`
-
-      * `currency`: `string`
-
-      * `price`: `int`
-
-      * `dangerousInnerShippingRate`: *optional* `mixed`
-
-    * `dangerousInnerShippingMethod`: *optional* `mixed`
+  * `shippingMethods` as collection of `\Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod`
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

@@ -2,25 +2,28 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
-use Frontastic\Common\ContentApiBundle\Domain;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Common\ContentApiBundle\Domain\ContentApi;
 use Frontastic\Common\ContentApiBundle\Domain\ContentQueryFactory;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-
-class ContentIdController extends Controller
+class ContentIdController
 {
+
+    private ContentApi $contentApi;
+
+    public function __construct(ContentApi $contentApi)
+    {
+        $this->contentApi = $contentApi;
+    }
+
     public function listAction(Request $request, Context $context): array
     {
-        $contentApiFactory = $this->get('Frontastic\Common\ContentApiBundle\Domain\ContentApiFactory');
-        /** @var Domain\ContentApi $contentApi */
-        $contentApi = $contentApiFactory->factor($context->project);
 
         $query = ContentQueryFactory::queryFromRequest($request);
 
         return [
-            'result' => $contentApi->query($query, $context->locale),
+            'result' => $this->contentApi->query($query, $context->locale),
         ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
@@ -11,40 +10,50 @@ use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ContentRouter;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Frontastic\Common\ContentApiBundle\Domain\ContentApi;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ContentController extends Controller
+class ContentController
 {
     const PRODUCT_STREAM_KEY = '__content';
+    private MasterService $masterService;
+    private NodeService $nodeService;
+    private ViewDataProvider $viewDataProvider;
+    private PageService $pageService;
+    private ContentApi $contentApi;
+    private ContentRouter $contentRouter;
+    private TrackingService $trackingService;
 
-    public function viewAction(Context $context, Request $request)
+    public function __construct(
+        MasterService $masterService,
+        NodeService $nodeService,
+        ViewDataProvider $viewDataProvider,
+        PageService $pageService,
+        ContentApi $contentApi,
+        ContentRouter $contentRouter,
+        TrackingService $trackingService
+    ) {
+        $this->masterService = $masterService;
+        $this->nodeService = $nodeService;
+        $this->viewDataProvider = $viewDataProvider;
+        $this->pageService = $pageService;
+        $this->contentApi = $contentApi;
+        $this->contentRouter = $contentRouter;
+        $this->trackingService = $trackingService;
+    }
+
+    public function viewAction(ContentApi $context, Request $request)
     {
-        /** @var MasterService $masterService */
-        $masterService = $this->get(MasterService::class);
-        /** @var NodeService $nodeService */
-        $nodeService = $this->get(NodeService::class);
-        /** @var ViewDataProvider $dataService */
-        $dataService = $this->get(ViewDataProvider::class);
-        /** @var PageService $pageService */
-        $pageService = $this->get(PageService::class);
-
-        /** @var ContentApi $contentApi */
-        $contentApi = $this->get('frontastic.catwalk.content_api');
-        /** @var ContentRouter $contentRouter */
-        $contentRouter = $this->get(ContentRouter::class);
-
-        $contentId = $contentRouter->identifyFrom($request, $context);
+        $contentId = $this->contentRouter->identifyFrom($request, $context);
         if (!$contentId) {
             throw new NotFoundHttpException();
         }
 
-        $content = $contentApi->getContent($contentId, $context->locale);
+        $content = $this->contentApi->getContent($contentId, $context->locale);
 
         $currentUrl = parse_url($request->getRequestUri(), PHP_URL_PATH);
-        if ($currentUrl !== ($correctUrl = $contentRouter->generateUrlFor($content))) {
+        if ($currentUrl !== ($correctUrl = $this->contentRouter->generateUrlFor($content))) {
             // Race condition: this redirect is not handled gracefully by the JS stack
             return new RedirectResponse($correctUrl, 301);
         }
@@ -53,27 +62,27 @@ class ContentController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $node = $nodeService->get(
-            $masterService->matchNodeId(new PageMatcherContext([
+        $node = $this->nodeService->get(
+            $this->masterService->matchNodeId(new PageMatcherContext([
                 'entity' => $content,
                 'contentId' => $contentId,
             ]))
         );
         $node->nodeType = 'content';
-        $node->streams = $masterService->completeDefaultQuery(
+        $node->streams = $this->masterService->completeDefaultQuery(
             $node->streams,
             'content',
             $contentId
         );
 
-        $page = $pageService->fetchForNode($node, $context);
+        $page = $this->pageService->fetchForNode($node, $context);
 
-        $this->get(TrackingService::class)->trackPageView($context, $node->nodeType);
+        $this->trackingService->trackPageView($context, $node->nodeType);
 
         return [
             'node' => $node,
             'page' => $page,
-            'data' => $dataService->fetchDataFor($node, $context, [], $page),
+            'data' => $this->viewDataProvider->fetchDataFor($node, $context, [], $page),
         ];
     }
 }

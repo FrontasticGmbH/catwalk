@@ -1,5 +1,21 @@
 # catwalk Changelog
 
+## `1.10.5` (2021-04-27)
+
+* fix: used correct product service on Product Category Controller
+
+## `1.10.4` (2021-04-22)
+
+* chore(FP-91) Revert CartApiController is used by AdyenController too, refactored AdyenController
+* chore(boost): fixed eslint errors
+* chore(FP-91) Remove abstract controller due to get logger parameter bag
+* chore(FP-91) fix environment secret on controllers and register ApiCoreBundle Controllers arguments
+* chore(FP-91) refactor controllers to use API interfaces instead of factory, fix dependencies cleanup, fix parameterbag secret
+* chore(FP-91) refactor single use variables, fix dependencies cleanup, review comments
+* chore(FP-91) fix dependencies cleanup review #1
+* chore(FP-91) add the dependencies on the preview controller
+* chore(FP-91) cleanup uncessary includes of AbstractController
+
 ## `1.10.3` (2021-04-06)
 
 * fix: removed extra logs in catwalk CHANGELOG

@@ -314,56 +314,7 @@ paths:
                   availableShippingMethods:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        _type:
-                          type: string
-                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
-                        shippingMethodId:
-                          type: string
-                        name:
-                          type: string
-                        price:
-                          type: integer
-                        description:
-                          type: string
-                        rates:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              _type:
-                                type: string
-                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
-                              zoneId:
-                                type: string
-                              name:
-                                type: string
-                              locations:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    _type:
-                                      type: string
-                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
-                                    country:
-                                      type: string
-                                    state:
-                                      type: string
-                                      nullable: true
-                                    dangerousInnerShippingLocation:
-                                      nullable: true
-                                nullable: true
-                              currency:
-                                type: string
-                              price:
-                                type: integer
-                              dangerousInnerShippingRate:
-                                nullable: true
-                          nullable: true
-                        dangerousInnerShippingMethod:
-                          nullable: true
+                      type: \Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod
   '/api/cart/order/{order}':
     get:
       summary: 'Get order by order ID'
@@ -386,20 +337,7 @@ paths:
                     type: string
                     pattern: ^object$
                   order:
-                    type: object
-                    properties:
-                      _type:
-                        type: string
-                        pattern: ^\Frontastic\Common\CartApiBundle\Domain\Order$
-                      orderId:
-                        type: string
-                      orderVersion:
-                        type: string
-                      orderState:
-                        type: string
-                      createdAt:
-                        type: string
-                      dangerousInnerOrder: {  }
+                    type: \Frontastic\Catwalk\FrontendBundle\Controller\Order
   /api/cart/cart/add:
     post:
       summary: 'Adds a single line item to th cart'
@@ -736,56 +674,7 @@ paths:
                   availableShippingMethods:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        _type:
-                          type: string
-                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
-                        shippingMethodId:
-                          type: string
-                        name:
-                          type: string
-                        price:
-                          type: integer
-                        description:
-                          type: string
-                        rates:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              _type:
-                                type: string
-                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
-                              zoneId:
-                                type: string
-                              name:
-                                type: string
-                              locations:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    _type:
-                                      type: string
-                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
-                                    country:
-                                      type: string
-                                    state:
-                                      type: string
-                                      nullable: true
-                                    dangerousInnerShippingLocation:
-                                      nullable: true
-                                nullable: true
-                              currency:
-                                type: string
-                              price:
-                                type: integer
-                              dangerousInnerShippingRate:
-                                nullable: true
-                          nullable: true
-                        dangerousInnerShippingMethod:
-                          nullable: true
+                      type: \Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod
   /api/cart/cart/addMultiple:
     post:
       summary: 'Add multiple line items at once'
@@ -1130,56 +1019,7 @@ paths:
                   availableShippingMethods:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        _type:
-                          type: string
-                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
-                        shippingMethodId:
-                          type: string
-                        name:
-                          type: string
-                        price:
-                          type: integer
-                        description:
-                          type: string
-                        rates:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              _type:
-                                type: string
-                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
-                              zoneId:
-                                type: string
-                              name:
-                                type: string
-                              locations:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    _type:
-                                      type: string
-                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
-                                    country:
-                                      type: string
-                                    state:
-                                      type: string
-                                      nullable: true
-                                    dangerousInnerShippingLocation:
-                                      nullable: true
-                                nullable: true
-                              currency:
-                                type: string
-                              price:
-                                type: integer
-                              dangerousInnerShippingRate:
-                                nullable: true
-                          nullable: true
-                        dangerousInnerShippingMethod:
-                          nullable: true
+                      type: \Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod
   /api/cart/cart/lineItem:
     post:
       summary: 'Change count for line item in cart'
@@ -1499,56 +1339,7 @@ paths:
                   availableShippingMethods:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        _type:
-                          type: string
-                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
-                        shippingMethodId:
-                          type: string
-                        name:
-                          type: string
-                        price:
-                          type: integer
-                        description:
-                          type: string
-                        rates:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              _type:
-                                type: string
-                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
-                              zoneId:
-                                type: string
-                              name:
-                                type: string
-                              locations:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    _type:
-                                      type: string
-                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
-                                    country:
-                                      type: string
-                                    state:
-                                      type: string
-                                      nullable: true
-                                    dangerousInnerShippingLocation:
-                                      nullable: true
-                                nullable: true
-                              currency:
-                                type: string
-                              price:
-                                type: integer
-                              dangerousInnerShippingRate:
-                                nullable: true
-                          nullable: true
-                        dangerousInnerShippingMethod:
-                          nullable: true
+                      type: \Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod
   /api/cart/cart/lineItem/remove:
     post:
       summary: 'Remove line item from cart'
@@ -1866,56 +1657,7 @@ paths:
                   availableShippingMethods:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        _type:
-                          type: string
-                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
-                        shippingMethodId:
-                          type: string
-                        name:
-                          type: string
-                        price:
-                          type: integer
-                        description:
-                          type: string
-                        rates:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              _type:
-                                type: string
-                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
-                              zoneId:
-                                type: string
-                              name:
-                                type: string
-                              locations:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    _type:
-                                      type: string
-                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
-                                    country:
-                                      type: string
-                                    state:
-                                      type: string
-                                      nullable: true
-                                    dangerousInnerShippingLocation:
-                                      nullable: true
-                                nullable: true
-                              currency:
-                                type: string
-                              price:
-                                type: integer
-                              dangerousInnerShippingRate:
-                                nullable: true
-                          nullable: true
-                        dangerousInnerShippingMethod:
-                          nullable: true
+                      type: \Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod
   /api/cart/cart/update:
     post:
       summary: 'Update cart properties'
@@ -2321,56 +2063,7 @@ paths:
                   availableShippingMethods:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        _type:
-                          type: string
-                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
-                        shippingMethodId:
-                          type: string
-                        name:
-                          type: string
-                        price:
-                          type: integer
-                        description:
-                          type: string
-                        rates:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              _type:
-                                type: string
-                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
-                              zoneId:
-                                type: string
-                              name:
-                                type: string
-                              locations:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    _type:
-                                      type: string
-                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
-                                    country:
-                                      type: string
-                                    state:
-                                      type: string
-                                      nullable: true
-                                    dangerousInnerShippingLocation:
-                                      nullable: true
-                                nullable: true
-                              currency:
-                                type: string
-                              price:
-                                type: integer
-                              dangerousInnerShippingRate:
-                                nullable: true
-                          nullable: true
-                        dangerousInnerShippingMethod:
-                          nullable: true
+                      type: \Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod
   /api/cart/cart/checkout:
     post:
       summary: 'Convert a (complete) cart into an order'
@@ -2393,20 +2086,7 @@ paths:
                     type: string
                     pattern: ^object$
                   order:
-                    type: object
-                    properties:
-                      _type:
-                        type: string
-                        pattern: ^\Frontastic\Common\CartApiBundle\Domain\Order$
-                      orderId:
-                        type: string
-                      orderVersion:
-                        type: string
-                      orderState:
-                        type: string
-                      createdAt:
-                        type: string
-                      dangerousInnerOrder: {  }
+                    type: \Frontastic\Catwalk\FrontendBundle\Controller\Order
   '/api/cart/cart/discount/{code}':
     post:
       summary: 'Redeem a discount code'
@@ -2718,56 +2398,7 @@ paths:
                   availableShippingMethods:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        _type:
-                          type: string
-                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
-                        shippingMethodId:
-                          type: string
-                        name:
-                          type: string
-                        price:
-                          type: integer
-                        description:
-                          type: string
-                        rates:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              _type:
-                                type: string
-                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
-                              zoneId:
-                                type: string
-                              name:
-                                type: string
-                              locations:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    _type:
-                                      type: string
-                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
-                                    country:
-                                      type: string
-                                    state:
-                                      type: string
-                                      nullable: true
-                                    dangerousInnerShippingLocation:
-                                      nullable: true
-                                nullable: true
-                              currency:
-                                type: string
-                              price:
-                                type: integer
-                              dangerousInnerShippingRate:
-                                nullable: true
-                          nullable: true
-                        dangerousInnerShippingMethod:
-                          nullable: true
+                      type: \Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod
   /api/cart/cart/discount-remove:
     post:
       summary: 'Remove a discount code'
@@ -3085,56 +2716,7 @@ paths:
                   availableShippingMethods:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        _type:
-                          type: string
-                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
-                        shippingMethodId:
-                          type: string
-                        name:
-                          type: string
-                        price:
-                          type: integer
-                        description:
-                          type: string
-                        rates:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              _type:
-                                type: string
-                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
-                              zoneId:
-                                type: string
-                              name:
-                                type: string
-                              locations:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    _type:
-                                      type: string
-                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
-                                    country:
-                                      type: string
-                                    state:
-                                      type: string
-                                      nullable: true
-                                    dangerousInnerShippingLocation:
-                                      nullable: true
-                                nullable: true
-                              currency:
-                                type: string
-                              price:
-                                type: integer
-                              dangerousInnerShippingRate:
-                                nullable: true
-                          nullable: true
-                        dangerousInnerShippingMethod:
-                          nullable: true
+                      type: \Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod
   /api/cart/shipping-methods:
     get:
       summary: 'Retrieve a list of all shipping methods'
@@ -3159,56 +2741,7 @@ paths:
                   shippingMethods:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        _type:
-                          type: string
-                          pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingMethod$
-                        shippingMethodId:
-                          type: string
-                        name:
-                          type: string
-                        price:
-                          type: integer
-                        description:
-                          type: string
-                        rates:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              _type:
-                                type: string
-                                pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingRate$
-                              zoneId:
-                                type: string
-                              name:
-                                type: string
-                              locations:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    _type:
-                                      type: string
-                                      pattern: ^\Frontastic\Common\CartApiBundle\Domain\ShippingLocation$
-                                    country:
-                                      type: string
-                                    state:
-                                      type: string
-                                      nullable: true
-                                    dangerousInnerShippingLocation:
-                                      nullable: true
-                                nullable: true
-                              currency:
-                                type: string
-                              price:
-                                type: integer
-                              dangerousInnerShippingRate:
-                                nullable: true
-                          nullable: true
-                        dangerousInnerShippingMethod:
-                          nullable: true
+                      type: \Frontastic\Catwalk\FrontendBundle\Controller\ShippingMethod
   /api/cart/wishlist:
     get:
       summary: 'Get wishlist for curent user'
