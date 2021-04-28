@@ -15,7 +15,7 @@ const publicPath = '/'
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
 const publicUrl = ''
 
-module.exports = (PRODUCTION, SERVER) => {
+module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
     if (typeof PRODUCTION === 'undefined') {
         return console.error('Variable PRODUCTION must be defined.')
     }

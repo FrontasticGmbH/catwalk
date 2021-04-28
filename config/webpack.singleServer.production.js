@@ -6,8 +6,9 @@ const { isModuleNotFoundError } = require('./webpack/helpers')
 
 const PRODUCTION = true
 const SERVER = true
+const SINGLE_SERVER = true
 
-let config = require('./webpack.js')(PRODUCTION, SERVER) // TODO:
+let config = require('./webpack.js')(PRODUCTION, SERVER, SINGLE_SERVER) // TODO:
 
 config = require('./webpack/ignoreScss.js')(config, PRODUCTION, SERVER) // fine
 config = require('./webpack/provideDomOnServer.js')(config, PRODUCTION, SERVER) // fine
@@ -30,7 +31,7 @@ try {
     console.info(`No build specific project webpack extension found in ${customConfigPath} – skip: ` + e.message)
 }
 
-config = libraryModifications(config, PRODUCTION, SERVER, path.join(projectRoot, 'src'))
+config = libraryModifications(config, PRODUCTION, SERVER, path.join(projectRoot, 'src')) // TODO:
 
 customConfigPath = path.join(projectRoot, 'config/webpack.post.js')
 try {
