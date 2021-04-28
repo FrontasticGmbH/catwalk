@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.10.5` (2021-04-27)
+
+* fix: used correct product service on Product Category Controller
+
 ## `1.10.4` (2021-04-22)
 
 * chore(FP-91) Revert CartApiController is used by AdyenController too, refactored AdyenController
