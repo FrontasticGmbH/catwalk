@@ -27,6 +27,10 @@ class CustomerService
             return $this->customer;
         }
 
+        if (!file_exists($this->projectFile)) {
+            return $this->customer = new Customer();
+        }
+
         $project = Yaml::parse(file_get_contents($this->projectFile));
 
         if (in_array($this->environment, ['prod', 'production']) &&
