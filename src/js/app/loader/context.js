@@ -129,6 +129,7 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             address,
             (json) => {
+                this.refresh()
                 this.notifyUser(<Message code='account.message.addressNew' message='Added new address' />, 'success')
 
                 let route = this.store.getState().app.route
@@ -147,6 +148,7 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             address,
             (json) => {
+                this.refresh()
                 this.notifyUser(<Message code='account.message.addressUpdated' message='Updated address' />, 'success')
 
                 let route = this.store.getState().app.route
@@ -165,6 +167,7 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             address,
             (json) => {
+                this.refresh()
                 this.notifyUser(<Message code='account.message.addressRemoved' message='Removed address' />, 'success')
 
                 let route = this.store.getState().app.route
@@ -219,6 +222,7 @@ let Loader = function (store, api) {
             { ownErrorHandler: true },
             user,
             (json) => {
+                this.refresh()
                 this.notifyUser(<Message code='account.message.update' message='Account data updated' />, 'success')
 
                 this.store.dispatch({
@@ -275,6 +279,7 @@ let Loader = function (store, api) {
                 newPassword: newPassword,
             },
             (json) => {
+                this.refresh()
                 this.notifyUser(<Message code='account.message.passwordUpdate' message='Password updated' />, 'success')
             },
             (json) => {
