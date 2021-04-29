@@ -6,6 +6,10 @@ frontend:
     resource: "@FrontasticCatwalkFrontendBundle/Resources/config/routing.xml"
     prefix:   /
 
+frontend_master:
+    resource: "@FrontasticCatwalkFrontendBundle/Resources/config/routing_master.xml"
+    prefix:   /
+
 api_core:
     resource: "@FrontasticCatwalkApiCoreBundle/Resources/config/routing.xml"
     prefix:   /

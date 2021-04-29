@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <!--
+        Default route configuration for Master Pages. To modify, please use masterRoutes node under configuration in
+        project.yml using the following scheme:
+
+        masterRoutes:
+          - id(*): <route_id>
+            path(*): <route_path>
+            allowSlashInUrl: <boolean> // Explicitly allow / in url parts
+
+        * Please, note that the "id" and "path" nodes are mandatory.
+
+        Eg.:
+        masterRoutes:
+          - id: "Product.view"
+            path: "/{url}/p/{identifier}"
+            allowSlashInUrl: true
+          - id: "Checkout.cart"
+            path: "/checkout/cart"
+    -->
+
+    <route id="Frontastic.Frontend.Master.Product.view" path="/{url}/p/{identifier}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ProductController::viewAction</default>
+
+        <!-- explicitly allow / in url parts -->
+        <requirement key="url">.+</requirement>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Content.view" path="/{url}/z/{identifier}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ContentController::viewAction</default>
+
+        <!-- explicitly allow / in url parts -->
+        <requirement key="url">.+</requirement>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Search.search" path="/q/{phrase}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\SearchController::searchAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Category.view" path="/c/{id}/{slug}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CategoryController::viewAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Checkout.cart" path="/checkout/cart" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CheckoutController::cartAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Checkout.checkout" path="/checkout/checkout" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CheckoutController::checkoutAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Checkout.finished" path="/checkout/finished" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\CheckoutController::finishedAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.index" path="/account" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::indexAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.forgotPassword" path="/account/forgotPassword/{confirmationToken}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::forgotPasswordAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.confirm" path="/account/confirm/{confirmationToken}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::confirmAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.profile" path="/account/profile" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::profileAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.addresses" path="/account/addresses" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::addressesAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.orders" path="/account/orders" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::ordersAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.wishlists" path="/account/wishlists" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::wishlistsAction</default>
+    </route>
+
+    <route id="Frontastic.Frontend.Master.Account.vouchers" path="/account/vouchers" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AccountController::vouchersAction</default>
+    </route>
+</routes>
