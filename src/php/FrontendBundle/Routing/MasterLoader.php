@@ -2,7 +2,9 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Routing;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\ProjectService;
+use Frontastic\Common\ReplicatorBundle\Domain\Project;
+use Psr\Log\LoggerInterface;
+use SimpleXMLElement;
 use Symfony\Component\Config\Loader\Loader as BaseLoader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
@@ -14,12 +16,19 @@ class MasterLoader extends BaseLoader
     private $loaded = false;
 
     /**
-     * @var ProjectService
+     * @var Project
      */
-    private $projectService;
+    private $project;
 
-    public function __construct(ProjectService $projectService) {
-        $this->projectService = $projectService;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(Project $project, LoggerInterface $logger)
+    {
+        $this->project = $project;
+        $this->logger = $logger;
     }
 
     public function load($resource, $type = null)
@@ -43,29 +52,108 @@ class MasterLoader extends BaseLoader
 
     protected function addMasterRoutesToRouteCollection(RouteCollection $routes): void
     {
-        $masterRoutes = $this->projectService->getProject()->configuration['masterRoutes'] ?? [];
+        $masterRoutesConfig = $this->project->configuration['masterRoutes'] ?? [];
 
-        foreach ($masterRoutes as $masterRoute) {
-            if (!isset($masterRoute['id']) ||
-                !isset($masterRoute['path']) ||
-                !isset($masterRoute['defaults'])
+        $catwalkFrontendBundleResourcesConfigDir = __DIR__ . '/../Resources/config';
+        $catwalkFrontendBundleResourcesConfigFile = $catwalkFrontendBundleResourcesConfigDir . '/routing_master.xml';
+        if (!file_exists($catwalkFrontendBundleResourcesConfigFile)) {
+            $this->logger->warning(
+                sprintf(
+                    'Error fetching the file %s. can not be found',
+                    $catwalkFrontendBundleResourcesConfigFile
+                )
+            );
+            return;
+        }
+
+        $xmlDoc = new SimpleXMLElement(
+            file_get_contents($catwalkFrontendBundleResourcesConfigFile)
+        );
+
+        foreach ($masterRoutesConfig as $masterRouteConfig) {
+            if (!isset($masterRouteConfig['id']) ||
+                !isset($masterRouteConfig['path'])
             ) {
+                $this->logger->warning(
+                    "Error fetching masterRoute required fields 'id' or 'path' from project configuration"
+                );
+                continue;
+            }
+
+            $masterRouteId = self::MASTER_ROUTE_ID . '.' . $masterRouteConfig['id'];
+
+            $defaultMasterRoute = $this->getDefaultMasterRoute($xmlDoc, $masterRouteId);
+
+            if (!$defaultMasterRoute) {
+                $this->logger->warning(
+                    sprintf(
+                        'Error fetching default master route (id: %s)',
+                        $masterRouteId
+                    )
+                );
                 continue;
             }
 
             $routes->add(
-                self::MASTER_ROUTE_ID . '.' . $masterRoute['id'],
+                $masterRouteId,
                 new Route(
-                    $masterRoute['path'],
-                    $masterRoute['defaults'] ?? [],
-                    $masterRoute['requirements'] ?? [],
-                    $masterRoute['options'] ?? [],
-                    $masterRoute['host'] ?? null,
-                    $masterRoute['schemes'] ?? [],
-                    $masterRoute['methods'] ?? [],
-                    $masterRoute['condition'] ?? null
+                    $masterRouteConfig['path'],
+                    $this->getDefaults($defaultMasterRoute),
+                    $this->getRequirements($defaultMasterRoute, $masterRouteConfig),
+                    [],
+                    null,
+                    [],
+                    $this->getMethods($defaultMasterRoute)
                 )
             );
         }
+    }
+
+    protected function getDefaultMasterRoute(
+        SimpleXMLElement $defaultMasterRoutes,
+        string $masterRouteId
+    ): ?SimpleXMLElement {
+        /** @var SimpleXMLElement $defaultMasterRoute */
+        foreach ($defaultMasterRoutes->route as $defaultMasterRoute) {
+            if ((string)$defaultMasterRoute->attributes()['id'] == $masterRouteId) {
+                return $defaultMasterRoute;
+            }
+        }
+
+        return null;
+    }
+
+    protected function getDefaults(SimpleXMLElement $defaultMasterRoute): array
+    {
+        $defaults = [];
+        foreach ($defaultMasterRoute->default as $default) {
+            $defaults[(string)$default->attributes()['key']] = (string)$default;
+        }
+
+        return $defaults;
+    }
+
+    protected function getRequirements(SimpleXMLElement $defaultMasterRoute, array $masterRouteConfig): array
+    {
+        $requirements = [];
+        foreach ($defaultMasterRoute->requirement as $requirement) {
+            $requirements[(string)$requirement->attributes()['key']] = (string)$requirement;
+        }
+
+        if (isset($masterRouteConfig['allowSlashInUrl'])) {
+            if ($masterRouteConfig['allowSlashInUrl']) {
+                $requirements['url'] = ".+";
+            } else {
+                unset($requirements['url']);
+            }
+        }
+
+        return $requirements;
+    }
+
+    protected function getMethods(SimpleXMLElement $defaultMasterRoute)
+    {
+        return $defaultMasterRoute->attributes()['methods'] ?
+            explode(',', $defaultMasterRoute->attributes()['methods']) : [];
     }
 }

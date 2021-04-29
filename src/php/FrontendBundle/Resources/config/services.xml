@@ -341,7 +341,8 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Routing\MasterLoader">
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProjectService" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project"/>
+            <argument type="service" id="logger" />
 
             <tag name="routing.loader" />
         </service>
