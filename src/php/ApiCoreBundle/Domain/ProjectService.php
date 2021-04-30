@@ -19,7 +19,6 @@ class ProjectService
     public function getProject(): Project
     {
         // In the context of a catwalk there is only 1 project available in the customer
-        $project = reset($this->customerService->getCustomer()->projects);
-        return ($project instanceof Project) ? $project : new Project();
+        return reset($this->customerService->getCustomer()->projects);
     }
 }

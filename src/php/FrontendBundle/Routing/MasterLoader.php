@@ -2,10 +2,11 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Routing;
 
-use Frontastic\Common\ReplicatorBundle\Domain\Project;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ProjectService;
 use Psr\Log\LoggerInterface;
 use SimpleXMLElement;
 use Symfony\Component\Config\Loader\Loader as BaseLoader;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -16,18 +17,18 @@ class MasterLoader extends BaseLoader
     private $loaded = false;
 
     /**
-     * @var Project
+     * @var ProjectService
      */
-    private $project;
+    private $projectService;
 
     /**
      * @var LoggerInterface
      */
     private $logger;
 
-    public function __construct(Project $project, LoggerInterface $logger)
+    public function __construct(ProjectService $projectService, LoggerInterface $logger)
     {
-        $this->project = $project;
+        $this->projectService = $projectService;
         $this->logger = $logger;
     }
 
@@ -52,7 +53,17 @@ class MasterLoader extends BaseLoader
 
     protected function addMasterRoutesToRouteCollection(RouteCollection $routes): void
     {
-        $masterRoutesConfig = $this->project->configuration['masterRoutes'] ?? [];
+        try {
+            $masterRoutesConfig = $this->projectService->getProject()->configuration['masterRoutes'] ?? [];
+        } catch (FileNotFoundException $e) {
+            $this->logger->warning(
+                sprintf(
+                    'Master routes configuration can not be loaded from project: %s',
+                    $e->getMessage()
+                )
+            );
+            return;
+        }
 
         $catwalkFrontendBundleResourcesConfigDir = __DIR__ . '/../Resources/config';
         $catwalkFrontendBundleResourcesConfigFile = $catwalkFrontendBundleResourcesConfigDir . '/routing_master.xml';

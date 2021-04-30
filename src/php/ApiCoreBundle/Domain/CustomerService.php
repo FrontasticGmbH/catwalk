@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 use Frontastic\Common\Functions;
 use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Yaml\Yaml;
 
 class CustomerService
@@ -28,7 +29,7 @@ class CustomerService
         }
 
         if (!file_exists($this->projectFile)) {
-            return $this->customer = new Customer();
+            throw new FileNotFoundException(null, 0, null, $this->projectFile);
         }
 
         $project = Yaml::parse(file_get_contents($this->projectFile));
