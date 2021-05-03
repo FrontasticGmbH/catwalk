@@ -2,6 +2,7 @@
     "name": "@frontastic/catwalk",
     "version": "1.10.5",
     "resolutions": {
+        "mime": "^1.6.0",
         "unidragger": "2.2.3"
     },
     "dependencies": {
@@ -51,6 +52,7 @@
         "eslint-plugin-react": "^7.19.0",
         "eslint-plugin-react-hooks": "^1.6.1",
         "eslint-plugin-standard": "^4.0.0",
+        "express": "^4.17.1",
         "fast-levenshtein": "^2.0.6",
         "file-loader": "4.2.0",
         "flickity": "^2.2.0",
