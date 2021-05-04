@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.10.6` (2021-05-04)
+
+* fix: update user context after address, user details, password changes
+* chore(catwalk): force mime dependency resolvutions to v1
+
 ## `1.10.5` (2021-04-27)
 
 * fix: used correct product service on Product Category Controller
