@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
@@ -43,7 +44,7 @@ class ContentController
         $this->trackingService = $trackingService;
     }
 
-    public function viewAction(ContentApi $context, Request $request)
+    public function viewAction(Context $context, Request $request)
     {
         $contentId = $this->contentRouter->identifyFrom($request, $context);
         if (!$contentId) {

@@ -1,5 +1,15 @@
 # catwalk Changelog
 
+## `1.10.8` (2021-05-07)
+
+* fix: Fix the ContentController to use Context in viewAction
+
+## `1.10.7` (2021-05-07)
+
+
+* refresh store after account information is changed
+* Merge branch 'master' of github.com:FrontasticGmbH/frontastic
+
 ## `1.10.6` (2021-05-04)
 
 * fix: update user context after address, user details, password changes
