@@ -40,7 +40,7 @@ const linkPackage = (package, packageDirectory, packageSource) => {
     try {
         fs.mkdirSync(packageDirectory, { recursive: true })
         if (os.platform() === 'win32') {
-            // Windows directory symlinks should be created as junctions because dir-type symlinks require administrator privileges. Junktion symlinks need absolute path, which will be automatically created from the given relative path. But this is fine as we are not inside a container or VM.
+            // Windows directory symlinks should be created as junctions because dir-type symlinks require administrator privileges. Junction symlinks need absolute path, which will be automatically created from the given relative path. But this is fine as we are not inside a container or VM.
             fs.symlinkSync(
                 path.relative(packageDirectory, packageSource),
                 packageLocation,
@@ -60,10 +60,12 @@ const linkPackage = (package, packageDirectory, packageSource) => {
     }
 }
 
-const ensureLinks = () => {
+const ensureLinks = (SINGLE_SERVER = false) => {
     for (let package in links) {
         // link packages in the frontend project
-        linkPackage(package, path.join(paths.appNodeModules, '@frontastic'), links[package])
+        linkPackage(package, path.join(SINGLE_SERVER
+            ? path.join(paths.sharedProjectRoot, 'node_modules')
+            : paths.appNodeModules, '@frontastic'), links[package])
 
         // link packages in the root
         linkPackage(package, path.join(paths.repositoryRoot, 'node_modules', '@frontastic'), links[package])
@@ -72,16 +74,16 @@ const ensureLinks = () => {
 
 // We run linking already here so, for example tailwind configurations and
 // webpack extensions are correctly detected already during the very first run:
-ensureLinks()
+ensureLinks() // TODO 
 
-module.exports = (config, PRODUCTION, SERVER) => {
+module.exports = (config, PRODUCTION, SERVER, SINGLE_SERVER = false) => {
     return merge(
         config,
         {
             plugins: [
                 new PrebuildPlugin({
-                    build: ensureLinks,
-                    watch: ensureLinks,
+                    build: () => ensureLinks(SINGLE_SERVER),
+                    watch: () => ensureLinks(SINGLE_SERVER),
                 }),
             ],
         },

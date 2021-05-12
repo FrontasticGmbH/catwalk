@@ -52,12 +52,16 @@ function findDirectoryContainingFile(filename, directory) {
     }
 }
 
-let repositoryRoot = findDirectoryContainingFile('.customer_provision.yml', resolveApp('src'))
+const repositoryRoot = findDirectoryContainingFile('.customer_provision.yml', resolveApp('src'))
 
 const projectRootPaths = fs.readdirSync(repositoryRoot)
     .map(pathName => path.join(repositoryRoot, pathName))
     .filter(pathName => fs.lstatSync(pathName).isDirectory())
     .filter(dir => fs.existsSync(path.join(dir, 'config/project.yml')))
+
+const sharedProjectRoot = paths.projectRootPaths
+    .map(projectRootPath => projectRootPath.substring(0, projectRootPath.lastIndexOf("_")))
+    .filter(Boolean)[0]
 
 module.exports = {
     dotenv: resolveApp('.env'),
@@ -78,4 +82,6 @@ module.exports = {
     catwalk: repositoryRoot + '/node_modules/@frontastic/catwalk',
     theme: repositoryRoot + '/node_modules/@frontastic/theme-boost',
     themeSrc: repositoryRoot + '/node_modules/@frontastic/theme-boost/src',
+    sharedProjectRoot: sharedProjectRoot,
+    singleServerIndexJs: path.resolve(sharedProjectRoot, 'src/js/singleServer.js')
 }

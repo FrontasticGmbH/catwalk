@@ -33,11 +33,11 @@ const propertiesToHashmap = (object) => {
     return recursePaths(object)
 }
 
-const updateSettings = () => {
+const updateSettings = (SINGLE_SERVER = false) => {
     let settings = {}
 
     try {
-        let config = fs.readFileSync(paths.appSrc + '/../config/project.yml')
+        let config = fs.readFileSync(paths.appSrc + '/../config/project.yml') // TODO: 
         let layout = yaml.safeLoad(config).data.layout || {}
         settings = propertiesToHashmap(layout)
     } catch (e) {
@@ -46,14 +46,14 @@ const updateSettings = () => {
     }
 
     fs.writeFileSync(
-        paths.appSrc + '/scss/settings.scss',
+        paths.appSrc + '/scss/settings.scss', // TODO: 
         Object.entries(settings).reduce((head, [key, value]) => {
             return head + `\$${key}: '${value}';\n`
         }, `// This is an auto generated file, please edit config/project.yml instead\n\n`)
     )
 
     fs.writeFileSync(
-        paths.appSrc + '/js/settings.js',
+        paths.appSrc + '/js/settings.js', // TODO: 
         Object.entries(settings).reduce((head, [key, value]) => {
             return head + `    ${key}: '${value}',\n`
         }, `// This is an auto generated file, please edit config/project.yml instead\n\nmodule.exports = {\n`) +
@@ -63,16 +63,16 @@ const updateSettings = () => {
 
 // Create file before anything else happens, especially before the tailind
 // configuration is imported / processed by webpack
-updateSettings()
+updateSettings() // TODO: 
 
-module.exports = (config, PRODUCTION, SERVER) => {
+module.exports = (config, PRODUCTION, SERVER, SINGLE_SERVER = false) => {
     return merge(
         config,
         {
             plugins: [
                 new PrebuildPlugin({
-                    build: updateSettings,
-                    watch: updateSettings,
+                    build: () => updateSettings(SINGLE_SERVER),
+                    watch: () => updateSettings(SINGLE_SERVER),
                 }),
             ],
         },

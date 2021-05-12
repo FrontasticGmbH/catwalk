@@ -8,18 +8,17 @@ const PRODUCTION = true
 const SERVER = true
 const SINGLE_SERVER = true
 
-let config = require('./webpack.js')(PRODUCTION, SERVER, SINGLE_SERVER) // TODO:
+let config = require('./webpack.js')(PRODUCTION, SERVER, SINGLE_SERVER)
 
-config = require('./webpack/ignoreScss.js')(config, PRODUCTION, SERVER) // fine
-config = require('./webpack/provideDomOnServer.js')(config, PRODUCTION, SERVER) // fine
-config = require('./webpack/singleChunk.js')(config, PRODUCTION, SERVER) // fine
-config = require('./webpack/linkDependencies.js')(config, PRODUCTION, SERVER) // TODO:
+config = require('./webpack/ignoreScss.js')(config, PRODUCTION, SERVER)
+config = require('./webpack/provideDomOnServer.js')(config, PRODUCTION, SERVER)
+config = require('./webpack/singleChunk.js')(config, PRODUCTION, SERVER)
+config = require('./webpack/linkDependencies.js')(config, PRODUCTION, SERVER, SINGLE_SERVER)
 
 config.optimization = { minimize: true }
 config.output.filename = 'assets/js/singleServer.js'
 
-let projectRoot = "" //TODO:
-let customConfigPath = "" // TODO:
+let customConfigPath = path.join(paths.sharedProjectRoot + "config/webpack.singleServer.production.js")
 
 try {
     let projectWebpack = require(customConfigPath)
@@ -31,9 +30,9 @@ try {
     console.info(`No build specific project webpack extension found in ${customConfigPath} – skip: ` + e.message)
 }
 
-config = libraryModifications(config, PRODUCTION, SERVER, path.join(projectRoot, 'src')) // TODO:
+config = libraryModifications(config, PRODUCTION, SERVER, SINGLE_SERVER)
 
-customConfigPath = path.join(projectRoot, 'config/webpack.post.js')
+customConfigPath = path.join(paths.sharedProjectRoot, 'config/webpack.post.js')
 try {
     let webpackPostProcessing = require(customConfigPath)
     config = webpackPostProcessing(config, PRODUCTION, SERVER)
