@@ -1,4 +1,4 @@
--const webpack = require('webpack')
+const webpack = require('webpack')
 const paths = require('./paths')
 const path = require('path')
 const env = require('./env')
