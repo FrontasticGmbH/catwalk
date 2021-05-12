@@ -1,4 +1,4 @@
-const webpack = require('webpack')
+-const webpack = require('webpack')
 const paths = require('./paths')
 const path = require('path')
 const env = require('./env')
@@ -174,9 +174,9 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
 
     config = require('./webpack/babel.js')(config, PRODUCTION, SERVER)
     config = require('./webpack/svgr.js')(config, PRODUCTION, SERVER)
-    config = require('./webpack/compileSettings.js')(config, PRODUCTION, SERVER, SINGLE_SERVER)
+    config = require('./webpack/compileSettings.js')(config, PRODUCTION, SERVER)
 
-    let customConfigPath = (SINGLE_SERVER ? paths.sharedProjectRoot : paths.appSrc + '/..') + '/config/webpack.js'
+    let customConfigPath = paths.appSrc + '/../config/webpack.js'
     try {
         let projectWebpack = require(customConfigPath)
         config = projectWebpack(config, PRODUCTION, SERVER)

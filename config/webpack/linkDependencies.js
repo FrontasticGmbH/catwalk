@@ -60,12 +60,10 @@ const linkPackage = (package, packageDirectory, packageSource) => {
     }
 }
 
-const ensureLinks = (SINGLE_SERVER = false) => {
+const ensureLinks = () => {
     for (let package in links) {
         // link packages in the frontend project
-        linkPackage(package, path.join(SINGLE_SERVER
-            ? path.join(paths.sharedProjectRoot, 'node_modules')
-            : paths.appNodeModules, '@frontastic'), links[package])
+        linkPackage(package, path.join(paths.appNodeModules, '@frontastic'), links[package])
 
         // link packages in the root
         linkPackage(package, path.join(paths.repositoryRoot, 'node_modules', '@frontastic'), links[package])
@@ -74,16 +72,16 @@ const ensureLinks = (SINGLE_SERVER = false) => {
 
 // We run linking already here so, for example tailwind configurations and
 // webpack extensions are correctly detected already during the very first run:
-ensureLinks() // TODO 
+ensureLinks()
 
-module.exports = (config, PRODUCTION, SERVER, SINGLE_SERVER = false) => {
+module.exports = (config, PRODUCTION, SERVER) => {
     return merge(
         config,
         {
             plugins: [
                 new PrebuildPlugin({
-                    build: () => ensureLinks(SINGLE_SERVER),
-                    watch: () => ensureLinks(SINGLE_SERVER),
+                    build: ensureLinks,
+                    watch: ensureLinks,
                 }),
             ],
         },

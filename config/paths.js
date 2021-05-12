@@ -59,7 +59,7 @@ const projectRootPaths = fs.readdirSync(repositoryRoot)
     .filter(pathName => fs.lstatSync(pathName).isDirectory())
     .filter(dir => fs.existsSync(path.join(dir, 'config/project.yml')))
 
-const sharedProjectRoot = paths.projectRootPaths
+const sharedProjectRoot = projectRootPaths
     .map(projectRootPath => projectRootPath.substring(0, projectRootPath.lastIndexOf("_")))
     .filter(Boolean)[0]
 
