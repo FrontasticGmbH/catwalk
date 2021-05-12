@@ -53,7 +53,7 @@ export default (tastics = null, port = 8000, renderWrapper = defaultRenderWrappe
     express.use(bodyParser.json({ limit: '10MB' }))
     express.use(handleRender)
 
-    function handleRender(request, response) {
+    function handleRender (request, response) {
         let context = new Context(request.body.context)
         let props = request.body.props
         let store = createStore()
