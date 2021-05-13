@@ -13,7 +13,9 @@ use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Frontastic\Common\ProductApiBundle\Domain\Category;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryController
 {
@@ -43,11 +45,22 @@ class CategoryController
         $this->productApi = $productApi;
     }
 
-    public function viewAction(Context $context, Request $request): array
+    public function viewAction(Context $context, Request $request)
     {
         $id = $this->categoryRouter->identifyFrom($request, $context);
+        if (!$id) {
+            throw new NotFoundHttpException();
+        }
 
         $category = $this->findCategoryById($id, $context);
+
+        $currentUrl = parse_url($request->getRequestUri(), PHP_URL_PATH);
+        $correctUrl = $this->categoryRouter->generateUrlFor($category);
+        if ($currentUrl !== $correctUrl) {
+            // Race condition: this redirect is not handled gracefully by the JS stack
+            return new RedirectResponse($correctUrl, 301);
+        }
+
         $node = $this->nodeService->get(
             $this->masterService->matchNodeId(new PageMatcherContext([
                 'entity' => $category,
