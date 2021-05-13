@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.10.9` (2021-05-13)
+
+* fix(FP-703): implemented redirection on category routering
+
 ## `1.10.8` (2021-05-07)
 
 * fix: Fix the ContentController to use Context in viewAction
