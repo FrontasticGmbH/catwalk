@@ -11,7 +11,18 @@ module.exports = (config, PRODUCTION, SERVER, SINGLE_SERVER = false) => {
         glob.sync(path.join(paths.appSrc, '/../../node_modules/*/*/.webpack.module.js'))
     )
 
-    const packageJson = JSON.parse(fs.readFileSync(paths.packageJson)) // TODO: 
+    const packageJson = SINGLE_SERVER
+        ? [paths.sharedProjectRoot, ...paths.projectRootPaths]
+            .reverse()
+            .reduce((accPackageJson, currentProjectPath) => {
+                var currentPackageJson = JSON.parse(fs.readFileSync(path.join(currentProjectPath, 'package.json')))
+                if (!currentProjectPath) {
+                    return accPackageJson
+                }
+                return Object.assign(accPackageJson, currentPackageJson)
+            }, {})
+        : JSON.parse(fs.readFileSync(paths.appPackageJson))
+
     const packages = Object.keys(packageJson.dependencies || {}).concat(Object.keys(packageJson.devDependencies || {}))
 
     for (let extension of extensions) {
