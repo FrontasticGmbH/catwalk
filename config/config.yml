@@ -32,6 +32,8 @@ framework:
     session:
         handler_id: Frontastic\Catwalk\FrontendBundle\Session\FrontasticSessionHandler
         name: 'FCSESSID0815'
+        gc_maxlifetime: 1209600
+        gc_probability: 0
         metadata_update_threshold: 3600
     fragments:       ~
     http_method_override: true
