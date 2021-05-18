@@ -102,7 +102,7 @@ class RenderService
                 'script' => '',
                 'styles' => '',
                 'title' => '',
-                'style' => ''
+                'style' => '',
             ],
         ];
 
