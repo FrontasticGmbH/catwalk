@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SessionDeleteCommand extends ContainerAwareCommand
 {
-    const LIMIT_TO = 1000;
+    const DEFAULT_ROWS_TO_DELETE_PER_EXECUTION = 1000;
 
     protected function configure()
     {
@@ -19,13 +19,14 @@ class SessionDeleteCommand extends ContainerAwareCommand
             ->addArgument(
                 'batchLimit',
                 InputArgument::OPTIONAL,
-                'Delete Batch limit'
+                'Delete Batch limit',
+                self::DEFAULT_ROWS_TO_DELETE_PER_EXECUTION
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $batchLimit = (int) $input->getArgument('batchLimit') ?: self::LIMIT_TO;
+        $batchLimit = (int) $input->getArgument('batchLimit');
         $connection = $this->getContainer()->get('database_connection');
         $loopCheck = true;
 
@@ -39,8 +40,7 @@ class SessionDeleteCommand extends ContainerAwareCommand
             $result = $select->fetchAll();
             if (!$select->rowCount()) {
                 $output->writeln('No sessions to clear');
-                $loopCheck = false;
-                continue;
+                break;
             }
 
             $ids = [];
@@ -48,21 +48,18 @@ class SessionDeleteCommand extends ContainerAwareCommand
                 $ids[] = $item['sess_id'];
             }
 
-            $chunk = array_chunk($ids, $batchLimit);
-            foreach ($chunk as $item) {
-                $sql = 'DELETE FROM http_session where sess_id in (?) AND sess_time < ? LIMIT ?';
-                $connection->executeUpdate(
-                    $sql,
-                    [$item, time() - $maxLifetime, $batchLimit],
-                    [\Doctrine\DBAL\Connection::PARAM_STR_ARRAY, \PDO::PARAM_INT, \PDO::PARAM_INT]
-                );
-                sleep(0.1);
-            }
+            $sql = 'DELETE FROM http_session where sess_id in (?) AND sess_time < ? LIMIT ?';
+            $connection->executeUpdate(
+                $sql,
+                [$ids, time() - $maxLifetime, $batchLimit],
+                [\Doctrine\DBAL\Connection::PARAM_STR_ARRAY, \PDO::PARAM_INT, \PDO::PARAM_INT]
+            );
 
-            $output->writeln('Deleted sessions with ids:' . implode(',', $ids));
+            usleep(50000);
 
             if ($select->rowCount() < $batchLimit) {
                 $loopCheck = false;
+                $output->writeln('Sessions deleted');
                 continue;
             }
         }
