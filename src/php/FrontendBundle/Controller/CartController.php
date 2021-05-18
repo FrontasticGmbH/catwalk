@@ -428,10 +428,6 @@ class CartController extends CrudController
         $cartApi = $this->getCartApi($context);
         $cart = $this->getCart($context, $request);
 
-        if (!$cart->isReadyForCheckout()) {
-            throw new \DomainException('Cart not complete yet.');
-        }
-
         $order = $cartApi->order($cart, $context->locale);
         $this->get(TrackingService::class)->reachOrder($context, $order);
 
