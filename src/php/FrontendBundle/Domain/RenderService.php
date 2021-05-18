@@ -102,6 +102,7 @@ class RenderService
                 'script' => '',
                 'styles' => '',
                 'title' => '',
+                'style' => ''
             ],
         ];
 
@@ -112,6 +113,7 @@ class RenderService
             $response->body['helmet']['script'] = $response->body['helmet']['script'] ?? '';
             $response->body['helmet']['styles'] = $response->body['helmet']['styles'] ?? '';
             $response->body['helmet']['title'] = $response->body['helmet']['title'] ?? '';
+            $response->body['helmet']['style'] = $response->body['helmet']['style'] ?? '';
         }
 
         return $response;
