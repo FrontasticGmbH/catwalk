@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.10.10` (2021-05-18)
+
+* chore(catwalk): modify server_start to error if nodemon is not installed
+* fix(FP-709): moved cart validation to Commercetools integration
+* fix: We now delete based on sess_time, so create an index on that…
+* fix: Disable session garbage collection
+
 ## `1.10.9` (2021-05-13)
 
 * fix(FP-703): implemented redirection on category routering
