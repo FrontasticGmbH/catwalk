@@ -15,7 +15,9 @@ class SessionDeleteCommand extends ContainerAwareCommand
     {
         $this
             ->setName('frontastic:session:delete')
-            ->setDescription('Clears all expired session data in batches')
+            ->setDescription(
+                'Clears all expired session data in batches, parameter batch limit, careful exceeding memory limits'
+            )
             ->addArgument(
                 'batchLimit',
                 InputArgument::OPTIONAL,
