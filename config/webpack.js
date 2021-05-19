@@ -6,6 +6,7 @@ const env = require('./env')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
 const { isModuleNotFoundError } = require('./webpack/helpers')
+const { sharedProjectRoot } = require('./paths')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -15,7 +16,7 @@ const publicPath = '/'
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
 const publicUrl = ''
 
-module.exports = (PRODUCTION, SERVER) => {
+module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
     if (typeof PRODUCTION === 'undefined') {
         return console.error('Variable PRODUCTION must be defined.')
     }
@@ -43,7 +44,7 @@ module.exports = (PRODUCTION, SERVER) => {
             // We ship a few polyfills by default:
             require.resolve('./polyfills'),
             // Finally, this is your app's code:
-            SERVER ? paths.serverIndexJs : paths.appIndexJs,
+            SERVER ? SINGLE_SERVER ? paths.singleServerIndexJs : paths.serverIndexJs : paths.appIndexJs,
             // We include the app code last so that if there is a runtime error
             // during initialization, it doesn't blow up the WebpackDevServer
             // client, and changing JS code would still trigger a refresh.
@@ -61,7 +62,9 @@ module.exports = (PRODUCTION, SERVER) => {
             // Point sourcemap entries to original disk location (format as URL on Windows)
             devtoolModuleFilenameTemplate: (info) => {
                 return PRODUCTION
-                    ? path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/')
+                    ? path.relative(SINGLE_SERVER
+                        ? path.resolve(sharedProjectRoot, 'src')
+                        : paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/')
                     : path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')
             },
         },
@@ -71,7 +74,10 @@ module.exports = (PRODUCTION, SERVER) => {
             // `node_modules` to "win" if there are any conflicts. This matches
             // Node resolution mechanism.
             modules: [
-                paths.appNodeModules, // the node modules of the project
+                ...(SINGLE_SERVER
+                    ? [path.resolve(paths.sharedProjectRoot, 'node_modules')] // the node modules of the shared project
+                        .concat(paths.projectRootPaths.map(projectRoot => path.resolve(projectRoot, 'node_modules'))) // the node modules of the other projects
+                    : [paths.appNodeModules]), // the node modules of the project
                 path.resolve(__dirname, '../node_modules'), // node_modules of catwalk
                 path.resolve(__dirname, '../../../node_modules'), // global node_modules
                 'node_modules', // Fixes some include issues like with dom-helpers

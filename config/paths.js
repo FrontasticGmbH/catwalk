@@ -11,7 +11,7 @@ const resolveApp = (relativePath) => {
 
 const envPublicUrl = process.env.PUBLIC_URL
 
-function ensureSlash (path, needsSlash) {
+function ensureSlash(path, needsSlash) {
     const hasSlash = path.endsWith('/')
     if (hasSlash && !needsSlash) {
         return path.substr(path, path.length - 1)
@@ -32,7 +32,7 @@ const getPublicUrl = (appPackageJson) => {
 // single-page apps that may serve index.html for nested URLs like /todos/42.
 // We can't use a relative path in HTML because we don't want to load something
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
-function getServedPath (appPackageJson) {
+function getServedPath(appPackageJson) {
     const publicUrl = getPublicUrl(appPackageJson)
     const servedUrl = envPublicUrl || (publicUrl ? url.parse(publicUrl).pathname : '/')
     return ensureSlash(servedUrl, true)
@@ -52,7 +52,16 @@ function findDirectoryContainingFile(filename, directory) {
     }
 }
 
-let repositoryRoot = findDirectoryContainingFile('.customer_provision.yml', resolveApp('src'))
+const repositoryRoot = findDirectoryContainingFile('.customer_provision.yml', resolveApp('src'))
+
+const projectRootPaths = fs.readdirSync(repositoryRoot)
+    .map(pathName => path.join(repositoryRoot, pathName))
+    .filter(pathName => fs.lstatSync(pathName).isDirectory())
+    .filter(dir => fs.existsSync(path.join(dir, 'config/project.yml')))
+
+const sharedProjectRoot = projectRootPaths
+    .map(projectRootPath => projectRootPath.substring(0, projectRootPath.lastIndexOf("_")))
+    .filter(Boolean)[0]
 
 module.exports = {
     dotenv: resolveApp('.env'),
@@ -69,7 +78,10 @@ module.exports = {
     servedPath: getServedPath(resolveApp('package.json')),
     commonSrc: resolveApp('../libraries'),
     repositoryRoot: repositoryRoot,
+    projectRootPaths: projectRootPaths,
     catwalk: repositoryRoot + '/node_modules/@frontastic/catwalk',
     theme: repositoryRoot + '/node_modules/@frontastic/theme-boost',
     themeSrc: repositoryRoot + '/node_modules/@frontastic/theme-boost/src',
+    sharedProjectRoot: sharedProjectRoot,
+    singleServerIndexJs: path.resolve(sharedProjectRoot, 'src/js/singleServer.js')
 }
