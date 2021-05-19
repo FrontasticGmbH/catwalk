@@ -37,7 +37,7 @@ const updateSettings = () => {
     let settings = {}
 
     try {
-        let config = fs.readFileSync(paths.appSrc + '/../config/project.yml') // TODO: 
+        let config = fs.readFileSync(paths.appSrc + '/../config/project.yml')
         let layout = yaml.safeLoad(config).data.layout || {}
         settings = propertiesToHashmap(layout)
     } catch (e) {
