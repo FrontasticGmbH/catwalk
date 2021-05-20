@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.10.11` (2021-05-20)
+
+* chore(catwalk): removed TODOs on public files
+* added missing comma
+* added style propertly to SSR return
+
 ## `1.10.10` (2021-05-18)
 
 * chore(catwalk): modify server_start to error if nodemon is not installed
