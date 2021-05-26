@@ -25,15 +25,21 @@ module.exports = (config, PRODUCTION, SERVER, SINGLE_SERVER = false) => {
 
     const packages = Object.keys(packageJson.dependencies || {}).concat(Object.keys(packageJson.devDependencies || {}))
 
-    for (let extension of extensions) {
-        let extensionFunction = require(extension)
+    let appliedPackages = []
+    extensions.forEach(extension => {
         let packageName = path.basename(path.dirname(extension))
         let organizationName = path.basename(path.dirname(path.dirname(extension)))
+        let package = `${organizationName}/${packageName}`
 
-        if (packages.includes(organizationName + "/" + packageName)) {
-            console.log("* Applying webpack extensions from " + organizationName + " / " + packageName)
-            config = extensionFunction(config, PRODUCTION, SERVER)
+        if (packages.includes(package) && appliedPackages.indexOf(package) === -1) {
+            console.log("* Applying webpack extensions from " + package)
+            config = require(extension)(config, PRODUCTION, SERVER)
+            appliedPackages.push(package)
         }
+    })
+
+    if (appliedPackages.length > 0) {
+        console.log(`* Applied ${appliedPackages.length} webpack extension${appliedPackages.length > 1 ? "s" : ""}`)
     }
 
     return config
