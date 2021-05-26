@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.10.12` (2021-05-26)
+
+
+* introduced states and provinces
+
 ## `1.10.11` (2021-05-20)
 
 * chore(catwalk): removed TODOs on public files
