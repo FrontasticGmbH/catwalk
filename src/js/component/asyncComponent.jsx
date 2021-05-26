@@ -1,27 +1,31 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
+import PropTypes from 'prop-types'
 
 const mapStateToProps = (globalState) => {
     return {
-        deviceType: globalState.renderContext.deviceType
+        deviceType: globalState.renderContext.deviceType,
     }
 }
 
 const asyncComponent = (component) => {
     return connect(mapStateToProps)(class extends React.Component {
+        static propTypes = {
+            deviceType: PropTypes.string,
+        }
+
         state = {
             component: null,
         }
 
-        componentDidMount() {
+        componentDidMount () {
             component.import()
                 .then(component => {
                     this.setState({ component: component.default })
                 })
         }
 
-        render() {
+        render () {
             const InnerComponent = this.state.component
 
             if (!InnerComponent) {
