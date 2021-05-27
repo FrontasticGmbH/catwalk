@@ -8,8 +8,8 @@ const mapStateToProps = (globalState) => {
     }
 }
 
-const asyncComponent = (component) =>
-    connect(mapStateToProps)(class extends React.Component {
+const asyncComponent = (component) => {
+    return connect(mapStateToProps)(class extends React.Component {
         static propTypes = {
             deviceType: PropTypes.string,
         }
@@ -40,5 +40,6 @@ const asyncComponent = (component) =>
             return <InnerComponent {...this.props} />
         }
     })
+}
 
 export default asyncComponent
