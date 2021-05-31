@@ -11,7 +11,8 @@
         masterRoutes:
           - id(*): <route_id>
             path(*): <route_path>
-            allowSlashInUrl: <boolean> // Explicitly allow / in url parts
+            allowSlashInUrl: <boolean> // Explicitly allow / to occur in a routing part that is named {url}
+                                       // (e.g. to have an arbitrary number of SEO elements as part of the route).
 
         * Please, note that the "id" and "path" nodes are mandatory.
 
