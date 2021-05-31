@@ -42,7 +42,7 @@ const defaultRenderWrapper = (appComponent) => {
  * @param {Number} port - The port on which the server should run (default: 8000)
  * @param {renderWrapper} renderWrapper - The renderWrapper method that renders the app and could be used to hook in for generating the StyledComponents SSR result
  */
-export default (tastics = null, port = 8000, renderWrapper = defaultRenderWrapper) => {
+export default (tastics = null, renderWrapper = defaultRenderWrapper) => {
     global.tastics = tastics
     global.btoa = (b) => {
         return Buffer.from(b).toString('base64')
@@ -132,5 +132,5 @@ export default (tastics = null, port = 8000, renderWrapper = defaultRenderWrappe
         })
     }
 
-    express.listen(port)
+    express.listen(8000)
 }
