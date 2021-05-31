@@ -39,7 +39,6 @@ const defaultRenderWrapper = (appComponent) => {
 /**
  *
  * @param {Array} tastics - The Array of Tastics (default: null)
- * @param {Number} port - The port on which the server should run (default: 8000)
  * @param {renderWrapper} renderWrapper - The renderWrapper method that renders the app and could be used to hook in for generating the StyledComponents SSR result
  */
 export default (tastics = null, renderWrapper = defaultRenderWrapper) => {
