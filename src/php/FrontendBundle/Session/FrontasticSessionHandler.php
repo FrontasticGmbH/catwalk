@@ -43,9 +43,7 @@ class FrontasticSessionHandler extends AbstractSessionHandler
     /** @return string */
     public function doRead($sessionId)
     {
-        $query = <<<SQL
-SELECT sess_data, sess_time FROM http_session WHERE sess_id = :id
-SQL;
+        $query = 'SELECT sess_data, sess_time FROM http_session WHERE sess_id = :id';
         $select = $this->connection()->prepare($query);
         $select->bindParam(':id', $sessionId, PDO::PARAM_STR);
         $select->execute();
@@ -67,13 +65,12 @@ SQL;
             return true;
         }
 
-        $query = <<<SQL
-INSERT INTO http_session
-    (sess_id, sess_data, sess_lifetime, sess_time)
-    VALUES (:id, :data, :expiry, :time)
-    ON DUPLICATE KEY UPDATE
-        sess_data = VALUES(sess_data), sess_lifetime = VALUES(sess_lifetime), sess_time = VALUES(sess_time)
-SQL;
+        $query = 'INSERT INTO http_session' .
+            ' (sess_id, sess_data, sess_lifetime, sess_time)' .
+            ' VALUES (:id, :data, :expiry, :time)' .
+            ' ON DUPLICATE KEY UPDATE' .
+            ' sess_data = VALUES(sess_data), sess_lifetime = VALUES(sess_lifetime), sess_time = VALUES(sess_time);'
+        ;
         $insert = $this->connection()->prepare($query);
         $insert->bindParam(':id', $sessionId, PDO::PARAM_STR);
         $insert->bindParam(':data', $data, PDO::PARAM_LOB);
@@ -89,9 +86,7 @@ SQL;
 
     protected function doDestroy($sessionId)
     {
-        $query = <<<SQL
-DELETE FROM http_session WHERE sess_id = :id
-SQL;
+        $query = 'DELETE FROM http_session WHERE sess_id = :id';
         $delete = $this->connection()->prepare($query);
         $delete->bindParam(':id', $sessionId, PDO::PARAM_STR);
         $delete->execute();
@@ -126,7 +121,7 @@ SQL;
         if ($this->shouldCleanUpExpiredSessions) {
             $this->shouldCleanUpExpiredSessions = false;
 
-            $sql = "DELETE FROM http_session WHERE sess_time < :time LIMIT 10000";
+            $sql = 'DELETE FROM http_session WHERE sess_time < :time LIMIT 10000';
             $delete = $this->connection()->prepare($sql);
             $delete->bindValue(':time', time() - $maxLifetime, PDO::PARAM_INT);
             $delete->execute();

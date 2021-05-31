@@ -1,5 +1,18 @@
 # catwalk Changelog
 
+## `1.10.13` (2021-05-27)
+
+* chore(catwalk): updated formatting so its less readable to fix eslint errors...
+* chore(catwalk): updated formatting for readability
+* fix: Remove newlines from SQL as our logging can't handle them
+* chore(catwalk): fix eslint errors
+* chore(catwalk): pre-render async component height by device type
+
+## `1.10.12` (2021-05-26)
+
+
+* introduced states and provinces
+
 ## `1.10.11` (2021-05-20)
 
 * chore(catwalk): removed TODOs on public files
