@@ -10,7 +10,7 @@
     ],
     "schema": [
         {
-            "name": "Teaser Properties",
+            "name": "Teaser properties",
             "fields": [
                 {
                     "type": "description",

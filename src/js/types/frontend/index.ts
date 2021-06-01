@@ -116,6 +116,7 @@ export interface Redirect {
      sequence: string;
      path: string;
      query?: string;
+     statusCode?: number;
      targetType: string;
      target: string;
      language?: null | string;

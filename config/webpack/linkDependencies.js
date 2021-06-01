@@ -13,18 +13,7 @@ const links = {
     'theme-boost': paths.repositoryRoot + '/paas/themes/frontastic/boost',
 }
 
-const fileExists = (path) => {
-    try {
-        if (fs.existsSync(path)) {
-            return true
-        }
-
-        // Seems unreachable. Seriously?!?
-        return false
-    } catch (e) {
-        return false
-    }
-}
+const fileExists = (path) => fs.existsSync(path)
 
 const linkPackage = (package, packageDirectory, packageSource) => {
 
@@ -51,7 +40,7 @@ const linkPackage = (package, packageDirectory, packageSource) => {
     try {
         fs.mkdirSync(packageDirectory, { recursive: true })
         if (os.platform() === 'win32') {
-            // Windows directory symlinks should be created as junctions because dir-type symlinks require administrator privileges. Junktion symlinks need absolute path, which will be automatically created from the given relative path. But this is fine as we are not inside a container or VM.
+            // Windows directory symlinks should be created as junctions because dir-type symlinks require administrator privileges. Junction symlinks need absolute path, which will be automatically created from the given relative path. But this is fine as we are not inside a container or VM.
             fs.symlinkSync(
                 path.relative(packageDirectory, packageSource),
                 packageLocation,

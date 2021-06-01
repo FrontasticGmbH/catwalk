@@ -156,6 +156,18 @@
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService" />
         </service>
 
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Controller\ApiController">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\EndpointService" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier" />
+            <argument>%secret%</argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Controller\AppController">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService" />
+            <argument>%secret%</argument>
+        </service>
+
         <service id="Frontastic\Catwalk\ApiCoreBundle\Monolog\FrontasticLogProcessor" autowire="true" >
             <tag name="monolog.processor"/>
         </service>

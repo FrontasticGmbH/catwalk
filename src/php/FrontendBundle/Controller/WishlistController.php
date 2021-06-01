@@ -2,11 +2,9 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Frontastic\Common\CoreBundle\Controller\CrudController;
 use Frontastic\Common\ProductApiBundle\Domain\Variant;
 use Frontastic\Common\WishlistApiBundle\Domain\WishlistApi;
 use Frontastic\Common\WishlistApiBundle\Domain\Wishlist;
@@ -18,12 +16,15 @@ use Frontastic\Common\CoreBundle\Domain\Json\Json;
  * @IgnoreAnnotation("Docs\Request")
  * @IgnoreAnnotation("Docs\Response")
  */
-class WishlistController extends CrudController
+class WishlistController
 {
-    /**
-     * @var WishlistApi
-     */
-    protected $wishlistApi;
+
+    private WishlistApi $wishlistApi;
+
+    public function __construct(WishlistApi $wishlistApi)
+    {
+        $this->wishlistApi = $wishlistApi;
+    }
 
     /**
      * Get wishlist for curent user
@@ -73,10 +74,9 @@ class WishlistController extends CrudController
     public function addAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
-        $wishlistApi = $this->getWishlistApi($context);
 
         $wishlist = $this->getWishlist($context, $request->get('wishlist', null));
-        $wishlist = $wishlistApi->addToWishlist(
+        $wishlist = $this->wishlistApi->addToWishlist(
             $wishlist,
             new LineItem\Variant([
                 'variant' => new Variant(['sku' => $payload['variant']['sku']]),
@@ -111,13 +111,11 @@ class WishlistController extends CrudController
             throw new BadRequestHttpException('Parameter "lineItems" in payload is not an array.');
         }
 
-        $wishlistApi = $this->getWishlistApi($context);
-
         $wishlist = $this->getWishlist($context, $request->get('wishlist', null));
 
-        $wishlistApi->startTransaction($wishlist);
+        $this->wishlistApi->startTransaction($wishlist);
         foreach (($payload['lineItems'] ?? []) as $lineItemData) {
-            $wishlistApi->addToWishlist(
+            $this->wishlistApi->addToWishlist(
                 $wishlist,
                 new LineItem\Variant([
                     'variant' => new Variant(['sku' => $lineItemData['variant']['sku']]),
@@ -125,7 +123,7 @@ class WishlistController extends CrudController
                 ])
             );
         }
-        $wishlist = $wishlistApi->commit();
+        $wishlist = $this->wishlistApi->commit();
 
         return [
             'wishlist' => $wishlist,
@@ -152,8 +150,8 @@ class WishlistController extends CrudController
         }
 
         $payload = $this->getJsonContent($request);
-        $wishlistApi = $this->getWishlistApi($context);
-        return $wishlistApi->create(new Wishlist([
+
+        return $this->wishlistApi->create(new Wishlist([
             'name' => ['de' => $payload['name']],
             'accountId' => $context->session->account->accountId,
         ]), $context->locale);
@@ -176,10 +174,9 @@ class WishlistController extends CrudController
     public function updateLineItemAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
-        $wishlistApi = $this->getWishlistApi($context);
 
         $wishlist = $this->getWishlist($context, $request->get('wishlist', null));
-        $wishlist = $wishlistApi->updateLineItem(
+        $wishlist = $this->wishlistApi->updateLineItem(
             $wishlist,
             $this->getLineItem($wishlist, $payload['lineItemId']),
             $payload['count'],
@@ -207,10 +204,9 @@ class WishlistController extends CrudController
     public function removeLineItemAction(Context $context, Request $request): array
     {
         $payload = $this->getJsonContent($request);
-        $wishlistApi = $this->getWishlistApi($context);
 
         $wishlist = $this->getWishlist($context, $request->get('wishlist', null));
-        $wishlist = $wishlistApi->removeLineItem(
+        $wishlist = $this->wishlistApi->removeLineItem(
             $wishlist,
             $this->getLineItem($wishlist, $payload['lineItemId']),
             $context->locale
@@ -232,17 +228,6 @@ class WishlistController extends CrudController
         throw new \OutOfBoundsException("Could not find line item with ID $lineItemId");
     }
 
-    protected function getWishlistApi(Context $context): WishlistApi
-    {
-        if ($this->wishlistApi) {
-            return $this->wishlistApi;
-        }
-
-        /** @var \Frontastic\Common\WishlistApiBundle\Domain\WishlistApiFactory $wishlistApiFactory */
-        $wishlistApiFactory = $this->get('Frontastic\Common\WishlistApiBundle\Domain\WishlistApiFactory');
-        return $this->wishlistApi = $wishlistApiFactory->factor($context->project);
-    }
-
     /**
      * Get wishlist for curent user
      *
@@ -262,14 +247,12 @@ class WishlistController extends CrudController
      */
     protected function getWishlist(Context $context, ?string $wishlistId): Wishlist
     {
-        $wishlistApi = $this->getWishlistApi($context);
-
         if ($wishlistId) {
-            return $wishlistApi->getWishlist($wishlistId, $context->locale);
+            return $this->wishlistApi->getWishlist($wishlistId, $context->locale);
         }
 
         if ($context->session->loggedIn) {
-            $wishlists = $wishlistApi->getWishlists(
+            $wishlists = $this->wishlistApi->getWishlists(
                 $context->session->account->accountId,
                 $context->locale
             );
@@ -278,7 +261,7 @@ class WishlistController extends CrudController
                 return reset($wishlists);
             }
 
-            return $wishlistApi->create(new Wishlist([
+            return $this->wishlistApi->create(new Wishlist([
                 'accountId' => $context->session->account->accountId,
                 'name' => [
                     // @TODO: Use language code from locale and
@@ -288,12 +271,12 @@ class WishlistController extends CrudController
             ]), $context->locale);
         } else {
             try {
-                return $wishlistApi->getAnonymous(
+                return $this->wishlistApi->getAnonymous(
                     $context->session->account->accountId,
                     $context->locale
                 );
             } catch (\OutOfBoundsException $e) {
-                return $wishlistApi->create(new Wishlist([
+                return $this->wishlistApi->create(new Wishlist([
                     'anonymousId' => $context->session->account->accountId,
                     'name' => [
                         // @TODO: Use language code from locale and

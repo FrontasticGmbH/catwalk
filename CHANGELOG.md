@@ -1,5 +1,66 @@
 # catwalk Changelog
 
+## `1.10.13` (2021-05-27)
+
+* chore(catwalk): updated formatting so its less readable to fix eslint errors...
+* chore(catwalk): updated formatting for readability
+* fix: Remove newlines from SQL as our logging can't handle them
+* chore(catwalk): fix eslint errors
+* chore(catwalk): pre-render async component height by device type
+
+## `1.10.12` (2021-05-26)
+
+
+* introduced states and provinces
+
+## `1.10.11` (2021-05-20)
+
+* chore(catwalk): removed TODOs on public files
+* added missing comma
+* added style propertly to SSR return
+
+## `1.10.10` (2021-05-18)
+
+* chore(catwalk): modify server_start to error if nodemon is not installed
+* fix(FP-709): moved cart validation to Commercetools integration
+* fix: We now delete based on sess_time, so create an index on that…
+* fix: Disable session garbage collection
+
+## `1.10.9` (2021-05-13)
+
+* fix(FP-703): implemented redirection on category routering
+
+## `1.10.8` (2021-05-07)
+
+* fix: Fix the ContentController to use Context in viewAction
+
+## `1.10.7` (2021-05-07)
+
+
+* refresh store after account information is changed
+* Merge branch 'master' of github.com:FrontasticGmbH/frontastic
+
+## `1.10.6` (2021-05-04)
+
+* fix: update user context after address, user details, password changes
+* chore(catwalk): force mime dependency resolvutions to v1
+
+## `1.10.5` (2021-04-27)
+
+* fix: used correct product service on Product Category Controller
+
+## `1.10.4` (2021-04-22)
+
+* chore(FP-91) Revert CartApiController is used by AdyenController too, refactored AdyenController
+* chore(boost): fixed eslint errors
+* chore(FP-91) Remove abstract controller due to get logger parameter bag
+* chore(FP-91) fix environment secret on controllers and register ApiCoreBundle Controllers arguments
+* chore(FP-91) refactor controllers to use API interfaces instead of factory, fix dependencies cleanup, fix parameterbag secret
+* chore(FP-91) refactor single use variables, fix dependencies cleanup, review comments
+* chore(FP-91) fix dependencies cleanup review #1
+* chore(FP-91) add the dependencies on the preview controller
+* chore(FP-91) cleanup uncessary includes of AbstractController
+
 ## `1.10.3` (2021-04-06)
 
 * fix: removed extra logs in catwalk CHANGELOG

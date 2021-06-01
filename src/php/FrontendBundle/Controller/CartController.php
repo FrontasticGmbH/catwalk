@@ -6,10 +6,9 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Frontastic\Common\AccountApiBundle\Domain\Address;
 use Frontastic\Common\CartApiBundle\Domain\Cart;
-use Frontastic\Common\CartApiBundle\Domain\Order;
 use Frontastic\Common\CartApiBundle\Domain\CartApi;
+use Frontastic\Common\CartApiBundle\Domain\CartApiFactory;
 use Frontastic\Common\CartApiBundle\Domain\LineItem;
-use Frontastic\Common\CartApiBundle\Domain\ShippingMethod;
 use Frontastic\Common\CoreBundle\Controller\CrudController;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\ProductApiBundle\Domain\Variant;
@@ -32,6 +31,24 @@ class CartController extends CrudController
      * @var CartFetcher
      */
     private $cartFetcher;
+    private TrackingService $trackingService;
+    private CartApi $cartApiService;
+    private LoggerInterface $logger;
+    private CartApiFactory $cartApiFactory;
+
+    public function __construct(
+        TrackingService $trackingService,
+        CartApi $cartApiService,
+        CartFetcher $cartFetcher,
+        LoggerInterface $logger,
+        CartApiFactory $cartApiFactory
+    ) {
+        $this->trackingService = $trackingService;
+        $this->cartApi = $cartApiService;
+        $this->cartFetcher = $cartFetcher;
+        $this->logger = $logger;
+        $this->cartApiFactory = $cartApiFactory;
+    }
 
     /**
      * Get the current cart
@@ -192,7 +209,7 @@ class CartController extends CrudController
             // BC
             $lineItemVariant->projectSpecificData = $this->parseProjectSpecificDataByKey($lineItemData, 'option');
 
-            $this->get(TrackingService::class)->reachAddToBasket($context, $cart, $lineItemVariant);
+            $this->trackingService->reachAddToBasket($context, $cart, $lineItemVariant);
             $cartApi->addToCart($cart, $lineItemVariant, $context->locale);
         }
         $cart = $cartApi->commit($context->locale);
@@ -372,7 +389,7 @@ class CartController extends CrudController
                 $context->locale
             );
         }
-        
+
         if (array_key_exists('shippingMethodName', $payload)) {
             $cart = $cartApi->setShippingMethod(
                 $cart,
@@ -410,10 +427,6 @@ class CartController extends CrudController
     {
         $cartApi = $this->getCartApi($context);
         $cart = $this->getCart($context, $request);
-
-        if (!$cart->isReadyForCheckout()) {
-            throw new \DomainException('Cart not complete yet.');
-        }
 
         $order = $cartApi->order($cart, $context->locale);
         $this->get(TrackingService::class)->reachOrder($context, $order);
@@ -551,7 +564,7 @@ class CartController extends CrudController
         $projectSpecificData = $requestBody['projectSpecificData'] ?? [];
 
         if (!key_exists($key, $projectSpecificData) && key_exists($key, $requestBody)) {
-            $this->get('logger')
+            $this->logger
                 ->warning(
                     'This usage of the key "{key}" is deprecated, move it into "projectSpecificData" instead',
                     ['key' => $key]

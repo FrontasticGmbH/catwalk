@@ -133,6 +133,8 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                app.getLoader('context').refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
@@ -151,6 +153,8 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                app.getLoader('context').refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
@@ -169,6 +173,8 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                app.getLoader('context').refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
@@ -187,6 +193,8 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                app.getLoader('context').refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
@@ -205,6 +213,8 @@ let Loader = function (store, api) {
 
                 let route = this.store.getState().app.route
                 app.getLoader('node').loadMaster(route.route, route.parameters)
+
+                app.getLoader('context').refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
@@ -226,6 +236,8 @@ let Loader = function (store, api) {
                     data: json,
                     id: user.email,
                 })
+
+                app.getLoader('context').refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')
@@ -275,6 +287,8 @@ let Loader = function (store, api) {
                 newPassword: newPassword,
             },
             (json) => {
+                app.getLoader('context').refresh()
+
                 this.notifyUser(<Message code='account.message.passwordUpdate' message='Password updated' />, 'success')
             },
             (json) => {
