@@ -40,6 +40,8 @@ class HooksService
         $this->contextService = $contextService;
         $this->requestStack = $requestStack;
         $this->logger = $logger;
+
+        $this->jsonSerializer->clearEnhancers();
     }
 
     protected function isEventActive(string $eventName): bool
@@ -82,6 +84,17 @@ class HooksService
         $this->log($start, $call->getName());
 
         return $response;
+    }
+
+    public function callExpectArray(string $hook, array $arguments): ?array
+    {
+        if (!$this->isEventActive($hook)) {
+            return null;
+        }
+
+        $response = $this->callRemoteHook($hook, $arguments);
+
+        return $response['arguments'][0];
     }
 
     public function callExpectList(string $hook, array $arguments)
