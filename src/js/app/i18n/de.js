@@ -66,7 +66,7 @@ export default {
             wishlistAdd: 'Produkt zum Wunschzettel hinzugefügt',
             wishlistRemove: 'Produkt vom Wunschzettel entfernt',
             confirmSuccess: 'Account ist bestätigt',
-            confirmError: 'Account-Bestätigung ist leider fehlgeschlagen',
+            confirmError: 'Die Account-Bestätigung ist leider fehlgeschlagen oder der Account wurde bereits bestätigt.',
             cartAdd: 'Produkt in den Warenkorb gelegt',
             cartRemove: 'Produkt aus dem Warenkorb entfernt',
         },
