@@ -44,6 +44,10 @@ class CategoryRouter extends FrontasticCategoryRouter
     public function generateUrlFor(Category $category)
     {
         $params = $this->getHooksService()->callExpectArray('generateUrlForCategoryRouter', [$category]);
+        if (empty($params)) {
+            return parent::generateUrlFor($category);
+        }
+
         return $this->getRouter()->generate('Frontastic.Frontend.Master.Category.view', $params);
     }
 
@@ -67,6 +71,10 @@ class CategoryRouter extends FrontasticCategoryRouter
                 $context,
             ]
         );
+
+        if (empty($categoryQuery)) {
+            return parent::identifyFrom($request, $context);
+        }
 
         $result = $this->getProductApi()->queryCategories($categoryQuery);
 

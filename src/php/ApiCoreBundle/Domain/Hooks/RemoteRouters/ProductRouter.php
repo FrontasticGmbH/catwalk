@@ -43,6 +43,10 @@ class ProductRouter extends FrontasticProductRouter
     public function generateUrlFor(Product $product): string
     {
         $params = $this->getHooksService()->callExpectArray('generateUrlForProductRouter', [$product]);
+        if (empty($params)) {
+            return parent::generateUrlFor($product);
+        }
+
         return $this->getRouter()->generate('Frontastic.Frontend.Master.Product.view', $params);
     }
 
@@ -62,6 +66,11 @@ class ProductRouter extends FrontasticProductRouter
                 $context
             ]
         );
+
+        if (empty($productQuery)) {
+            return parent::identifyFrom($request, $context);
+        }
+
         $product = $this->getProductApi()->getProduct($productQuery);
 
         if (!$product) {
