@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteRouters;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksCallBuilder;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\CategoryRouter as FrontasticCategoryRouter;
 use Frontastic\Common\ProductApiBundle\Domain\Category;
@@ -43,7 +44,12 @@ class CategoryRouter extends FrontasticCategoryRouter
 
     public function generateUrlFor(Category $category)
     {
-        $params = $this->getHooksService()->callExpectArray('generateUrlForCategoryRouter', [$category]);
+        $params = $this->getHooksService()->callExpectArray(
+            HooksCallBuilder::MASTER_PAGE_GENERATE_URL_FOR_CATEGORY_ROUTER,
+            [
+                $category
+            ]
+        );
         if (empty($params)) {
             return parent::generateUrlFor($category);
         }
@@ -64,7 +70,7 @@ class CategoryRouter extends FrontasticCategoryRouter
         }
 
         $categoryQuery = $this->getHooksService()->callExpectObject(
-            'identifyFromCategoryRouter',
+            HooksCallBuilder::MASTER_PAGE_IDENTIFY_FROM_CATEGORY_ROUTER,
             [
                 new CategoryQuery(),
                 $attributes,

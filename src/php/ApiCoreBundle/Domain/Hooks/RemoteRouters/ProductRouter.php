@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteRouters;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksCallBuilder;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter as FrontasticProductRouter;
 use Frontastic\Common\ProductApiBundle\Domain\Product;
@@ -42,7 +43,12 @@ class ProductRouter extends FrontasticProductRouter
 
     public function generateUrlFor(Product $product): string
     {
-        $params = $this->getHooksService()->callExpectArray('generateUrlForProductRouter', [$product]);
+        $params = $this->getHooksService()->callExpectArray(
+            HooksCallBuilder::MASTER_PAGE_GENERATE_URL_FOR_PRODUCT_ROUTER,
+            [
+                $product
+            ]
+        );
         if (empty($params)) {
             return parent::generateUrlFor($product);
         }
@@ -59,7 +65,7 @@ class ProductRouter extends FrontasticProductRouter
         }
 
         $productQuery = $this->getHooksService()->callExpectObject(
-            'identifyFromProductRouter',
+            HooksCallBuilder::MASTER_PAGE_IDENTIFY_FROM_PRODUCT_ROUTER,
             [
                 new ProductQuery(),
                 $attributes,

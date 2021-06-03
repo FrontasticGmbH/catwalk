@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteRouters;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksCallBuilder;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ContentRouter as FrontasticContentRouter;
 use Frontastic\Common\ContentApiBundle\Domain\ContentApi;
@@ -42,7 +43,12 @@ class ContentRouter extends FrontasticContentRouter
 
     public function generateUrlFor(Content $content): string
     {
-        $params = $this->getHooksService()->callExpectArray('generateUrlForContentRouter', [$content]);
+        $params = $this->getHooksService()->callExpectArray(
+            HooksCallBuilder::MASTER_PAGE_GENERATE_URL_FOR_CONTENT_ROUTER,
+            [
+                $content
+            ]
+        );
         if (empty($params)) {
             return parent::generateUrlFor($content);
         }
@@ -59,7 +65,7 @@ class ContentRouter extends FrontasticContentRouter
         }
 
         $contentQuery = $this->getHooksService()->callExpectObject(
-            'identifyFromContentRouter',
+            HooksCallBuilder::MASTER_PAGE_IDENTIFY_FROM_CONTENT_ROUTER,
             [
                 new Query(),
                 $attributes,
