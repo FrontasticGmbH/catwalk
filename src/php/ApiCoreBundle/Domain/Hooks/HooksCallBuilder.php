@@ -132,6 +132,8 @@ class HooksCallBuilder
     // Master page
     const MASTER_PAGE_IDENTIFY_FROM_PRODUCT_ROUTER = 'identifyFromProductRouter';
     const MASTER_PAGE_GENERATE_URL_FOR_PRODUCT_ROUTER = 'generateUrlForProductRouter';
+    const MASTER_PAGE_IDENTIFY_FROM_CATEGORY_ROUTER = 'identifyFromCategoryRouter';
+    const MASTER_PAGE_GENERATE_URL_FOR_CATEGORY_ROUTER = 'generateUrlForCategoryRouter';
 
     const EXISTING_HOOKS = [
         self::PRODUCT_BEFORE_GET_CATEGORIES,
@@ -251,6 +253,8 @@ class HooksCallBuilder
 
         self::MASTER_PAGE_IDENTIFY_FROM_PRODUCT_ROUTER,
         self::MASTER_PAGE_GENERATE_URL_FOR_PRODUCT_ROUTER,
+        self::MASTER_PAGE_IDENTIFY_FROM_CATEGORY_ROUTER,
+        self::MASTER_PAGE_GENERATE_URL_FOR_CATEGORY_ROUTER,
     ];
 
     private string $name;
