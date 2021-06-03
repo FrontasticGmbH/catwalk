@@ -1,5 +1,14 @@
 # catwalk Changelog
 
+## `1.10.14` (2021-06-03)
+
+* fix: used column name to search hooks
+* feat(FP-345): added test for well and bad formed routes
+* feat(FP-345): added test for MasterLoader::loader
+* chore(singleServer): removed port parameter
+* chore(singleServer): fixed port error
+* chore(FP-345): improved Master route field docs
+
 ## `1.10.13` (2021-05-27)
 
 * chore(catwalk): updated formatting so its less readable to fix eslint errors...
