@@ -48,11 +48,17 @@ class ProductRouter extends FrontasticProductRouter
 
     public function identifyFrom(Request $request, Context $context): ?string
     {
+        $attributes = $request->attributes->all();
+
+        if (key_exists('id', $attributes)) {
+            return $attributes['id'];
+        }
+
         $productQuery = $this->getHooksService()->callExpectObject(
             'identifyFromProductRouter',
             [
                 new ProductQuery(),
-                $request->attributes->all(),
+                $attributes,
                 $context
             ]
         );
