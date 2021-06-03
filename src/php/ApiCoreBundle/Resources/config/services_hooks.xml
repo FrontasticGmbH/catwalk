@@ -52,5 +52,15 @@
             -->
             <argument type="service" id="service_container" />
         </service>
+        <service
+            id="Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ContentRouter"
+            class="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteRouters\ContentRouter">
+
+            <!--
+             * IMPORTANT: We must use the container here, otherwise we try to load
+             * the ContextService in context free situations.
+            -->
+            <argument type="service" id="service_container" />
+        </service>
     </services>
 </container>
