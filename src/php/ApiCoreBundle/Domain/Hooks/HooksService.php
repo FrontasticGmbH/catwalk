@@ -40,8 +40,6 @@ class HooksService
         $this->contextService = $contextService;
         $this->requestStack = $requestStack;
         $this->logger = $logger;
-
-        $this->jsonSerializer->clearEnhancers();
     }
 
     protected function isEventActive(string $eventName): bool

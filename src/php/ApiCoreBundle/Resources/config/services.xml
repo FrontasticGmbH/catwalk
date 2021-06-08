@@ -51,7 +51,27 @@
             />
         </service>
 
-        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" autowire="true" />
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" autowire="true">
+            <argument key="$jsonSerializer" type="service" id="frontastic.hooks.json_serializer" />
+        </service>
+
+        <service class="Frontastic\Common\JsonSerializer" id="frontastic.hooks.json_serializer">
+            <argument type="collection">
+                <argument>accessToken</argument>
+                <argument>apiKey</argument>
+                <argument>apiSecret</argument>
+                <argument>apiToken</argument>
+                <argument>clientId</argument>
+                <argument>clientSecret</argument>
+                <argument>newPassword</argument>
+                <argument>password</argument>
+                <argument>passwordHash</argument>
+                <argument>previewToken</argument>
+                <argument>secret</argument>
+                <argument>token</argument>
+                <argument>metaData</argument>
+            </argument>
+        </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksApiClient" autowire="true" />
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HookResponseDeserializer" autowire="true" />
