@@ -36,7 +36,6 @@ class Kameleoon extends Tracker
     public function __construct(Project $project, string $configDirectory)
     {
         $trackingConfigFile = $this->ensureConfigFile($project, $configDirectory);
-        debug($trackingConfigFile);
         $this->client = KameleoonClientFactory::create(
             $project->configuration['abtesting']['siteCode'] ?? null,
             false,
@@ -44,7 +43,16 @@ class Kameleoon extends Tracker
         );
         $this->clientId = $project->configuration['abtesting']['clientId'] ?? null;
         $this->clientSecret = $project->configuration['abtesting']['clientSecret'] ?? null;
-        $this->goal = $project->configuration['abtesting']['mainGoal'] ?? null;
+        $this->goals = [];
+
+        if (!empty($project->configuration['abtesting']['goals'])) {
+            $this->goals = (object) $project->configuration['abtesting']['goals'];
+        } elseif (!empty($project->configuration['abtesting']['mainGoal'])) {
+            // Deprecated configuration option
+            $this->goals = (object) [
+                'order' => $project->configuration['abtesting']['mainGoal'],
+            ];
+        }
 
         // @TODO: Use a custom visitor code in session here, to not expose
         // Tracking cookie?
@@ -99,6 +107,71 @@ class Kameleoon extends Tracker
         $this->client->addData($this->visitorCode, new PageView($path, $pageType, $_SERVER['HTTP_REFERER'] ?? null));
     }
 
+    public function reachOrder(Context $context, Order $order): void
+    {
+        foreach ($this->goals->order ?? [] as $goal) {
+            $this->client->addData($this->visitorCode, new Conversion($goal, $order->sum / 100, false));
+        }
+    }
+
+    public function reachViewProduct(Context $context): void
+    {
+        foreach ($this->goals->productDetailPage ?? [] as $goal) {
+            $this->client->addData($this->visitorCode, new Conversion($goal));
+        }
+    }
+
+    public function reachViewProductListing(Context $context): void
+    {
+        foreach ($this->goals->productListingPage ?? [] as $goal) {
+            $this->client->addData($this->visitorCode, new Conversion($goal));
+        }
+    }
+
+    public function reachAddToBasket(Context $context, Cart $cart, LineItem $lineItem): void
+    {
+        foreach ($this->goals->addToCart ?? [] as $goal) {
+            $this->client->addData($this->visitorCode, new Conversion($goal));
+        }
+    }
+
+    public function reachStartCheckout(Context $context): void
+    {
+        foreach ($this->goals->checkoutPage ?? [] as $goal) {
+            $this->client->addData($this->visitorCode, new Conversion($goal));
+        }
+    }
+
+    public function reachPaymentPage(Context $context): void
+    {
+        foreach ($this->goals->paymentPage ?? [] as $goal) {
+            $this->client->addData($this->visitorCode, new Conversion($goal));
+        }
+    }
+
+    public function reachLogin(Context $context, Account $account): void
+    {
+        foreach ($this->goals->login ?? [] as $goal) {
+            $this->client->addData($this->visitorCode, new Conversion($goal));
+        }
+    }
+
+    public function reachRegistration(Context $context, Account $account): void
+    {
+        foreach ($this->goals->registration ?? [] as $goal) {
+            $this->client->addData($this->visitorCode, new Conversion($goal));
+        }
+    }
+
+    /**
+     * Only call this on kernel.terminate to now cause any negative performance
+     * impact on page delivery.
+     */
+    public function flush(): void
+    {
+        $this->client->flush($this->visitorCode);
+    }
+
     private function getTrackingBrowserId(): int
     {
         $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'None';
@@ -109,39 +182,5 @@ class Kameleoon extends Tracker
         }
 
         return 5; // Other
-    }
-
-    public function reachStartCheckout(Context $context): void
-    {
-        debug('Start Checkout');
-    }
-
-    public function reachOrder(Context $context, Order $order): void
-    {
-        $this->client->addData($this->visitorCode, new Conversion($this->goal, $order->sum / 100));
-    }
-
-    public function reachRegistration(Context $context, Account $account): void
-    {
-        debug('Registration', $account->email);
-    }
-
-    public function reachViewProduct(Context $context, Product $product): void
-    {
-        debug('View Product', $product->sku);
-    }
-
-    public function reachAddToBasket(Context $context, Cart $cart, LineItem $lineItem): void
-    {
-        debug('Added to cart', $lineItem->variant->sku);
-    }
-
-    /**
-     * Only call this on kernel.terminate to now cause any negative performance
-     * impact on page delivery.
-     */
-    public function flush(): void
-    {
-        $this->client->flush($this->visitorCode);
     }
 }

@@ -289,6 +289,8 @@ class AccountAuthController
 
     protected function loginAccount(Account $account, Request $request): Response
     {
+        $this->trackingService->reachLogin($context, $account);
+
         return $this->guardAuthenticatorHandler->authenticateUserAndHandleSuccess(
             $account,
             $request,

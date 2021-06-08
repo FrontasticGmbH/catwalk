@@ -46,13 +46,6 @@ class TrackingService extends Tracker
         }
     }
 
-    public function reachStartCheckout(Context $context): void
-    {
-        if ($this->tracker) {
-            $this->tracker->reachStartCheckout($context);
-        }
-    }
-
     public function reachOrder(Context $context, Order $order): void
     {
         if ($this->tracker) {
@@ -60,17 +53,17 @@ class TrackingService extends Tracker
         }
     }
 
-    public function reachRegistration(Context $context, Account $account): void
+    public function reachViewProduct(Context $context): void
     {
         if ($this->tracker) {
-            $this->tracker->reachRegistration($context, $account);
+            $this->tracker->reachViewProduct($context);
         }
     }
 
-    public function reachViewProduct(Context $context, Product $product): void
+    public function reachViewProductListing(Context $context): void
     {
         if ($this->tracker) {
-            $this->tracker->reachViewProduct($context, $product);
+            $this->tracker->reachViewProductListing($context);
         }
     }
 
@@ -78,6 +71,34 @@ class TrackingService extends Tracker
     {
         if ($this->tracker) {
             $this->tracker->reachAddToBasket($context, $cart, $lineItem);
+        }
+    }
+
+    public function reachStartCheckout(Context $context): void
+    {
+        if ($this->tracker) {
+            $this->tracker->reachStartCheckout($context);
+        }
+    }
+
+    public function reachPaymentPage(Context $context): void
+    {
+        if ($this->tracker) {
+            $this->tracker->reachPaymentPage($context);
+        }
+    }
+
+    public function reachLogin(Context $context, Account $account): void
+    {
+        if ($this->tracker) {
+            $this->tracker->reachLogin($context, $account);
+        }
+    }
+
+    public function reachRegistration(Context $context, Account $account): void
+    {
+        if ($this->tracker) {
+            $this->tracker->reachRegistration($context, $account);
         }
     }
 

@@ -75,6 +75,7 @@ class CategoryController
         );
 
         $this->trackingService->trackPageView($context, $node->nodeType);
+        $this->trackingService->reachViewProductListing($context);
 
         return [
             'node' => $node,

@@ -14,6 +14,10 @@ api_core:
     resource: "@FrontasticCatwalkApiCoreBundle/Resources/config/routing.xml"
     prefix:   /
 
+tracking:
+    resource: "@FrontasticCatwalkTrackingBundle/Resources/config/routing.xml"
+    prefix:   /
+
 dev_vm:
     resource: "@FrontasticCatwalkDevVmBundle/Resources/config/routing.xml"
     prefix:   /

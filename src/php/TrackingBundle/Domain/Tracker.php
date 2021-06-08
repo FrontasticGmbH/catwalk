@@ -19,17 +19,23 @@ use Frontastic\Common\ReplicatorBundle\Domain\Project;
  */
 abstract class Tracker
 {
-    abstract public function trackPageView(Context $context, string $pageType, ?string $path = null);
-
-    abstract public function reachStartCheckout(Context $context): void;
+    abstract public function trackPageView(Context $context, string $pageType, ?string $path = null): void;
 
     abstract public function reachOrder(Context $context, Order $order): void;
 
-    abstract public function reachRegistration(Context $context, Account $account): void;
+    abstract public function reachViewProduct(Context $context): void;
 
-    abstract public function reachViewProduct(Context $context, Product $product): void;
+    abstract public function reachViewProductListing(Context $context): void;
 
     abstract public function reachAddToBasket(Context $context, Cart $cart, LineItem $lineItem): void;
+
+    abstract public function reachStartCheckout(Context $context): void;
+
+    abstract public function reachPaymentPage(Context $context): void;
+
+    abstract public function reachLogin(Context $context, Account $account): void;
+
+    abstract public function reachRegistration(Context $context, Account $account): void;
 
     public function shouldRunExperiment(string $experimentId): bool
     {
