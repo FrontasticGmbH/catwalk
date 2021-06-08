@@ -287,7 +287,7 @@ class AccountAuthController
         return $body;
     }
 
-    protected function loginAccount(Account $account, Request $request): Response
+    protected function loginAccount(Context $context, Account $account, Request $request): Response
     {
         $this->trackingService->reachLogin($context, $account);
 
