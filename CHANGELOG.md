@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.10.15` (2021-06-08)
+
+* fix(FP-729): extracted update cart logic and use it on checkout action
+
 ## `1.10.14` (2021-06-03)
 
 * fix: used column name to search hooks
