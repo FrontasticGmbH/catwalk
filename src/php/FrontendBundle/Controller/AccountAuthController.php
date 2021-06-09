@@ -128,7 +128,7 @@ class AccountAuthController
 
         $this->trackingService->reachRegistration($context, $account);
 
-        return $this->loginAccount($account, $request);
+        return $this->loginAccount($context, $account, $request);
     }
 
     /**
@@ -147,7 +147,7 @@ class AccountAuthController
     {
         $account = $this->getAccountService()->confirmEmail($confirmationToken, $context->locale);
 
-        return $this->loginAccount($account, $request);
+        return $this->loginAccount($context, $account, $request);
     }
 
     /**
@@ -189,7 +189,7 @@ class AccountAuthController
         $body = $this->getJsonBody($request);
         $account = $this->getAccountService()->resetPassword($token, $body['newPassword'], $context->locale);
 
-        return $this->loginAccount($account, $request);
+        return $this->loginAccount($context, $account, $request);
     }
 
     /**
