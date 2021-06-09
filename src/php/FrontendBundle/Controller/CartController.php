@@ -362,49 +362,11 @@ class CartController extends CrudController
      */
     public function updateAction(Context $context, Request $request): array
     {
-        $payload = $this->getJsonContent($request);
-        $cartApi = $this->getCartApi($context);
-
-        $cart = $this->getCart($context, $request);
-        $cartApi->startTransaction($cart);
-
-        if (!empty($payload['account'])) {
-            $cart = $cartApi->setEmail(
-                $cart,
-                $payload['account']['email'],
-                $context->locale
-            );
-        }
-
-        if (!empty($payload['shipping']) || !empty($payload['billing'])) {
-            $cart = $cartApi->setShippingAddress(
-                $cart,
-                Address::newWithProjectSpecificData(($payload['shipping'] ?? []) ?: $payload['billing']),
-                $context->locale
-            );
-
-            $cart = $cartApi->setBillingAddress(
-                $cart,
-                Address::newWithProjectSpecificData(($payload['billing'] ?? []) ?: $payload['shipping']),
-                $context->locale
-            );
-        }
-
-        if (array_key_exists('shippingMethodName', $payload)) {
-            $cart = $cartApi->setShippingMethod(
-                $cart,
-                $payload['shippingMethodName'] ?? '',
-                $context->locale
-            );
-        }
-
-        $cart->projectSpecificData = $this->parseProjectSpecificDataByKey($payload, 'custom');
-        $cart = $cartApi->setRawApiInput($cart, $context->locale);
-        $cart = $cartApi->commit($context->locale);
+        $cart = $this->updateCartFromRequest($request, $context);
 
         return [
             'cart' => $cart,
-            'availableShippingMethods' => $cartApi->getAvailableShippingMethods(
+            'availableShippingMethods' => $this->getCartApi($context)->getAvailableShippingMethods(
                 $cart,
                 $context->locale
             ),
@@ -425,10 +387,9 @@ class CartController extends CrudController
      */
     public function checkoutAction(Context $context, Request $request): array
     {
-        $cartApi = $this->getCartApi($context);
-        $cart = $this->getCart($context, $request);
+        $cart = $this->updateCartFromRequest($request, $context);
 
-        $order = $cartApi->order($cart, $context->locale);
+        $order =  $this->getCartApi($context)->order($cart, $context->locale);
         $this->get(TrackingService::class)->reachOrder($context, $order);
 
         $symfonySession = $request->hasSession() ? $request->getSession() : null;
@@ -573,5 +534,55 @@ class CartController extends CrudController
         }
 
         return $projectSpecificData;
+    }
+
+    protected function updateCartFromRequest(Request $request, Context $context): Cart
+    {
+        $cart = $this->getCart($context, $request);
+
+        if (!$request->getContent()) {
+            return $cart;
+        }
+
+        $payload = $this->getJsonContent($request);
+
+        $cartApi = $this->getCartApi($context);
+
+        $cartApi->startTransaction($cart);
+
+        if (!empty($payload['account'])) {
+            $cart = $cartApi->setEmail(
+                $cart,
+                $payload['account']['email'],
+                $context->locale
+            );
+        }
+
+        if (!empty($payload['shipping']) || !empty($payload['billing'])) {
+            $cart = $cartApi->setShippingAddress(
+                $cart,
+                Address::newWithProjectSpecificData(($payload['shipping'] ?? []) ?: $payload['billing']),
+                $context->locale
+            );
+
+            $cart = $cartApi->setBillingAddress(
+                $cart,
+                Address::newWithProjectSpecificData(($payload['billing'] ?? []) ?: $payload['shipping']),
+                $context->locale
+            );
+        }
+
+        if (array_key_exists('shippingMethodName', $payload)) {
+            $cart = $cartApi->setShippingMethod(
+                $cart,
+                $payload['shippingMethodName'] ?? '',
+                $context->locale
+            );
+        }
+
+        $cart->projectSpecificData = $this->parseProjectSpecificDataByKey($payload, 'custom');
+        $cartApi->setRawApiInput($cart, $context->locale);
+
+        return $cartApi->commit($context->locale);
     }
 }
