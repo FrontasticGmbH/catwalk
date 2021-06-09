@@ -1,0 +1,4 @@
+master_nodes:
+    resource: .
+    prefix:   /
+    type:     "master"

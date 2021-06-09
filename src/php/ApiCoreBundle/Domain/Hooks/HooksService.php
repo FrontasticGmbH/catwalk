@@ -50,7 +50,7 @@ class HooksService
                 $context->project->customer . '_' . $context->project->projectId
             );
         }
-        return in_array($eventName, $this->hooks, true);
+        return in_array($eventName, array_column($this->hooks, 'hookName'), true);
     }
 
     protected function callRemoteHook(string $hook, array $arguments)

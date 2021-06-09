@@ -12,7 +12,7 @@
     </div>
     <div id="appData"
          data-props="{{ completeInformation({ previewId: previewId, node: node, page: page, data: data })|frontastic_json_serialize|json_encode() }}"
-         data-app="{{ frontastic_context()|json_encode() }}"
-     />
+         data-app="{{ frontastic_context()|json_encode() }}">
+    </div>
 {% endapply %}
 {% endblock %}

@@ -1,6 +1,7 @@
 const paths = require('./paths')
 const libraryModifications = require('./libraryModifications')
 const { isModuleNotFoundError } = require('./webpack/helpers')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 const PRODUCTION = true
 const SERVER = false
@@ -16,6 +17,7 @@ config = require('./webpack/linkDependencies.js')(config, PRODUCTION, SERVER)
 
 config.optimization = {
     minimize: true,
+    minimizer: [new CssMinimizerPlugin()],
     splitChunks: {
         chunks: 'all',
         minSize: 10 * 1024,
