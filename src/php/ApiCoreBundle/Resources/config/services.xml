@@ -52,6 +52,11 @@
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" autowire="true">
+            <!--
+             * We are using a dedicated instance of JsonSerializer that does not contains any enhancers
+             * in order to prevent recursive calls between the UrlGenerator's enhancer and
+             * those class implementing generateUrlFor and using the HookService
+            -->
             <argument key="$jsonSerializer" type="service" id="frontastic.hooks.json_serializer" />
         </service>
 
