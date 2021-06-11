@@ -18,13 +18,34 @@ use Frontastic\Common\ReplicatorBundle\Domain\Project;
 
 class Kameleoon extends Tracker
 {
+    /**
+     * @var string
+     */
     private $client;
-    private $clientId;
-    private $clientSecret;
-    private $goal;
 
+    /**
+     * @var string
+     */
+    private $clientId;
+
+    /**
+     * @var string
+     */
+    private $clientSecret;
+
+    /**
+     * @var int[]
+     */
+    private $goals = [];
+
+    /**
+     * @var string
+     */
     private $visitorCode;
 
+    /**
+     * @var [string => int]
+     */
     private $userAgentMap = [
         '(opera|opr/)i' => 4, // Opera (must be before Internet Explorer)
         '(chrome)i' => 0, // Google Chrome
