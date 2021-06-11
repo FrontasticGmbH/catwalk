@@ -2,13 +2,13 @@
 
 namespace Frontastic\Catwalk\TrackingBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 
-class TrackingController extends Controller
+class TrackingController extends AbstractController
 {
     /**
      * @var string[]
@@ -20,10 +20,18 @@ class TrackingController extends Controller
         'paymentPage',
     ];
 
+    /**
+     * @var TrackingService
+     */
+    private $trackingService;
+
+    public function __construct(TrackingService $trackingService)
+    {
+        $this->trackingService = $trackingService;
+    }
+
     public function trackAction(Context $context, string $pageType): JsonResponse
     {
-        $trackingService = $this->get(TrackingService::class);
-
         if (!in_array($pageType, $this->trackablePageTypes)) {
             throw new \OutOfBoundsException(
                 "$pageType is not trackable, options are: " .
@@ -32,7 +40,7 @@ class TrackingController extends Controller
         }
 
         $method = 'reach' . ucfirst($pageType);
-        $trackingService->$method($context);
+        $this->trackingService->$method($context);
         return new JsonResponse(['ok' => true]);
     }
 }

@@ -20,5 +20,9 @@
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project"/>
             <argument>%kernel.project_dir%/config/</argument>
         </service>
+
+        <service id="Frontastic\Catwalk\TrackingBundle\Controller\TrackingController">
+            <argument type="service" id="Frontastic\Catwalk\TrackingBundle\Domain\TrackingService" />
+        </service>
     </services>
 </container>
