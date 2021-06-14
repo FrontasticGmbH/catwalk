@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\TrackingBundle\Domain;
 
+use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
 use Frontastic\Common\CartApiBundle\Domain\Cart;
@@ -13,6 +14,8 @@ use Frontastic\Common\ReplicatorBundle\Domain\Project;
 class TrackingService extends Tracker
 {
     private $tracker = null;
+
+    private $crawlerDetector;
 
     public function __construct(Project $project, string $configDirectory)
     {
@@ -28,11 +31,19 @@ class TrackingService extends Tracker
             default:
                 debug('Unknown tracking engine.');
         }
+
+        $this->crawlerDetector = new CrawlerDetect();
+    }
+
+    private function shouldTrack(): bool
+    {
+        return (bool) $this->tracker &&
+            !$this->crawlerDetector->isCrawler();
     }
 
     public function shouldRunExperiment(string $experimentId): bool
     {
-        if ($this->tracker) {
+        if ($this->shouldTrack()) {
             return $this->tracker->shouldRunExperiment($experimentId);
         }
 
@@ -41,63 +52,63 @@ class TrackingService extends Tracker
 
     public function trackPageView(Context $context, string $pageType, ?string $path = null): void
     {
-        if ($this->tracker) {
+        if ($this->shouldTrack()) {
             $this->tracker->trackPageView($context, $pageType, $path);
         }
     }
 
     public function reachOrder(Context $context, Order $order): void
     {
-        if ($this->tracker) {
+        if ($this->shouldTrack()) {
             $this->tracker->reachOrder($context, $order);
         }
     }
 
     public function reachViewProduct(Context $context): void
     {
-        if ($this->tracker) {
+        if ($this->shouldTrack()) {
             $this->tracker->reachViewProduct($context);
         }
     }
 
     public function reachViewProductListing(Context $context): void
     {
-        if ($this->tracker) {
+        if ($this->shouldTrack()) {
             $this->tracker->reachViewProductListing($context);
         }
     }
 
     public function reachAddToBasket(Context $context, Cart $cart, LineItem $lineItem): void
     {
-        if ($this->tracker) {
+        if ($this->shouldTrack()) {
             $this->tracker->reachAddToBasket($context, $cart, $lineItem);
         }
     }
 
     public function reachStartCheckout(Context $context): void
     {
-        if ($this->tracker) {
+        if ($this->shouldTrack()) {
             $this->tracker->reachStartCheckout($context);
         }
     }
 
     public function reachPaymentPage(Context $context): void
     {
-        if ($this->tracker) {
+        if ($this->shouldTrack()) {
             $this->tracker->reachPaymentPage($context);
         }
     }
 
     public function reachLogin(Context $context, Account $account): void
     {
-        if ($this->tracker) {
+        if ($this->shouldTrack()) {
             $this->tracker->reachLogin($context, $account);
         }
     }
 
     public function reachRegistration(Context $context, Account $account): void
     {
-        if ($this->tracker) {
+        if ($this->shouldTrack()) {
             $this->tracker->reachRegistration($context, $account);
         }
     }

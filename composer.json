@@ -47,7 +47,8 @@
         "mtdowling/cron-expression": "@stable",
         "kphoen/rulerz-bundle": "^0.15.0",
         "zetacomponents/graph": "^1.5",
-        "ramsey/uuid": "^3.9"
+        "ramsey/uuid": "^3.9",
+        "jaybizzle/crawler-detect": "^1.2"
     },
     "require-dev":  {
         "frontastic/apidocs": "^1.0.0@alpha",
