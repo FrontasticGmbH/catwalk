@@ -31,10 +31,15 @@ module.exports = (config, PRODUCTION, SERVER, SINGLE_SERVER = false) => {
         let organizationName = path.basename(path.dirname(path.dirname(extension)))
         let package = `${organizationName}/${packageName}`
 
-        if (packages.includes(package) && appliedPackages.indexOf(package) === -1) {
-            console.log("* Applying webpack extensions from " + package)
-            config = require(extension)(config, PRODUCTION, SERVER)
-            appliedPackages.push(package)
+        if (packages.includes(package)) {
+            if (appliedPackages.indexOf(package) !== -1) {
+                console.log("* Skipping webpack extensions from duplicate package " + package)
+            }
+            else {
+                console.log("* Applying webpack extensions from " + package)
+                config = require(extension)(config, PRODUCTION, SERVER)
+                appliedPackages.push(package)
+            }
         }
     })
 
