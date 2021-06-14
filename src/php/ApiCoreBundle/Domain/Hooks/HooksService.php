@@ -84,6 +84,17 @@ class HooksService
         return $response;
     }
 
+    public function callExpectArray(string $hook, array $arguments): ?array
+    {
+        if (!$this->isEventActive($hook)) {
+            return null;
+        }
+
+        $response = $this->callRemoteHook($hook, $arguments);
+
+        return $response['arguments'][0];
+    }
+
     public function callExpectList(string $hook, array $arguments)
     {
         if (!$this->isEventActive($hook)) {
