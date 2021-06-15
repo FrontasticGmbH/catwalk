@@ -5,7 +5,6 @@ namespace Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\ContentApiBundle\Domain\ContentApi\Content;
 use Frontastic\Common\ContentApiBundle\Domain\ContentApi;
-use Frontastic\Common\ContentApiBundle\Domain\ContentApi\Query;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
