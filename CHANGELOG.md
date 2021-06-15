@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.12.0` (2021-06-15)
+
+* feat: Do not track bot actions
+* chore(singleServer): updates to config based on testing
+
 ## `1.11.0` (2021-06-14)
 
 * fix(FP-736): set session samesite as non Only available from Symfony 4.3
