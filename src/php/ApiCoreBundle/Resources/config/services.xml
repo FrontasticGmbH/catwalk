@@ -51,7 +51,32 @@
             />
         </service>
 
-        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" autowire="true" />
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" autowire="true">
+            <!--
+             * We are using a dedicated instance of JsonSerializer that does not contains any enhancers
+             * in order to prevent recursive calls between the UrlGenerator's enhancer and
+             * those class implementing generateUrlFor and using the HookService
+            -->
+            <argument key="$jsonSerializer" type="service" id="frontastic.hooks.json_serializer" />
+        </service>
+
+        <service class="Frontastic\Common\JsonSerializer" id="frontastic.hooks.json_serializer">
+            <argument type="collection">
+                <argument>accessToken</argument>
+                <argument>apiKey</argument>
+                <argument>apiSecret</argument>
+                <argument>apiToken</argument>
+                <argument>clientId</argument>
+                <argument>clientSecret</argument>
+                <argument>newPassword</argument>
+                <argument>password</argument>
+                <argument>passwordHash</argument>
+                <argument>previewToken</argument>
+                <argument>secret</argument>
+                <argument>token</argument>
+                <argument>metaData</argument>
+            </argument>
+        </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksApiClient" autowire="true" />
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HookResponseDeserializer" autowire="true" />

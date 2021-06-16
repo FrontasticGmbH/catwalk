@@ -5,6 +5,7 @@
 ## Methods
 
 * [__construct()](#__construct)
+* [callExpectArray()](#callexpectarray)
 * [callExpectList()](#callexpectlist)
 * [callExpectObject()](#callexpectobject)
 * [callExpectMultipleObjects()](#callexpectmultipleobjects)
@@ -32,6 +33,22 @@ Argument|Type|Default|Description
 `$logger`|`\Psr\Log\LoggerInterface`||
 
 Return Value: `mixed`
+
+### callExpectArray()
+
+```php
+public function callExpectArray(
+    string $hook,
+    array $arguments
+): ?array
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$hook`|`string`||
+`$arguments`|`array`||
+
+Return Value: `?array`
 
 ### callExpectList()
 

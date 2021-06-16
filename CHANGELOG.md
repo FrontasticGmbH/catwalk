@@ -1,5 +1,18 @@
 # catwalk Changelog
 
+## `1.12.0` (2021-06-15)
+
+* feat: Do not track bot actions
+* chore(singleServer): updates to config based on testing
+
+## `1.11.0` (2021-06-14)
+
+* fix(FP-736): set session samesite as non Only available from Symfony 4.3
+* fix: Pass correct arguments
+* fix: output proper HTML5 appData div tag
+* fix: add required parameter to action
+* feat: Allow tracking to multiple goals in kameleoon
+
 ## `1.10.15` (2021-06-08)
 
 * fix(FP-729): extracted update cart logic and use it on checkout action
