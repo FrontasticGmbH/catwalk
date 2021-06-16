@@ -43,6 +43,7 @@ class ProductRouter
             [
                 'url' => strtr($product->slug, [
                     '_' => '/',
+                    '-' => '/'
                 ]),
                 'identifier' => $product->variants[0]->sku,
             ]
