@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.12.2` (2021-06-18)
+
+* fix: set cookie samesite values as null
+* fix: cookie security setting for dev environment as "none" is not working there
+
 ## `1.12.1` (2021-06-16)
 
 * fix: restored string replacement on product url generation
