@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.12.3` (2021-06-24)
+
+
+* preview fix
+* Merge branch 'master' of github.com:FrontasticGmbH/frontastic
+* misc: Tagged release 1.12.2 for catwalk
+
 ## `1.12.2` (2021-06-18)
 
 * fix: set cookie samesite values as null
