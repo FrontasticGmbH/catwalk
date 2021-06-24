@@ -87,15 +87,21 @@ class Preview extends Component {
             </div>)
         }
 
-        return (<div className='s-preview'>
-            <Page
-                node={this.props.node.data || {}}
-                page={this.props.page.data || {}}
-                data={this.props.data.data || {}}
-                highlight={this.state.highlight}
-                tastics={this.props.tastics.data}
-            />
-        </div>)
+        let nodeData = this.props.node.data || { configuration: {} }
+
+        let customClassname = nodeData.configuration.displayClassname || ''
+
+        return (
+            <div className={`s-preview s-node s-node--${nodeData.nodeType} ${customClassname}`}>
+                <Page
+                    node={this.props.node.data || {}}
+                    page={this.props.page.data || {}}
+                    data={this.props.data.data || {}}
+                    highlight={this.state.highlight}
+                    tastics={this.props.tastics.data}
+                />
+            </div>
+        )
     }
 }
 
