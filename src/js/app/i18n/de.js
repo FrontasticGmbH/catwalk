@@ -151,7 +151,7 @@ export default {
         NotEnabled: 'Interner Fehler',
     },
     symfony: {
-        notVerified: 'Login fehlgeschlagen. Ihre E-Mail-Adresse wurde nocht nicht bestätigt. Bitte prüfen Sie Ihren Posteingang',
+        notVerified: 'Login fehlgeschlagen. Ihre E-Mail-Adresse wurde noch nicht bestätigt. Bitte prüfen Sie Ihren Posteingang',
         invalid: 'Login fehlgeschlagen. E-Mail oder Passwort falsch',
     },
     header: {
