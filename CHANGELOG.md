@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.12.4` (2021-07-06)
+
+* chore: fix not on master removed the collection json
+* fix: translation typo
+
 ## `1.12.3` (2021-06-24)
 
 
