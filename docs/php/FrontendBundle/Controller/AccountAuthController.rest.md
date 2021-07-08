@@ -138,6 +138,12 @@
 
     * `null`
 
+  * `apiToken` as either of:
+
+    * `string`
+
+    * `null`
+
   * `dangerousInnerAccount` as `mixed`
 
 ### Responses
@@ -276,6 +282,12 @@ Status: 201
 
     * `null`
 
+  * `apiToken`: either of:
+
+    * `string`
+
+    * `null`
+
   * `dangerousInnerAccount`: `mixed`
 
 ## `POST` `/api/account/update`
@@ -352,6 +364,12 @@ Status: 201
 
     * `null`
 
+  * `apiToken` as either of:
+
+    * `string`
+
+    * `null`
+
   * `dangerousInnerAccount` as `mixed`
 
 ### Responses
@@ -421,6 +439,12 @@ Status: 200
     * `dangerousInnerAddress`: `mixed`
 
   * `authToken`: either of:
+
+    * `string`
+
+    * `null`
+
+  * `apiToken`: either of:
 
     * `string`
 

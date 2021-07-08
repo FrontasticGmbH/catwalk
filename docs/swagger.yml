@@ -3169,6 +3169,12 @@ paths:
                       type: string
                     -
                       type: 'null'
+                apiToken:
+                  oneOf:
+                    -
+                      type: string
+                    -
+                      type: 'null'
                 dangerousInnerAccount: {  }
                 phone:
                   type: string
@@ -3430,6 +3436,12 @@ paths:
                         type: string
                       -
                         type: 'null'
+                  apiToken:
+                    oneOf:
+                      -
+                        type: string
+                      -
+                        type: 'null'
                   dangerousInnerAccount: {  }
   /api/account/update:
     post:
@@ -3525,6 +3537,12 @@ paths:
                       type: string
                     -
                       type: 'null'
+                apiToken:
+                  oneOf:
+                    -
+                      type: string
+                    -
+                      type: 'null'
                 dangerousInnerAccount: {  }
       responses:
         200:
@@ -3611,6 +3629,12 @@ paths:
                           type: boolean
                         dangerousInnerAddress: {  }
                   authToken:
+                    oneOf:
+                      -
+                        type: string
+                      -
+                        type: 'null'
+                  apiToken:
                     oneOf:
                       -
                         type: string
