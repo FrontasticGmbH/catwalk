@@ -10,6 +10,7 @@ const activateSsrPolyfills = () => {
     if (typeof window === 'undefined') {
         const domino = require('domino')
         const win = domino.createWindow()
+        win.Date = Date
 
         global['window'] = win
         global['document'] = win.document
