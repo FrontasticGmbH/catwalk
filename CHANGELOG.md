@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.12.5` (2021-07-08)
+
+* fix: issue with SSR because polyfill for date missing on window in react development scheduler implementation
+
 ## `1.12.4` (2021-07-06)
 
 * chore: fix not on master removed the collection json
