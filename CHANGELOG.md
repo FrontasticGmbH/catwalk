@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.12.6` (2021-07-13)
+
+chore: Fixed new phpstan return type notices
+
 ## `1.12.5` (2021-07-08)
 
 * fix: issue with SSR because polyfill for date missing on window in react development scheduler implementation
