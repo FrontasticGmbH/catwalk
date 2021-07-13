@@ -17,7 +17,7 @@ class RebuildRoutesCommand extends ContainerAwareCommand
             ->setDescription('Rebuild routes from node definitions');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var NodeService $nodeService */
         $nodeService = $this->getContainer()->get(NodeService::class);
@@ -25,5 +25,7 @@ class RebuildRoutesCommand extends ContainerAwareCommand
         $routeService = $this->getContainer()->get(RouteService::class);
 
         $routeService->rebuildRoutes($nodeService->getNodes());
+
+        return 0;
     }
 }

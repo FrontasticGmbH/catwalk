@@ -29,7 +29,7 @@ class DumpProductsCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $context = $this->getContainer()->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
 
@@ -52,5 +52,7 @@ class DumpProductsCommand extends ContainerAwareCommand
             )
         );
         $output->writeln('');
+
+        return 0;
     }
 }

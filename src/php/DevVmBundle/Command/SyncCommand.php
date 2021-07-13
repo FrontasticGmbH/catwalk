@@ -42,7 +42,7 @@ class SyncCommand extends ContainerAwareCommand
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $syncDirectory = realpath(sprintf(
             '%s/public/assets/',
@@ -114,5 +114,7 @@ class SyncCommand extends ContainerAwareCommand
 
             $output->writeln("Successfully stored backup of catwalk in  '{$filename}'.");
         }
+
+        return 0;
     }
 }

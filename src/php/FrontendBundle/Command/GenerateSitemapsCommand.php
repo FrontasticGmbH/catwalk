@@ -145,7 +145,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
      * @SuppressWarnings(PHPMD.CyclomaticComplexity) Batch code
      * @SuppressWarnings(PHPMD.NPathComplexity) Batch code
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->maxEntries = $input->getOption('max-entries');
         $this->singleSitemap = $input->getOption('single-sitemap');
@@ -229,6 +229,8 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         if ($backupDir) {
             $this->filesystem->remove($backupDir);
         }
+
+        return 0;
     }
 
     private function determinePublicUrl(Context $context, $overrideUrl = null): string

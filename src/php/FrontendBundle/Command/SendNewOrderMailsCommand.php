@@ -18,7 +18,7 @@ class SendNewOrderMailsCommand extends ContainerAwareCommand
             ->addArgument('mail', InputArgument::REQUIRED, 'Target mail address');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $to = $input->getArgument('mail');
 
@@ -35,5 +35,7 @@ class SendNewOrderMailsCommand extends ContainerAwareCommand
                 Yaml::dump(json_decode(json_encode($order), true), 10, 2)
             );
         }
+
+        return 0;
     }
 }

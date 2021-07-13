@@ -22,7 +22,7 @@ class CreateBundleCommand extends ContainerAwareCommand
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $context = $this->getContainer()->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
         $bundleName = $input->getArgument('bundleName');
@@ -77,6 +77,8 @@ class CreateBundleCommand extends ContainerAwareCommand
         // Clear Caches
         $cacheClearer = $this->getContainer()->get('cache_clearer');
         $cacheClearer->clear($this->getContainer()->getParameter('kernel.cache_dir'));
+
+        return 0;
     }
 
     private function fixNames(string $input, string $namespace, string $bundleName): string

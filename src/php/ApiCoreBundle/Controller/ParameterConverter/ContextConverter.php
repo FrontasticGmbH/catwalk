@@ -18,12 +18,14 @@ class ContextConverter implements ParamConverterInterface
         $this->contextService = $contextService;
     }
 
-    public function apply(Request $request, ParamConverter $configuration)
+    public function apply(Request $request, ParamConverter $configuration): bool
     {
         $request->attributes->set(
             $configuration->getName(),
             $this->contextService->createContextFromRequest($request)
         );
+
+        return true;
     }
 
     public function supports(ParamConverter $configuration)

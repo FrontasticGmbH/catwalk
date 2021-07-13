@@ -31,10 +31,12 @@ class AnnounceReleaseCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->announceToTideways($input, $output);
         $this->announceToNewrelic($input, $output);
+
+        return 0;
     }
 
     protected function announceToTideways(InputInterface $input, OutputInterface $output): void

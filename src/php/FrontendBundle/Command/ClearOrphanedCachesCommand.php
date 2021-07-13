@@ -22,7 +22,7 @@ class ClearOrphanedCachesCommand extends ContainerAwareCommand
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $container = $this->getContainer();
 
@@ -57,5 +57,7 @@ class ClearOrphanedCachesCommand extends ContainerAwareCommand
                 $filesystem->remove($dir->getRealPath());
             }
         }
+
+        return 0;
     }
 }

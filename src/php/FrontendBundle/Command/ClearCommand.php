@@ -15,7 +15,7 @@ class ClearCommand extends ContainerAwareCommand
             ->setDescription('Clears all local data so that it will be rebuild by the replicator');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $connection = $this->getContainer()->get('database_connection');
         $schemaManager = $connection->getSchemaManager();
@@ -31,5 +31,7 @@ class ClearCommand extends ContainerAwareCommand
             $output->writeln('* Clearing table ' . $tableName);
             $connection->executeQuery('TRUNCATE `' . $tableName . '`', [], []);
         }
+
+        return 0;
     }
 }

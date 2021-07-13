@@ -26,7 +26,7 @@ class SessionDeleteCommand extends ContainerAwareCommand
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $batchLimit = (int) $input->getArgument('batchLimit');
         $connection = $this->getContainer()->get('database_connection');
@@ -65,5 +65,7 @@ class SessionDeleteCommand extends ContainerAwareCommand
                 continue;
             }
         }
+
+        return 0;
     }
 }
