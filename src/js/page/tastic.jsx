@@ -82,7 +82,7 @@ const TasticWrapper = (props) => {
         if (props.autoTastify) {
             Tastic = tastify({ translate: true })(Tastic)
         } else {
-            deprecate(`Please wrap the Tastic ${tasticName} into tastify() (@frontastic/catwalk/src/js/helper/tastify / https://docs.frontastic.cloud/article/176-catwalk-performance#Tastify) for better rendering performance`)
+            deprecate(`Please wrap the Tastic ${tasticToRenderConfiguration.tasticType} into tastify() (@frontastic/catwalk/src/js/helper/tastify / https://docs.frontastic.cloud/docs/tastify-tastic-rendering-optimizations) for better rendering performance`)
         }
     }
 
