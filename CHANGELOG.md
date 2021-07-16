@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.12.7` (2021-07-16)
+
+* fix: Link to tastify() docs & better tastic name in deprecation message.
+* fix(FP-497,FP-851): Introduce __suppressNotTastifiedNotice property.
+
 ## `1.12.6` (2021-07-13)
 
 chore: Fixed new phpstan return type notices
