@@ -76,7 +76,9 @@ const TasticWrapper = (props) => {
 
     if ((tasticName !== 'WithTranslatedTasticData') &&
         (tasticName !== '_temp') &&
-        (typeof Tastic !== 'function' || tasticName !== 'TastifiedTastic')) {
+        (typeof Tastic !== 'function' || tasticName !== 'TastifiedTastic') &&
+        (!Tastic.__suppressNotTastifiedNotice) // Use this to eliminate false positives
+    ) {
         if (props.autoTastify) {
             Tastic = tastify({ translate: true })(Tastic)
         } else {
