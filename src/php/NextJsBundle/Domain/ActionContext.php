@@ -3,7 +3,8 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 /**
- * This class only represents the information available, the TypeScript API should provide a mechanism to request each of these fields.
+ * This class only represents the information available, the TypeScript API should provide a mechanism to request each
+ * of these fields and we only submit those which have been requested.
  */
 class ActionContext
 {

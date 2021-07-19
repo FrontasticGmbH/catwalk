@@ -2,46 +2,41 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context as OriginalContext;
-
-use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Locale;
-
-use Frontastic\Common\ReplicatorBundle\Domain\Customer as OriginalCustomer;
 use Frontastic\Common\ReplicatorBundle\Domain\Project as OriginalProject;
+
 use Kore\DataObject\DataObject;
 
 /**
- * Stripped down version of {@link OriginalContext}
+ * @replaces Frontastic\Catwalk\ApiCoreBundle\Domain\Context
  */
 class Context extends DataObject
 {
     /**
-     * Result of {@link OriginalContext.applicationEnvironment()}
+     * Result of {@link Frontastic\Catwalk\ApiCoreBundle\Domain\Context.applicationEnvironment()}
      * @var string
      */
     public string $environment = 'production';
 
     /**
      * @required
-     * @fixme should we have that as dedicated requestable data?
-     * @fixme This struct does actually not contain any relevant data, except maybe customer based config which needs to be migrated to studio anyway.
+     * @removed data is only relevant in Frontastic studio
      */
     // public OriginalCustomer $customer;
 
     /**
      * @required
-     * @fixme should we have that as dedicated requestable data?
+     * @fixme should we have that as dedicated requestable data? Is probably needed in every call anyway to obtain credentials.
      */
     public OriginalProject $project;
 
     /**
      * @required
+     * @todo complete data in PHP code so that $projectConfigurationSchema is not needed to be transmitted.
      */
     public array $projectConfiguration = [];
 
     /**
-     * @required
-     * @todo We will complete the defaults in our PHP code so no need to transmit the schema
+     * @removed Only needed for completion of defaults which we should handle in PHP
      */
     // public $projectConfigurationSchema = [];
 
@@ -53,8 +48,7 @@ class Context extends DataObject
     public string $locale;
 
     /**
-     * Session is now a dedicated object that contains arbitrary information
-     * @var Session
+     * @removed $sessionData is now an arbitrary hash-map and available as dedicatedly requestable
      */
     // public $session = null;
 
@@ -64,9 +58,7 @@ class Context extends DataObject
     public array $featureFlags = [];
 
     /**
-     * Host can now be obtained by retrieving the Request
-     *
-     * @var string
+     * @removed Host can now be obtained by retrieving the Request
      */
     // public $host;
 }

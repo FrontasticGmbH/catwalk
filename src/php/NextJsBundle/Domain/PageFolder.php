@@ -2,25 +2,25 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
-use Frontastic\Catwalk\FrontendBundle\Domain\Node;
-use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
-
 /**
- * Stripped down version of {@link Node}
+ * @replaces Frontastic\Catwalk\FrontendBundle\Domain\Node
  */
 class PageFolder
 {
     /**
+     * @replaces $nodeId.
      * @required
      */
     public string $pageFolderId;
 
     /**
+     * @replaces $isMaster
      * @required
      */
     public bool $isDynamic = false;
 
     /**
+     * @replaces $nodeType
      * @required
      */
     public string $pageFolderType = 'landingpage';
@@ -36,6 +36,7 @@ class PageFolder
     public array $configuration = [];
 
     /**
+     * @replaces $streams
      * @var DataSourceConfiguration[]
      * @required
      */
@@ -61,23 +62,17 @@ class PageFolder
     public $sort = 0;
 
     /**
-     * @var Node[]
-     * @required
-     * @fixme Do we want to transmit that?
+     * @removed Removing this for now as it is ambiguously used and can lead to large payloads.
      */
     // public $children = [];
 
     /**
-     * @var \Frontastic\Backstage\UserBundle\Domain\MetaData
-     * @required
-     * @fixme IMO we should not send that
+     * @removed MetaData is not relevant to API hub but only studio
      */
     // public $metaData;
 
     /**
-     * Not needed because deleted page folders will never be transmitted to the customer.
-     *
-     * @var bool
+     * @removed extensions will never be called for deleted data
      */
     // public $isDeleted = false;
 }

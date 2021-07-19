@@ -24,13 +24,14 @@ class Page extends DataObject
     /**
      * @var PageFolder
      * @required
+     * @replaces $node
      * @fixme should we transit page folder ID here instead, because the PageFolder can be requested dedicatedly?
      */
     public $pageFolder;
 
     /**
+     * @removed We don't use this at all, yet. Can be exposed later, if supported.
      * @var string
-     * We don't use this at all, yet
      */
     // public $layoutId;
 
@@ -41,12 +42,14 @@ class Page extends DataObject
     public $regions = [];
 
     /**
+     * @removed MetaData is not relevant to API hub but only studio
      * @var \Frontastic\UserBundle\Domain\MetaData
      * @required
      */
     // public $metaData;
 
     /**
+     * @removed extensions will never be called for deleted data
      * @var bool
      * @required
      */
@@ -59,18 +62,17 @@ class Page extends DataObject
     public $state;
 
     /**
-     * Intentionally left out for now since this is only relevant to API Hub
+     * @removed only relevant to API Hub, can be re-added later, if needed
      */
     // public $scheduledFrom;
 
     /**
-     * Intentionally left out for now since this is only relevant to API Hub
+     * @removed only relevant to API Hub, can be re-added later, if needed
      */
     // public $scheduledTo;
 
     /**
-     * Intentionally left out for now since this is only relevant to API Hub
-     *
+     * @removed only relevant to API Hub, can be re-added later, if needed
      * @var ?int
      */
     // public $nodesPagesOfTypeSortIndex = null;
@@ -78,8 +80,7 @@ class Page extends DataObject
     /**
      * A FECL criterion which can control when this page will be rendered if it is in the scheduled state.
      *
-     * Intentionally left out for now since this is only relevant to API Hub
-     *
+     * @removed only relevant to API Hub, can be re-added later, if needed
      * @var string
      */
     // public $scheduleCriterion = '';
@@ -87,10 +88,8 @@ class Page extends DataObject
     /**
      * An experiment ID from a third party system like Kameleoon
      *
-     * Intentionally left out for now since this is only relevant to API Hub
-     *
+     * @removed only relevant to API Hub, can be re-added later, if needed
      * @var ?string
      */
     // public $scheduledExperiment = null;
-
 }
