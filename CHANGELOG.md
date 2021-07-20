@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.12.8` (2021-07-20)
+
+* fix: Move NextJsBundle to correct component.
+
 ## `1.12.7` (2021-07-16)
 
 * fix: Link to tastify() docs & better tastic name in deprecation message.
