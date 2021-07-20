@@ -1,0 +1,112 @@
+openapi: 3.0.3
+info:
+    title: Frontastic Next.js API
+    description: Frontastic Next.js API
+    version: 0.1.0alpha
+servers:
+    -   url: 'https'
+paths:
+    /page:
+        get:
+            summary: 'Retrieve all required data to render a Frontastic page'
+            parameters:
+                - name: slug
+                  in: query
+                  required: true
+                  description: 'The page slug, for example /foo/bar/baz'
+                ## This should have replaced the `s` parameter from Frontastic React, but we decided to leave this
+                ## functionality entirely to the customer. If requested, we can provide helpers in the future to realize
+                ## it
+                # - name: streams
+                #   in: query
+                #   required: false
+                #   description: 'A map of data source parameter objects, indexed by the ID of the data source'
+                #   example:
+                #       '123abc':
+                #           offset: 20
+                #           limit: 10
+                #           order: desc
+                #       '__master':
+                #           search: 't-shirt'
+            responses:
+                default:
+                    description: 'The data to render the page (usually with a 200 code), can be a normal page or a dynamic page'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    pageFolder:
+                                        externalDocs:
+                                            url: 'Frontastic\Catwalk\NextJsBundle\Domain\PageFolder'
+                                    page:
+                                        externalDocs:
+                                            url: 'Frontastic\Catwalk\NextJsBundle\Domain\Page'
+                                    data:
+                                        externalDocs:
+                                            url: 'Frontastic\Catwalk\NextJsBundle\Domain\PageViewData'
+                302:
+                    description: 'Frontastic managed redirect'
+                404:
+                    description: 'Not found, in case no page could be resolved in any way'
+
+    /context:
+        get:
+            summary: 'Work with the Frontastic context'
+            responses:
+                200:
+                    description: 'Returns the current context'
+                    content:
+                        application/json:
+                            schema:
+                                externalDocs:
+                                    url: 'Frontastic\Catwalk\NextJsBundle\Domain\Context'
+        post:
+            # Note: This changed from appending a query to `get` in order to update the context!
+            summary: 'Update selected fields of the context'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                locale:
+                                    type: string
+                                    required: false
+                                    description: 'Valid locale according to specification in Frontastic\Catwalk\NextJsBundle\Domain\Context'
+            responses:
+                200:
+                    description: 'Returns the update context'
+                    content:
+                        application/json:
+                            schema:
+                                externalDocs:
+                                    url: 'Frontastic\Catwalk\NextJsBundle\Domain\Context'
+
+                400:
+                    description: 'If the provided payload was invalid'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+
+
+    /action/{action-identifier}:
+        description: 'Any customer specified action. Can be called with any HTTP method and will return a customer specified response'
+
+components:
+    schemas:
+        Error:
+            description: 'General format used in case an operation errored'
+            type: object
+            properties:
+                ok:
+                    type: boolean
+                message:
+                    type: string
+
+
+
+
+
