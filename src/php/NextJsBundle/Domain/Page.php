@@ -5,7 +5,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain;
 use Kore\DataObject\DataObject;
 
 /**
- * Stripped down version of {@link \Frontastic\Catwalk\FrontendBundle\Domain\Page}
+ * @replaces \Frontastic\Catwalk\FrontendBundle\Domain\Page
  */
 class Page extends DataObject
 {
