@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use Kore\DataObject\DataObject;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @type
@@ -18,7 +19,9 @@ class StreamContext extends DataObject
     public $node;
 
     /**
-     * @var Page
+     * Can be null during sitemap generation
+     *
+     * @var ?Page
      * @required
      */
     public $page;
@@ -40,6 +43,12 @@ class StreamContext extends DataObject
      *
      * @var array
      * @required
+     * @deprecated Retrieve parameters directly from $request instead!
      */
     public $parameters = [];
+
+    /**
+     * Can be null during sitemap generation
+     */
+    public ?Request $request;
 }

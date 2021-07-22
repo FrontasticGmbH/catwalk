@@ -8,6 +8,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class StreamService
 {
@@ -21,8 +22,10 @@ class StreamService
      */
     private $logger;
 
+    private RequestStack $requestStack;
+
     /**
-     * @var StreamHandler[]
+     * @var StreamHandlerV2[]
      */
     private $streamHandlers = [];
 
@@ -60,17 +63,20 @@ class StreamService
     ];
 
     /**
-     * @param StreamHandler[]
+     * @param StreamHandler[] $streamHandlers Only "legacy" stream handlers go here, StreamHandlerV2 please go to {@link self::addStreamHandlerV2()}.
      */
     public function __construct(
         TasticService $tasticService,
         LoggerInterface $logger,
+        RequestStack $requestStack,
         iterable $streamHandlers = [],
         iterable $streamOptimizers = [],
         bool $debug = false
     ) {
         $this->tasticService = $tasticService;
         $this->logger = $logger;
+        $this->requestStack = $requestStack;
+
         foreach ($streamHandlers as $streamHandler) {
             $this->addStreamHandler($streamHandler);
         }
@@ -80,9 +86,18 @@ class StreamService
         $this->debug = $debug;
     }
 
+    /**
+     * @param StreamHandler $streamHandler
+     * @deprecated Use addStreamHandlerV2 instead
+     */
     public function addStreamHandler(StreamHandler $streamHandler)
     {
-        $this->streamHandlers[$streamHandler->getType()] = $streamHandler;
+        $this->addStreamHandlerV2($streamHandler->getType(), new StreamHandlerV2Adapter($streamHandler));
+    }
+
+    public function addStreamHandlerV2(string $streamType, StreamHandlerV2 $streamHandler): void
+    {
+        $this->streamHandlers[$streamType] = $streamHandler;
     }
 
     public function addStreamOptimizer(StreamOptimizer $streamOptimizer)
@@ -262,7 +277,9 @@ class StreamService
             'node' => $node,
             'page' => $page,
             'context' => $context,
+            'request' => $this->requestStack->getCurrentRequest(),
         ]);
+
         foreach ($streams as $stream) {
             $stream = new Stream($stream);
             $streamContext->parameters = isset($parameterMap[$stream->streamId]) ?
@@ -272,8 +289,7 @@ class StreamService
             $data[$stream->streamId] = $this
                 ->handle(
                     $stream,
-                    $context,
-                    $streamContext->parameters
+                    $streamContext
                 )
                 ->otherwise(function (\Throwable $exception) use ($stream) {
                     $errorResult = [
@@ -329,12 +345,7 @@ class StreamService
         return $data;
     }
 
-    /**
-     * @param Stream $stream
-     * @param array $parameters Extending the configuration of the stream
-     * @return PromiseInterface
-     */
-    private function handle(Stream $stream, Context $context, array $parameters = []): PromiseInterface
+    private function handle(Stream $stream, StreamContext $streamContext): PromiseInterface
     {
         if (!$stream->type) {
             return Promise\rejection_for(
@@ -353,7 +364,7 @@ class StreamService
         }
 
         try {
-            return $this->streamHandlers[$stream->type]->handleAsync($stream, $context, $parameters);
+            return $this->streamHandlers[$stream->type]->handle($stream, $streamContext);
         } catch (\Throwable $exception) {
             return Promise\rejection_for($exception);
         }

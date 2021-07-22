@@ -8,9 +8,43 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page;
 use Frontastic\Catwalk\FrontendBundle\Domain\Tastic;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class StreamServiceTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @var \Phake_IMock|TasticService
+     */
+    private $tasticServiceMock;
+
+    /**
+     * @var \Phake_IMock|LoggerInterface
+     */
+    private $loggerMock;
+
+    /**
+     * @var \Phake_IMock|RequestStack
+     */
+    private $requestStackMock;
+
+    private StreamService $streamService;
+
+    public function setUp()
+    {
+        $this->tasticServiceMock = \Phake::mock(TasticService::class);
+        \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn([]);
+
+        $this->loggerMock = \Phake::mock(LoggerInterface::class);
+
+        $this->requestStackMock = \Phake::mock(RequestStack::class);
+
+        $this->streamService = new StreamService(
+            $this->tasticServiceMock,
+            $this->loggerMock,
+            $this->requestStackMock
+        );
+    }
+
     private function findTastic(Page $page, string $tasticId): Tastic
     {
         foreach ($page->regions as $region) {
@@ -32,15 +66,10 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $page = include __DIR__ . '/__fixtures/Page.php';
         $tastics = include __DIR__ . '/__fixtures/tastics.php';
 
-        $tasticService = \Phake::mock(TasticService::class);
-        \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
-
-        $logger = \Phake::mock(LoggerInterface::class);
-
-        $streamService = new StreamService($tasticService, $logger, []);
+        \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn($tastics);
 
         $parameters = [];
-        $this->assertEquals(3, count($streamService->getUsedStreams($node, $page, $parameters)));
+        $this->assertEquals(3, count($this->streamService->getUsedStreams($node, $page, $parameters)));
     }
 
     public function testSetCountParameters()
@@ -49,15 +78,10 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $page = include __DIR__ . '/__fixtures/Page.php';
         $tastics = include __DIR__ . '/__fixtures/tastics.php';
 
-        $tasticService = \Phake::mock(TasticService::class);
-        \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
-
-        $logger = \Phake::mock(LoggerInterface::class);
-
-        $streamService = new StreamService($tasticService, $logger, []);
+        \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn($tastics);
 
         $parameters = [];
-        $streamService->getUsedStreams($node, $page, $parameters);
+        $this->streamService->getUsedStreams($node, $page, $parameters);
 
         $this->assertEquals(
             [
@@ -74,15 +98,10 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $page = include __DIR__ . '/__fixtures/GroupPage.php';
         $tastics = include __DIR__ . '/__fixtures/tastics.php';
 
-        $tasticService = \Phake::mock(TasticService::class);
-        \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
-
-        $logger = \Phake::mock(LoggerInterface::class);
-
-        $streamService = new StreamService($tasticService, $logger, []);
+        \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn($tastics);
 
         $parameters = [];
-        $this->assertEquals(4, count($streamService->getUsedStreams($node, $page, $parameters)));
+        $this->assertEquals(4, count($this->streamService->getUsedStreams($node, $page, $parameters)));
     }
 
     public function testSetCountParametersFromGroup()
@@ -91,15 +110,10 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $page = include __DIR__ . '/__fixtures/GroupPage.php';
         $tastics = include __DIR__ . '/__fixtures/tastics.php';
 
-        $tasticService = \Phake::mock(TasticService::class);
-        \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
-
-        $logger = \Phake::mock(LoggerInterface::class);
-
-        $streamService = new StreamService($tasticService, $logger, []);
+        \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn($tastics);
 
         $parameters = [];
-        $streams = $streamService->getUsedStreams($node, $page, $parameters);
+        $streams = $this->streamService->getUsedStreams($node, $page, $parameters);
 
         $this->assertEquals(
             [
@@ -117,15 +131,10 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $page = include __DIR__ . '/__fixtures/GroupPage.php';
         $tastics = include __DIR__ . '/__fixtures/tastics.php';
 
-        $tasticService = \Phake::mock(TasticService::class);
-        \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
-
-        $logger = \Phake::mock(LoggerInterface::class);
-
-        $streamService = new StreamService($tasticService, $logger, []);
+        \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn($tastics);
 
         $parameters = [];
-        $streams = $streamService->getUsedStreams($node, $page, $parameters);
+        $streams = $this->streamService->getUsedStreams($node, $page, $parameters);
 
         $this->assertEquals(
             [
@@ -156,18 +165,15 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $page = include __DIR__ . '/__fixtures/GroupPage.php';
         $tastics = include __DIR__ . '/__fixtures/tastics.php';
 
-        $tasticService = \Phake::mock(TasticService::class);
-        \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
-
-        $logger = \Phake::mock(LoggerInterface::class);
+        \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn($tastics);
 
         $streamHandler = \Phake::mock(StreamHandler::class);
         \Phake::when($streamHandler)->getType()->thenReturn('product-list');
         \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
 
-        $streamService = new StreamService($tasticService, $logger, [$streamHandler]);
+        $this->streamService->addStreamHandler($streamHandler);
 
-        $streamData = $streamService->getStreamData($node, new Context(), [], $page);
+        $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);
 
         $this->assertEquals(
             [
@@ -186,10 +192,7 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $page = include __DIR__ . '/__fixtures/GroupPage.php';
         $tastics = include __DIR__ . '/__fixtures/tastics.php';
 
-        $tasticService = \Phake::mock(TasticService::class);
-        \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
-
-        $logger = \Phake::mock(LoggerInterface::class);
+        \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn($tastics);
 
         $streamHandler = \Phake::mock(StreamHandler::class);
         \Phake::when($streamHandler)->getType()->thenReturn('product-list');
@@ -198,9 +201,10 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $streamOptimizer = \Phake::mock(StreamOptimizer::class);
         \Phake::when($streamOptimizer)->optimizeStreamData(\Phake::anyParameters())->thenReturn('optimized data');
 
-        $streamService = new StreamService($tasticService, $logger, [$streamHandler], [$streamOptimizer]);
+        $this->streamService->addStreamHandler($streamHandler);
+        $this->streamService->addStreamOptimizer($streamOptimizer);
 
-        $streamData = $streamService->getStreamData($node, new Context(), [], $page);
+        $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);
 
         $this->assertEquals(
             [
@@ -219,15 +223,10 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $page = include __DIR__ . '/__fixtures/Page.php';
         $tastics = include __DIR__ . '/__fixtures/tastics.php';
 
-        $tasticService = \Phake::mock(TasticService::class);
-        \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
-
-        $logger = \Phake::mock(LoggerInterface::class);
-
-        $streamService = new StreamService($tasticService, $logger, []);
+        \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn($tastics);
 
         $parameters = [];
-        $page = $streamService->completeDefaultStreams($node, $page, $parameters);
+        $page = $this->streamService->completeDefaultStreams($node, $page, $parameters);
 
         $this->assertEquals(
             'aabf67e7-8134-451e-85f5-4e069d0e41d4',
@@ -241,15 +240,10 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $page = include __DIR__ . '/__fixtures/Page.php';
         $tastics = include __DIR__ . '/__fixtures/tastics.php';
 
-        $tasticService = \Phake::mock(TasticService::class);
-        \Phake::when($tasticService)->getTasticsMappedByType()->thenReturn($tastics);
-
-        $logger = \Phake::mock(LoggerInterface::class);
-
-        $streamService = new StreamService($tasticService, $logger, []);
+        \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn($tastics);
 
         $parameters = [];
-        $page = $streamService->completeDefaultStreams($node, $page, $parameters);
+        $page = $this->streamService->completeDefaultStreams($node, $page, $parameters);
 
         $this->assertEquals(
             '7440',

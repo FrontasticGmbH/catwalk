@@ -7,11 +7,7 @@ use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 
 /**
- * Defines the interface for stream handlers.
- *
- * *Important:* Please note that this is *NOT* the correct interface for Custom Streams.
- * For custom streams, you need to implement a TasticFieldHandler.
- * @see TasticFieldHandlerV2
+ * @deprecated Use {@link StreamHandlerV2} instead.
  */
 abstract class StreamHandler
 {
