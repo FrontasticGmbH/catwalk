@@ -2,8 +2,6 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
-use Frontastic\Common\ReplicatorBundle\Domain\Project as OriginalProject;
-
 use Kore\DataObject\DataObject;
 
 /**
@@ -25,9 +23,8 @@ class Context extends DataObject
 
     /**
      * @required
-     * @fixme should we have that as dedicated requestable data? Is probably needed in every call anyway to obtain credentials.
      */
-    public OriginalProject $project;
+    public Project $project;
 
     /**
      * @required

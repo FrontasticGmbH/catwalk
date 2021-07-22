@@ -71,13 +71,12 @@ class Project extends DataObject
     public $configuration = [];
 
     /**
-     * Additional external project data from sources like tideways. Does not
-     * follow any defined schema.
-     *
-     * @var array
-     * @required
+     * @removed this was mainly used by customers to store custom config. It
+     *          will not be possible for them to edit this in the future.
+     *          Therefore we can remove this and have it replaced by
+     *          `projectConfiguration` from Frontatsic studio.
      */
-    public $data = [];
+    // public $data = [];
 
     /**
      * Renamed from $languages
