@@ -7,13 +7,14 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Cell as OriginalCell;
 
 use Kore\DataObject\DataObject;
 
-class Region extends DataObject
+class Section extends DataObject
 {
     /**
+     * @replaces $regionId
      * @var string
      * @required
      */
-    public $regionId;
+    public $sectionId;
 
     /**
      * Not in use, yet, so we remove it for now.

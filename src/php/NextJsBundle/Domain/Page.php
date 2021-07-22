@@ -35,10 +35,10 @@ class Page extends DataObject
     // public $layoutId;
 
     /**
-     * @var Region[]
+     * @var Section[]
      * @required
      */
-    public $regions = [];
+    public $sections = [];
 
     /**
      * @removed MetaData is not relevant to API hub but only studio
