@@ -25,15 +25,14 @@ class Region extends DataObject
     // public $configuration;
 
     /**
-     * @deprecated Migrating to $cells again because that is more sensible
+     * @deprecated Migrating to $layoutElements
      */
     // public $elements = [];
 
     /**
+     * @replaces $cells
      * @var OriginalCell[]
-     *
-     * @deprecated Will be removed, use $elements instead.
+     * @fixme Rename Cell!
      */
-    public $cells = [];
-
+    public $layoutElements = [];
 }
