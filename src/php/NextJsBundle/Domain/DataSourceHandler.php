@@ -11,13 +11,11 @@ interface DataSourceHandler
 {
     /**
      * @param DataSourceConfiguration $configuration
-     * @param object $dataSourceParameters Hashmap of parameters delivered via URL for this data source
      * @param DataSourceContext $context
      * @return DataSourceResult
      */
     public function provideData(
         DataSourceConfiguration $configuration,
-        object $dataSourceParameters,
         DataSourceContext $context
     ) : DataSourceResult;
 }
