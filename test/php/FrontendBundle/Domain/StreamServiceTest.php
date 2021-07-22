@@ -8,6 +8,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page;
 use Frontastic\Catwalk\FrontendBundle\Domain\Tastic;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class StreamServiceTest extends \PHPUnit\Framework\TestCase
@@ -215,6 +216,41 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
             ],
             $streamData
         );
+    }
+
+    public function testStreamHandlerV2ExtractsParameters()
+    {
+        $node = include __DIR__ . '/__fixtures/GroupNode.php';
+        $page = include __DIR__ . '/__fixtures/GroupPage.php';
+        $tastics = include __DIR__ . '/__fixtures/tastics.php';
+
+        \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn($tastics);
+
+        $streamHandler = \Phake::mock(StreamHandler::class);
+        \Phake::when($streamHandler)->getType()->thenReturn('product-list');
+        \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
+
+        $this->streamService->addStreamHandler($streamHandler);
+        // 70b37120-b446-4d11-b441-b6a80fabb48a
+
+        $request = new Request();
+        $request->request->set('s', [
+            '70b37120-b446-4d11-b441-b6a80fabb48a' => [
+                'search' => 'foobar',
+            ]
+        ]);
+        \Phake::when($this->requestStackMock)->getCurrentRequest->thenReturn($request);
+
+        $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);
+
+        \Phake::verify($streamHandler)->handleAsync(
+            $this->anything(),
+            $this->anything(),
+            [
+                'search' => 'foobar',
+            ]
+        );
+
     }
 
     public function testSetDefaultStream()
