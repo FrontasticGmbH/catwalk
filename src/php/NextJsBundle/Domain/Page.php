@@ -16,10 +16,9 @@ class Page extends DataObject
     public $pageId;
 
     /**
-     * @var string
-     * @required
+     * @removed Sequence is not meaningful to the customer and can be re-added later, if needed.;
      */
-    public $sequence;
+    // public $sequence;
 
     /**
      * @var PageFolder

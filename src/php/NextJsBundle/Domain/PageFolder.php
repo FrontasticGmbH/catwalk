@@ -26,9 +26,9 @@ class PageFolder
     public string $pageFolderType = 'landingpage';
 
     /**
-     * @required
+     * @removed Sequence is not meaningful to the customer and can be re-added later, if needed.;
      */
-    public string $sequence;
+    // public string $sequence;
 
     /**
      * @required
