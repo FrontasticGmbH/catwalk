@@ -3,10 +3,12 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\Region\Configuration as OriginalRegionConfiguration;
-use Frontastic\Catwalk\FrontendBundle\Domain\Cell as OriginalCell;
 
 use Kore\DataObject\DataObject;
 
+/**
+ * @replaces Frontastic\Catwalk\FrontendBundle\Domain\Region
+ */
 class Section extends DataObject
 {
     /**
@@ -32,8 +34,7 @@ class Section extends DataObject
 
     /**
      * @replaces $cells
-     * @var OriginalCell[]
-     * @fixme Rename Cell!
+     * @var LayoutElement[]
      */
     public $layoutElements = [];
 }
