@@ -35,6 +35,7 @@ class Page extends DataObject
     // public $layoutId;
 
     /**
+     * @replaces $regions
      * @var Section[]
      * @required
      */

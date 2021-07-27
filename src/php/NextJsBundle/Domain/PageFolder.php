@@ -45,10 +45,11 @@ class PageFolder
     public string $name;
 
     /**
+     * @replaces $path
      * @var string[]
      * @required
      */
-    public array $path = [];
+    public array $ancestorIdsMaterializedPath = [];
 
     /**
      * @var integer

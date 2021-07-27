@@ -11,10 +11,11 @@ use Kore\DataObject\DataObject;
 class DataSourceConfiguration extends DataObject
 {
     /**
+     * @replaces $streamId
      * @var string
      * @required
      */
-    public $streamId;
+    public $dataSourceId;
 
     /**
      * @var string
