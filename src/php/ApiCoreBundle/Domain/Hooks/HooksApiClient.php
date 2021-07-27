@@ -4,8 +4,6 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks;
 
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\HttpClient;
-use Frontastic\Common\HttpClient\Response;
-use Psr\Log\LoggerInterface;
 
 class HooksApiClient
 {
@@ -20,12 +18,10 @@ class HooksApiClient
 
     /**
      * @param HttpClient $httpClient
-     * @param LoggerInterface $logger
      */
-    public function __construct(HttpClient $httpClient, LoggerInterface $logger)
+    public function __construct(HttpClient $httpClient)
     {
         $this->httpClient = $httpClient;
-        $this->logger = $logger;
     }
 
     public function getHooks(string $project): array
