@@ -16,17 +16,14 @@ class DynamicPageSuccessResult extends DataObject implements DynamicPageResult
     /**
      * Payload for the main data source of the dynamic page.
      *
-     * @var object
+     * @var mixed JSON serializable
      */
-    public object $dataSourcePayload;
+    public $dataSourcePayload;
 
     /**
-     * Optional payload that is used for matching logic of this dynamic page.
+     * Submit a payload we use for page matching (FECL!)
      *
-     * This allows to transmit a smaller payload for matching which will safe execution time (compared to decoding the full payload already).
-     *
-     * @fixme: Is that a premature optimization?
-     * @var object|null
+     * @var object
      */
-    public ?object $pageMatchingPayload = null;
+    public object $pageMatchingPayload;
 }

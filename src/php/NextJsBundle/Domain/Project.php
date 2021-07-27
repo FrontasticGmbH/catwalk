@@ -33,32 +33,34 @@ class Project extends DataObject
      *
      * Only used in API hub
      *
+     * @removed not relevant to customers
      * @var string
      * @required
      */
     // public $apiKey;
 
     /**
+     * @removed not relevant to customers
      * @var string
      * @required
-     * @fixme does a customer ever need this?
      */
-    public $previewUrl;
+    // public $previewUrl;
 
     /**
      * @var string
      * @required
-     * @fixme does a customer ever need this?
      */
     public $publicUrl;
 
     /**
+     * @removed not relevant to customers
      * @var int
      * @required
      */
     // public $webpackPort;
 
     /**
+     * @removed not relevant to customers
      * @var int
      * @required
      */
@@ -95,12 +97,14 @@ class Project extends DataObject
     public $defaultLocale;
 
     /**
+     * @removed not relevant to customers
      * @var string[]
      * @required
      */
     // public $projectSpecific = [];
 
     /**
+     * @removed not relevant to customers
      * @var Endpoint[]
      * @required
      */

@@ -24,9 +24,10 @@ class LayoutElement extends DataObject
     public $configuration;
 
     /**
+     * @removed Does not work right now so we don't expose it for now
      * @var ?\stdClass
      */
-    public $customConfiguration;
+    // public $customConfiguration;
 
     /**
      * @var Tastic[]

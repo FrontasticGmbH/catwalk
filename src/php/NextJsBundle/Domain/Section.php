@@ -19,11 +19,9 @@ class Section extends DataObject
     public $sectionId;
 
     /**
-     * Not in use, yet, so we remove it for now.
-     *
+     * @removed Not in use, yet, so we remove it for now.
      * @var OriginalRegionConfiguration
      * @required
-     * @fixme Is that actually in use?
      */
     // public $configuration;
 

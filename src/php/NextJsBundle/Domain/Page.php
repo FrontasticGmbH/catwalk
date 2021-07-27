@@ -21,12 +21,12 @@ class Page extends DataObject
     // public $sequence;
 
     /**
+     * @removed can be requested dedicatedly
      * @var PageFolder
      * @required
      * @replaces $node
-     * @fixme should we transit page folder ID here instead, because the PageFolder can be requested dedicatedly?
      */
-    public $pageFolder;
+    // public $pageFolder;
 
     /**
      * @removed We don't use this at all, yet. Can be exposed later, if supported.

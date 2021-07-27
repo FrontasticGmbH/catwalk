@@ -16,6 +16,8 @@ class DataSourceContext extends DataObject
 
     public ?PageFolder $pageFolder = null;
 
+    public ?Page $page = null;
+
     /**
      * @var OriginalTastic[]|null
      */

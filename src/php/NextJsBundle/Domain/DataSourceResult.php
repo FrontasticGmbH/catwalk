@@ -9,7 +9,9 @@ class DataSourceResult extends DataObject
     /**
      * Arbitrary payload information returned by the data source.
      *
-     * @var object
+     * Note: We might not de-serialize this in API hub.
+     *
+     * @var mixed any JSON serializable value
      */
     public object $dataSourcePayload;
 }
