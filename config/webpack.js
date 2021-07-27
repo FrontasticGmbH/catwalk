@@ -108,8 +108,8 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
             // by default due to how Webpack interprets its code. This is a practical
             // solution that requires the user to opt into importing specific locales.
             // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-            // Solution updated for webpack 4. You can remove locale and moment if you 
-            // don't use Moment.js:
+            // Solution updated for webpack 4. You can remove this if you don't use
+            // Moment.js:
             new webpack.IgnorePlugin({
                 checkResource (resource, context) {
                     return [
