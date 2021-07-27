@@ -2,7 +2,6 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
-
 /**
  * Response structure as used by Express.js version 4.x + Frontastic additions.
  * {@see https://expressjs.com/en/api.html#res}

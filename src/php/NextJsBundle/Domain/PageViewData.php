@@ -13,7 +13,7 @@ class PageViewData
      * @replaces $stream
      * @var object
      */
-    public object $dataSources = (object)[];
+    public object $dataSources;
 
     /**
      * @removed We can re-add "tastic field handlers" if those are actually of use for developers
