@@ -55,8 +55,6 @@ class HooksService
 
     protected function callRemoteHook(string $hook, array $arguments)
     {
-        $start = microtime(true);
-
         // TODO: Allow-list all parameter we want to actually pass over
         $context = $this->contextService->createContextFromRequest();
         $requestId = $this->requestStack->getCurrentRequest()->attributes->get(
@@ -78,8 +76,6 @@ class HooksService
         if (!isset($response['arguments'])) {
             throw new \Exception('Invalid return format');
         }
-
-        $this->log($start, $call->getName());
 
         return $response;
     }
@@ -145,24 +141,5 @@ class HooksService
         }
 
         return $formatedResponse;
-    }
-
-    private function log(float $startTime, string $eventName)
-    {
-        $time = microtime(true) - $startTime;
-
-        $this->logger->info(
-            sprintf(
-                'Hook for %s took %dms',
-                $eventName,
-                $time * 1000
-            ),
-            [
-                'hookEvent' => [
-                    'event' => $eventName,
-                    'timeToComplete' => $time,
-                ],
-            ]
-        );
     }
 }

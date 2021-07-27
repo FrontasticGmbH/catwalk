@@ -17,10 +17,6 @@ class HooksApiClient
      * @var HttpClient
      */
     private HttpClient $httpClient;
-    /**
-     * @var LoggerInterface
-     */
-    private LoggerInterface $logger;
 
     /**
      * @param HttpClient $httpClient
@@ -52,15 +48,11 @@ class HooksApiClient
      */
     public function callEvent(HooksCall $call): string
     {
-        $start = microtime(true);
-
         $response = $this->httpClient->post(
             $this->makePath('run', $call->getProject(), $call->getName()),
             $call->getPayload(),
             $call->headers + self::DEFAULT_HEADERS
         );
-
-        $this->log($start, $call, $response);
 
         if ($response->status != 200) {
             throw new \Exception('Calling hook ' . $call->getName() . ' failed. Error: ' . $response->body);
@@ -72,25 +64,5 @@ class HooksApiClient
     private function makePath(string ...$uri): string
     {
         return self::BASE_PATH . implode("/", $uri);
-    }
-
-    private function log(float $startTime, $call, Response $response)
-    {
-        $time = microtime(true) - $startTime;
-
-        $this->logger->info(
-            sprintf(
-                'Request for %s took %dms',
-                $call->getName(),
-                $time * 1000
-            ),
-            [
-                'hookEvent' => [
-                    'event' => $call->getName(),
-                    'responseTime' => $time,
-                    'statusCode' => $response->status,
-                ],
-            ]
-        );
     }
 }

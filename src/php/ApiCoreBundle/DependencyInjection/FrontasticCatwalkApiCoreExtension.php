@@ -25,9 +25,5 @@ class FrontasticCatwalkApiCoreExtension extends Extension
             new FileLocator(__DIR__ . '/../Resources/config')
         );
         $loader->load('services.xml');
-
-        if (getenv('frontastic_enable_hooks') === 'true') {
-            $loader->load('services_hooks.xml');
-        }
     }
 }
