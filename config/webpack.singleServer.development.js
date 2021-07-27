@@ -11,6 +11,7 @@ let config = require('./webpack.js')(PRODUCTION, SERVER, SINGLE_SERVER)
 config = require('./webpack/ignoreScss.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/provideDomOnServer.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/linkDependencies.js')(config, PRODUCTION, SERVER)
+require('./webpack/overwriteInjectionReplacedComponents')(PRODUCTION, 'ComponentInjector')
 
 config.output.filename = 'assets/js/devSingleServer.js'
 

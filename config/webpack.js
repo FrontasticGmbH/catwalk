@@ -7,7 +7,6 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
 const { isModuleNotFoundError } = require('./webpack/helpers')
 const { sharedProjectRoot } = require('./paths')
-const { generateInjectionExcludes } = require('./generateInjectionExcludes')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -27,9 +26,6 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
     }
 
     const assetBaseDir = PRODUCTION ? 'assets/' : 'webpack/'
-
-    const injectorAlias = '@injector'
-    const injectionExcludes = generateInjectionExcludes(injectorAlias)
 
     let config = {
         // Configure build target
@@ -95,8 +91,8 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
             // using it.
             extensions: ['.web.js', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json', '.web.jsx'],
             alias: {
-                injectorAlias: "@frontastic/catwalk/src/js/app/injector"
-            }
+                'ComponentInjector': path.join(paths.catwalk, "src/js/app/injector")
+            },
         },
         plugins: [
             // Makes some environment variables available to the JS code, for example:
@@ -119,8 +115,7 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
                     return [
                         /^\.\\locale$/,
                         /moment$/
-                    ].concat(injectionExcludes)
-                        .map(rexExp => rexExp.test(path.join(context, resource))).filter(Boolean).length > 0
+                    ].map(rexExp => rexExp.test(path.join(context, resource))).filter(Boolean).length > 0
                 }
             }),
             // Show packages which are included from multiple locations, which
