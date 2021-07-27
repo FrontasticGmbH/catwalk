@@ -12,15 +12,13 @@
 
 ```php
 public function __construct(
-    \Frontastic\Common\HttpClient $httpClient,
-    \Psr\Log\LoggerInterface $logger
+    \Frontastic\Common\HttpClient $httpClient
 ): mixed
 ```
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
 `$httpClient`|`\Frontastic\Common\HttpClient`||
-`$logger`|`\Psr\Log\LoggerInterface`||
 
 Return Value: `mixed`
 
