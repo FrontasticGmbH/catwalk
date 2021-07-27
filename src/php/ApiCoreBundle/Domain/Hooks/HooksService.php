@@ -31,15 +31,13 @@ class HooksService
         JsonSerializer $jsonSerializer,
         HookResponseDeserializer $hookResponseDeserializer,
         ContextService $contextService,
-        RequestStack $requestStack,
-        LoggerInterface $logger
+        RequestStack $requestStack
     ) {
         $this->hooksApiClient = $hooksApiClient;
         $this->jsonSerializer = $jsonSerializer;
         $this->hookResponseDeserializer = $hookResponseDeserializer;
         $this->contextService = $contextService;
         $this->requestStack = $requestStack;
-        $this->logger = $logger;
     }
 
     protected function isEventActive(string $eventName): bool
