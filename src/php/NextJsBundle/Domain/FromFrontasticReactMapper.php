@@ -1,0 +1,109 @@
+<?php
+
+namespace Frontastic\Catwalk\NextJsBundle\Domain;
+
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context as OriginalContext;
+use Frontastic\Catwalk\FrontendBundle\Domain\LayoutElement;
+use Frontastic\Catwalk\FrontendBundle\Domain\Stream as OriginalStream;
+use Frontastic\Catwalk\FrontendBundle\Domain\Cell as OriginalCell;
+use Frontastic\Catwalk\FrontendBundle\Domain\Page as OriginalPage;
+use Frontastic\Catwalk\FrontendBundle\Domain\Node as OriginalNode;
+use Frontastic\Catwalk\FrontendBundle\Domain\ViewData as OriginalViewData;
+use Frontastic\Common\ReplicatorBundle\Domain\Project as OriginalProject;
+use Frontastic\Catwalk\FrontendBundle\Domain\Region as OriginalRegion;
+
+class FromFrontasticReactMapper
+{
+    const CLASS_MAPPINGS = [
+        OriginalContext::class => [
+            'target' => Context::class,
+            'propertyMappings' => []
+        ],
+        OriginalStream::class => [
+            'target' => DataSourceConfiguration::class,
+            'propertyMappings' => [
+                'streamId' => 'dataSourceId',
+            ]
+        ],
+        OriginalCell::class => [
+            'target' => LayoutElement::class,
+            'propertyMappings' => [
+                'cellId' => 'layoutElementId',
+            ]
+        ],
+        OriginalPage::class => [
+            'target' => Page::class,
+            'propertyMappings' => [
+                'regions' => 'sections',
+            ]
+        ],
+        OriginalNode::class => [
+            'target' => PageFolder::class,
+            'propertyMappings' => [
+                'nodeId' => 'pageFolderId',
+                'isMaster' => 'isDynamic',
+                'nodeType' => 'pageFolderType',
+                'streams' => 'dataSourceConfigurations',
+                'path' => 'ancestorIdsMaterializedPath',
+            ]
+        ],
+        OriginalViewData::class => [
+            'target' => PageViewData::class,
+            'propertyMappings' => [
+                'stream' => 'dataSources',
+            ]
+        ],
+        OriginalProject::class => [
+            'target' => Project::class,
+            'propertyMappings' => []
+        ],
+        OriginalRegion::class => [
+            'target' => Section::class,
+            'propertyMappings' => [
+                'regionId' => 'sectionId',
+                'elements' => 'layoutElements',
+            ]
+        ],
+    ];
+
+    public function map(object $input): object
+    {
+        $inputClass = get_class($input);
+
+        if (!isset(self::CLASS_MAPPINGS[$inputClass])) {
+            return $input;
+        }
+
+        $outputClass = self::CLASS_MAPPINGS[$inputClass]['target'];
+        $outputPropertyMapping = self::CLASS_MAPPINGS[$inputClass]['propertyMappings'];
+
+        $output = new $outputClass();
+
+        foreach (get_object_vars($input) as $inputPropertyName => $inputPropertyValue) {
+            $outputPropertyName = $inputPropertyName;
+            if (isset($outputPropertyMapping[$inputPropertyName])) {
+                $outputPropertyName = $outputPropertyMapping[$inputPropertyName];
+
+                if (!property_exists($output, $outputPropertyName)) {
+                    throw new \LogicException(sprintf(
+                        'Property "%s" does not exist on class "%s", but there is a mapping defined',
+                        $outputPropertyName,
+                        $outputClass
+                    ));
+                }
+            }
+
+            if (!property_exists($output, $outputPropertyName)) {
+                continue;
+            }
+
+            $outputPropertyValue = $inputPropertyValue;
+            if (is_object($outputPropertyValue)) {
+                $outputPropertyValue = $this->map($outputPropertyValue);
+            }
+            $output->$outputPropertyName = $outputPropertyValue;
+        }
+
+        return $output;
+    }
+}
