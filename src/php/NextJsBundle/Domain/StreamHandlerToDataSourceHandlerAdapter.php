@@ -29,7 +29,8 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
             $this->hooksService->callExpectArray(
                 $this->dataSourceIdentifier,
                 [
-                    $this->mapper->map($stream)
+                    $this->mapper->map($stream),
+                    $this->mapper->map($streamContext),
                 ]
             )
         );
