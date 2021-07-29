@@ -1,5 +1,28 @@
 # catwalk Changelog
 
+## `1.13.0` (2021-07-29)
+
+* feat: Moving our concept of decorators to frontastic 1.5
+* feat(FP-859-nextjs-apis): Removed OpenAPI specs from this PR to make it dedicate.
+* feat(FP-859-nextjs-apis): Chore: Syntax & CS fix.
+* feat(FP-859-nextjs-apis): Fine-tuning after final session with Kore.
+* feat(FP-859-nextjs-apis): Chore: Remove orphan docs.
+* feat(FP-859-nextjs-apis): Fix: file name.
+* feat(FP-859-nextjs-apis): Resolve minor adjustments noted on Github.
+* feat(FP-859-nextjs-apis): Cell -> LayoutElement.
+* feat(FP-859-nextjs-apis): Region -> Section.
+* feat(FP-859-nextjs-apis): $cells -> $layout elements (naming guide).
+* feat(FP-859-nextjs-apis): Removed $data property from Project.
+* feat(FP-859-nextjs-apis): Removed $sequence from data objects.
+* feat(FP-859-nextjs-apis): Removed $dataSourceParameters from DataSourceHandler.
+* feat(FP-859-nextjs-apis): Allow redirecting from DynamicPageHandler.
+* feat(FP-864-client-apis): Basic specification of client HTTP API.
+* feat(FP-859-nextjs-apis): Fixed missing @replaces.
+* feat(FP-859-nextjs-apis): Clarified docs and used standardized annotations.
+* feat(FP-859-nextjs-apis): Initial draft for dynamic page handling API.
+* feat(FP-859-nextjs-apis): Initial draft for action (aka Controller) API.
+* feat(FP-859-nextjs-apis): Initial draft for DataSourceHandler API.
+
 ## `1.12.8` (2021-07-20)
 
 * fix: Move NextJsBundle to correct component.
