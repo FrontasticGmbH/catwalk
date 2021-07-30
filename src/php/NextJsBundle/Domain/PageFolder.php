@@ -46,10 +46,9 @@ class PageFolder
 
     /**
      * @replaces $path
-     * @var string[]
      * @required
      */
-    public array $ancestorIdsMaterializedPath = [];
+    public string $ancestorIdsMaterializedPath;
 
     /**
      * @var integer
