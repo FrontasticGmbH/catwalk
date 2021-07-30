@@ -4,7 +4,7 @@ namespace Frontastic\Catwalk\NextJsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class NextJsBundle extends Bundle
+class FrontasticCatwalkNextJsBundle extends Bundle
 {
     /**
      * @return ?string
