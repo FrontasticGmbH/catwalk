@@ -360,8 +360,8 @@ class StreamService
             );
         }
 
-        if (isset($parameters['streamContent'])) {
-            return Promise\promise_for($parameters['streamContent']);
+        if (isset($streamContext->parameters['streamContent'])) {
+            return Promise\promise_for($streamContext->parameters['streamContent']);
         }
 
         try {

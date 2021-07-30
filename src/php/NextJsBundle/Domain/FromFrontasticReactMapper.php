@@ -69,6 +69,7 @@ class FromFrontasticReactMapper
     public function map(object $input): object
     {
         $inputClass = get_class($input);
+        $outputClass = $inputClass;
 
         $output = clone $input;
 
