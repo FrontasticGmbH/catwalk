@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+    <services>
+        <service
+            id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService"
+            class="Frontastic\Catwalk\FrontendBundle\Domain\StreamService"
+        >
+            <factory service="Frontastic\Catwalk\NextJsBundle\Domain\StreamServiceFactory" method="create" />
+        </service>
+
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\StreamServiceFactory" autowire="true">
+            <argument key="$streamHandlers" type="tagged" tag="frontend.streamHandler" />
+            <argument key="$streamOptimizers" type="tagged" tag="frontend.streamOptimizer" />
+            <argument key="$debug">%kernel.debug%</argument>
+        </service>
+    </services>
+
+</container>

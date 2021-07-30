@@ -160,17 +160,6 @@
             <argument key="$streamHandlers" type="tagged" tag="frontend.streamHandler" />
             <argument key="$streamOptimizers" type="tagged" tag="frontend.streamOptimizer" />
             <argument key="$debug">%kernel.debug%</argument>
-
-            <call method="addStreamHandlerV2">
-                <argument type="string">toby/test-new-data-sources</argument>
-                <argument type="service" id="Frontastic\Catwalk\NextJsBundle\Domain\StreamHandlerToDataSourceHandlerAdapter" />
-            </call>
-        </service>
-
-        <service id="Frontastic\Catwalk\NextJsBundle\Domain\StreamHandlerToDataSourceHandlerAdapter"
-                 autowire="true"
-        >
-            <argument type="string" key="$dataSourceIdentifier">toby_test-new-data-sources</argument>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler\ProductList">

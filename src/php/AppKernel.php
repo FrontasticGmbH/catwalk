@@ -44,6 +44,8 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Frontastic\Catwalk\FrontendBundle\FrontasticCatwalkFrontendBundle(),
             new \Frontastic\Catwalk\ApiCoreBundle\FrontasticCatwalkApiCoreBundle(),
             new \Frontastic\Catwalk\DevVmBundle\FrontasticCatwalkDevVmBundle(),
+
+            new \Frontastic\Catwalk\NextJsBundle\FrontasticCatwalkNextJsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
