@@ -70,14 +70,14 @@ class FromFrontasticReactMapper
     {
         $inputClass = get_class($input);
 
-        if (!isset(self::CLASS_MAPPINGS[$inputClass])) {
-            return $input;
+        $output = clone $input;
+
+        if (isset(self::CLASS_MAPPINGS[$inputClass])) {
+            $outputClass = self::CLASS_MAPPINGS[$inputClass]['target'];
+            $outputPropertyMapping = self::CLASS_MAPPINGS[$inputClass]['propertyMappings'];
+
+            $output = new $outputClass();
         }
-
-        $outputClass = self::CLASS_MAPPINGS[$inputClass]['target'];
-        $outputPropertyMapping = self::CLASS_MAPPINGS[$inputClass]['propertyMappings'];
-
-        $output = new $outputClass();
 
         foreach (get_object_vars($input) as $inputPropertyName => $inputPropertyValue) {
             $outputPropertyName = $inputPropertyName;
