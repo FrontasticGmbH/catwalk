@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
-
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use GuzzleHttp\Promise\PromiseInterface;

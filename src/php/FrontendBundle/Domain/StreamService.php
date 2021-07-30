@@ -63,7 +63,8 @@ class StreamService
     ];
 
     /**
-     * @param StreamHandler[] $streamHandlers Only "legacy" stream handlers go here, StreamHandlerV2 please go to {@link self::addStreamHandlerV2()}.
+     * @param StreamHandler[] $streamHandlers Only "legacy" stream handlers go here, StreamHandlerV2 please
+     * go to {@link self::addStreamHandlerV2()}.
      */
     public function __construct(
         TasticService $tasticService,

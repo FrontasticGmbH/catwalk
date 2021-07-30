@@ -37,8 +37,7 @@ class StreamServiceFactory
         iterable $streamHandlers = [],
         iterable $streamOptimizers = [],
         bool $debug = false
-    )
-    {
+    ) {
         $this->tasticService = $tasticService;
         $this->hooksService = $hooksService;
         $this->logger = $logger;
@@ -70,5 +69,4 @@ class StreamServiceFactory
 
         return $streamService;
     }
-
 }
