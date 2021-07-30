@@ -81,6 +81,11 @@ class FromFrontasticReactMapper
 
         foreach (get_object_vars($input) as $inputPropertyName => $inputPropertyValue) {
             $outputPropertyName = $inputPropertyName;
+
+            if ($inputPropertyValue === null) {
+                continue;
+            }
+
             if (isset($outputPropertyMapping[$inputPropertyName])) {
                 $outputPropertyName = $outputPropertyMapping[$inputPropertyName];
 

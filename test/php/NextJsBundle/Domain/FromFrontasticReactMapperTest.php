@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\Cell;
+use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\Region;
 use PHPUnit\Framework\TestCase;
 
@@ -43,12 +44,23 @@ class FromFrontasticReactMapperTest extends TestCase
         $this->assertEquals($expectedSection, $actualSection);
     }
 
-    public function testMapUnknown()
+    public function testMapUnknownClonesObject()
     {
         $objectFixture = new \stdClass();
 
         $actualObject = $this->mapper->map($objectFixture);
 
-        $this->assertSame($objectFixture, $actualObject);
+        $this->assertEquals($objectFixture, $actualObject);
+    }
+
+    public function testMapChildrenOfUnknownObjects()
+    {
+        $objectFixture = new \stdClass();
+        $objectFixture->someChild = new \Frontastic\Catwalk\ApiCoreBundle\Domain\Context();
+
+        $actualObject = $this->mapper->map($objectFixture);
+
+        $this->assertInstanceOf(\stdClass::class, $actualObject);
+        $this->assertInstanceOf(Context::class, $actualObject->someChild);
     }
 }
