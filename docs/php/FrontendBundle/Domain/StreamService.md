@@ -6,6 +6,7 @@
 
 * [__construct()](#__construct)
 * [addStreamHandler()](#addstreamhandler)
+* [addStreamHandlerV2()](#addstreamhandlerv2)
 * [addStreamOptimizer()](#addstreamoptimizer)
 * [getUsedStreams()](#getusedstreams)
 * [completeDefaultStreams()](#completedefaultstreams)
@@ -17,6 +18,7 @@
 public function __construct(
     TasticService $tasticService,
     \Psr\Log\LoggerInterface $logger,
+    \Symfony\Component\HttpFoundation\RequestStack $requestStack,
     iterable $streamHandlers = [],
     iterable $streamOptimizers = [],
     bool $debug = false
@@ -27,7 +29,8 @@ Argument|Type|Default|Description
 --------|----|-------|-----------
 `$tasticService`|[`TasticService`](../../ApiCoreBundle/Domain/TasticService.md)||
 `$logger`|`\Psr\Log\LoggerInterface`||
-`$streamHandlers`|`iterable`|`[]`|
+`$requestStack`|`\Symfony\Component\HttpFoundation\RequestStack`||
+`$streamHandlers`|`iterable`|`[]`|Only "legacy" stream handlers go here, StreamHandlerV2 please go to {@link self::addStreamHandlerV2()}.
 `$streamOptimizers`|`iterable`|`[]`|
 `$debug`|`bool`|`false`|
 
@@ -46,6 +49,22 @@ Argument|Type|Default|Description
 `$streamHandler`|[`StreamHandler`](StreamHandler.md)||
 
 Return Value: `mixed`
+
+### addStreamHandlerV2()
+
+```php
+public function addStreamHandlerV2(
+    string $streamType,
+    StreamHandlerV2 $streamHandler
+): void
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$streamType`|`string`||
+`$streamHandler`|[`StreamHandlerV2`](StreamHandlerV2.md)||
+
+Return Value: `void`
 
 ### addStreamOptimizer()
 

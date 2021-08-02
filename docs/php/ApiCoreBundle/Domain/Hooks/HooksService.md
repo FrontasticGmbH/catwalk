@@ -18,8 +18,7 @@ public function __construct(
     \Frontastic\Common\JsonSerializer $jsonSerializer,
     HookResponseDeserializer $hookResponseDeserializer,
     ContextService $contextService,
-    \Symfony\Component\HttpFoundation\RequestStack $requestStack,
-    \Psr\Log\LoggerInterface $logger
+    \Symfony\Component\HttpFoundation\RequestStack $requestStack
 ): mixed
 ```
 
@@ -30,7 +29,6 @@ Argument|Type|Default|Description
 `$hookResponseDeserializer`|[`HookResponseDeserializer`](HookResponseDeserializer.md)||
 `$contextService`|[`ContextService`](../ContextService.md)||
 `$requestStack`|`\Symfony\Component\HttpFoundation\RequestStack`||
-`$logger`|`\Psr\Log\LoggerInterface`||
 
 Return Value: `mixed`
 

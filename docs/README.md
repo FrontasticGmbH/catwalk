@@ -104,6 +104,8 @@ Here you find the API documentation for the relevant classes:
       * [Order](php/FrontendBundle/Domain/StreamHandler/Order.md)
       * [Product](php/FrontendBundle/Domain/StreamHandler/Product.md)
       * [ProductList](php/FrontendBundle/Domain/StreamHandler/ProductList.md)
+    * [StreamHandlerV2](php/FrontendBundle/Domain/StreamHandlerV2.md)
+    * [StreamHandlerV2Adapter](php/FrontendBundle/Domain/StreamHandlerV2Adapter.md)
     * [StreamOptimizer](php/FrontendBundle/Domain/StreamOptimizer.md)
     * StreamOptimizer
       * [MinimalProduct](php/FrontendBundle/Domain/StreamOptimizer/MinimalProduct.md)
