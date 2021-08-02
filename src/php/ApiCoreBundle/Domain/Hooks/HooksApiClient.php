@@ -12,7 +12,6 @@ class HooksApiClient
     const DEFAULT_HEADERS = ['Content-Type: application/json'];
 
     private HttpClient $httpClient;
-    private LoggerInterface $logger;
 
     /**
      * @param HttpClient $httpClient
