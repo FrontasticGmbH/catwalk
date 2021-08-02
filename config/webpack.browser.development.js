@@ -12,6 +12,7 @@ config = require('./webpack/namedModules.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/developmenPerformance.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/compileScss.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/linkDependencies.js')(config, PRODUCTION, SERVER)
+require('./webpack/overwriteInjectionReplacedComponents')(PRODUCTION, 'ComponentInjector')
 
 config.output.filename = 'webpack/js/bundle.js'
 

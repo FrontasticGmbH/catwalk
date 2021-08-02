@@ -90,6 +90,9 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
             // extension to support some tools, although we do not recommend
             // using it.
             extensions: ['.web.js', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json', '.web.jsx'],
+            alias: {
+                'ComponentInjector': path.join(paths.catwalk, "src/js/app/injector")
+            },
         },
         plugins: [
             // Makes some environment variables available to the JS code, for example:
@@ -105,8 +108,16 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
             // by default due to how Webpack interprets its code. This is a practical
             // solution that requires the user to opt into importing specific locales.
             // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-            // You can remove this if you don't use Moment.js:
-            new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+            // Solution updated for webpack 4. You can remove this if you don't use
+            // Moment.js:
+            new webpack.IgnorePlugin({
+                checkResource (resource, context) {
+                    return [
+                        /^\.\\locale$/,
+                        /moment$/
+                    ].map(rexExp => rexExp.test(path.join(context, resource))).filter(Boolean).length > 0
+                }
+            }),
             // Show packages which are included from multiple locations, which
             // increases the build size.
             new DuplicatePackageCheckerPlugin({

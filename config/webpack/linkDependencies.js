@@ -25,10 +25,11 @@ const linkPackage = (package, packageDirectory, packageSource) => {
         console.info(chalk.bold('@frontastic/' + package) + ' installed as common package, since we have no PAAS modifications.')
         return
     }
-
-    if (fileExists(packageLocation) && fs.statSync(packageLocation).isSymbolicLink()) {
-        // All fine, this is the expected state
-        return
+    else {
+        if (fs.statSync(packageLocation).isSymbolicLink()) {
+            // All fine, this is the expected state
+            return
+        }
     }
 
     if (fileExists(packageLocation)) {
