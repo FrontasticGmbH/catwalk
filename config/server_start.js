@@ -2,11 +2,16 @@ const fs = require('fs');
 const { spawnSync } = require('child_process');
 const process = require('process');
 
-// touch build/assets/js/devServer.js ;
-const path = 'build/assets/js/devServer.js'
+const folder = 'build/assets/js/'
+const path = folder + 'devServer.js'
 try {
     fs.writeFileSync(path, '', { flag: 'wx' }); // throws error if file exists
-    console.log("touched " + path);
+    if (!fs.existsSync(path)) {
+        if (!fs.existsSync(folder)) {
+            fs.mkdirSync(folder, { recursive: true })
+        }
+        fs.writeFileSync(path, '')
+    }
 } catch (err) {
     // ignore, we only want the file to exist
 }
