@@ -142,7 +142,6 @@ function restoreReplacedComponent (replacableComponentLocation, cacheFileLocatio
  */
 function handleComponentOverwrites (injectionReplacableComponents, componentsToExclude, injectorAlias) {
     injectionReplacableComponents.forEach(injectionReplacableComponent => {
-        //here maybe
         var exclIndex = componentsToExclude.findIndex(excl => excl.componentString === injectionReplacableComponent.componentString)
         var cacheFileFolder = path.join(paths.catwalk, "src/js/replacedComponents")
         var cacheFilename = generateHashCode(injectionReplacableComponent.location).toString()
@@ -154,10 +153,6 @@ function handleComponentOverwrites (injectionReplacableComponents, componentsToE
             }
         }
         else {
-            if (injectionReplacableComponent.componentString === 'AppContainer') {
-                console.log('injectionReplacableComponent.location', injectionReplacableComponent.location)
-                console.log('path.join(cacheFileFolder, cacheFilename)', path.join(cacheFileFolder, cacheFilename))
-            }
             if (injectionReplacableComponent.originalContents.indexOf(messageToTest) !== -1) {
                 restoreReplacedComponent(injectionReplacableComponent.location, path.join(cacheFileFolder, cacheFilename))
             }
