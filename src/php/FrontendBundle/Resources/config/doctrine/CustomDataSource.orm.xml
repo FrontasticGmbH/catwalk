@@ -16,9 +16,9 @@
         <field name="icon" column="c_icon" type="text" />
         <field name="category" column="c_category" type="text" />
         <field name="configurationSchema" column="c_configuration_schema" type="object" />
-        <field name="environment" column="c_environment" type="string" nullable="true" />
+        <field name="environments" column="c_environment" type="string" nullable="true" />
         <field name="metaData" column="c_meta_data" type="object" />
-        <field name="isDeleted" column="c_is_active" type="boolean" />
+        <field name="isActive" column="c_is_active" type="boolean" />
         <field name="isDeleted" column="c_is_deleted" type="boolean" />
 
         <indexes>

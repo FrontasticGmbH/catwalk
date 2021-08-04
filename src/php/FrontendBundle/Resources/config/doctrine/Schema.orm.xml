@@ -9,7 +9,7 @@
             <generator strategy="NONE" />
         </id>
 
-        <field name="schemaType" column="s_schema_type" type="string" />
+        "<field name="schemaType" column="s_schema_type" type="string" />
         <field name="schema" column="s_schema" type="object" />
 
         <field name="metaData" column="s_meta_data" type="object" />
