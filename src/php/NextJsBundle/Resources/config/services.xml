@@ -18,6 +18,17 @@
             <argument key="$streamOptimizers" type="tagged" tag="frontend.streamOptimizer" />
             <argument key="$debug">%kernel.debug%</argument>
         </service>
+
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\CustomDataSourceService">
+            <argument type="service" id="Frontastic\Catwalk\NextJsBundle\Gateway\CustomDataSourceService" />
+        </service>
+
+        <service id="frontastic.catwalk.nextjs_bundle.domain.customer_data_source.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
+            <argument type="service" id="Frontastic\Catwalk\NextJsBundle\Domain\CustomDataSourceService" />
+            <argument>%frontastic.environment%</argument>
+
+            <tag name="endpoint.target" channel="custom_data_sources" />
+        </service>
     </services>
 
 </container>
