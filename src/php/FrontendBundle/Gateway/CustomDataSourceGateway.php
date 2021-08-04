@@ -10,15 +10,11 @@ use Frontastic\Catwalk\FrontendBundle\Domain\CustomDataSource;
 class CustomDataSourceGateway
 {
     /**
-     * Document repository
-     *
      * @var EntityRepository
      */
     protected $repository;
 
     /**
-     * Document manager
-     *
      * @var EntityManager
      */
     protected $manager;
@@ -63,7 +59,7 @@ class CustomDataSourceGateway
                 "SELECT
                     MAX(c.sequence)
                 FROM
-                    Frontastic\\Catwalk\\DeveloperBundle\\Domain\\CustomDataSource c"
+                    Frontastic\\Catwalk\\FrontendBundle\\Domain\\CustomDataSource c"
             );
 
             return $query->getSingleScalarResult() ?? '0';
