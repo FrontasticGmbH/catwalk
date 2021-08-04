@@ -2,7 +2,7 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
-use Frontastic\Backstage\DeveloperBundle\Domain\CustomDataSource;
+use Frontastic\Catwalk\FrontendBundle\Domain\CustomDataSource;
 use Frontastic\Backstage\DeveloperBundle\Gateway\CustomDataSourceGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 

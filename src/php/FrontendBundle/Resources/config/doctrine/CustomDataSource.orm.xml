@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
         http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="Frontastic\Backstage\DeveloperBundle\Domain\CustomDataSource" table="custom_data_source">
+    <entity name="Frontastic\Catwalk\FrontendBundle\Domain\CustomDataSource" table="custom_data_source">
         <id name="customDataSourceId" column="c_id" type="string">
             <generator strategy="NONE"/>
         </id>
@@ -22,8 +22,8 @@
         <field name="isDeleted" column="c_is_deleted" type="boolean" />
 
         <indexes>
-            <index columns="t_id"/>
-            <index columns="t_sequence"/>
+            <index columns="c_id"/>
+            <index columns="c_sequence"/>
         </indexes>
     </entity>
 </doctrine-mapping>
