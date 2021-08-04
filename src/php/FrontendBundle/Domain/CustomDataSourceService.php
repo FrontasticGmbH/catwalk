@@ -1,8 +1,7 @@
 <?php
 
-namespace Frontastic\Catwalk\NextJsBundle\Domain;
+namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-use Frontastic\Catwalk\FrontendBundle\Domain\CustomDataSource;
 use Frontastic\Backstage\DeveloperBundle\Gateway\CustomDataSourceGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 
