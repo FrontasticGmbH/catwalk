@@ -3,8 +3,8 @@
 namespace Frontastic\Catwalk\FrontendBundle\Gateway;
 
 use Assert\Assertion;
-use Doctrine\ODM\CouchDB\DocumentManager;
-use Doctrine\ODM\CouchDB\DocumentRepository;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManager;
 use Frontastic\Catwalk\FrontendBundle\Domain\CustomDataSource;
 
 class CustomDataSourceGateway
@@ -12,18 +12,18 @@ class CustomDataSourceGateway
     /**
      * Document repository
      *
-     * @var DocumentRepository
+     * @var EntityRepository
      */
     protected $repository;
 
     /**
      * Document manager
      *
-     * @var DocumentManager
+     * @var EntityManager
      */
     protected $manager;
 
-    public function __construct(DocumentRepository $repository, DocumentManager $manager)
+    public function __construct(EntityRepository $repository, EntityManager $manager)
     {
         $this->repository = $repository;
         $this->manager = $manager;

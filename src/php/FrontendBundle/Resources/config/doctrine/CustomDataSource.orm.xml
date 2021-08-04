@@ -12,9 +12,9 @@
         <field name="customDataSourceType" column="c_type" type="string" />
         <field name="sequence" column="c_sequence" type="string" />
         <field name="name" column="c_name" type="string" />
-        <field name="description" column="c_description" type="text" />
-        <field name="icon" column="c_icon" type="text" />
-        <field name="category" column="c_category" type="text" />
+        <field name="description" column="c_description" type="string" />
+        <field name="icon" column="c_icon" type="string" />
+        <field name="category" column="c_category" type="string" />
         <field name="configurationSchema" column="c_configuration_schema" type="object" />
         <field name="environments" column="c_environment" type="string" nullable="true" />
         <field name="metaData" column="c_meta_data" type="object" />

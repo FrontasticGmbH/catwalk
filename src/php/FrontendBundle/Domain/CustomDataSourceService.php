@@ -2,9 +2,8 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-use Frontastic\Backstage\DeveloperBundle\Gateway\CustomDataSourceGateway;
+use Frontastic\Catwalk\FrontendBundle\Gateway\CustomDataSourceGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
-
 
 class CustomDataSourceService implements Target
 {
@@ -57,5 +56,4 @@ class CustomDataSourceService implements Target
     {
         return $this->customDataSourceGateway->get($environment, $customDataSourceId);
     }
-
 }
