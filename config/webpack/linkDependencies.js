@@ -15,13 +15,14 @@ const links = {
 
 const fileExists = (path) => fs.existsSync(path)
 
+/**
+ * @param {string} package - The package name, e.g. "common"
+ * @param {string} packageDirectory - The frontastic directory within node_modules
+ * @param {string} packageSource - The paas location of the package
+ */
 const linkPackage = (package, packageDirectory, packageSource) => {
 
     let packageLocation = path.join(packageDirectory, package)
-
-    if (!fileExists(packageLocation)) {
-        return
-    }
 
     if (!fileExists(packageSource)) {
         // This repository does not have the link targets, so we are
@@ -40,6 +41,10 @@ const linkPackage = (package, packageDirectory, packageSource) => {
         // Remove the copied package (from yarn install) to be able to
         // create the links
         rimraf.sync(packageLocation)
+    }
+    else {
+        // library is not used in project
+        return
     }
 
     try {
