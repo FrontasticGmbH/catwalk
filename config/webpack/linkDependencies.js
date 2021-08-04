@@ -19,6 +19,10 @@ const linkPackage = (package, packageDirectory, packageSource) => {
 
     let packageLocation = path.join(packageDirectory, package)
 
+    if (!fileExists(packageLocation)) {
+        return
+    }
+
     if (!fileExists(packageSource)) {
         // This repository does not have the link targets, so we are
         // fine with normal packages.
