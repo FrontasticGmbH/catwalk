@@ -24,6 +24,11 @@ const linkPackage = (package, packageDirectory, packageSource) => {
 
     let packageLocation = path.join(packageDirectory, package)
 
+    if (!fileExists(packageLocation)) {
+        // package not used in production
+        return
+    }
+
     if (!fileExists(packageSource)) {
         // This repository does not have the link targets, so we are
         // fine with normal packages.
@@ -37,15 +42,9 @@ const linkPackage = (package, packageDirectory, packageSource) => {
         }
     }
 
-    if (fileExists(packageLocation)) {
-        // Remove the copied package (from yarn install) to be able to
-        // create the links
-        rimraf.sync(packageLocation)
-    }
-    else {
-        // library is not used in project
-        return
-    }
+    // Remove the copied package (from yarn install) to be able to
+    // create the links
+    rimraf.sync(packageLocation)
 
     try {
         fs.mkdirSync(packageDirectory, { recursive: true })
