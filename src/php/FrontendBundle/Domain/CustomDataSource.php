@@ -42,7 +42,7 @@ class CustomDataSource extends DataObject
     public $category = 'General';
 
     /**
-     * @var \stdClass|array
+     * @var array
      */
     public $configurationSchema;
 

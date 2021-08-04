@@ -38,7 +38,7 @@ class CustomDataSourceService implements Target
     {
         $customDataSource->customDataSourceId = $data['customDataSourceId'];
         $customDataSource->customDataSourceType = $data['customDataSourceType'];
-        $customDataSource->sequence = $data['attrisequencebuteType'];
+        $customDataSource->sequence = $data['sequence'];
         $customDataSource->name = $data['name'];
         $customDataSource->description = $data['description'];
         $customDataSource->icon = $data['icon'];
