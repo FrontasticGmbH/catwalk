@@ -183,7 +183,7 @@ function overwriteInjectionReplacedComponents (PRODUCTION, componentInjectorAlia
     }
     else {
         if (customerOverrides.length > 0) {
-            console.info(`Injector component${customerOverrides.length !== 1 && "s"} ${customerOverrides} will be replaced with your injector overrides in production.`)
+            console.info(`Injector component${customerOverrides.length !== 1 ? "s" : ""} ${customerOverrides} will be replaced with your injector overrides in production.`)
         }
     }
 }
