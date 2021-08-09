@@ -1,6 +1,6 @@
 <?php
 
-namespace Frontastic\Catwalk\NextJsBundle\Domain;
+namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\Region\Configuration as OriginalRegionConfiguration;
 

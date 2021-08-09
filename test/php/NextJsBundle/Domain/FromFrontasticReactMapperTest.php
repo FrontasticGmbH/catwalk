@@ -1,10 +1,11 @@
 <?php
 
-namespace Frontastic\Catwalk\NextJsBundle\Domain;
+namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\Cell;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\Region;
+use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use PHPUnit\Framework\TestCase;
 
 class FromFrontasticReactMapperTest extends TestCase

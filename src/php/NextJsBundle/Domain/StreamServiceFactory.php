@@ -6,6 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamService;
+use Frontastic\Catwalk\NextJsBundle\Domain\StreamHandlerToDataSourceHandlerAdapter;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
