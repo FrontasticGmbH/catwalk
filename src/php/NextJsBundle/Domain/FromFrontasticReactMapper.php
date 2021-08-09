@@ -3,14 +3,20 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context as OriginalContext;
-use Frontastic\Catwalk\FrontendBundle\Domain\LayoutElement;
 use Frontastic\Catwalk\FrontendBundle\Domain\Stream as OriginalStream;
 use Frontastic\Catwalk\FrontendBundle\Domain\Cell as OriginalCell;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page as OriginalPage;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node as OriginalNode;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewData as OriginalViewData;
-use Frontastic\Common\ReplicatorBundle\Domain\Project as OriginalProject;
 use Frontastic\Catwalk\FrontendBundle\Domain\Region as OriginalRegion;
+use Frontastic\Common\ReplicatorBundle\Domain\Project as OriginalProject;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Context;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceConfiguration;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\LayoutElement;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Page;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Project;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Section;
 
 class FromFrontasticReactMapper
 {
