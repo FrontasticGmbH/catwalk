@@ -1,6 +1,6 @@
 <?php
 
-namespace Frontastic\Catwalk\FrontendBundle\Domain;
+namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Kore\DataObject\DataObject;
 
