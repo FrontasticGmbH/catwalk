@@ -1,5 +1,13 @@
 # catwalk Changelog
 
+## `1.14.1` (2021-08-10)
+
+* fix: correctly log exceptions which are no objecs
+* Fixed incorrect info message
+* Moved directory existence checking above stat analysis
+* Added types and description for link packages, minor refactor
+* fix: Only try linking when package is actually installed
+
 ## `1.14.0` (2021-08-03)
 
 * Re-added server file creation if not yet exists
