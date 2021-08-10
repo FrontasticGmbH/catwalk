@@ -20,12 +20,10 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService"
-             class="Frontastic\Catwalk\NextJsBundle\Domain\RouteServiceWithPathsStorage"
+             class="Frontastic\Catwalk\NextJsBundle\Domain\FrontasticNextJsRouteService"
              autowire="true"
              public="true"
-        >
-            <argument key="$cacheDirectory">%kernel.cache_dir%</argument>
-        </service>
+        />
 
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService" autowire="true">
             <argument key="$cacheDir">%kernel.cache_dir%</argument>
