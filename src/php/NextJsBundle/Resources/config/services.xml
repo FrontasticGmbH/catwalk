@@ -18,6 +18,19 @@
             <argument key="$streamOptimizers" type="tagged" tag="frontend.streamOptimizer" />
             <argument key="$debug">%kernel.debug%</argument>
         </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService"
+             class="Frontastic\Catwalk\NextJsBundle\Domain\RouteServiceWithPathsStorage"
+             autowire="true"
+             public="true"
+        >
+            <argument key="$cacheDirectory">%kernel.cache_dir%</argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService" autowire="true">
+            <argument key="$cacheDir">%kernel.cache_dir%</argument>
+        </service>
+
     </services>
 
 </container>
