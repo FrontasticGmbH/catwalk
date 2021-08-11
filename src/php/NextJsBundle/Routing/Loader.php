@@ -4,6 +4,9 @@ namespace Frontastic\Catwalk\NextJsBundle\Routing;
 use Symfony\Component\Config\Loader\Loader as BaseLoader;
 use Symfony\Component\Routing\RouteCollection;
 
+/**
+ * Using this loader allows us to dynamically load the Frontastic Next.js routes only when the bundle is enabled.
+ */
 class Loader extends BaseLoader
 {
     public function supports($resource, $type = null): bool
