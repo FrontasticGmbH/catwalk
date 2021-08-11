@@ -1,13 +1,32 @@
-# `interface`  RouteService
+#  FrontasticReactRouteService
 
-**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\RouteService`](../../../../src/php/FrontendBundle/Domain/RouteService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\FrontendBundle\Domain\FrontasticReactRouteService`](../../../../src/php/FrontendBundle/Domain/FrontasticReactRouteService.php)
+
+**Implements**: [`RouteService`](RouteService.md)
 
 ## Methods
 
+* [__construct()](#__construct)
 * [getRoutes()](#getroutes)
 * [storeRoutes()](#storeroutes)
 * [rebuildRoutes()](#rebuildroutes)
 * [generateRoutes()](#generateroutes)
+
+### __construct()
+
+```php
+public function __construct(
+    CustomerService $customerService,
+    string $cacheDirectory
+): mixed
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$customerService`|[`CustomerService`](../../ApiCoreBundle/Domain/CustomerService.md)||
+`$cacheDirectory`|`string`||
+
+Return Value: `mixed`
 
 ### getRoutes()
 
