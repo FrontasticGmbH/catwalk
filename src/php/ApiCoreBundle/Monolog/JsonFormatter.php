@@ -69,7 +69,7 @@ class JsonFormatter implements FormatterInterface
 
         if (is_object($exception)) {
             $data['class'] = get_class($exception);
-        } else if (is_string($exception)) {
+        } elseif (is_string($exception)) {
             $data['message'] = $exception;
         }
 
