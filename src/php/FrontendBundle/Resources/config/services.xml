@@ -426,6 +426,12 @@
 
             <tag name="routing.loader" />
         </service>
+        <!-- Dummy for NextJs bundle to enable frontastic-nextjs route type -->
+        <service id="Frontastic\Catwalk\NextJsBundle\Routing\Loader"
+             class="Frontastic\Catwalk\FrontendBundle\Routing\FrontasticNextJsDummyLoader"
+        >
+            <tag name="routing.loader" />
+        </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Routing\MasterLoader">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProjectService"/>

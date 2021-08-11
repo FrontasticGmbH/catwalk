@@ -22,6 +22,4 @@ dev_vm:
     resource: "@FrontasticCatwalkDevVmBundle/Resources/config/routing.xml"
     prefix:   /
 
-frontastic_nextjs:
-    resource: "@FrontasticCatwalkNextJsBundle/Resources/config/routing.xml"
-    prefix: /
+# Frontastic Next.js routes are loaded through a custom loader when the bundle is activate
