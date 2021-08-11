@@ -9,7 +9,6 @@ use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
-use function GuzzleHttp\Promise;
 
 class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
 {

@@ -1,6 +1,7 @@
 <?php
 
 namespace Frontastic\Catwalk\NextJsBundle\Routing;
+
 use Symfony\Component\Config\Loader\Loader as BaseLoader;
 use Symfony\Component\Routing\RouteCollection;
 

@@ -2,7 +2,6 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Controller;
 
-
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 
