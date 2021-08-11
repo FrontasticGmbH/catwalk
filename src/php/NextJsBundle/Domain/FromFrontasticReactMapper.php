@@ -61,7 +61,10 @@ class FromFrontasticReactMapper
         ],
         OriginalProject::class => [
             'target' => Project::class,
-            'propertyMappings' => []
+            'propertyMappings' => [
+                'languages' => 'locales',
+                'defaultLanguage' => 'defaultLocale'
+            ]
         ],
         OriginalRegion::class => [
             'target' => Section::class,
