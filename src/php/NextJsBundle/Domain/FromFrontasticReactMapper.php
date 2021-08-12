@@ -112,13 +112,23 @@ class FromFrontasticReactMapper
                 continue;
             }
 
-            $outputPropertyValue = $inputPropertyValue;
-            if (is_object($outputPropertyValue)) {
-                $outputPropertyValue = $this->map($outputPropertyValue);
-            }
-            $output->$outputPropertyName = $outputPropertyValue;
+            $output->$outputPropertyName = $this->mapAny($inputPropertyValue);
         }
 
         return $output;
+    }
+
+    private function mapAny($input)
+    {
+        if (is_object($input)) {
+            return $this->map($input);
+        }
+        if (is_array($input)) {
+            foreach ($input as $key => $arrayValue) {
+                $input[$key] = $this->map($arrayValue);
+            }
+            return $input;
+        }
+        return $input;
     }
 }

@@ -20,23 +20,13 @@ class FromFrontasticReactMapperTest extends TestCase
 
     public function testMapKnown()
     {
-
-        $regionFixture = new Region([
-            'regionId' => '123abc',
-            'configuration' => new Region\Configuration([
-                'flexDirection' => 'row',
-            ]),
-            'elements' => [
-                new Cell(['cellId' => 'cell_1']),
-                new Cell(['cellId' => 'cell_2']),
-            ]
-        ]);
+        $regionFixture = $this->getRegionFixture();
 
         $expectedSection = new Section([
             'sectionId' => '123abc',
             'layoutElements' => [
-                new Cell(['cellId' => 'cell_1']),
-                new Cell(['cellId' => 'cell_2']),
+                new LayoutElement(['layoutElementId' => 'cell_1']),
+                new LayoutElement(['layoutElementId' => 'cell_2']),
             ]
         ]);
 
@@ -63,5 +53,34 @@ class FromFrontasticReactMapperTest extends TestCase
 
         $this->assertInstanceOf(\stdClass::class, $actualObject);
         $this->assertInstanceOf(Context::class, $actualObject->someChild);
+    }
+
+    public function testMapArrayProperties()
+    {
+        $objectFixture = new \stdClass();
+        $objectFixture->fooArray = [
+            $this->getRegionFixture(),
+        ];
+
+        $actualObject = $this->mapper->map($objectFixture);
+
+        $this->assertInstanceOf(Section::class, $actualObject->fooArray[0]);
+    }
+
+    /**
+     * @return Region
+     */
+    private function getRegionFixture(): Region
+    {
+        return new Region([
+            'regionId' => '123abc',
+            'configuration' => new Region\Configuration([
+                'flexDirection' => 'row',
+            ]),
+            'elements' => [
+                new Cell(['cellId' => 'cell_1']),
+                new Cell(['cellId' => 'cell_2']),
+            ]
+        ]);
     }
 }
