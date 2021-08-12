@@ -27,5 +27,6 @@ class ListRegisteredHooksCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         var_dump($this->hooksApiClient->getHooks('demo_swiss'));
+        return 0;
     }
 }
