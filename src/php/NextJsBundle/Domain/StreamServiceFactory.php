@@ -59,16 +59,20 @@ class StreamServiceFactory
             $this->debug
         );
 
-        foreach ($this->hooksService->getRegisteredHooks() as $hook) {
-            if (isset($hook->hookType) && $hook->hookType === 'data-source') {
-                $streamService->addStreamHandlerV2(
-                    $hook->dataSourceIdentifier,
-                    new StreamHandlerToDataSourceHandlerAdapter(
-                        $this->hooksService,
-                        $hook->hookName
-                    )
-                );
+        try {
+            foreach ($this->hooksService->getRegisteredHooks() as $hook) {
+                if (isset($hook->hookType) && $hook->hookType === 'data-source') {
+                    $streamService->addStreamHandlerV2(
+                        $hook->dataSourceIdentifier,
+                        new StreamHandlerToDataSourceHandlerAdapter(
+                            $this->hooksService,
+                            $hook->hookName
+                        )
+                    );
+                }
             }
+        } catch (\Throwable $e) {
+            // EAT for now
         }
 
         // Example. We need to fetch this from the extension server.
