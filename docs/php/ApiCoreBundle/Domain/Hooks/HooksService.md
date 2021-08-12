@@ -5,10 +5,12 @@
 ## Methods
 
 * [__construct()](#__construct)
+* [call()](#call)
 * [callExpectArray()](#callexpectarray)
 * [callExpectList()](#callexpectlist)
 * [callExpectObject()](#callexpectobject)
 * [callExpectMultipleObjects()](#callexpectmultipleobjects)
+* [getRegisteredHooks()](#getregisteredhooks)
 
 ### __construct()
 
@@ -29,6 +31,22 @@ Argument|Type|Default|Description
 `$hookResponseDeserializer`|[`HookResponseDeserializer`](HookResponseDeserializer.md)||
 `$contextService`|[`ContextService`](../ContextService.md)||
 `$requestStack`|`\Symfony\Component\HttpFoundation\RequestStack`||
+
+Return Value: `mixed`
+
+### call()
+
+```php
+public function call(
+    string $hook,
+    array $arguments
+): mixed
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$hook`|`string`||
+`$arguments`|`array`||
 
 Return Value: `mixed`
 
@@ -95,5 +113,13 @@ Argument|Type|Default|Description
 `$arguments`|`array`||
 
 Return Value: `mixed`
+
+### getRegisteredHooks()
+
+```php
+public function getRegisteredHooks(): array
+```
+
+Return Value: `array`
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
