@@ -125,7 +125,7 @@ class FromFrontasticReactMapper
         }
         if (is_array($input)) {
             foreach ($input as $key => $arrayValue) {
-                $input[$key] = $this->map($arrayValue);
+                $input[$key] = $this->mapAny($arrayValue);
             }
             return $input;
         }
