@@ -59,6 +59,18 @@ class StreamServiceFactory
             $this->debug
         );
 
+        foreach ($this->hooksService->getRegisteredHooks() as $hook) {
+            if (isset($hook->hookType) && $hook->hookType === 'data-source') {
+                $streamService->addStreamHandlerV2(
+                    $hook->dataSourceIdentifier,
+                    new StreamHandlerToDataSourceHandlerAdapter(
+                        $this->hooksService,
+                        $hook->hookName
+                    )
+                );
+            }
+        }
+
         // Example. We need to fetch this from the extension server.
         $streamService->addStreamHandlerV2(
             'toby/test-new-data-sources',
