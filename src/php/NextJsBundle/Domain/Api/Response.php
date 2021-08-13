@@ -10,7 +10,9 @@ class Response
 {
     public string $statusCode;
 
-    public string $statusMessage;
+    // public string $statusMessage;
+
+    public $body;
 
     // ... more Express.js/Node.js fields
 

@@ -83,67 +83,9 @@ class HooksService
         return $response;
     }
 
-    public function callExpectArray(string $hook, array $arguments): ?array
+    public function knowsHook(string $hookName): bool
     {
-        if (!$this->isEventActive($hook)) {
-            return null;
-        }
-
-        $response = $this->callRemoteHook($hook, $arguments);
-
-        return $response['arguments'][0];
-    }
-
-    public function callExpectList(string $hook, array $arguments)
-    {
-        if (!$this->isEventActive($hook)) {
-            return $arguments;
-        }
-
-        $response = $this->callRemoteHook($hook, $arguments);
-
-        return array_map(
-            function ($argument) {
-                if (!is_array($argument)) {
-                    return $argument;
-                }
-                return $this->hookResponseDeserializer->deserialize($argument);
-            },
-            $response['arguments']
-        );
-    }
-
-    public function callExpectObject(string $hook, array $arguments)
-    {
-        if (!$this->isEventActive($hook)) {
-            return null;
-        }
-
-        $response = $this->callRemoteHook($hook, $arguments);
-
-        return $this->hookResponseDeserializer->deserialize($response['arguments'][0]);
-    }
-
-    public function callExpectMultipleObjects(string $hook, array $arguments)
-    {
-        if (!$this->isEventActive($hook)) {
-            return null;
-        }
-
-        $response = $this->callRemoteHook($hook, $arguments);
-
-        $formatedResponse = [];
-
-        foreach ($response['arguments'] as $objectsData) {
-            $formatedResponse = array_merge($formatedResponse, array_map(
-                function ($objectData) {
-                    return $this->hookResponseDeserializer->deserialize($objectData);
-                },
-                $objectsData
-            ));
-        }
-
-        return $formatedResponse;
+        return $this->isEventActive($hookName);
     }
 
     public function getRegisteredHooks(): array
