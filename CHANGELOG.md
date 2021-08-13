@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.15.0` (2021-08-13)
+
+
+* feat: Implement possibility to override actions to old controllers.
+* feat: Controller for action extensions.
+* fix: Do not die when hooks runner is down.
+
 ## `1.14.2` (2021-08-10)
 
 * fix: correctly log exceptions which are no objecs
