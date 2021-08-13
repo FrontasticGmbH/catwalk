@@ -6,10 +6,7 @@
 
 * [__construct()](#__construct)
 * [call()](#call)
-* [callExpectArray()](#callexpectarray)
-* [callExpectList()](#callexpectlist)
-* [callExpectObject()](#callexpectobject)
-* [callExpectMultipleObjects()](#callexpectmultipleobjects)
+* [knowsHook()](#knowshook)
 * [getRegisteredHooks()](#getregisteredhooks)
 
 ### __construct()
@@ -50,69 +47,19 @@ Argument|Type|Default|Description
 
 Return Value: `mixed`
 
-### callExpectArray()
+### knowsHook()
 
 ```php
-public function callExpectArray(
-    string $hook,
-    array $arguments
-): ?array
+public function knowsHook(
+    string $hookName
+): bool
 ```
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
-`$hook`|`string`||
-`$arguments`|`array`||
+`$hookName`|`string`||
 
-Return Value: `?array`
-
-### callExpectList()
-
-```php
-public function callExpectList(
-    string $hook,
-    array $arguments
-): mixed
-```
-
-Argument|Type|Default|Description
---------|----|-------|-----------
-`$hook`|`string`||
-`$arguments`|`array`||
-
-Return Value: `mixed`
-
-### callExpectObject()
-
-```php
-public function callExpectObject(
-    string $hook,
-    array $arguments
-): mixed
-```
-
-Argument|Type|Default|Description
---------|----|-------|-----------
-`$hook`|`string`||
-`$arguments`|`array`||
-
-Return Value: `mixed`
-
-### callExpectMultipleObjects()
-
-```php
-public function callExpectMultipleObjects(
-    string $hook,
-    array $arguments
-): mixed
-```
-
-Argument|Type|Default|Description
---------|----|-------|-----------
-`$hook`|`string`||
-`$arguments`|`array`||
-
-Return Value: `mixed`
+Return Value: `bool`
 
 ### getRegisteredHooks()
 
