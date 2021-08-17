@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.15.1` (2021-08-17)
+
+* fix: incorrect webpack config schema
+* fix: Added missing CssMinimizerPlugin import
+* fix: Added TerserPlugin for JS minification in server production build
+* fix: Added TerserPlugin for JS minification in browser production build
+
 ## `1.15.0` (2021-08-13)
 
 
