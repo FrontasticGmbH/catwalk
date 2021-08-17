@@ -2,7 +2,7 @@ const paths = require('./paths')
 const libraryModifications = require('./libraryModifications')
 const { isModuleNotFoundError } = require('./webpack/helpers')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-const TerserPlugin = require("terser-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin")
 
 const PRODUCTION = true
 const SERVER = false

@@ -1,6 +1,7 @@
 const paths = require('./paths')
 const libraryModifications = require('./libraryModifications')
 const { isModuleNotFoundError } = require('./webpack/helpers')
+const TerserPlugin = require("terser-webpack-plugin")
 
 const PRODUCTION = true
 const SERVER = true
@@ -16,7 +17,9 @@ require('./webpack/overwriteInjectionReplacedComponents')(PRODUCTION, 'Component
 
 config.optimization = {
     minimize: true,
-    minimizer: [new CssMinimizerPlugin()],
+    minimizer: [new CssMinimizerPlugin(), new TerserPlugin({
+        test: /\.js(\?.*)?$/i,
+    })],
     output: {
         filename: 'assets/js/server.js'
     }
