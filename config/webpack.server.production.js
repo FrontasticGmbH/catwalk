@@ -14,8 +14,13 @@ config = require('./webpack/singleChunk.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/linkDependencies.js')(config, PRODUCTION, SERVER)
 require('./webpack/overwriteInjectionReplacedComponents')(PRODUCTION, 'ComponentInjector')
 
-config.optimization = { minimize: true }
-config.output.filename = 'assets/js/server.js'
+config.optimization = {
+    minimize: true,
+    minimizer: [new CssMinimizerPlugin()],
+    output: {
+        filename: 'assets/js/server.js'
+    }
+}
 
 let customConfigPath = paths.appSrc + '/../config/webpack.server.production.js'
 try {
