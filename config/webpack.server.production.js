@@ -20,11 +20,9 @@ config.optimization = {
     minimize: true,
     minimizer: [new CssMinimizerPlugin(), new TerserPlugin({
         test: /\.js(\?.*)?$/i,
-    })],
-    output: {
-        filename: 'assets/js/server.js'
-    }
+    })]
 }
+config.output.filename = 'assets/js/server.js'
 
 let customConfigPath = paths.appSrc + '/../config/webpack.server.production.js'
 try {
