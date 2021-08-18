@@ -61,24 +61,26 @@ function getInjectorReturnExports (filePath) {
 function getInjectionReplacableComponents (dirPath, replacableComponents) {
     replacableComponents = replacableComponents || []
     let currentReplacableComponents = []
-    fs.readdirSync(dirPath).forEach(currentPath => {
-        currentPath = path.join(dirPath, currentPath)
-        var stats = fs.lstatSync(currentPath)
-        if (stats.isDirectory()) {
-            currentReplacableComponents = getInjectionReplacableComponents(currentPath, currentReplacableComponents)
-        }
-        else {
-            if (stats.isFile()) {
-                var splitPath = currentPath.split('.')
-                if (splitPath.length > 1) {
-                    var ext = splitPath[splitPath.length - 1]
-                    if (ext === "tsx" || ext === "jsx" || ext === "ts" || ext === "js") {
-                        currentReplacableComponents = currentReplacableComponents.concat(getInjectorReturnExports(currentPath))
+    if (fs.existsSync(dirPath)) {
+        fs.readdirSync(dirPath).forEach(currentPath => {
+            currentPath = path.join(dirPath, currentPath)
+            var stats = fs.lstatSync(currentPath)
+            if (stats.isDirectory()) {
+                currentReplacableComponents = getInjectionReplacableComponents(currentPath, currentReplacableComponents)
+            }
+            else {
+                if (stats.isFile()) {
+                    var splitPath = currentPath.split('.')
+                    if (splitPath.length > 1) {
+                        var ext = splitPath[splitPath.length - 1]
+                        if (ext === "tsx" || ext === "jsx" || ext === "ts" || ext === "js") {
+                            currentReplacableComponents = currentReplacableComponents.concat(getInjectorReturnExports(currentPath))
+                        }
                     }
                 }
             }
-        }
-    })
+        })
+    }
     return currentReplacableComponents.concat(replacableComponents)
 }
 
@@ -168,7 +170,7 @@ function handleComponentOverwrites (injectionReplacableComponents, componentsToE
  */
 function overwriteInjectionReplacedComponents (PRODUCTION, componentInjectorAlias) {
     var customerOverrides = getCustomerOverrides()
-    if (PRODUCTION) {
+    if (PRODUCTION && customerOverrides.length !== 0) {
         var injectionReplacableComponents = getInjectionReplacableComponents(path.join(paths.catwalk, 'src/js'))
             .concat(getInjectionReplacableComponents(path.join(paths.theme, 'src/js')))
 
@@ -182,7 +184,7 @@ function overwriteInjectionReplacedComponents (PRODUCTION, componentInjectorAlia
         handleComponentOverwrites(injectionReplacableComponents, componentsToExclude, componentInjectorAlias)
     }
     else {
-        if (customerOverrides.length > 0) {
+        if (customerOverrides.length !== 0) {
             console.info(`Injector component${customerOverrides.length !== 1 ? "s" : ""} ${customerOverrides} will be replaced with your injector overrides in production.`)
         }
     }
