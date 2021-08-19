@@ -51,7 +51,7 @@ class Facet extends FacetDefinition
     public $facetOptions;
 
     /**
-     * @var MetaData
+     * @var \Frontastic\UserBundle\Domain\MetaData
      * @required
      */
     public $metaData;

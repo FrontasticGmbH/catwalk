@@ -52,7 +52,7 @@ class CustomDataSource extends DataObject
     public $environments = [];
 
     /**
-     * @var \Frontastic\Catwalk\FrontendBundle\Domain\MetaData
+     * @var \Frontastic\UserBundle\Domain\MetaData
      */
     public $metaData;
 
