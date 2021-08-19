@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.15.2` (2021-08-19)
+
+* fix: server build failure if @frontastic/theme-boost doesn't exist in node_modules
+
 ## `1.15.1` (2021-08-17)
 
 * fix: incorrect webpack config schema
