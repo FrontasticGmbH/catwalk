@@ -42,7 +42,7 @@ class CustomDataSource extends DataObject
     public $category = 'General';
 
     /**
-     * @var array
+     * @var \stdClass|array
      */
     public $configurationSchema;
 
@@ -52,7 +52,7 @@ class CustomDataSource extends DataObject
     public $environments = [];
 
     /**
-     * @var \Frontastic\Backstage\UserBundle\Domain\MetaData
+     * @var \Frontastic\Catwalk\FrontendBundle\Domain\MetaData
      */
     public $metaData;
 

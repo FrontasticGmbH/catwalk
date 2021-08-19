@@ -36,6 +36,7 @@ class CustomDataSourceService implements Target
 
     public function fill(CustomDataSource $customDataSource, array $data): CustomDataSource
     {
+
         $customDataSource->customDataSourceId = $data['customDataSourceId'];
         $customDataSource->customDataSourceType = $data['customDataSourceType'];
         $customDataSource->sequence = $data['sequence'];
@@ -43,9 +44,9 @@ class CustomDataSourceService implements Target
         $customDataSource->description = $data['description'];
         $customDataSource->icon = $data['icon'];
         $customDataSource->category = (!empty($data['category']) ? $data['category'] : 'General');
-        $customDataSource->configurationSchema = $data['configurationSchema'];
-        $customDataSource->environments = $data['environments'];
-        $customDataSource->metaData = $data['metaData'];
+        $customDataSource->configurationSchema = (object)$data['configurationSchema'];
+        $customDataSource->environments = (object)$data['environments'];
+        $customDataSource->metaData = (object)$data['metaData'];
         $customDataSource->isActive = (bool)$data['isActive'];
         $customDataSource->isDeleted = (bool)$data['isDeleted'];
 
