@@ -1,6 +1,6 @@
 {
     "name": "frontastic/catwalk",
-    "version": "1.13.0",
+    "version": "1.15.2",
     "license": "None",
     "type": "library",
     "repositories": [
@@ -59,7 +59,8 @@
         "squizlabs/php_codesniffer": "@stable",
         "sebastian/phpcpd": "@stable",
         "phake/phake": "^3.0",
-        "phpstan/phpstan": "^0.12.18"
+        "phpstan/phpstan": "^0.12.18",
+        "mikey179/vfsstream": "^1"
     },
     "autoload": {
         "psr-4": {

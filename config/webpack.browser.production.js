@@ -2,6 +2,7 @@ const paths = require('./paths')
 const libraryModifications = require('./libraryModifications')
 const { isModuleNotFoundError } = require('./webpack/helpers')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const TerserPlugin = require("terser-webpack-plugin")
 
 const PRODUCTION = true
 const SERVER = false
@@ -18,7 +19,9 @@ require('./webpack/overwriteInjectionReplacedComponents')(PRODUCTION, 'Component
 
 config.optimization = {
     minimize: true,
-    minimizer: [new CssMinimizerPlugin()],
+    minimizer: [new CssMinimizerPlugin(), new TerserPlugin({
+        test: /\.js(\?.*)?$/i,
+    })],
     splitChunks: {
         chunks: 'all',
         minSize: 10 * 1024,

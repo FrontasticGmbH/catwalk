@@ -1,5 +1,62 @@
 # catwalk Changelog
 
+## `1.15.2` (2021-08-19)
+
+* fix: server build failure if @frontastic/theme-boost doesn't exist in node_modules
+
+## `1.15.1` (2021-08-17)
+
+* fix: incorrect webpack config schema
+* fix: Added missing CssMinimizerPlugin import
+* fix: Added TerserPlugin for JS minification in server production build
+* fix: Added TerserPlugin for JS minification in browser production build
+
+## `1.15.0` (2021-08-13)
+
+
+* feat: Implement possibility to override actions to old controllers.
+* feat: Controller for action extensions.
+* fix: Do not die when hooks runner is down.
+
+## `1.14.2` (2021-08-10)
+
+* fix: correctly log exceptions which are no objecs
+* Fixed incorrect info message
+* Moved directory existence checking above stat analysis
+* Added types and description for link packages, minor refactor
+* fix: Only try linking when package is actually installed
+
+## `1.14.1` (2021-08-10)
+
+* fix: correctly log exceptions which are no objecs
+* Fixed incorrect info message
+* Moved directory existence checking above stat analysis
+* Added types and description for link packages, minor refactor
+* fix: Only try linking when package is actually installed
+
+## `1.14.0` (2021-08-03)
+
+* Re-added server file creation if not yet exists
+* Added checking for nodemon, checks for existence of server file
+* Fix linting errors in ComponentInjector generated files
+* Removed remaining debugging, added component override to demo_english for CI testing
+* Added component cache to complete ComponentInjector rework
+* fix: Remove unused and incorrect typed propery.
+* feat(custom-data-source): Fix PHPStan issues.
+* feat(custom-data-source): CS.
+* feat(custom-data-source): Fixed null value mapping and mapping test.
+* feat(custom-data-source): Guard NextJsBundle by feature-flag.
+* feat(custom-data-source): Example data-source registration now happens in bundle.
+* feat(custom-data-source): Basics for bundle dependency injection.
+* feat(custom-data-source): Fixed bundle class name.
+* feat(custom-data-source): Fix: Also map children of non-mapped objects.
+* feat(custom-data-source): Fix Node->path is a string, not an array.
+* feat(custom-data-source): Deliver data source context to JS extensions.
+* feat(custom-data-source): POC wiring of new data source handler.
+* feat(custom-data-source): Implemented mapper from Frontastic React data structures.
+* feat(custom-data-source): Verify stream parameter extraction works.
+* feat(custom-data-source): Implement StreamHandlerV2 for new streams API.
+
 ## `1.13.0` (2021-07-29)
 
 * feat: Moving our concept of decorators to frontastic 1.5

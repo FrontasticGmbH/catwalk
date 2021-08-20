@@ -5,10 +5,9 @@
 ## Methods
 
 * [__construct()](#__construct)
-* [callExpectArray()](#callexpectarray)
-* [callExpectList()](#callexpectlist)
-* [callExpectObject()](#callexpectobject)
-* [callExpectMultipleObjects()](#callexpectmultipleobjects)
+* [call()](#call)
+* [knowsHook()](#knowshook)
+* [getRegisteredHooks()](#getregisteredhooks)
 
 ### __construct()
 
@@ -32,26 +31,10 @@ Argument|Type|Default|Description
 
 Return Value: `mixed`
 
-### callExpectArray()
+### call()
 
 ```php
-public function callExpectArray(
-    string $hook,
-    array $arguments
-): ?array
-```
-
-Argument|Type|Default|Description
---------|----|-------|-----------
-`$hook`|`string`||
-`$arguments`|`array`||
-
-Return Value: `?array`
-
-### callExpectList()
-
-```php
-public function callExpectList(
+public function call(
     string $hook,
     array $arguments
 ): mixed
@@ -64,36 +47,26 @@ Argument|Type|Default|Description
 
 Return Value: `mixed`
 
-### callExpectObject()
+### knowsHook()
 
 ```php
-public function callExpectObject(
-    string $hook,
-    array $arguments
-): mixed
+public function knowsHook(
+    string $hookName
+): bool
 ```
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
-`$hook`|`string`||
-`$arguments`|`array`||
+`$hookName`|`string`||
 
-Return Value: `mixed`
+Return Value: `bool`
 
-### callExpectMultipleObjects()
+### getRegisteredHooks()
 
 ```php
-public function callExpectMultipleObjects(
-    string $hook,
-    array $arguments
-): mixed
+public function getRegisteredHooks(): array
 ```
 
-Argument|Type|Default|Description
---------|----|-------|-----------
-`$hook`|`string`||
-`$arguments`|`array`||
-
-Return Value: `mixed`
+Return Value: `array`
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

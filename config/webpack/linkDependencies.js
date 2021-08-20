@@ -15,9 +15,19 @@ const links = {
 
 const fileExists = (path) => fs.existsSync(path)
 
+/**
+ * @param {string} package - The package name, e.g. "common"
+ * @param {string} packageDirectory - The frontastic directory within node_modules
+ * @param {string} packageSource - The paas location of the package
+ */
 const linkPackage = (package, packageDirectory, packageSource) => {
 
     let packageLocation = path.join(packageDirectory, package)
+
+    if (!fileExists(packageLocation)) {
+        // package not used in production
+        return
+    }
 
     if (!fileExists(packageSource)) {
         // This repository does not have the link targets, so we are
@@ -32,11 +42,9 @@ const linkPackage = (package, packageDirectory, packageSource) => {
         }
     }
 
-    if (fileExists(packageLocation)) {
-        // Remove the copied package (from yarn install) to be able to
-        // create the links
-        rimraf.sync(packageLocation)
-    }
+    // Remove the copied package (from yarn install) to be able to
+    // create the links
+    rimraf.sync(packageLocation)
 
     try {
         fs.mkdirSync(packageDirectory, { recursive: true })

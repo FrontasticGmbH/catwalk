@@ -413,14 +413,23 @@
             <argument type="service" id="frontastic.catwalk.wishlist_api" />
         </service>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService">
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\FrontasticReactRouteService">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService" />
             <argument>%kernel.cache_dir%</argument>
         </service>
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService"
+             alias="Frontastic\Catwalk\FrontendBundle\Domain\FrontasticReactRouteService"
+        />
 
         <service id="Frontastic\Catwalk\FrontendBundle\Routing\Loader">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService" />
 
+            <tag name="routing.loader" />
+        </service>
+        <!-- Dummy for NextJs bundle to enable frontastic-nextjs route type -->
+        <service id="Frontastic\Catwalk\NextJsBundle\Routing\Loader"
+             class="Frontastic\Catwalk\FrontendBundle\Routing\FrontasticNextJsDummyLoader"
+        >
             <tag name="routing.loader" />
         </service>
 

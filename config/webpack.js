@@ -110,14 +110,16 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
             // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
             // Solution updated for webpack 4. You can remove this if you don't use
             // Moment.js:
-            new webpack.IgnorePlugin({
-                checkResource (resource, context) {
-                    return [
-                        /^\.\\locale$/,
-                        /moment$/
-                    ].map(rexExp => rexExp.test(path.join(context, resource))).filter(Boolean).length > 0
-                }
-            }),
+            // ************
+            // removed as it breaks the build for any customers using moment.js, contrary to comment above
+            // new webpack.IgnorePlugin({
+            //     checkResource (resource, context) {
+            //         return [
+            //             /^\.\\locale$/,
+            //             /moment$/
+            //         ].map(rexExp => rexExp.test(path.join(context, resource))).filter(Boolean).length > 0
+            //     }
+            // }),
             // Show packages which are included from multiple locations, which
             // increases the build size.
             new DuplicatePackageCheckerPlugin({

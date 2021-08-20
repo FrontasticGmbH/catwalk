@@ -6,6 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamService;
+use Frontastic\Catwalk\NextJsBundle\Domain\StreamHandlerToDataSourceHandlerAdapter;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
@@ -57,6 +58,22 @@ class StreamServiceFactory
             $this->streamOptimizers,
             $this->debug
         );
+
+        try {
+            foreach ($this->hooksService->getRegisteredHooks() as $hook) {
+                if (isset($hook->hookType) && $hook->hookType === 'data-source') {
+                    $streamService->addStreamHandlerV2(
+                        $hook->dataSourceIdentifier,
+                        new StreamHandlerToDataSourceHandlerAdapter(
+                            $this->hooksService,
+                            $hook->hookName
+                        )
+                    );
+                }
+            }
+        } catch (\Throwable $e) {
+            // EAT for now
+        }
 
         // Example. We need to fetch this from the extension server.
         $streamService->addStreamHandlerV2(

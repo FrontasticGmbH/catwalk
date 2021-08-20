@@ -1,6 +1,8 @@
 const paths = require('./paths')
 const libraryModifications = require('./libraryModifications')
 const { isModuleNotFoundError } = require('./webpack/helpers')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const TerserPlugin = require("terser-webpack-plugin")
 
 const PRODUCTION = true
 const SERVER = true
@@ -14,7 +16,12 @@ config = require('./webpack/singleChunk.js')(config, PRODUCTION, SERVER)
 config = require('./webpack/linkDependencies.js')(config, PRODUCTION, SERVER)
 require('./webpack/overwriteInjectionReplacedComponents')(PRODUCTION, 'ComponentInjector')
 
-config.optimization = { minimize: true }
+config.optimization = {
+    minimize: true,
+    minimizer: [new CssMinimizerPlugin(), new TerserPlugin({
+        test: /\.js(\?.*)?$/i,
+    })]
+}
 config.output.filename = 'assets/js/server.js'
 
 let customConfigPath = paths.appSrc + '/../config/webpack.server.production.js'

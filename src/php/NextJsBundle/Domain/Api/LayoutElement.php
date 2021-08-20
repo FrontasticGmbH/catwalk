@@ -1,7 +1,9 @@
 <?php
 
-namespace Frontastic\Catwalk\FrontendBundle\Domain;
+namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
+use Frontastic\Catwalk\FrontendBundle\Domain\Cell;
+use Frontastic\Catwalk\FrontendBundle\Domain\Tastic;
 use Kore\DataObject\DataObject;
 
 /**

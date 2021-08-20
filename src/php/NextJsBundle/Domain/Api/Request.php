@@ -1,6 +1,6 @@
 <?php
 
-namespace Frontastic\Catwalk\NextJsBundle\Domain;
+namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
 use Kore\DataObject\DataObject;
 
@@ -17,9 +17,18 @@ class Request extends DataObject
      */
     public string $body;
 
+    /**
+     * @var object <cookie-name> -> <cookie-value>
+     */
     public object $cookies;
 
     public string $hostname;
+
+    public string $method;
+
+    public string $path;
+
+    public object $query;
 
     // ... More properties as specified by Express.js API
 

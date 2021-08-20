@@ -8,7 +8,7 @@ use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class RouteServiceTest extends TestCase
+class FrontasticReactRouteServiceTest extends TestCase
 {
     /**
      * @var RouteService
@@ -25,7 +25,7 @@ class RouteServiceTest extends TestCase
         $this->customerServiceMock = $this->getMockBuilder(CustomerService::class)->disableOriginalConstructor()
             ->getMock();
 
-        $this->routeService = new RouteService($this->customerServiceMock, '__NO_DIR__');
+        $this->routeService = new FrontasticReactRouteService($this->customerServiceMock, '__NO_DIR__');
 
         $this->customerServiceMock->expects($this->any())
             ->method('getCustomer')

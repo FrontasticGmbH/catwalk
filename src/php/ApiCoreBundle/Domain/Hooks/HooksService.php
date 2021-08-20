@@ -17,7 +17,7 @@ class HooksService
 
     private ContextService $contextService;
 
-    /** @var string[] */
+    /** @var object[] */
     private ?array $hooks = null;
 
     private LoggerInterface $logger;
@@ -42,13 +42,8 @@ class HooksService
 
     protected function isEventActive(string $eventName): bool
     {
-        $context = $this->contextService->createContextFromRequest();
-        if ($this->hooks === null) {
-            $this->hooks = $this->hooksApiClient->getHooks(
-                $context->project->customer . '_' . $context->project->projectId
-            );
-        }
-        return in_array($eventName, array_column($this->hooks, 'hookName'), true);
+        $hooks = $this->getRegisteredHooks();
+        return in_array($eventName, array_column($hooks, 'hookName'), true);
     }
 
     protected function callRemoteHook(string $hook, array $arguments)
@@ -78,66 +73,29 @@ class HooksService
         return $response;
     }
 
-    public function callExpectArray(string $hook, array $arguments): ?array
+    public function call(string $hook, array $arguments)
     {
         if (!$this->isEventActive($hook)) {
             return null;
         }
 
         $response = $this->callRemoteHook($hook, $arguments);
-
-        return $response['arguments'][0];
+        return $response;
     }
 
-    public function callExpectList(string $hook, array $arguments)
+    public function knowsHook(string $hookName): bool
     {
-        if (!$this->isEventActive($hook)) {
-            return $arguments;
-        }
-
-        $response = $this->callRemoteHook($hook, $arguments);
-
-        return array_map(
-            function ($argument) {
-                if (!is_array($argument)) {
-                    return $argument;
-                }
-                return $this->hookResponseDeserializer->deserialize($argument);
-            },
-            $response['arguments']
-        );
+        return $this->isEventActive($hookName);
     }
 
-    public function callExpectObject(string $hook, array $arguments)
+    public function getRegisteredHooks(): array
     {
-        if (!$this->isEventActive($hook)) {
-            return null;
+        if ($this->hooks === null) {
+            $context = $this->contextService->createContextFromRequest();
+            $this->hooks = $this->hooksApiClient->getHooks(
+                $context->project->customer . '_' . $context->project->projectId
+            );
         }
-
-        $response = $this->callRemoteHook($hook, $arguments);
-
-        return $this->hookResponseDeserializer->deserialize($response['arguments'][0]);
-    }
-
-    public function callExpectMultipleObjects(string $hook, array $arguments)
-    {
-        if (!$this->isEventActive($hook)) {
-            return null;
-        }
-
-        $response = $this->callRemoteHook($hook, $arguments);
-
-        $formatedResponse = [];
-
-        foreach ($response['arguments'] as $objectsData) {
-            $formatedResponse = array_merge($formatedResponse, array_map(
-                function ($objectData) {
-                    return $this->hookResponseDeserializer->deserialize($objectData);
-                },
-                $objectsData
-            ));
-        }
-
-        return $formatedResponse;
+        return $this->hooks;
     }
 }

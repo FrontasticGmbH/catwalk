@@ -1,6 +1,6 @@
 <?php
 
-namespace Frontastic\Catwalk\NextJsBundle\Domain;
+namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
 /**
  * Response structure as used by Express.js version 4.x + Frontastic additions.
@@ -10,7 +10,9 @@ class Response
 {
     public string $statusCode;
 
-    public string $statusMessage;
+    // public string $statusMessage;
+
+    public $body;
 
     // ... more Express.js/Node.js fields
 

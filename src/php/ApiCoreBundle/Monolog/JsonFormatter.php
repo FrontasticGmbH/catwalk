@@ -65,9 +65,13 @@ class JsonFormatter implements FormatterInterface
 
     private function formatException($exception): array
     {
-        $data = [
-            'class' => get_class($exception),
-        ];
+        $data = [];
+
+        if (is_object($exception)) {
+            $data['class'] = get_class($exception);
+        } elseif (is_string($exception)) {
+            $data['message'] = $exception;
+        }
 
         if (!$exception instanceof \Throwable) {
             return $data;

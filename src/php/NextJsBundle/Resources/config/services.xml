@@ -6,6 +6,10 @@
 
 
     <services>
+
+        <prototype namespace="Frontastic\Catwalk\NextJsBundle\Controller\" resource="../../Controller/*.php" autowire="true" public="true" />
+        <prototype namespace="Frontastic\Catwalk\NextJsBundle\Command\" resource="../../Command/*.php" autowire="true" autoconfigure="true" public="true" />
+
         <service
             id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService"
             class="Frontastic\Catwalk\FrontendBundle\Domain\StreamService"
@@ -17,6 +21,26 @@
             <argument key="$streamHandlers" type="tagged" tag="frontend.streamHandler" />
             <argument key="$streamOptimizers" type="tagged" tag="frontend.streamOptimizer" />
             <argument key="$debug">%kernel.debug%</argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService"
+             class="Frontastic\Catwalk\NextJsBundle\Domain\FrontasticNextJsRouteService"
+             autowire="true"
+             public="true"
+        />
+
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService" autowire="true">
+            <argument key="$cacheDir">%kernel.cache_dir%</argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper" />
+
+        <service id="Frontastic\Catwalk\NextJsBundle\Routing\Loader" class="Frontastic\Catwalk\NextJsBundle\Routing\Loader">
+            <tag name="routing.loader" />
+        </service>
+
+        <service id="Frontastic\Catwalk\NextJsBundle\Controller\ActionController" autoconfigure="true" autowire="true" public="true">
+            <argument key="$rootDir">%kernel.root_dir%</argument>
         </service>
     </services>
 
