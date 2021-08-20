@@ -7,7 +7,6 @@
     c_icon VARCHAR(255) NOT NULL,
     c_category VARCHAR(255) NOT NULL,
     c_configuration_schema LONGTEXT NOT NULL COMMENT '(DC2Type:object)',
-    c_environment LONGTEXT NOT NULL COMMENT '(DC2Type:object)',
     c_meta_data LONGTEXT NOT NULL COMMENT '(DC2Type:object)',
     c_is_active TINYINT(1) NOT NULL,
     c_is_deleted TINYINT(1) NOT NULL,

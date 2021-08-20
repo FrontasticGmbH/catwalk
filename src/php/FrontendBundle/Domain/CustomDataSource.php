@@ -47,11 +47,6 @@ class CustomDataSource extends DataObject
     public $configurationSchema;
 
     /**
-     * @var array<string, bool>
-     */
-    public $environments = [];
-
-    /**
      * @var \Frontastic\UserBundle\Domain\MetaData
      */
     public $metaData;

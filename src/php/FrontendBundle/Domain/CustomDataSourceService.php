@@ -23,7 +23,7 @@ class CustomDataSourceService implements Target
     {
         foreach ($updates as $update) {
             try {
-                $customDataSource = $this->customDataSourceGateway->getById($update['customDataSourceId']);
+                $customDataSource = $this->customDataSourceGateway->getEvenIfDeleted($update['customDataSourceId']);
             } catch (\OutOfBoundsException $e) {
                 $customDataSource = new CustomDataSource();
                 $customDataSource->customDataSourceId = $update['customDataSourceId'];
@@ -45,7 +45,6 @@ class CustomDataSourceService implements Target
         $customDataSource->icon = $data['icon'];
         $customDataSource->category = (!empty($data['category']) ? $data['category'] : 'General');
         $customDataSource->configurationSchema = (object)$data['configurationSchema'];
-        $customDataSource->environments = (object)$data['environments'];
         $customDataSource->metaData = (object)$data['metaData'];
         $customDataSource->isActive = (bool)$data['isActive'];
         $customDataSource->isDeleted = (bool)$data['isDeleted'];
