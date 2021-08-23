@@ -1,0 +1,11 @@
+{
+    "kameleoon_work_dir": "/tmp/kameleoon/php-client/",
+    "actions_configuration_refresh_interval": 60,
+    "debug_mode": false,
+    "cookie_options": {
+        "domain": "example.com",
+        "secure": true,
+        "http_only": false,
+        "samesite": false
+    }
+}

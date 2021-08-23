@@ -5,5 +5,3 @@ interface DataInterface
 {
     public function obtainFullPostTextLine();
 }
-
-?>

@@ -1,9 +1,11 @@
 <?php
-namespace Kameleoon\Exceptions;
+namespace Kameleoon\Exception;
 
-class ExperimentConfigurationNotFound extends \Exception
+use Exception;
+
+class CredentialsNotFound extends Exception
 {
-    public function __construct($message, $code = 0, \Exception $previous = null)
+    public function __construct($message, $code = 0, Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
@@ -13,5 +15,3 @@ class ExperimentConfigurationNotFound extends \Exception
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
 }
-
-?>

@@ -1,0 +1,18 @@
+{
+    "name": "kameleoon/kameleoon-sdk",
+    "versions": "2.0.7",
+    "description": "Kameleoon SDK PHP",
+    "keywords": ["kameleoon", "sdk"],
+    "license": "Apache-2.0",
+    "authors": [
+    {
+        "name": "Kameleoon",
+        "email": "mmunhurrun@kameleoon.com"
+    }
+    ],
+    "autoload": {
+      "psr-4": {
+        "Kameleoon\\": "src/"
+      }
+    }
+  }

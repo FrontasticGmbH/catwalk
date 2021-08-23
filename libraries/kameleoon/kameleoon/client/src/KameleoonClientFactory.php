@@ -5,10 +5,10 @@ class KameleoonClientFactory
 {
     private $clients = [];
 
-    public static function create($siteCode, $blocking = false, $configurationFilePath = "/etc/kameleoon/php-client.conf")
+    public static function create($siteCode, $blocking = false, $configurationFilePath = "/etc/kameleoon/client-php.json", $clientID = null, $clientSecret = null)
     {
         if (!in_array($siteCode, self::getInstance()->clients)) {
-            self::getInstance()->clients[$siteCode] = new KameleoonClientImpl($siteCode, $blocking, $configurationFilePath);
+            self::getInstance()->clients[$siteCode] = new KameleoonClientImpl($siteCode, $blocking, $configurationFilePath, $clientID, $clientSecret);
         }
         return self::getInstance()->clients[$siteCode];
     }
@@ -29,5 +29,3 @@ class KameleoonClientFactory
         return self::$_instance;
     }
 }
-
-?>

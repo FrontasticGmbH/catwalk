@@ -1,6 +1,8 @@
 <?php
 namespace Kameleoon\Data;
 
+use Kameleoon\KameleoonClientImpl;
+
 class Conversion implements DataInterface
 {
     private $goalId;
@@ -12,12 +14,11 @@ class Conversion implements DataInterface
         $this->goalId = $goalId;
         $this->revenue = $revenue == null ? 0 : $revenue;
         $this->negative = $negative == null ? false : $negative;
-        $this->nonce = \Kameleoon\KameleoonClientImpl::obtainNonce();
+        $this->nonce = KameleoonClientImpl::obtainNonce();
     }
 
-    public function obtainFullPostTextLine () {
+    public function obtainFullPostTextLine ()
+    {
         return "eventType=conversion&goalId=" . $this->goalId . "&revenue=" . $this->revenue . "&negative=" . $this->negative . "&nonce=" . $this->nonce;
     }
 }
-
-?>
