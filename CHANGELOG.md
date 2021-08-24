@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.15.3` (2021-08-24)
+
+* fix: wrap response in array only when there is actions
+* fix: Custom Data Source removed environments, undeleted filter, cleanup on Gateway
+* fix: CustomDataSource and Facet refactor to use the UserBundle MetaData object
+
 ## `1.15.2` (2021-08-19)
 
 * fix: server build failure if @frontastic/theme-boost doesn't exist in node_modules
