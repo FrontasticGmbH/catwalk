@@ -132,9 +132,7 @@ class MapAccountDataDecorator extends BaseImplementation
                 $rawApiInputData,
                 RawDataService::COMMERCETOOLS_ACCOUNT_FIELDS
             ),
-            [
-                $this->determineCustomFieldsAction($customFieldsData)
-            ]
+            $this->determineCustomFieldsAction($customFieldsData)
         );
     }
 
@@ -145,9 +143,11 @@ class MapAccountDataDecorator extends BaseImplementation
         }
 
         return [
+            [
             'action' => 'setCustomField',
             'name' => self::COMMERCETOOLS_CUSTOMER_TYPE_FIELD_NAME,
             'value' => json_encode($customFieldsData),
+            ]
         ];
     }
 

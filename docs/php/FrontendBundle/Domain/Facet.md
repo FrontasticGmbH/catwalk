@@ -13,7 +13,7 @@ Property|Type|Default|Required|Description
 `label` | `?array` |  | - | Translatable strings or null
 `urlIdentifier` | `string` |  | - | 
 `facetOptions` | `array` |  | - | 
-`metaData` | `\Frontastic\Catwalk\FrontendBundle\Domain\MetaData` |  | *Yes* | 
+`metaData` | `\Frontastic\UserBundle\Domain\MetaData` |  | *Yes* | 
 `isDeleted` | `bool` | `false` | *Yes* | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
