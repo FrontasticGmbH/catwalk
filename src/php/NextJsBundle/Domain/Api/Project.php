@@ -7,6 +7,7 @@ use Kore\DataObject\DataObject;
 
 /**
  * Stripped down version of {@link OriginalProject}.
+ * @type
  */
 class Project extends DataObject
 {

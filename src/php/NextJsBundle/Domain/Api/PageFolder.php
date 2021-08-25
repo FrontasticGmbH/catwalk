@@ -4,24 +4,28 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
 /**
  * @replaces Frontastic\Catwalk\FrontendBundle\Domain\Node
+ * @type
  */
 class PageFolder
 {
     /**
      * @replaces $nodeId.
      * @required
+     * @var string
      */
     public string $pageFolderId;
 
     /**
      * @replaces $isMaster
      * @required
+     * @var bool
      */
     public bool $isDynamic = false;
 
     /**
      * @replaces $nodeType
      * @required
+     * @var string
      */
     public string $pageFolderType = 'landingpage';
 
@@ -32,6 +36,7 @@ class PageFolder
 
     /**
      * @required
+     * @var array
      */
     public array $configuration = [];
 
@@ -42,11 +47,15 @@ class PageFolder
      */
     public array $dataSourceConfigurations = [];
 
+    /**
+     * @var string
+     */
     public string $name;
 
     /**
      * @replaces $path
      * @required
+     * @var string
      */
     public string $ancestorIdsMaterializedPath;
 

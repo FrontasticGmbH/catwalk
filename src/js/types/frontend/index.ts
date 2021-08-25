@@ -41,7 +41,7 @@ export interface Facet extends ProductProductApiFacetDefinition {
      label?: null | any;
      urlIdentifier?: string;
      facetOptions?: any;
-     metaData: any /* \Frontastic\Catwalk\FrontendBundle\Domain\MetaData */;
+     metaData: any /* \Frontastic\UserBundle\Domain\MetaData */;
      isDeleted: boolean;
 }
 
@@ -156,10 +156,11 @@ export interface Stream {
 
 export interface StreamContext {
      node: Node;
-     page: Page;
+     page: null | Page;
      context: ApiCoreContext;
      usingTastics: Tastic[];
      parameters: any;
+     request?: any;
 }
 
 export interface Tastic {

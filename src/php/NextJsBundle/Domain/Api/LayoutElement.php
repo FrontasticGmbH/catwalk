@@ -8,6 +8,7 @@ use Kore\DataObject\DataObject;
 
 /**
  * @replaces Frontastic\Catwalk\FrontendBundle\Domain\Cell
+ * @type
  */
 class LayoutElement extends DataObject
 {

@@ -18,7 +18,6 @@ Here you find the API documentation for the relevant classes:
     * [App](php/ApiCoreBundle/Domain/App.md)
     * App
       * [FeatureFlag](php/ApiCoreBundle/Domain/App/FeatureFlag.md)
-      * [Storefinder](php/ApiCoreBundle/Domain/App/Storefinder.md)
       * [Teaser](php/ApiCoreBundle/Domain/App/Teaser.md)
     * [AppDataTarget](php/ApiCoreBundle/Domain/AppDataTarget.md)
     * [AppRepository](php/ApiCoreBundle/Domain/AppRepository.md)
@@ -131,6 +130,28 @@ Here you find the API documentation for the relevant classes:
   * Routing
     * ObjectRouter
       * [ProductRouter](php/FrontendBundle/Routing/ObjectRouter/ProductRouter.md)
+* NextJsBundle
+  * Domain
+    * Api
+      * [ActionContext](php/NextJsBundle/Domain/Api/ActionContext.md)
+      * [ActionHandler](php/NextJsBundle/Domain/Api/ActionHandler.md)
+      * [Context](php/NextJsBundle/Domain/Api/Context.md)
+      * [DataSourceConfiguration](php/NextJsBundle/Domain/Api/DataSourceConfiguration.md)
+      * [DataSourceContext](php/NextJsBundle/Domain/Api/DataSourceContext.md)
+      * [DataSourceHandler](php/NextJsBundle/Domain/Api/DataSourceHandler.md)
+      * [DataSourceResult](php/NextJsBundle/Domain/Api/DataSourceResult.md)
+      * [DynamicPageContext](php/NextJsBundle/Domain/Api/DynamicPageContext.md)
+      * [DynamicPageHandler](php/NextJsBundle/Domain/Api/DynamicPageHandler.md)
+      * [DynamicPageRedirectResult](php/NextJsBundle/Domain/Api/DynamicPageRedirectResult.md)
+      * [DynamicPageResult](php/NextJsBundle/Domain/Api/DynamicPageResult.md)
+      * [DynamicPageSuccessResult](php/NextJsBundle/Domain/Api/DynamicPageSuccessResult.md)
+      * [LayoutElement](php/NextJsBundle/Domain/Api/LayoutElement.md)
+      * [Page](php/NextJsBundle/Domain/Api/Page.md)
+      * [PageFolder](php/NextJsBundle/Domain/Api/PageFolder.md)
+      * [Project](php/NextJsBundle/Domain/Api/Project.md)
+      * [Request](php/NextJsBundle/Domain/Api/Request.md)
+      * [Response](php/NextJsBundle/Domain/Api/Response.md)
+      * [Section](php/NextJsBundle/Domain/Api/Section.md)
 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

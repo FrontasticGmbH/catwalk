@@ -6,6 +6,7 @@ use Kore\DataObject\DataObject;
 
 /**
  * @replaces Frontastic\Catwalk\ApiCoreBundle\Domain\Context
+ * @type
  */
 class Context extends DataObject
 {
@@ -23,11 +24,13 @@ class Context extends DataObject
 
     /**
      * @required
+     * @var Project
      */
     public Project $project;
 
     /**
      * @required
+     * @var array
      * @todo complete data in PHP code so that $projectConfigurationSchema is not needed to be transmitted.
      */
     public array $projectConfiguration = [];
@@ -41,6 +44,7 @@ class Context extends DataObject
      * @required
      * @todo Needs to be the fully fledged locale encoded as a properly built locale string
      *       `language[_territory[.codeset]][@modifier]`
+     * @var string
      */
     public string $locale;
 
@@ -50,7 +54,7 @@ class Context extends DataObject
     // public $session = null;
 
     /**
-     * @var [string => bool]
+     * @var array<string, bool>
      */
     public array $featureFlags = [];
 

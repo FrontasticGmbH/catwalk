@@ -4,6 +4,9 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
 use Kore\DataObject\DataObject;
 
+/**
+ * @type
+ */
 class DataSourceResult extends DataObject
 {
     /**
@@ -11,7 +14,9 @@ class DataSourceResult extends DataObject
      *
      * Note: We might not de-serialize this in API hub.
      *
-     * @var mixed any JSON serializable value
+     * dataSourcePayload any JSON serializable value
+     *
+     * @var mixed
      */
     public object $dataSourcePayload;
 }

@@ -4,6 +4,9 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
 use Kore\DataObject\DataObject;
 
+/**
+ * @type
+ */
 class DynamicPageSuccessResult extends DataObject implements DynamicPageResult
 {
     /**
@@ -16,7 +19,9 @@ class DynamicPageSuccessResult extends DataObject implements DynamicPageResult
     /**
      * Payload for the main data source of the dynamic page.
      *
-     * @var mixed JSON serializable
+     * JSON serializable
+     *
+     * @var mixed
      */
     public $dataSourcePayload;
 

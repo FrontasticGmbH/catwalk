@@ -7,6 +7,7 @@ use Kore\DataObject\DataObject;
 
 /**
  * Stripped down version of {@link OriginalStream}.
+ * @type
  */
 class DataSourceConfiguration extends DataObject
 {
@@ -15,19 +16,19 @@ class DataSourceConfiguration extends DataObject
      * @var string
      * @required
      */
-    public $dataSourceId;
+    public string $dataSourceId;
 
     /**
      * @var string
      * @required
      */
-    public $type;
+    public string $type;
 
     /**
      * @var string
      * @required
      */
-    public $name;
+    public string $name;
 
     /**
      * @var array

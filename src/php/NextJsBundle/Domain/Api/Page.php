@@ -6,6 +6,7 @@ use Kore\DataObject\DataObject;
 
 /**
  * @replaces \Frontastic\Catwalk\FrontendBundle\Domain\Page
+ * @type
  */
 class Page extends DataObject
 {

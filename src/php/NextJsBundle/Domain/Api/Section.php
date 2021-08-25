@@ -8,6 +8,7 @@ use Kore\DataObject\DataObject;
 
 /**
  * @replaces Frontastic\Catwalk\FrontendBundle\Domain\Region
+ * @type
  */
 class Section extends DataObject
 {

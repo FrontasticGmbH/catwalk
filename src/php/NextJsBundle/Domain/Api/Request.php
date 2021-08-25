@@ -7,6 +7,7 @@ use Kore\DataObject\DataObject;
 /**
  * Request structure as used by Express.js version 4.x + Frontastic additions.
  * {@see https://expressjs.com/en/api.html#req}
+ * @type
  */
 class Request extends DataObject
 {
@@ -18,16 +19,29 @@ class Request extends DataObject
     public string $body;
 
     /**
-     * @var object <cookie-name> -> <cookie-value>
+     * <cookie-name> -> <cookie-value>
+     * @var array<string, string>
      */
     public object $cookies;
 
+    /**
+     * @var string
+     */
     public string $hostname;
 
+    /**
+     * @var string
+     */
     public string $method;
 
+    /**
+     * @var string
+     */
     public string $path;
 
+    /**
+     * @var string
+     */
     public object $query;
 
     // ... More properties as specified by Express.js API
