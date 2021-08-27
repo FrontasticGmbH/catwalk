@@ -24,16 +24,6 @@ class Kameleoon extends Tracker
     private $client;
 
     /**
-     * @var string
-     */
-    private $clientId;
-
-    /**
-     * @var string
-     */
-    private $clientSecret;
-
-    /**
      * @var int[]
      */
     private $goals = [];
@@ -60,10 +50,10 @@ class Kameleoon extends Tracker
         $this->client = KameleoonClientFactory::create(
             $project->configuration['abtesting']['siteCode'] ?? null,
             false,
-            $trackingConfigFile
+            $trackingConfigFile,
+            $project->configuration['abtesting']['clientId'] ?? null,
+            $project->configuration['abtesting']['clientSecret'] ?? null
         );
-        $this->clientId = $project->configuration['abtesting']['clientId'] ?? null;
-        $this->clientSecret = $project->configuration['abtesting']['clientSecret'] ?? null;
         $this->goals = [];
 
         if (!empty($project->configuration['abtesting']['goals'])) {
@@ -108,15 +98,15 @@ class Kameleoon extends Tracker
     public function shouldRunExperiment(string $experimentId): bool
     {
         try {
-            $experiment = $this->client->triggerExperiment($this->visitorCode, $experimentId, 1000);
+            $runVariation = $this->client->triggerExperiment($this->visitorCode, $experimentId, 1000);
         } catch (\Exception $e) {
             return false;
         }
 
-        // `reference` indicates we should run original – returns experiment ID
+        // `0` indicates we should run original – returns experiment ID
         // otherwise. Since we only support two-variant experiments for now
         // this results in boolean
-        return $experiment !== 'reference';
+        return (bool) $runVariation;
     }
 
     public function trackPageView(Context $context, string $pageType, ?string $path = null): void
