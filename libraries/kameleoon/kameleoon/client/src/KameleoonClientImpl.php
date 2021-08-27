@@ -648,7 +648,7 @@ class KameleoonClientImpl implements KameleoonClient
 
             $secure = false;
             $httpOnly = false;
-            $samesite = "None";
+            $samesite = "Lax";
             $domain = null;
 
             if (isset($this->cookieOptions["secure"])) {
