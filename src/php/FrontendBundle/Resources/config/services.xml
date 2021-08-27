@@ -696,5 +696,28 @@
 <!--            <argument key="$innerTemplateGuesser" type="service" id="Frontastic\Catwalk\FrontendBundle\Twig\FrontasticNodeViewFallbackTemplateGuesser.inner"/>-->
 <!--            <argument key="$twigLogger" type="service" id="logger" />-->
         </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Gateway\CustomDataSourceGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                             method="getRepository" />
+                    <argument>Frontastic\Catwalk\FrontendBundle\Domain\CustomDataSource</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Domain\CustomDataSourceService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\CustomDataSourceGateway" />
+        </service>
+
+        <service id="frontastic.catwalk.frontend_bundle.domain.customer_data_source.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\CustomDataSourceService" />
+            <argument>%frontastic.environment%</argument>
+
+            <tag name="endpoint.target" channel="custom_data_sources" />
+        </service>
+
     </services>
 </container>

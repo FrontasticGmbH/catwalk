@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Frontastic\Catwalk\FrontendBundle\Domain\CustomDataSource" table="custom_data_source">
+        <id name="customDataSourceId" column="c_id" type="string">
+            <generator strategy="NONE"/>
+        </id>
+
+        <field name="customDataSourceType" column="c_type" type="string" />
+        <field name="sequence" column="c_sequence" type="string" />
+        <field name="name" column="c_name" type="string" />
+        <field name="description" column="c_description" type="string" />
+        <field name="icon" column="c_icon" type="string" />
+        <field name="category" column="c_category" type="string" />
+        <field name="configurationSchema" column="c_configuration_schema" type="object" />
+        <field name="metaData" column="c_meta_data" type="object" />
+        <field name="isActive" column="c_is_active" type="boolean" />
+        <field name="isDeleted" column="c_is_deleted" type="boolean" />
+
+        <indexes>
+            <index columns="c_id"/>
+            <index columns="c_sequence"/>
+        </indexes>
+    </entity>
+</doctrine-mapping>

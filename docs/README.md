@@ -59,6 +59,8 @@ Here you find the API documentation for the relevant classes:
     * Commercetools
       * [RawDataService](php/FrontendBundle/Domain/Commercetools/RawDataService.md)
     * [Configuration](php/FrontendBundle/Domain/Configuration.md)
+    * [CustomDataSource](php/FrontendBundle/Domain/CustomDataSource.md)
+    * [CustomDataSourceService](php/FrontendBundle/Domain/CustomDataSourceService.md)
     * [EnabledFacetService](php/FrontendBundle/Domain/EnabledFacetService.md)
     * [Facet](php/FrontendBundle/Domain/Facet.md)
     * [FacetService](php/FrontendBundle/Domain/FacetService.md)
