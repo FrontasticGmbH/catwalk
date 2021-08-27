@@ -47,6 +47,7 @@ class Kameleoon extends Tracker
     public function __construct(Project $project, string $configDirectory)
     {
         $trackingConfigFile = $this->ensureConfigFile($project, $configDirectory);
+
         $this->client = KameleoonClientFactory::create(
             $project->configuration['abtesting']['siteCode'] ?? null,
             false,
@@ -54,8 +55,8 @@ class Kameleoon extends Tracker
             $project->configuration['abtesting']['clientId'] ?? null,
             $project->configuration['abtesting']['clientSecret'] ?? null
         );
-        $this->goals = [];
 
+        $this->goals = [];
         if (!empty($project->configuration['abtesting']['goals'])) {
             $this->goals = (object) $project->configuration['abtesting']['goals'];
         } elseif (!empty($project->configuration['abtesting']['mainGoal'])) {
@@ -72,7 +73,7 @@ class Kameleoon extends Tracker
 
     private function ensureConfigFile(Project $project, string $configDirectory): string
     {
-        $trackingConfigFile = $configDirectory . '/tracking.conf';
+        $trackingConfigFile = $configDirectory . '/tracking.json';
         $trackingWorkingDir = sprintf(
             '/var/cache/frontastic/%s_%s/tracking/',
             $project->customer,
@@ -80,15 +81,12 @@ class Kameleoon extends Tracker
         );
 
         if (!file_exists($trackingConfigFile) || !file_exists($trackingWorkingDir)) {
-            @mkdir($trackingWorkingDir, 0755, true);
-            @mkdir(dirname($trackingConfigFile), 0755, true);
-
             file_put_contents(
                 $trackingConfigFile,
-                sprintf(
-                    "kameleoon_work_dir = %s\nactions_configuration_refresh_interval = 60\n",
-                    $trackingWorkingDir
-                )
+                json_encode([
+                    'kameleoon_work_dir' => $trackingWorkingDir,
+                    'actions_configuration_refresh_interval' => 60,
+                ])
             );
         }
 
