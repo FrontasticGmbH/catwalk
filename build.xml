@@ -34,6 +34,7 @@
     -->
     <import file="${basedir}/src/ant/serve.xml" />
     <import file="${basedir}/src/ant/phpunit-feature.xml" />
+    <import file="${basedir}/src/ant/nextjs-types.xml" />
 
     <import file="${frontastic_basedir}/paas/integration/react.xml" />
     <import file="${frontastic_basedir}/paas/integration/symfony.xml" />
