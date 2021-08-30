@@ -96,6 +96,12 @@ export interface Request {
      sessionData?: any;
 }
 
+export interface Response {
+     statusCode?: string;
+     body?: string;
+     sessionData?: any;
+}
+
 export interface Section {
      sectionId: string;
      layoutElements?: LayoutElement[];

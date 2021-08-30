@@ -5,8 +5,8 @@
 {@see https://expressjs.com/en/api.html#res}
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
-`statusCode` | `` |  | - | 
-`body` | `` |  | - | 
+`statusCode` | `string` |  | - | 
+`body` | `string` |  | - | 
 `sessionData` | `object` |  | - | Frontastic session data to be written.
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
