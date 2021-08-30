@@ -20,7 +20,7 @@
             <arg value="${generatedTypeFile}" />
             <arg value="${targetTypeDirectory}/index.ts" />
         </exec>
-        <fail message="Types changed. Please update ${targetTypeDirectory}/index.ts by running ant nextjs-types:copy">
+        <fail message="Types changed. Please update ${targetTypeDirectory}/index.ts by running 'ant nextjs-types:copy' in paas/catwalk and make sure there are no backwards-compatibility breaking changes.">
             <condition>
                 <isfailure code="${return.code}" />
             </condition>
