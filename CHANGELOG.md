@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.16.2` (2021-08-30)
+
+* fix: fixed broken test on stream handler
+* fix: merged master parameters to stream parameters on handler
+
 ## `1.16.1` (2021-08-30)
 
 * Adapted: The configuration file now has to be a JSON
