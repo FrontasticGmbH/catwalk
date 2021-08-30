@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.16.1` (2021-08-30)
+
+* Adapted: The configuration file now has to be a JSON
+* [SDK fix]: secure = false and samesite = None is an invalid default cookie configuration
+* Adapted passing of credentials and check if we should run an experiment
+
 ## `1.16.0` (2021-08-26)
 
 * chore: bumped version required of frontastic/common to 2.17.0
