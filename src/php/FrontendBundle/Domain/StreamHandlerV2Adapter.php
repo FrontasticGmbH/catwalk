@@ -23,9 +23,11 @@ class StreamHandlerV2Adapter implements StreamHandlerV2
         return $this->innerHandler->handleAsync(
             $stream,
             $streamContext->context,
-            (isset($streamContext->request)
-                ? $this->extractParametersFor($streamContext->request, $stream)
-                : []
+            array_merge(
+                $streamContext->parameters,
+                isset($streamContext->request)
+                    ? $this->extractParametersFor($streamContext->request, $stream)
+                    : []
             )
         );
     }
