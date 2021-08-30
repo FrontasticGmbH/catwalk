@@ -248,6 +248,7 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
             $this->anything(),
             [
                 'search' => 'foobar',
+                'limit' => 12,
             ]
         );
 
