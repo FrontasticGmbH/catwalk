@@ -39,7 +39,6 @@ class PageDataCompletionService
                 }
             }
         }
-
     }
 
     private function completeTasticData(TasticInstance $tasticInstance, Node $node)
@@ -62,7 +61,7 @@ class PageDataCompletionService
 
         $tasticInstance->configuration = new TasticInstance\Configuration(
             array_merge(
-            $schema->getCompleteValues($this->fieldVisitor),
+                $schema->getCompleteValues($this->fieldVisitor),
                 $baseConfigurationBackup
             )
         );
