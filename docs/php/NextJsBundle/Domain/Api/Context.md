@@ -6,7 +6,7 @@
 
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
-`environment` | `string` | `'production'` | - | Result of {@link Frontastic\Catwalk\ApiCoreBundle\Domain\Context.applicationEnvironment()}
+`environment` | `int` | `'production'` | - | Result of {@link Frontastic\Catwalk\ApiCoreBundle\Domain\Context.applicationEnvironment()}
 `project` | [`Project`](Project.md) |  | *Yes* | 
 `projectConfiguration` | `array` | `[]` | *Yes* | 
 `locale` | `string` |  | *Yes* | 
