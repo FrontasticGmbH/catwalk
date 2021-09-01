@@ -7,7 +7,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldConfiguration;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
 
-class NodeUrlVisitor implements FieldVisitor
+class PageFolderUrlVisitor implements FieldVisitor
 {
     private SiteBuilderPageService $pageService;
 

@@ -8,7 +8,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Page;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\Tastic as TasticInstance;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticDefinition;
-use Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\NodeUrlVisitor;
+use Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\PageFolderUrlVisitor;
 use Frontastic\Common\SpecificationBundle\Domain\ConfigurationSchema;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
 

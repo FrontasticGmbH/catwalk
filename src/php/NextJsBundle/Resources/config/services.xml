@@ -44,7 +44,7 @@
             class="Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor\SequentialFieldVisitor"
         >
             <argument type="collection">
-                <argument type="service" id="Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\NodeUrlVisitor" />
+                <argument type="service" id="Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\PageFolderUrlVisitor" />
             </argument>
         </service>
 
