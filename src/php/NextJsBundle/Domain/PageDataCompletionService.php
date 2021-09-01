@@ -44,13 +44,23 @@ class PageDataCompletionService
             return;
         }
 
-        // TODO: Retain mobile, desktop, ... which are removed during completion
+        $baseConfigurationBackup = [
+            'mobile' => $tasticInstance->configuration->mobile,
+            'tablet' => $tasticInstance->configuration->tablet,
+            'desktop' => $tasticInstance->configuration->desktop,
+        ];
+
         $schema = ConfigurationSchema::fromSchemaAndConfiguration(
             $tasticDefinition->configurationSchema['schema'],
             (array)$tasticInstance->configuration
         );
 
-        \debug($schema->getCompleteValues($this->fieldVisitor));
+        $tasticInstance->configuration = new TasticInstance\Configuration(
+            array_merge(
+            $schema->getCompleteValues($this->fieldVisitor),
+                $baseConfigurationBackup
+            )
+        );
     }
 
     private function getTasticDefinition(string $tasticType): ?TasticDefinition
