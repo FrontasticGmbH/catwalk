@@ -48,7 +48,7 @@
             </argument>
         </service>
 
-        <service id="Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\NodeUrlVisitor"
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\PageFolderUrlVisitor"
              autowire="true"
              autoconfigure="true"
         />
