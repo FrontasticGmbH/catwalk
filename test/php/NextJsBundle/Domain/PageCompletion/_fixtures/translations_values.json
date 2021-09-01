@@ -1,0 +1,24 @@
+{
+    "_type": "Frontastic\\Catwalk\\FrontendBundle\\Domain\\Tastic\\Configuration",
+    "desktop": true,
+    "emptyText": "",
+    "fullTranslated": {
+        "de_CH": "German Swiss",
+        "de_LI": "German Liechtenstein",
+        "fr_CH": "French Swiss",
+        "it_CH": "Italian Swiss"
+    },
+    "mobile": true,
+    "nonTranslatableDefaultText": "I am Groot",
+    "nonTranslatableText": "Nothing here",
+    "partiallyTranslated": {
+        "de_CH": "German Swiss",
+        "it_CH": "Italian Swiss"
+    },
+    "tablet": true,
+    "translatableDefaultText": {
+        "de_CH": "I am Groot",
+        "de_LI": "I aaaaam Groot",
+        "it_CH": "Grootitiano"
+    }
+}

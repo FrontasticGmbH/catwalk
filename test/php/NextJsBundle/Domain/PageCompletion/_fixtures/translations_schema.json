@@ -1,0 +1,49 @@
+{
+    "tasticType": "frontastic/test/translation",
+    "name": "Translating",
+    "icon": "menu",
+    "schema": [
+        {
+            "name": "Some",
+            "fields": [
+                {
+                    "label": "A full translated text",
+                    "field": "fullTranslated",
+                    "type": "text"
+                },
+                {
+                    "label": "A partially tranlated text",
+                    "field": "partiallyTranslated",
+                    "type": "text"
+                },
+                {
+                    "label": "An empty text",
+                    "field": "emptyText",
+                    "type": "text"
+                },
+                {
+                    "label": "A translatable text with non-translatable default",
+                    "field": "nonTranslatableDefaultText",
+                    "type": "text",
+                    "default": "I am Groot"
+                },
+                {
+                    "label": "A translatable text with a translatable default",
+                    "field": "translatableDefaultText",
+                    "type": "text",
+                    "default": {
+                        "de_CH": "I am Groot",
+                        "de_LI": "I aaaaam Groot",
+                        "it_CH": "Grootitiano"
+                    }
+                },
+                {
+                    "label": "A non-translatable text",
+                    "field": "nonTranslatableText",
+                    "type": "text",
+                    "translatable": false
+                }
+            ]
+        }
+    ]
+}
