@@ -36,19 +36,10 @@
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper" />
 
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService"
-            autowire="true"
+             autowire="true"
              autoconfigure="true"
         />
-
-        <service id="Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor"
-            class="Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor\SequentialFieldVisitor"
-        >
-            <argument type="collection">
-                <argument type="service" id="Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\PageFolderUrlVisitor" />
-            </argument>
-        </service>
-
-        <service id="Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\PageFolderUrlVisitor"
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\FieldVisitorFactory"
              autowire="true"
              autoconfigure="true"
         />

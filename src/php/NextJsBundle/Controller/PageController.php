@@ -59,7 +59,7 @@ class PageController
         $node = $this->nodeService->get($nodeId);
         $page = $this->pageService->fetchForNode($node, $context);
 
-        $this->completionService->completePageData($page, $node);
+        $this->completionService->completePageData($page, $node, $context);
 
         return [
             'pageFolder' => $this->mapper->map($node),

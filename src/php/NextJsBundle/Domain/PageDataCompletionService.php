@@ -2,12 +2,14 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\Tastic as TasticInstance;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticDefinition;
+use Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\FieldVisitorFactory;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\PageFolderUrlVisitor;
 use Frontastic\Common\SpecificationBundle\Domain\ConfigurationSchema;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
@@ -16,15 +18,18 @@ class PageDataCompletionService
 {
     private TasticService $tasticService;
     private FieldVisitor $fieldVisitor;
+    private FieldVisitorFactory $fieldVisitorFactory;
 
-    public function __construct(TasticService $tasticService, FieldVisitor $fieldVisitor)
+    public function __construct(TasticService $tasticService, FieldVisitorFactory $fieldVisitorFactory)
     {
         $this->tasticService = $tasticService;
-        $this->fieldVisitor = $fieldVisitor;
+        $this->fieldVisitorFactory = $fieldVisitorFactory;
     }
 
-    public function completePageData(Page $page, Node $node)
+    public function completePageData(Page $page, Node $node, Context $context)
     {
+        $this->fieldVisitor = $this->fieldVisitorFactory->createVisitor($context);
+
         $this->tasticService->getTasticsMappedByType();
 
         foreach ($page->regions as $region) {
