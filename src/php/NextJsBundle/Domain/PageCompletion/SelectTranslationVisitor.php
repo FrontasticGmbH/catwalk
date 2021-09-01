@@ -29,5 +29,9 @@ class SelectTranslationVisitor implements FieldVisitor
         if (isset($value[$this->context->locale])) {
             return $value[$this->context->locale];
         }
+
+        if (isset($value[$this->context->project->defaultLanguage])) {
+            return $value[$this->context->project->defaultLanguage];
+        }
     }
 }

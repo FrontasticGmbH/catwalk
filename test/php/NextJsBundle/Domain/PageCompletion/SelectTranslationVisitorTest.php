@@ -34,6 +34,28 @@ class SelectTranslationVisitorTest extends TestCase
         $this->assertEquals('German Liechtenstein', $actualValues['fullTranslated']);
     }
 
+    public function testFallbackToDefaultLanguageWhenNotExists()
+    {
+        $visitor = new SelectTranslationVisitor(
+            $this->contextFixture('de_LI')
+        );
+
+        $actualValues = $this->schema->getCompleteValues($visitor);
+
+        $this->assertEquals('German Swiss', $actualValues['partiallyTranslated']);
+    }
+
+    public function testNonTranslatableValue()
+    {
+        $visitor = new SelectTranslationVisitor(
+            $this->contextFixture('de_LI')
+        );
+
+        $actualValues = $this->schema->getCompleteValues($visitor);
+
+        $this->assertEquals('I am Groot', $actualValues['nonTranslatableDefaultText']);
+    }
+
     /**
      * @return Context
      */
