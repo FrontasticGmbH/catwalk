@@ -7,6 +7,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
+use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -18,6 +19,7 @@ class PageController
     private FromFrontasticReactMapper $mapper;
     private NodeService $nodeService;
     private PageService $pageService;
+    private PageDataCompletionService $completionService;
     private ViewDataProvider $viewDataProvider;
 
     public function __construct(
@@ -25,11 +27,13 @@ class PageController
         FromFrontasticReactMapper $mapper,
         NodeService $nodeService,
         PageService $pageService,
+        PageDataCompletionService $completionService,
         ViewDataProvider $viewDataProvider
     ) {
         $this->siteBuilderPageService = $siteBuilderPageService;
         $this->nodeService = $nodeService;
         $this->pageService = $pageService;
+        $this->completionService = $completionService;
         $this->mapper = $mapper;
         $this->viewDataProvider = $viewDataProvider;
     }
@@ -54,6 +58,8 @@ class PageController
 
         $node = $this->nodeService->get($nodeId);
         $page = $this->pageService->fetchForNode($node, $context);
+
+        $this->completionService->completePageData($page, $node);
 
         return [
             'pageFolder' => $this->mapper->map($node),

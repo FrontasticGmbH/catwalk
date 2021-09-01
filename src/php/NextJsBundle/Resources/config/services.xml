@@ -35,6 +35,11 @@
 
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper" />
 
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService"
+            autowire="true"
+             autoconfigure="true"
+        />
+
         <service id="Frontastic\Catwalk\NextJsBundle\Routing\Loader" class="Frontastic\Catwalk\NextJsBundle\Routing\Loader">
             <tag name="routing.loader" />
         </service>

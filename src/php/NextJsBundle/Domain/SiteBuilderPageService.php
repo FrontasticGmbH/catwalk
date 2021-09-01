@@ -40,6 +40,15 @@ class SiteBuilderPageService
         return null;
     }
 
+    public function getPathsForSiteBuilderPage(string $nodeId): array
+    {
+        $pathMap = $this->getMapping()['nodeIdToPath'];
+        if (!isset($pathMap[$nodeId])) {
+            return [];
+        }
+        return $pathMap[$nodeId];
+    }
+
     private function getMapping(): array
     {
         if (isset($this->mapping)) {
