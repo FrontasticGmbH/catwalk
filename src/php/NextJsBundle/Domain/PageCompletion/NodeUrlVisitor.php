@@ -19,25 +19,29 @@ class NodeUrlVisitor implements FieldVisitor
     public function processField(FieldConfiguration $configuration, $value)
     {
         if ($value === null) {
-            return;
+            return $value;
         }
 
         if ($configuration->getType() === 'node') {
             return $this->createNodeRepresentation($value);
         }
+
         if ($configuration->getType() === 'reference' && isset($value['type']) && $value['type'] === 'node') {
             $value['target'] = $this->createNodeRepresentation($value['target']);
             return $value;
         }
+
+        // TODO: Tree data is delivered as `tasticFieldHandler` data extra so far, we should change that!
 
         return $value;
     }
 
     private function createNodeRepresentation(string $pageFolderId)
     {
+        // TODO: Create a (stripped down) represantion of a PageFolder here instead of just an array
         return [
             'pageFolderId' => $pageFolderId,
-            'urls' => $this->pageService->getPathsForSiteBuilderPage($pageFolderId),
+            '_urls' => $this->pageService->getPathsForSiteBuilderPage($pageFolderId),
         ];
     }
 }

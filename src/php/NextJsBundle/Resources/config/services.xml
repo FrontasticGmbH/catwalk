@@ -40,6 +40,19 @@
              autoconfigure="true"
         />
 
+        <service id="Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor"
+            class="Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor\SequentialFieldVisitor"
+        >
+            <argument type="collection">
+                <argument type="service" id="Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\NodeUrlVisitor" />
+            </argument>
+        </service>
+
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\NodeUrlVisitor"
+             autowire="true"
+             autoconfigure="true"
+        />
+
         <service id="Frontastic\Catwalk\NextJsBundle\Routing\Loader" class="Frontastic\Catwalk\NextJsBundle\Routing\Loader">
             <tag name="routing.loader" />
         </service>

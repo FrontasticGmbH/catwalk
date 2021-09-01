@@ -10,16 +10,17 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Tastic as TasticInstance;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticDefinition;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\NodeUrlVisitor;
 use Frontastic\Common\SpecificationBundle\Domain\ConfigurationSchema;
+use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
 
 class PageDataCompletionService
 {
     private TasticService $tasticService;
-    private SiteBuilderPageService $pageService;
+    private FieldVisitor $fieldVisitor;
 
-    public function __construct(TasticService $tasticService, SiteBuilderPageService $pageService)
+    public function __construct(TasticService $tasticService, FieldVisitor $fieldVisitor)
     {
         $this->tasticService = $tasticService;
-        $this->pageService = $pageService;
+        $this->fieldVisitor = $fieldVisitor;
     }
 
     public function completePageData(Page $page, Node $node)
@@ -49,9 +50,7 @@ class PageDataCompletionService
             (array)$tasticInstance->configuration
         );
 
-        $urlVisitor = new NodeUrlVisitor($this->pageService);
-
-        \debug($schema->getCompleteValues($urlVisitor));
+        \debug($schema->getCompleteValues($this->fieldVisitor));
     }
 
     private function getTasticDefinition(string $tasticType): ?TasticDefinition
