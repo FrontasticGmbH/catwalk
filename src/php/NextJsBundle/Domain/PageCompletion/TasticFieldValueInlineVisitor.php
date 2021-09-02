@@ -7,7 +7,8 @@ use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldConfiguration;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
 
 /**
- * NOTE: This could actually be done directly in {@link TasticFieldService}, but we don't do it there for BC reasons with Frontastic React.
+ * NOTE: This could actually be done directly in {@link TasticFieldService}, but we don't do it there for BC
+ * reasons with Frontastic React.
  */
 class TasticFieldValueInlineVisitor implements FieldVisitor
 {

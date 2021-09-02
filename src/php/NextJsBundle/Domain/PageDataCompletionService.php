@@ -43,8 +43,12 @@ class PageDataCompletionService
         }
     }
 
-    private function completeTasticData(TasticInstance $tasticInstance, Node $node, Context $context, object $tasticFieldData)
-    {
+    private function completeTasticData(
+        TasticInstance $tasticInstance,
+        Node $node,
+        Context $context,
+        object $tasticFieldData
+    ) {
         $tasticDefinition = $this->getTasticDefinition($tasticInstance->tasticType);
         if ($tasticDefinition === null) {
             return;
@@ -67,7 +71,6 @@ class PageDataCompletionService
             $context,
             ($tasticFieldData->$tasticInstanceId ?? [])
         );
-
 
         $tasticInstance->configuration = new TasticInstance\Configuration(
             array_merge(
