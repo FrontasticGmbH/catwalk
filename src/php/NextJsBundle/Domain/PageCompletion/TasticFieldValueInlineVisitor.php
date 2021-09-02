@@ -27,6 +27,9 @@ class TasticFieldValueInlineVisitor implements FieldVisitor
             }
             $fieldData = $fieldData[$fieldPathElement];
         }
-        return $fieldData;
+        return [
+            'studioValue' => $value,
+            'handledValue' => $fieldData,
+        ];
     }
 }

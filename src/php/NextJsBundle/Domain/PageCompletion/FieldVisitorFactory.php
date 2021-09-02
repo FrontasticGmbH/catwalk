@@ -18,6 +18,7 @@ class FieldVisitorFactory
     public function createVisitor(Context $context, array $tasticFieldData)
     {
         return new SequentialFieldVisitor([
+            // IMPORTANT: TasticFieldHandler must be called before PageFolderUrl!
             new TasticFieldValueInlineVisitor($tasticFieldData),
             new PageFolderUrlVisitor($this->pageService),
             new SelectTranslationVisitor($context),
