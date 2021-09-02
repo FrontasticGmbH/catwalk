@@ -15,7 +15,7 @@ class SelectTranslationVisitor implements FieldVisitor
         $this->context = $context;
     }
 
-    public function processField(FieldConfiguration $configuration, $value)
+    public function processField(FieldConfiguration $configuration, $value, array $fieldPath)
     {
         if (!$configuration->isTranslatable()) {
             return $value;

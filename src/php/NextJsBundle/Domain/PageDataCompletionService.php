@@ -17,7 +17,6 @@ use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
 class PageDataCompletionService
 {
     private TasticService $tasticService;
-    private FieldVisitor $fieldVisitor;
     private FieldVisitorFactory $fieldVisitorFactory;
 
     public function __construct(TasticService $tasticService, FieldVisitorFactory $fieldVisitorFactory)
@@ -26,22 +25,25 @@ class PageDataCompletionService
         $this->fieldVisitorFactory = $fieldVisitorFactory;
     }
 
-    public function completePageData(Page $page, Node $node, Context $context)
+    public function completePageData(Page $page, Node $node, Context $context, object $tasticFieldData)
     {
-        $this->fieldVisitor = $this->fieldVisitorFactory->createVisitor($context);
-
         $this->tasticService->getTasticsMappedByType();
 
         foreach ($page->regions as $region) {
             foreach ($region->elements as $element) {
                 foreach ($element->tastics as $tasticInstance) {
-                    $this->completeTasticData($tasticInstance, $node);
+                    $this->completeTasticData(
+                        $tasticInstance,
+                        $node,
+                        $context,
+                        $tasticFieldData
+                    );
                 }
             }
         }
     }
 
-    private function completeTasticData(TasticInstance $tasticInstance, Node $node)
+    private function completeTasticData(TasticInstance $tasticInstance, Node $node, Context $context, object $tasticFieldData)
     {
         $tasticDefinition = $this->getTasticDefinition($tasticInstance->tasticType);
         if ($tasticDefinition === null) {
@@ -59,9 +61,17 @@ class PageDataCompletionService
             (array)$tasticInstance->configuration
         );
 
+        $tasticInstanceId = $tasticInstance->tasticId;
+
+        $fieldVisitor = $this->fieldVisitorFactory->createVisitor(
+            $context,
+            ($tasticFieldData->$tasticInstanceId ?? [])
+        );
+
+
         $tasticInstance->configuration = new TasticInstance\Configuration(
             array_merge(
-                $schema->getCompleteValues($this->fieldVisitor),
+                $schema->getCompleteValues($fieldVisitor),
                 $baseConfigurationBackup
             )
         );

@@ -59,13 +59,15 @@ class PageController
         $node = $this->nodeService->get($nodeId);
         $page = $this->pageService->fetchForNode($node, $context);
 
-        $this->completionService->completePageData($page, $node, $context);
+        $pageViewData = $this->viewDataProvider->fetchDataFor($node, $context, [], $page);
+
+        $this->completionService->completePageData($page, $node, $context, $pageViewData->tastic);
 
         return [
             'pageFolder' => $this->mapper->map($node),
             'page' => $this->mapper->map($page),
             // Stream parameters is deprecated
-            'data' => $this->mapper->map($this->viewDataProvider->fetchDataFor($node, $context, [], $page)),
+            'data' => $this->mapper->map($pageViewData),
         ];
     }
 }

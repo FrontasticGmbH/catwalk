@@ -16,7 +16,7 @@ class PageFolderUrlVisitor implements FieldVisitor
         $this->pageService = $pageService;
     }
 
-    public function processField(FieldConfiguration $configuration, $value)
+    public function processField(FieldConfiguration $configuration, $value, array $fieldPath)
     {
         if ($value === null) {
             return $value;
