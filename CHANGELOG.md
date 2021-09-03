@@ -1,5 +1,19 @@
 # catwalk Changelog
 
+## `1.17.0` (2021-09-03)
+
+* fix: Do not remove tastic prop for translatable tastics
+* feat(fp-935-polish): Typed structures for reference & tree + proper tree handling.
+* feat(FP-935): Inline handled tastic field values.
+* feat(fp-935): Completed translation visitor.
+* feat(fp-935): Implemented most simple language selection.
+* feat(fp-935): Create visitors through a factory to get the Context.
+* feat(fp-935): Actually update tastic configuration after completion.
+* feat(fp-935): FIXUP
+* feat(fp-935): Renamed NodeUrlVisitor to PageFolderUrlVisitor.
+* feat(fp-935): Inject the configuration visitors.
+* feat(fp-935): First draft of completing URLs into tastic config.
+
 ## `1.16.2` (2021-08-30)
 
 * fix: fixed broken test on stream handler
