@@ -109,6 +109,9 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
     if (!configuration.connect.page) {
         delete props.page
     }
+
+    // The withTranslatedTasticData function requires the tastic schema, loaded
+    // from the tastic prop. Therefore it must be made available as a prop.
     if (!configuration.connect.tastic && !configuration.translate) {
         delete props.tastic
     }
