@@ -109,7 +109,7 @@ const filterPropsForConfiguration = (configuration, originalProps) => {
     if (!configuration.connect.page) {
         delete props.page
     }
-    if (!configuration.connect.tastic) {
+    if (!configuration.connect.tastic && !configuration.translate) {
         delete props.tastic
     }
 
