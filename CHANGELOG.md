@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.17.1` (2021-09-06)
+
+* fix(FP-926): Error page data is not filtered by JsonSerializer.
+
 ## `1.17.0` (2021-09-03)
 
 * fix: Do not remove tastic prop for translatable tastics
