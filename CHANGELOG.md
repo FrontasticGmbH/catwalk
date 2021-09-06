@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.18.0` (2021-09-06)
+
+* fix: set header type on nextjs Action Controller response
+* feat(FP-953): Add name to PageFolder representations.
+
 ## `1.17.1` (2021-09-06)
 
 * fix(FP-926): Error page data is not filtered by JsonSerializer.
