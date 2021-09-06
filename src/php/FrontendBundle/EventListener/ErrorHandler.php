@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\ErrorHandler\ErrorNodeRenderer;
+use Frontastic\Common\JsonSerializer;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\EventListener\ErrorListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -35,6 +36,8 @@ class ErrorHandler implements EventSubscriberInterface
      */
     private $errorNodeRenderer;
 
+    private JsonSerializer $jsonSerializer;
+
     /**
      * @var \Psr\Log\LoggerInterface
      */
@@ -43,11 +46,13 @@ class ErrorHandler implements EventSubscriberInterface
     public function __construct(
         ContextService $contextService,
         ErrorNodeRenderer $errorNodeRenderer,
+        JsonSerializer $jsonSerializer,
         LoggerInterface $logger
     ) {
         $this->contextService = $contextService;
         $this->errorNodeRenderer = $errorNodeRenderer;
         $this->logger = $logger;
+        $this->jsonSerializer = $jsonSerializer;
     }
 
     public function getResponseForErrorEvent(ExceptionEvent $event)
@@ -84,9 +89,11 @@ class ErrorHandler implements EventSubscriberInterface
             );
         } else {
             $response = new JsonResponse(
-                $this->errorNodeRenderer->getViewData(
-                    $context,
-                    $event->getThrowable()
+                $this->jsonSerializer->serialize(
+                    $this->errorNodeRenderer->getViewData(
+                        $context,
+                        $event->getThrowable()
+                    ),
                 ),
                 $this->getStatusCode($event)
             );
