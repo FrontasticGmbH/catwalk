@@ -12,13 +12,15 @@ use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldConfiguration;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
 
-class PageFolderUrlVisitor implements FieldVisitor
+class PageFolderCompletionVisitor implements FieldVisitor
 {
     private SiteBuilderPageService $pageService;
+    private NodeService $nodeService;
 
-    public function __construct(SiteBuilderPageService $pageService)
+    public function __construct(SiteBuilderPageService $pageService, NodeService $nodeService)
     {
         $this->pageService = $pageService;
+        $this->nodeService = $nodeService;
     }
 
     public function processField(FieldConfiguration $configuration, $value, array $fieldPath)
@@ -58,9 +60,11 @@ class PageFolderUrlVisitor implements FieldVisitor
 
     private function createNodeRepresentation(string $pageFolderId): PageFolderValue
     {
+        $node = $this->nodeService->get($pageFolderId);
+
         return new PageFolderValue([
             'pageFolderId' => $pageFolderId,
-            // TODO: We also need the name!
+            'name' => $node->name,
             '_urls' => $this->pageService->getPathsForSiteBuilderPage($pageFolderId),
         ]);
     }
