@@ -50,6 +50,7 @@ class ActionController
 
         // TODO: Extract and complete mapping
         $response = new SymfonyResponse();
+        $response->headers->add(['Content-Type' => 'application/json']);
         if (isset($apiResponse['statusCode'])) {
             $response->setStatusCode($apiResponse['statusCode']);
         }
