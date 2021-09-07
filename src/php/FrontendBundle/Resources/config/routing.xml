@@ -217,11 +217,4 @@
     <route id="Frontastic.WishlistApi.Wishlist.checkout" path="/api/cart/wishlist/checkout" methods="POST">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\WishlistController::checkoutAction</default>
     </route>
-
-    <route id="Frontastic.Frontend.Assets.deliver" path="/assets/{type}/{file}" methods="GET">
-        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AssetController::deliverAction</default>
-
-        <requirement key="type">css|js</requirement>
-        <requirement key="file">[a-z0-9~.]+</requirement>
-    </route>
 </routes>
