@@ -8,33 +8,33 @@ const initialState = {
 
 const detectingReducer = (state = initialState, action) => {
     switch (action.type) {
-    case 'Frontastic.RenderContext.ClientSideDetected':
-        return {
-            ...state,
-            serverSideRendering: false,
-        }
-    case 'Frontastic.RenderContext.UserAgentDetected':
-        return renderContextWithDeviceType({
-            ...state,
-            userAgent: action.userAgent,
-        })
-    case 'Frontastic.RenderContext.ViewportDimensionChanged':
-        return renderContextWithDeviceType({
-            ...state,
-            viewportDimension: action.viewportDimension,
-        })
-    case 'ApiBundle.Api.context.success':
-        if (!action.data || !action.data.project || !action.data.project.data || !action.data.project.data.layout) {
-            // eslint-disable-next-line no-console
-            console.warn('Frontastic needs the breakpoints configured in project.yml')
+        case 'Frontastic.RenderContext.ClientSideDetected':
+            return {
+                ...state,
+                serverSideRendering: false,
+            }
+        case 'Frontastic.RenderContext.UserAgentDetected':
+            return renderContextWithDeviceType({
+                ...state,
+                userAgent: action.userAgent,
+            })
+        case 'Frontastic.RenderContext.ViewportDimensionChanged':
+            return renderContextWithDeviceType({
+                ...state,
+                viewportDimension: action.viewportDimension,
+            })
+        case 'ApiBundle.Api.context.success':
+            if (!action.data || !action.data.project || !action.data.project.data || !action.data.project.data.layout) {
+                // eslint-disable-next-line no-console
+                console.warn('Frontastic needs the breakpoints configured in project.yml')
+                return state
+            }
+            return {
+                ...state,
+                breakpoints: action.data.project.data.layout.breakpoints,
+            }
+        default:
             return state
-        }
-        return {
-            ...state,
-            breakpoints: action.data.project.data.layout.breakpoints,
-        }
-    default:
-        return state
     }
 }
 
@@ -72,7 +72,9 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
             }
 
             if (breakpoint.userAgentRegexp) {
-                const regexp = new RegExp(breakpoint.userAgentRegexp, breakpoint.userAgentRegexpModifiers)
+                // regex string in form of /(Android|webOS|iPhone|...)/i must be passed to RegExp constructor without slashes (/)
+                let regexpParts = breakpoint.userAgentRegexp.split("/")
+                const regexp = new RegExp(regexpParts[1], regexpParts[2] || breakpoint.userAgentRegexpModifiers)
                 return renderContext.userAgent.match(regexp) ? breakpoint : matchedBreakpoint
             }
 
