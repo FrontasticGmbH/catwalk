@@ -72,7 +72,9 @@ const detectDeviceTypeByRenderContext = (renderContext) => {
             }
 
             if (breakpoint.userAgentRegexp) {
-                const regexp = new RegExp(breakpoint.userAgentRegexp, breakpoint.userAgentRegexpModifiers)
+                // regex string in form of /(Android|webOS|iPhone|...)/i must be passed to RegExp constructor without slashes (/)
+                let regexpParts = breakpoint.userAgentRegexp.split("/")
+                const regexp = new RegExp(regexpParts[1], regexpParts[2] || breakpoint.userAgentRegexpModifiers)
                 return renderContext.userAgent.match(regexp) ? breakpoint : matchedBreakpoint
             }
 
