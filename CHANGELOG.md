@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.18.1` (2021-09-07)
+
+* fix: remove deviceType desktop flash on phone due to RegExp bug on UserAgent string
+* chore: Delivier assets during a roll out
+
 ## `1.18.0` (2021-09-06)
 
 * fix: set header type on nextjs Action Controller response
