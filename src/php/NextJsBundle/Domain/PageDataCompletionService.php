@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
+use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\Tastic as TasticInstance;
@@ -17,15 +18,28 @@ use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
 class PageDataCompletionService
 {
     private TasticService $tasticService;
+    private NodeService $nodeService;
     private FieldVisitorFactory $fieldVisitorFactory;
 
-    public function __construct(TasticService $tasticService, FieldVisitorFactory $fieldVisitorFactory)
-    {
+    public function __construct(
+        TasticService $tasticService,
+        NodeService $nodeService,
+        FieldVisitorFactory $fieldVisitorFactory
+    ) {
         $this->tasticService = $tasticService;
         $this->fieldVisitorFactory = $fieldVisitorFactory;
+        $this->nodeService = $nodeService;
     }
 
-    public function completePageData(Page $page, Node $node, Context $context, object $tasticFieldData)
+    public function completeNodeData(Node $node, Context $context): void
+    {
+        $this->nodeService->completeCustomNodeData(
+            $node,
+            $this->fieldVisitorFactory->createNodeDataVisitor($context)
+        );
+    }
+
+    public function completePageData(Page $page, Node $node, Context $context, object $tasticFieldData): void
     {
         $this->tasticService->getTasticsMappedByType();
 
@@ -67,7 +81,7 @@ class PageDataCompletionService
 
         $tasticInstanceId = $tasticInstance->tasticId;
 
-        $fieldVisitor = $this->fieldVisitorFactory->createVisitor(
+        $fieldVisitor = $this->fieldVisitorFactory->createTasticDataVisitor(
             $context,
             ($tasticFieldData->$tasticInstanceId ?? [])
         );

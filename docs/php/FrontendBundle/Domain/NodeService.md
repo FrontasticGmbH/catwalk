@@ -15,13 +15,15 @@
 * [get()](#get)
 * [store()](#store)
 * [remove()](#remove)
+* [completeCustomNodeData()](#completecustomnodedata)
 
 ### __construct()
 
 ```php
 public function __construct(
     \Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway $nodeGateway,
-    RouteService $routeService
+    RouteService $routeService,
+    SchemaService $schemaService
 ): mixed
 ```
 
@@ -29,6 +31,7 @@ Argument|Type|Default|Description
 --------|----|-------|-----------
 `$nodeGateway`|`\Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway`||
 `$routeService`|[`RouteService`](RouteService.md)||
+`$schemaService`|[`SchemaService`](SchemaService.md)||
 
 Return Value: `mixed`
 
@@ -148,5 +151,23 @@ Argument|Type|Default|Description
 `$node`|[`Node`](Node.md)||
 
 Return Value: `void`
+
+### completeCustomNodeData()
+
+```php
+public function completeCustomNodeData(
+    Node $node,
+    ?\Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor $fieldVisitor = null
+): Node
+```
+
+*TODO: Call this automatically when a node is loaded to have Frontastic React benefit from it, too!*
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$node`|[`Node`](Node.md)||
+`$fieldVisitor`|`?\Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor`|`null`|
+
+Return Value: [`Node`](Node.md)
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

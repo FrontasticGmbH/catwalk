@@ -40,7 +40,7 @@ class Request extends DataObject
     public string $path;
 
     /**
-     * @var string
+     * @var object
      */
     public object $query;
 

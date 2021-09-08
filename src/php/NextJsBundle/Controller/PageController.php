@@ -53,10 +53,12 @@ class PageController
         );
 
         if ($nodeId === null) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException('Could not resolve page from path');
         }
 
         $node = $this->nodeService->get($nodeId);
+        $this->completionService->completeNodeData($node, $context);
+
         $page = $this->pageService->fetchForNode($node, $context);
 
         $pageViewData = $this->viewDataProvider->fetchDataFor($node, $context, [], $page);

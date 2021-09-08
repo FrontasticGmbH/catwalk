@@ -62,6 +62,7 @@
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\SchemaService" />
         </service>
 
         <service id="frontastic.catwalk.frontend_bundle.domain.node.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">

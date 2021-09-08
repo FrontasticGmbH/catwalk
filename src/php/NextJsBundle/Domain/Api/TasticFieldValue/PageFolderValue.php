@@ -10,6 +10,8 @@ class PageFolderValue extends DataObject
 
     public string $name;
 
+    public object $configuration;
+
     // phpcs:disable
     public array $_urls;
     // phpcs:enable

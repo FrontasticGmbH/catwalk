@@ -16,11 +16,16 @@ class PageFolderCompletionVisitor implements FieldVisitor
 {
     private SiteBuilderPageService $pageService;
     private NodeService $nodeService;
+    private FieldVisitorFactory $fieldVisitorFactory;
 
-    public function __construct(SiteBuilderPageService $pageService, NodeService $nodeService)
-    {
+    public function __construct(
+        SiteBuilderPageService $pageService,
+        NodeService $nodeService,
+        FieldVisitorFactory $fieldVisitorFactory
+    ) {
         $this->pageService = $pageService;
         $this->nodeService = $nodeService;
+        $this->fieldVisitorFactory = $fieldVisitorFactory;
     }
 
     public function processField(FieldConfiguration $configuration, $value, array $fieldPath)
@@ -61,10 +66,12 @@ class PageFolderCompletionVisitor implements FieldVisitor
     private function createNodeRepresentation(string $pageFolderId): PageFolderValue
     {
         $node = $this->nodeService->get($pageFolderId);
+        $node = $this->nodeService->completeCustomNodeData($node, $this->fieldVisitorFactory->createNodeDataVisitor());
 
         return new PageFolderValue([
             'pageFolderId' => $pageFolderId,
             'name' => $node->name,
+            'configuration' => (object)$node->configuration,
             '_urls' => $this->pageService->getPathsForSiteBuilderPage($pageFolderId),
         ]);
     }
@@ -83,9 +90,12 @@ class PageFolderCompletionVisitor implements FieldVisitor
 
     private function generateTreeRecursive(Node $node, ?int $requestedDepth): PageFolderTreeValue
     {
+        $node = $this->nodeService->completeCustomNodeData($node);
+
         $treeValue = new PageFolderTreeValue([
             'pageFolderId' => $node->nodeId,
             'name' => $node->name,
+            'configuration' => (object)$node->configuration,
             'requestedDepth' => $requestedDepth,
             '_urls' => $this->pageService->getPathsForSiteBuilderPage($node->nodeId),
         ]);

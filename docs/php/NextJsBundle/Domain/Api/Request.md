@@ -12,7 +12,7 @@ Property|Type|Default|Required|Description
 `hostname` | `string` |  | - | 
 `method` | `string` |  | - | 
 `path` | `string` |  | - | 
-`query` | `string` |  | - | 
+`query` | `object` |  | - | 
 `sessionData` | `object` |  | - | Frontastic session data.
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
