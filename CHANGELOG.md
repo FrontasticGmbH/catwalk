@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.19.0` (2021-09-08)
+
+* feat: Also complete node configuration for Next.js.
+* fix: Type information on Request::query.
+
 ## `1.18.1` (2021-09-07)
 
 * fix: remove deviceType desktop flash on phone due to RegExp bug on UserAgent string
