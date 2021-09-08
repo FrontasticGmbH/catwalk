@@ -53,7 +53,7 @@ class PageController
         );
 
         if ($nodeId === null) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException('Could not resolve page from path');
         }
 
         $node = $this->nodeService->get($nodeId);
