@@ -19,7 +19,7 @@ function getCustomerOverrides () {
         data = removeCommentedCode(data)
         // match "ComponentInjector.set({string}{any nummber of spaces},", pick out string, remove quotes
         return [...data.matchAll(/(ComponentInjector.set\(('|`|")[A-Za-z0-9]+('|`|")\s*,)/g)]
-            .map(res => res[0].match(/'[A-Za-z0-9]+'/)[0])
+            .map(res => res[0].match(/('|`|")[A-Za-z0-9]+('|`|")/)[0])
             .map(res => res.substring(1, res.length - 1))
     }
     return []
@@ -43,7 +43,7 @@ function getInjectorReturnExports (filePath) {
         // match all exports of "ComponentInjector.return({string}," with any negligable spaces, pick out string
         // then map to object array with sting contexts and filepath
         return [...data.matchAll(/(export \s*(default)?\s*ComponentInjector.return\(('|`|")[A-Za-z0-9]+('|`|")\s*,)/g)]
-            .map(res => res[0].match(/'[A-Za-z0-9]+'/)[0])
+            .map(res => res[0].match(/('|`|")[A-Za-z0-9]+('|`|")/)[0])
             .map(res => ({
                 componentString: res.substring(1, res.length - 1),
                 location: filePath,
@@ -185,7 +185,12 @@ function overwriteInjectionReplacedComponents (PRODUCTION, componentInjectorAlia
     }
     else {
         if (customerOverrides.length !== 0) {
-            console.info(`Injector component${customerOverrides.length !== 1 ? "s" : ""} ${customerOverrides} will be replaced with your injector overrides in production.`)
+            let formattedOverrides = customerOverrides[0]
+            if (customerOverrides.length > 1) {
+                let lastOverride = customerOverrides.splice(customerOverrides.length - 2, 1)
+                formattedOverrides = `${customerOverrides.join(", ")} and ${lastOverride[0]}`
+            }
+            console.info(`Injector component${customerOverrides.length !== 1 ? "s" : ""} ${formattedOverrides} will be replaced with your injector overrides in production.`)
         }
     }
 }
