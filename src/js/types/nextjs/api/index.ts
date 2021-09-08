@@ -92,7 +92,7 @@ export interface Request {
      hostname?: string;
      method?: string;
      path?: string;
-     query?: string;
+     query?: any;
      sessionData?: any;
 }
 

@@ -10,6 +10,7 @@
 * [lastUpdate()](#lastupdate)
 * [replicate()](#replicate)
 * [decorate()](#decorate)
+* [completeNodeData()](#completenodedata)
 
 ### __construct()
 
@@ -60,5 +61,21 @@ Argument|Type|Default|Description
 `$context`|[`Context`](../../ApiCoreBundle/Domain/Context.md)||
 
 Return Value: [`Context`](../../ApiCoreBundle/Domain/Context.md)
+
+### completeNodeData()
+
+```php
+public function completeNodeData(
+    Node $node,
+    ?\Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor $fieldVisitor = null
+): void
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$node`|[`Node`](Node.md)||
+`$fieldVisitor`|`?\Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor`|`null`|
+
+Return Value: `void`
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
