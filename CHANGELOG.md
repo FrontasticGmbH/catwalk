@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.19.1` (2021-09-08)
+
+* fix: ComponentInjector overrides regex not recognising all string formats
+
 ## `1.19.0` (2021-09-08)
 
 * feat: Also complete node configuration for Next.js.
