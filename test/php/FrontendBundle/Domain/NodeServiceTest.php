@@ -21,12 +21,22 @@ class NodeServiceTest extends \PHPUnit\Framework\TestCase
      */
     private $routeServiceMock;
 
+    /**
+     * @var SchemaService
+     */
+    private $schemaServiceMock;
+
     public function setUp(): void
     {
         $this->nodeGatewayMock = \Phake::mock(NodeGateway::class);
         $this->routeServiceMock = \Phake::mock(RouteService::class);
+        $this->schemaServiceMock = \Phake::mock(SchemaService::class);
 
-        $this->nodeService = new NodeService($this->nodeGatewayMock, $this->routeServiceMock);
+        $this->nodeService = new NodeService(
+            $this->nodeGatewayMock,
+            $this->routeServiceMock,
+            $this->schemaServiceMock
+        );
     }
 
     public function testReplicateDeleteWhenExists()
