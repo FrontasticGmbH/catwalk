@@ -6,6 +6,8 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextDecorator;
 use Frontastic\Catwalk\FrontendBundle\Gateway\SchemaGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
+use Frontastic\Common\SpecificationBundle\Domain\ConfigurationSchema;
+use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
 
 class SchemaService implements Target, ContextDecorator
 {
@@ -47,6 +49,22 @@ class SchemaService implements Target, ContextDecorator
             $context->projectConfigurationSchema = $projectConfigurationSchema->getSchemaConfiguration();
         }
         return $context;
+    }
+
+    public function completeNodeData(Node $node, ?FieldVisitor $fieldVisitor = null): void
+    {
+        // TODO: Cache!
+        $nodeSchema = $this->schemaGateway->getSchemaOfType(Schema::TYPE_NODE_CONFIGURATION);
+        if ($nodeSchema === null) {
+            return;
+        }
+
+        $configuration = ConfigurationSchema::fromSchemaAndConfiguration(
+            $schema = $nodeSchema->schema['schema'] ?? [],
+            $node->configuration
+        );
+
+        $node->configuration = $configuration->getCompleteValues($fieldVisitor);
     }
 
     private function fill(Schema $schema, array $data): Schema

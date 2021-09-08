@@ -57,6 +57,8 @@ class PageController
         }
 
         $node = $this->nodeService->get($nodeId);
+        $this->completionService->completeNodeData($node, $context);
+
         $page = $this->pageService->fetchForNode($node, $context);
 
         $pageViewData = $this->viewDataProvider->fetchDataFor($node, $context, [], $page);

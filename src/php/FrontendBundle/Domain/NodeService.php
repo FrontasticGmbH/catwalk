@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 
 use Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway;
+use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
 
 class NodeService implements Target
 {
@@ -18,10 +19,13 @@ class NodeService implements Target
      */
     private $routeService;
 
-    public function __construct(NodeGateway $nodeGateway, RouteService $routeService)
+    private SchemaService $schemaService;
+
+    public function __construct(NodeGateway $nodeGateway, RouteService $routeService, SchemaService $schemaService)
     {
         $this->nodeGateway = $nodeGateway;
         $this->routeService = $routeService;
+        $this->schemaService = $schemaService;
     }
 
     public function lastUpdate(): string
@@ -43,6 +47,7 @@ class NodeService implements Target
             $this->store($node);
         }
 
+        // Note: When adding node schema completion, pay attention to use gateway here!
         $this->routeService->rebuildRoutes($this->getNodes());
     }
 
@@ -66,8 +71,6 @@ class NodeService implements Target
     }
 
     /**
-     * @param ?string $root
-     * @param ?int $maxDepth
      * @return \Frontastic\Catwalk\FrontendBundle\Domain\Node[]
      */
     public function getNodes(string $root = null, int $maxDepth = null): array
@@ -134,5 +137,15 @@ class NodeService implements Target
     public function remove(Node $node): void
     {
         $this->nodeGateway->remove($node);
+    }
+
+    /**
+     * TODO: Call this automatically when a node is loaded to have Frontastic React benefit from it, too!
+     */
+    public function completeCustomNodeData(Node $node, ?FieldVisitor $fieldVisitor = null): Node
+    {
+        // FIXME: Also complete data source configuration!
+        $this->schemaService->completeNodeData($node, $fieldVisitor);
+        return $node;
     }
 }
