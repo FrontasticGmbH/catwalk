@@ -141,6 +141,8 @@ Here you find the API documentation for the relevant classes:
       * [DataSourceContext](php/NextJsBundle/Domain/Api/DataSourceContext.md)
       * [DataSourceHandler](php/NextJsBundle/Domain/Api/DataSourceHandler.md)
       * [DataSourceResult](php/NextJsBundle/Domain/Api/DataSourceResult.md)
+      * [DynamicFilterDefinition](php/NextJsBundle/Domain/Api/DynamicFilterDefinition.md)
+      * [DynamicFilterQuery](php/NextJsBundle/Domain/Api/DynamicFilterQuery.md)
       * [DynamicPageContext](php/NextJsBundle/Domain/Api/DynamicPageContext.md)
       * [DynamicPageHandler](php/NextJsBundle/Domain/Api/DynamicPageHandler.md)
       * [DynamicPageRedirectResult](php/NextJsBundle/Domain/Api/DynamicPageRedirectResult.md)
