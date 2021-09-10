@@ -618,7 +618,7 @@ class KameleoonClientImpl implements KameleoonClient
         if ($data != null) {
             $requestText .= " -d '" . $data . "'";
         }
-        $requestText .= " & r=\${r:=0};((r=r+1));if [ \$r -eq 1000 ];then r=0;wait;fi;" . PHP_EOL;
+        $requestText .= " & r=\${r:=0};((r=r+1));if [ \$r -eq 64 ];then r=0;wait;fi;" . PHP_EOL;
         file_put_contents($this->kameleoonWorkDir . $this->getRequestsFileName(), $requestText, FILE_APPEND | LOCK_EX);
     }
 
