@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.19.2` (2021-09-10)
+
+* fix: Only run 64 not 1000 curl processes in parallel for kameleoon reporting
+
 ## `1.19.1` (2021-09-08)
 
 * fix: ComponentInjector overrides regex not recognising all string formats
