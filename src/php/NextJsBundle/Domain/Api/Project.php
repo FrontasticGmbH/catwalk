@@ -2,11 +2,10 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
-use Frontastic\Common\ReplicatorBundle\Domain\Project as OriginalProject;
 use Kore\DataObject\DataObject;
 
 /**
- * Stripped down version of {@link OriginalProject}.
+ * Stripped down version of {@link Frontastic\Common\ReplicatorBundle\Domain\Project}.
  * @type
  */
 class Project extends DataObject

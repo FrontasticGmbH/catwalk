@@ -9,7 +9,7 @@ Property|Type|Default|Required|Description
 `frontasticContext` | [`Context`](Context.md) | `null` | - | 
 `pageFolder` | [`PageFolder`](PageFolder.md) | `null` | - | 
 `page` | [`Page`](Page.md) | `null` | - | 
-`usingTastics` | [`Tastic`](../../../FrontendBundle/Domain/Tastic.md)[]|null | `null` | - | 
+`usingTastics` | [`Tastic`](Tastic.md)[]|null | `null` | - | 
 `request` | [`Request`](Request.md) | `null` | - | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

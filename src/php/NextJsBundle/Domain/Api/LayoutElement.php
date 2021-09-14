@@ -2,8 +2,6 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
-use Frontastic\Catwalk\FrontendBundle\Domain\Cell;
-use Frontastic\Catwalk\FrontendBundle\Domain\Tastic;
 use Kore\DataObject\DataObject;
 
 /**
@@ -20,9 +18,8 @@ class LayoutElement extends DataObject
     public $layoutElementId;
 
     /**
-     * @var Cell\Configuration
+     * @var LayoutElementConfiguration
      * @required
-     * @fixme adjust name
      */
     public $configuration;
 

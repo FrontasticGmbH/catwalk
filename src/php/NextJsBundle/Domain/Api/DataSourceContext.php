@@ -2,8 +2,6 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
-use Frontastic\Catwalk\FrontendBundle\Domain\Tastic as OriginalTastic;
-
 use Kore\DataObject\DataObject;
 
 /**
@@ -29,7 +27,7 @@ class DataSourceContext extends DataObject
     public ?Page $page = null;
 
     /**
-     * @var OriginalTastic[]|null
+     * @var Tastic[]|null
      */
     public ?array $usingTastics = null;
 

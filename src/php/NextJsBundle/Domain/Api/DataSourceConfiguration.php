@@ -2,11 +2,10 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
-use Frontastic\Catwalk\FrontendBundle\Domain\Stream as OriginalStream;
 use Kore\DataObject\DataObject;
 
 /**
- * Stripped down version of {@link OriginalStream}.
+ * Stripped down version of {@link Frontastic\Catwalk\FrontendBundle\Domain\Stream}.
  * @type
  */
 class DataSourceConfiguration extends DataObject

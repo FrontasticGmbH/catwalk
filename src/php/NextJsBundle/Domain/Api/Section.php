@@ -2,8 +2,6 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
-use Frontastic\Catwalk\FrontendBundle\Domain\Region\Configuration as OriginalRegionConfiguration;
-
 use Kore\DataObject\DataObject;
 
 /**
@@ -21,7 +19,7 @@ class Section extends DataObject
 
     /**
      * @removed Not in use, yet, so we remove it for now.
-     * @var OriginalRegionConfiguration
+     * @var Frontastic\Catwalk\FrontendBundle\Domain\Region\Configuration
      * @required
      */
     // public $configuration;
