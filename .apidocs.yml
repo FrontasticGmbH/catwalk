@@ -19,6 +19,7 @@ files:
  - php/FrontendBundle/Domain/*/*.php
  - php/FrontendBundle/Routing/ObjectRouter/ProductRouter.php
  - php/NextJsBundle/Domain/Api/*.php
+ - php/NextJsBundle/Domain/Api/*/*.php
 reference:
  - ../../libraries/common/src/php/*Bundle/Domain/*.php
  - ../../libraries/common/src/php/*Bundle/Domain/*/*.php

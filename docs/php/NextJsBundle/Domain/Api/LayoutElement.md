@@ -7,7 +7,7 @@
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
 `layoutElementId` | `string` |  | *Yes* | 
-`configuration` | [`LayoutElementConfiguration`](LayoutElementConfiguration.md) |  | *Yes* | 
+`configuration` | [`Configuration`](LayoutElement/Configuration.md) |  | *Yes* | 
 `tastics` | [`Tastic`](Tastic.md)[] | `[]` | *Yes* | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

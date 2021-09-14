@@ -18,7 +18,7 @@ class LayoutElement extends DataObject
     public $layoutElementId;
 
     /**
-     * @var LayoutElementConfiguration
+     * @var LayoutElement\Configuration
      * @required
      */
     public $configuration;

@@ -22,7 +22,7 @@ class Tastic extends DataObject
     public $tasticType;
 
     /**
-     * @var TasticConfiguration
+     * @var Tastic\Configuration
      * @required
      */
     public $configuration;

@@ -149,7 +149,8 @@ Here you find the API documentation for the relevant classes:
       * [DynamicPageResult](php/NextJsBundle/Domain/Api/DynamicPageResult.md)
       * [DynamicPageSuccessResult](php/NextJsBundle/Domain/Api/DynamicPageSuccessResult.md)
       * [LayoutElement](php/NextJsBundle/Domain/Api/LayoutElement.md)
-      * [LayoutElementConfiguration](php/NextJsBundle/Domain/Api/LayoutElementConfiguration.md)
+      * LayoutElement
+        * [Configuration](php/NextJsBundle/Domain/Api/LayoutElement/Configuration.md)
       * [Page](php/NextJsBundle/Domain/Api/Page.md)
       * [PageFolder](php/NextJsBundle/Domain/Api/PageFolder.md)
       * [Project](php/NextJsBundle/Domain/Api/Project.md)
@@ -157,7 +158,8 @@ Here you find the API documentation for the relevant classes:
       * [Response](php/NextJsBundle/Domain/Api/Response.md)
       * [Section](php/NextJsBundle/Domain/Api/Section.md)
       * [Tastic](php/NextJsBundle/Domain/Api/Tastic.md)
-      * [TasticConfiguration](php/NextJsBundle/Domain/Api/TasticConfiguration.md)
+      * Tastic
+        * [Configuration](php/NextJsBundle/Domain/Api/Tastic/Configuration.md)
 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

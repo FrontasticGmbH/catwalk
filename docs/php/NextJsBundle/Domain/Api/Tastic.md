@@ -8,6 +8,6 @@ Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
 `tasticId` | `string` |  | *Yes* | 
 `tasticType` | `string` |  | *Yes* | 
-`configuration` | [`TasticConfiguration`](TasticConfiguration.md) |  | *Yes* | 
+`configuration` | [`Configuration`](Tastic/Configuration.md) |  | *Yes* | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
