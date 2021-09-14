@@ -8,6 +8,8 @@ import {
     Configuration as NextJsApiTasticConfiguration,
 } from './tastic/'
 
+/* This class only represents the information available, the TypeScript API should provide a mechanism to request each
+of these fields and we only submit those which have been requested. */
 export interface ActionContext {
      frontasticContext?: Context;
 }
@@ -26,6 +28,7 @@ export interface Context {
      featureFlags?: Map<string, boolean>;
 }
 
+/* Stripped down version of {@link Frontastic\Catwalk\FrontendBundle\Domain\Stream}. */
 export interface DataSourceConfiguration {
      dataSourceId: string;
      type: string;
@@ -33,6 +36,8 @@ export interface DataSourceConfiguration {
      configuration: any;
 }
 
+/* This class only represents the information available, the TypeScript API should provide a mechanism to request each
+of these fields and we only submit those which have been requested. */
 export interface DataSourceContext {
      frontasticContext?: Context;
      pageFolder?: PageFolder;
@@ -82,6 +87,7 @@ export interface PageFolder {
      sort: number;
 }
 
+/* Stripped down version of {@link Frontastic\Common\ReplicatorBundle\Domain\Project}. */
 export interface Project {
      projectId: string;
      name: string;
@@ -92,6 +98,9 @@ export interface Project {
      defaultLocale: string;
 }
 
+/* {@see https://expressjs.com/en/api.html#req}
+
+Request structure as used by Express.js version 4.x + Frontastic additions. */
 export interface Request {
      body?: string;
      cookies?: Map<string, string>;
@@ -102,6 +111,9 @@ export interface Request {
      sessionData?: any;
 }
 
+/* {@see https://expressjs.com/en/api.html#res}
+
+Response structure as used by Express.js version 4.x + Frontastic additions. */
 export interface Response {
      statusCode?: string;
      body?: string;
