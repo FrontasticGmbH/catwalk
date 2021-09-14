@@ -7,7 +7,8 @@ class EnumFilterQuery extends FilterQuery
     public string $type = FilterDefinition::TYPE_ENUM;
 
     /**
-     * @var string[] Collection of *keys* from the filter definition
+     * Collection of *keys* from the filter definition
+     * @var string[]
      */
     public array $values = [];
 }

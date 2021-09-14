@@ -6,6 +6,6 @@
 
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
-`filterDefinitions` | `\Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicFilter\FilterDefinition[]` | `[]` | - | 
+`filterDefinitions` | [`FilterDefinition`](DynamicFilter/FilterDefinition.md)[] | `[]` | - | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

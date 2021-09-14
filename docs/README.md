@@ -141,6 +141,25 @@ Here you find the API documentation for the relevant classes:
       * [DataSourceContext](php/NextJsBundle/Domain/Api/DataSourceContext.md)
       * [DataSourceHandler](php/NextJsBundle/Domain/Api/DataSourceHandler.md)
       * [DataSourceResult](php/NextJsBundle/Domain/Api/DataSourceResult.md)
+      * DynamicFilter
+        * [BooleanFilterDefinition](php/NextJsBundle/Domain/Api/DynamicFilter/BooleanFilterDefinition.md)
+        * [BooleanFilterQuery](php/NextJsBundle/Domain/Api/DynamicFilter/BooleanFilterQuery.md)
+        * [EnumFilterDefinition](php/NextJsBundle/Domain/Api/DynamicFilter/EnumFilterDefinition.md)
+        * [EnumFilterDefinitionValue](php/NextJsBundle/Domain/Api/DynamicFilter/EnumFilterDefinitionValue.md)
+        * [EnumFilterQuery](php/NextJsBundle/Domain/Api/DynamicFilter/EnumFilterQuery.md)
+        * [FilterDefinition](php/NextJsBundle/Domain/Api/DynamicFilter/FilterDefinition.md)
+        * [FilterQuery](php/NextJsBundle/Domain/Api/DynamicFilter/FilterQuery.md)
+        * [LocalizedEnumFilterDefinition](php/NextJsBundle/Domain/Api/DynamicFilter/LocalizedEnumFilterDefinition.md)
+        * [LocalizedEnumFilterDefinitionValue](php/NextJsBundle/Domain/Api/DynamicFilter/LocalizedEnumFilterDefinitionValue.md)
+        * [LocalizedEnumFilterQuery](php/NextJsBundle/Domain/Api/DynamicFilter/LocalizedEnumFilterQuery.md)
+        * [LocalizedTextFilterDefinition](php/NextJsBundle/Domain/Api/DynamicFilter/LocalizedTextFilterDefinition.md)
+        * [LocalizedTextFilterQuery](php/NextJsBundle/Domain/Api/DynamicFilter/LocalizedTextFilterQuery.md)
+        * [MoneyFilterDefinition](php/NextJsBundle/Domain/Api/DynamicFilter/MoneyFilterDefinition.md)
+        * [MoneyFilterQuery](php/NextJsBundle/Domain/Api/DynamicFilter/MoneyFilterQuery.md)
+        * [NumberFilterDefinition](php/NextJsBundle/Domain/Api/DynamicFilter/NumberFilterDefinition.md)
+        * [NumberFilterQuery](php/NextJsBundle/Domain/Api/DynamicFilter/NumberFilterQuery.md)
+        * [TextFilterDefinition](php/NextJsBundle/Domain/Api/DynamicFilter/TextFilterDefinition.md)
+        * [TextFilterQuery](php/NextJsBundle/Domain/Api/DynamicFilter/TextFilterQuery.md)
       * [DynamicFilterDefinition](php/NextJsBundle/Domain/Api/DynamicFilterDefinition.md)
       * [DynamicFilterQuery](php/NextJsBundle/Domain/Api/DynamicFilterQuery.md)
       * [DynamicPageContext](php/NextJsBundle/Domain/Api/DynamicPageContext.md)
@@ -160,6 +179,12 @@ Here you find the API documentation for the relevant classes:
       * [Tastic](php/NextJsBundle/Domain/Api/Tastic.md)
       * Tastic
         * [Configuration](php/NextJsBundle/Domain/Api/Tastic/Configuration.md)
+      * TasticFieldValue
+        * [LinkReferenceValue](php/NextJsBundle/Domain/Api/TasticFieldValue/LinkReferenceValue.md)
+        * [PageFolderReferenceValue](php/NextJsBundle/Domain/Api/TasticFieldValue/PageFolderReferenceValue.md)
+        * [PageFolderTreeValue](php/NextJsBundle/Domain/Api/TasticFieldValue/PageFolderTreeValue.md)
+        * [PageFolderValue](php/NextJsBundle/Domain/Api/TasticFieldValue/PageFolderValue.md)
+        * [ReferenceValue](php/NextJsBundle/Domain/Api/TasticFieldValue/ReferenceValue.md)
 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
