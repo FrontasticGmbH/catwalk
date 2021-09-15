@@ -46,7 +46,7 @@ class HooksService
         return in_array($eventName, array_column($hooks, 'hookName'), true);
     }
 
-    protected function callRemoteHook(string $hook, array $arguments)
+    protected function callRemoteHook(string $hook, array $arguments): Response
     {
         // TODO: Allow-list all parameter we want to actually pass over
         $context = $this->contextService->createContextFromRequest();
@@ -54,33 +54,42 @@ class HooksService
             RequestIdListener::REQUEST_ID_ATTRIBUTE_KEY
         );
 
-        $hookCallBuilder = new HooksCallBuilder([$this->jsonSerializer, 'serialize']);
-        $hookCallBuilder->project($context->project->customer . '_' . $context->project->projectId);
+        $hookCallBuilder = new HooksCallBuilder(
+            [$this->jsonSerializer, 'serialize']
+        );
+        $hookCallBuilder->project(
+            $context->project->customer . '_' . $context->project->projectId
+        );
         $hookCallBuilder->name($hook);
         $hookCallBuilder->context($context);
         $hookCallBuilder->arguments($arguments);
         $hookCallBuilder->header('Frontastic-Request-Id', $requestId);
         $call = $hookCallBuilder->build();
 
-        $data = $this->hooksApiClient->callEvent($call);
-
-        $response = Json::decode($data, true);
-
-        if (!isset($response['arguments'])) {
-            throw new \Exception('Invalid return format');
+        try {
+            $data = $this->hooksApiClient->callEvent($call);
+        } catch (Exception $exception) {
+            $errorResponse = new Response();
+            $errorResponse->statusCode = '500';
+            $errorResponse->body = $exception->getMessage();
+            return $errorResponse;
         }
 
-        return $response;
+        $response = new Response();
+        $response->statusCode = '200';
+        $response->body = $data;
     }
 
-    public function call(string $hook, array $arguments)
+    public function call(string $hook, array $arguments): Response
     {
         if (!$this->isEventActive($hook)) {
-            return null;
+            $errorResponse = new Response();
+            $errorResponse->statusCode = '404';
+            $errorResponse->body = 'The requested hook is not active.';
+            return $errorResponse;
         }
 
-        $response = $this->callRemoteHook($hook, $arguments);
-        return $response;
+        return $this->callRemoteHook($hook, $arguments);
     }
 
     public function knowsHook(string $hookName): bool
