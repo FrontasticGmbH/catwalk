@@ -10,6 +10,8 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Node as OriginalNode;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewData as OriginalViewData;
 use Frontastic\Catwalk\FrontendBundle\Domain\Region as OriginalRegion;
 use Frontastic\Common\ReplicatorBundle\Domain\Project as OriginalProject;
+use Frontastic\Catwalk\FrontendBundle\Domain\Tastic as OriginalTastic;
+use Frontastic\Catwalk\FrontendBundle\Domain\Cell\Configuration as OriginalCellConfiguration;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceConfiguration;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\LayoutElement;
@@ -17,6 +19,8 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\Page;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Project;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Section;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Tastic;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\LayoutElement\Configuration as LayoutElementConfiguration;
 
 class FromFrontasticReactMapper
 {
@@ -72,6 +76,14 @@ class FromFrontasticReactMapper
                 'regionId' => 'sectionId',
                 'elements' => 'layoutElements',
             ]
+        ],
+        OriginalTastic::class => [
+            'target' => Tastic::class,
+            'propertyMappings' => []
+        ],
+        OriginalCellConfiguration::class => [
+            'target' => LayoutElementConfiguration::class,
+            'propertyMappings' => []
         ],
     ];
 
