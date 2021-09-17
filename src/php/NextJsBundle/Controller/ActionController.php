@@ -45,11 +45,7 @@ class ActionController
         /** @var Response $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
 
-        $response = new JsonResponse();
-        $response->setStatusCode($apiResponse['statusCode']);
-        $response->setJson($apiResponse['body']);
-
-        return $response;
+        return JsonResponse::fromJsonString($apiResponse->body, $apiResponse->statusCode);
     }
 
     private function performOverrideForward(string $namespace, string $action, SymfonyRequest $request): SymfonyResponse
