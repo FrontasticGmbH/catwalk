@@ -2,10 +2,11 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
-use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
 use Frontastic\Common\JsonSerializer;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
+use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Response;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -68,7 +69,7 @@ class HooksService
 
         try {
             $data = $this->hooksApiClient->callEvent($call);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $errorResponse = new Response();
             $errorResponse->statusCode = '500';
             $errorResponse->body = $exception->getMessage();
@@ -78,6 +79,8 @@ class HooksService
         $response = new Response();
         $response->statusCode = '200';
         $response->body = $data;
+
+        return $response;
     }
 
     public function call(string $hook, array $arguments): Response
