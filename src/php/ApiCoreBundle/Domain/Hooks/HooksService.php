@@ -6,7 +6,6 @@ use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\JsonSerializer;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
-use Frontastic\Catwalk\NextJsBundle\Domain\Api\Response;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -41,13 +40,13 @@ class HooksService
         $this->requestStack = $requestStack;
     }
 
-    protected function isEventActive(string $eventName): bool
+    protected function isHookRegistered(string $hook): bool
     {
         $hooks = $this->getRegisteredHooks();
-        return in_array($eventName, array_column($hooks, 'hookName'), true);
+        return in_array($hook, array_column($hooks, 'hookName'), true);
     }
 
-    protected function callRemoteHook(string $hook, array $arguments): Response
+    protected function callRemoteHook(string $hook, array $arguments): array
     {
         // TODO: Allow-list all parameter we want to actually pass over
         $context = $this->contextService->createContextFromRequest();
@@ -70,34 +69,30 @@ class HooksService
         try {
             $data = $this->hooksApiClient->callEvent($call);
         } catch (\Exception $exception) {
-            $errorResponse = new Response();
-            $errorResponse->statusCode = '500';
-            $errorResponse->body = $exception->getMessage();
-            return $errorResponse;
+            return [
+                'ok' => false,
+                'found' => true,
+                'message' => $exception->getMessage()
+            ];
         }
 
-        $response = new Response();
-        $response->statusCode = '200';
-        $response->body = $data;
-
-        return $response;
+        return [
+            'ok' => true,
+            'data' => $data
+        ];
     }
 
-    public function call(string $hook, array $arguments): Response
+    public function call(string $hook, array $arguments): array
     {
-        if (!$this->isEventActive($hook)) {
-            $errorResponse = new Response();
-            $errorResponse->statusCode = '404';
-            $errorResponse->body = 'The requested hook is not active.';
-            return $errorResponse;
+        if (!$this->isHookRegistered($hook)) {
+            return [
+                'ok' => false,
+                'found' => false,
+                'message' => sprintf('The requested hook "%s" was not found.', $hook)
+            ];
         }
 
         return $this->callRemoteHook($hook, $arguments);
-    }
-
-    public function knowsHook(string $hookName): bool
-    {
-        return $this->isEventActive($hookName);
     }
 
     public function getRegisteredHooks(): array

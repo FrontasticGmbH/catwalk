@@ -24,16 +24,13 @@ class ActionController
         $this->rootDir = $rootDir;
     }
 
-    public function indexAction(string $namespace, string $action, SymfonyRequest $request)
+    public function indexAction(string $namespace, string $action, SymfonyRequest $request): JsonResponse
     {
         if ($this->hasOverride($namespace, $action)) {
             return $this->performOverrideForward($namespace, $action, $request);
         }
 
         $hookName = sprintf('action-%s-%s', $namespace, $action);
-        if (!$this->hooksService->knowsHook($hookName)) {
-            throw new BadRequestHttpException('Unknown action');
-        }
 
         // TODO: Extract and complete mapping
         $apiRequest = new Request();
@@ -42,10 +39,25 @@ class ActionController
         $apiRequest->body = $request->getContent();
         $apiRequest->cookies = (object) ($request->cookies->all());
 
-        /** @var Response $apiResponse */
+        /*
+         * returns either ['ok' => true, 'data' => $data], or ['ok' => false, 'found' => bool, 'message' => string]
+         */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
 
-        return JsonResponse::fromJsonString($apiResponse->body, $apiResponse->statusCode);
+        $response = new JsonResponse();
+        if ($apiResponse['ok']) {
+            $response->setContent($apiResponse['data']);
+            $response->setStatusCode(200);
+        } else {
+            $response->setData(['ok' => false, 'message' => $apiResponse['message']]);
+            if ($apiResponse['found']) {
+                $response->setStatusCode(500);
+            } else {
+                $response->setStatusCode(404);
+            }
+        }
+
+        return $response;
     }
 
     private function performOverrideForward(string $namespace, string $action, SymfonyRequest $request): SymfonyResponse
