@@ -6,7 +6,6 @@
 
 * [__construct()](#__construct)
 * [call()](#call)
-* [knowsHook()](#knowshook)
 * [getRegisteredHooks()](#getregisteredhooks)
 
 ### __construct()
@@ -37,7 +36,7 @@ Return Value: `mixed`
 public function call(
     string $hook,
     array $arguments
-): mixed
+): array
 ```
 
 Argument|Type|Default|Description
@@ -45,21 +44,7 @@ Argument|Type|Default|Description
 `$hook`|`string`||
 `$arguments`|`array`||
 
-Return Value: `mixed`
-
-### knowsHook()
-
-```php
-public function knowsHook(
-    string $hookName
-): bool
-```
-
-Argument|Type|Default|Description
---------|----|-------|-----------
-`$hookName`|`string`||
-
-Return Value: `bool`
+Return Value: `array`
 
 ### getRegisteredHooks()
 
