@@ -36,7 +36,7 @@ Return Value: `mixed`
 public function call(
     string $hook,
     array $arguments
-): array
+): Response
 ```
 
 Argument|Type|Default|Description
@@ -44,7 +44,7 @@ Argument|Type|Default|Description
 `$hook`|`string`||
 `$arguments`|`array`||
 
-Return Value: `array`
+Return Value: [`Response`](../../../NextJsBundle/Domain/Api/Response.md)
 
 ### getRegisteredHooks()
 
