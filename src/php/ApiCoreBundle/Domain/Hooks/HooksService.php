@@ -6,8 +6,12 @@ use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\JsonSerializer;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Response;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class HooksService
 {
@@ -46,7 +50,7 @@ class HooksService
         return in_array($hook, array_column($hooks, 'hookName'), true);
     }
 
-    protected function callRemoteHook(string $hook, array $arguments): array
+    protected function callRemoteHook(string $hook, array $arguments): Response
     {
         // TODO: Allow-list all parameter we want to actually pass over
         $context = $this->contextService->createContextFromRequest();
@@ -67,29 +71,37 @@ class HooksService
         $call = $hookCallBuilder->build();
 
         try {
-            $data = $this->hooksApiClient->callEvent($call);
+            $jsonString = $this->hooksApiClient->callEvent($call);
+            // deserialize to Response string, using the symfony deserializer maybe?
+            $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
+            $response = $serializer->deserialize($jsonString, Response::class, 'json');
         } catch (\Exception $exception) {
-            return [
-                'ok' => false,
-                'found' => true,
-                'message' => $exception->getMessage()
-            ];
+            $errorResponse = new Response();
+            $errorResponse->statusCode = '500';
+            $errorResponse->body = json_encode(
+                [
+                    'ok' => false,
+                    'message' => $exception->getMessage()
+                ]
+            );
+            return $errorResponse;
         }
 
-        return [
-            'ok' => true,
-            'data' => $data
-        ];
+        return $response;
     }
 
-    public function call(string $hook, array $arguments): array
+    public function call(string $hook, array $arguments): Response
     {
         if (!$this->isHookRegistered($hook)) {
-            return [
-                'ok' => false,
-                'found' => false,
-                'message' => sprintf('The requested hook "%s" was not found.', $hook)
-            ];
+            $errorResponse = new Response();
+            $errorResponse->statusCode = '404';
+            $errorResponse->body = json_encode(
+                [
+                    'ok' => false,
+                    'message' => sprintf('The requested hook "%s" was not found.', $hook)
+                ]
+            );
+            return $errorResponse;
         }
 
         return $this->callRemoteHook($hook, $arguments);

@@ -39,23 +39,13 @@ class ActionController
         $apiRequest->body = $request->getContent();
         $apiRequest->cookies = (object) ($request->cookies->all());
 
-        /*
-         * returns either ['ok' => true, 'data' => $data], or ['ok' => false, 'found' => bool, 'message' => string]
-         */
+        /** @var Response $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
 
         $response = new JsonResponse();
-        if ($apiResponse['ok']) {
-            $response->setContent($apiResponse['data']);
-            $response->setStatusCode(200);
-        } else {
-            $response->setData(['ok' => false, 'message' => $apiResponse['message']]);
-            if ($apiResponse['found']) {
-                $response->setStatusCode(500);
-            } else {
-                $response->setStatusCode(404);
-            }
-        }
+        $response->setContent($apiResponse->body);
+        $response->setStatusCode($apiResponse->statusCode);
+        // TODO pass other headers to JsonResponse
 
         return $response;
     }
