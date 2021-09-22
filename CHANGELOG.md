@@ -1,5 +1,20 @@
 # catwalk Changelog
 
+## `1.19.3` (2021-09-22)
+
+
+* feat(api-hub): improve error handling, refactor return types
+* fix(api-hub): simplify hooks api result handling
+* fix(api-hub): fix type errors for hooksservice
+* fix(nextjs): clear up types for passing data between hooks and controller
+* fix(catwalk): add nextjs api classes to react mapper
+* feat(apidocs): add description comment from classes to TS interfaces
+* fix(catwalk): get summary of properties from type description
+* fix(catwalk): make configurations inherit base configuration in nextjs types
+* fix(catwalk): remove references from nextjs bundle to other bundles
+* Delivier assets during a roll out
+* feat(FP-968): Added basic filter API data objects.
+
 ## `1.19.2` (2021-09-10)
 
 * fix: Only run 64 not 1000 curl processes in parallel for kameleoon reporting
