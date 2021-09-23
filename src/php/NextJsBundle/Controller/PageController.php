@@ -6,6 +6,9 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
+use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
@@ -21,9 +24,11 @@ class PageController
     private PageService $pageService;
     private PageDataCompletionService $completionService;
     private ViewDataProvider $viewDataProvider;
+    private DynamicPageService $dynamicPageService;
 
     public function __construct(
         SiteBuilderPageService $siteBuilderPageService,
+        DynamicPageService $dynamicPageService,
         FromFrontasticReactMapper $mapper,
         NodeService $nodeService,
         PageService $pageService,
@@ -31,6 +36,7 @@ class PageController
         ViewDataProvider $viewDataProvider
     ) {
         $this->siteBuilderPageService = $siteBuilderPageService;
+        $this->dynamicPageService = $dynamicPageService;
         $this->nodeService = $nodeService;
         $this->pageService = $pageService;
         $this->completionService = $completionService;
@@ -47,16 +53,31 @@ class PageController
             throw new BadRequestHttpException('Missing locale');
         }
 
+        $node = null;
+
         $nodeId = $this->siteBuilderPageService->matchSiteBuilderPage(
             $request->query->get('path'),
             $request->query->get('locale')
         );
 
-        if ($nodeId === null) {
+        if ($nodeId !== null) {
+            $node = $this->nodeService->get($nodeId);
+        }
+
+        if ($node === null) {
+            $dynamicPageResult = $this->dynamicPageService->handleDynamicPage($request, $context);
+            if ($dynamicPageResult instanceof DynamicPageRedirectResult) {
+                return $this->dynamicPageService->createRedirectResponse($dynamicPageResult);
+            }
+            if ($dynamicPageResult instanceof DynamicPageSuccessResult) {
+                $node = $this->dynamicPageService->matchNodeFor($dynamicPageResult);
+            }
+        }
+
+        if ($node === null) {
             throw new NotFoundHttpException('Could not resolve page from path');
         }
 
-        $node = $this->nodeService->get($nodeId);
         $this->completionService->completeNodeData($node, $context);
 
         $page = $this->pageService->fetchForNode($node, $context);

@@ -44,7 +44,7 @@ class HooksService
         $this->requestStack = $requestStack;
     }
 
-    protected function isHookRegistered(string $hook): bool
+    public function isHookRegistered(string $hook): bool
     {
         $hooks = $this->getRegisteredHooks();
         return in_array($hook, array_column($hooks, 'hookName'), true);

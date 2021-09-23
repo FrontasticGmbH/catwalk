@@ -58,7 +58,6 @@ class MasterService implements Target
     {
         $rules = $this->rulesGateway->get();
 
-
         // The following if statements actually check the *type* of the master page.
         // Master pages always render a page for a single product/category/content…, and thus there will be a contentId.
 
@@ -87,6 +86,20 @@ class MasterService implements Target
         }
 
         throw new NotFoundHttpException('Could not resolve master page for node.');
+    }
+
+    public function matchNodeIdForCustomTypes(string $pageType, $matchingPayload): string
+    {
+        $rules = $this->rulesGateway->get();
+
+        if (!isset($rules->rules[$pageType])) {
+            throw new NotFoundHttpException(sprintf(
+                'Could not resolve master page for type "%s".',
+                $pageType
+            ));
+        }
+
+        return $this->pickNode($rules->rules[$pageType], null, $matchingPayload);
     }
 
     public function completeDefaultQuery(array $streams, string $pageType, ?string $itemId): array

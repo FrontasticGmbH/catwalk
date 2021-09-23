@@ -38,4 +38,11 @@ class Stream extends DataObject
      * @required
      */
     public $tastics = [];
+
+    /**
+     * If a stream value was pre-loaded before executing actual stream handlers, the value will be contained here.
+     *
+     * @var mixed
+     */
+    public $preloadedValue = null;
 }

@@ -43,6 +43,14 @@
              autowire="true"
              autoconfigure="true"
         />
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\RequestService"
+             autowire="true"
+             autoconfigure="true"
+        />
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService"
+             autowire="true"
+             autoconfigure="true"
+        />
 
         <service id="Frontastic\Catwalk\NextJsBundle\Routing\Loader" class="Frontastic\Catwalk\NextJsBundle\Routing\Loader">
             <tag name="routing.loader" />

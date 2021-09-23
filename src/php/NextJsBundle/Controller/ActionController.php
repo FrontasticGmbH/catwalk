@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Request;
+use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Response;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
@@ -16,11 +17,17 @@ class ActionController
     private HooksService $hooksService;
     private HttpKernelInterface $httpKernel;
     private string $rootDir;
+    private RequestService $requestService;
 
-    public function __construct(HooksService $hooksService, HttpKernelInterface $httpKernel, string $rootDir)
-    {
+    public function __construct(
+        HooksService $hooksService,
+        HttpKernelInterface $httpKernel,
+        RequestService $requestService,
+        string $rootDir
+    ) {
         $this->hooksService = $hooksService;
         $this->httpKernel = $httpKernel;
+        $this->requestService = $requestService;
         $this->rootDir = $rootDir;
     }
 
@@ -32,12 +39,7 @@ class ActionController
 
         $hookName = sprintf('action-%s-%s', $namespace, $action);
 
-        // TODO: Extract and complete mapping
-        $apiRequest = new Request();
-        $apiRequest->query = (object) ($request->query->getIterator()->getArrayCopy());
-        $apiRequest->path = $request->getPathInfo();
-        $apiRequest->body = $request->getContent();
-        $apiRequest->cookies = (object) ($request->cookies->all());
+        $apiRequest = $this->requestService->createApiRequest($request);
 
         /** @var stdClass $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
