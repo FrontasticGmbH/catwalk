@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.19.4` (2021-09-23)
+
+* fix(api-hub): pass response objects as specified
+
 ## `1.19.3` (2021-09-22)
 
 
