@@ -50,7 +50,7 @@ class HooksService
         return in_array($hook, array_column($hooks, 'hookName'), true);
     }
 
-    protected function callRemoteHook(string $hook, array $arguments): Response
+    protected function callRemoteHook(string $hook, array $arguments): \stdClass
     {
         // TODO: Allow-list all parameter we want to actually pass over
         $context = $this->contextService->createContextFromRequest();
@@ -72,36 +72,23 @@ class HooksService
 
         try {
             $jsonString = $this->hooksApiClient->callEvent($call);
-            // deserialize to Response string, using the symfony deserializer maybe?
-            $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
-            $response = $serializer->deserialize($jsonString, Response::class, 'json');
+            return json_decode($jsonString, false);
         } catch (\Exception $exception) {
-            $errorResponse = new Response();
-            $errorResponse->statusCode = '500';
-            $errorResponse->body = json_encode(
-                [
-                    'ok' => false,
-                    'message' => $exception->getMessage()
-                ]
-            );
+            return (object)[
+                'ok' => false,
+                'message' => $exception->getMessage()
+            ];
             return $errorResponse;
         }
-
-        return $response;
     }
 
-    public function call(string $hook, array $arguments): Response
+    public function call(string $hook, array $arguments): \stdClass
     {
         if (!$this->isHookRegistered($hook)) {
-            $errorResponse = new Response();
-            $errorResponse->statusCode = '404';
-            $errorResponse->body = json_encode(
-                [
-                    'ok' => false,
-                    'message' => sprintf('The requested hook "%s" was not found.', $hook)
-                ]
-            );
-            return $errorResponse;
+            return (object)[
+                'ok' => false,
+                'message' => sprintf('The requested hook "%s" was not found.', $hook)
+            ];
         }
 
         return $this->callRemoteHook($hook, $arguments);

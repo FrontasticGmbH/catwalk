@@ -39,13 +39,26 @@ class ActionController
         $apiRequest->body = $request->getContent();
         $apiRequest->cookies = (object) ($request->cookies->all());
 
-        /** @var Response $apiResponse */
+        /** @var stdClass $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
 
         $response = new JsonResponse();
-        $response->setContent($apiResponse->body);
-        $response->setStatusCode($apiResponse->statusCode);
-        // TODO pass other headers to JsonResponse
+        if (isset($apiResponse->ok) && !$apiResponse->ok) {
+            $response->setStatusCode(500);
+            $response->setContent(json_encode($apiResponse, JSON_FORCE_OBJECT));
+        } else if (!isset($apiResponse->statusCode) || !isset($apiResponse->body)) {
+            $response->setStatusCode(500);
+            $response->setData(
+                [
+                    'ok' => false,
+                    'message' => "Data returned from hook did not have statusCode or body fields"
+                ]
+            );
+        } else {
+            $response->setContent($apiResponse->body);
+            $response->setStatusCode($apiResponse->statusCode);
+            // TODO pass other headers to JsonResponse
+        }
 
         return $response;
     }
