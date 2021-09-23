@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.19.6` (2021-09-23)
+
+* fix(api-hub): make expectation of structure from extension more forgiving
+
 ## `1.19.5` (2021-09-23)
 
 * fix(api-hub): also pass non-response objects to support stream handlers
