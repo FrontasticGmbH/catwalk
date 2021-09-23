@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.19.7` (2021-09-23)
+
+* feat: Initial draft for dynamic page handling in Next.js extensions.
+
 ## `1.19.6` (2021-09-23)
 
 * fix(api-hub): make expectation of structure from extension more forgiving
