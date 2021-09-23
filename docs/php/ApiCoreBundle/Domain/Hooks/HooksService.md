@@ -5,6 +5,7 @@
 ## Methods
 
 * [__construct()](#__construct)
+* [isHookRegistered()](#ishookregistered)
 * [call()](#call)
 * [getRegisteredHooks()](#getregisteredhooks)
 
@@ -29,6 +30,20 @@ Argument|Type|Default|Description
 `$requestStack`|`\Symfony\Component\HttpFoundation\RequestStack`||
 
 Return Value: `mixed`
+
+### isHookRegistered()
+
+```php
+public function isHookRegistered(
+    string $hook
+): bool
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$hook`|`string`||
+
+Return Value: `bool`
 
 ### call()
 

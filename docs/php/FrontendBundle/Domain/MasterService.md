@@ -8,6 +8,7 @@
 
 * [__construct()](#__construct)
 * [matchNodeId()](#matchnodeid)
+* [matchNodeIdForCustomTypes()](#matchnodeidforcustomtypes)
 * [completeDefaultQuery()](#completedefaultquery)
 * [completeTasticStreamConfigurationWithMasterDefault()](#completetasticstreamconfigurationwithmasterdefault)
 * [lastUpdate()](#lastupdate)
@@ -42,6 +43,22 @@ public function matchNodeId(
 Argument|Type|Default|Description
 --------|----|-------|-----------
 `$context`|[`PageMatcherContext`](PageMatcher/PageMatcherContext.md)||
+
+Return Value: `string`
+
+### matchNodeIdForCustomTypes()
+
+```php
+public function matchNodeIdForCustomTypes(
+    string $pageType,
+    mixed $matchingPayload
+): string
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$pageType`|`string`||
+`$matchingPayload`|`mixed`||
 
 Return Value: `string`
 
