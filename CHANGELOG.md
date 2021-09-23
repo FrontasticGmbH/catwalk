@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.19.5` (2021-09-23)
+
+* fix(api-hub): also pass non-response objects to support stream handlers
+
 ## `1.19.4` (2021-09-23)
 
 * fix(api-hub): pass response objects as specified
