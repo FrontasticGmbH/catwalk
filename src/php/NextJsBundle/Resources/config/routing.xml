@@ -7,6 +7,9 @@
     <route id="Frontastic.NextJs.Api.page" path="/frontastic/page">
         <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\PageController::indexAction</default>
     </route>
+    <route id="Frontastic.NextJs.Api.preview" path="/frontastic/preview">
+        <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\PageController::previewAction</default>
+    </route>
     <route id="Frontastic.NextJs.Api.project" path="/frontastic/project">
         <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\ProjectController::indexAction</default>
     </route>
