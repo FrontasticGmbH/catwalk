@@ -117,6 +117,7 @@ class PageController
         $this->completionService->completePageData($preview->page, $preview->node, $context, $pageViewData->tastic);
 
         return [
+            'previewId' => $request->query->get('previewId'),
             'pageFolder' => $this->mapper->map($preview->node),
             'page' => $this->mapper->map($preview->page),
             // Stream parameters is deprecated
