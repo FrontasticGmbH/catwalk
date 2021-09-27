@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.19.9` (2021-09-27)
+
+* fix: Pass context to node data visitor
+
 ## `1.19.8` (2021-09-27)
 
 * feat: Render previews endpoint for Frontastic Next.js
