@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.19.8` (2021-09-27)
+
+* feat: Render previews endpoint for Frontastic Next.js
+
 ## `1.19.7` (2021-09-23)
 
 * feat: Initial draft for dynamic page handling in Next.js extensions.
