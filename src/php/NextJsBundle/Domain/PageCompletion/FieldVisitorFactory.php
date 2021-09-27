@@ -25,7 +25,7 @@ class FieldVisitorFactory
         return new SequentialFieldVisitor([
             // IMPORTANT: TasticFieldHandler must be called before PageFolderUrl!
             new TasticFieldValueInlineVisitor($tasticFieldData),
-            new PageFolderCompletionVisitor($this->pageService, $this->nodeService, $this),
+            new PageFolderCompletionVisitor($this->pageService, $this->nodeService, $context, $this),
             new SelectTranslationVisitor($context),
         ]);
     }
@@ -34,7 +34,7 @@ class FieldVisitorFactory
     {
         if ($this->nodeDataVisitor === null) {
             $this->nodeDataVisitor = new SequentialFieldVisitor([
-                new PageFolderCompletionVisitor($this->pageService, $this->nodeService, $this),
+                new PageFolderCompletionVisitor($this->pageService, $this->nodeService, $context, $this),
                 new SelectTranslationVisitor($context),
             ]);
         }

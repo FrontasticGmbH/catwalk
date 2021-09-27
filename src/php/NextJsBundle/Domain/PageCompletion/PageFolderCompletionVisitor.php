@@ -11,20 +11,24 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue\PageFolderValue;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldConfiguration;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class PageFolderCompletionVisitor implements FieldVisitor
 {
     private SiteBuilderPageService $pageService;
     private NodeService $nodeService;
+    private Context $context;
     private FieldVisitorFactory $fieldVisitorFactory;
 
     public function __construct(
         SiteBuilderPageService $pageService,
         NodeService $nodeService,
+        Context $context,
         FieldVisitorFactory $fieldVisitorFactory
     ) {
         $this->pageService = $pageService;
         $this->nodeService = $nodeService;
+        $this->context = $context;
         $this->fieldVisitorFactory = $fieldVisitorFactory;
     }
 
@@ -66,7 +70,10 @@ class PageFolderCompletionVisitor implements FieldVisitor
     private function createNodeRepresentation(string $pageFolderId): PageFolderValue
     {
         $node = $this->nodeService->get($pageFolderId);
-        $node = $this->nodeService->completeCustomNodeData($node, $this->fieldVisitorFactory->createNodeDataVisitor());
+        $node = $this->nodeService->completeCustomNodeData(
+            $node,
+            $this->fieldVisitorFactory->createNodeDataVisitor($this->context)
+        );
 
         return new PageFolderValue([
             'pageFolderId' => $pageFolderId,
