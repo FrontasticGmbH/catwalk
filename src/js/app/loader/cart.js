@@ -359,7 +359,7 @@ let CartLoader = function (store, api) {
                 (data) => {
                     app.getRouter().push('Frontastic.Frontend.Master.Checkout.finished', {
                         order: data.order.orderId,
-                        token: (data.order && data.order.custom && data.order.custom.viewToken) || null,
+                        token: (data.order && data.order.projectSpecificData && data.order.projectSpecificData.viewToken) || null,
                     })
                     return data
                 },
