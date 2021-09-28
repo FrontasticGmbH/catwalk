@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.19.10` (2021-09-28)
+
+* fix(FP-1022): replaced missing custom field by projectSpecificData
+
 ## `1.19.9` (2021-09-27)
 
 * fix: Pass context to node data visitor
