@@ -31,7 +31,7 @@ class HooksApiClient
             );
         }
 
-        return Json::decode($response->body);
+        return Json::decode($response->body, true);
     }
 
     /**

@@ -47,7 +47,9 @@ class HooksService
     public function isHookRegistered(string $hook): bool
     {
         $hooks = $this->getRegisteredHooks();
-        return in_array($hook, array_column($hooks, 'hookName'), true);
+        var_dump($hooks);
+        exit();
+        return in_array($hook, array_keys($hooks), true);
     }
 
     protected function callRemoteHook(string $hook, array $arguments): \stdClass

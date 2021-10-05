@@ -35,6 +35,11 @@
 
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper" />
 
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\FrontasticJWTSessionService"
+                 autowire="true"
+                 autoconfigure="true"
+        />
+
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService"
              autowire="true"
              autoconfigure="true"
@@ -43,10 +48,9 @@
              autowire="true"
              autoconfigure="true"
         />
-        <service id="Frontastic\Catwalk\NextJsBundle\Domain\RequestService"
-             autowire="true"
-             autoconfigure="true"
-        />
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\RequestService">
+            <argument type="service" id="Frontastic\Catwalk\NextJsBundle\Domain\FrontasticJWTSessionService" />
+        </service>
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService"
              autowire="true"
              autoconfigure="true"

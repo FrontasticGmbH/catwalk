@@ -31,7 +31,7 @@ class ActionController
         $this->rootDir = $rootDir;
     }
 
-    public function indexAction(string $namespace, string $action, SymfonyRequest $request): JsonResponse
+    public function indexAction(string $namespace, string $action, \Symfony\Component\HttpFoundation\Request $request): JsonResponse
     {
         if ($this->hasOverride($namespace, $action)) {
             return $this->performOverrideForward($namespace, $action, $request);
@@ -43,6 +43,8 @@ class ActionController
 
         /** @var stdClass $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
+
+//        $this->requestService->decodeAndValidateJWTSessionToken($request);
 
         $response = new JsonResponse();
         if (isset($apiResponse->ok) && !$apiResponse->ok) {
