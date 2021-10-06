@@ -3,17 +3,21 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Symfony\Component\HttpFoundation\Request;
+use Firebase\JWT\JWT;
 
 class FrontasticJWTSessionService
 {
-    public function decodeAndValidateToken(Request $sessionData): Array
+    //TODO: Make this customer specific later
+    const SALT = 'A_OIK_+(#@&#U(98as7ydy6AS%D^sW98sa8d)kMNcx_Si)xudyhX*ASD';
+
+    public function decodeAndValidateToken(string $sessionData): ?array
     {
-        var_dump($sessionData->cookies);
-        exit();
+        return (array) JWT::decode($sessionData, self::SALT, ['HS256']);
     }
 
-    private function validateJWTSessionToken($token)
+    public function encodeData($cookieData): string
     {
-        return 'b';
+        $token = JWT::encode([$cookieData], self::SALT, 'HS256');
+        return $token;
     }
 }

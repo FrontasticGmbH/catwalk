@@ -47,8 +47,7 @@ class HooksService
     public function isHookRegistered(string $hook): bool
     {
         $hooks = $this->getRegisteredHooks();
-        var_dump($hooks);
-        exit();
+
         return in_array($hook, array_keys($hooks), true);
     }
 
@@ -104,6 +103,7 @@ class HooksService
                 $context->project->customer . '_' . $context->project->projectId
             );
         }
+
         return $this->hooks;
     }
 }

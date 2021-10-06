@@ -6,6 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Request;
 use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,20 +32,33 @@ class ActionController
         $this->rootDir = $rootDir;
     }
 
-    public function indexAction(string $namespace, string $action, \Symfony\Component\HttpFoundation\Request $request): JsonResponse
+    public function indexAction(string $namespace, string $action, SymfonyRequest $request): JsonResponse
     {
+
         if ($this->hasOverride($namespace, $action)) {
             return $this->performOverrideForward($namespace, $action, $request);
         }
 
         $hookName = sprintf('action-%s-%s', $namespace, $action);
 
-        $apiRequest = $this->requestService->createApiRequest($request);
+        $requestSessionData = null;
+
+        if ($request->cookies->get('frontastic-session')) {
+            $requestSessionData = $this->requestService->decodeAndValidateJWTSessionToken(
+                $request->cookies->get('frontastic-session')
+            );
+        }
+
+        $apiRequest = $this->requestService->createApiRequest($request, $requestSessionData);
 
         /** @var stdClass $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
 
-//        $this->requestService->decodeAndValidateJWTSessionToken($request);
+        if (isset($apiResponse->sessionData)) {
+            $responseSessionData = $apiResponse->sessionData;
+        } else {
+            $responseSessionData = $requestSessionData;
+        }
 
         $response = new JsonResponse();
         if (isset($apiResponse->ok) && !$apiResponse->ok) {
@@ -54,6 +68,9 @@ class ActionController
         } elseif (!isset($apiResponse->statusCode) || !isset($apiResponse->body)) {
             // response from extension is not in the expected form (which is a Response object)
             $response->setStatusCode(200);
+            $response->headers->setCookie(
+                new Cookie('frontastic-session', $this->requestService->encodeJWTData($responseSessionData))
+            );
             $response->headers->set(
                 'X-Extension-Error',
                 'Data returned from hook did not have statusCode or body fields'
@@ -71,6 +88,9 @@ class ActionController
             );
             */
         } else {
+            $response->headers->setCookie(
+                new Cookie('frontastic-session', $this->requestService->encodeJWTData($responseSessionData))
+            );
             $response->setContent($apiResponse->body);
             $response->setStatusCode($apiResponse->statusCode);
             // TODO pass other headers to JsonResponse
