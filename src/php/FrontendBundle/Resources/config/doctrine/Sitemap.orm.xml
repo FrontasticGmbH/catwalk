@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Frontastic\Catwalk\FrontendBundle\Domain\Sitemap" table="sitemap">
+        <id name="sitemapId" column="sm_id" type="integer">
+            <generator strategy="SEQUENCE"/>
+        </id>
+
+        <field name="generationTimestamp" column="sm_generation_timestamp" type="integer" />
+        <field name="filename" column="sm_filename" type="string" />
+        <field name="content" column="sm_content" type="text" />
+
+        <indexes>
+            <index columns="sm_id"/>
+            <index columns="sm_generation_timestamp,sm_filename"/>
+        </indexes>
+    </entity>
+</doctrine-mapping>
