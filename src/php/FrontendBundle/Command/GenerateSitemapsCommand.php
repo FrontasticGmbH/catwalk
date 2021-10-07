@@ -11,6 +11,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Route;
 use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
+use Frontastic\Catwalk\FrontendBundle\Domain\Sitemap;
 use Frontastic\Catwalk\FrontendBundle\Domain\SitemapService;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamService;
 use Frontastic\Catwalk\FrontendBundle\Routing\ObjectRouter\ProductRouter;
@@ -25,6 +26,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -64,6 +66,8 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
      * @var string
      */
     private $publicUrl;
+
+    private bool $useDatabase = false;
 
     protected function configure(): void
     {
@@ -147,6 +151,18 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->useDatabase = (getenv('database_sitemaps') !== false);
+
+        if ($this->useDatabase === false) {
+            $output->writeln(
+                '<comment>We recommend switching to database sitemaps to prevent serving outdated information on scaling.</comment>'
+            );
+            // FIXME: Add docs and update link
+            $output->writeln(
+                '<comment>Find more information about this in https://docs.frontastic.cloud/...</comment>'
+            );
+        }
+
         $this->maxEntries = $input->getOption('max-entries');
         $this->singleSitemap = $input->getOption('single-sitemap');
         $this->workingDir = uniqid(sprintf('%s/sitemap_', sys_get_temp_dir()));
@@ -200,12 +216,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         }
 
         $outputDir = $input->getArgument('output-directory');
-        // TODO: Proper error message for other paths
-        list(, $basePath) = explode('public/', $outputDir);
-
-        if ($basePath) {
-            $basePath = trim($basePath, '/') . '/';
-        }
+        $basePath = $this->cleanBasePath($outputDir);
 
         $output->writeln('Generating sitemap index…');
         $filePath = 'sitemap_index.xml';
@@ -219,15 +230,12 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             $this->renderIndex($this->publicUrl, $sitemaps, $filePath);
         }
 
-        $backupDir = null;
-        if ($this->filesystem->exists($outputDir)) {
-            $backupDir = uniqid(sprintf('%s/backup_sitemap_', sys_get_temp_dir()));
-            $this->filesystem->rename($outputDir, $backupDir);
-        }
-        $this->filesystem->rename($this->workingDir, $outputDir);
+        var_dump($outputDir);
 
-        if ($backupDir) {
-            $this->filesystem->remove($backupDir);
+        if (!$this->useDatabase) {
+            $this->storeInFilesystem($outputDir);
+        } else {
+            $this->storeInDatabase($outputDir);
         }
 
         return 0;
@@ -614,5 +622,70 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
 
         // return the defaultRoute if one is found, otherwise return the first one found.
         return $defaultRoute ?? reset($nodeRoutes);
+    }
+
+    /**
+     * @param $outputDir
+     */
+    private function storeInFilesystem(string $outputDir): void
+    {
+        $backupDir = null;
+        if ($this->filesystem->exists($outputDir)) {
+            $backupDir = uniqid(sprintf('%s/backup_sitemap_', sys_get_temp_dir()));
+            $this->filesystem->rename($outputDir, $backupDir);
+        }
+        $this->filesystem->rename($this->workingDir, $outputDir);
+
+        if ($backupDir) {
+            $this->filesystem->remove($backupDir);
+        }
+    }
+
+    private function storeInDatabase(string $outputDir)
+    {
+        try {
+            $basedir = $this->cleanBasePath($outputDir);
+
+            $generationDate = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+            $generationTimestamp = (int)$generationDate->format('U');
+
+            $sitemaps = [];
+
+            $finder = new Finder();
+            foreach ($finder->files()->in($this->workingDir) as $file) {
+                $sitemaps[] = new Sitemap([
+                    'generationTimestamp' => $generationTimestamp,
+                    'basedir' => $basedir,
+                    'filename' => $file->getRelativePathname(),
+                    'filepath' => $basedir . $file->getRelativePathname(),
+                    'content' => $file->getContents()
+                ]);
+            }
+
+            /** @var SitemapService $sitemapService */
+            $sitemapService = $this->getContainer()->get(SitemapService::class);
+            $sitemapService->storeAll($sitemaps);
+
+            // TODO: Cleanup outdated sitemaps
+        } finally {
+            $this->filesystem->remove(
+                (new Finder())->in($this->workingDir)->sortByType()->reverseSorting()
+            );
+        }
+    }
+
+    /**
+     * @param $outputDir
+     * @return mixed|string
+     */
+    protected function cleanBasePath($outputDir)
+    {
+        // TODO: Proper error message for other paths
+        list(, $basePath) = explode('public/', $outputDir);
+
+        if ($basePath) {
+            $basePath = trim($basePath, '/') . '/';
+        }
+        return $basePath;
     }
 }
