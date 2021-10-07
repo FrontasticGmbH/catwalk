@@ -10,12 +10,15 @@
         </id>
 
         <field name="generationTimestamp" column="sm_generation_timestamp" type="integer" />
+        <field name="basedir" column="sm_basedir" type="string" />
         <field name="filename" column="sm_filename" type="string" />
+        <field name="filepath" column="sm_filepath" type="string" />
         <field name="content" column="sm_content" type="text" />
 
         <indexes>
             <index columns="sm_id"/>
-            <index columns="sm_generation_timestamp,sm_filename"/>
+            <index columns="sm_generation_timestamp,sm_filepath"/>
+            <index columns="sm_generation_timestamp,sm_basedir"/>
         </indexes>
     </entity>
 </doctrine-mapping>
