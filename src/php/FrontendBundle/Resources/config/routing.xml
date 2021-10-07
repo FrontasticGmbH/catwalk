@@ -224,4 +224,10 @@
         <requirement key="type">css|js</requirement>
         <requirement key="file">[a-z0-9~.]+</requirement>
     </route>
+
+    <route id="Frontastic.Frontend.Sitemap.deliver" path="/sitemap/{file}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\SitemapController::deliverAction</default>
+
+        <requirement key="file">.+</requirement>
+    </route>
 </routes>

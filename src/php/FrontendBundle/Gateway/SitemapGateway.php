@@ -49,4 +49,17 @@ class SitemapGateway
         }
         return $sitemaps;
     }
+
+    public function loadLatestByPath(string $path): ?Sitemap
+    {
+        $query = $this->manager->createQuery('SELECT s FROM ' . Sitemap::class . ' s' .
+            ' WHERE s.filepath = :path ' .
+            ' ORDER BY s.generationTimestamp DESC '
+        );
+        $query->setMaxResults(1);
+
+        $query->execute(['path' => $path]);
+
+        return $query->getOneOrNullResult();
+    }
 }
