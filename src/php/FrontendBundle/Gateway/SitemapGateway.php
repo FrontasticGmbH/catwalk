@@ -32,4 +32,21 @@ class SitemapGateway
 
         return $sitemap;
     }
+
+    public function storeAll(array $sitemaps): array
+    {
+        $this->manager->beginTransaction();
+
+        try {
+            foreach ($sitemaps as $sitemap) {
+                $this->manager->persist($sitemap);
+            }
+            $this->manager->flush($sitemaps);
+            $this->manager->commit();
+        } catch (\Throwable $e) {
+            $this->manager->rollback();
+            throw new \RuntimeException('Storing all sitemaps at once failed.', 0, $e);
+        }
+        return $sitemaps;
+    }
 }
