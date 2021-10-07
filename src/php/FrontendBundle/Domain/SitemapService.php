@@ -2,18 +2,22 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\FrontendBundle\Gateway\SitemapGateway;
+
 class SitemapService
 {
     /**
      * @var \Frontastic\Catwalk\FrontendBundle\Domain\SitemapExtension[]
      */
     private $sitemapExtensions;
+    private SitemapGateway $sitemapGateway;
 
     /**
      * @param \Frontastic\Catwalk\FrontendBundle\Domain\SitemapExtension[] $sitemapExtensions
      */
-    public function __construct($sitemapExtensions)
+    public function __construct(SitemapGateway $sitemapGateway, $sitemapExtensions)
     {
+        $this->sitemapGateway = $sitemapGateway;
         $this->sitemapExtensions = $sitemapExtensions;
     }
 
@@ -23,5 +27,10 @@ class SitemapService
     public function getExtensions(): iterable
     {
         return $this->sitemapExtensions;
+    }
+
+    public function storeAll(array $sitemaps)
+    {
+        $this->sitemapGateway->storeAll($sitemaps);
     }
 }

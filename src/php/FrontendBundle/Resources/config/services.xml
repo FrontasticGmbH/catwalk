@@ -547,6 +547,17 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Gateway\SitemapGateway">
+            <argument type="service">
+                <service class="Doctrine\ORM\DocumentRepository">
+                    <factory service="doctrine.orm.default_entity_manager"
+                             method="getRepository" />
+                    <argument>Frontastic\Catwalk\FrontendBundle\Domain\Sitemap</argument>
+                </service>
+            </argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
         <service id="Aptoma\Twig\Extension\MarkdownExtension">
             <argument type="service">
                 <service class="Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine" />
@@ -655,6 +666,7 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\SitemapService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\SitemapGateway" />
             <argument type="tagged" tag="frontend.sitemapExtension" />
         </service>
 
