@@ -33,4 +33,9 @@ class SitemapService
     {
         $this->sitemapGateway->storeAll($sitemaps);
     }
+
+    public function loadLatestByPath(string $path): ?Sitemap
+    {
+        return $this->sitemapGateway->loadLatestByPath($path);
+    }
 }
