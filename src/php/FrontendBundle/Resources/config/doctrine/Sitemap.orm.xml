@@ -6,7 +6,7 @@
 
     <entity name="Frontastic\Catwalk\FrontendBundle\Domain\Sitemap" table="sitemap">
         <id name="sitemapId" column="sm_id" type="integer">
-            <generator strategy="SEQUENCE"/>
+            <generator strategy="AUTO"/>
         </id>
 
         <field name="generationTimestamp" column="sm_generation_timestamp" type="integer" />
