@@ -10,7 +10,14 @@ class Sitemap extends DataObject
 
     public int $generationTimestamp;
 
+    public string $basedir;
+
     public string $filename;
+
+    /**
+     * This is $basedir + / + $filename for controller matching
+     */
+    public string $filepath;
 
     public string $content;
 }
