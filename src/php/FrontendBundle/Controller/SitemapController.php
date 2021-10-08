@@ -6,8 +6,6 @@ use Frontastic\Catwalk\FrontendBundle\Domain\SitemapService;
 use Frontastic\Common\AccountApiBundle\Domain\Session;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SitemapController
 {
@@ -25,7 +23,9 @@ class SitemapController
 
         $sitemap = null;
         try {
-            $sitemap = $this->sitemapService->loadLatestByPath($request->getPathInfo());
+            $sitemap = $this->sitemapService->loadLatestByPath(
+                ltrim($request->getPathInfo(), '/')
+            );
         } catch (\Throwable $e) {
             return new Response('Loading sitemap errored', 500);
         }
