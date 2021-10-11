@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.20.1` (2021-10-11)
+
+
+* fix release version
+
 ## `“1.20.0”` (2021-10-11)
 
 
