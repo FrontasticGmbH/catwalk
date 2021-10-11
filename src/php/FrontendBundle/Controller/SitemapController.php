@@ -34,7 +34,7 @@ class SitemapController
             return new Response('Requested sitemap not found', 404);
         }
 
-        return Response::create($sitemap->content, 200, ['Content-Type', 'application/xml'])
+        return Response::create($sitemap->content, 200, ['Content-Type' => 'application/xml'])
             ->setLastModified(new \DateTimeImmutable(
                 '@' . $sitemap->generationTimestamp,
                 new \DateTimeZone('UTC')
