@@ -10,10 +10,14 @@
 
     <route id="Frontastic.ApiCoreBundle.Api.endpoint" path="/api/endpoint" methods="POST">
         <default key="_controller">Frontastic\Catwalk\ApiCoreBundle\Controller\ApiController::endpointAction</default>
+
+        <default key="_stateless">true</default>
     </route>
 
     <route id="Frontastic.ApiCoreBundle.Api.version" path="/api/endpoint/version" methods="GET">
         <default key="_controller">Frontastic\Catwalk\ApiCoreBundle\Controller\ApiController::versionAction</default>
+
+        <default key="_stateless">true</default>
     </route>
 
     <route id="Frontastic.ApiCoreBundle.App.data" path="/api/{app}/data" methods="GET">

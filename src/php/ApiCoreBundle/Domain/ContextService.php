@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver;
 use Frontastic\Catwalk\AppKernel as AppKernelAlias;
+use Frontastic\Catwalk\FrontendBundle\Session\StatelessSessionHelper;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
 use Frontastic\Common\AccountApiBundle\Domain\Session;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
@@ -187,7 +188,7 @@ class ContextService
 
     private function getAnonymousSession(Request $request): Session
     {
-        $session = $request->hasSession() ? $request->getSession() : null;
+        $session = StatelessSessionHelper::hasSession($request) ? $request->getSession() : null;
 
         if ($session !== null && $session->has('anonymousId')) {
             return new Session([

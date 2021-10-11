@@ -14,12 +14,14 @@ security:
 
         replicator:
             pattern: ^/api/endpoint
-            stateless: true
+            security: false
+
+        sitemap:
+            pattern: ^/sitemap/
             security: false
 
         logging:
             pattern: ^/_recordFrontendError$
-            stateless: true
             security: false
 
         main:
