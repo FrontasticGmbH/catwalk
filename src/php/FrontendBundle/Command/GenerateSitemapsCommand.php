@@ -666,7 +666,8 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             $sitemapService = $this->getContainer()->get(SitemapService::class);
             $sitemapService->storeAll($sitemaps);
 
-            // TODO: Cleanup outdated sitemaps
+            $this->removeFileStoragePathIfExists($outputDir);
+
         } finally {
             $this->filesystem->remove(
                 (new Finder())->in($this->workingDir)->sortByType()->reverseSorting()
@@ -687,5 +688,17 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             $basePath = trim($basePath, '/') . '/';
         }
         return $basePath;
+    }
+
+    private function removeFileStoragePathIfExists(string $outputDir): void
+    {
+        if (!file_exists($outputDir)) {
+            return;
+        }
+
+        $this->filesystem->remove(
+            (new Finder())->in($outputDir)->sortByType()->reverseSorting()
+        );
+        $this->filesystem->remove($outputDir);
     }
 }
