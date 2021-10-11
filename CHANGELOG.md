@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `“1.20.0”` (2021-10-11)
+
+
+* fix: Fixing the hook service return type
+
 ## `1.19.10` (2021-09-28)
 
 * fix(FP-1022): replaced missing custom field by projectSpecificData
