@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.20.2` (2021-10-11)
+
+
+* Catwalk common version update
+
 ## `1.20.1` (2021-10-11)
 
 
