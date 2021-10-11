@@ -230,8 +230,6 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             $this->renderIndex($this->publicUrl, $sitemaps, $filePath);
         }
 
-        var_dump($outputDir);
-
         if (!$this->useDatabase) {
             $this->storeInFilesystem($outputDir);
         } else {
@@ -643,6 +641,9 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
 
     private function storeInDatabase(string $outputDir)
     {
+        /** @var SitemapService $sitemapService */
+        $sitemapService = $this->getContainer()->get(SitemapService::class);
+
         try {
             $basedir = $this->cleanBasePath($outputDir);
 
@@ -662,17 +663,14 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 ]);
             }
 
-            /** @var SitemapService $sitemapService */
-            $sitemapService = $this->getContainer()->get(SitemapService::class);
             $sitemapService->storeAll($sitemaps);
 
-            $this->removeFileStoragePathIfExists($outputDir);
-
+            $this->removeDirectoryRecursive($outputDir);
         } finally {
-            $this->filesystem->remove(
-                (new Finder())->in($this->workingDir)->sortByType()->reverseSorting()
-            );
+            $this->removeDirectoryRecursive($this->workingDir);
         }
+
+        $sitemapService->cleanOutdated(3);
     }
 
     /**
@@ -690,15 +688,15 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         return $basePath;
     }
 
-    private function removeFileStoragePathIfExists(string $outputDir): void
+    private function removeDirectoryRecursive(string $directory): void
     {
-        if (!file_exists($outputDir)) {
+        if (!file_exists($directory)) {
             return;
         }
 
         $this->filesystem->remove(
-            (new Finder())->in($outputDir)->sortByType()->reverseSorting()
+            (new Finder())->in($directory)->sortByType()->reverseSorting()
         );
-        $this->filesystem->remove($outputDir);
+        $this->filesystem->remove($directory);
     }
 }

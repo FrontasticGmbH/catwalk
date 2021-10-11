@@ -38,4 +38,30 @@ class SitemapService
     {
         return $this->sitemapGateway->loadLatestByPath($path);
     }
+
+    public function cleanOutdated(int $keep): void
+    {
+        $instancesByBasedir = $this->mapToBasedirs($this->sitemapGateway->loadGenerationTimestampsByBasedir());
+        foreach ($instancesByBasedir as $basedir => $timestamps) {
+            if (count($timestamps) <= $keep) {
+                continue;
+            }
+
+            foreach (array_slice($timestamps, 3) as $timestamp) {
+                $this->sitemapGateway->remove($basedir, $timestamp);
+            }
+        }
+    }
+
+    private function mapToBasedirs(array $generationTimestampsByBasedirResult): array
+    {
+        $mapByBasedir = [];
+        foreach ($generationTimestampsByBasedirResult as $resultRow) {
+            if (!isset($mapByBasedir[$resultRow['basedir']])) {
+                $mapByBasedir[$resultRow['basedir']] = [];
+            }
+            $mapByBasedir[$resultRow['basedir']][] = $resultRow['generationTimestamp'];
+        }
+        return $mapByBasedir;
+    }
 }

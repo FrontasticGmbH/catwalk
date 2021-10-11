@@ -62,4 +62,26 @@ class SitemapGateway
 
         return $query->getOneOrNullResult();
     }
+
+    public function loadGenerationTimestampsByBasedir(): array
+    {
+        $query = $this->manager->createQuery('SELECT s.basedir, s.generationTimestamp FROM ' . Sitemap::class . ' s' .
+            ' GROUP BY s.basedir, s.generationTimestamp ' .
+            ' ORDER BY s.generationTimestamp DESC'
+        );
+        $query->execute();
+
+        return $query->getArrayResult();
+    }
+
+    public function remove(string $basedir, int $timestamp): void
+    {
+        $query = $this->manager->createQuery('DELETE FROM ' . Sitemap::class . ' s ' .
+            'WHERE s.basedir = :basedir AND s.generationTimestamp = :timestamp'
+        );
+        $query->execute([
+            'basedir' => $basedir,
+            'timestamp' => $timestamp
+        ]);
+    }
 }
