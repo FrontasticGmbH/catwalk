@@ -156,6 +156,7 @@
 
     <route id="Frontastic.Frontend.Master.Error.recordFrontendError" path="/_recordFrontendError" methods="POST">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::recordFrontendErrorAction</default>
+        <default key="_stateless">true</default>
     </route>
 
     <route id="Frontastic.Frontend.Master.Error.view" path="/__error" methods="GET">
@@ -220,6 +221,7 @@
 
     <route id="Frontastic.Frontend.Assets.deliver" path="/assets/{type}/{file}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\AssetController::deliverAction</default>
+        <default key="_stateless">true</default>
 
         <requirement key="type">css|js</requirement>
         <requirement key="file">[a-z0-9~.]+</requirement>
@@ -227,6 +229,7 @@
 
     <route id="Frontastic.Frontend.Sitemap.deliver" path="/sitemap/{file}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\SitemapController::deliverAction</default>
+        <default key="_stateless">true</default>
 
         <requirement key="file">.+</requirement>
     </route>

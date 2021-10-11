@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
+use Frontastic\Catwalk\FrontendBundle\Session\StatelessSessionHelper;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,7 +11,9 @@ class LocaleResolver
 {
     public function determineLocale(Request $request, Project $project): string
     {
-        $session = $request->hasSession() ? $request->getSession() : null;
+        $session = StatelessSessionHelper::hasSession($request)
+            ? $request->getSession()
+            : null;
 
         // Update locale from request. Should that actually happen here?
         if (($locale = $request->get('locale')) && $session !== null) {
