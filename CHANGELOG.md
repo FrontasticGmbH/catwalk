@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.21.2` (2021-10-12)
+
+
+Code style fix
+
 ## `1.21.1` (2021-10-12)
 
 
