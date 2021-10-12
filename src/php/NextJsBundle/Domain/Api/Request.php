@@ -51,5 +51,5 @@ class Request extends DataObject
      *
      * @var ?object
      */
-    public ?object $sessionData;
+    public ?object $sessionData = null;
 }
