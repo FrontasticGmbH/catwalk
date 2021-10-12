@@ -155,7 +155,8 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
 
         if ($this->useDatabase === false) {
             $output->writeln(
-                '<comment>We recommend switching to database sitemaps to prevent serving outdated information on scaling.</comment>'
+                '<comment>We recommend switching to database sitemaps to prevent ' .
+                'serving outdated information on scaling.</comment>'
             );
             // FIXME: Add docs and update link
             $output->writeln(
