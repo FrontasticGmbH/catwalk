@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.21.1` (2021-10-12)
+
+
+* Fix empty session for JWT
+
 ## `1.21.0` (2021-10-12)
 
 
