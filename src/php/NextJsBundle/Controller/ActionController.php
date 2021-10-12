@@ -49,13 +49,13 @@ class ActionController
             );
         }
 
-        $apiRequest = $this->requestService->createApiRequest($request, $requestSessionData);
+        $apiRequest = $this->requestService->createApiRequest($request);
 
         /** @var stdClass $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
 
-        if (isset($apiResponse->sessionData)) {
-            $responseSessionData = $apiResponse->sessionData;
+        if ($apiRequest->sessionData) {
+            $responseSessionData = $apiRequest->sessionData;
         } else {
             $responseSessionData = $requestSessionData;
         }

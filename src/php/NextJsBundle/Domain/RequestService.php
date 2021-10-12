@@ -2,49 +2,43 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
-use Frontastic\Catwalk\NextJsBundle\Domain\FrontasticJWTSessionService;
+use Firebase\JWT\JWT;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Request;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class RequestService
 {
-    private FrontasticJWTSessionService $frontasticJWTSessionService;
-
-    public function __construct(frontasticJWTSessionService $frontasticJWTSessionService)
-    {
-        $this->frontasticJWTSessionService = $frontasticJWTSessionService;
-    }
+    const SALT = 'A_OIK_+(#@&#U(98as7ydy6AS%D^sW98sa8d)kMNcx_Si)xudyhX*ASD';
 
     /**
      * @param SymfonyRequest $request
      * @return Request
      */
-    public function createApiRequest(SymfonyRequest $request, $sessionData = null): Request
+    public function createApiRequest(SymfonyRequest $request): Request
     {
-
-        $content = json_decode($request->getContent(), true);
-
-        if ($sessionData) {
-            $content['sessionData'] = $sessionData;
-        }
-
         $apiRequest = new Request();
         $apiRequest->query = (object)($request->query->getIterator()->getArrayCopy());
         $apiRequest->path = $request->getPathInfo();
-        $apiRequest->body = json_encode($content);
+        $apiRequest->body = $request->getContent();
         $apiRequest->cookies = (object)($request->cookies->all());
-        $apiRequest->body;
+        $apiRequest->sessionData = (object) $this->decodeAndValidateJWTSessionToken(
+            $request->getSession()->get('sessionData')
+        );
 
         return $apiRequest;
     }
 
     public function decodeAndValidateJWTSessionToken(string $sessionData): ?array
     {
-        return $this->frontasticJWTSessionService->decodeAndValidateToken($sessionData);
+        try {
+            return (array) JWT::decode($sessionData, self::SALT, ['HS256']);
+        } catch (\Exception $e) {
+            throw new \Exception("Invalid JWT token in cookie", 401);
+        }
     }
 
     public function encodeJWTData($cookie): string
     {
-        return $this->frontasticJWTSessionService->encodeData($cookie);
+        return (string) JWT::encode([$cookie], self::SALT, 'HS256');
     }
 }
