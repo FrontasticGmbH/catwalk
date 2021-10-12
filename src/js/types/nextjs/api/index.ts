@@ -108,7 +108,7 @@ export interface Request {
      method?: string;
      path?: string;
      query?: any;
-     sessionData?: any;
+     sessionData?: null | any;
 }
 
 /* {@see https://expressjs.com/en/api.html#res}
@@ -117,7 +117,7 @@ Response structure as used by Express.js version 4.x + Frontastic additions. */
 export interface Response {
      statusCode?: string;
      body?: string;
-     sessionData?: any;
+     sessionData?: null | any;
 }
 
 export interface Section {

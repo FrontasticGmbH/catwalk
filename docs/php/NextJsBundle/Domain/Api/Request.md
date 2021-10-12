@@ -13,6 +13,6 @@ Property|Type|Default|Required|Description
 `method` | `string` |  | - | 
 `path` | `string` |  | - | 
 `query` | `object` |  | - | 
-`sessionData` | `object` |  | - | Frontastic session data.
+`sessionData` | `array<null, object>` |  | - | Frontastic session data.
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
