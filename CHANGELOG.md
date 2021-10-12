@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.21.0` (2021-10-12)
+
+
+* JWT Session storage
+* Sandbox fix
+
 ## `1.20.3` (2021-10-11)
 
 
