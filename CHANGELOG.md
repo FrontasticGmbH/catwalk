@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.21.3` (2021-10-12)
+
+
+* Fix sessionData type
+
 ## `1.21.2` (2021-10-12)
 
 
