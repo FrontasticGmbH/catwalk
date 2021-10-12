@@ -132,7 +132,7 @@ class SitemapServiceTest extends TestCase
                 'generationTimestamp' => 1633948391,
             ],
             4 => [
-                'anotherbasedir' => 'sitemap/',
+                'basedir' => 'another-sitemap/',
                 'generationTimestamp' => 1633947670,
             ],
         ];
