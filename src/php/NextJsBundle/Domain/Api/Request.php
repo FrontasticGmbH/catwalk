@@ -49,7 +49,7 @@ class Request extends DataObject
     /**
      * Frontastic session data.
      *
-     * @var object
+     * @var ?object
      */
-    public object $sessionData;
+    public ?object $sessionData;
 }
