@@ -103,6 +103,7 @@ class HooksService
                 $context->project->customer . '_' . $context->project->projectId
             );
         }
+
         return $this->hooks;
     }
 }

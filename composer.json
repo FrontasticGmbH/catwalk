@@ -49,7 +49,8 @@
         "zetacomponents/graph": "^1.5",
         "ramsey/uuid": "^3.9",
         "jaybizzle/crawler-detect": "^1.2",
-        "nikic/php-parser": "^4.12"
+        "nikic/php-parser": "^4.12",
+        "firebase/php-jwt": "^5.4"
     },
     "require-dev":  {
         "frontastic/apidocs": "^1.0.0@alpha",
