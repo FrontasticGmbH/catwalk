@@ -61,12 +61,12 @@ class StreamServiceFactory
 
         try {
             foreach ($this->hooksService->getRegisteredHooks() as $hook) {
-                if (isset($hook->hookType) && $hook->hookType === 'data-source') {
+                if (isset($hook['hookType']) && $hook['hookType'] === 'data-source') {
                     $streamService->addStreamHandlerV2(
-                        $hook->dataSourceIdentifier,
+                        $hook['dataSourceIdentifier'],
                         new StreamHandlerToDataSourceHandlerAdapter(
                             $this->hooksService,
-                            $hook->hookName
+                            $hook['hookName']
                         )
                     );
                 }
