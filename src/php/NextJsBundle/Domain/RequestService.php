@@ -21,7 +21,7 @@ class RequestService
         $apiRequest->path = $request->getPathInfo();
         $apiRequest->body = $request->getContent();
         $apiRequest->cookies = (object)($request->cookies->all());
-        if($request->getSession()->get('sessionData')) {
+        if ($request->getSession()->get('sessionData')) {
             $apiRequest->sessionData = (object) $this->decodeAndValidateJWTSessionToken(
                 $request->getSession()->get('sessionData')
             );
