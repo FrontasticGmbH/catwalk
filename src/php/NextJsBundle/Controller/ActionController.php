@@ -64,7 +64,7 @@ class ActionController
         if (isset($apiResponse->ok) && !$apiResponse->ok) {
             // hooksservice signaled an error
             $response->setStatusCode(500);
-            $response->setContent(json_encode($apiResponse, JSON_FORCE_OBJECT));
+            $response->setContent((object) json_encode($apiResponse));
         } elseif (!isset($apiResponse->statusCode) || !isset($apiResponse->body)) {
             // response from extension is not in the expected form (which is a Response object)
             $response->setStatusCode(200);
@@ -75,7 +75,7 @@ class ActionController
                 'X-Extension-Error',
                 'Data returned from hook did not have statusCode or body fields'
             );
-            $response->setContent(json_encode($apiResponse, JSON_FORCE_OBJECT));
+            $response->setContent((object) json_encode($apiResponse));
             /* XXX
                if the reponse from the extension is no Response object, it
                    should error, but for the TT release we just pass it along.
