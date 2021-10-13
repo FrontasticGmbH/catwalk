@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.22.2` (2021-10-13)
+
+
+* Fix the response content of index action
+
 ## `1.22.1` (2021-10-13)
 
 * fix: Do not force JSON encode as object in ActionController.
