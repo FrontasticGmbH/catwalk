@@ -7,6 +7,6 @@ Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
 `statusCode` | `string` |  | - | 
 `body` | `string` |  | - | 
-`sessionData` | `array<null, object>` |  | - | Frontastic session data to be written.
+`sessionData` | `object` |  | - | Frontastic session data to be written.
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
