@@ -92,6 +92,7 @@ Here you find the API documentation for the relevant classes:
     * [RouteService](php/FrontendBundle/Domain/RouteService.md)
     * [Schema](php/FrontendBundle/Domain/Schema.md)
     * [SchemaService](php/FrontendBundle/Domain/SchemaService.md)
+    * [Sitemap](php/FrontendBundle/Domain/Sitemap.md)
     * [SitemapExtension](php/FrontendBundle/Domain/SitemapExtension.md)
     * [SitemapService](php/FrontendBundle/Domain/SitemapService.md)
     * [Stream](php/FrontendBundle/Domain/Stream.md)
