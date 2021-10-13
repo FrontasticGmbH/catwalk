@@ -158,9 +158,9 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 '<comment>We recommend switching to database sitemaps to prevent ' .
                 'serving outdated information on scaling.</comment>'
             );
-            // FIXME: Add docs and update link
             $output->writeln(
-                '<comment>Find more information about this in https://docs.frontastic.cloud/...</comment>'
+                '<comment>Find more information about this in ' .
+                    'https://docs.frontastic.cloud/changelog/changes-to-sitemaps</comment>'
             );
         }
 
