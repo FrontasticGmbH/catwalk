@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.22.1` (2021-10-13)
+
+* fix: Do not force JSON encode as object in ActionController.
+
 ## `1.22.0` (2021-10-13)
 
 * fix: Scaling can lead to serving outdated sitemaps (details: https://docs.frontastic.cloud/changelog/changes-to-sitemaps)
