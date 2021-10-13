@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.22.0` (2021-10-13)
+
+* fix: Scaling can lead to serving outdated sitemaps (details: https://docs.frontastic.cloud/changelog/changes-to-sitemaps)
+* fix: Actually make our stateless requests stateless (details: https://docs.frontastic.cloud/docs/truly-stateless-controllers)
+* fix: Request sessionData types
+
 ## `1.21.2` (2021-10-13)
 
 * fix: Scaling can lead to serving outdated sitemaps (details: https://docs.frontastic.cloud/changelog/changes-to-sitemaps)
