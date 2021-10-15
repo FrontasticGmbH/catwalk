@@ -54,12 +54,8 @@ class ActionController
         /** @var stdClass $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
 
-        if (isset($apiResponse->body)) {
-            $decodedBody = json_decode($apiResponse->body);
-        }
-
-        if (isset($decodedBody->sessionData)) {
-            $responseSessionData = $decodedBody->sessionData;
+        if (isset($apiResponse->sessionData)) {
+            $responseSessionData = $apiResponse->sessionData;
         } else {
             $responseSessionData = $requestSessionData;
         }
