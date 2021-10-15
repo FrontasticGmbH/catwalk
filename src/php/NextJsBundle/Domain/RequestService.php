@@ -42,6 +42,6 @@ class RequestService
 
     public function encodeJWTData($cookie): string
     {
-        return (string) JWT::encode([$cookie], self::SALT, 'HS256');
+        return (string) JWT::encode($cookie, self::SALT, 'HS256');
     }
 }
