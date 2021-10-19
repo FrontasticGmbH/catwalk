@@ -152,6 +152,7 @@ export interface Stream {
      name: string;
      configuration: any;
      tastics: Tastic[];
+     preloadedValue?: any;
 }
 
 export interface StreamContext {

@@ -6,7 +6,7 @@
 
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
-`type` | `` | `'page-folder'` | - | 
-`pageFolder` | `` |  | - | 
+`type` | `string` | `'page-folder'` | - | 
+`pageFolder` | [`PageFolderValue`](PageFolderValue.md) |  | - | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

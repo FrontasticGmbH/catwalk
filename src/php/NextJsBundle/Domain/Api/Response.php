@@ -27,7 +27,7 @@ class Response
     /**
      * Frontastic session data to be written.
      *
-     * @var object
+     * @var ?object
      */
     public object $sessionData;
 }
