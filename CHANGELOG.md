@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.23.0` (2021-10-19)
+
+* Actually match the dynamic page type from the extension framework.
+* Ignore group fields in completion of handled values.
+* Fix the session to use the sessionData object, remove array from JWT encoding
+* Checking the internal response not request for sessionData
+
 ## `1.22.2` (2021-10-13)
 
 
