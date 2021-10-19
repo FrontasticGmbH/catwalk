@@ -21,6 +21,12 @@ class TasticFieldValueInlineVisitor implements FieldVisitor
 
     public function processField(FieldConfiguration $configuration, $value, $fieldPath)
     {
+        // Groups always have an (at least empty) handled value (legacy), but we don't want it
+        // Nested fields in the group will still be handled properly by the caller
+        if ($configuration->getType() === 'group') {
+            return $value;
+        }
+
         $fieldData = $this->tasticFieldData;
         foreach ($fieldPath as $fieldPathElement) {
             if (!isset($fieldData[$fieldPathElement])) {
