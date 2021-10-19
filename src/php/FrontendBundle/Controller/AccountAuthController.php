@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\LogoutException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
@@ -55,6 +56,11 @@ class AccountAuthController
         Assertion::isInstanceOf($account, Account::class);
 
         return new JsonResponse($this->getAccountService()->getSessionFor($account));
+    }
+
+    public function logoutAction(): void
+    {
+        throw new \Exception('Logout action should not be reached');
     }
 
     /**
