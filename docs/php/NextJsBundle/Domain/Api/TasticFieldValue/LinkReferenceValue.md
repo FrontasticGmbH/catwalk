@@ -6,8 +6,8 @@
 
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
-`type` | `` | `'link'` | - | 
-`link` | `` |  | - | 
-`target` | `` |  | - | 
+`type` | `string` | `'link'` | - | 
+`link` | `string` |  | - | 
+`target` | `string` |  | - | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
