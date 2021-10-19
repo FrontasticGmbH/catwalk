@@ -68,8 +68,10 @@ class DynamicPageService
 
     public function matchNodeFor(DynamicPageSuccessResult $result): ?Node
     {
-        // FIXME: Type should actually be $result->... hard-coded for testing.
-        $nodeId = $this->masterService->matchNodeIdForCustomTypes('product', $result->pageMatchingPayload);
+        $nodeId = $this->masterService->matchNodeIdForCustomTypes(
+            $result->dynamicPageType,
+            $result->pageMatchingPayload
+        );
 
         $node = $this->nodeService->get($nodeId);
 
