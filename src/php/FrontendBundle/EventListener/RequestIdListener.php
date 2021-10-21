@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
+use Frontastic\Common\CoreBundle\Domain\Tracing;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -28,13 +29,7 @@ class RequestIdListener implements EventSubscriberInterface
             return;
         }
 
-        // The webserver *might* default this to -, so we always assume that - is a missing id
-        $traceId = $request->headers->get('X-Cloud-Trace-Context', '-');
-
-        if ($traceId === '-' || $traceId === '') {
-            $uuid = Uuid::uuid4()->toString();
-            $traceId = str_replace('-', '', $uuid);
-        }
+        $traceId = Tracing::fetchTraceIdFromRequest($request);
 
         $request->attributes->set(self::REQUEST_ID_ATTRIBUTE_KEY, $traceId);
     }
