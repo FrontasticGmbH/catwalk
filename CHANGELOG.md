@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.23.1` (2021-10-21)
+
+* fix: implemented logout action to avoid 404 exception
+
 ## `1.23.0` (2021-10-19)
 
 * Actually match the dynamic page type from the extension framework.
