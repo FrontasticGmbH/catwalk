@@ -7,6 +7,30 @@ const pathToJsonLogfile = process.env.JSON_LOG_PATH || defaultLogFilePath
 const spawnedByCli = process.env.SPAWNED_BY === 'FCLI'
 
 /**
+ * Makes sure additional logged data is always an empty array or a string to not
+ * confuse logstash which parses the json.log in production.
+ */
+export const formatAdditionalData = (args) => {
+    if (Array.isArray(args)) {
+        if (args.length === 0) {
+            return args
+        } else if (args.length === 1) {
+            return []
+        } else {
+            return args.map((value) => {
+                if (typeof value === 'string' || value instanceof String) {
+                    return value
+                } else {
+                    return JSON.stringify(value)
+                }
+            })
+        }
+    } else {
+        return ['Error! Given data was not an array.', JSON.stringify(args)]
+    }
+}
+
+/**
  * Will overwrite the console.log command in order to activate logging to elk
  */
 export const activateFileLogging = (logSource, project) => {
@@ -22,7 +46,7 @@ export const activateFileLogging = (logSource, project) => {
             severity: severity,
             logSource: logSource,
             project: project,
-            additionalData: args,
+            additionalData: formatAdditionalData(args),
             '@timestamp': (new Date()).toISOString(),
         }
     }
