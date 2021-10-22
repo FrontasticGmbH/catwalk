@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.23.2` (2021-10-22)
+
+
+* Improved data source representation for next.
+* Fixed logstash format edge cases.
+
 ## `1.23.1` (2021-10-21)
 
 * fix: implemented logout action to avoid 404 exception
