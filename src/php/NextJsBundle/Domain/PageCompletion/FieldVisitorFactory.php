@@ -27,6 +27,7 @@ class FieldVisitorFactory
             new TasticFieldValueInlineVisitor($tasticFieldData),
             new PageFolderCompletionVisitor($this->pageService, $this->nodeService, $context, $this),
             new SelectTranslationVisitor($context),
+            new DataSourceReferenceFormatUpdater(),
         ]);
     }
 
