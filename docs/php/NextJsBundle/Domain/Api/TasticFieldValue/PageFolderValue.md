@@ -6,9 +6,9 @@
 
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
-`pageFolderId` | `` |  | - | 
-`name` | `` |  | - | 
-`configuration` | `` |  | - | 
-`_urls` | `` |  | - | 
+`pageFolderId` | `string` |  | - | 
+`name` | `string` |  | - | 
+`configuration` | `object` |  | - | 
+`_urls` | `array` |  | - | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
