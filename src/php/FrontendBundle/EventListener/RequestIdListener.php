@@ -3,7 +3,6 @@
 namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
 use Frontastic\Common\CoreBundle\Domain\Tracing;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -29,9 +28,7 @@ class RequestIdListener implements EventSubscriberInterface
             return;
         }
 
-        $traceId = Tracing::fetchTraceIdFromRequest($request);
-
-        $request->attributes->set(self::REQUEST_ID_ATTRIBUTE_KEY, $traceId);
+        $request->attributes->set(self::REQUEST_ID_ATTRIBUTE_KEY, Tracing::getCurrentTraceId());
     }
 
     public static function getSubscribedEvents()
