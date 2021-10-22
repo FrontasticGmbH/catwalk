@@ -7,6 +7,6 @@
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
 `children` | [`PageFolderTreeValue`](PageFolderTreeValue.md)[] | `[]` | - | 
-`requestedDepth` | `` | `null` | - | 
+`requestedDepth` | `?int` | `null` | - | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

@@ -2,6 +2,9 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue;
 
+/**
+ * @type
+ */
 class PageFolderTreeValue extends PageFolderValue
 {
     /**
@@ -9,5 +12,8 @@ class PageFolderTreeValue extends PageFolderValue
      */
     public array $children = [];
 
+    /**
+     * @var ?int
+     */
     public ?int $requestedDepth = null;
 }

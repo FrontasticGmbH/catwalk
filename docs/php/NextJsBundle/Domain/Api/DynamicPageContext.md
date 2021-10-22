@@ -6,6 +6,6 @@
 
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
-`frontasticContext` | `` | `null` | - | 
+`frontasticContext` | ?[`Context`](Context.md) | `null` | - | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

@@ -6,7 +6,7 @@
 
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
-`type` | `` |  | - | 
-`openInNewWindow` | `` | `false` | - | 
+`type` | `string` |  | - | 
+`openInNewWindow` | `bool` | `false` | - | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
