@@ -15,8 +15,6 @@ class DataSourceReferenceFormatUpdater implements FieldVisitor
         }
 
         return new DataSourceReference([
-            // TODO: Needs extension of FieldConfiguration model
-            'dataSourceType' => 'TODO: Implement!',
             'dataSourceId' => $value,
         ]);
     }

@@ -7,6 +7,4 @@ use Kore\DataObject\DataObject;
 class DataSourceReference extends DataObject
 {
     public string $dataSourceType;
-
-    public ?string $dataSourceId = null;
 }
