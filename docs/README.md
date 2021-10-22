@@ -161,6 +161,7 @@ Here you find the API documentation for the relevant classes:
       * Tastic
         * [Configuration](php/NextJsBundle/Domain/Api/Tastic/Configuration.md)
       * TasticFieldValue
+        * [DataSourceReference](php/NextJsBundle/Domain/Api/TasticFieldValue/DataSourceReference.md)
         * [LinkReferenceValue](php/NextJsBundle/Domain/Api/TasticFieldValue/LinkReferenceValue.md)
         * [PageFolderReferenceValue](php/NextJsBundle/Domain/Api/TasticFieldValue/PageFolderReferenceValue.md)
         * [PageFolderTreeValue](php/NextJsBundle/Domain/Api/TasticFieldValue/PageFolderTreeValue.md)
