@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.23.3` (2021-10-26)
+
+
+* fix: Removed wrong property from DataSourceReference.
+
 ## `1.23.2` (2021-10-22)
 
 
