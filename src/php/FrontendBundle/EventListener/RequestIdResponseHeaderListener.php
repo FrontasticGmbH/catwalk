@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
+use Frontastic\Common\CoreBundle\Domain\Tracing;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -21,6 +22,13 @@ class RequestIdResponseHeaderListener implements EventSubscriberInterface
 
         $event->getResponse()->headers->set(
             'Frontastic-Request-Id',
+            $requestAttributes->get(
+                RequestIdListener::REQUEST_ID_ATTRIBUTE_KEY
+            )
+        );
+
+        $event->getResponse()->headers->set(
+            Tracing::CORRELATION_ID_HEADER_KEY,
             $requestAttributes->get(
                 RequestIdListener::REQUEST_ID_ATTRIBUTE_KEY
             )
