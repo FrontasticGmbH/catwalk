@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.24.0` (2021-10-26)
+
+* chore: updating the common dependency for catwalk
+* !feat(FP-646): implemented traceability strategy adding a correlation-id to all requests and responses
+
 ## `1.23.3` (2021-10-26)
 
 
