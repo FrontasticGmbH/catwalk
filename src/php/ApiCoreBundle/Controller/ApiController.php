@@ -56,6 +56,8 @@ class ApiController extends AbstractController
                 throw new \InvalidArgumentException("Invalid data passed: " . $request->getContent());
             }
 
+            $this->verifyProject($request);
+
             $command = new Command($body, true);
             return new JsonResponse($this->endpointService->dispatch($command));
         } catch (\Throwable $e) {
@@ -91,5 +93,28 @@ class ApiController extends AbstractController
 
         /* HACK: This request is stateless, so let the ContextService know that we do not need a session. */
         $request->attributes->set(Session::STATELESS, true);
+    }
+
+    private function verifyProject(Request $request): void
+    {
+        $json = json_decode($request->getContent(), true);
+        if (!empty($json['payload']['projectId'])) {
+            $payloadProject = $json['payload']['projectId'];
+            $endpointProject = $this->contextService->createContextFromRequest($request)->project->projectId;
+
+            // XXX remove
+            $txt = sprintf("payload: %s, endpoint: %s", $payloadProject, $endpointProject);
+            $myfile = file_put_contents('/var/log/frontastic/api-debug-log.txt', $txt.PHP_EOL , FILE_APPEND | LOCK_EX);
+
+            if ($payloadProject != $endpointProject) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        "ProjectId in payload (%s) and projectId of this endpoint (%s) don't match.",
+                        $payloadProject,
+                        $endpointProject
+                    )
+                );
+            }
+        }
     }
 }
