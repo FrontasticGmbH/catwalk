@@ -102,10 +102,6 @@ class ApiController extends AbstractController
             $payloadProject = $json['payload']['projectId'];
             $endpointProject = $this->contextService->createContextFromRequest($request)->project->projectId;
 
-            // XXX remove
-            $txt = sprintf("payload: %s, endpoint: %s", $payloadProject, $endpointProject);
-            $myfile = file_put_contents('/var/log/frontastic/api-debug-log.txt', $txt.PHP_EOL, FILE_APPEND | LOCK_EX);
-
             if ($payloadProject != $endpointProject) {
                 throw new \InvalidArgumentException(
                     sprintf(
