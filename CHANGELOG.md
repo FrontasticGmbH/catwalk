@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.25.0` (2021-11-09)
+
+
+* fix: json serializer removed from hookservice, jwt handle in php
+* chore(api-hub): remove debug code
+* fix: CS
+
 ## `1.24.0` (2021-10-26)
 
 * chore: updating the common dependency for catwalk
