@@ -21,9 +21,14 @@ class RequestService
         $apiRequest->path = $request->getPathInfo();
         $apiRequest->body = $request->getContent();
         $apiRequest->cookies = (object)($request->cookies->all());
-        if ($request->getSession()->get('sessionData')) {
-            $apiRequest->sessionData = $request->getSession()->get('sessionData');
+
+        $requestSessionData = null;
+        if ($request->cookies->get('frontastic-session')) {
+            $requestSessionData = (object)$this->decodeAndValidateJWTSessionToken(
+                $request->cookies->get('frontastic-session')
+            );
         }
+        $apiRequest->sessionData = $requestSessionData;
 
         return $apiRequest;
     }
