@@ -60,7 +60,9 @@ class HooksService
         );
 
         $hookCallBuilder = new HooksCallBuilder(
-            [$this->jsonSerializer, 'serialize']
+            function ($payload) {
+                return $payload;
+            }
         );
         $hookCallBuilder->project(
             $context->project->customer . '_' . $context->project->projectId

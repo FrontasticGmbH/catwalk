@@ -41,23 +41,16 @@ class ActionController
 
         $hookName = sprintf('action-%s-%s', $namespace, $action);
 
-        $requestSessionData = null;
-
-        if ($request->cookies->get('frontastic-session')) {
-            $requestSessionData = $this->requestService->decodeAndValidateJWTSessionToken(
-                $request->cookies->get('frontastic-session')
-            );
-        }
-
         $apiRequest = $this->requestService->createApiRequest($request);
 
         /** @var stdClass $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
 
+
         if (isset($apiResponse->sessionData)) {
             $responseSessionData = $apiResponse->sessionData;
         } else {
-            $responseSessionData = $requestSessionData;
+            $responseSessionData = $apiRequest->sessionData;
         }
 
         $response = new JsonResponse();
