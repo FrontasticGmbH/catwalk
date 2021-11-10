@@ -47,7 +47,11 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
             'pageFolder' => $this->mapper->map($streamContext->node),
             'page' => $this->mapper->map($streamContext->page),
             'usingTastics' => $this->mapper->mapAny($streamContext->usingTastics),
-            'request' => ($streamContext->request ? $this->requestService->createApiRequest($streamContext->request) : null),
+            'request' => (
+            $streamContext->request ?
+                $this->requestService->createApiRequest($streamContext->request) :
+                null
+            ),
         ]);
     }
 }
