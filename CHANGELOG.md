@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.26.0` (2021-11-10)
+
+
+* fix: DataSourceContext did not receive Request information.
+
 ## `1.25.0` (2021-11-09)
 
 
