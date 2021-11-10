@@ -130,7 +130,7 @@ class FromFrontasticReactMapper
         return $output;
     }
 
-    private function mapAny($input)
+    public function mapAny($input)
     {
         if (is_object($input)) {
             return $this->map($input);
