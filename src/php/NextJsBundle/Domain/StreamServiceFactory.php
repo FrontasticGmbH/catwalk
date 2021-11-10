@@ -15,6 +15,7 @@ class StreamServiceFactory
 {
     private TasticService $tasticService;
     private HooksService $hooksService;
+    private RequestService $requestService;
     private LoggerInterface $logger;
     private RequestStack $requestStack;
 
@@ -33,6 +34,7 @@ class StreamServiceFactory
     public function __construct(
         TasticService $tasticService,
         HooksService $hooksService,
+        RequestService $requestService,
         LoggerInterface $logger,
         RequestStack $requestStack,
         iterable $streamHandlers = [],
@@ -46,6 +48,7 @@ class StreamServiceFactory
         $this->streamHandlers = $streamHandlers;
         $this->streamOptimizers = $streamOptimizers;
         $this->debug = $debug;
+        $this->requestService = $requestService;
     }
 
     public function create(): StreamService
@@ -66,6 +69,7 @@ class StreamServiceFactory
                         $hook['dataSourceIdentifier'],
                         new StreamHandlerToDataSourceHandlerAdapter(
                             $this->hooksService,
+                            $this->requestService,
                             $hook['hookName']
                         )
                     );
@@ -73,16 +77,8 @@ class StreamServiceFactory
             }
         } catch (\Throwable $e) {
             // EAT for now
+            // FIXME: log!!!
         }
-
-        // Example. We need to fetch this from the extension server.
-        $streamService->addStreamHandlerV2(
-            'toby/test-new-data-sources',
-            new StreamHandlerToDataSourceHandlerAdapter(
-                $this->hooksService,
-                'toby_test-new-data-sources'
-            )
-        );
 
         return $streamService;
     }
