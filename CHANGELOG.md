@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.26.3` (2021-11-11)
+
+* fix: Gracefully handle non-existing page folder being referenced.
+
 ## `1.26.2` (2021-11-11)
 
 * fix: fixes from ant nextjs-types
