@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.26.1` (2021-11-11)
+
+* fix: accepted null as link value and removed target validation
+* fix: verified targer value before create ReferenceValue
+
 ## `1.26.0` (2021-11-10)
 
 
