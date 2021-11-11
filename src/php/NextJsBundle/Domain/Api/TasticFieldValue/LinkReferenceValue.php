@@ -13,9 +13,9 @@ class LinkReferenceValue extends ReferenceValue
     public string $type = 'link';
 
     /**
-     * @var string
+     * @var ?string
      */
-    public string $link;
+    public ?string $link;
 
     /**
      * @var string
