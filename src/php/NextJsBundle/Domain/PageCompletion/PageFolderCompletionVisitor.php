@@ -43,13 +43,13 @@ class PageFolderCompletionVisitor implements FieldVisitor
         }
 
         if ($configuration->getType() === 'reference') {
-            if (isset($value['type']) && $value['type'] === 'node' && isset($value['target'])) {
+            if (isset($value['type']) && $value['type'] === 'node') {
                 return new PageFolderReferenceValue([
                     'pageFolder' => $this->createNodeRepresentation($value['target']),
                     'openInNewWindow' => (isset($value['mode']) && $value['mode'] === 'new_window'),
                 ]);
             }
-            if (isset($value['type']) && $value['type'] === 'link' && isset($value['target'])) {
+            if (isset($value['type']) && $value['type'] === 'link') {
                 return new LinkReferenceValue([
                     'link' => $value['target'],
                     'openInNewWindow' => (isset($value['mode']) && $value['mode'] === 'new_window'),
