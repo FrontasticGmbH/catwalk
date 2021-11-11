@@ -2,7 +2,7 @@
 
 export interface LinkReferenceValue extends ReferenceValue {
      type?: string;
-     link?: string;
+     link?: null | string;
      target?: string;
 }
 
