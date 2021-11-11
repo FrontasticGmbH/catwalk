@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue\Error;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue\LinkReferenceValue;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue\PageFolderReferenceValue;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue\PageFolderTreeValue;
@@ -39,13 +40,22 @@ class PageFolderCompletionVisitor implements FieldVisitor
         }
 
         if ($configuration->getType() === 'node') {
-            return $this->createNodeRepresentation($value);
+            try {
+                return $this->createNodeRepresentation($value);
+            } catch (\Exception $e) {
+                return $this->createPageFolderNotFoundError($value);
+            }
         }
 
         if ($configuration->getType() === 'reference') {
             if (isset($value['type']) && $value['type'] === 'node') {
+                try {
+                    $pageFolderRepresentation = $this->createNodeRepresentation($value['target']);
+                } catch (\Exception $e) {
+                    return $this->createPageFolderNotFoundError($value['target']);
+                }
                 return new PageFolderReferenceValue([
-                    'pageFolder' => $this->createNodeRepresentation($value['target']),
+                    'pageFolder' => $pageFolderRepresentation,
                     'openInNewWindow' => (isset($value['mode']) && $value['mode'] === 'new_window'),
                 ]);
             }
@@ -111,5 +121,17 @@ class PageFolderCompletionVisitor implements FieldVisitor
             $treeValue->children[] = $this->generateTreeRecursive($childNode, $requestedDepth);
         }
         return $treeValue;
+    }
+
+    /**
+     * @return Error
+     */
+    private function createPageFolderNotFoundError(?string $pageFolderId): Error
+    {
+        return new Error([
+            'message' => sprintf('Referenced page folder with ID "%s" could not be found.', $pageFolderId ?? 'UNKNOWN'),
+            'errorCode' => Error::ERROR_CODE_PAGE_FOLDER_NOT_FOUND,
+            'developerHint' => '// TODO: Docs link',
+        ]);
     }
 }
