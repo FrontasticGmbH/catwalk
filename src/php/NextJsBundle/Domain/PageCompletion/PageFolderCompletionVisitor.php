@@ -129,7 +129,10 @@ class PageFolderCompletionVisitor implements FieldVisitor
     private function createPageFolderNotFoundError(?string $pageFolderId): Error
     {
         return new Error([
-            'message' => sprintf('Referenced page folder with ID "%s" could not be found.', $pageFolderId ?? 'UNKNOWN'),
+            'message' => sprintf(
+                'Referenced page folder with ID "%s" could not be found.',
+                $pageFolderId ?? 'UNKNOWN'
+            ),
             'errorCode' => Error::ERROR_CODE_PAGE_FOLDER_NOT_FOUND,
             'developerHint' => '// TODO: Docs link',
         ]);
