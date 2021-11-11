@@ -15,7 +15,7 @@ class LinkReferenceValue extends ReferenceValue
     /**
      * @var ?string
      */
-    public ?string $link;
+    public ?string $link = null;
 
     /**
      * @var string
