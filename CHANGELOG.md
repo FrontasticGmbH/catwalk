@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.26.2` (2021-11-11)
+
+* fix: fixes from ant nextjs-types
+* fix: set also as null the TypeScript type for LinkReferenceValue
+* fix: add default value to fix types issue
+
 ## `1.26.1` (2021-11-11)
 
 * fix: accepted null as link value and removed target validation
