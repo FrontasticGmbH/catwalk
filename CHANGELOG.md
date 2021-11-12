@@ -1,5 +1,20 @@
 # catwalk Changelog
 
+## `1.26.3` (2021-11-11)
+
+* fix: Gracefully handle non-existing page folder being referenced.
+
+## `1.26.2` (2021-11-11)
+
+* fix: fixes from ant nextjs-types
+* fix: set also as null the TypeScript type for LinkReferenceValue
+* fix: add default value to fix types issue
+
+## `1.26.1` (2021-11-11)
+
+* fix: accepted null as link value and removed target validation
+* fix: verified targer value before create ReferenceValue
+
 ## `1.26.0` (2021-11-10)
 
 
