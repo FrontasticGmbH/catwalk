@@ -104,6 +104,9 @@ class PageControllerTest extends TestCase
             $context
         );
 
+        \Phake::verify($this->dynamicPageService)->handleDynamicPage;
+        \Phake::verify($this->dynamicPageService)->matchForNode;
+
         $this->assertInstanceOf(Node::class, $responseData['pageFolder']);
     }
 }
