@@ -4,11 +4,19 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Firebase\JWT\JWT;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Request;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class RequestService
 {
     const SALT = '***REMOVED***';
+
+    private LoggerInterface $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * @param SymfonyRequest $request
@@ -38,7 +46,13 @@ class RequestService
         try {
             return (array) JWT::decode($sessionData, self::SALT, ['HS256']);
         } catch (\Exception $e) {
-            throw new \Exception("Invalid JWT token in cookie", 401);
+            $this->logger->error(
+                'Error in session handling resetting the session data, tip session can not be null',
+                [
+                    "message" => $e->getMessage()
+                ]
+            );
+            return [];
         }
     }
 
