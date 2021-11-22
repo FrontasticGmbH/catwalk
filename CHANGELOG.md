@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.26.4` (2021-11-22)
+
+
+* fix: JWT session exception handle, emptying the session and logging the error so is visible to the CLI
+* Dynamic page routing fix for no available pages in a folder
+
 ## `1.26.3` (2021-11-11)
 
 * fix: Gracefully handle non-existing page folder being referenced.
