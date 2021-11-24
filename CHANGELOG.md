@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.26.6` (2021-11-24)
+
+
+* JWT cookie security policy enabled and sameSite cookie set to None
+
 ## `1.26.5` (2021-11-24)
 
 
