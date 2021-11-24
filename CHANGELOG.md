@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.26.5` (2021-11-24)
+
+
+* JWT cookie reset when sending null payload
+
 ## `1.26.4` (2021-11-22)
 
 
