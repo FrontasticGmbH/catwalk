@@ -46,14 +46,22 @@ class ActionController
         /** @var stdClass $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
 
+        $response = new JsonResponse();
 
-        if (isset($apiResponse->sessionData)) {
-            $responseSessionData = $apiResponse->sessionData;
+        if (property_exists($apiResponse, 'sessionData')) {
+            if ($apiResponse->sessionData === null) {
+                $response->headers->clearCookie('frontastic-session');
+            } else {
+                $response->headers->setCookie(
+                    new Cookie('frontastic-session', $this->requestService->encodeJWTData($apiResponse->sessionData))
+                );
+            }
         } else {
-            $responseSessionData = $apiRequest->sessionData;
+            $response->headers->setCookie(
+                new Cookie('frontastic-session', $this->requestService->encodeJWTData($apiRequest->sessionData))
+            );
         }
 
-        $response = new JsonResponse();
         if (isset($apiResponse->ok) && !$apiResponse->ok) {
             // hooksservice signaled an error
             $response->setStatusCode(500);
@@ -61,9 +69,6 @@ class ActionController
         } elseif (!isset($apiResponse->statusCode) || !isset($apiResponse->body)) {
             // response from extension is not in the expected form (which is a Response object)
             $response->setStatusCode(200);
-            $response->headers->setCookie(
-                new Cookie('frontastic-session', $this->requestService->encodeJWTData($responseSessionData))
-            );
             $response->headers->set(
                 'X-Extension-Error',
                 'Data returned from hook did not have statusCode or body fields'
@@ -81,9 +86,6 @@ class ActionController
             );
             */
         } else {
-            $response->headers->setCookie(
-                new Cookie('frontastic-session', $this->requestService->encodeJWTData($responseSessionData))
-            );
             $response->setContent($apiResponse->body);
             $response->setStatusCode($apiResponse->statusCode);
             // TODO pass other headers to JsonResponse
