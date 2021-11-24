@@ -53,12 +53,32 @@ class ActionController
                 $response->headers->clearCookie('frontastic-session');
             } else {
                 $response->headers->setCookie(
-                    new Cookie('frontastic-session', $this->requestService->encodeJWTData($apiResponse->sessionData))
+                    new Cookie(
+                        'frontastic-session',
+                        $this->requestService->encodeJWTData($apiResponse->sessionData),
+                        0,
+                        '/',
+                        null,
+                        true,
+                        true,
+                        false,
+                        "none"
+                    )
                 );
             }
         } else {
             $response->headers->setCookie(
-                new Cookie('frontastic-session', $this->requestService->encodeJWTData($apiRequest->sessionData))
+                new Cookie(
+                    'frontastic-session',
+                    $this->requestService->encodeJWTData($apiRequest->sessionData),
+                    0,
+                    '/',
+                    null,
+                    true,
+                    true,
+                    false,
+                    "none"
+                )
             );
         }
 
