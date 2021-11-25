@@ -50,7 +50,7 @@ class ActionController
 
         if (property_exists($apiResponse, 'sessionData')) {
             if ($apiResponse->sessionData === null) {
-                $response->headers->removeCookie(
+                $response->headers->clearCookie(
                     'frontastic-session',
                     '/',
                     null,
