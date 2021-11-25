@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.26.7` (2021-11-25)
+
+
+* JWT handle, Change to method and parameters on response for clear cookie
+* Endpoint to retrieve a frontend context for Next.js.
+
 ## `1.26.6` (2021-11-24)
 
 
