@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.26.8` (2021-11-26)
+
+
+* JWT cookie removal with clearCookie method
+
 ## `1.26.7` (2021-11-25)
 
 
