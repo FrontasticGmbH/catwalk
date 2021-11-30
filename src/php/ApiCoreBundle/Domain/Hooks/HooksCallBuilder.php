@@ -54,7 +54,7 @@ class HooksCallBuilder
         $serializer = $this->serializer;
         $call->payload = Json::encode($serializer([
             'arguments' => $this->arguments,
-            'context' => $this->context,
+            'context' => $this->context, // REMOVE
         ]));
         return $call;
     }

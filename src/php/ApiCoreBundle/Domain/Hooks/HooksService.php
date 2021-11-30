@@ -68,7 +68,7 @@ class HooksService
             $context->project->customer . '_' . $context->project->projectId
         );
         $hookCallBuilder->name($hook);
-        $hookCallBuilder->context($context);
+        $hookCallBuilder->context($context); // REMOVE
         $hookCallBuilder->arguments($arguments);
         $hookCallBuilder->header('Frontastic-Request-Id', $requestId);
         $call = $hookCallBuilder->build();

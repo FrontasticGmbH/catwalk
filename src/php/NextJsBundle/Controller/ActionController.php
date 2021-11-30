@@ -32,7 +32,7 @@ class ActionController
         $this->rootDir = $rootDir;
     }
 
-    public function indexAction(string $namespace, string $action, SymfonyRequest $request): JsonResponse
+    public function indexAction(string $namespace, string $action, SymfonyRequest $request, Context $context): JsonResponse
     {
 
         if ($this->hasOverride($namespace, $action)) {
@@ -44,7 +44,15 @@ class ActionController
         $apiRequest = $this->requestService->createApiRequest($request);
 
         /** @var stdClass $apiResponse */
-        $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
+        $context = $this->createActionContext($context)
+        $apiResponse = $this->hooksService->call($hookName, [$apiRequest, ]);
+
+        $this->hooksService->call(
+            $this->hookName,
+            [
+                $this->mapper->map($stream),
+            ]
+        )
 
         $response = new JsonResponse();
 
