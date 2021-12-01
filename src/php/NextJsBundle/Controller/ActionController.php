@@ -3,9 +3,12 @@
 namespace Frontastic\Catwalk\NextJsBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\ActionContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Request;
 use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Response;
+use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
@@ -19,17 +22,20 @@ class ActionController
     private HttpKernelInterface $httpKernel;
     private string $rootDir;
     private RequestService $requestService;
+    private FromFrontasticReactMapper $mapper;
 
     public function __construct(
         HooksService $hooksService,
         HttpKernelInterface $httpKernel,
         RequestService $requestService,
-        string $rootDir
+        string $rootDir,
+        FromFrontasticReactMapper $mapper
     ) {
         $this->hooksService = $hooksService;
         $this->httpKernel = $httpKernel;
         $this->requestService = $requestService;
         $this->rootDir = $rootDir;
+        $this->mapper = $mapper;
     }
 
     public function indexAction(string $namespace, string $action, SymfonyRequest $request, Context $context): JsonResponse
@@ -44,15 +50,8 @@ class ActionController
         $apiRequest = $this->requestService->createApiRequest($request);
 
         /** @var stdClass $apiResponse */
-        $context = $this->createActionContext($context)
-        $apiResponse = $this->hooksService->call($hookName, [$apiRequest, ]);
-
-        $this->hooksService->call(
-            $this->hookName,
-            [
-                $this->mapper->map($stream),
-            ]
-        )
+        $context = $this->createActionContext($context);
+        $apiResponse = $this->hooksService->call($hookName, [$apiRequest, $context]);
 
         $response = new JsonResponse();
 
@@ -155,5 +154,12 @@ class ActionController
         }
 
         return json_decode(file_get_contents($overrideFile), true);
+    }
+
+    private function createActionContext(Context $context): ActionContext
+    {
+        return new ActionContext([
+            'frontasticContext' => $this->mapper->map($context),
+        ]);
     }
 }
