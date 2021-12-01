@@ -49,8 +49,9 @@ class ActionController
 
         $apiRequest = $this->requestService->createApiRequest($request);
 
-        /** @var stdClass $apiResponse */
         $context = $this->createActionContext($context);
+
+        /** @var stdClass $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest, $context]);
 
         $response = new JsonResponse();

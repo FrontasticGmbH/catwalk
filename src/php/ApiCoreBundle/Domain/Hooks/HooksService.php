@@ -53,35 +53,25 @@ class HooksService
 
     protected function callRemoteHook(string $hook, array $arguments): \stdClass
     {
-        // TODO: Allow-list all parameter we want to actually pass over
-        $context = $this->contextService->createContextFromRequest();
         $requestId = $this->requestStack->getCurrentRequest()->attributes->get(
             RequestIdListener::REQUEST_ID_ATTRIBUTE_KEY
         );
 
-        $hookCallBuilder = new HooksCallBuilder(
-            function ($payload) {
-                return $payload;
-            }
+        $hookCall = new HooksCall(
+            $this->getProjectIdentifier(),
+            $hook,
+            $arguments
         );
-        $hookCallBuilder->project(
-            $context->project->customer . '_' . $context->project->projectId
-        );
-        $hookCallBuilder->name($hook);
-        $hookCallBuilder->context($context); // REMOVE
-        $hookCallBuilder->arguments($arguments);
-        $hookCallBuilder->header('Frontastic-Request-Id', $requestId);
-        $call = $hookCallBuilder->build();
+        $hookCall->addHeader('Frontastic-Request-Id', $requestId);
 
         try {
-            $jsonString = $this->hooksApiClient->callEvent($call);
+            $jsonString = $this->hooksApiClient->callEvent($hookCall);
             return json_decode($jsonString, false);
         } catch (\Exception $exception) {
             return (object)[
                 'ok' => false,
                 'message' => $exception->getMessage()
             ];
-            return $errorResponse;
         }
     }
 
@@ -107,5 +97,11 @@ class HooksService
         }
 
         return $this->hooks;
+    }
+
+    private function getProjectIdentifier(): string
+    {
+        $context = $this->contextService->createContextFromRequest();
+        return $context->project->customer . '_' . $context->project->projectId;
     }
 }
