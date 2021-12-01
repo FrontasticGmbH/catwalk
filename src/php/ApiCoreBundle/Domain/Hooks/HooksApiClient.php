@@ -44,7 +44,7 @@ class HooksApiClient
         $response = $this->httpClient->post(
             $this->makePath('run', $call->getProject(), $call->getName()),
             $call->getPayload(),
-            $call->headers + self::DEFAULT_HEADERS
+            $call->getHeaders() + self::DEFAULT_HEADERS
         );
 
         if ($response->status != 200) {

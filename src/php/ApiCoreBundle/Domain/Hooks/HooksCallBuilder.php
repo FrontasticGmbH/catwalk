@@ -2,14 +2,12 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 
 class HooksCallBuilder
 {
     private string $name;
     private string $project;
-    private Context $context;
     private array $arguments;
     private array $headers = [];
     private $serializer;
@@ -27,11 +25,6 @@ class HooksCallBuilder
     public function project(string $project)
     {
         $this->project = $project;
-    }
-
-    public function context($context)
-    {
-        $this->context = $context;
     }
 
     public function arguments(array $arguments)
@@ -53,8 +46,7 @@ class HooksCallBuilder
 
         $serializer = $this->serializer;
         $call->payload = Json::encode($serializer([
-            'arguments' => $this->arguments,
-            'context' => $this->context, // REMOVE
+            'arguments' => $this->arguments
         ]));
         return $call;
     }
