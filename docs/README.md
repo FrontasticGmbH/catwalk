@@ -18,7 +18,6 @@ Here you find the API documentation for the relevant classes:
     * [App](php/ApiCoreBundle/Domain/App.md)
     * App
       * [FeatureFlag](php/ApiCoreBundle/Domain/App/FeatureFlag.md)
-      * [Storefinder](php/ApiCoreBundle/Domain/App/Storefinder.md)
       * [Teaser](php/ApiCoreBundle/Domain/App/Teaser.md)
     * [AppDataTarget](php/ApiCoreBundle/Domain/AppDataTarget.md)
     * [AppRepository](php/ApiCoreBundle/Domain/AppRepository.md)
@@ -42,7 +41,6 @@ Here you find the API documentation for the relevant classes:
       * [HookResponseDeserializer](php/ApiCoreBundle/Domain/Hooks/HookResponseDeserializer.md)
       * [HooksApiClient](php/ApiCoreBundle/Domain/Hooks/HooksApiClient.md)
       * [HooksCall](php/ApiCoreBundle/Domain/Hooks/HooksCall.md)
-      * [HooksCallBuilder](php/ApiCoreBundle/Domain/Hooks/HooksCallBuilder.md)
       * [HooksService](php/ApiCoreBundle/Domain/Hooks/HooksService.md)
     * [ProductApiFactoryDecorator](php/ApiCoreBundle/Domain/ProductApiFactoryDecorator.md)
     * [ProductApiWithoutInner](php/ApiCoreBundle/Domain/ProductApiWithoutInner.md)
