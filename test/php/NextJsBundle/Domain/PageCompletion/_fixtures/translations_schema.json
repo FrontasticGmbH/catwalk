@@ -42,6 +42,18 @@
                     "field": "nonTranslatableText",
                     "type": "text",
                     "translatable": false
+                },
+                {
+                    "label": "Show translations also work with only langauge keys received from the studio",
+                    "field": "translatableLanguageOnly",
+                    "type": "text",
+                    "translatable": true
+                },
+                {
+                    "label": "Basically no translation available",
+                    "field": "randomLanguageOnly",
+                    "type": "text",
+                    "translatable": true
                 }
             ]
         }

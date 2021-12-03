@@ -20,5 +20,14 @@
         "de_CH": "I am Groot",
         "de_LI": "I aaaaam Groot",
         "it_CH": "Grootitiano"
+    },
+    "translatableLanguageOnly": {
+        "de_DE": "I am a Swiss Groot",
+        "de": "I am a German Groot",
+        "it": "Grootitiano"
+    },
+    "randomLanguageOnly": {
+        "en": "I am an English Groot",
+        "fr": "I am an English Groot"
     }
 }
