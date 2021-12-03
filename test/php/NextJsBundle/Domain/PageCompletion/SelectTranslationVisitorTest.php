@@ -56,6 +56,61 @@ class SelectTranslationVisitorTest extends TestCase
         $this->assertEquals('I am Groot', $actualValues['nonTranslatableDefaultText']);
     }
 
+    public function testResolveToExactLocale()
+    {
+        $visitor = new SelectTranslationVisitor(
+            $this->contextFixture('de_DE')
+        );
+
+        $actualValues = $this->schema->getCompleteValues($visitor);
+
+        $this->assertEquals('I am a Swiss Groot', $actualValues['translatableLanguageOnly']);
+    }
+
+    public function testResolveToLocaleLanguage()
+    {
+        $visitor = new SelectTranslationVisitor(
+            $this->contextFixture('de_CH')
+        );
+
+        $actualValues = $this->schema->getCompleteValues($visitor);
+
+        $this->assertEquals('I am a German Groot', $actualValues['translatableLanguageOnly']);
+    }
+
+    public function testResolveToNonDefaultLocaleLanguage()
+    {
+        $visitor = new SelectTranslationVisitor(
+            $this->contextFixture('it_IT')
+        );
+
+        $actualValues = $this->schema->getCompleteValues($visitor);
+
+        $this->assertEquals('Grootitiano', $actualValues['translatableLanguageOnly']);
+    }
+
+    public function testResolveToLanguageFromDefaultLocale()
+    {
+        $visitor = new SelectTranslationVisitor(
+            $this->contextFixture('fr_FR')
+        );
+
+        $actualValues = $this->schema->getCompleteValues($visitor);
+
+        $this->assertEquals('I am a German Groot', $actualValues['translatableLanguageOnly']);
+    }
+
+    public function testNeitherDefaultNorSelectedLocaleAvailable()
+    {
+        $visitor = new SelectTranslationVisitor(
+            $this->contextFixture('de_CH')
+        );
+
+        $actualValues = $this->schema->getCompleteValues($visitor);
+
+        $this->assertEquals(null, $actualValues['randomLanguageOnly']);
+    }
+
     /**
      * @return Context
      */
