@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.27.0` (2021-12-03)
+
+* feat: Fall back to languages during finding translations
+
 ## `1.26.8` (2021-11-26)
 
 
