@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.27.1` (2021-12-06)
+
+
+*  JWT Setting session expiry to one month temporarily
+
 ## `1.27.0` (2021-12-03)
 
 * feat: Fall back to languages during finding translations
