@@ -63,7 +63,7 @@ class ActionController
                     new Cookie(
                         'frontastic-session',
                         $this->requestService->encodeJWTData($apiResponse->sessionData),
-                        0,
+                        (new \DateTime())->add(new \DateInterval('P30D')),
                         '/',
                         null,
                         true,
@@ -78,7 +78,7 @@ class ActionController
                 new Cookie(
                     'frontastic-session',
                     $this->requestService->encodeJWTData($apiRequest->sessionData),
-                    0,
+                    (new \DateTime())->add(new \DateInterval('P30D')),
                     '/',
                     null,
                     true,
