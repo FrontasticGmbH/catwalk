@@ -38,8 +38,12 @@ class ActionController
         $this->mapper = $mapper;
     }
 
-    public function indexAction(string $namespace, string $action, SymfonyRequest $request, Context $context): JsonResponse
-    {
+    public function indexAction(
+        string $namespace,
+        string $action,
+        SymfonyRequest $request,
+        Context $context
+    ): JsonResponse {
 
         if ($this->hasOverride($namespace, $action)) {
             return $this->performOverrideForward($namespace, $action, $request);
