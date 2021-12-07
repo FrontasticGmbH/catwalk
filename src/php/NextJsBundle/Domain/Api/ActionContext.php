@@ -13,4 +13,9 @@ class ActionContext
      * @var Context
      */
     public ?Context $frontasticContext = null;
+
+    public function __construct(?Context $context)
+    {
+        $this->frontasticContext = $context;
+    }
 }
