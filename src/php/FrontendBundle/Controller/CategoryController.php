@@ -55,10 +55,17 @@ class CategoryController
         $category = $this->findCategoryById($id, $context);
 
         $currentUrl = parse_url($request->getRequestUri(), PHP_URL_PATH);
+        $currentQuery = parse_url($request->getRequestUri(), PHP_URL_QUERY);
+
         $correctUrl = $this->categoryRouter->generateUrlFor($category);
         if ($currentUrl !== $correctUrl) {
+            $redirectUrl = $correctUrl;
+            // Keeping current query params intact with new URL
+            if (trim($currentQuery) !== '') {
+                $redirectUrl = $correctUrl . '?' . $currentQuery;
+            }
             // Race condition: this redirect is not handled gracefully by the JS stack
-            return new RedirectResponse($correctUrl, 301);
+            return new RedirectResponse($redirectUrl, 301);
         }
 
         $node = $this->nodeService->get(

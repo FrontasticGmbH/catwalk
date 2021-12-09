@@ -54,9 +54,16 @@ class ContentController
         $content = $this->contentApi->getContent($contentId, $context->locale);
 
         $currentUrl = parse_url($request->getRequestUri(), PHP_URL_PATH);
+        $currentQuery = parse_url($request->getRequestUri(), PHP_URL_QUERY);
+
         if ($currentUrl !== ($correctUrl = $this->contentRouter->generateUrlFor($content))) {
+            $redirectUrl = $correctUrl;
+            // Keeping current query params intact with new URL
+            if (trim($currentQuery) !== '') {
+                $redirectUrl = $correctUrl . '?' . $currentQuery;
+            }
             // Race condition: this redirect is not handled gracefully by the JS stack
-            return new RedirectResponse($correctUrl, 301);
+            return new RedirectResponse($redirectUrl, 301);
         }
 
         if ($contentId === null) {
