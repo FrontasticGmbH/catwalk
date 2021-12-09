@@ -1,5 +1,13 @@
 # catwalk Changelog
 
+## `1.28.0` (2021-12-09)
+
+* feat: consider query parameters for variant selection when redirecting to new product URLs
+* fix(api-hub): fix ActionContext initialization
+* refactor(api-hub): remove obsolete HooksCallBuilder
+* feat(api-hub): pass right context to extension runner
+* feat(api-hub): provide right context to extension actions
+
 ## `1.27.1` (2021-12-06)
 
 
