@@ -61,6 +61,7 @@ class DynamicPageService
     public function createRedirectResponse(DynamicPageRedirectResult $redirectResult): SymfonyResponse
     {
         $response = new JsonResponse(null, $redirectResult->statusCode);
+        $response->headers->set('Location', $redirectResult->redirectLocation);
         // FIXME: We ignore the status message, should we even allow to have it set?
         // TODO: Set headers from $redirectResult
         return $response;
