@@ -272,10 +272,12 @@
             <argument type="service" id="Domnikl\Statsd\Client" />
 
              <tag name="kernel.event_listener" event="kernel.terminate" />
+            <!-- Not removed from Next.js because still meaningful -->
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RenderService\ResponseDecorator">
             <tag name="kernel.event_listener" event="kernel.response" />
+            <!-- Not removed from Next.js to prevent side-effects because also used as dependency! -->
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\PreviewService">
@@ -446,6 +448,12 @@
             <argument>%kernel.root_dir%</argument>
 
             <tag name="kernel.event_listener" event="kernel.request" />
+            <tag name="nextjs.remove" />
+        </service>
+
+        <!-- Otherwise auto-configured -->
+        <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ErrorHandler">
+            <tag name="nextjs.remove" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway">
@@ -608,6 +616,7 @@
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
 
             <tag name="kernel.event_listener" event="kernel.exception" priority="10" />
+            <tag name="nextjs.remove" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\MissingHomepageRouteListener">
@@ -615,6 +624,7 @@
             <argument>%kernel.debug%</argument>
 
             <tag name="kernel.event_listener" event="kernel.exception" />
+            <tag name="nextjs.remove" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\RebuildRoutesListener">
@@ -622,6 +632,7 @@
             <argument type="service" id="logger" />
 
             <tag name="kernel.event_listener" event="kernel.request" />
+            <!-- IMPORTANT: Do not remove in Next.js, in use there! -->
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ProjectBasicAuthListener">
@@ -629,28 +640,33 @@
 
             <tag name="kernel.event_listener" event="kernel.request" />
             <tag name="kernel.event_listener" event="kernel.exception" priority="9" />
+            <tag name="nextjs.remove" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ReferrerPolicy">
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project"/>
 
             <tag name="kernel.event_listener" event="kernel.response" />
+            <tag name="nextjs.remove" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\CacheDirectives">
             <tag name="kernel.event_listener" event="kernel.response" />
+            <tag name="nextjs.remove" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ContentSecurityPolicy">
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project"/>
 
             <tag name="kernel.event_listener" event="kernel.response" />
+            <tag name="nextjs.remove" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\EmbedContext">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Twig\NodeExtension"/>
 
             <tag name="kernel.event_listener" event="kernel.response" />
+            <tag name="nextjs.remove" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\FeatureFlagService">
