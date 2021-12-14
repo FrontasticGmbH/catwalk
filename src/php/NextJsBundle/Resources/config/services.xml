@@ -9,6 +9,7 @@
 
         <prototype namespace="Frontastic\Catwalk\NextJsBundle\Controller\" resource="../../Controller/*.php" autowire="true" public="true" />
         <prototype namespace="Frontastic\Catwalk\NextJsBundle\Command\" resource="../../Command/*.php" autowire="true" autoconfigure="true" public="true" />
+        <prototype namespace="Frontastic\Catwalk\NextJsBundle\EventListener\" resource="../../EventListener/*.php" autowire="true" autoconfigure="true" public="true" />
 
         <service
             id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService"
@@ -59,6 +60,16 @@
         <service id="Frontastic\Catwalk\NextJsBundle\Controller\ActionController" autoconfigure="true" autowire="true" public="true">
             <argument key="$rootDir">%kernel.root_dir%</argument>
         </service>
+
+        <service id="Frontastic\Catwalk\NextJsBundle\EventListener\EnsureAlwaysJsonExceptionListener">
+            <argument>%kernel.debug%</argument>
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="0"/>
+        </service>
+
+        <service id="Frontastic\Catwalk\NextJsBundle\EventListener\EnsureAlwaysJsonViewListener">
+            <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="50"/>
+        </service>
+
     </services>
 
 </container>
