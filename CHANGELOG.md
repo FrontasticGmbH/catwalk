@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.28.1` (2021-12-14)
+
+* fix: Apply page folder data completion to tree structures, too.
+
 ## `1.28.0` (2021-12-09)
 
 * feat: consider query parameters for variant selection when redirecting to new product URLs
