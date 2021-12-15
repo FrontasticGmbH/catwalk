@@ -48,6 +48,10 @@ class DynamicPageService
             // TODO: Create context
         ]);
 
+        if ($dynamicPagePayload === null) {
+            return null;
+        }
+
         if (isset($dynamicPagePayload->ok) && $dynamicPagePayload->ok === false) {
             throw new \RuntimeException($dynamicPagePayload->message ?? 'Unknown error when executing dynamic page');
         }
