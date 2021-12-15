@@ -51,7 +51,7 @@ class HooksService
         return in_array($hook, array_keys($hooks), true);
     }
 
-    protected function callRemoteHook(string $hook, array $arguments): \stdClass
+    protected function callRemoteHook(string $hook, array $arguments)
     {
         $requestId = $this->requestStack->getCurrentRequest()->attributes->get(
             RequestIdListener::REQUEST_ID_ATTRIBUTE_KEY
@@ -75,7 +75,7 @@ class HooksService
         }
     }
 
-    public function call(string $hook, array $arguments): \stdClass
+    public function call(string $hook, array $arguments)
     {
         if (!$this->isHookRegistered($hook)) {
             return (object)[
