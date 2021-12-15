@@ -2,12 +2,12 @@
 
 namespace Frontastic\Catwalk;
 
+use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 
-use Symfony\Component\Debug\Debug;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
 /**
