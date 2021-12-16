@@ -44,11 +44,6 @@ class ActionController
         SymfonyRequest $request,
         Context $context
     ): JsonResponse {
-
-        if ($this->hasOverride($namespace, $action)) {
-            return $this->performOverrideForward($namespace, $action, $request);
-        }
-
         $hookName = sprintf('action-%s-%s', $namespace, $action);
 
         $apiRequest = $this->requestService->createApiRequest($request);
@@ -131,34 +126,6 @@ class ActionController
         }
 
         return $response;
-    }
-
-    private function performOverrideForward(string $namespace, string $action, SymfonyRequest $request): SymfonyResponse
-    {
-        $overrides = $this->getOverrides();
-        $controller = $overrides[$namespace][$action];
-
-        $subRequest = $request->duplicate(null, null, ['_controller' => $controller]);
-
-        return $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
-    }
-
-    private function hasOverride(string $namespace, string $action): bool
-    {
-        $overrides = $this->getOverrides();
-
-        return (isset($overrides[$namespace]) && isset($overrides[$namespace][$action]));
-    }
-
-    private function getOverrides(): array
-    {
-        $overrideFile = sprintf('%s/config/action_override.json', $this->rootDir);
-
-        if (!file_exists($overrideFile)) {
-            return [];
-        }
-
-        return json_decode(file_get_contents($overrideFile), true);
     }
 
     private function createActionContext(Context $context): ActionContext
