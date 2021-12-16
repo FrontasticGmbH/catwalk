@@ -19,22 +19,16 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class ActionController
 {
     private HooksService $hooksService;
-    private HttpKernelInterface $httpKernel;
-    private string $rootDir;
     private RequestService $requestService;
     private FromFrontasticReactMapper $mapper;
 
     public function __construct(
         HooksService $hooksService,
-        HttpKernelInterface $httpKernel,
         RequestService $requestService,
-        string $rootDir,
         FromFrontasticReactMapper $mapper
     ) {
         $this->hooksService = $hooksService;
-        $this->httpKernel = $httpKernel;
         $this->requestService = $requestService;
-        $this->rootDir = $rootDir;
         $this->mapper = $mapper;
     }
 
