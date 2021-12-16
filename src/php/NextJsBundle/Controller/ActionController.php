@@ -163,6 +163,6 @@ class ActionController
 
     private function createActionContext(Context $context): ActionContext
     {
-        return new ActionContext($this->mapper->map($context));
+        return new ActionContext(['frontasticContext' => $this->mapper->map($context)]);
     }
 }
