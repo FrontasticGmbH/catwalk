@@ -41,11 +41,10 @@ class ActionController
         $hookName = sprintf('action-%s-%s', $namespace, $action);
 
         $apiRequest = $this->requestService->createApiRequest($request);
-
-        $context = $this->createActionContext($context);
+        $actionContext = $this->createActionContext($context);
 
         /** @var stdClass $apiResponse */
-        $apiResponse = $this->hooksService->call($hookName, [$apiRequest, $context]);
+        $apiResponse = $this->hooksService->call($hookName, [$apiRequest, $actionContext]);
 
         $response = new JsonResponse();
 
