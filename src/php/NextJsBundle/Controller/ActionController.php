@@ -51,43 +51,12 @@ class ActionController
 
         if (property_exists($apiResponse, 'sessionData')) {
             if ($apiResponse->sessionData === null) {
-                $response->headers->clearCookie(
-                    'frontastic-session',
-                    '/',
-                    null,
-                    true,
-                    true,
-                    "none"
-                );
+                $this->clearJwtSession($response);
             } else {
-                $response->headers->setCookie(
-                    new Cookie(
-                        'frontastic-session',
-                        $this->requestService->encodeJWTData($apiResponse->sessionData),
-                        (new \DateTime())->add(new \DateInterval('P30D')),
-                        '/',
-                        null,
-                        true,
-                        true,
-                        false,
-                        "none"
-                    )
-                );
+                $this->storeJwtSession($response, $apiResponse->sessionData);
             }
         } else {
-            $response->headers->setCookie(
-                new Cookie(
-                    'frontastic-session',
-                    $this->requestService->encodeJWTData($apiRequest->sessionData),
-                    (new \DateTime())->add(new \DateInterval('P30D')),
-                    '/',
-                    null,
-                    true,
-                    true,
-                    false,
-                    "none"
-                )
-            );
+            $this->storeJwtSession($response, $apiRequest->sessionData);
         }
 
         if (isset($apiResponse->ok) && !$apiResponse->ok) {
@@ -125,5 +94,43 @@ class ActionController
     private function createActionContext(Context $context): ActionContext
     {
         return new ActionContext(['frontasticContext' => $this->mapper->map($context)]);
+    }
+
+    /**
+     * @param JsonResponse $response
+     * @return void
+     */
+    private function clearJwtSession(JsonResponse $response): void
+    {
+        $response->headers->clearCookie(
+            'frontastic-session',
+            '/',
+            null,
+            true,
+            true,
+            "none"
+        );
+    }
+
+    /**
+     * @param JsonResponse $response
+     * @param $sessionData
+     * @return void
+     */
+    private function storeJwtSession(JsonResponse $response, $sessionData): void
+    {
+        $response->headers->setCookie(
+            new Cookie(
+                'frontastic-session',
+                $this->requestService->encodeJWTData($sessionData),
+                (new \DateTime())->add(new \DateInterval('P30D')),
+                '/',
+                null,
+                true,
+                true,
+                false,
+                "none"
+            )
+        );
     }
 }
