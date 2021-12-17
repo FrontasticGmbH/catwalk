@@ -57,10 +57,6 @@
             <tag name="routing.loader" />
         </service>
 
-        <service id="Frontastic\Catwalk\NextJsBundle\Controller\ActionController" autoconfigure="true" autowire="true" public="true">
-            <argument key="$rootDir">%kernel.root_dir%</argument>
-        </service>
-
         <service id="Frontastic\Catwalk\NextJsBundle\EventListener\EnsureAlwaysJsonExceptionListener">
             <argument>%kernel.debug%</argument>
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="0"/>
