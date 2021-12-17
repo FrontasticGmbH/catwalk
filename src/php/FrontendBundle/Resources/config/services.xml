@@ -13,7 +13,7 @@
         <defaults public="true" />
 
         <prototype namespace="Frontastic\Catwalk\FrontendBundle\Command\" resource="../../Command" autoconfigure="true" />
-        <prototype namespace="Frontastic\Catwalk\FrontendBundle\Controller\" resource="../../Controller" autoconfigure="true" autowire="true" />
+        <prototype namespace="Frontastic\Catwalk\FrontendBundle\Controller\" resource="../../Controller" autoconfigure="true" />
         <prototype namespace="Frontastic\Catwalk\FrontendBundle\EventListener\" resource="../../EventListener" autoconfigure="true" autowire="true" />
 
         <service id="logger" alias="monolog.logger" public="true" />
@@ -76,6 +76,11 @@
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway" />
             <argument type="service" id="rulerz" />
             <argument type="service" id="Frontastic\Catwalk\TrackingBundle\Domain\TrackingService" />
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Command\MatchFeclCommand">
+            <argument type="service" id="rulerz" />
+            <tag name="console.command" />
         </service>
 
         <service id="frontastic.catwalk.frontend_bundle.domain.page.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
