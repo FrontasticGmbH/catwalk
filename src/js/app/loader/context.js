@@ -356,6 +356,16 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             users: users,
         }
 
+    case 'Frontastic.AccountApi.Api.register.success':
+        users = { ...globalState.users }
+        if (action?.data?.accountId) {
+            users[action.data.account.accountId] = new Entity(action.data, 3600)
+        }
+        return {
+            ...globalState,
+            users: users,
+        }
+
     case 'Frontastic.Notification.add':
         notifications = { ...globalState.notifications }
         notifications[action.id] = action.data
