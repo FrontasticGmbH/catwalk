@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.28.4` (2021-12-21)
+
+* fix: missing account field handling in registration
+
 ## `1.28.3` (2021-12-21)
 
 * fix: missing account field
