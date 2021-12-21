@@ -4,6 +4,10 @@
 
 * fix: missing account field
 
+## `1.28.3` (2021-12-21)
+
+* fix: missing account field
+
 ## `1.28.2` (2021-12-21)
 
 * fix: handle register success action
