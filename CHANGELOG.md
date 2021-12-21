@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.28.2` (2021-12-21)
+
+* fix: handle register success action
+
 ## `1.28.1` (2021-12-14)
 
 * fix: Apply page folder data completion to tree structures, too.
