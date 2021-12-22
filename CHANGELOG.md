@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.28.5` (2021-12-22)
+
+* chore: refresh context once user is registered
+
 ## `1.28.4` (2021-12-21)
 
 * fix: missing account field handling in registration
