@@ -58,7 +58,7 @@ let Loader = function (store, api) {
                 this.notifyUser(
                     <Message
                         code='account.message.registered'
-                        message='Registration successfull – we sent you an email to confirm your registration.'
+                        message='Registration successful – we sent you an email to confirm your registration.'
                     />,
                     'success'
                 )
@@ -66,6 +66,8 @@ let Loader = function (store, api) {
                     type: 'Frontastic.AccountApi.Api.register.success',
                     data: json,
                 })
+
+                app.getLoader('context').refresh()
 
                 if (redirect) {
                     app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
