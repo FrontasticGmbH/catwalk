@@ -57,12 +57,12 @@
             <tag name="routing.loader" />
         </service>
 
-        <service id="Frontastic\Catwalk\NextJsBundle\EventListener\EnsureAlwaysJsonExceptionListener">
+        <service id="Frontastic\Catwalk\NextJsBundle\EventListener\EnsureAlwaysJsonExceptionListener" autowire="true">
             <argument>%kernel.debug%</argument>
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="0"/>
         </service>
 
-        <service id="Frontastic\Catwalk\NextJsBundle\EventListener\EnsureAlwaysJsonViewListener">
+        <service id="Frontastic\Catwalk\NextJsBundle\EventListener\EnsureAlwaysJsonViewListener" autowire="true">
             <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="50"/>
         </service>
 
