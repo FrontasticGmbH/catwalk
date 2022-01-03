@@ -1,5 +1,29 @@
 # catwalk Changelog
 
+## `1.28.5` (2021-12-22)
+
+* chore: refresh context once user is registered
+
+## `1.28.4` (2021-12-21)
+
+* fix: missing account field handling in registration
+
+## `1.28.3` (2021-12-21)
+
+* fix: missing account field
+
+## `1.28.3` (2021-12-21)
+
+* fix: missing account field
+
+## `1.28.2` (2021-12-21)
+
+* fix: handle register success action
+
+## `1.28.1` (2021-12-14)
+
+* fix: Apply page folder data completion to tree structures, too.
+
 ## `1.28.0` (2021-12-09)
 
 * feat: consider query parameters for variant selection when redirecting to new product URLs
