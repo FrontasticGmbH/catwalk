@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.29.0` (2022-01-05)
+
+* feat(FP-983): Better error reporting if action does not exist.
+* feat(FP-983): Adjusted service definition for autowire.
+* feat(FP-983): Fix test to have proper data for extended logic.
+* feat(FP-983): Disable native PHP sessions for all Next.js routes.
+
 ## `1.28.5` (2021-12-22)
 
 * chore: refresh context once user is registered
