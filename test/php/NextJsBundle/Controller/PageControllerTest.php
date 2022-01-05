@@ -16,6 +16,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
+use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -92,7 +93,12 @@ class PageControllerTest extends TestCase
             'path' => '/no/node/found',
             'locale' => 'en_US',
         ]);
-        $context = new Context();
+        $context = new Context([
+            'project' => new Project([
+                'languages' => ['en_US'],
+                'defaultLanguage' => 'en_US',
+            ])
+        ]);
 
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult());
