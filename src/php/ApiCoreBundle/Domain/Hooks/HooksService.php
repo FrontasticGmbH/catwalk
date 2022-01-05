@@ -21,7 +21,7 @@ class HooksService
 
     private ContextService $contextService;
 
-    /** @var object[] */
+    /** @var array[] */
     private ?array $hooks = null;
 
     private LoggerInterface $logger;
