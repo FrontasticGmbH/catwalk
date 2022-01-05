@@ -21,15 +21,18 @@ class ActionController
     private HooksService $hooksService;
     private RequestService $requestService;
     private FromFrontasticReactMapper $mapper;
+    private bool $debug;
 
     public function __construct(
         HooksService $hooksService,
         RequestService $requestService,
-        FromFrontasticReactMapper $mapper
+        FromFrontasticReactMapper $mapper,
+        bool $debug = false
     ) {
         $this->hooksService = $hooksService;
         $this->requestService = $requestService;
         $this->mapper = $mapper;
+        $this->debug = $debug;
     }
 
     public function indexAction(
@@ -42,6 +45,8 @@ class ActionController
 
         $apiRequest = $this->requestService->createApiRequest($request);
         $actionContext = $this->createActionContext($context);
+
+        $this->assertActionExists($namespace, $action, $hookName);
 
         /** @var stdClass $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest, $actionContext]);
@@ -120,5 +125,41 @@ class ActionController
                 "none"
             )
         );
+    }
+
+    private function assertActionExists(string $namespace, string $action, string $hookName)
+    {
+        if ($this->hooksService->isHookRegistered($hookName)) {
+            return;
+        }
+
+        $errorMessage = sprintf(
+            'Action "%s" in namespace "%s" is not registered',
+            $action,
+            $namespace
+        );
+
+        if ($this->debug) {
+            $errorMessage .= 'Registered actions are: ' . implode(
+                    ', ',
+                    array_map(
+                        function (array $actionHook) {
+                            return sprintf(
+                                '%s/%s',
+                                $actionHook['actionNamespace'] ?? 'UNKNOWN-NAMESPACE',
+                                $actionHook['actionIdentifier'] ?? 'UNKNOWN-IDENTIFIER'
+                            );
+                        },
+                        array_filter(
+                            $this->hooksService->getRegisteredHooks(),
+                            function (array $hook) {
+                                return (isset($hook['hookType']) && $hook['hookType'] === 'action');
+                            }
+                        )
+                    )
+                );
+        }
+
+        throw new BadRequestHttpException($errorMessage);
     }
 }
