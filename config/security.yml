@@ -24,6 +24,10 @@ security:
             pattern: ^/_recordFrontendError$
             security: false
 
+        nextjs:
+            pattern: ^/frontastic/
+            security: false
+
         main:
             pattern: ^/
             anonymous: ~
