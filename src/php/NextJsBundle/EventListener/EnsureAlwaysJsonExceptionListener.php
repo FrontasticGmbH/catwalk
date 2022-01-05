@@ -3,7 +3,7 @@
 namespace Frontastic\Catwalk\NextJsBundle\EventListener;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 use Frontastic\Common\CoreBundle\Domain\ErrorResult;
@@ -21,26 +21,26 @@ class EnsureAlwaysJsonExceptionListener
         $this->debug = $debug;
     }
 
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event)
     {
-        $exception = $event->getException();
+        $throwable = $event->getThrowable();
 
         $errorData = [
-            'message' => $exception->getMessage(),
+            'message' => $throwable->getMessage(),
         ];
 
-        if ($exception instanceof Translatable) {
-            $errorData['code'] = $exception->getTranslationCode();
-            $errorData['parameters'] = $exception->getTranslationParameters();
+        if ($throwable instanceof Translatable) {
+            $errorData['code'] = $throwable->getTranslationCode();
+            $errorData['parameters'] = $throwable->getTranslationParameters();
         }
 
         if ($this->debug) {
-            $errorData['file'] = $exception->getFile();
-            $errorData['line'] = $exception->getLine();
-            $errorData['stack'] = explode(PHP_EOL, $exception->getTraceAsString());
+            $errorData['file'] = $throwable->getFile();
+            $errorData['line'] = $throwable->getLine();
+            $errorData['stack'] = explode(PHP_EOL, $throwable->getTraceAsString());
         }
 
-        $statusCode = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
+        $statusCode = $throwable instanceof HttpExceptionInterface ? $throwable->getStatusCode() : 500;
         $event->setResponse(new JsonResponse(new ErrorResult($errorData), $statusCode));
     }
 }
