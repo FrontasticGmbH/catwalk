@@ -2,11 +2,11 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\EventListener;
 
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Frontastic\Common\JsonSerializer;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 
 class EnsureAlwaysJsonViewListener
 {
@@ -23,7 +23,7 @@ class EnsureAlwaysJsonViewListener
         $this->jsonSerializer = $jsonSerializer;
     }
 
-    public function onKernelView(GetResponseForControllerResultEvent $event)
+    public function onKernelView(ViewEvent $event)
     {
         $request = $event->getRequest();
 
