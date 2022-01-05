@@ -16,7 +16,7 @@ class EnsureAlwaysJsonExceptionListener
      */
     private $debug;
 
-    public function __construct($debug = false)
+    public function __construct(bool $debug = false)
     {
         $this->debug = $debug;
     }
