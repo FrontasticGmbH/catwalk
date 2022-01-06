@@ -70,6 +70,15 @@ sensio_framework_extra:
 
 monolog:
     handlers:
+        # Debug messages occassionally contain huge amounts of data (e.g.
+        # contentful adds the full response). We therefore don't log them at
+        # all in production. Debug messages (in error cases) can temporarily be
+        # re-enabled by commenting the following handler and deploying that.
+        filter_out_debug_in_production:
+            type: filter
+            min_level: info
+            handler: filter_for_errors
+
         filter_for_errors:
             type: fingers_crossed
             # if *one* log is error or higher, pass *all* to the handlers
