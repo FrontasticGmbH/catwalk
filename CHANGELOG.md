@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.29.1` (2022-01-06)
+
+* fix: Reactivate accidentally removed autowiring of controllers.
+
 ## `1.29.0` (2022-01-05)
 
 * feat(FP-983): Better error reporting if action does not exist.
