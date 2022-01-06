@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.30.0` (2022-01-06)
+
+* fix(FP-1263): Do not log debug messages in production.
+
 ## `1.29.1` (2022-01-06)
 
 * fix: Reactivate accidentally removed autowiring of controllers.
