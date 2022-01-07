@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.30.1` (2022-01-07)
+
+
+feat: session-frontastic header BC with cookie for now
+
 ## `1.30.0` (2022-01-06)
 
 * fix(FP-1263): Do not log debug messages in production.
