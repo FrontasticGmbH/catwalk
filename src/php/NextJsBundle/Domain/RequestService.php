@@ -31,11 +31,19 @@ class RequestService
         $apiRequest->cookies = (object)($request->cookies->all());
 
         $requestSessionData = null;
+        // We keep this for backwards compatibility the cookie will have to be removed when the header is full in place
         if ($request->cookies->get('frontastic-session')) {
             $requestSessionData = (object)$this->decodeAndValidateJWTSessionToken(
                 $request->cookies->get('frontastic-session')
             );
         }
+
+        if ($request->headers->get('frontastic-session')) {
+            $requestSessionData = (object)$this->decodeAndValidateJWTSessionToken(
+                $request->headers->get('frontastic-session')
+            );
+        }
+
         $apiRequest->sessionData = $requestSessionData;
 
         return $apiRequest;
