@@ -95,6 +95,7 @@ class ActionController
      */
     private function clearJwtSession(JsonResponse $response): void
     {
+        // We keep this for backwards compatibility the cookie will have to be removed when the header is full in place
         $response->headers->clearCookie(
             'frontastic-session',
             '/',
@@ -103,6 +104,7 @@ class ActionController
             true,
             "none"
         );
+        $response->headers->set('frontastic-fession', null);
     }
 
     /**
@@ -112,10 +114,13 @@ class ActionController
      */
     private function storeJwtSession(JsonResponse $response, $sessionData): void
     {
+        $jwt = $this->requestService->encodeJWTData($sessionData);
+
+        // We keep this for backwards compatibility the cookie will have to be removed when the header is full in place
         $response->headers->setCookie(
             new Cookie(
                 'frontastic-session',
-                $this->requestService->encodeJWTData($sessionData),
+                $jwt,
                 (new \DateTime())->add(new \DateInterval('P30D')),
                 '/',
                 null,
@@ -124,6 +129,11 @@ class ActionController
                 false,
                 "none"
             )
+        );
+
+        $response->headers->set(
+            'frontastic-session',
+            $jwt
         );
     }
 
