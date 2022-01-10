@@ -33,8 +33,10 @@
              public="true"
         />
 
-        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver"
-            class="Frontastic\Catwalk\NextJsBundle\Domain\Context\FrontasticNextJsLocaleResolver"
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\Context\FrontasticNextJsLocaleResolver">
+        </service>
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolverInterface"
+            alias="Frontastic\Catwalk\NextJsBundle\Domain\Context\FrontasticNextJsLocaleResolver"
         >
         </service>
 
