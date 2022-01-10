@@ -31,6 +31,7 @@ Here you find the API documentation for the relevant classes:
     * [Context](php/ApiCoreBundle/Domain/Context.md)
     * Context
       * [LocaleResolver](php/ApiCoreBundle/Domain/Context/LocaleResolver.md)
+      * [LocaleResolverInterface](php/ApiCoreBundle/Domain/Context/LocaleResolverInterface.md)
     * [ContextDecorator](php/ApiCoreBundle/Domain/ContextDecorator.md)
     * [ContextInContainerDeprecationProvider](php/ApiCoreBundle/Domain/ContextInContainerDeprecationProvider.md)
     * [ContextService](php/ApiCoreBundle/Domain/ContextService.md)
