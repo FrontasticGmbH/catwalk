@@ -33,6 +33,11 @@
              public="true"
         />
 
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver"
+            class="Frontastic\Catwalk\NextJsBundle\Domain\Context\FrontasticNextJsLocaleResolver"
+        >
+        </service>
+
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService" autowire="true">
             <argument key="$cacheDir">%kernel.cache_dir%</argument>
         </service>
