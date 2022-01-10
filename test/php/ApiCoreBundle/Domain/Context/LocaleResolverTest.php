@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
-class FrontasticReactLocaleResolverTest extends TestCase
+class LocaleResolverTest extends TestCase
 {
     /**
      * @var LocaleResolver
@@ -17,7 +17,7 @@ class FrontasticReactLocaleResolverTest extends TestCase
 
     public function setUp(): void
     {
-        $this->localeDeterminer = new FrontasticReactLocaleResolver();
+        $this->localeDeterminer = new LocaleResolver();
     }
 
     public function testLocaleChosenFromSession()

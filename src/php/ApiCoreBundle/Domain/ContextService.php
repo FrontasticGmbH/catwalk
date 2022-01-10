@@ -2,7 +2,7 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolverInterface;
 use Frontastic\Catwalk\AppKernel as AppKernelAlias;
 use Frontastic\Catwalk\FrontendBundle\Session\StatelessSessionHelper;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
@@ -39,7 +39,7 @@ class ContextService
     private $decorators = [];
 
     /**
-     * @var LocaleResolver
+     * @var LocaleResolverInterface
      */
     private $localeResolver;
 
@@ -59,7 +59,7 @@ class ContextService
         CustomerService $customerService,
         ProjectService $projectService,
         TokenStorageInterface $tokenStorage,
-        LocaleResolver $localeResolver,
+        LocaleResolverInterface $localeResolver,
         iterable $decorators
     ) {
         $this->router = $router;
