@@ -6,7 +6,7 @@ use Frontastic\Common\AccountApiBundle\Domain\Session;
 use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context\FrontasticReactLocaleResolver;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -80,7 +80,7 @@ class ContextServiceTest extends TestCase
             $this->customerServiceMock,
             $this->projectServiceMock,
             $this->tokenStorageMock,
-            new LocaleResolver(),
+            new FrontasticReactLocaleResolver(),
             []
         );
 

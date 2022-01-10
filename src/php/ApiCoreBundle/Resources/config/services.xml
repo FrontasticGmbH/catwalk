@@ -31,7 +31,9 @@
             <argument key="$decorators" type="tagged" tag="context.decorator" />
         </service>
 
-        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver">
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver"
+            class="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\FrontasticReactLocaleResolver"
+        >
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService">
