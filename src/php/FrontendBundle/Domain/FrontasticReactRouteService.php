@@ -147,6 +147,11 @@ class FrontasticReactRouteService implements RouteService
             return $node->configuration['pathTranslations'][$locale];
         }
 
+        $language = explode('_', $locale)[0] ?? 'doesNotExist';
+        if (isset($node->configuration['pathTranslations'][$language])) {
+            return $node->configuration['pathTranslations'][$language];
+        }
+
         return $node->configuration['path'] ?? '';
     }
 
