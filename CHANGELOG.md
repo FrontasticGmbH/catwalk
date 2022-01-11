@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.30.4` (2022-01-11)
+
+* chore: removed backwards compatible code for JWT cookie
+
 ## `1.30.3` (2022-01-11)
 
 * feat: Use language locales to generate routes
