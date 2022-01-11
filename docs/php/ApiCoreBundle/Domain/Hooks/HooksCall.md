@@ -2,21 +2,48 @@
 
 **Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksCall`](../../../../../src/php/ApiCoreBundle/Domain/Hooks/HooksCall.php)
 
-**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
-
-Property|Type|Default|Required|Description
---------|----|-------|--------|-----------
-`name` | `` |  | - | 
-`project` | `` |  | - | 
-`headers` | `` |  | - | 
-`payload` | `` |  | - | 
-
 ## Methods
 
+* [__construct()](#__construct)
+* [addHeader()](#addheader)
 * [getProject()](#getproject)
 * [getName()](#getname)
 * [getHeaders()](#getheaders)
 * [getPayload()](#getpayload)
+
+### __construct()
+
+```php
+public function __construct(
+    string $project,
+    string $name,
+    array $arguments
+): mixed
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$project`|`string`||
+`$name`|`string`||
+`$arguments`|`array`||
+
+Return Value: `mixed`
+
+### addHeader()
+
+```php
+public function addHeader(
+    string $key,
+    string $value
+): mixed
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$key`|`string`||
+`$value`|`string`||
+
+Return Value: `mixed`
 
 ### getProject()
 

@@ -3,9 +3,12 @@
 namespace Frontastic\Catwalk\NextJsBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\ActionContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Request;
 use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Response;
+use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
@@ -16,77 +19,48 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class ActionController
 {
     private HooksService $hooksService;
-    private HttpKernelInterface $httpKernel;
-    private string $rootDir;
     private RequestService $requestService;
+    private FromFrontasticReactMapper $mapper;
+    private bool $debug;
 
     public function __construct(
         HooksService $hooksService,
-        HttpKernelInterface $httpKernel,
         RequestService $requestService,
-        string $rootDir
+        FromFrontasticReactMapper $mapper,
+        bool $debug = false
     ) {
         $this->hooksService = $hooksService;
-        $this->httpKernel = $httpKernel;
         $this->requestService = $requestService;
-        $this->rootDir = $rootDir;
+        $this->mapper = $mapper;
+        $this->debug = $debug;
     }
 
-    public function indexAction(string $namespace, string $action, SymfonyRequest $request): JsonResponse
-    {
-
-        if ($this->hasOverride($namespace, $action)) {
-            return $this->performOverrideForward($namespace, $action, $request);
-        }
-
+    public function indexAction(
+        string $namespace,
+        string $action,
+        SymfonyRequest $request,
+        Context $context
+    ): JsonResponse {
         $hookName = sprintf('action-%s-%s', $namespace, $action);
 
         $apiRequest = $this->requestService->createApiRequest($request);
+        $actionContext = $this->createActionContext($context);
+
+        $this->assertActionExists($namespace, $action, $hookName);
 
         /** @var stdClass $apiResponse */
-        $apiResponse = $this->hooksService->call($hookName, [$apiRequest]);
+        $apiResponse = $this->hooksService->call($hookName, [$apiRequest, $actionContext]);
 
         $response = new JsonResponse();
 
         if (property_exists($apiResponse, 'sessionData')) {
             if ($apiResponse->sessionData === null) {
-                $response->headers->removeCookie(
-                    'frontastic-session',
-                    '/',
-                    null,
-                    true,
-                    true,
-                    "none"
-                );
+                $this->clearJwtSession($response);
             } else {
-                $response->headers->setCookie(
-                    new Cookie(
-                        'frontastic-session',
-                        $this->requestService->encodeJWTData($apiResponse->sessionData),
-                        0,
-                        '/',
-                        null,
-                        true,
-                        true,
-                        false,
-                        "none"
-                    )
-                );
+                $this->storeJwtSession($response, $apiResponse->sessionData);
             }
         } else {
-            $response->headers->setCookie(
-                new Cookie(
-                    'frontastic-session',
-                    $this->requestService->encodeJWTData($apiRequest->sessionData),
-                    0,
-                    '/',
-                    null,
-                    true,
-                    true,
-                    false,
-                    "none"
-                )
-            );
+            $this->storeJwtSession($response, $apiRequest->sessionData);
         }
 
         if (isset($apiResponse->ok) && !$apiResponse->ok) {
@@ -94,24 +68,13 @@ class ActionController
             $response->setStatusCode(500);
             $response->setContent(json_encode((object) $apiResponse));
         } elseif (!isset($apiResponse->statusCode) || !isset($apiResponse->body)) {
-            // response from extension is not in the expected form (which is a Response object)
+            // Fixme: Make all extensions return a valid response!
             $response->setStatusCode(200);
             $response->headers->set(
                 'X-Extension-Error',
                 'Data returned from hook did not have statusCode or body fields'
             );
             $response->setContent(json_encode((object) $apiResponse));
-            /* XXX
-               if the reponse from the extension is no Response object, it
-                   should error, but for the TT release we just pass it along.
-            $response->setStatusCode(500);
-            $response->setData(
-                [
-                    'ok' => false,
-                    'message' => "Data returned from hook did not have statusCode or body fields"
-                ]
-            );
-            */
         } else {
             $response->setContent($apiResponse->body);
             $response->setStatusCode($apiResponse->statusCode);
@@ -121,31 +84,92 @@ class ActionController
         return $response;
     }
 
-    private function performOverrideForward(string $namespace, string $action, SymfonyRequest $request): SymfonyResponse
+    private function createActionContext(Context $context): ActionContext
     {
-        $overrides = $this->getOverrides();
-        $controller = $overrides[$namespace][$action];
-
-        $subRequest = $request->duplicate(null, null, ['_controller' => $controller]);
-
-        return $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+        return new ActionContext(['frontasticContext' => $this->mapper->map($context)]);
     }
 
-    private function hasOverride(string $namespace, string $action): bool
+    /**
+     * @param JsonResponse $response
+     * @return void
+     */
+    private function clearJwtSession(JsonResponse $response): void
     {
-        $overrides = $this->getOverrides();
-
-        return (isset($overrides[$namespace]) && isset($overrides[$namespace][$action]));
+        // We keep this for backwards compatibility the cookie will have to be removed when the header is full in place
+        $response->headers->clearCookie(
+            'frontastic-session',
+            '/',
+            null,
+            true,
+            true,
+            "none"
+        );
+        $response->headers->set('frontastic-fession', null);
     }
 
-    private function getOverrides(): array
+    /**
+     * @param JsonResponse $response
+     * @param $sessionData
+     * @return void
+     */
+    private function storeJwtSession(JsonResponse $response, $sessionData): void
     {
-        $overrideFile = sprintf('%s/config/action_override.json', $this->rootDir);
+        $jwt = $this->requestService->encodeJWTData($sessionData);
 
-        if (!file_exists($overrideFile)) {
-            return [];
+        // We keep this for backwards compatibility the cookie will have to be removed when the header is full in place
+        $response->headers->setCookie(
+            new Cookie(
+                'frontastic-session',
+                $jwt,
+                (new \DateTime())->add(new \DateInterval('P30D')),
+                '/',
+                null,
+                true,
+                true,
+                false,
+                "none"
+            )
+        );
+
+        $response->headers->set(
+            'frontastic-session',
+            $jwt
+        );
+    }
+
+    private function assertActionExists(string $namespace, string $action, string $hookName)
+    {
+        if ($this->hooksService->isHookRegistered($hookName)) {
+            return;
         }
 
-        return json_decode(file_get_contents($overrideFile), true);
+        $errorMessage = sprintf(
+            'Action "%s" in namespace "%s" is not registered',
+            $action,
+            $namespace
+        );
+
+        if ($this->debug) {
+            $errorMessage .= 'Registered actions are: ' . implode(
+                ', ',
+                array_map(
+                    function (array $actionHook) {
+                        return sprintf(
+                            '%s/%s',
+                            $actionHook['actionNamespace'] ?? 'UNKNOWN-NAMESPACE',
+                            $actionHook['actionIdentifier'] ?? 'UNKNOWN-IDENTIFIER'
+                        );
+                    },
+                    array_filter(
+                        $this->hooksService->getRegisteredHooks(),
+                        function (array $hook) {
+                            return (isset($hook['hookType']) && $hook['hookType'] === 'action');
+                        }
+                    )
+                )
+            );
+        }
+
+        throw new BadRequestHttpException($errorMessage);
     }
 }

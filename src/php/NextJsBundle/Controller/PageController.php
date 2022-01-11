@@ -53,16 +53,17 @@ class PageController
         if (!$request->query->has('path')) {
             throw new BadRequestHttpException('Missing path');
         }
+        $path = $request->query->get('path');
         if (!$request->query->has('locale')) {
             throw new BadRequestHttpException('Missing locale');
         }
+        $locale = $request->query->get('locale');
+
+        $this->assertLocaleSupported($locale, $context);
 
         $node = null;
 
-        $nodeId = $this->siteBuilderPageService->matchSiteBuilderPage(
-            $request->query->get('path'),
-            $request->query->get('locale')
-        );
+        $nodeId = $this->siteBuilderPageService->matchSiteBuilderPage($path, $locale);
 
         if ($nodeId !== null) {
             $node = $this->nodeService->get($nodeId);
@@ -107,6 +108,8 @@ class PageController
             throw new BadRequestHttpException('Missing locale');
         }
 
+        $this->assertLocaleSupported($request->query->has('locale'), $context);
+
         $preview = $this->previewService->get($request->query->get('previewId'));
 
         $pageViewData = new \stdClass();
@@ -123,5 +126,17 @@ class PageController
             // Stream parameters is deprecated
             'data' => $this->mapper->map($pageViewData),
         ];
+    }
+
+    /**
+     * @param $locale
+     * @param Context $context
+     * @return void
+     */
+    private function assertLocaleSupported($locale, Context $context): void
+    {
+        if (!in_array($locale, $context->project->languages)) {
+            throw new BadRequestHttpException('Locale not supported by project');
+        }
     }
 }

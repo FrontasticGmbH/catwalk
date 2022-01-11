@@ -7,8 +7,13 @@
 
     <services>
 
+        <defaults>
+            <bind key="bool $debug">%kernel.debug%</bind>
+        </defaults>
+
         <prototype namespace="Frontastic\Catwalk\NextJsBundle\Controller\" resource="../../Controller/*.php" autowire="true" public="true" />
         <prototype namespace="Frontastic\Catwalk\NextJsBundle\Command\" resource="../../Command/*.php" autowire="true" autoconfigure="true" public="true" />
+        <prototype namespace="Frontastic\Catwalk\NextJsBundle\EventListener\" resource="../../EventListener/*.php" autowire="true" autoconfigure="true" public="true" />
 
         <service
             id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService"
@@ -20,7 +25,6 @@
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\StreamServiceFactory" autowire="true">
             <argument key="$streamHandlers" type="tagged" tag="frontend.streamHandler" />
             <argument key="$streamOptimizers" type="tagged" tag="frontend.streamOptimizer" />
-            <argument key="$debug">%kernel.debug%</argument>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService"
@@ -28,6 +32,13 @@
              autowire="true"
              public="true"
         />
+
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\Context\FrontasticNextJsLocaleResolver">
+        </service>
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolverInterface"
+            alias="Frontastic\Catwalk\NextJsBundle\Domain\Context\FrontasticNextJsLocaleResolver"
+        >
+        </service>
 
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService" autowire="true">
             <argument key="$cacheDir">%kernel.cache_dir%</argument>
@@ -56,9 +67,15 @@
             <tag name="routing.loader" />
         </service>
 
-        <service id="Frontastic\Catwalk\NextJsBundle\Controller\ActionController" autoconfigure="true" autowire="true" public="true">
-            <argument key="$rootDir">%kernel.root_dir%</argument>
+        <service id="Frontastic\Catwalk\NextJsBundle\EventListener\EnsureAlwaysJsonExceptionListener" autowire="true">
+            <argument>%kernel.debug%</argument>
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="0"/>
         </service>
+
+        <service id="Frontastic\Catwalk\NextJsBundle\EventListener\EnsureAlwaysJsonViewListener" autowire="true">
+            <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="50"/>
+        </service>
+
     </services>
 
 </container>

@@ -51,7 +51,7 @@ Return Value: `bool`
 public function call(
     string $hook,
     array $arguments
-): \stdClass
+): mixed
 ```
 
 Argument|Type|Default|Description
@@ -59,7 +59,7 @@ Argument|Type|Default|Description
 `$hook`|`string`||
 `$arguments`|`array`||
 
-Return Value: `\stdClass`
+Return Value: `mixed`
 
 ### getRegisteredHooks()
 
