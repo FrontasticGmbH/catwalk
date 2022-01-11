@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.30.3` (2022-01-11)
+
+* feat: Use language locales to generate routes
+
 ## `1.30.2` (2022-01-11)
 
 
