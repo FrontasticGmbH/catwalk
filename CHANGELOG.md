@@ -1,5 +1,81 @@
 # catwalk Changelog
 
+## `1.30.3` (2022-01-11)
+
+* feat: Use language locales to generate routes
+
+## `1.30.2` (2022-01-11)
+
+
+* refactor(api-hub): don't rename LocaleResolver class to retain backwards-compatibility
+* fix(api-hub): introduce FT NextJs specific locale resolver
+
+## `1.30.1` (2022-01-07)
+
+
+feat: session-frontastic header BC with cookie for now
+
+## `1.30.0` (2022-01-06)
+
+* fix(FP-1263): Do not log debug messages in production.
+
+## `1.29.1` (2022-01-06)
+
+* fix: Reactivate accidentally removed autowiring of controllers.
+
+## `1.29.0` (2022-01-05)
+
+* feat(FP-983): Better error reporting if action does not exist.
+* feat(FP-983): Adjusted service definition for autowire.
+* feat(FP-983): Fix test to have proper data for extended logic.
+* feat(FP-983): Disable native PHP sessions for all Next.js routes.
+
+## `1.28.5` (2021-12-22)
+
+* chore: refresh context once user is registered
+
+## `1.28.4` (2021-12-21)
+
+* fix: missing account field handling in registration
+
+## `1.28.3` (2021-12-21)
+
+* fix: missing account field
+
+## `1.28.3` (2021-12-21)
+
+* fix: missing account field
+
+## `1.28.2` (2021-12-21)
+
+* fix: handle register success action
+
+## `1.28.1` (2021-12-14)
+
+* fix: Apply page folder data completion to tree structures, too.
+
+## `1.28.0` (2021-12-09)
+
+* feat: consider query parameters for variant selection when redirecting to new product URLs
+* fix(api-hub): fix ActionContext initialization
+* refactor(api-hub): remove obsolete HooksCallBuilder
+* feat(api-hub): pass right context to extension runner
+* feat(api-hub): provide right context to extension actions
+
+## `1.27.1` (2021-12-06)
+
+
+*  JWT Setting session expiry to one month temporarily
+
+## `1.27.0` (2021-12-03)
+
+* feat: Fall back to languages during finding translations
+
+## `1.26.8` (2021-11-26)
+
+
+* JWT cookie removal with clearCookie method
+
 ## `1.26.7` (2021-11-25)
 
 

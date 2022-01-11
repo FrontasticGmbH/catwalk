@@ -7,7 +7,7 @@ use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
 
-class LocaleResolver
+class LocaleResolver implements LocaleResolverInterface
 {
     public function determineLocale(Request $request, Project $project): string
     {

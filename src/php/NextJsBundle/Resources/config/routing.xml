@@ -6,18 +6,23 @@
 
     <route id="Frontastic.NextJs.Api.page" path="/frontastic/page">
         <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\PageController::indexAction</default>
+        <default key="_stateless">true</default>
     </route>
     <route id="Frontastic.NextJs.Api.preview" path="/frontastic/preview">
         <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\PageController::previewAction</default>
+        <default key="_stateless">true</default>
     </route>
     <route id="Frontastic.NextJs.Api.project" path="/frontastic/project">
         <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\ProjectController::indexAction</default>
+        <default key="_stateless">true</default>
     </route>
     <route id="Frontastic.NextJs.Api.context" path="/frontastic/context">
         <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\ContextController::indexAction</default>
+        <default key="_stateless">true</default>
     </route>
     <route id="Frontastic.NextJs.Api.action" path="/frontastic/action/{namespace}/{action}">
         <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\ActionController::indexAction</default>
+        <default key="_stateless">true</default>
     </route>
 
 </routes>

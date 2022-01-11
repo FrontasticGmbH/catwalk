@@ -107,7 +107,10 @@ class PageFolderCompletionVisitor implements FieldVisitor
 
     private function generateTreeRecursive(Node $node, ?int $requestedDepth): PageFolderTreeValue
     {
-        $node = $this->nodeService->completeCustomNodeData($node);
+        $node = $this->nodeService->completeCustomNodeData(
+            $node,
+            $this->fieldVisitorFactory->createNodeDataVisitor($this->context)
+        );
 
         $treeValue = new PageFolderTreeValue([
             'pageFolderId' => $node->nodeId,

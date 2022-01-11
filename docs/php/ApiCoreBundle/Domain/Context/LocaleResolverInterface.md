@@ -1,8 +1,6 @@
-#  LocaleResolver
+# `interface`  LocaleResolverInterface
 
-**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver`](../../../../../src/php/ApiCoreBundle/Domain/Context/LocaleResolver.php)
-
-**Implements**: [`LocaleResolverInterface`](LocaleResolverInterface.md)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolverInterface`](../../../../../src/php/ApiCoreBundle/Domain/Context/LocaleResolverInterface.php)
 
 ## Methods
 

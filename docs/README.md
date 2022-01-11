@@ -31,6 +31,7 @@ Here you find the API documentation for the relevant classes:
     * [Context](php/ApiCoreBundle/Domain/Context.md)
     * Context
       * [LocaleResolver](php/ApiCoreBundle/Domain/Context/LocaleResolver.md)
+      * [LocaleResolverInterface](php/ApiCoreBundle/Domain/Context/LocaleResolverInterface.md)
     * [ContextDecorator](php/ApiCoreBundle/Domain/ContextDecorator.md)
     * [ContextInContainerDeprecationProvider](php/ApiCoreBundle/Domain/ContextInContainerDeprecationProvider.md)
     * [ContextService](php/ApiCoreBundle/Domain/ContextService.md)
@@ -42,7 +43,6 @@ Here you find the API documentation for the relevant classes:
       * [HookResponseDeserializer](php/ApiCoreBundle/Domain/Hooks/HookResponseDeserializer.md)
       * [HooksApiClient](php/ApiCoreBundle/Domain/Hooks/HooksApiClient.md)
       * [HooksCall](php/ApiCoreBundle/Domain/Hooks/HooksCall.md)
-      * [HooksCallBuilder](php/ApiCoreBundle/Domain/Hooks/HooksCallBuilder.md)
       * [HooksService](php/ApiCoreBundle/Domain/Hooks/HooksService.md)
     * [ProductApiFactoryDecorator](php/ApiCoreBundle/Domain/ProductApiFactoryDecorator.md)
     * [ProductApiWithoutInner](php/ApiCoreBundle/Domain/ProductApiWithoutInner.md)

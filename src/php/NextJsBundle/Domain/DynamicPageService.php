@@ -11,6 +11,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageContext;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
@@ -23,17 +24,20 @@ class DynamicPageService
     private HooksService $hooksService;
     private MasterService $masterService;
     private NodeService $nodeService;
+    private FromFrontasticReactMapper $mapper;
 
     public function __construct(
         RequestService $requestService,
         HooksService $hooksService,
         MasterService $masterService,
-        NodeService $nodeService
+        NodeService $nodeService,
+        FromFrontasticReactMapper $mapper
     ) {
         $this->requestService = $requestService;
         $this->hooksService = $hooksService;
         $this->masterService = $masterService;
         $this->nodeService = $nodeService;
+        $this->mapper = $mapper;
     }
 
     public function handleDynamicPage(SymfonyRequest $request, Context $context): ?DynamicPageResult
@@ -45,8 +49,12 @@ class DynamicPageService
         /** @var \stdClass */
         $dynamicPagePayload = $this->hooksService->call(self::DYNAMIC_PAGE_HOOK, [
             $this->requestService->createApiRequest($request),
-            // TODO: Create context
+            $this->createDynamicPageContext($context)
         ]);
+
+        if ($dynamicPagePayload === null) {
+            return null;
+        }
 
         if (isset($dynamicPagePayload->ok) && $dynamicPagePayload->ok === false) {
             throw new \RuntimeException($dynamicPagePayload->message ?? 'Unknown error when executing dynamic page');
@@ -83,5 +91,12 @@ class DynamicPageService
         }
 
         return $node;
+    }
+
+    private function createDynamicPageContext(Context $context): DynamicPageContext
+    {
+        return new DynamicPageContext([
+            'frontasticContext' => $this->mapper->map($context)
+        ]);
     }
 }

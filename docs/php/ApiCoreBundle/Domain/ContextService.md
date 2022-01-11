@@ -19,7 +19,7 @@ public function __construct(
     CustomerService $customerService,
     ProjectService $projectService,
     \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage,
-    LocaleResolver $localeResolver,
+    LocaleResolverInterface $localeResolver,
     iterable $decorators
 ): mixed
 ```
@@ -31,7 +31,7 @@ Argument|Type|Default|Description
 `$customerService`|[`CustomerService`](CustomerService.md)||
 `$projectService`|[`ProjectService`](ProjectService.md)||
 `$tokenStorage`|`\Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface`||
-`$localeResolver`|[`LocaleResolver`](Context/LocaleResolver.md)||
+`$localeResolver`|[`LocaleResolverInterface`](Context/LocaleResolverInterface.md)||
 `$decorators`|`iterable`||
 
 Return Value: `mixed`
