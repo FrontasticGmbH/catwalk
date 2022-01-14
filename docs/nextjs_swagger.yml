@@ -1,0 +1,288 @@
+openapi: 3.0.0
+x-readme:
+    samples-languages:
+        - javascript
+        - curl
+info:
+    title: 'Frontastic API hub'
+    version: 2.0.0
+servers:
+    - url: 'https://{project}-{customer}.frontastic.io'
+      description: 'Staging'
+    - url: 'https://{project}-{customer}.frontastic.live'
+      description: 'Production'
+    - url: 'https://{project}-{sandbox-label}-{customer}.frontastic.dev'
+      description: 'Sandbox'
+components:
+    schemas:
+        Error:
+            type: object
+            properties:
+                ok:
+                    type: boolean
+                message:
+                    type: string
+
+        Locale:
+            type: string
+            pattern: ^([a-z]{2}_[A-Z]{2})|([a-z]{2})$
+
+        PageElementConfiguration:
+            type: object
+            properties:
+                mobile:
+                    type: boolean
+                desktop:
+                    type: boolean
+                tablet:
+                    type: boolean
+
+        Section:
+            type: object
+            properties:
+                layoutElements:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            layoutElementId:
+                                type: string
+                            configuration:
+                                allOf:
+                                    - $ref: '#/components/schemas/PageElementConfiguration'
+                                    - type: object
+                                      properties:
+                                          size:
+                                              description: '12 = full size, 1 = 1/12 size'
+                                              type: integer
+                                              minimum: 1
+                                              maximum: 12
+                            tastics:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        tasticId:
+                                            type: string
+                                        type:
+                                            type: string
+                                        configuration:
+                                            allOf:
+                                                - $ref: '#/components/schemas/PageElementConfiguration'
+                                                - type: object
+                                                  additionalProperties:
+                                                      description: 'As defined by the Tastic schema'
+                                                  example:
+                                                    {
+                                                        "_type": "Frontastic\\Catwalk\\FrontendBundle\\Domain\\Tastic\\Configuration",
+                                                        "mobile": true,
+                                                        "tablet": true,
+                                                        "desktop": true,
+                                                        "aLinkReferenceField": {
+                                                            "_type": "Frontastic\\Catwalk\\NextJsBundle\\Domain\\Api\\TasticFieldValue\\LinkReferenceValue",
+                                                            "type": "link",
+                                                            "link": "https://example.com",
+                                                            "openInNewWindow": false
+                                                        },
+                                                        "aPageFolderReferenceField": {
+                                                            "_type": "Frontastic\\Catwalk\\NextJsBundle\\Domain\\Api\\TasticFieldValue\\PageFolderReferenceValue",
+                                                            "type": "page-folder",
+                                                            "pageFolder": {
+                                                                "_type": "Frontastic\\Catwalk\\NextJsBundle\\Domain\\Api\\TasticFieldValue\\PageFolderValue",
+                                                                "pageFolderId": "8733ddef122e2c9769a2dd441f11a7b9",
+                                                                "name": "Sub",
+                                                                "configuration": {
+                                                                    "path": "sub-page",
+                                                                    "pathTranslations": [ ]
+                                                                },
+                                                                "_urls": {
+                                                                    "de_CH": "/sub-page",
+                                                                    "fr_CH": "/sub-page",
+                                                                    "it_CH": "/sub-page",
+                                                                    "de_LI": "/sub-page"
+                                                                }
+                                                            },
+                                                            "openInNewWindow": false
+                                                        },
+                                                        "aPageFolderField": {
+                                                            "_type": "Frontastic\\Catwalk\\NextJsBundle\\Domain\\Api\\TasticFieldValue\\PageFolderValue",
+                                                            "pageFolderId": "2484aae237475b21de02bc1e2d13b3c4",
+                                                            "name": "Main",
+                                                            "configuration": {
+                                                                "path": "/",
+                                                                "pathTranslations": [ ]
+                                                            },
+                                                            "_urls": {
+                                                                "de_CH": "/",
+                                                                "fr_CH": "/",
+                                                                "it_CH": "/",
+                                                                "de_LI": "/"
+                                                            }
+                                                        }
+                                                    }
+    parameters:
+        localeParameter:
+            in: query
+            name: locale
+            required: true
+            schema:
+                $ref: '#/components/schemas/Locale'
+        acceptHeader:
+            name: Accept
+            in: header
+            required: true
+            schema:
+                type: string
+                pattern: ^application/json$
+                default: application/json
+paths:
+    /frontastic/context:
+        get:
+            summary: 'Project & environment'
+            description: 'Returns information about the project setup and the environment the requested host acts in.'
+            parameters:
+                - $ref: '#/components/parameters/acceptHeader'
+            responses:
+                200:
+                    description: 'Project & environment information'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    environment:
+                                        type: string
+                                        enum:
+                                            - production
+                                            - development
+                                    locales:
+                                        type: array
+                                        items:
+                                            $ref: '#/components/schemas/Locale'
+                                    defaultLocale:
+                                        $ref: '#/components/schemas/Locale'
+
+    /frontastic/page:
+        get:
+            summary: 'Page structure & data'
+            description: 'Retrieve structure and all data required to render it from Frontastic'
+            parameters:
+                - $ref: '#/components/parameters/acceptHeader'
+                - $ref: '#/components/parameters/localeParameter'
+                - name: path
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                      pattern: ^/.*$
+            responses:
+                200:
+                    description: 'Page folder information, page structure & data source data'
+                    content:
+                        application/json:
+                            schema:
+                                # Only contains most important information, for now
+                                # TODO: Let this be generated from our types!
+                                type: object
+                                properties:
+                                    pageFolder:
+                                        type: object
+                                        externalDocs:
+                                            description: 'TypeScript definition of PageFolder'
+                                            url: https://www.npmjs.com/package/@frontastic/extension-types
+                                        properties:
+                                            pageFolderId:
+                                                type: string
+                                            isDynamic:
+                                                type: boolean
+                                            dataSourceConfigurations:
+                                                type: array
+                                                items:
+                                                    type: object
+                                                    properties:
+                                                        streamId:
+                                                            type: string
+                                                        type:
+                                                            type: string
+                                                        name:
+                                                            type: string
+                                                        configuration:
+                                                            type: object
+                                                            additionalProperties: true
+                                            name:
+                                                type: string
+                                        example:
+                                              {
+                                                  "_type": "Frontastic\\Catwalk\\NextJsBundle\\Domain\\Api\\PageFolder",
+                                                  "pageFolderId": "2484aae237475b21de02bc1e2d13b3c4",
+                                                  "isDynamic": false,
+                                                  "pageFolderType": "landingpage",
+                                                  "configuration": {
+                                                      "path": "/",
+                                                      "pathTranslations": [ ]
+                                                  },
+                                                  "dataSourceConfigurations": [
+                                                      {
+                                                          "streamId": "54c25bbc-85ef-42c8-a5e1-5549d1b910e3",
+                                                          "type": "frontastic/product-list",
+                                                          "name": "Product search API Next",
+                                                          "configuration": [ ]
+                                                      }
+                                                  ],
+                                                  "name": "Main",
+                                                  "ancestorIdsMaterializedPath": "/",
+                                                  "depth": 0,
+                                                  "sort": 0
+                                              }
+                                    page:
+                                        type: object
+                                        externalDocs:
+                                            description: 'TypeScript definition of Page'
+                                            url: https://www.npmjs.com/package/@frontastic/extension-types
+                                        properties:
+                                            pageId:
+                                                type: string
+                                            sections:
+                                                description: '3 sections "head", "mean", "footer" with equal structure'
+                                                properties:
+                                                    head:
+                                                        $ref: '#/components/schemas/Section'
+                                                    main:
+                                                        $ref: '#/components/schemas/Section'
+                                                    footer:
+                                                        $ref: '#/components/schemas/Section'
+                                    data:
+                                        type: object
+                                        properties:
+                                            dataSources:
+                                                description: 'Data sources configured for the page folder and referenced in the page, indexed by data source ID'
+                                                type: object
+                                                additionalProperties:
+                                                    type: object
+    /action/{namespace}/{action}:
+        summary: 'Execute an action'
+        description: 'Execute an action as implemented through an API action extension. Supported HTTP methods, format, headers and status code are dependent on the action implementation.'
+        parameters:
+            - $ref: '#/components/parameters/localeParameter'
+            - name: namespace
+              in: path
+              required: true
+              schema:
+                  type: string
+            - name: action
+              in: path
+              required: true
+              schema:
+                  type: string
+        get:
+            summary: 'Load data'
+            description: 'Use the GET operation to allow the frontend to fetch data asynchronously.'
+            responses:
+                200:
+                    description: 'We recommend to use standard HTTP response codes & application/json encoded content'
+        post:
+            summary: 'Write data'
+            description: 'Use the POST or PUT operations write data to a backend system.'
+            responses:
+                200:
+                    description: 'We recommend to use standard HTTP response codes & application/json encoded content'
