@@ -2,6 +2,8 @@
 
 **Fully Qualified**: [`\Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder`](../../../../../src/php/NextJsBundle/Domain/Api/PageFolder.php)
 
+**Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
+
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
 `pageFolderId` | `string` |  | *Yes* | 
