@@ -24,5 +24,10 @@
         <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\ActionController::indexAction</default>
         <default key="_stateless">true</default>
     </route>
+    <route id="Frontastic.NextJs.Api.action" path="/frontastic/test/{identifier}">
+        <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\TestController::dataSourceAction</default>
+        <requirement key="identifier">.+</requirement><!-- allow slashes in the identifier -->
+        <default key="_stateless">true</default>
+    </route>
 
 </routes>
