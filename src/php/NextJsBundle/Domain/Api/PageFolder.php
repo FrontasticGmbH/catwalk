@@ -2,11 +2,13 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
+use Kore\DataObject\DataObject;
+
 /**
  * @replaces Frontastic\Catwalk\FrontendBundle\Domain\Node
  * @type
  */
-class PageFolder
+class PageFolder extends DataObject
 {
     /**
      * @replaces $nodeId.

@@ -20,8 +20,11 @@ class TestController
     private RequestService $requestService;
     private FromFrontasticReactMapper $mapper;
 
-    public function __construct(HooksService $hooksService, RequestService $requestService, FromFrontasticReactMapper $mapper)
-    {
+    public function __construct(
+        HooksService $hooksService,
+        RequestService $requestService,
+        FromFrontasticReactMapper $mapper
+    ) {
         $this->hooksService = $hooksService;
         $this->requestService = $requestService;
         $this->mapper = $mapper;
@@ -35,7 +38,9 @@ class TestController
 
         $requestContentJson = json_decode($request->getContent(), true);
 
-        $hookName = 'data-source-' . str_replace('/', '-', $identifier); // copied from Typescript TODO: put that in a central place
+        // copied from Typescript TODO: put that in a central place
+        $hookName = 'data-source-' . str_replace('/', '-', $identifier);
+
         return $this->hooksService->call(
             $hookName,
             [
