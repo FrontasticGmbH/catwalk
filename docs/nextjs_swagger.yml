@@ -138,13 +138,13 @@ components:
 paths:
     /frontastic/context:
         get:
-            summary: 'Project & environment'
+            summary: 'Project and environment'
             description: 'Returns information about the project setup and the environment the requested host acts in.'
             parameters:
                 - $ref: '#/components/parameters/acceptHeader'
             responses:
                 200:
-                    description: 'Project & environment information'
+                    description: 'Project and environment information'
                     content:
                         application/json:
                             schema:
@@ -164,7 +164,7 @@ paths:
 
     /frontastic/page:
         get:
-            summary: 'Page structure & data'
+            summary: 'Page structure and data'
             description: 'Retrieve structure and all data required to render it from Frontastic'
             parameters:
                 - $ref: '#/components/parameters/acceptHeader'
@@ -177,7 +177,7 @@ paths:
                       pattern: ^/.*$
             responses:
                 200:
-                    description: 'Page folder information, page structure & data source data'
+                    description: 'Page folder information, page structure, and data source data'
                     content:
                         application/json:
                             schema:
@@ -261,7 +261,7 @@ paths:
                                                     type: object
     /action/{namespace}/{action}:
         summary: 'Execute an action'
-        description: 'Execute an action as implemented through an API action extension. Supported HTTP methods, format, headers and status code are dependent on the action implementation.'
+        description: 'Execute an action as implemented through an API action extension. Supported HTTP methods, format, headers, and status code are dependent on the action implementation.'
         parameters:
             - $ref: '#/components/parameters/localeParameter'
             - name: namespace
@@ -279,10 +279,10 @@ paths:
             description: 'Use the GET operation to allow the frontend to fetch data asynchronously.'
             responses:
                 200:
-                    description: 'We recommend to use standard HTTP response codes & application/json encoded content'
+                    description: 'We recommend to use standard HTTP response codes and application/json encoded content'
         post:
             summary: 'Write data'
             description: 'Use the POST or PUT operations write data to a backend system.'
             responses:
                 200:
-                    description: 'We recommend to use standard HTTP response codes & application/json encoded content'
+                    description: 'We recommend to use standard HTTP response codes and application/json encoded content'
