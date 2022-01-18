@@ -1,5 +1,12 @@
 # catwalk Changelog
 
+## `1.31.0` (2022-01-18)
+
+* fix(api-hub): make actions accessible again
+* feat(api-hub): allow testing of DataSources by directly calling a HTTP endpoint
+* fix: Updated copy
+* feat(docs): Basic Swagger file for Frontastic Next.js APIs.
+
 ## `1.30.4` (2022-01-11)
 
 * chore: removed backwards compatible code for JWT cookie
