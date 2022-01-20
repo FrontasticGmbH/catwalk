@@ -30,16 +30,19 @@ class Request extends DataObject
     public string $hostname;
 
     /**
+     * @required
      * @var string
      */
     public string $method;
 
     /**
+     * @required
      * @var string
      */
     public string $path;
 
     /**
+     * @required
      * @var object
      */
     public object $query;
