@@ -94,7 +94,7 @@ class ActionController
      */
     private function clearJwtSession(JsonResponse $response): void
     {
-        $response->headers->set('frontastic-fession', null);
+        $response->headers->set('frontastic-session', null);
     }
 
     /**
