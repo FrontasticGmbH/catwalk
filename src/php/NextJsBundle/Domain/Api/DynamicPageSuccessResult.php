@@ -12,6 +12,7 @@ class DynamicPageSuccessResult extends DataObject implements DynamicPageResult
     /**
      * Unique identifier for the page type matched. Will correlate with configuration in Frontastic studio.
      *
+     * @required
      * @var string
      */
     public string $dynamicPageType;
@@ -21,6 +22,7 @@ class DynamicPageSuccessResult extends DataObject implements DynamicPageResult
      *
      * JSON serializable
      *
+     * @required
      * @var mixed
      */
     public $dataSourcePayload;

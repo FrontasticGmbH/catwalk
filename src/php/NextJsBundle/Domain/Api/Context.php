@@ -12,6 +12,7 @@ class Context extends DataObject
 {
     /**
      * Result of {@link Frontastic\Catwalk\ApiCoreBundle\Domain\Context.applicationEnvironment()}
+     * @required
      * @var string
      */
     public string $environment = 'production';
@@ -54,6 +55,7 @@ class Context extends DataObject
     // public $session = null;
 
     /**
+     * @required
      * @var array<string, bool>
      */
     public array $featureFlags = [];

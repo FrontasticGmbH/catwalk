@@ -13,7 +13,7 @@ use Kore\DataObject\DataObject;
 class DynamicPageContext extends DataObject
 {
     /**
-     * @var ?Context
+     * @var Context
      */
     public ?Context $frontasticContext = null;
 }

@@ -16,7 +16,8 @@ class DataSourceResult extends DataObject
      *
      * dataSourcePayload any JSON serializable value
      *
+     * @required
      * @var mixed
      */
-    public object $dataSourcePayload;
+    public $dataSourcePayload;
 }

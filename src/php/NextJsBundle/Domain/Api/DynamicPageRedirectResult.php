@@ -9,8 +9,15 @@ use Kore\DataObject\DataObject;
  */
 class DynamicPageRedirectResult extends DataObject implements DynamicPageResult
 {
+    /**
+     * @required
+     * @var string
+     */
     public string $redirectLocation;
 
+    /**
+     * @var int
+     */
     public int $statusCode = 301;
 
     /**
@@ -21,7 +28,7 @@ class DynamicPageRedirectResult extends DataObject implements DynamicPageResult
     public ?string $statusMessage = null;
 
     /**
-     * Allows to specify additional headers for the redirect.
+     * Allows specifying additional headers for the redirect.
      *
      * @var array<string, string>
      */
