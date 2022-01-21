@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.31.1` (2022-01-21)
+
+
+* fix: FP-1235 Removed the dataSourcePayload key
+* fix: Typo to the JWT clear session handle for null
+
 ## `1.31.0` (2022-01-18)
 
 * fix(api-hub): make actions accessible again
