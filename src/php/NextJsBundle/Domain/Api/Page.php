@@ -57,6 +57,7 @@ class Page extends DataObject
     // public $isDeleted = false;
 
     /**
+     * One of "published", "draft" or "scheduled"
      * @var string
      * @required
      */

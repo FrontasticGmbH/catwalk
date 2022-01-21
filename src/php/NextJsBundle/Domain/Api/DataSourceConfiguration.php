@@ -5,7 +5,9 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 use Kore\DataObject\DataObject;
 
 /**
- * Stripped down version of {@link Frontastic\Catwalk\FrontendBundle\Domain\Stream}.
+ * Representation of a data source configuration on a PageFolder.
+ *
+ * @internal Stripped down version of {@link Frontastic\Catwalk\FrontendBundle\Domain\Stream}.
  * @type
  */
 class DataSourceConfiguration extends DataObject
@@ -30,7 +32,7 @@ class DataSourceConfiguration extends DataObject
     public string $name;
 
     /**
-     * @var array
+     * @var mixed
      * @required
      */
     public $configuration = [];
