@@ -29,14 +29,15 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
 
     public function handle(Stream $stream, StreamContext $streamContext): PromiseInterface
     {
+        $hookServiceResponse = $this->hooksService->call(
+            $this->hookName,
+            [
+                $this->mapper->map($stream),
+                $this->createDataSourceContext($streamContext)
+            ]
+        );
         return Promise\promise_for(
-            $this->hooksService->call(
-                $this->hookName,
-                [
-                    $this->mapper->map($stream),
-                    $this->createDataSourceContext($streamContext)
-                ]
-            )
+            $hookServiceResponse->dataSourcePayload
         );
     }
 
