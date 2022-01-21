@@ -5,6 +5,10 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 use Kore\DataObject\DataObject;
 
 /**
+ * Determines what type of dynamic page is matched and delivers the payload of the __master data source.
+ *
+ *
+ *
  * @type
  */
 class DynamicPageSuccessResult extends DataObject implements DynamicPageResult
@@ -18,9 +22,9 @@ class DynamicPageSuccessResult extends DataObject implements DynamicPageResult
     public string $dynamicPageType;
 
     /**
-     * Payload for the main data source of the dynamic page.
+     * Payload for the main (__master) data source of the dynamic page.
      *
-     * JSON serializable
+     * The content of this field must be JSON serializable (e.g. does not have cyclic references).
      *
      * @required
      * @var mixed
@@ -28,9 +32,11 @@ class DynamicPageSuccessResult extends DataObject implements DynamicPageResult
     public $dataSourcePayload;
 
     /**
-     * Submit a payload we use for page matching (FECL!)
+     * Submit a payload Frontastic uses for scheduled page criterion matching (FECL)
      *
-     * @var object
+     * The content of this field must be JSON serializable (e.g. does not have cyclic references).
+     *
+     * @var object|array
      */
     public object $pageMatchingPayload;
 }

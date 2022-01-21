@@ -55,6 +55,8 @@ class PageFolder extends DataObject
     public string $name;
 
     /**
+     * Materialized path of IDs of ancestor page folders.
+     *
      * @replaces $path
      * @required
      * @var string
@@ -62,11 +64,16 @@ class PageFolder extends DataObject
     public string $ancestorIdsMaterializedPath;
 
     /**
+     * Depth of this page folder in the page folder tree.
+     *
      * @var integer
+     * @required
      */
     public $depth;
 
     /**
+     * Sort order in the page folder tree.
+     *
      * @var integer
      * @required
      */

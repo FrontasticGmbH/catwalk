@@ -5,8 +5,11 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 use Kore\DataObject\DataObject;
 
 /**
- * Request structure as used by Express.js version 4.x + Frontastic additions.
- * {@see https://expressjs.com/en/api.html#req}
+ * Request as coming in to the Frontastci API hub.
+ *
+ * The request structure is inspired by Express.js version 4.x and contains additional Frontastic $sessionData.
+ *
+ * @see https://expressjs.com/en/api.html#req
  * @type
  */
 class Request extends DataObject

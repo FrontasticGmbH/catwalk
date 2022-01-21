@@ -3,8 +3,14 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
 /**
- * Response structure as used by Express.js version 4.x + Frontastic additions.
- * {@see https://expressjs.com/en/api.html#res}
+ * Response as to be returned by an "action" extension.
+ *
+ * The response structure is inspired by Express.js version 4.x + Frontastic sessionData.
+ * IMPORTANT: To retain session information you need to return the session that comes in through sessionData in a
+ * request in the response of the action.
+ *
+ * @see https://expressjs.com/en/api.html#res
+ * @todo Automatic retaining of session
  * @type
  */
 class Response
@@ -12,6 +18,8 @@ class Response
 
     /**
      * @var string
+     * @required
+     * @todo Make int!
      */
     public string $statusCode;
 

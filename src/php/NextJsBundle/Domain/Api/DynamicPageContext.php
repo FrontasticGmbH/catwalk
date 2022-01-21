@@ -5,8 +5,10 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 use Kore\DataObject\DataObject;
 
 /**
- * This class only represents the information available, the TypeScript API should provide a mechanism to request each
- * of these fields and we only submit those which have been requested.
+ * Context retrieved by the "dynamic-page-handler" extension.
+ *
+ * All fields in the context are optional. We want to introduce a mechanism in the future that allows extensions to
+ * annotate which context data they require.
  *
  * @type
  */
