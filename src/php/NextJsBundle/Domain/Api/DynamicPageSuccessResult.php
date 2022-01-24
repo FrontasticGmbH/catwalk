@@ -36,7 +36,7 @@ class DynamicPageSuccessResult extends DataObject implements DynamicPageResult
      *
      * The content of this field must be JSON serializable (e.g. does not have cyclic references).
      *
-     * @var object|array
+     * @var mixed
      */
     public object $pageMatchingPayload;
 }
