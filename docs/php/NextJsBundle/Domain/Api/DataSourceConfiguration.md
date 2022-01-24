@@ -9,6 +9,6 @@ Property|Type|Default|Required|Description
 `dataSourceId` | `string` |  | *Yes* | 
 `type` | `string` |  | *Yes* | 
 `name` | `string` |  | *Yes* | 
-`configuration` | `array` | `[]` | *Yes* | 
+`configuration` | `mixed` | `[]` | *Yes* | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
