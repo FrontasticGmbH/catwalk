@@ -8,8 +8,8 @@
 
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
-`dynamicPageType` | `string` |  | - | Unique identifier for the page type matched. Will correlate with configuration in Frontastic studio.
-`dataSourcePayload` | `mixed` |  | - | Payload for the main data source of the dynamic page.
-`pageMatchingPayload` | `object` |  | - | Submit a payload we use for page matching (FECL!)
+`dynamicPageType` | `string` |  | *Yes* | Unique identifier for the page type matched. Will correlate with configuration in Frontastic studio.
+`dataSourcePayload` | `mixed` |  | *Yes* | Payload for the main (__master) data source of the dynamic page.
+`pageMatchingPayload` | `mixed` |  | - | Submit a payload Frontastic uses for scheduled page criterion matching (FECL)
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
