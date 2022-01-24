@@ -8,7 +8,7 @@ session that comes in through sessionData in a request in the response of the
 action.
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
-`statusCode` | `string` |  | *Yes* | 
+`statusCode` | `int` |  | *Yes* | 
 `body` | `string` |  | - | 
 `sessionData` | `?object` |  | - | Frontastic session data to be written.
 
