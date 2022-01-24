@@ -17,9 +17,8 @@ class Response
 {
 
     /**
-     * @var string
+     * @var int
      * @required
-     * @todo Make int!
      */
     public string $statusCode;
 
