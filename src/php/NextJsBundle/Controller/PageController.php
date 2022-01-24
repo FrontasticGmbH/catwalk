@@ -11,8 +11,10 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
+use Frontastic\Catwalk\NextJsBundle\Domain\FrontasticNextJsRedirectService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -27,6 +29,7 @@ class PageController
     private PageDataCompletionService $completionService;
     private ViewDataProvider $viewDataProvider;
     private DynamicPageService $dynamicPageService;
+    private FrontasticNextJsRedirectService $redirectService;
 
     public function __construct(
         SiteBuilderPageService $siteBuilderPageService,
@@ -36,7 +39,8 @@ class PageController
         PageService $pageService,
         PreviewService $previewService,
         PageDataCompletionService $completionService,
-        ViewDataProvider $viewDataProvider
+        ViewDataProvider $viewDataProvider,
+        FrontasticNextJsRedirectService $redirectService
     ) {
         $this->siteBuilderPageService = $siteBuilderPageService;
         $this->dynamicPageService = $dynamicPageService;
@@ -46,6 +50,7 @@ class PageController
         $this->completionService = $completionService;
         $this->mapper = $mapper;
         $this->viewDataProvider = $viewDataProvider;
+        $this->redirectService = $redirectService;
     }
 
     public function indexAction(Request $request, Context $context)
@@ -60,6 +65,12 @@ class PageController
         $locale = $request->query->get('locale');
 
         $this->assertLocaleSupported($locale, $context);
+
+        $redirectResponse = $this->redirectService->getRedirectResponseForPath($path, new ParameterBag(), $context);
+
+        if($redirectResponse !== null) {
+            return $redirectResponse;
+        }
 
         $node = null;
 
