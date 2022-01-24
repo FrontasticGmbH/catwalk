@@ -76,6 +76,13 @@
             <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="50"/>
         </service>
 
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\FrontasticNextJsRedirectService" 
+        >
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway" />
+            <argument type="service" id="router" />   
+            <argument type="service" id="Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService" />
+        </service>
+
     </services>
 
 </container>
