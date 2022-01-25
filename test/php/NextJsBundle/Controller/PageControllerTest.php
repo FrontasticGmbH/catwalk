@@ -14,6 +14,7 @@ use Frontastic\Catwalk\NextJsBundle\Controller\PageController;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
+use Frontastic\Catwalk\NextJsBundle\Domain\FrontasticNextJsRedirectService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
@@ -56,6 +57,10 @@ class PageControllerTest extends TestCase
      * @var ViewDataProvider|\Phake_IMock
      */
     private $viewDataProviderMock;
+    /**
+     * @var FrontasticNextJsRedirectService|\Phake_IMock
+     */
+    private $redirectServiceMock;
 
     public function setUp()
     {
@@ -67,6 +72,7 @@ class PageControllerTest extends TestCase
         $this->completionServiceMock = \Phake::mock(PageDataCompletionService::class);
         $this->mapperMock = \Phake::mock(FromFrontasticReactMapper::class);
         $this->viewDataProviderMock = \Phake::mock(ViewDataProvider::class);
+        $this->redirectServiceMock = \Phake::mock(FrontasticNextJsRedirectService::class);
 
         \Phake::when($this->viewDataProviderMock)->fetchDataFor->thenReturn(new ViewData([
             'tastic' => new \stdClass(),
@@ -74,6 +80,7 @@ class PageControllerTest extends TestCase
         \Phake::when($this->mapperMock)->map->thenReturnCallback(function ($input) {
             return $input;
         });
+        \Phake::when($this->redirectServiceMock)->getRedirectResponseForPath->thenReturn(null);
 
         $this->pageController = new PageController(
             $this->siteBuilderPageServiceMock,
@@ -83,7 +90,8 @@ class PageControllerTest extends TestCase
             $this->pageServiceMock,
             $this->previewServiceMock,
             $this->completionServiceMock,
-            $this->viewDataProviderMock
+            $this->viewDataProviderMock,
+            $this->redirectServiceMock
         );
     }
 
