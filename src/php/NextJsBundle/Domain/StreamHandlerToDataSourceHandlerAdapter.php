@@ -36,6 +36,9 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
                 $this->createDataSourceContext($streamContext)
             ]
         );
+        if (!isset($hookServiceResponse->dataSourcePayload)) {
+            throw new \RuntimeException("Invalid data-source rersponse: Missing `dataSourcePayload`");
+        }
         return Promise\promise_for(
             $hookServiceResponse->dataSourcePayload
         );
