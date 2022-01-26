@@ -68,7 +68,7 @@ class PageController
 
         $redirectResponse = $this->redirectService->getRedirectResponseForPath($path, new ParameterBag(), $context);
 
-        if($redirectResponse !== null) {
+        if ($redirectResponse !== null) {
             return $redirectResponse;
         }
 
