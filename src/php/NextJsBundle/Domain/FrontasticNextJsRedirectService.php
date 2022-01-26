@@ -15,12 +15,12 @@ class FrontasticNextJsRedirectService extends RedirectService
     private SiteBuilderPageService $siteBuilderPageService;
 
     public function __construct(
-        RedirectGateway $redirectGateway, 
+        RedirectGateway $redirectGateway,
         Router $router,
         SiteBuilderPageService $siteBuilderPageService
     ) {
         parent::__construct($redirectGateway, $router);
-        $this->siteBuilderPageService = $siteBuilderPageService;;
+        $this->siteBuilderPageService = $siteBuilderPageService;
     }
 
     /**
@@ -32,16 +32,16 @@ class FrontasticNextJsRedirectService extends RedirectService
      * @param Context $context
      */
     public function getRedirectResponseForPath(string $path, ParameterBag $queryParameters, Context $context): ?RedirectResponse
-    {   
+    {
         $redirect = $this->getLocaleMismatchRedirect($path, $context->locale, $context->project->languages);
-        
-        if($redirect !== null) {
+
+        if ($redirect !== null) {
             return $redirect;
         }
-        
+
         $redirect = $this->getRedirectForRequest($path, $queryParameters);
 
-        if($redirect !== null) {
+        if ($redirect !== null) {
             return $this->createResponseFromRedirectObject($redirect, $context->locale);
         }
 
@@ -56,16 +56,16 @@ class FrontasticNextJsRedirectService extends RedirectService
      * @param array $locales The available locales in the project
      */
     public function getLocaleMismatchRedirect(string $path, string $currentLocale, array $locales): ?RedirectResponse
-    {   
+    {
         // If there is no locale mismatch, return null
-        if($this->siteBuilderPageService->matchSiteBuilderPage($path, $currentLocale) !== null) {
+        if ($this->siteBuilderPageService->matchSiteBuilderPage($path, $currentLocale) !== null) {
             return null;
         }
 
-        foreach($locales as $locale) {
+        foreach ($locales as $locale) {
             $nodeId = $this->siteBuilderPageService->matchSiteBuilderPage($path, $locale);
-            
-            if($nodeId !== null) {
+
+            if ($nodeId !== null) {
                 $paths = $this->siteBuilderPageService->getPathsForSiteBuilderPage($nodeId);
 
                 return new RedirectResponse([
@@ -90,7 +90,7 @@ class FrontasticNextJsRedirectService extends RedirectService
         $target = $redirect->target;
         $targetType = $redirect->targetType;
 
-        if($redirect->targetType === Redirect::TARGET_TYPE_NODE) {
+        if ($redirect->targetType === Redirect::TARGET_TYPE_NODE) {
             $target = $this->siteBuilderPageService->getPathsForSiteBuilderPage($redirect->target)[$locale];
             $targetType = RedirectResponse::TARGET_TYPE_PAGE_FOLDER;
         }
