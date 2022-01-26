@@ -49,7 +49,8 @@ class FrontasticNextJsRedirectService extends RedirectService
     }
 
     /**
-     * If a locale mismatch occurs between the given path and locale this function returns the appropriate RedirectResponse object.
+     * If a locale mismatch occurs between the given path and locale,
+     * this function returns the appropriate RedirectResponse object.
      * A locale mismatch means that a given path exists but not for the given locale.
      * @param string $path The path of the sitebuilder page
      * @param string $currentLocale The locale which the given path should exist in
@@ -83,7 +84,7 @@ class FrontasticNextJsRedirectService extends RedirectService
     /**
      * Creates a RedirectResponse object from a Redirect object + a locale and returns it.
      * @param Redirect $redirect
-     * @param string $locale 
+     * @param string $locale
      */
     public function createResponseFromRedirectObject(Redirect $redirect, string $locale): RedirectResponse
     {
