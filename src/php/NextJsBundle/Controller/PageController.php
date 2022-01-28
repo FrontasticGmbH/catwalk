@@ -65,12 +65,6 @@ class PageController
 
         $this->assertLocaleSupported($locale, $context);
 
-        $redirectResponse = $this->redirectService->getRedirectResponseForPath($path, [], $context);
-
-        if ($redirectResponse !== null) {
-            return $redirectResponse;
-        }
-
         $node = null;
 
         $nodeId = $this->siteBuilderPageService->matchSiteBuilderPage($path, $locale);
@@ -90,6 +84,11 @@ class PageController
         }
 
         if ($node === null) {
+            $redirectResponse = $this->redirectService->getRedirectResponseForPath($path, [], $context);
+            if ($redirectResponse !== null) {
+                return $redirectResponse;
+            }
+
             throw new NotFoundHttpException('Could not resolve page from path');
         }
 
