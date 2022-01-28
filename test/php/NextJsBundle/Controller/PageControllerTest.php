@@ -12,6 +12,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\ViewData;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\NextJsBundle\Controller\PageController;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\RedirectResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\RedirectService;
@@ -62,6 +63,11 @@ class PageControllerTest extends TestCase
      */
     private $redirectServiceMock;
 
+    /**
+     * @var Context
+     */
+    private $contextFixture;
+
     public function setUp()
     {
         $this->siteBuilderPageServiceMock = \Phake::mock(SiteBuilderPageService::class);
@@ -73,6 +79,13 @@ class PageControllerTest extends TestCase
         $this->mapperMock = \Phake::mock(FromFrontasticReactMapper::class);
         $this->viewDataProviderMock = \Phake::mock(ViewDataProvider::class);
         $this->redirectServiceMock = \Phake::mock(RedirectService::class);
+
+        $this->contextFixture = new Context([
+            'project' => new Project([
+                'languages' => ['en_US'],
+                'defaultLanguage' => 'en_US',
+            ])
+        ]);
 
         \Phake::when($this->viewDataProviderMock)->fetchDataFor->thenReturn(new ViewData([
             'tastic' => new \stdClass(),
@@ -101,12 +114,6 @@ class PageControllerTest extends TestCase
             'path' => '/no/node/found',
             'locale' => 'en_US',
         ]);
-        $context = new Context([
-            'project' => new Project([
-                'languages' => ['en_US'],
-                'defaultLanguage' => 'en_US',
-            ])
-        ]);
 
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult());
@@ -115,12 +122,90 @@ class PageControllerTest extends TestCase
 
         $responseData = $this->pageController->indexAction(
             $request,
-            $context
+            $this->contextFixture
         );
 
         \Phake::verify($this->dynamicPageService)->handleDynamicPage;
         \Phake::verify($this->dynamicPageService)->matchNodeFor;
 
         $this->assertInstanceOf(Node::class, $responseData['pageFolder']);
+    }
+
+    public function testRedirectResponseSentWhenRedirectExistsForPath()
+    {
+        $path = '/redirect';
+
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
+        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(null);
+        \Phake::when($this->redirectServiceMock)
+            ->getRedirectResponseForPath($path, [], $this->contextFixture)
+            ->thenReturn(new RedirectResponse([
+                'statusCode' => 301,
+                'reason' => RedirectResponse::REASON_REDIRECT_EXISTS_FOR_PATH,
+                'targetType' => RedirectResponse::TARGET_TYPE_LINK,
+                'target' => 'https://frontastic.cloud'
+            ]));
+
+        $request = new Request([
+            'path' => $path,
+            'locale' => 'en_US'
+        ]);
+
+        $response = $this->pageController->indexAction($request, $this->contextFixture);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+    }
+
+    public function testRedirectResponseIsNotSentWhenSiteBuilderPageExists()
+    {
+        $path = '/redirect';
+
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn('fakeNodeId1');
+        \Phake::when($this->nodeServiceMock)->get('fakeNodeId1')->thenReturn(new Node());
+        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(null);
+        \Phake::when($this->redirectServiceMock)
+            ->getRedirectResponseForPath($path, [], $this->contextFixture)
+            ->thenReturn(new RedirectResponse([
+                'statusCode' => 301,
+                'reason' => RedirectResponse::REASON_REDIRECT_EXISTS_FOR_PATH,
+                'targetType' => RedirectResponse::TARGET_TYPE_LINK,
+                'target' => 'https://frontastic.cloud'
+            ]));
+
+        $request = new Request([
+            'path' => $path,
+            'locale' => 'en_US'
+        ]);
+
+        $response = $this->pageController->indexAction($request, $this->contextFixture);
+
+        $this->assertNotInstanceOf(RedirectResponse::class, $response);
+    }
+
+    public function testRedirectResponseIsNotSentWhenDynamicPageExists()
+    {
+        $path = '/redirect';
+
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
+        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult());
+        \Phake::when($this->dynamicPageService)->matchNodeFor->thenReturn(new Node());
+
+        \Phake::when($this->redirectServiceMock)
+            ->getRedirectResponseForPath($path, [], $this->contextFixture)
+            ->thenReturn(new RedirectResponse([
+                'statusCode' => 301,
+                'reason' => RedirectResponse::REASON_REDIRECT_EXISTS_FOR_PATH,
+                'targetType' => RedirectResponse::TARGET_TYPE_LINK,
+                'target' => 'https://frontastic.cloud'
+            ]));
+
+        $request = new Request([
+            'path' => $path,
+            'locale' => 'en_US'
+        ]);
+
+        $response = $this->pageController->indexAction($request, $this->contextFixture);
+
+        $this->assertNotInstanceOf(RedirectResponse::class, $response);
     }
 }
