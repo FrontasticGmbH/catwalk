@@ -14,7 +14,7 @@ use Frontastic\Catwalk\NextJsBundle\Controller\PageController;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
-use Frontastic\Catwalk\NextJsBundle\Domain\FrontasticNextJsRedirectService;
+use Frontastic\Catwalk\NextJsBundle\Domain\RedirectService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
@@ -58,7 +58,7 @@ class PageControllerTest extends TestCase
      */
     private $viewDataProviderMock;
     /**
-     * @var FrontasticNextJsRedirectService|\Phake_IMock
+     * @var RedirectService|\Phake_IMock
      */
     private $redirectServiceMock;
 
@@ -72,7 +72,7 @@ class PageControllerTest extends TestCase
         $this->completionServiceMock = \Phake::mock(PageDataCompletionService::class);
         $this->mapperMock = \Phake::mock(FromFrontasticReactMapper::class);
         $this->viewDataProviderMock = \Phake::mock(ViewDataProvider::class);
-        $this->redirectServiceMock = \Phake::mock(FrontasticNextJsRedirectService::class);
+        $this->redirectServiceMock = \Phake::mock(RedirectService::class);
 
         \Phake::when($this->viewDataProviderMock)->fetchDataFor->thenReturn(new ViewData([
             'tastic' => new \stdClass(),

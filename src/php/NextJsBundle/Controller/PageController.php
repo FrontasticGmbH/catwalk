@@ -11,10 +11,9 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
-use Frontastic\Catwalk\NextJsBundle\Domain\FrontasticNextJsRedirectService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
+use Frontastic\Catwalk\NextJsBundle\Domain\RedirectService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -29,7 +28,7 @@ class PageController
     private PageDataCompletionService $completionService;
     private ViewDataProvider $viewDataProvider;
     private DynamicPageService $dynamicPageService;
-    private FrontasticNextJsRedirectService $redirectService;
+    private RedirectService $redirectService;
 
     public function __construct(
         SiteBuilderPageService $siteBuilderPageService,
@@ -40,7 +39,7 @@ class PageController
         PreviewService $previewService,
         PageDataCompletionService $completionService,
         ViewDataProvider $viewDataProvider,
-        FrontasticNextJsRedirectService $redirectService
+        RedirectService $redirectService
     ) {
         $this->siteBuilderPageService = $siteBuilderPageService;
         $this->dynamicPageService = $dynamicPageService;
@@ -66,7 +65,7 @@ class PageController
 
         $this->assertLocaleSupported($locale, $context);
 
-        $redirectResponse = $this->redirectService->getRedirectResponseForPath($path, new ParameterBag(), $context);
+        $redirectResponse = $this->redirectService->getRedirectResponseForPath($path, [], $context);
 
         if ($redirectResponse !== null) {
             return $redirectResponse;

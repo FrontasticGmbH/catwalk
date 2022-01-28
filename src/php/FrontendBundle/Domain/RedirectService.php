@@ -112,7 +112,7 @@ class RedirectService implements Target
         return $this->redirectGateway->getAll();
     }
 
-    protected function getRedirectForRequest(string $path, ParameterBag $queryParameters): ?Redirect
+    public function getRedirectForRequest(string $path, ParameterBag $queryParameters): ?Redirect
     {
         $redirects = $this->redirectGateway->getByPath($path);
 

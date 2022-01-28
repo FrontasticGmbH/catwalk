@@ -4,22 +4,20 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Redirect;
-use Frontastic\Catwalk\FrontendBundle\Domain\RedirectService;
-use Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway;
-use Frontastic\Catwalk\NextJsBundle\Domain\Api\RedirectResponse;
-use Symfony\Component\Routing\Router;
+use Frontastic\Catwalk\FrontendBundle\Domain\RedirectService as FrontasticReactRedirectService;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\RedirectResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class FrontasticNextJsRedirectService extends RedirectService
+class RedirectService
 {
     private SiteBuilderPageService $siteBuilderPageService;
+    private FrontasticReactRedirectService $reactRedirectService;
 
     public function __construct(
-        RedirectGateway $redirectGateway,
-        Router $router,
+        FrontasticReactRedirectService $reactRedirectService,
         SiteBuilderPageService $siteBuilderPageService
     ) {
-        parent::__construct($redirectGateway, $router);
+        $this->reactRedirectService = $reactRedirectService;
         $this->siteBuilderPageService = $siteBuilderPageService;
     }
 
@@ -28,12 +26,12 @@ class FrontasticNextJsRedirectService extends RedirectService
      * 1. There is a locale mismatch where a given path exists but does not match the current locale
      * 2. There is a redirect configured for the provided path
      * @param string $path
-     * @param ParameterBag $queryParameters
+     * @param array $queryParameters Array of query params provided as key-value pairs
      * @param Context $context
      */
     public function getRedirectResponseForPath(
         string $path,
-        ParameterBag $queryParameters,
+        array $queryParameters,
         Context $context
     ): ?RedirectResponse {
         $redirect = $this->getLocaleMismatchRedirect($path, $context->locale, $context->project->languages);
@@ -42,7 +40,7 @@ class FrontasticNextJsRedirectService extends RedirectService
             return $redirect;
         }
 
-        $redirect = $this->getRedirectForRequest($path, $queryParameters);
+        $redirect = $this->reactRedirectService->getRedirectForRequest($path, new ParameterBag($queryParameters));
 
         if ($redirect !== null) {
             return $this->createResponseFromRedirectObject($redirect, $context->locale);
