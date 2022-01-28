@@ -2,34 +2,26 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
-
-use Frontastic\Catwalk\FrontendBundle\Gateway\RedirectGateway;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Redirect;
-use Frontastic\Catwalk\NextJsBundle\Domain\Api\RedirectResponse;
+use Frontastic\Catwalk\FrontendBundle\Domain\RedirectService as FrontasticReactRedirectService;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\RedirectResponse;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\Routing\Router;
 
-class FrontasticNextJsRedirectServiceTest extends \PHPUnit\Framework\TestCase
+class RedirectServiceTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var RedirectGateway|\Phake_IMock
+     * @var FrontasticReactRedirectService|\Phake_IMock
      */
-    private $redirectGatewayMock;
-
-    /**
-     * @var Router
-     */
-    private $routerMock;
-
+    private $reactRedirectServiceMock;
     /**
      * @var SiteBuilderPageService|\Phake_IMock
      */
     private $siteBuilderPageServiceMock;
 
     /**
-     * @var FrontasticNextJsRedirectService
+     * @var RedirectService
      */
     private $redirectService;
 
@@ -50,13 +42,12 @@ class FrontasticNextJsRedirectServiceTest extends \PHPUnit\Framework\TestCase
 
     public function setUp(): void
     {
-        $this->redirectGatewayMock = \Phake::mock(RedirectGateway::class);
-        $this->routerMock = \Phake::mock(Router::class);
+        $this->reactRedirectServiceMock = \Phake::mock(FrontasticReactRedirectService::class);
         $this->siteBuilderPageServiceMock = \Phake::mock(SiteBuilderPageService::class);
 
         $this->setupSitebuilderServiceMocks();
         $this->setupRedirects();
-        $this->setupRedirectGatewayMocks();
+        $this->setupReactRedirectServiceMocks();
 
         $this->contextFixture = new Context([
             'project' => new Project([
@@ -68,9 +59,8 @@ class FrontasticNextJsRedirectServiceTest extends \PHPUnit\Framework\TestCase
             'locale' => 'en_GB',
         ]);
 
-        $this->redirectService = new FrontasticNextJsRedirectService(
-            $this->redirectGatewayMock,
-            $this->routerMock,
+        $this->redirectService = new RedirectService(
+            $this->reactRedirectServiceMock,
             $this->siteBuilderPageServiceMock
         );
     }
@@ -106,27 +96,19 @@ class FrontasticNextJsRedirectServiceTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    protected function setupRedirectGatewayMocks()
+    protected function setupReactRedirectServiceMocks()
     {
-        \Phake::when($this->redirectGatewayMock)
-            ->getByPath
-            ->thenReturn([]);
+        \Phake::when($this->reactRedirectServiceMock)
+            ->getRedirectForRequest
+            ->thenReturn(null);
 
-        \Phake::when($this->redirectGatewayMock)
-            ->getByPath($this->pageFolderRedirect->path)
-            ->thenReturn(
-                [
-                    $this->pageFolderRedirect
-                ]
-            );
+        \Phake::when($this->reactRedirectServiceMock)
+            ->getRedirectForRequest($this->pageFolderRedirect->path, new ParameterBag())
+            ->thenReturn($this->pageFolderRedirect);
 
-        \Phake::when($this->redirectGatewayMock)
-            ->getByPath($this->linkRedirect->path)
-            ->thenReturn(
-                [
-                    $this->linkRedirect
-                ]
-            );
+        \Phake::when($this->reactRedirectServiceMock)
+            ->getRedirectForRequest($this->linkRedirect->path, new ParameterBag())
+            ->thenReturn($this->linkRedirect);
     }
 
     public function testGetLocaleMismatchRedirectWithCorrectLocale()
@@ -190,14 +172,14 @@ class FrontasticNextJsRedirectServiceTest extends \PHPUnit\Framework\TestCase
 
     public function testGetRedirectResponseForPathWithNoRedirects()
     {
-        $redirectResponse = $this->redirectService->getRedirectResponseForPath('/page-gb', new Parameterbag(), $this->contextFixture);
+        $redirectResponse = $this->redirectService->getRedirectResponseForPath('/page-gb', [], $this->contextFixture);
 
         $this->assertNull($redirectResponse);
     }
 
     public function testGetRedirectResponseForPathWithLocaleMismatch()
     {
-        $redirectResponse = $this->redirectService->getRedirectResponseForPath('/page-us', new Parameterbag(), $this->contextFixture);
+        $redirectResponse = $this->redirectService->getRedirectResponseForPath('/page-us', [], $this->contextFixture);
 
         $this->assertInstanceOf(RedirectResponse::class, $redirectResponse);
         $this->assertEquals('/page-gb', $redirectResponse->target);
@@ -206,7 +188,7 @@ class FrontasticNextJsRedirectServiceTest extends \PHPUnit\Framework\TestCase
 
     public function testGetRedirectResponseForPathWithExistingRedirect()
     {
-        $redirectResponse = $this->redirectService->getRedirectResponseForPath($this->pageFolderRedirect->path, new Parameterbag(), $this->contextFixture);
+        $redirectResponse = $this->redirectService->getRedirectResponseForPath($this->pageFolderRedirect->path, [], $this->contextFixture);
 
         $this->assertInstanceOf(RedirectResponse::class, $redirectResponse);
         $this->assertEquals('/page-gb', $redirectResponse->target);
