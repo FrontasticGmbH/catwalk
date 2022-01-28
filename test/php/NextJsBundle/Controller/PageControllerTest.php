@@ -12,11 +12,15 @@ use Frontastic\Catwalk\FrontendBundle\Domain\ViewData;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\NextJsBundle\Controller\PageController;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\RedirectResponse;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Page as NextjsPage;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\RedirectService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
+use Frontastic\Catwalk\NextJsBundle\Domain\PageViewData;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use PHPUnit\Framework\TestCase;
@@ -91,6 +95,29 @@ class PageControllerTest extends TestCase
             'tastic' => new \stdClass(),
         ]));
         \Phake::when($this->mapperMock)->map->thenReturnCallback(function ($input) {
+            if ($input instanceof ViewData) {
+                return new PageViewData([
+                    'dataSources' => $input->stream
+                ]);
+            } else if ($input instanceof Node) {
+                return new PageFolder([
+                    'pageFolderId' => $input->nodeId,
+                    'isDynamic' => $input->isMaster,
+                    'pageFolderType' => $input->nodeType,
+                    'dataSourceConfigurations' => $input->streams,
+                    'ancestorIdsMaterializedPath' => $input->path,
+                    'configuration' => $input->configuration,
+                    'name' => $input->name,
+                    'depth' => $input->depth,
+                    'sort' => $input->sort
+                ]);
+            } else if ($input instanceof Page) {
+                return new NextjsPage([
+                    'pageId' => $input->pageId,
+                    'sections' => $input->regions,
+                    'state' => $input->state
+                ]);
+            }
             return $input;
         });
         \Phake::when($this->redirectServiceMock)->getRedirectResponseForPath->thenReturn(null);
@@ -108,6 +135,41 @@ class PageControllerTest extends TestCase
         );
     }
 
+    private function getFakeNode(array $data = [])
+    {
+        $nodeData = array_merge(
+            [
+                'nodeId' => 'fakeNodeId1',
+                'path' => '/fake-node',
+                'isMaster' => false,
+                'nodeType' => 'landingpage',
+                'sequence' => '1234',
+                'streams' => [],
+                'name' => 'Fake node',
+                'depth' => 0,
+                'sort' => 0,
+                'children' => [],
+                'metaData' => null,
+                'error' => null,
+                'isDeleted' => false
+            ],
+            $data
+        );
+
+        return new Node($nodeData);
+    }
+
+    private function getFakePage(array $data = [])
+    {
+        $pageData = array_merge([
+            'pageId' => '1',
+            'regions' => [],
+            'state' => 'foo'
+        ], $data);
+
+        return new Page($pageData);
+    }
+
     public function testDynamicPageHandlingTriggeredWhenNoNodeFound()
     {
         $request = new Request([
@@ -117,8 +179,8 @@ class PageControllerTest extends TestCase
 
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult());
-        \Phake::when($this->dynamicPageService)->matchNodeFor->thenReturn(new Node());
-        \Phake::when($this->pageServiceMock)->fetchForNode->thenReturn(new Page());
+        \Phake::when($this->dynamicPageService)->matchNodeFor->thenReturn($this->getFakeNode());
+        \Phake::when($this->pageServiceMock)->fetchForNode->thenReturn($this->getFakePage());
 
         $responseData = $this->pageController->indexAction(
             $request,
@@ -128,7 +190,8 @@ class PageControllerTest extends TestCase
         \Phake::verify($this->dynamicPageService)->handleDynamicPage;
         \Phake::verify($this->dynamicPageService)->matchNodeFor;
 
-        $this->assertInstanceOf(Node::class, $responseData['pageFolder']);
+        $this->assertInstanceOf(PageDataResponse::class, $responseData);
+        $this->assertInstanceOf(PageFolder::class, $responseData->pageFolder);
     }
 
     public function testRedirectResponseSentWhenRedirectExistsForPath()
@@ -161,7 +224,7 @@ class PageControllerTest extends TestCase
         $path = '/redirect';
 
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn('fakeNodeId1');
-        \Phake::when($this->nodeServiceMock)->get('fakeNodeId1')->thenReturn(new Node());
+        \Phake::when($this->nodeServiceMock)->get('fakeNodeId1')->thenReturn($this->getFakeNode());
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(null);
         \Phake::when($this->redirectServiceMock)
             ->getRedirectResponseForPath($path, [], $this->contextFixture)
@@ -188,7 +251,7 @@ class PageControllerTest extends TestCase
 
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult());
-        \Phake::when($this->dynamicPageService)->matchNodeFor->thenReturn(new Node());
+        \Phake::when($this->dynamicPageService)->matchNodeFor->thenReturn($this->getFakeNode());
 
         \Phake::when($this->redirectServiceMock)
             ->getRedirectResponseForPath($path, [], $this->contextFixture)
