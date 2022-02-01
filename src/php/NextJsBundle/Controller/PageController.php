@@ -10,6 +10,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageDataResponse;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
@@ -129,13 +130,13 @@ class PageController
 
         $this->completionService->completePageData($preview->page, $preview->node, $context, $pageViewData->tastic);
 
-        return [
+        return new PagePreviewDataResponse([
             'previewId' => $request->query->get('previewId'),
             'pageFolder' => $this->mapper->map($preview->node),
             'page' => $this->mapper->map($preview->page),
             // Stream parameters is deprecated
             'data' => $this->mapper->map($pageViewData),
-        ];
+        ]);
     }
 
     /**
