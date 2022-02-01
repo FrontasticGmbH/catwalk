@@ -50,6 +50,21 @@ class Request extends DataObject
      */
     public object $query;
 
+    /**
+     * @var string
+     */
+    public string $clientIp;
+
+    /**
+     * @var mixed[string][string]
+     */
+    public array $headers;
+
+    /**
+     * @var string
+     */
+    public string $frontasticRequestId;
+
     // ... More properties as specified by Express.js API
 
     /**
