@@ -26,6 +26,9 @@ export interface AppRepository {
 }
 
 export interface Context {
+     /**
+      * Symfony environment
+      */
      environment?: string;
      customer: ReplicatorCustomer;
      project: ReplicatorProject;
