@@ -23,7 +23,7 @@ class PageDataResponse extends DataObject
     public PageFolder $pageFolder;
 
     /**
-     * @var PageViewData
+     * @var PageViewData|\stdClass
      */
-    public PageViewData $data;
+    public $data;
 }
