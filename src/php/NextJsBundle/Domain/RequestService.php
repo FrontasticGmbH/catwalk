@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 class RequestService
 {
     const SALT = 'A_OIK_+(#@&#U(98as7ydy6AS%D^sW98sa8d)kMNcx_Si)xudyhX*ASD';
-    const BLACKLIST_HEADERS = ['frontastic-session', 'cookie', 'x-frontastic-access-token', 'frontastic-access-token'];
+    const EXCLUDE_HEADERS = ['frontastic-session', 'cookie', 'x-frontastic-access-token', 'frontastic-access-token'];
 
     private LoggerInterface $logger;
 
@@ -29,7 +29,6 @@ class RequestService
         $apiRequest->query = (object)($request->query->getIterator()->getArrayCopy());
         $apiRequest->path = $request->getPathInfo();
         $apiRequest->body = $request->getContent();
-        $apiRequest->cookies = (object)($request->cookies->all()); //check if is being used tomtailor
         $apiRequest->headers = $this->filterOutHeaders($request->headers->all());
         $apiRequest->clientIp = $request->getClientIp();
         $apiRequest->hostname = $request->getHost();
@@ -76,7 +75,7 @@ class RequestService
     private function filterOutHeaders(array $headers): array
     {
         return array_filter($headers, function ($key) {
-            return !in_array(strtolower($key), self::BLACKLIST_HEADERS);
+            return !in_array(strtolower($key), self::EXCLUDE_HEADERS);
         }, ARRAY_FILTER_USE_KEY);
     }
 }

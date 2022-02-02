@@ -22,12 +22,6 @@ class Request extends DataObject
     public string $body;
 
     /**
-     * <cookie-name> -> <cookie-value>
-     * @var array<string, string>
-     */
-    public object $cookies;
-
-    /**
      * @var string
      */
     public string $hostname;
@@ -56,7 +50,7 @@ class Request extends DataObject
     public string $clientIp;
 
     /**
-     * @var mixed[string][string]
+     * @var array<string, string>
      */
     public array $headers;
 
