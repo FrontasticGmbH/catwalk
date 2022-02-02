@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Redirect;
 use Frontastic\Catwalk\FrontendBundle\Domain\RedirectService as FrontasticReactRedirectService;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\RedirectResponse;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -195,5 +196,21 @@ class RedirectServiceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(RedirectResponse::REASON_REDIRECT_EXISTS_FOR_PATH, $redirectResponse->reason);
         $this->assertEquals(RedirectResponse::TARGET_TYPE_PAGE_FOLDER, $redirectResponse->targetType);
         $this->assertEquals($this->pageFolderRedirect->statusCode, $redirectResponse->statusCode);
+    }
+
+    public function testCreateResponseFromDynamicPageRedirectResult() 
+    {
+        $result = new DynamicPageRedirectResult([
+            'statusCode' => 301,
+            'redirectLocation' => '/redirect-to'
+        ]);
+
+        $redirectResponse = $this->redirectService->createResponseFromDynamicPageRedirectResult($result);
+        
+        $this->assertInstanceOf(RedirectResponse::class, $redirectResponse);
+        $this->assertEquals($result->statusCode, $redirectResponse->statusCode);
+        $this->assertEquals(RedirectResponse::REASON_DYNAMIC_PAGE_REDIRECT, $redirectResponse->reason);
+        $this->assertEquals(RedirectResponse::TARGET_TYPE_UNKNOWN, $redirectResponse->targetType);
+        $this->assertEquals($result->redirectLocation, $redirectResponse->target);
     }
 }

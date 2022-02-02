@@ -66,6 +66,9 @@ class DynamicPageService
         return new DynamicPageSuccessResult((array) $dynamicPagePayload);
     }
 
+    /**
+     * @deprecated Use RedirectService@createResponseFromDynamicPageRedirectResult instead
+     */
     public function createRedirectResponse(DynamicPageRedirectResult $redirectResult): SymfonyResponse
     {
         $response = new JsonResponse(null, $redirectResult->statusCode);

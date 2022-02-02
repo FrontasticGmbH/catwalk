@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Redirect;
 use Frontastic\Catwalk\FrontendBundle\Domain\RedirectService as FrontasticReactRedirectService;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\RedirectResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -110,6 +111,20 @@ class RedirectService
             'reason' => RedirectResponse::REASON_REDIRECT_EXISTS_FOR_PATH,
             'targetType' => $targetType,
             'target' => $target
+        ]);
+    }
+
+    /**
+     * Creates a RedirectResponse from a DynamicPageRedirectResult object
+     * @param DynamicPageRedirectResult $result
+     */
+    public function createResponseFromDynamicPageRedirectResult(DynamicPageRedirectResult $result): RedirectResponse
+    {
+        return new RedirectResponse([
+            'statusCode' => $result->statusCode,
+            'reason' => RedirectResponse::REASON_DYNAMIC_PAGE_REDIRECT,
+            'targetType' => RedirectResponse::TARGET_TYPE_UNKNOWN,
+            'target' => $result->redirectLocation
         ]);
     }
 }

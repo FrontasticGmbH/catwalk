@@ -78,7 +78,7 @@ class PageController
         if ($node === null) {
             $dynamicPageResult = $this->dynamicPageService->handleDynamicPage($request, $context);
             if ($dynamicPageResult instanceof DynamicPageRedirectResult) {
-                return $this->dynamicPageService->createRedirectResponse($dynamicPageResult);
+                return $this->redirectService->createResponseFromDynamicPageRedirectResult($dynamicPageResult);
             }
             if ($dynamicPageResult instanceof DynamicPageSuccessResult) {
                 $node = $this->dynamicPageService->matchNodeFor($dynamicPageResult);

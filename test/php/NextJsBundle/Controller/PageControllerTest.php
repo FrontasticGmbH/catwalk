@@ -13,6 +13,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PreviewService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewData;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\NextJsBundle\Controller\PageController;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewDataResponse;
@@ -284,8 +285,41 @@ class PageControllerTest extends TestCase
             'locale' => 'en_US'
         ]);
 
-        $previewResponse = $this->pageController->previewAction($request, $this->contextFixture);
+        $response = $this->pageController->previewAction($request, $this->contextFixture);
 
-        $this->assertInstanceOf(PagePreviewDataResponse::class, $previewResponse);
+        $this->assertInstanceOf(PagePreviewDataResponse::class, $response);
+    }
+
+    public function testDynamicPageRedirect()
+    {
+        $path = '/redirect';
+        $result = new DynamicPageRedirectResult([
+            'statusCode' => 301,
+            'redirectLocation' => '/redirect-to'
+        ]);
+
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
+        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn($result);
+        \Phake::when($this->redirectServiceMock)
+            ->createResponseFromDynamicPageRedirectResult($result)
+            ->thenReturn(new RedirectResponse([
+                'statusCode' => $result->statusCode,
+                'reason' => RedirectResponse::REASON_DYNAMIC_PAGE_REDIRECT,
+                'targetType' => RedirectResponse::TARGET_TYPE_UNKNOWN,
+                'target' => $result->redirectLocation
+            ]));
+
+        $request = new Request([
+            'path' => $path,
+            'locale' => 'en_US'
+        ]);
+
+        $response = $this->pageController->indexAction($request, $this->contextFixture);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertEquals($result->statusCode, $response->statusCode);
+        $this->assertEquals(RedirectResponse::REASON_DYNAMIC_PAGE_REDIRECT, $response->reason);
+        $this->assertEquals(RedirectResponse::TARGET_TYPE_UNKNOWN, $response->targetType);
+        $this->assertEquals($result->redirectLocation, $response->target);
     }
 }

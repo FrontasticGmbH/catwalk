@@ -11,9 +11,11 @@ class RedirectResponse extends DataObject
 {
     const REASON_LOCALE_MISMATCH = 'locale mismatch';
     const REASON_REDIRECT_EXISTS_FOR_PATH = 'redirect exists for path';
+    const REASON_DYNAMIC_PAGE_REDIRECT = 'dynamic page redirect';
 
     const TARGET_TYPE_PAGE_FOLDER = 'page folder';
     const TARGET_TYPE_LINK = 'link';
+    const TARGET_TYPE_UNKNOWN = 'unknown';
 
     /**
      * @var string
