@@ -22,12 +22,6 @@ class Request extends DataObject
     public string $body;
 
     /**
-     * <cookie-name> -> <cookie-value>
-     * @var array<string, string>
-     */
-    public object $cookies;
-
-    /**
      * @var string
      */
     public string $hostname;
@@ -49,6 +43,21 @@ class Request extends DataObject
      * @var object
      */
     public object $query;
+
+    /**
+     * @var string
+     */
+    public string $clientIp;
+
+    /**
+     * @var array<string, string>
+     */
+    public array $headers;
+
+    /**
+     * @var string
+     */
+    public string $frontasticRequestId;
 
     // ... More properties as specified by Express.js API
 
