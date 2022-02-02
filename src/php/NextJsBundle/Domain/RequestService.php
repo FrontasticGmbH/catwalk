@@ -32,7 +32,7 @@ class RequestService
         $apiRequest->headers = $this->filterOutHeaders($request->headers->all());
         $apiRequest->clientIp = $request->getClientIp();
         $apiRequest->hostname = $request->getHost();
-        $apiRequest->frontasticRequestId = $request->attributes->get("_frontastic_request_id");
+        $apiRequest->frontasticRequestId = $request->attributes->get('_frontastic_request_id');
 
         $requestSessionData = null;
         if ($request->headers->get('frontastic-session')) {
@@ -49,7 +49,7 @@ class RequestService
     public function decodeAndValidateJWTSessionToken(string $sessionData): ?array
     {
         try {
-            return (array) JWT::decode($sessionData, self::SALT, ['HS256']);
+            return (array)JWT::decode($sessionData, self::SALT, ['HS256']);
         } catch (\Exception $e) {
             $this->logger->error(
                 'Error in session handling resetting the session data, tip session can not be null',
@@ -63,7 +63,7 @@ class RequestService
 
     public function encodeJWTData($cookie): string
     {
-        return (string) JWT::encode($cookie, self::SALT, 'HS256');
+        return JWT::encode($cookie, self::SALT, 'HS256');
     }
 
     /**
@@ -74,8 +74,10 @@ class RequestService
      */
     private function filterOutHeaders(array $headers): array
     {
-        return array_filter($headers, function ($key) {
-            return !in_array(strtolower($key), self::EXCLUDE_HEADERS);
-        }, ARRAY_FILTER_USE_KEY);
+        return array_filter(
+            $headers,
+            fn($key) => !in_array(strtolower($key), self::EXCLUDE_HEADERS),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 }
