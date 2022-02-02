@@ -18,6 +18,7 @@ Here you find the API documentation for the relevant classes:
     * [App](php/ApiCoreBundle/Domain/App.md)
     * App
       * [FeatureFlag](php/ApiCoreBundle/Domain/App/FeatureFlag.md)
+      * [Storefinder](php/ApiCoreBundle/Domain/App/Storefinder.md)
       * [Teaser](php/ApiCoreBundle/Domain/App/Teaser.md)
     * [AppDataTarget](php/ApiCoreBundle/Domain/AppDataTarget.md)
     * [AppRepository](php/ApiCoreBundle/Domain/AppRepository.md)
