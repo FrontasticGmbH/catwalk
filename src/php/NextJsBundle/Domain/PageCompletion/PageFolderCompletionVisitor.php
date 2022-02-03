@@ -16,6 +16,8 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class PageFolderCompletionVisitor implements FieldVisitor
 {
+    use LocaleVisitorTrait;
+
     private SiteBuilderPageService $pageService;
     private NodeService $nodeService;
     private Context $context;
@@ -85,11 +87,14 @@ class PageFolderCompletionVisitor implements FieldVisitor
             $this->fieldVisitorFactory->createNodeDataVisitor($this->context)
         );
 
+        $urls = $this->pageService->getPathsForSiteBuilderPage($pageFolderId);
+
         return new PageFolderValue([
             'pageFolderId' => $pageFolderId,
             'name' => $node->name,
             'configuration' => (object)$node->configuration,
-            '_urls' => $this->pageService->getPathsForSiteBuilderPage($pageFolderId),
+            '_urls' => $urls,
+            '_url' => $this->getValueForCurrentLocale($urls)
         ]);
     }
 

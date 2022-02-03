@@ -11,9 +11,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Page;
 use Frontastic\Catwalk\FrontendBundle\Domain\Tastic as TasticInstance;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticDefinition;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\FieldVisitorFactory;
-use Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\PageFolderCompletionVisitor;
 use Frontastic\Common\SpecificationBundle\Domain\ConfigurationSchema;
-use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
 
 class PageDataCompletionService
 {
