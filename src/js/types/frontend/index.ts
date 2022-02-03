@@ -38,6 +38,9 @@ export interface Facet extends ProductProductApiFacetDefinition {
      sequence: string;
      sort: number;
      isEnabled: boolean;
+     /**
+      * Translatable strings or null
+      */
      label?: null | any;
      urlIdentifier?: string;
      facetOptions?: any;
@@ -75,6 +78,9 @@ export interface Node {
      sort: number;
      children: Node[];
      metaData: any /* \Frontastic\Backstage\UserBundle\Domain\MetaData */;
+     /**
+      * Optional error string during development
+      */
      error?: null | string;
      isDeleted: boolean;
 }
@@ -88,10 +94,26 @@ export interface Page {
      metaData: any /* \Frontastic\UserBundle\Domain\MetaData */;
      isDeleted: boolean;
      state: string;
+     /**
+      * This is a UNIX timestamp since doctrine can not persist a \DateTime-object to MySQL and ensure the time point is
+      * still the same. It can ensure to maintain the time but the timezone may change which produces a different time
+      * point.
+      */
      scheduledFromTimestamp?: null | number;
+     /**
+      * This is a UNIX timestamp since doctrine can not persist a \DateTime-object to MySQL and ensure the time point is
+      * still the same. It can ensure to maintain the time but the timezone may change which produces a different time
+      * point.
+      */
      scheduledToTimestamp?: null | number;
      nodesPagesOfTypeSortIndex?: null | number;
+     /**
+      * A FECL criterion which can control when this page will be rendered if it is in the scheduled state.
+      */
      scheduleCriterion?: string;
+     /**
+      * An experiment ID from a third party system like Kameleoon
+      */
      scheduledExperiment?: null | string;
 }
 
@@ -105,6 +127,9 @@ export interface Preview {
 
 export interface ProjectConfiguration {
      projectConfigurationId: string;
+     /**
+      * array
+      */
      configuration: any;
      metaData: any /* \Frontastic\Backstage\UserBundle\Domain\MetaData */;
      sequence: string;
@@ -117,6 +142,9 @@ export interface Redirect {
      path: string;
      query?: string;
      statusCode?: number;
+     /**
+      * One of TARGET_TYPE_* constants
+      */
      targetType: string;
      target: string;
      language?: null | string;
@@ -152,15 +180,27 @@ export interface Stream {
      name: string;
      configuration: any;
      tastics: Tastic[];
+     /**
+      * If a stream value was pre-loaded before executing actual stream handlers, the value will be contained here.
+      */
      preloadedValue?: any;
 }
 
 export interface StreamContext {
      node: Node;
+     /**
+      * Can be null during sitemap generation
+      */
      page: null | Page;
      context: ApiCoreContext;
      usingTastics: Tastic[];
+     /**
+      * Parameters given to the stream in the current request context.
+      */
      parameters: any;
+     /**
+      * Can be null during sitemap generation
+      */
      request?: any;
 }
 
@@ -171,6 +211,12 @@ export interface Tastic {
 }
 
 export interface ViewData {
+     /**
+      * Hash map of streams
+      */
      stream?: any;
+     /**
+      * Hash map of tastic field data
+      */
      tastic?: any;
 }

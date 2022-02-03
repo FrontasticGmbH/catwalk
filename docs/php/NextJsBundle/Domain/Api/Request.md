@@ -4,15 +4,18 @@
 
 **Extends**: [`\Kore\DataObject\DataObject`](https://github.com/kore/DataObject)
 
-{@see https://expressjs.com/en/api.html#req}
+The request structure is inspired by Express.js version 4.x and contains
+additional Frontastic $sessionData.
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
 `body` | `string` |  | - | Will be JSON-decoded on the JS side and hold an object there.
-`cookies` | `array<string, string>` |  | - | <cookie-name> -> <cookie-value>
 `hostname` | `string` |  | - | 
-`method` | `string` |  | - | 
-`path` | `string` |  | - | 
-`query` | `object` |  | - | 
+`method` | `string` |  | *Yes* | 
+`path` | `string` |  | *Yes* | 
+`query` | `object` |  | *Yes* | 
+`clientIp` | `string` |  | - | 
+`headers` | `array<string, string>` |  | - | 
+`frontasticRequestId` | `string` |  | - | 
 `sessionData` | `?object` | `null` | - | Frontastic session data.
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

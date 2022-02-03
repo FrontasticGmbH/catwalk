@@ -5,13 +5,20 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 use Kore\DataObject\DataObject;
 
 /**
+ * Frontastic context that an API hub server is running in (project & environment).
+ *
+ * Includes environment information configuration on ba
+ *
  * @replaces Frontastic\Catwalk\ApiCoreBundle\Domain\Context
  * @type
  */
 class Context extends DataObject
 {
     /**
-     * Result of {@link Frontastic\Catwalk\ApiCoreBundle\Domain\Context.applicationEnvironment()}
+     * One of "production", "staging" or "development".
+     *
+     * @internal Result of {@link Frontastic\Catwalk\ApiCoreBundle\Domain\Context.applicationEnvironment()}
+     * @required
      * @var string
      */
     public string $environment = 'production';
@@ -29,6 +36,10 @@ class Context extends DataObject
     public Project $project;
 
     /**
+     * Additional project configuration from Frontastic studio.
+     *
+     * TODO: This is not completed right now.
+     *
      * @required
      * @var array
      * @todo complete data in PHP code so that $projectConfigurationSchema is not needed to be transmitted.
@@ -41,6 +52,8 @@ class Context extends DataObject
     // public $projectConfigurationSchema = [];
 
     /**
+     * The currently set locale by the user in the frontend.
+     *
      * @required
      * @todo Needs to be the fully fledged locale encoded as a properly built locale string
      *       `language[_territory[.codeset]][@modifier]`
@@ -54,6 +67,9 @@ class Context extends DataObject
     // public $session = null;
 
     /**
+     * Feature flags mapped to their state.
+     *
+     * @required
      * @var array<string, bool>
      */
     public array $featureFlags = [];

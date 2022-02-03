@@ -8,6 +8,6 @@ Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
 `pageId` | `string` |  | *Yes* | 
 `sections` | [`Section`](Section.md)[] | `[]` | *Yes* | 
-`state` | `string` |  | *Yes* | 
+`state` | `string` |  | *Yes* | One of "published", "draft" or "scheduled"
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

@@ -5,7 +5,9 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 use Kore\DataObject\DataObject;
 
 /**
- * Stripped down version of {@link Frontastic\Common\ReplicatorBundle\Domain\Project}.
+ * Project information and configuration as determined by Frontastic.
+ *
+ * @replaces Frontastic\Common\ReplicatorBundle\Domain\Project
  * @type
  */
 class Project extends DataObject
@@ -47,10 +49,11 @@ class Project extends DataObject
     // public $previewUrl;
 
     /**
+     * @removed not relevant in Frontastic Next.js
      * @var string
      * @required
      */
-    public $publicUrl;
+    // public $publicUrl;
 
     /**
      * @removed not relevant to customers
@@ -67,7 +70,9 @@ class Project extends DataObject
     // public $ssrPort;
 
     /**
-     * @var array
+     * Configuration options determined by the project.yml.
+     *
+     * @var mixed
      * @required
      */
     public $configuration = [];
@@ -81,16 +86,14 @@ class Project extends DataObject
     // public $data = [];
 
     /**
-     * Renamed from $languages
-     *
+     * @replaces $languages
      * @var string[]
      * @required
      */
     public $locales = [];
 
     /**
-     * Renamed from $defaultLanguage
-     *
+     * @replaces $defaultLanguage
      * @var string
      * @required
      */

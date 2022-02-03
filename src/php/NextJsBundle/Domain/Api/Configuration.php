@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 use Kore\DataObject\DataObject;
 
 /**
+ * Base configuration properties for rendered elements of a page.
  * @type
  */
 class Configuration extends DataObject

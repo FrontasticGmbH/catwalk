@@ -1,5 +1,19 @@
 # catwalk Changelog
 
+## `1.32.0` (2022-01-27)
+
+* fix: Failure handling for data-source extensions without payload.
+* fix(FP-1257): Mark Response->statusCode as int.
+* fix(FP-1257): 1x "any" is enough for DynamicPageSuccessResult. ;)
+* feat(FP-1257): A lot more documentation for API hub types.
+* feat(FP-1257): Checked API hub types for requiredness & typing.
+
+## `1.31.1` (2022-01-21)
+
+
+* fix: FP-1235 Removed the dataSourcePayload key
+* fix: Typo to the JWT clear session handle for null
+
 ## `1.31.0` (2022-01-18)
 
 * fix(api-hub): make actions accessible again
