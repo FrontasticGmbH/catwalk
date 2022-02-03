@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.33.0` (2022-02-03)
+
+* feat(FP-1256): Unit test for createApiRequest
+* feat(FP-1256): Remove cookies from ApiRequest
+* feat(FP-1256): Add properties to request sent to starters.
+
 ## `1.32.0` (2022-01-27)
 
 * fix: Failure handling for data-source extensions without payload.
