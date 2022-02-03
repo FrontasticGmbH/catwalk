@@ -8,27 +8,55 @@ import {
     Configuration as NextJsApiTasticConfiguration,
 } from './tastic/'
 
-/* This class only represents the information available, the TypeScript API should provide a mechanism to request each
-of these fields and we only submit those which have been requested. */
+/**
+ * Context retrieved by an "action" extension.
+ *
+ * All fields in the context are optional. We want to introduce a mechanism in the future that allows extensions to
+ * annotate which context data they require.
+ */
 export interface ActionContext {
      frontasticContext?: Context;
 }
 
+/**
+ * Base configuration properties for rendered elements of a page.
+ */
 export interface Configuration {
      mobile: boolean;
      tablet: boolean;
      desktop: boolean;
 }
 
+/**
+ * Frontastic context that an API hub server is running in (project & environment).
+ *
+ * Includes environment information configuration on ba
+ */
 export interface Context {
-     environment?: string;
+     /**
+      * One of "production", "staging" or "development".
+      */
+     environment: string;
      project: Project;
+     /**
+      * Additional project configuration from Frontastic studio.
+      *
+      * TODO: This is not completed right now.
+      */
      projectConfiguration: any;
+     /**
+      * The currently set locale by the user in the frontend.
+      */
      locale: string;
-     featureFlags?: Map<string, boolean>;
+     /**
+      * Feature flags mapped to their state.
+      */
+     featureFlags: Map<string, boolean>;
 }
 
-/* Stripped down version of {@link Frontastic\Catwalk\FrontendBundle\Domain\Stream}. */
+/**
+ * Representation of a data source configuration on a PageFolder.
+ */
 export interface DataSourceConfiguration {
      dataSourceId: string;
      type: string;
@@ -36,36 +64,97 @@ export interface DataSourceConfiguration {
      configuration: any;
 }
 
-/* This class only represents the information available, the TypeScript API should provide a mechanism to request each
-of these fields and we only submit those which have been requested. */
+/**
+ * Context retrieved by a "data-source" extension.
+ *
+ * All fields in the context are optional. We want to introduce a mechanism in the future that allows extensions to
+ * annotate which context data they require.
+ */
 export interface DataSourceContext {
      frontasticContext?: Context;
+     /**
+      * The page folder being rendered.
+      */
      pageFolder?: PageFolder;
+     /**
+      * The page being rendered.
+      */
      page?: Page;
+     /**
+      * Tastics on the page which are using this data source.
+      */
      usingTastics?: Tastic[] | null;
      request?: Request;
 }
 
+/**
+ * Return type for "data-source" extensions. Can contain any payload, depending on the data source.
+ *
+ * Different data source implementations
+ */
 export interface DataSourceResult {
-     dataSourcePayload?: any;
+     /**
+      * Arbitrary (JSON serializable) payload information returned by the data source.
+      *
+      * This payload will be transmitted to the Tastics which are assigned to the corresponding data source in the
+      * frontend. IMPORTANT: The payload must be JSON serializable (and therefore e.g. must not contain cyclic
+      * references).
+      */
+     dataSourcePayload: any;
 }
 
-/* This class only represents the information available, the TypeScript API should provide a mechanism to request each
-of these fields and we only submit those which have been requested. */
+/**
+ * Context retrieved by the "dynamic-page-handler" extension.
+ *
+ * All fields in the context are optional. We want to introduce a mechanism in the future that allows extensions to
+ * annotate which context data they require.
+ */
 export interface DynamicPageContext {
-     frontasticContext?: null | Context;
+     frontasticContext?: Context;
 }
 
+/**
+ * Can be used to redirect to a different path on the website.
+ *
+ * This is, for example, useful to update the URL of a product detail page when the SEO slug of the product changes.
+ */
 export interface DynamicPageRedirectResult {
-     redirectLocation?: any;
-     statusCode?: any;
+     redirectLocation: string;
+     statusCode?: number;
+     /**
+      * Allows to override the standard HTTP status message.
+      */
      statusMessage?: string;
+     /**
+      * Allows specifying additional headers for the redirect.
+      *
+      * The format for this map is to assign a string to a corresponding header key, for example:
+      * {
+      *     "Retry-After": "120"
+      * }
+      */
      additionalResponseHeaders?: Map<string, string>;
 }
 
+/**
+ * Determines what type of dynamic page is matched and delivers the payload of the __master data source.
+ */
 export interface DynamicPageSuccessResult {
-     dynamicPageType?: string;
-     dataSourcePayload?: any;
+     /**
+      * Unique identifier for the page type matched. Will correlate with configuration in Frontastic studio.
+      */
+     dynamicPageType: string;
+     /**
+      * Payload for the main (__master) data source of the dynamic page.
+      *
+      * The content of this field must be JSON serializable (e.g. does not have cyclic references).
+      */
+     dataSourcePayload: any;
+     /**
+      * Submit a payload Frontastic uses for scheduled page criterion matching (FECL)
+      *
+      * The content of this field must be JSON serializable (e.g. does not have cyclic references).
+      */
      pageMatchingPayload?: any;
 }
 
@@ -78,6 +167,9 @@ export interface LayoutElement {
 export interface Page {
      pageId: string;
      sections: Section[];
+     /**
+      * One of "published", "draft" or "scheduled"
+      */
      state: string;
 }
 
@@ -88,41 +180,72 @@ export interface PageFolder {
      configuration: any;
      dataSourceConfigurations: DataSourceConfiguration[];
      name?: string;
+     /**
+      * Materialized path of IDs of ancestor page folders.
+      */
      ancestorIdsMaterializedPath: string;
-     depth?: number;
+     /**
+      * Depth of this page folder in the page folder tree.
+      */
+     depth: number;
+     /**
+      * Sort order in the page folder tree.
+      */
      sort: number;
 }
 
-/* Stripped down version of {@link Frontastic\Common\ReplicatorBundle\Domain\Project}. */
+/**
+ * Project information and configuration as determined by Frontastic.
+ */
 export interface Project {
      projectId: string;
      name: string;
      customer: string;
-     publicUrl: string;
+     /**
+      * Configuration options determined by the project.yml.
+      */
      configuration: any;
      locales: string[];
      defaultLocale: string;
 }
 
-/* {@see https://expressjs.com/en/api.html#req}
-
-Request structure as used by Express.js version 4.x + Frontastic additions. */
+/**
+ * Request as coming in to the Frontastci API hub.
+ *
+ * The request structure is inspired by Express.js version 4.x and contains additional Frontastic $sessionData.
+ */
 export interface Request {
+     /**
+      * Will be JSON-decoded on the JS side and hold an object there.
+      */
      body?: string;
+     /**
+      * <cookie-name> -> <cookie-value>
+      */
      cookies?: Map<string, string>;
      hostname?: string;
-     method?: string;
-     path?: string;
-     query?: any;
+     method: string;
+     path: string;
+     query: any;
+     /**
+      * Frontastic session data.
+      */
      sessionData?: null | any;
 }
 
-/* {@see https://expressjs.com/en/api.html#res}
-
-Response structure as used by Express.js version 4.x + Frontastic additions. */
+/**
+ * Response as to be returned by an "action" extension.
+ *
+ * The response structure is inspired by Express.js version 4.x + Frontastic sessionData.
+ * IMPORTANT: To retain session information you need to return the session that comes in through sessionData in a
+ * request in the response of the action.
+ */
 export interface Response {
-     statusCode?: string;
+     statusCode: number;
      body?: string;
+     /**
+      * Frontastic session data to be written.
+      */
      sessionData?: null | any;
 }
 
@@ -132,7 +255,13 @@ export interface Section {
 }
 
 export interface Tastic {
+     /**
+      * Unique on the page. Might be used for #href links.
+      */
      tasticId: string;
+     /**
+      * Type as defined in the Tastic schema.
+      */
      tasticType: string;
      configuration: NextJsApiTasticConfiguration;
 }

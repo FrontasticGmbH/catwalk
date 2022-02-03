@@ -10,12 +10,16 @@ use Kore\DataObject\DataObject;
 class Tastic extends DataObject
 {
     /**
+     * Unique on the page. Might be used for #href links.
+     *
      * @var string
      * @required
      */
     public $tasticId;
 
     /**
+     * Type as defined in the Tastic schema.
+     *
      * @var string
      * @required
      */

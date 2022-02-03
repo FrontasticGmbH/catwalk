@@ -12,8 +12,8 @@ Property|Type|Default|Required|Description
 `configuration` | `array` | `[]` | *Yes* | 
 `dataSourceConfigurations` | [`DataSourceConfiguration`](DataSourceConfiguration.md)[] | `[]` | *Yes* | 
 `name` | `string` |  | - | 
-`ancestorIdsMaterializedPath` | `string` |  | *Yes* | 
-`depth` | `int` |  | - | 
-`sort` | `int` |  | *Yes* | 
+`ancestorIdsMaterializedPath` | `string` |  | *Yes* | Materialized path of IDs of ancestor page folders.
+`depth` | `int` |  | *Yes* | Depth of this page folder in the page folder tree.
+`sort` | `int` |  | *Yes* | Sort order in the page folder tree.
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

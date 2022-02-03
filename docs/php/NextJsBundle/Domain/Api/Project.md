@@ -9,9 +9,8 @@ Property|Type|Default|Required|Description
 `projectId` | `string` |  | *Yes* | 
 `name` | `string` |  | *Yes* | 
 `customer` | `string` |  | *Yes* | 
-`publicUrl` | `string` |  | *Yes* | 
-`configuration` | `array` | `[]` | *Yes* | 
-`locales` | `string[]` | `[]` | *Yes* | Renamed from $languages
-`defaultLocale` | `string` |  | *Yes* | Renamed from $defaultLanguage
+`configuration` | `mixed` | `[]` | *Yes* | Configuration options determined by the project.yml.
+`locales` | `string[]` | `[]` | *Yes* | 
+`defaultLocale` | `string` |  | *Yes* | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
