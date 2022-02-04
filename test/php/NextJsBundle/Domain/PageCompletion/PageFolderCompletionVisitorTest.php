@@ -6,7 +6,6 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
-use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldConfiguration;
 use PHPUnit\Framework\TestCase;
 
