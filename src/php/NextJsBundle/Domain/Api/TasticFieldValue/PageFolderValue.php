@@ -30,4 +30,10 @@ class PageFolderValue extends DataObject
      */
     public array $_urls;
     // phpcs:enable
+
+    /**
+     * The url for the current locale
+     * @var string
+     */
+    public string $_url;
 }
