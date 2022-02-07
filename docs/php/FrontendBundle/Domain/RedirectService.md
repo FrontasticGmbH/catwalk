@@ -12,6 +12,7 @@
 * [get()](#get)
 * [getRedirectUrlForRequest()](#getredirecturlforrequest)
 * [getRedirects()](#getredirects)
+* [getRedirectForRequest()](#getredirectforrequest)
 
 ### __construct()
 
@@ -90,5 +91,21 @@ public function getRedirects(): array
 ```
 
 Return Value: `array`
+
+### getRedirectForRequest()
+
+```php
+public function getRedirectForRequest(
+    string $path,
+    \Symfony\Component\HttpFoundation\ParameterBag $queryParameters
+): ?Redirect
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$path`|`string`||
+`$queryParameters`|`\Symfony\Component\HttpFoundation\ParameterBag`||
+
+Return Value: ?[`Redirect`](Redirect.md)
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
