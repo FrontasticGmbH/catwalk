@@ -8,8 +8,6 @@ use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
 
 class SelectTranslationVisitor implements FieldVisitor
 {
-    use LocaleVisitorTrait;
-
     private Context $context;
 
     public function __construct(Context $context)
@@ -23,6 +21,6 @@ class SelectTranslationVisitor implements FieldVisitor
             return $value;
         }
 
-        return $this->getValueForCurrentLocale($value);
+        return LocalizedValuePicker::getValueForCurrentLocale($this->context, $value);
     }
 }
