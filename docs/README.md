@@ -148,6 +148,10 @@ Here you find the API documentation for the relevant classes:
       * [DynamicPageRedirectResult](php/NextJsBundle/Domain/Api/DynamicPageRedirectResult.md)
       * [DynamicPageResult](php/NextJsBundle/Domain/Api/DynamicPageResult.md)
       * [DynamicPageSuccessResult](php/NextJsBundle/Domain/Api/DynamicPageSuccessResult.md)
+      * Frontend
+        * [PageDataResponse](php/NextJsBundle/Domain/Api/Frontend/PageDataResponse.md)
+        * [PagePreviewDataResponse](php/NextJsBundle/Domain/Api/Frontend/PagePreviewDataResponse.md)
+        * [RedirectResponse](php/NextJsBundle/Domain/Api/Frontend/RedirectResponse.md)
       * [FrontendContext](php/NextJsBundle/Domain/Api/FrontendContext.md)
       * [LayoutElement](php/NextJsBundle/Domain/Api/LayoutElement.md)
       * LayoutElement
