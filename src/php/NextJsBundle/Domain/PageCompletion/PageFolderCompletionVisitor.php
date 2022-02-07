@@ -85,11 +85,14 @@ class PageFolderCompletionVisitor implements FieldVisitor
             $this->fieldVisitorFactory->createNodeDataVisitor($this->context)
         );
 
+        $urls = $this->pageService->getPathsForSiteBuilderPage($pageFolderId);
+
         return new PageFolderValue([
             'pageFolderId' => $pageFolderId,
             'name' => $node->name,
             'configuration' => (object)$node->configuration,
-            '_urls' => $this->pageService->getPathsForSiteBuilderPage($pageFolderId),
+            '_urls' => $urls,
+            '_url' => LocalizedValuePicker::getValueForCurrentLocale($this->context, $urls)
         ]);
     }
 
