@@ -18,19 +18,22 @@ class RedirectResponse extends DataObject
     const TARGET_TYPE_UNKNOWN = 'unknown';
 
     /**
-     * @var string
+     * @var int
+     * @required
      */
-    public int $statusCode;
+    public int $statusCode = 301;
 
     /**
      * One of REASON_* constants
      * @var string
+     * @required
      */
     public string $reason;
 
     /**
      * One of TARGET_TYPE_* constants
      * @var string
+     * @required
      */
     public string $targetType;
 
@@ -38,6 +41,7 @@ class RedirectResponse extends DataObject
      * The target url or path
      *
      * @var string
+     * @required
      */
     public string $target;
 }

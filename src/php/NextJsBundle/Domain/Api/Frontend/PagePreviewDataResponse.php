@@ -3,12 +3,13 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend;
 
 /**
- * Page data response returned by PageController@previewAction
+ * Page preview data response returned by page preview endpoint
  */
 class PagePreviewDataResponse extends PageDataResponse
 {
     /**
      * @var string
+     * @required
      */
     public $previewId;
 }
