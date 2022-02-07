@@ -10,5 +10,6 @@ Property|Type|Default|Required|Description
 `name` | `string` |  | - | 
 `configuration` | `object` |  | - | 
 `_urls` | `array` |  | - | 
+`_url` | `string` |  | - | The url for the current locale
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
