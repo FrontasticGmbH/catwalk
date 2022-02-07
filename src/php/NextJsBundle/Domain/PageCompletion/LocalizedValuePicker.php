@@ -2,40 +2,47 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion;
 
-trait LocaleVisitorTrait
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+
+class LocalizedValuePicker
 {
 
-    protected function getValueForCurrentLocale($value)
+
+    private function __construct()
+    {
+    }
+
+    public static function getValueForCurrentLocale(Context $context, $value)
     {
         if (!is_array($value)) {
             return $value;
         }
 
         // Text available in currently selected locale
-        if (isset($value[$this->context->locale])) {
-            return $value[$this->context->locale];
+        if (isset($value[$context->locale])) {
+            return $value[$context->locale];
         }
 
         // Text available in language of current locale
         $language = substr(
-            $this->context->locale,
+            $context->locale,
             0,
-            strpos($this->context->locale, '_')
+            strpos($context->locale, '_')
         );
         if (isset($value[$language])) {
             return $value[$language];
         }
 
         // Text available in default locale
-        if (isset($value[$this->context->project->defaultLanguage])) {
-            return $value[$this->context->project->defaultLanguage];
+        if (isset($value[$context->project->defaultLanguage])) {
+            return $value[$context->project->defaultLanguage];
         }
 
         // Text available in language of default locale
         $language = substr(
-            $this->context->project->defaultLanguage,
+            $context->project->defaultLanguage,
             0,
-            strpos($this->context->project->defaultLanguage, '_')
+            strpos($context->project->defaultLanguage, '_')
         );
         if (isset($value[$language])) {
             return $value[$language];
