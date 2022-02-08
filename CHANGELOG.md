@@ -1,5 +1,15 @@
 # catwalk Changelog
 
+## `1.34.0` (2022-02-08)
+
+* chore(FP-1328): Better PHPdocs for new PageController response types
+* feat(FP-1302): Static function instead of trait
+* feat(FP-1302): Disable phpcs for _url property
+* feat(FP-1302): Frontend reference component
+* feat(FP-1302): PageFolderCompletionVisitorTest
+* feat(FP-1302): Add the _url property to the PageFolderValue
+* feat(FP-1302): Get url in the current locale for PageFolderCompletionVisitor
+
 ## `1.33.0` (2022-02-03)
 
 * feat(FP-1256): Unit test for createApiRequest
