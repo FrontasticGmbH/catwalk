@@ -160,7 +160,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
             );
             $output->writeln(
                 '<comment>Find more information about this in ' .
-                    'https://docs.frontastic.cloud/changelog/changes-to-sitemaps</comment>'
+                'https://docs.frontastic.cloud/changelog/changes-to-sitemaps</comment>'
             );
         }
 
@@ -381,15 +381,14 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
 
         $query = new CategoryQuery([
             'locale' => $context->locale,
-            'offset' => 0,
-            'limit' => $limit,
+            'limit' => $limit
         ]);
 
         $entries = [];
 
         do {
-            /** @var \Frontastic\Common\ProductApiBundle\Domain\Category[] $result */
-            $result = $productApi->getCategories($query);
+            /** @var \Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result $result */
+            $result = $productApi->queryCategories($query);
 
             foreach ($result as $category) {
                 $uri = $urlGenerator->generate(
@@ -423,8 +422,8 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 $entries = array_merge($entries, $this->generatePagerEntries($node, $context, $uri));
             }
 
-            $query->offset += $limit;
-        } while (count($result) > 0);
+            $query->cursor = $result->nextCursor;
+        } while (!is_null($result->nextCursor));
 
         return $this->singleSitemap ? $entries : $this->renderSitemaps($context, $entries, 'categories');
     }
@@ -564,11 +563,12 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
 
     private function render(
         string $publicUrl,
-        array $data,
+        array  $data,
         string $templateFile,
         string $file,
-        bool $isSiteMapIndex = false
-    ): void {
+        bool   $isSiteMapIndex = false
+    ): void
+    {
         /** @var EngineInterface $template */
         $template = $this->getContainer()->get('templating');
 
