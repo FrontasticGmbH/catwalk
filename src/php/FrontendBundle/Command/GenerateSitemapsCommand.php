@@ -563,12 +563,11 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
 
     private function render(
         string $publicUrl,
-        array  $data,
+        array $data,
         string $templateFile,
         string $file,
-        bool   $isSiteMapIndex = false
-    ): void
-    {
+        bool $isSiteMapIndex = false
+    ): void {
         /** @var EngineInterface $template */
         $template = $this->getContainer()->get('templating');
 
