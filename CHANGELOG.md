@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.34.1` (2022-02-09)
+
+
+* fix: exclude sensitive values on JsonSerializer
+
 ## `1.34.0` (2022-02-08)
 
 * chore(FP-1328): Better PHPdocs for new PageController response types
