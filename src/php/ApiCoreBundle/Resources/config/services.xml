@@ -55,7 +55,7 @@
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" autowire="true">
             <!--
-             * We are using a dedicated instance of JsonSerializer that does not contains any enhancers
+             * We are using a dedicated instance of JsonSerializer that does not contain any enhancers
              * in order to prevent recursive calls between the UrlGenerator's enhancer and
              * those class implementing generateUrlFor and using the HookService
             -->
@@ -70,13 +70,15 @@
                 <argument>apiToken</argument>
                 <argument>clientId</argument>
                 <argument>clientSecret</argument>
+                <argument>metaData</argument>
                 <argument>newPassword</argument>
                 <argument>password</argument>
                 <argument>passwordHash</argument>
                 <argument>previewToken</argument>
                 <argument>secret</argument>
+                <argument>shopkey</argument>
+                <argument>storefrontAccessToken</argument>
                 <argument>token</argument>
-                <argument>metaData</argument>
             </argument>
         </service>
 
