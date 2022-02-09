@@ -8,7 +8,7 @@ import app from './app'
 
 class SymfonyLink extends Component {
     render () {
-        let childProps = omit(this.props, ['route', 'params', 'router', 'dispatch'])
+        let childProps = omit(this.props, ['route', 'params', 'router', 'dispatch', 'path'])
         let params = { ...this.props.params }
         let path = this.props.path
 
