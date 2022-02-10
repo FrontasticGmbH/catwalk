@@ -8,8 +8,8 @@ import app from './app'
 
 class SymfonyLink extends Component {
     render () {
-        let childProps = omit(this.props, ['route', 'params', 'router', 'dispatch'])
-        let params = { ...this.props.params }
+        const childPropsToOmit = ['route', 'params', 'router', 'dispatch']
+        const params = { ...this.props.params }
         let path = this.props.path
 
         if (this.props.to || this.props.href) {
@@ -18,10 +18,14 @@ class SymfonyLink extends Component {
         }
 
         if (!path) {
+            childPropsToOmit.push('path') // do not render empty path attributes
+
             if (this.props.router.hasRoute(this.props.route)) {
                 path = this.props.router.path(this.props.route, params)
             }
         }
+
+        const childProps = omit(this.props, childPropsToOmit)
 
         return (<Link
             to={path || '/__error'}
