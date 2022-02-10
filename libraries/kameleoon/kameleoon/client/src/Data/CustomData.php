@@ -2,6 +2,7 @@
 namespace Kameleoon\Data;
 
 use Kameleoon\KameleoonClientImpl;
+use Kameleoon\Helpers\URLEncoding;
 
 class CustomData implements DataInterface
 {
@@ -9,7 +10,7 @@ class CustomData implements DataInterface
     private $value;
     private $nonce;
 
-    public function __construct($id, $value)
+    public function __construct($id, string $value)
     {
         $this->id = $id;
         $this->value = $value;
@@ -28,7 +29,8 @@ class CustomData implements DataInterface
 
     public function obtainFullPostTextLine()
     {
-        $encoded = rawurlencode(json_encode(array(array($this->value, 1)), JSON_UNESCAPED_UNICODE));
+        $encoded = URLEncoding::encodeURIComponent(json_encode(array(array($this->value, 1)), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        $encoded = str_replace("%5C", "", $encoded);
         return "eventType=customData&index=" . $this->id . "&valueToCount=" . $encoded . "&overwrite=true&nonce=" . $this->nonce;
     }
 }

@@ -20,7 +20,7 @@ class KameleoonClientFactory
 
     private static $_instance = null;
 
-    public static function getInstance()
+    private static function getInstance()
     {
         if (is_null(self::$_instance)) {
             self::$_instance = new KameleoonClientFactory();

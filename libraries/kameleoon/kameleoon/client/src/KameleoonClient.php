@@ -3,11 +3,11 @@ namespace Kameleoon;
 
 interface KameleoonClient
 {
-    public function addData($userID, ...$data);
-    public function flush($userID = NULL);
-    public function trackConversion($userID, $goalID, $revenue = 0.0);
-    public function triggerExperiment($userID, $experimentID, $timeOut = 2000);
-    public function activateFeature($userID, $featureIdOrName, $timeOut = 2000);
+    public function addData($visitorCode, ...$data);
+    public function flush($visitorCode = NULL);
+    public function trackConversion($visitorCode, $goalID, $revenue = 0.0);
+    public function triggerExperiment($visitorCode, $experimentID, $timeOut = 2000);
+    public function activateFeature($visitorCode, $featureIdOrName, $timeOut = 2000);
     public function obtainVisitorCode($topLevelDomain, $visitorCode = NULL);
     public function obtainVariationAssociatedData($variationId);
     public function obtainFeatureVariable($featureIdOrName, $variableName);
