@@ -9,6 +9,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Symfony\Component\HttpFoundation\Request;
+use Psr\Log\LoggerInterface;
 
 class NodeController
 {
@@ -17,17 +18,20 @@ class NodeController
     private PageService $pageService;
     private ViewDataProvider $viewDataProvider;
     private TrackingService $trackingService;
+    private LoggerInterface $logger;
 
     public function __construct(
         NodeService $nodeService,
         PageService $pageService,
         ViewDataProvider $viewDataProvider,
-        TrackingService $trackingService
+        TrackingService $trackingService,
+        LoggerInterface $logger
     ) {
         $this->nodeService = $nodeService;
         $this->pageService = $pageService;
         $this->viewDataProvider = $viewDataProvider;
         $this->trackingService = $trackingService;
+        $this->logger = $logger;
     }
 
     public function viewAction(Request $request, Context $context, string $nodeId)
@@ -43,10 +47,22 @@ class NodeController
 
         $this->trackingService->trackPageView($context, $node->nodeType);
 
+        $streamParameters = $request->query->get('s', []);
+
+        if (!is_array($streamParameters)) {
+            $streamParameters = [];
+            $this->logger->warning(
+                'Stream Parameters in {controller} were no array, falling back to an empty array',
+                [
+                    'controller', self::class
+                ]
+            );
+        }
+
         return [
             'node' => $node,
             'page' => $page,
-            'data' => $this->viewDataProvider->fetchDataFor($node, $context, $request->query->get('s', []), $page),
+            'data' => $this->viewDataProvider->fetchDataFor($node, $context, $streamParameters, $page),
         ];
     }
 
