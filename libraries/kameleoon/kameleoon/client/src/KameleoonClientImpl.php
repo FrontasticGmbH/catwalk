@@ -8,9 +8,16 @@ use Kameleoon\Exception\FeatureConfigurationNotFound;
 use Kameleoon\Exception\NotActivated;
 use Kameleoon\Exception\NotTargeted;
 use Kameleoon\Exception\VariationConfigurationNotFound;
+use Kameleoon\Exception\InvalidArgumentException;
+use Kameleoon\Exception\SiteCodeDisabled;
+use Kameleoon\Exception\VisitorCodeNotValid;
 use Kameleoon\Targeting\TargetingData;
 use Kameleoon\Targeting\TargetingSegment;
 use Kameleoon\Targeting\TargetingTreeBuilder;
+
+use Kameleoon\Network\KameleoonQuery;
+
+require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'Version.php');
 
 class KameleoonClientImpl implements KameleoonClient
 {
@@ -21,6 +28,8 @@ class KameleoonClientImpl implements KameleoonClient
     const HEXADECIMAL_ALPHABET = "0123456789ABCDEF";
     const NONCE_BYTE_LENGTH = 8;
     const DEFAULT_KAMELEOON_WORK_DIR = "/tmp/kameleoon/php-client/";
+    const FILE_CONFIGURATION_NAME = "kameleoon-configuration-";
+    const VISITOR_CODE_MAX_LENGTH = 255;
 
     private $siteCode;
     private $blockingClient;
@@ -53,7 +62,7 @@ class KameleoonClientImpl implements KameleoonClient
 
         $this->commonConfiguration = ConfigurationParser::parse($configurationFilePath);
         $this->kameleoonWorkDir = isset($this->commonConfiguration["kameleoon_work_dir"]) ? $this->commonConfiguration["kameleoon_work_dir"] : self::DEFAULT_KAMELEOON_WORK_DIR;
-        $this->configurationFilePath = $this->kameleoonWorkDir . "kameleoon-configuration-" . $this->siteCode . ".json";
+        $this->configurationFilePath = $this->kameleoonWorkDir . self::FILE_CONFIGURATION_NAME . $this->siteCode . ".json";
         $this->refreshInterval = isset($this->commonConfiguration["actions_configuration_refresh_interval"]) ? $this->commonConfiguration["actions_configuration_refresh_interval"] * 60 : self::SECONDS_BETWEEN_CONFIGURATION_UPDATE;
         if (isset($this->commonConfiguration["debug_mode"])) {
             $this->debugMode = $this->commonConfiguration["debug_mode"] == "true";
@@ -71,25 +80,27 @@ class KameleoonClientImpl implements KameleoonClient
         }
     }
 
-    public function trackConversion($userID, $goalID, $revenue = 0.0)
+    public function trackConversion($visitorCode, $goalID, $revenue = 0.0)
     {
-        $this->addData($userID, new Data\Conversion($goalID));
-        $this->flush($userID);
+        $this->addData($this->validateVisitorCode($visitorCode), new Data\Conversion($goalID));
+        $this->flush($visitorCode);
     }
 
-    public function triggerExperiment($userID, $experimentID, $timeOut = self::DEFAULT_TIMEOUT_MILLISECONDS)
+    public function triggerExperiment($visitorCode, $experimentID, $timeOut = self::DEFAULT_TIMEOUT_MILLISECONDS)
     {
+        $this->validateVisitorCode($visitorCode);
         if ($this->blockingClient) {
-            return $this->performPostServerCall($this->getExperimentRegisterURL($userID, $experimentID), $timeOut);
+            return $this->performPostServerCall($this->getExperimentRegisterURL($visitorCode, $experimentID), $timeOut);
         } else {
             $this->loadConfiguration($timeOut);
-            if ($this->checkTargeting($userID, $experimentID, false))
-            {
-                $variationId = "reference";
-                if (array_key_exists($experimentID, $this->configurations->experiments)) {
-                    $xpConf = $this->configurations->experiments[$experimentID];
+            $variationId = "reference";
+            if (array_key_exists($experimentID, $this->configurations->experiments)) {
+                $xpConf = $this->configurations->experiments[$experimentID];
+                $this->checkSiteCodeEnable($xpConf);
+                if ($this->checkTargeting($visitorCode, $experimentID, false))
+                {
                     $noneVariation = true;
-                    $hashDouble = $this->obtainHashDouble($experimentID, $userID, $xpConf->variationConfigurations);
+                    $hashDouble = $this->obtainHashDouble($experimentID, $visitorCode, $xpConf->variationConfigurations);
                     $total = 0.0;
 
                     foreach ($xpConf->variationConfigurations as $vid => $variationConfiguration) {
@@ -101,83 +112,90 @@ class KameleoonClientImpl implements KameleoonClient
                         }
                     }
                     $data = "";
-                    foreach ($this->getUnsentData($userID) as $d) {
+                    foreach ($this->getUnsentData($visitorCode) as $d) {
                         $data .= $d->obtainFullPostTextLine() . "\n";
                     }
-                    $this->writeRequestToFile($this->getExperimentRegisterURL($userID, $experimentID, $variationId, $noneVariation), $data);
+                    $this->writeRequestToFile($this->getExperimentRegisterURL($visitorCode, $experimentID, $variationId, $noneVariation), $data);
+
+                    if ($noneVariation)
+                    {
+                        throw new NotActivated("Experiment not activated");
+                    }
+        
+                    return $variationId;
                 } else {
-                    throw new ExperimentConfigurationNotFound('Experiment configuration not found');
+                    throw new NotTargeted("Experiment not targeted");
                 }
-
-                if ($noneVariation)
-                {
-                    throw new NotActivated("Experiment not activated");
-                }
-
-                return $variationId;
-            }
-            else
-            {
-                throw new NotTargeted("Experiment not targeted");
+            } else {
+                throw new ExperimentConfigurationNotFound('Experiment configuration not found');
             }
         }
     }
 
-    public function activateFeature($userID, $featureId, $timeOut = 2000)
+    public function activateFeature($visitorCode, $featureId, $timeOut = 2000)
 	{
+        $this->validateVisitorCode($visitorCode);
+        if(isset($this->configurations->featureFlags[strval($featureId)]) == false) {
+            $this->loadConfiguration($timeOut);
+            $arrayFF = array_filter($this->configurations->featureFlags, function($v, $k) use ($featureId) { return $v->identificationKey == $featureId; }, ARRAY_FILTER_USE_BOTH);
+            $featureId = count($arrayFF) > 0 ? array_key_first($arrayFF) : $featureId;
+        }
         if ($this->blockingClient)
         {
-            return $this->performPostServerCall($this->getExperimentRegisterURL($userID, $featureId), $timeOut) == "null" ? false : true;
+            return $this->performPostServerCall($this->getExperimentRegisterURL($visitorCode, $featureId), $timeOut) == "null" ? false : true;
         }
         else
         {
             $this->loadConfiguration($timeOut);
-            if($this->checkTargeting($userID, $featureId, true))
+            $result = false;
+            if (array_key_exists($featureId, $this->configurations->featureFlags))
             {
-                $result = false;
-                if (array_key_exists($featureId, $this->configurations->featureFlags))
+                $ffConf = $this->configurations->featureFlags[strval($featureId)];
+                $this->checkSiteCodeEnable($ffConf);
+                if($this->checkTargeting($visitorCode, $featureId, true))
                 {
-                    $xpConf = $this->configurations->featureFlags[strval($featureId)];
-                    $hashDouble = $this->obtainHashDouble($featureId, $userID, $xpConf->variationConfigurations);
-                    $variationId = 0;
-                    $total = 0.0;
-                    foreach ($xpConf->variationConfigurations as $vid => $variationConfiguration) {
-                        $total += $variationConfiguration->deviation;
-                        if ($total >= $hashDouble) {
-                            $result = true;
-                            $variationId = $vid;
-                            break;
+                    if($ffConf->isScheduleActive(time())) {
+                        $hashDouble = $this->obtainHashDouble($featureId, $visitorCode, $ffConf->variationConfigurations);
+                        $variationId = 0;
+                        $total = 0.0;
+                        foreach ($ffConf->variationConfigurations as $vid => $variationConfiguration) {
+                            $total += $variationConfiguration->deviation;
+                            if ($total >= $hashDouble) {
+                                $result = true;
+                                $variationId = $vid;
+                                break;
+                            }
                         }
+                        $data = "";
+                        foreach ($this->getUnsentData($visitorCode) as $d) {
+                            $data .= $d->obtainFullPostTextLine() . "\n";
+                        }
+                        $this->writeRequestToFile($this->getExperimentRegisterURL($visitorCode, $featureId, $variationId, false), $data);
+                    } else {
+                        return $result;
                     }
-                    $data = "";
-                    foreach ($this->getUnsentData($userID) as $d) {
-                        $data .= $d->obtainFullPostTextLine() . "\n";
-                    }
-                    $this->writeRequestToFile($this->getExperimentRegisterURL($userID, $featureId, $variationId, false), $data);
+                } else {
+                    throw new NotTargeted("Feature not targeted");
                 }
-                else
-                {
-                    throw new FeatureConfigurationNotFound("Feature configuration not found");
-                }
-                return $result;
             }
             else
             {
-                throw new NotTargeted("Feature not targeted");
+                throw new FeatureConfigurationNotFound("Feature configuration not found");
             }
+            return $result;
         }
 	}
 
+    //load configuration if it was not loaded
 	private function loadConfiguration($timeOut)
     {
         if (!$this->configurationLoaded)
         {
             if (file_exists($this->configurationFilePath)) {
                 $fp = fopen($this->configurationFilePath, "r+");
-                if
-                (
+                if (
                     time() < filemtime($this->configurationFilePath) + $this->refreshInterval ||
-                    !flock($fp, LOCK_EX)
+                    !flock($fp, LOCK_EX) 
                 ) {
                     try {
                         $obj = json_decode(file_get_contents($this->configurationFilePath, true));
@@ -203,7 +221,7 @@ class KameleoonClientImpl implements KameleoonClient
     // TARGETING ENGINE
 
     // check targeting
-    private function checkTargeting($userID, $containerID, $isFF)
+    private function checkTargeting($visitorCode, $containerID, $isFF)
     {
 		$targeting = true;
 
@@ -239,7 +257,7 @@ class KameleoonClientImpl implements KameleoonClient
                     $targetingTree = $xpConf->targetingSegment->getTargetingTree();
                 }
                 // obtaining targeting checking result and assigning targeting to container
-                $targeting = $this->checkTargetingTree($userID, $targetingTree);
+                $targeting = $this->checkTargetingTree($visitorCode, $targetingTree);
             }
         }
 
@@ -247,7 +265,7 @@ class KameleoonClientImpl implements KameleoonClient
     }
 
     // check targeting tree
-    private function checkTargetingTree($userID, $targetingTree)
+    private function checkTargetingTree($visitorCode, $targetingTree)
     {
         $result = null;
 
@@ -262,12 +280,12 @@ class KameleoonClientImpl implements KameleoonClient
             $targetingCondition = $targetingTree->getTargetingCondition();
 			if (null != $targetingCondition)
             {
-                $result = $this->checkTargetingCondition($userID, $targetingCondition);
+                $result = $this->checkTargetingCondition($visitorCode, $targetingCondition);
             }
             else
             {
                 // computing left child result
-                $leftChildResult = $this->checkTargetingTree($userID, $targetingTree->getLeftChild());
+                $leftChildResult = $this->checkTargetingTree($visitorCode, $targetingTree->getLeftChild());
 
 				$mustComputeRightChildResult = false;
 
@@ -294,7 +312,7 @@ class KameleoonClientImpl implements KameleoonClient
 				$rightChildResult = null;
 				if ($mustComputeRightChildResult)
                 {
-                    $rightChildResult = $this->checkTargetingTree($userID, $targetingTree->getRightChild());
+                    $rightChildResult = $this->checkTargetingTree($visitorCode, $targetingTree->getRightChild());
                 }
 
 				// computing result
@@ -382,14 +400,14 @@ class KameleoonClientImpl implements KameleoonClient
 	}
 
 	// check targeting condition
-	private function checkTargetingCondition($userID, $targetingCondition)
+	private function checkTargetingCondition($visitorCode, $targetingCondition)
     {
         $result = null;
 
 		// obtaining targeting
 		if ($targetingCondition != null)
         {
-            $result = $targetingCondition->check($this->getTargetingData($userID));
+            $result = $targetingCondition->check($this->getTargetingData($visitorCode));
 
             // correcting targeting result in the case an exclusion rule is asked for
             if (true != $targetingCondition->getInclude())
@@ -413,7 +431,7 @@ class KameleoonClientImpl implements KameleoonClient
 		return $result;
 	}
 
-    private function obtainHashDouble($containerID, $userID, $variationConfigurations)
+    private function obtainHashDouble($containerID, $visitorCode, $variationConfigurations)
     {
         $respoolTimes = array();
         foreach ($variationConfigurations as $v) {
@@ -421,22 +439,22 @@ class KameleoonClientImpl implements KameleoonClient
                 array_push($respoolTimes, $v->respoolTime);
             }
         }
-        return floatval(intval(substr(hash("sha256", $userID . $containerID . join("", $respoolTimes)), 0, 8), 16) / pow(2, 32));
+        return floatval(intval(substr(hash("sha256", $visitorCode . $containerID . join("", $respoolTimes)), 0, 8), 16) / pow(2, 32));
     }
 
-    private function getCommonSSXParameters($userID)
+    private function getCommonSSXParameters($visitorCode)
     {
-        return "nonce=" . self::obtainNonce() . "&siteCode=" . $this->siteCode . "&visitorCode=" . $userID;
+        return "nonce=" . self::obtainNonce() . "&siteCode=" . $this->siteCode . "&visitorCode=" . $visitorCode;
     }
 
-    private function getDataTrackingURL($userID)
+    private function getDataTrackingURL($visitorCode)
     {
-        return self::API_SSX_URL . "/dataTracking?" . $this->getCommonSSXParameters($userID);
+        return static::API_SSX_URL . "/dataTracking?" . $this->getCommonSSXParameters($visitorCode);
     }
 
-    private function getExperimentRegisterURL($userID, $experimentID, $variationId = null, $noneVariation = null)
+    private function getExperimentRegisterURL($visitorCode, $experimentID, $variationId = null, $noneVariation = null)
     {
-        $url = self::API_SSX_URL . "/experimentTracking?" . $this->getCommonSSXParameters($userID) . "&experimentId=" . $experimentID . "";
+        $url = static::API_SSX_URL . "/experimentTracking?" . $this->getCommonSSXParameters($visitorCode) . "&experimentId=" . $experimentID . "";
         if (!is_null($variationId)) {
             $url .= "&variationId=" . $variationId;
         }
@@ -492,10 +510,10 @@ class KameleoonClientImpl implements KameleoonClient
             curl_close($tokenRequest);
             $token = json_decode($tokenOutput)->access_token;
 
-            $experimentsQuery = "%7Bexperiments%28perPage%3A-1%2C%20filter%3A%5B%7Bfield%3A%22status%22%2Coperator%3AIN%2Cparameters%3A%22%5B%5C%22ACTIVE%5C%22%2C%5C%22DEVIATED%5C%22%2C%5C%22USED_AS_PERSONALIZATION%5C%22%5D%22%7D%2C%7Bfield%3A%22type%22%2Coperator%3AIN%2Cparameters%3A%22%5B%5C%22SERVER_SIDE%5C%22%2C%5C%22HYBRID%5C%22%5D%22%7D%5D%29%7Bid%2Cname%2Ctype%2CsiteId%2CsiteCode%2Cstatus%2Cvariations%7Bid%2CcustomJson%7D%2Cdeviations%7BvariationId%2Cvalue%7D%2CrespoolTime%7BvariationId%2Cvalue%7D%2Csegment%7Bid%2Cname%2CconditionsData%7BfirstLevelOrOperators%2CfirstLevel%7BorOperators%2Cconditions%7BtargetingType%2CisInclude%20...%20on%20CustomDataTargetingCondition%7BcustomDataIndex%2Cvalue%2CvalueMatchType%7D%7D%7D%7D%7D%7D%7D";
-            $experimentsRequest = curl_init(self::API_URL . "/graphql?query=" . $experimentsQuery);
+            $experimentsRequest = curl_init(self::API_URL . "/v1/graphql?perPage=-1");
             curl_setopt($experimentsRequest,CURLOPT_TIMEOUT, $timeOut);
-            curl_setopt($experimentsRequest, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($experimentsRequest, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($experimentsRequest, CURLOPT_POSTFIELDS, KameleoonQuery::experimentQuery($this->siteCode));
             curl_setopt($experimentsRequest, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($experimentsRequest, CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/json',
@@ -504,15 +522,16 @@ class KameleoonClientImpl implements KameleoonClient
             $experimentsOutput = curl_exec($experimentsRequest);
             curl_close($experimentsRequest);
 
-            $ffQuery = "%7BfeatureFlags%28perPage%3A-1%2C%20filter%3A%5B%7Bfield%3A%22status%22%2Coperator%3AIN%2Cparameters%3A%22%5B%5C%22ACTIVE%5C%22%2C%5C%22DEVIATED%5C%22%2C%5C%22USED_AS_PERSONALIZATION%5C%22%5D%22%7D%2C%5D%29%7Bid%2Cname%2CidentificationKey%2CfeatureFlagSdkLanguageType%2CsiteId%2CsiteCode%2Cstatus%2Cvariations%7Bid%2CcustomJson%7D%2Cdeviations%7BvariationId%2Cvalue%7D%2CrespoolTime%7BvariationId%2Cvalue%7D%2Csegment%7Bid%2Cname%2CconditionsData%7BfirstLevelOrOperators%2CfirstLevel%7BorOperators%2Cconditions%7BtargetingType%2CisInclude%20...%20on%20CustomDataTargetingCondition%7BcustomDataIndex%2Cvalue%2CvalueMatchType%7D%7D%7D%7D%7D%7D%7D";
-            $ffRequest = curl_init(self::API_URL . "/graphql?query=" . $ffQuery);
+            $ffRequest = curl_init(self::API_URL . "/v1/graphql?perPage=-1");
             curl_setopt($ffRequest,CURLOPT_TIMEOUT, $timeOut);
-            curl_setopt($ffRequest, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ffRequest, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ffRequest, CURLOPT_POSTFIELDS, KameleoonQuery::featureFlagQuery($this->siteCode));
             curl_setopt($ffRequest, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ffRequest, CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/json',
                 'Authorization: Bearer ' . $token,
             ));
+            
             $ffOutput = curl_exec($ffRequest);
             curl_close($ffRequest);
 
@@ -539,50 +558,52 @@ class KameleoonClientImpl implements KameleoonClient
         return array_keys($this->unsentData);
     }
 
-    private function getUnsentData($userID)
+    private function getUnsentData($visitorCode)
     {
-        if (!array_key_exists($userID, $this->unsentData)) {
-            $this->unsentData[$userID] = array();
+        if (!array_key_exists($visitorCode, $this->unsentData)) {
+            $this->unsentData[$visitorCode] = array();
         }
-        return $this->unsentData[$userID];
+        return $this->unsentData[$visitorCode];
     }
 
-    private function getTargetingData($userID)
+    private function getTargetingData($visitorCode)
     {
-        if (!isset($this->targetingData[$userID]))
+        if (!isset($this->targetingData[$visitorCode]))
         {
-            $this->targetingData[$userID] = array();
+            $this->targetingData[$visitorCode] = array();
         }
-        return $this->targetingData[$userID];
+        return $this->targetingData[$visitorCode];
     }
 
-    private function emptyUnsentData($userID)
+    private function emptyUnsentData($visitorCode)
     {
-        unset($this->unsentData[$userID]);
+        unset($this->unsentData[$visitorCode]);
     }
 
-    public function addData($userID, ...$data)
+    public function addData($visitorCode, ...$data)
     {
-        $this->getUnsentData($userID);
-        if (!isset($this->targetingData[$userID]))
+        $this->validateVisitorCode($visitorCode);
+        $this->getUnsentData($visitorCode);
+        if (!isset($this->targetingData[$visitorCode]))
         {
-            $this->targetingData[$userID] = array();
+            $this->targetingData[$visitorCode] = array();
         }
         foreach ($data as $datum) {
-            array_push($this->unsentData[$userID], $datum);
-            array_push($this->targetingData[$userID], new TargetingData($datum));
+            array_push($this->unsentData[$visitorCode], $datum);
+            array_push($this->targetingData[$visitorCode], new TargetingData($datum));
         }
     }
 
-    public function flush($userID = null)
+    public function flush($visitorCode = null)
     {
-        if (!is_null($userID)) {
+        if (!is_null($visitorCode)) {
+            $this->validateVisitorCode($visitorCode);
             $data = "";
-            foreach ($this->getUnsentData($userID) as $d) {
+            foreach ($this->getUnsentData($visitorCode) as $d) {
                 $data .= $d->obtainFullPostTextLine() . PHP_EOL;
             }
-            $this->writeRequestToFile($this->getDataTrackingURL($userID), $data);
-            $this->emptyUnsentData($userID);
+            $this->writeRequestToFile($this->getDataTrackingURL($visitorCode), $data);
+            $this->emptyUnsentData($visitorCode);
         } else {
             foreach ($this->getUnsentUsers() as $user) {
                 $this->flush($user);
@@ -614,7 +635,7 @@ class KameleoonClientImpl implements KameleoonClient
 
     private function writeRequestToFile($url, $data)
     {
-        $requestText = "curl -s -S --tlsv1.2 --tls-max 1.2 -X POST -H \"Kameleoon-Client: sdk/php/2.0.5\" \"" . $url . "\"";
+        $requestText = "curl -s -S --tlsv1.2 --tls-max 1.2 -X POST -H \"Kameleoon-Client: sdk/php/" . VERSION_SDK . "\" \"" . $url . "\"";
         if ($data != null) {
             $requestText .= " -d '" . $data . "'";
         }
@@ -684,12 +705,15 @@ class KameleoonClientImpl implements KameleoonClient
                 setcookie("kameleoonVisitorCode", $visitorCode, $cookie_options);
             }
             $this->visitorCode = (string) $visitorCode;
-            return $visitorCode;
+            return $this->validateVisitorCode($visitorCode);
         }
     }
 
     public function obtainVariationAssociatedData($variationId)
     {
+        //check that configuration is loaded
+        $this->loadConfiguration(self::DEFAULT_TIMEOUT_MILLISECONDS);
+
         $result = null;
         foreach ($this->configurations->experiments as $experiment) {
             foreach ($experiment->variationConfigurations as $vid => $variationConfiguration) {
@@ -707,6 +731,11 @@ class KameleoonClientImpl implements KameleoonClient
 
     public function obtainFeatureVariable($featureIdOrName, $variableName)
     {
+        $BOOLEAN_TYPE = "Boolean"; $STRING_TYPE = "String"; $NUMBER_TYPE = "Number"; $JSON_TYPE = "JSON";
+
+        //check that configuration is loaded
+        $this->loadConfiguration(self::DEFAULT_TIMEOUT_MILLISECONDS);
+
         $result = null;
         foreach ($this->configurations->featureFlags as $id => $ff) {
             foreach ($ff->variationConfigurations as $vid => $variationConfiguration) {
@@ -714,18 +743,46 @@ class KameleoonClientImpl implements KameleoonClient
                     try {
                         if ($vid != 0)
                         {
+                            $type = $variationConfiguration->customJson->{$variableName}->type;
                             $result = $variationConfiguration->customJson->{$variableName}->value;
+                            switch ($type) {
+                                case $BOOLEAN_TYPE:
+                                    $result = filter_var($result, FILTER_VALIDATE_BOOLEAN);
+                                    break;
+                                case $NUMBER_TYPE:
+                                    $result = filter_var($result, FILTER_VALIDATE_INT);
+                                    break;
+                                case $JSON_TYPE:
+                                    $result = json_decode($result);
+                                    break;
+                            }
                         }
                     }
                     catch (Exception $e){}
                 }
             }
         }
-        if ($result == null)
+        if ($result === null)
         {
             throw new FeatureConfigurationNotFound("Feature configuration not found");
         }
         return $result;
+    }
+
+    private function validateVisitorCode($visitorCode) {
+        if (isset($visitorCode) == false || strlen($visitorCode) == 0) {
+            throw new VisitorCodeNotValid("Visitor code is empty");
+        } else if (strlen($visitorCode) > self::VISITOR_CODE_MAX_LENGTH) { 
+            throw new VisitorCodeNotValid("Visitor max length is " . self::VISITOR_CODE_MAX_LENGTH . " characters");
+        } else {
+            return $visitorCode;
+        }
+    }
+
+    private function checkSiteCodeEnable($expOrFF) {
+        if (!$expOrFF->isSiteCodeEnabled) {
+            throw new SiteCodeDisabled("Sitecode '" . $this->siteCode . "' disabled");
+        }
     }
 }
 
@@ -752,11 +809,12 @@ class Experiment
     public $variationConfigurations;
     public $forceTargeting;
     public $targetingSegment;
+    public $isSiteCodeEnabled;
 
     public function __construct($experiment)
     {
         $this->variationConfigurations = array();
-        $this->forceTargeting = isset($ff->forceTargeting) ? $ff->forceTargeting : false;
+        $this->forceTargeting = isset($experiment->forceTargeting) ? $experiment->forceTargeting : false;
         $this->targetingSegment = null;
 
         if ($experiment->segment != null)
@@ -767,37 +825,64 @@ class Experiment
             $this->targetingSegment->setTargetingTree($targetingTree);
         }
 
-        foreach ($experiment->deviations as $deviation) {
+        $sortedDeviations = $experiment->deviations;
+        usort($sortedDeviations, function (object $first, object $second) { return intval($first->variationId) <=> intval($second->variationId); });
+        foreach ($sortedDeviations as $deviation) {
             $variationId = $deviation->variationId == "origin" ? 0 : intval($deviation->variationId);
             $deviation = floatval($deviation->value);
             $respoolTime = null;
             if (isset($experiment->respoolTime)) {
                 foreach ($experiment->respoolTime as $rt) {
-                    if ($rt->variationId == $variationId) {
+                    if ($rt->variationId == $variationId || ($variationId == 0 && $rt->variationId == "origin")) {
                         $respoolTime = floatval($rt->value);
+                        break;
                     }
                 }
             }
             $customJson = null;
             foreach ($experiment->variations as $variation) {
-                if ($variation->id == $variationId) {
+                if ($variation->id == $variationId || ($variationId == 0 && $variation->id == "origin")) {
                     $customJson = $variation->customJson;
+                    break;
                 }
             }
             $this->variationConfigurations[$variationId] = new VariationConfiguration($deviation, $respoolTime, $customJson);
         }
+
+        $this->isSiteCodeEnabled = $experiment->site->isKameleoonEnabled;
+    }
+}
+
+class Schedule
+{
+    public $dateStart;
+    public $dateEnd;
+
+    public function __construct($schedule) {
+        $this->dateStart = $this->fetchDate($schedule, "dateStart");
+        $this->dateEnd = $this->fetchDate($schedule, "dateEnd");
+    }
+    
+    private function fetchDate($schedule, $key) {
+        return isset($schedule->$key) ? strtotime($schedule->$key) : null;
     }
 }
 
 class FeatureFlag
 {
+    private const STATUS_ACTIVE = "ACTIVE";
+    private const FEATURE_STATUS_DEACTIVATED = "DEACTIVATED";
     public $variationConfigurations;
     public $forceTargeting;
     public $targetingSegment;
     public $identificationKey;
+    public $isSiteCodeEnabled;
+    private $featureStatus;
+    private $status;
+    private $schedules;
 
     public function __construct($ff)
-    {
+    {     
         $this->variationConfigurations = array();
         $this->identificationKey = isset($ff->identificationKey) ? $ff->identificationKey : null;
         $this->forceTargeting = isset($ff->forceTargeting) ? $ff->forceTargeting : false;
@@ -811,25 +896,31 @@ class FeatureFlag
             $targetingTree = $targetingTreeBuilder->createTargetingTree($ff->segment->conditionsData);
             $this->targetingSegment->setTargetingTree($targetingTree);
         }
+        
+        $deviations = array();
+        array_push($deviations, 
+            ["variationId" => 0, "value" => floatval(1 - $ff->expositionRate)],
+            ["variationId" => $ff->variations[0]->id, "value" => floatval($ff->expositionRate)],
+        );
 
-        foreach ($ff->deviations as $deviation) {
-            $variationId = $deviation->variationId == "origin" ? 0 : intval($deviation->variationId);
-            $deviation = floatval($deviation->value);
+        foreach ($deviations as $deviation) {
+            $variationId = $deviation["variationId"] == "origin" ? 0 : intval($deviation["variationId"]);
+            $deviationValue = floatval($deviation["value"]);
             $respoolTime = null;
             if (isset($ff->respoolTime)) {
                 foreach ($ff->respoolTime as $rt) {
-                    if ($rt->variationId == $variationId) {
+                    if ($rt->variationId == $variationId || ($variationId == 0 && $rt->variationId == "origin")) {
                         $respoolTime = floatval($rt->value);
                     }
                 }
             }
             $customJson = null;
             foreach ($ff->variations as $variation) {
-                if ($variation->id == $variationId) {
+                if ($variation->id == $variationId || ($variationId == 0 && $variation->id == "origin")) {
                     $customJson = $variation->customJson;
                 }
             }
-            $this->variationConfigurations[$variationId] = new VariationConfiguration($deviation, $respoolTime, $customJson);
+            $this->variationConfigurations[$variationId] = new VariationConfiguration($deviationValue, $respoolTime, $customJson);
         }
 
         // Temporary fix for ff
@@ -847,6 +938,34 @@ class FeatureFlag
                 $this->variationConfigurations[$variation->id] = new VariationConfiguration($deviation, $respoolTime, $customJson);
             }
         }
+
+        $this->status = $ff->status;
+        $this->featureStatus = $ff->featureStatus;
+
+        $this->schedules = array();
+        if(isset($ff->schedules)) {
+            foreach($ff->schedules as $schedule) {
+                array_push($this->schedules, new Schedule($schedule));
+            }
+        }
+
+        $this->isSiteCodeEnabled = $ff->site->isKameleoonEnabled;
+    }
+
+    public function isScheduleActive($currentTimestamp) {
+        // if no schedules then need to fetch current status
+        $currentStatus = $this->status == $this::STATUS_ACTIVE;
+        if($this->featureStatus == $this::FEATURE_STATUS_DEACTIVATED || empty($this->schedules)) {
+            return $currentStatus;
+        }
+        // need to find if date is in any period -> active or not -> not activate
+        foreach($this->schedules as $schedule) {
+            if (($schedule->dateStart == null || $schedule->dateStart < $currentTimestamp) &&
+                ($schedule->dateEnd == null || $schedule->dateEnd > $currentTimestamp) ) {
+                    return true;
+            }
+        }
+        return false;
     }
 }
 
@@ -859,18 +978,14 @@ class Configurations
         $configurations->featureFlags = array();
 
         try {
-            foreach ($json->experiments as $experiment) {
-                if ($experiment->siteCode == $siteCode) {
-                    $configurations->experiments[$experiment->id] = new Experiment($experiment);
-                }
+            foreach ($json->experiments->edges as $experiment) {
+                $configurations->experiments[$experiment->node->id] = new Experiment($experiment->node);
             }
         } catch (Exception $e) {
         }
         try {
-            foreach ($json->featureFlags as $ff) {
-                if ($ff->siteCode == $siteCode) {
-                    $configurations->featureFlags[$ff->id] = new FeatureFlag($ff);
-                }
+            foreach ($json->featureFlags->edges as $ff) {
+                $configurations->featureFlags[$ff->node->id] = new FeatureFlag($ff->node);
             }
         } catch (Exception $e) {
         }

@@ -60,7 +60,7 @@ class CustomDatum extends TargetingCondition
             $targeting = false;
             switch ($this->operator) {
                 case "CONTAINS":
-                    if (strpos($customDatum->getValue(), $this->value)) {
+                    if (strpos($customDatum->getValue(), $this->value) !== false) {
                         $targeting = true;
                     }
                     break;
@@ -70,7 +70,7 @@ class CustomDatum extends TargetingCondition
                     }
                     break;
                 case "REGULAR_EXPRESSION":
-                    if (preg_match($this->value, $customDatum->getValue())) {
+                    if (preg_match("/" . $this->value . "/", $customDatum->getValue())) {
                         $targeting = true;
                     }
                     break;

@@ -2,6 +2,7 @@
 namespace Kameleoon\Data;
 
 use Kameleoon\KameleoonClientImpl;
+use Kameleoon\Helpers\URLEncoding;
 
 class PageView implements DataInterface
 {
@@ -20,6 +21,6 @@ class PageView implements DataInterface
 
     public function obtainFullPostTextLine ()
     {
-        return "eventType=page&href=" . $this->url . "&title=" . $this->title . "&keyPages=[]" . ($this->referrer == null ? "" : "&referrers=[" . $this->referrer . "]") . "&nonce=" . $this->nonce;
+        return "eventType=page&href=" . URLEncoding::encodeURIComponent($this->url) . "&title=" . $this->title . "&keyPages=[]" . ($this->referrer == null ? "" : "&referrers=[" . $this->referrer . "]") . "&nonce=" . $this->nonce;
     }
 }
