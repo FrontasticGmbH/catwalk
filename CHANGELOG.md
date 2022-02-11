@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.34.2` (2022-02-11)
+
+* Update Kameleoon SDK to version 2.0.8
+
 ## `1.34.1` (2022-02-09)
 
 
