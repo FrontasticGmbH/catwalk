@@ -47,7 +47,13 @@ let CartLoader = function (store, api) {
      * @return Promise
      */
     this.getOrder = (parameters = {}) => {
-        return this.api.trigger('Frontastic.CartApi.Cart.getOrder', parameters)
+        return this.api.trigger('Frontastic.CartApi.Cart.getOrder',
+            // Own error handler without error handler => Ignore all errors
+            {
+                ownErrorHandler: true,
+                ...parameters,
+            }
+        )
     }
 
     this.setProductOption = (productId, option) => {
