@@ -6,6 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PreviewService;
+use Frontastic\Catwalk\FrontendBundle\Domain\ViewData;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
@@ -98,7 +99,9 @@ class PageController
 
         $page = $this->pageService->fetchForNode($node, $context);
 
-        $pageViewData = $this->viewDataProvider->fetchDataFor($node, $context, [], $page);
+        $pageViewData = $this->convertStreamErrors(
+            $this->viewDataProvider->fetchDataFor($node, $context, [], $page)
+        );
 
         $this->completionService->completePageData($page, $node, $context, $pageViewData->tastic);
 
@@ -137,6 +140,31 @@ class PageController
             // Stream parameters is deprecated
             'data' => $this->mapper->map($pageViewData),
         ]);
+    }
+
+    /**
+     * Replaces the word 'stream' with 'data source' in errors found in the stream property of a ViewData object.
+     * @param ViewData $viewData
+     * @return ViewData
+     */
+    private function convertStreamErrors(ViewData $viewData): ViewData
+    {
+        if (!property_exists($viewData, 'stream') || !is_iterable($viewData->stream)) {
+            return $viewData;
+        }
+
+        foreach ($viewData->stream as &$streamData) {
+            if (array_key_exists('ok', $streamData) && $streamData['ok'] === false && isset($streamData['message'])) {
+                // If you are looking for the source of these errors they are in: StreamService@handle
+                $streamData['message'] = str_replace(
+                    ['No stream handler for stream', 'The stream has no type'],
+                    ['No data source handler for data source', 'The data source has no type'],
+                    strval($streamData['message'])
+                );
+            }
+        }
+
+        return $viewData;
     }
 
     /**
