@@ -35,6 +35,10 @@
             class="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver"
         >
         </service>
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver"
+            alias="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolverInterface"
+        >
+        </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService">
             <argument>%frontastic.project_file%</argument>
