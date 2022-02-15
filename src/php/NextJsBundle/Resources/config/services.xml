@@ -83,7 +83,28 @@
         </service>
 
 
+        <!-- overriding ProductSearchApi with a dummy -->
+        <service
+            id="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory"
+            alias="Frontastic\Common\ProductSearchApiBundle\Domain\DummyProductSearchApiFactory"
+        />
 
+        <service
+            id="Frontastic\Common\ProductSearchApiBundle\Domain\DummyProductSearchApiFactory"
+            class="Frontastic\Common\ProductSearchApiBundle\Domain\DummyProductSearchApiFactory">
+        </service>
+
+        <service id="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi" alias="frontastic.catwalk.product_search_api" />
+
+        <service id="frontastic.catwalk.product_search_api" class="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi">
+            <factory
+                service="Frontastic\Common\ProductSearchApiBundle\Domain\DummyProductSearchApiFactory"
+                method="factor" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
+
+
+        <!-- overriding ProductApi with a dummy -->
         <service
             id="Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory"
             alias="Frontastic\Common\ProductApiBundle\Domain\DummyProductApiFactory"
@@ -92,8 +113,7 @@
         <service
             id="Frontastic\Common\ProductApiBundle\Domain\DummyProductApiFactory"
             class="Frontastic\Common\ProductApiBundle\Domain\DummyProductApiFactory">
-            <argument type="service"
-                id="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory"/>
+            <argument type="service" id="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory" />
         </service>
 
         <service id="Frontastic\Common\ProductApiBundle\Domain\ProductApi" alias="frontastic.catwalk.product_api" />
