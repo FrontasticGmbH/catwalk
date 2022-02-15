@@ -142,6 +142,24 @@
                 method="factor" />
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
         </service>
+
+        <!-- overriding CartApi with a dummy -->
+        <service
+            id="Frontastic\Common\CartApiBundle\Domain\CartApiFactory"
+            alias="Frontastic\Common\CartApiBundle\Domain\DummyCartApiFactory"
+        />
+
+        <service
+            id="Frontastic\Common\CartApiBundle\Domain\DummyCartApiFactory"
+            class="Frontastic\Common\CartApiBundle\Domain\DummyCartApiFactory"
+        />
+
+        <service id="frontastic.catwalk.cart_api" class="Frontastic\Common\CartApiBundle\Domain\CartApi">
+            <factory
+                service="Frontastic\Common\CartApiBundle\Domain\DummyCartApiFactory"
+                method="factor" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
     </services>
 
 </container>
