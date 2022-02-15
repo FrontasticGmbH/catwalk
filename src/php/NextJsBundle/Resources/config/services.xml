@@ -179,6 +179,24 @@
                 method="factor" />
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
         </service>
+
+        <!-- overriding ContentApi with a dummy -->
+        <service
+            id="Frontastic\Common\ContentApiBundle\Domain\ContentApiFactory"
+            alias="Frontastic\Common\ContentApiBundle\Domain\DummyContentApiFactory"
+        />
+
+        <service
+            id="Frontastic\Common\ContentApiBundle\Domain\DummyContentApiFactory"
+            class="Frontastic\Common\ContentApiBundle\Domain\DummyContentApiFactory"
+        />
+
+        <service id="frontastic.catwalk.content_api" class="Frontastic\Common\ContentApiBundle\Domain\ContentApi">
+            <factory
+                service="Frontastic\Common\ContentApiBundle\Domain\DummyContentApiFactory"
+                method="factor" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
     </services>
 
 </container>
