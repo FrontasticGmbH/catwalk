@@ -124,6 +124,24 @@
                 method="factor" />
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
         </service>
+
+        <!-- overriding AccountApi with a dummy -->
+        <service
+            id="Frontastic\Common\AccountApiBundle\Domain\AccountApiFactory"
+            alias="Frontastic\Common\AccountApiBundle\Domain\DummyAccountApiFactory"
+        />
+
+        <service
+            id="Frontastic\Common\AccountApiBundle\Domain\DummyAccountApiFactory"
+            class="Frontastic\Common\AccountApiBundle\Domain\DummyAccountApiFactory"
+        />
+
+        <service id="frontastic.catwalk.account_api" class="Frontastic\Common\AccountApiBundle\Domain\AccountApi">
+            <factory
+                service="Frontastic\Common\AccountApiBundle\Domain\DummyAccountApiFactory"
+                method="factor" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
     </services>
 
 </container>
