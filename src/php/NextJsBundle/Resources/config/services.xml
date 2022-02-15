@@ -92,6 +92,8 @@
         <service
             id="Frontastic\Common\ProductApiBundle\Domain\DummyProductApiFactory"
             class="Frontastic\Common\ProductApiBundle\Domain\DummyProductApiFactory">
+            <argument type="service"
+                id="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory"/>
         </service>
 
         <service id="Frontastic\Common\ProductApiBundle\Domain\ProductApi" alias="frontastic.catwalk.product_api" />
