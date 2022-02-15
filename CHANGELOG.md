@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.34.3` (2022-02-15)
+
+* fix: add alias to LocaleResolverInterface for backwards-compatibility
+
 ## `1.34.2` (2022-02-11)
 
 * Update Kameleoon SDK to version 2.0.8
