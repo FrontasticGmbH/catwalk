@@ -96,6 +96,7 @@ class PageControllerTest extends TestCase
         ]);
 
         \Phake::when($this->viewDataProviderMock)->fetchDataFor->thenReturn(new ViewData([
+            'stream' => new \stdClass(),
             'tastic' => new \stdClass(),
         ]));
         \Phake::when($this->mapperMock)->map->thenReturnCallback(function ($input) {
