@@ -52,10 +52,7 @@ class NodeController
         if (!is_array($streamParameters)) {
             $streamParameters = [];
             $this->logger->warning(
-                'Stream Parameters in {controller} were no array, falling back to an empty array',
-                [
-                    'controller', self::class
-                ]
+                sprintf('Stream Parameters in %s were no array, falling back to an empty array', self::class)
             );
         }
 
