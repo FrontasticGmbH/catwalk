@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.35.0` (2022-02-17)
+
+* feat(FP-1218): Replace 'stream' with 'data source' in ViewData errors
+* fix(FP-1014): Don't throw error when stream parameter is not array, log a warning instead
+
 ## `1.34.3` (2022-02-15)
 
 * fix: add alias to LocaleResolverInterface for backwards-compatibility
