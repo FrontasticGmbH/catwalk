@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.35.1` (2022-02-17)
+
+* fix: do not autowire localeresolver as it breaks customers code
+
 ## `1.35.0` (2022-02-17)
 
 * feat(FP-1218): Replace 'stream' with 'data source' in ViewData errors
