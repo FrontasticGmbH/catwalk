@@ -29,6 +29,7 @@
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" autowire="true">
             <argument key="$router" type="service" id="router" />
             <argument key="$decorators" type="tagged" tag="context.decorator" />
+            <argument key="$localeResolver" type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolver" />
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Context\LocaleResolverInterface"
