@@ -78,11 +78,11 @@ class RequestService
     }
 
     public function encodeJWTData($cookie): string
-    {   
+    {
         $nonce = random_bytes(12);
         $encryptedCookie = sodium_crypto_aead_aes256gcm_encrypt(
-            json_encode($cookie), 
-            '', 
+            json_encode($cookie),
+            '',
             $nonce,
             base64_decode(self::AES256_KEY)
         );
