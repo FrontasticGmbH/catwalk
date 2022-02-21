@@ -28,8 +28,9 @@ class CorsHandler
         }
 
         $headers = $event->getResponse()->headers;
+        $origin = $event->getRequest()->headers->get('origin') ?? $event->getRequest()->getHost();
 
-        $headers->set('Access-Control-Allow-Origin', $_SERVER['HTTP_ORIGIN'] ?? $_SERVER['HTTP_HOST']);
+        $headers->set('Access-Control-Allow-Origin', $origin);
         $headers->set('Access-Control-Allow-Methods', '*');
         $headers->set('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Cookie, Frontastic-Session, X-Frontastic-Access-Token');
         $headers->set('Access-Control-Expose-Headers', ' *, Authorization, Frontastic-Session, X-Frontastic-Access-Token');
