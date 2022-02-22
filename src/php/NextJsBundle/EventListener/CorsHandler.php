@@ -18,7 +18,7 @@ class CorsHandler
 
         if ($method === 'OPTIONS') {
             $origin = $origin = $event->getRequest()->headers->get('origin') ?? $event->getRequest()->getHost();
-            
+
             $response = new Response('', 204, [
                 'Access-Control-Allow-Origin' => $origin,
                 'Access-Control-Allow-Methods' => '*',
@@ -43,11 +43,11 @@ class CorsHandler
         $headers->set('Access-Control-Allow-Origin', $origin);
         $headers->set('Access-Control-Allow-Methods', '*');
         $headers->set(
-            'Access-Control-Allow-Headers', 
+            'Access-Control-Allow-Headers',
             'Origin, Content-Type, Accept, Cookie, Frontastic-Session, X-Frontastic-Access-Token'
         );
         $headers->set(
-            'Access-Control-Expose-Headers', 
+            'Access-Control-Expose-Headers',
             '*, Authorization, Frontastic-Session, X-Frontastic-Access-Token'
         );
         $headers->set('Access-Control-Allow-Credentials', 'true');
