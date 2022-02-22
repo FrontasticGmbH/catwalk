@@ -2,6 +2,7 @@
 
 namespace Frontastic\NextJsBundle\Controller;
 
+use Firebase\JWT\JWT;
 use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -52,5 +53,41 @@ class RequestServiceTest extends TestCase
         $this->assertEquals($server['REMOTE_ADDR'], $result->clientIp);
         $this->assertEquals($server['SERVER_NAME'], $result->hostname);
         $this->assertEquals($body, $result->body);
+    }
+
+    public function testDecodeAndValidateJWTSessionTokenWithInvalidJWT()
+    {
+        $data = 'This string is not a valid JWT token.';
+
+        $result = $this->requestService->decodeAndValidateJWTSessionToken($data);
+
+        $this->assertIsArray($result);
+        $this->assertEmpty($result);
+    }
+
+    public function testDecodeAndValidateJWTSessionTokenWithUnencryptedPayload()
+    {
+        $payload = ['foo' => 'bar'];
+
+        $data = JWT::encode($payload, RequestService::SALT, 'HS256');
+
+        $result = $this->requestService->decodeAndValidateJWTSessionToken($data);
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('foo', $result);
+        $this->assertEquals($result['foo'], $payload['foo']);
+    }
+
+    public function testDecodeAndValidateJWTSessionTokenWithEncryptedPayload()
+    {
+        $payload = ['foo' => 'bar'];
+
+        $data = $this->requestService->encodeJWTData($payload);
+
+        $result = $this->requestService->decodeAndValidateJWTSessionToken($data);
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('foo', $result);
+        $this->assertEquals($result['foo'], $payload['foo']);
     }
 }
