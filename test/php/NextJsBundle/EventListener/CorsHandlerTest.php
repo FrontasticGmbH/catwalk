@@ -21,10 +21,33 @@ class CorsHandlerTest extends TestCase
         $this->corsHandler = new CorsHandler();
     }
 
-    public function testOptionsRequestSetsResponse()
+    private function getFakePreflightRequest()
     {
         $request = new Request();
+
         $request->setMethod('OPTIONS');
+
+        $request->headers->set('Origin', 'https://frontastic.cloud');
+        $request->headers->set('Access-Control-Request-Method', 'GET');
+        $request->headers->set('Access-Control-Request-Headers', 'Origin, Content-Type, Accept, Cookie, Frontastic-Session, X-Frontastic-Access-Token');
+
+        return $request;
+    }
+
+    private function getFakeRequest($method = 'GET')
+    {
+        $request = new Request();
+
+        $request->setMethod($method);
+
+        $request->headers->set('Origin', 'https://frontastic.cloud');
+
+        return $request;
+    }
+
+    public function testOnKernelRequestPreflightRequestSetsResponse()
+    {
+        $request = $this->getFakePreflightRequest();
 
         $event = new RequestEvent(
             new HttpKernel(new EventDispatcher(), new ControllerResolver()),
@@ -37,10 +60,57 @@ class CorsHandlerTest extends TestCase
         $this->assertNotNull($event->getResponse());
     }
 
-    public function testGetRequestsDoesntSetResponse()
+    public function testOnKernelRequestSetsCorrectHeaders()
     {
-        $request = new Request();
-        $request->setMethod('GET');
+        $request = $this->getFakePreflightRequest();
+
+        $event = new RequestEvent(
+            new HttpKernel(new EventDispatcher(), new ControllerResolver()),
+            $request,
+            HttpKernelInterface::MASTER_REQUEST
+        );
+
+        $this->corsHandler->onKernelRequest($event);
+
+        $headers = $event->getResponse()->headers;
+
+        $this->assertNotNull($event->getResponse());
+        $this->assertEquals(
+            $request->headers->get('Origin'),
+            $headers->get('Access-Control-Allow-Origin')
+        );
+        $this->assertEquals(
+            '*',
+            $headers->get('Access-Control-Allow-Methods')
+        );
+        $this->assertEquals(
+            'Origin, Content-Type, Accept, Cookie, Frontastic-Session, X-Frontastic-Access-Token',
+            $headers->get('Access-Control-Allow-Headers')
+        );
+        $this->assertEquals(
+            'true',
+            $headers->get('Access-Control-Allow-Credentials')
+        );
+    }
+
+    public function testOnKernelRequestPreflightSubRequestDoesntSetResponse()
+    {
+        $request = $this->getFakePreflightRequest();
+
+        $event = new RequestEvent(
+            new HttpKernel(new EventDispatcher(), new ControllerResolver()),
+            $request,
+            HttpKernelInterface::SUB_REQUEST
+        );
+
+        $this->corsHandler->onKernelRequest($event);
+
+        $this->assertNull($event->getResponse());
+    }
+
+    public function testOnKernelRequestGetRequestDoesntSetResponse()
+    {
+        $request = $this->getFakeRequest();
 
         $event = new RequestEvent(
             new HttpKernel(new EventDispatcher(), new ControllerResolver()),
@@ -53,12 +123,9 @@ class CorsHandlerTest extends TestCase
         $this->assertNull($event->getResponse());
     }
 
-    public function testOnKernelResponseSetsAccessControlAllowOriginHeader()
+    public function testOnKernelResponseSetsCorrectHeaders()
     {
-        $request = new Request();
-        $request->setMethod('GET');
-        $origin = 'https://frontastic.cloud';
-        $request->headers->add(['Origin' => $origin]);
+        $request = $this->getFakeRequest();
 
         $response = new Response();
 
@@ -70,10 +137,53 @@ class CorsHandlerTest extends TestCase
         );
 
         $this->corsHandler->onKernelResponse($event);
+        
+        $headers = $event->getResponse()->headers;
 
+        $this->assertNotNull($event->getResponse());
         $this->assertEquals(
-            $origin,
-            $event->getResponse()->headers->get('Access-Control-Allow-Origin')
+            $request->headers->get('Origin'),
+            $headers->get('Access-Control-Allow-Origin')
         );
+        $this->assertEquals(
+            '*',
+            $headers->get('Access-Control-Allow-Methods')
+        );
+        $this->assertEquals(
+            'Origin, Content-Type, Accept, Cookie, Frontastic-Session, X-Frontastic-Access-Token',
+            $headers->get('Access-Control-Allow-Headers')
+        );
+        $this->assertEquals(
+            '*, Authorization, Frontastic-Session, X-Frontastic-Access-Token',
+            $headers->get('Access-Control-Expose-Headers')
+        );
+        $this->assertEquals(
+            'true',
+            $headers->get('Access-Control-Allow-Credentials')
+        );
+    }
+
+    public function testOnKernelResponseSubRequestDoesntSetHeaders()
+    {
+        $request = $this->getFakeRequest();
+
+        $response = new Response();
+
+        $event = new ResponseEvent(
+            new HttpKernel(new EventDispatcher(), new ControllerResolver()),
+            $request,
+            HttpKernelInterface::SUB_REQUEST,
+            $response
+        );
+
+        $this->corsHandler->onKernelResponse($event);
+
+        $headers = $event->getResponse()->headers;
+        
+        $this->assertNull($headers->get('Access-Control-Allow-Origin'));
+        $this->assertNull($headers->get('Access-Control-Allow-Methods'));
+        $this->assertNull($headers->get('Access-Control-Allow-Headers'));
+        $this->assertNull($headers->get('Access-Control-Expose-Headers'));
+        $this->assertNull($headers->get('Access-Control-Allow-Credentials'));
     }
 }
