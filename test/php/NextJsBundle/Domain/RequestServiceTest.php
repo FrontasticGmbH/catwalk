@@ -2,7 +2,6 @@
 
 namespace Frontastic\NextJsBundle\Controller;
 
-use Firebase\JWT\JWT;
 use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -55,39 +54,77 @@ class RequestServiceTest extends TestCase
         $this->assertEquals($body, $result->body);
     }
 
-    public function testDecodeAndValidateJWTSessionTokenWithInvalidJWT()
+    public function JWTDecodeProvider(): array
     {
-        $data = 'This string is not a valid JWT token.';
-
-        $result = $this->requestService->decodeAndValidateJWTSessionToken($data);
-
-        $this->assertIsArray($result);
-        $this->assertEmpty($result);
+        return [
+            'invalid JWT' => [
+                'This string is not a valid JWT token.',
+                []
+            ],
+            // JWT HS256
+            'valid but payload not encrypted' => [
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIifQ.K0I67d15XjGIa1GiHzOXdFqMkPALJH_gwzBp7oULyLA',
+                ['foo' => 'bar']
+            ],
+            // JWT HS256, payload AES256 encrypted
+            'valid and encrypted' => [
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiMWlPRTBJR1VXV1FsY2xsMlNFQUcxRWNcL0dzVlFaXC9IXC9NXC9WZ0dyVT0iLCJub25jZSI6IjJ5aHB3MVhDdG9pcEdHbEcifQ.OhlZvQqPNKoh3rrIKXikD-h2c0OL0rkrT2ntEnlgzs0',
+                ['foo' => 'bar']
+            ]
+        ];
     }
 
-    public function testDecodeAndValidateJWTSessionTokenWithUnencryptedPayload()
+    public function JWTEncodeProvider(): array
     {
-        $payload = ['foo' => 'bar'];
-
-        $data = JWT::encode($payload, RequestService::SALT, 'HS256');
-
-        $result = $this->requestService->decodeAndValidateJWTSessionToken($data);
-
-        $this->assertIsArray($result);
-        $this->assertArrayHasKey('foo', $result);
-        $this->assertEquals($result['foo'], $payload['foo']);
+        // everything here: JWT HS256, payload AES256 encrypted with a nonce of 000000000000
+        return [
+            'simple 1 key 1 value' => [
+                ['foo' => 'bar'],
+                '',
+            ],
+            'empty' => [
+                [],
+                ''
+            ],
+            'null value valid key' => [
+                ['foo' => null],
+                ''
+            ],
+            'null key null value' => [
+                [null => null],
+                ''
+            ],
+            'complex nested object' => [
+                [
+                    'foo' => [
+                        'chocolate' => 'bar',
+                        'baz' => 'zab'
+                    ],
+                    1 => 2,
+                    3 => 'value'
+                ],
+                ''
+            ]
+        ];
     }
 
-    public function testDecodeAndValidateJWTSessionTokenWithEncryptedPayload()
+    /**
+     * @dataProvider JWTDecodeProvider
+     */
+    public function testDecodeAndValidateJWTSessionToken($data, $expected)
     {
-        $payload = ['foo' => 'bar'];
-
-        $data = $this->requestService->encodeJWTData($payload);
-
         $result = $this->requestService->decodeAndValidateJWTSessionToken($data);
 
-        $this->assertIsArray($result);
-        $this->assertArrayHasKey('foo', $result);
-        $this->assertEquals($result['foo'], $payload['foo']);
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * @dataProvider JWTEncodeProvider
+     */
+    public function testEncodeJWTData($data, $expected)
+    {   
+        $result = $this->requestService->encodeJWTData($data);
+
+        // $this->assertSame($expected, $result);
     }
 }
