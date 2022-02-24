@@ -77,9 +77,19 @@ class RequestService
         }
     }
 
+    /**
+     * Generates a secure 12 byte nonce
+     * This is essentially just a wrapper around
+     * random_bytes() to make unit testing easier
+     */
+    protected function generateNonce(): string 
+    {
+        return random_bytes(12);
+    }
+
     public function encodeJWTData($cookie): string
     {
-        $nonce = random_bytes(12);
+        $nonce = $this->generateNonce();
         $encryptedCookie = sodium_crypto_aead_aes256gcm_encrypt(
             json_encode($cookie),
             '',
