@@ -82,7 +82,7 @@ class RequestService
      * This is essentially just a wrapper around
      * random_bytes() to make unit testing easier
      */
-    protected function generateNonce(): string 
+    protected function generateNonce(): string
     {
         return random_bytes(12);
     }
