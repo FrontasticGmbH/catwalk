@@ -36,5 +36,5 @@ class Response
      *
      * @var ?object
      */
-    public object $sessionData;
+    public ?object $sessionData;
 }
