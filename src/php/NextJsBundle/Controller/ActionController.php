@@ -5,15 +5,11 @@ namespace Frontastic\Catwalk\NextJsBundle\Controller;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\ActionContext;
-use Frontastic\Catwalk\NextJsBundle\Domain\Api\Request;
 use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
-use Frontastic\Catwalk\NextJsBundle\Domain\Api\Response;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class ActionController
 {
@@ -59,6 +55,7 @@ class ActionController
                 $this->storeJwtSession($response, $apiResponse->sessionData);
             }
         } else {
+            //TODO: does this make sense?
             $this->storeJwtSession($response, $apiRequest->sessionData);
         }
 
