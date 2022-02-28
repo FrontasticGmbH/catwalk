@@ -60,7 +60,7 @@ class ActionControllerTest extends TestCase
         $this->subject->indexAction($inputNamespace, $inputAction, $inputSymfonyRequest, $inputContext);
     }
 
-    public function testIndexAction_success_jwt_dataProvider()
+    public function indexAction_success_jwt_dataProvider()
     {
         return [
             [
@@ -84,7 +84,7 @@ class ActionControllerTest extends TestCase
     }
 
     /**
-     * @dataProvider testIndexAction_success_jwt_dataProvider
+     * @dataProvider indexAction_success_jwt_dataProvider
      */
     public function testIndexAction_success_jwt($preRunFunc, $extraAssertionsFunc)
     {
@@ -121,7 +121,7 @@ class ActionControllerTest extends TestCase
     }
 
 
-    public function testIndexAction_success_responses_dataProvider()
+    public function indexAction_success_responses_dataProvider()
     {
         return [
             [
@@ -176,7 +176,7 @@ class ActionControllerTest extends TestCase
     }
 
     /**
-     * @dataProvider testIndexAction_success_responses_dataProvider
+     * @dataProvider indexAction_success_responses_dataProvider
      */
     public function testIndexAction_success_responses($apiResponseFunc, $assertFunc)
     {

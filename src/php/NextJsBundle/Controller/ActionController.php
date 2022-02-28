@@ -55,7 +55,7 @@ class ActionController
                 $this->storeJwtSession($response, $apiResponse->sessionData);
             }
         } else {
-            //TODO: does this make sense?
+            // send a null payload
             $this->storeJwtSession($response, $apiRequest->sessionData);
         }
 
