@@ -20,15 +20,18 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\RedirectResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Page as NextjsPage;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Tastic;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\RedirectService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
-use Frontastic\Catwalk\NextJsBundle\Domain\PageViewData;
+use Frontastic\Catwalk\NextJsBundle\Domain\PageViewData as NextjsPageViewData;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PageControllerTest extends TestCase
 {
@@ -101,27 +104,11 @@ class PageControllerTest extends TestCase
         ]));
         \Phake::when($this->mapperMock)->map->thenReturnCallback(function ($input) {
             if ($input instanceof ViewData) {
-                return new PageViewData([
-                    'dataSources' => $input->stream
-                ]);
+                return \Phake::mock(NextjsPageViewData::class);
             } else if ($input instanceof Node) {
-                return new PageFolder([
-                    'pageFolderId' => $input->nodeId,
-                    'isDynamic' => $input->isMaster,
-                    'pageFolderType' => $input->nodeType,
-                    'dataSourceConfigurations' => $input->streams,
-                    'ancestorIdsMaterializedPath' => $input->path,
-                    'configuration' => $input->configuration,
-                    'name' => $input->name,
-                    'depth' => $input->depth,
-                    'sort' => $input->sort
-                ]);
+                return \Phake::mock(PageFolder::class);
             } else if ($input instanceof Page) {
-                return new NextjsPage([
-                    'pageId' => $input->pageId,
-                    'sections' => $input->regions,
-                    'state' => $input->state
-                ]);
+                return \Phake::mock(NextjsPage::class);
             }
             return $input;
         });
@@ -322,5 +309,90 @@ class PageControllerTest extends TestCase
         $this->assertEquals(RedirectResponse::REASON_DYNAMIC_PAGE_REDIRECT, $response->reason);
         $this->assertEquals(RedirectResponse::TARGET_TYPE_UNKNOWN, $response->targetType);
         $this->assertEquals($result->redirectLocation, $response->target);
+    }
+
+    public function testIndexActionMissingPath() {
+        $request = new Request([
+            'locale' => 'en_US'
+        ]);
+
+        $this->expectException(BadRequestHttpException::class);
+        $this->expectExceptionMessage('Missing path');
+
+        $this->pageController->indexAction($request, $this->contextFixture);
+    }
+
+    public function testIndexActionMissingLocale() {
+        $request = new Request([
+            'path' => '/redirect'
+        ]);
+
+        $this->expectException(BadRequestHttpException::class);
+        $this->expectExceptionMessage('Missing locale');
+
+        $this->pageController->indexAction($request, $this->contextFixture);
+    }
+
+    public function testIndexActionLocaleNotSupported() {
+        $request = new Request([
+            'locale' => 'pt_PT',
+            'path' => '/redirect'
+        ]);
+
+        $this->expectException(BadRequestHttpException::class);
+        $this->expectExceptionMessage('Locale not supported by project');
+
+        $this->pageController->indexAction($request, $this->contextFixture);
+    }
+
+    public function testIndexActionNodeAndRedirectDoesntExist() {
+        $request = new Request([
+            'locale' => 'en_US',
+            'path' => '/redirect'
+        ]);
+
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
+        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(null);
+
+        $this->expectException(NotFoundHttpException::class);
+        $this->expectExceptionMessage('Could not resolve page from path');
+
+        $this->pageController->indexAction($request, $this->contextFixture);
+    }
+
+    public function testSuccessfulRequest() {
+        $request = new Request([
+            'locale' => 'en_US',
+            'path' => '/redirect'
+        ]);
+
+        $nodeMock = \Phake::mock(Node::class);
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(1);
+        \Phake::when($this->nodeServiceMock)->get->thenReturn($nodeMock);
+        $pageMock = \Phake::mock(Page::class);
+        \Phake::when($this->pageServiceMock)->fetchForNode->thenReturn($pageMock);
+
+        $viewData = new ViewData([
+            'stream' => new \stdClass(),
+            'tastic' => new \stdClass(),
+        ], false);
+        \Phake::when($this->viewDataProviderMock)->fetchDataFor->thenReturn($viewData);
+        $pageFolderMock = \Phake::mock(PageFolder::class);
+        \Phake::when($this->mapperMock)->map($nodeMock)->thenReturn($pageFolderMock);
+        $nextJsPageMock = \Phake::mock(NextjsPage::class);
+        \Phake::when($this->mapperMock)->map($pageMock)->thenReturn($nextJsPageMock);
+        \Phake::when($this->mapperMock)->map($viewData)->thenReturn($viewData);
+
+
+        $result = $this->pageController->indexAction($request, $this->contextFixture);
+
+        \Phake::verify($this->mapperMock)->map($nodeMock);
+        \Phake::verify($this->mapperMock)->map($pageMock);
+        \Phake::verify($this->mapperMock)->map($viewData);
+
+        $this->assertNotNull($result);
+        $this->assertEquals($pageFolderMock, $result->pageFolder);
+        $this->assertEquals($nextJsPageMock, $result->page);
+        $this->assertEquals($viewData, $result->data);
     }
 }
