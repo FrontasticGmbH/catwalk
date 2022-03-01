@@ -26,6 +26,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\RedirectService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageViewData;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
+use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,6 +93,9 @@ class PageControllerTest extends TestCase
             'project' => new Project([
                 'languages' => ['en_US'],
                 'defaultLanguage' => 'en_US',
+            ]),
+            'customer' => new Customer([
+                'name' => 'demo'
             ])
         ]);
 
