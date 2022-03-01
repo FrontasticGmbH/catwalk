@@ -193,7 +193,7 @@ function overwriteInjectionReplacedComponents (PRODUCTION, componentInjectorAlia
         if (customerOverrides.length !== 0) {
             let formattedOverrides = customerOverrides[0]
             if (customerOverrides.length > 1) {
-                let lastOverride = customerOverrides.splice(customerOverrides.length - 2, 1)
+                let lastOverride = customerOverrides.splice(customerOverrides.length - 1, 1)
                 formattedOverrides = `${customerOverrides.join(", ")} and ${lastOverride[0]}`
             }
             console.info(`Injector component${customerOverrides.length !== 1 ? "s" : ""} ${formattedOverrides} will be replaced with your injector overrides in production.`)
