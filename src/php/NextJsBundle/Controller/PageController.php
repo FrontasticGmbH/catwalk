@@ -139,6 +139,7 @@ class PageController
             'page' => $this->mapper->map($preview->page),
             // Stream parameters is deprecated
             'data' => $this->mapper->map($pageViewData),
+            'customerName' => $context->customer->name,
         ]);
     }
 
