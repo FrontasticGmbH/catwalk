@@ -15,8 +15,10 @@ class CorsHandler
      */
     private function clearCORSHeaders()
     {
-        if (headers_sent()) return;
-        
+        if (headers_sent()) {
+            return;
+        }
+
         header_remove('Access-Control-Allow-Origin');
         header_remove('Access-Control-Allow-Methods');
         header_remove('Access-Control-Allow-Headers');
