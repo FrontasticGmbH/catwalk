@@ -20,7 +20,6 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\RedirectResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Page as NextjsPage;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
-use Frontastic\Catwalk\NextJsBundle\Domain\Api\Tastic;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\RedirectService;
