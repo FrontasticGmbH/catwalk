@@ -163,7 +163,7 @@
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::errorAction</default>
     </route>
 
-    <route id="Frontastic.Frontend.Preview.view" path="/p/{preview}" methods="GET">
+    <route id="Frontastic.Frontend.Preview.view" path="/__preview/{preview}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\PreviewController::viewAction</default>
     </route>
 
