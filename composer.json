@@ -47,7 +47,7 @@
         "mtdowling/cron-expression": "@stable",
         "kphoen/rulerz-bundle": "^0.15.0",
         "zetacomponents/graph": "^1.5",
-        "ramsey/uuid": "^3.9",
+        "ramsey/uuid": "^3.9||^4",
         "jaybizzle/crawler-detect": "^1.2",
         "nikic/php-parser": "^4.12",
         "firebase/php-jwt": "^5.4"
