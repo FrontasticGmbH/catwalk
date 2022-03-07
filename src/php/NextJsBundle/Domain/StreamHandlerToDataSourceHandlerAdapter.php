@@ -37,7 +37,10 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
             ]
         );
         if (!isset($hookServiceResponse->dataSourcePayload)) {
-            throw new \RuntimeException("Invalid data-source response: Missing `dataSourcePayload`: " . json_encode($hookServiceResponse));
+            throw new \RuntimeException(
+                "Invalid data-source response: Missing `dataSourcePayload`: " .
+                json_encode($hookServiceResponse)
+            );
         }
         return Promise\promise_for(
             $hookServiceResponse->dataSourcePayload
