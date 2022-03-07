@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.37.0` (2022-03-07)
+
+* misc: allowed ramsey/uuid library version ^4 as dependency
+* feat: enhance nextjs swagger
+
 ## `1.36.0` (2022-03-02)
 
 
