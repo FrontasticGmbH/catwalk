@@ -7,7 +7,6 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceContext;
-use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 
