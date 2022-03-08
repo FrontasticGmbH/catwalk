@@ -46,6 +46,8 @@
 
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper" />
 
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\ContextCompletionService" autowire="true" />
+
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService"
              autowire="true"
              autoconfigure="true"
@@ -76,12 +78,131 @@
             <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="50"/>
         </service>
 
-        <service id="Frontastic\Catwalk\NextJsBundle\Domain\RedirectService" 
-        >
-            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectService" />  
+        <service id="Frontastic\Catwalk\NextJsBundle\EventListener\CorsHandler">
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+        </service>
+
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\RedirectService">
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectService" />
             <argument type="service" id="Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService" />
         </service>
 
+
+        <!-- overriding ProductSearchApi with a dummy -->
+        <service
+            id="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory"
+            alias="Frontastic\Common\ProductSearchApiBundle\Domain\DummyProductSearchApiFactory"
+        />
+
+        <service
+            id="Frontastic\Common\ProductSearchApiBundle\Domain\DummyProductSearchApiFactory"
+            class="Frontastic\Common\ProductSearchApiBundle\Domain\DummyProductSearchApiFactory">
+        </service>
+
+        <service id="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi" alias="frontastic.catwalk.product_search_api" />
+
+        <service id="frontastic.catwalk.product_search_api" class="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi">
+            <factory
+                service="Frontastic\Common\ProductSearchApiBundle\Domain\DummyProductSearchApiFactory"
+                method="factor" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
+
+
+        <!-- overriding ProductApi with a dummy -->
+        <service
+            id="Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory"
+            alias="Frontastic\Common\ProductApiBundle\Domain\DummyProductApiFactory"
+        />
+
+        <service
+            id="Frontastic\Common\ProductApiBundle\Domain\DummyProductApiFactory"
+            class="Frontastic\Common\ProductApiBundle\Domain\DummyProductApiFactory">
+            <argument type="service" id="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory" />
+        </service>
+
+        <service id="Frontastic\Common\ProductApiBundle\Domain\ProductApi" alias="frontastic.catwalk.product_api" />
+
+        <service id="frontastic.catwalk.product_api" class="Frontastic\Common\ProductApiBundle\Domain\ProductApi">
+            <factory
+                service="Frontastic\Common\ProductApiBundle\Domain\DummyProductApiFactory"
+                method="factor" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
+
+        <!-- overriding AccountApi with a dummy -->
+        <service
+            id="Frontastic\Common\AccountApiBundle\Domain\AccountApiFactory"
+            alias="Frontastic\Common\AccountApiBundle\Domain\DummyAccountApiFactory"
+        />
+
+        <service
+            id="Frontastic\Common\AccountApiBundle\Domain\DummyAccountApiFactory"
+            class="Frontastic\Common\AccountApiBundle\Domain\DummyAccountApiFactory"
+        />
+
+        <service id="frontastic.catwalk.account_api" class="Frontastic\Common\AccountApiBundle\Domain\AccountApi">
+            <factory
+                service="Frontastic\Common\AccountApiBundle\Domain\DummyAccountApiFactory"
+                method="factor" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
+
+        <!-- overriding CartApi with a dummy -->
+        <service
+            id="Frontastic\Common\CartApiBundle\Domain\CartApiFactory"
+            alias="Frontastic\Common\CartApiBundle\Domain\DummyCartApiFactory"
+        />
+
+        <service
+            id="Frontastic\Common\CartApiBundle\Domain\DummyCartApiFactory"
+            class="Frontastic\Common\CartApiBundle\Domain\DummyCartApiFactory"
+        />
+
+        <service id="frontastic.catwalk.cart_api" class="Frontastic\Common\CartApiBundle\Domain\CartApi">
+            <factory
+                service="Frontastic\Common\CartApiBundle\Domain\DummyCartApiFactory"
+                method="factor" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
+
+
+        <!-- overriding WishlistApi with a dummy -->
+        <service
+            id="Frontastic\Common\WishlistApiBundle\Domain\WishlistApiFactory"
+            alias="Frontastic\Common\WishlistApiBundle\Domain\DummyWishlistApiFactory"
+        />
+
+        <service
+            id="Frontastic\Common\WishlistApiBundle\Domain\DummyWishlistApiFactory"
+            class="Frontastic\Common\WishlistApiBundle\Domain\DummyWishlistApiFactory"
+        />
+
+        <service id="frontastic.catwalk.wishlist_api" class="Frontastic\Common\WishlistApiBundle\Domain\WishlistApi">
+            <factory
+                service="Frontastic\Common\WishlistApiBundle\Domain\DummyWishlistApiFactory"
+                method="factor" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
+
+        <!-- overriding ContentApi with a dummy -->
+        <service
+            id="Frontastic\Common\ContentApiBundle\Domain\ContentApiFactory"
+            alias="Frontastic\Common\ContentApiBundle\Domain\DummyContentApiFactory"
+        />
+
+        <service
+            id="Frontastic\Common\ContentApiBundle\Domain\DummyContentApiFactory"
+            class="Frontastic\Common\ContentApiBundle\Domain\DummyContentApiFactory"
+        />
+
+        <service id="frontastic.catwalk.content_api" class="Frontastic\Common\ContentApiBundle\Domain\ContentApi">
+            <factory
+                service="Frontastic\Common\ContentApiBundle\Domain\DummyContentApiFactory"
+                method="factor" />
+            <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+        </service>
     </services>
 
 </container>
