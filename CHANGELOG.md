@@ -1,5 +1,17 @@
 # catwalk Changelog
 
+## `1.37.1` (2022-03-08)
+
+* fix: add missing classes for 3/4 cells
+* feat: resolve project config in next context
+* fix: coding style
+* fix: sort imports
+* fix: remove unused import
+* fix: coding style
+* fix: qualify class name
+* fix: sort imports
+* fix: Add typehints
+
 ## `1.37.0` (2022-03-07)
 
 * misc: allowed ramsey/uuid library version ^4 as dependency
