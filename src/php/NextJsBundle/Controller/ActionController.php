@@ -121,24 +121,25 @@ class ActionController
         );
 
         if ($this->debug) {
-            $errorMessage .= 'Registered actions are: ' . implode(
-                ', ',
-                array_map(
-                    function (array $actionHook) {
-                        return sprintf(
-                            '%s/%s',
-                            $actionHook['actionNamespace'] ?? 'UNKNOWN-NAMESPACE',
-                            $actionHook['actionIdentifier'] ?? 'UNKNOWN-IDENTIFIER'
-                        );
-                    },
-                    array_filter(
-                        $this->hooksService->getRegisteredHooks(),
-                        function (array $hook) {
-                            return (isset($hook['hookType']) && $hook['hookType'] === 'action');
-                        }
+            $errorMessage .= 'Registered actions are: ' .
+                implode(
+                    ', ',
+                    array_map(
+                        function (array $actionHook) {
+                            return sprintf(
+                                '%s/%s',
+                                $actionHook['actionNamespace'] ?? 'UNKNOWN-NAMESPACE',
+                                $actionHook['actionIdentifier'] ?? 'UNKNOWN-IDENTIFIER'
+                            );
+                        },
+                        array_filter(
+                            $this->hooksService->getRegisteredHooks(),
+                            function (array $hook) {
+                                return (isset($hook['hookType']) && $hook['hookType'] === 'action');
+                            }
+                        )
                     )
-                )
-            );
+                );
         }
 
         throw new BadRequestHttpException($errorMessage);
