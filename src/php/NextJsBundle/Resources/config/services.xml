@@ -46,6 +46,8 @@
 
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper" />
 
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\ContextCompletionService" autowire="true" />
+
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService"
              autowire="true"
              autoconfigure="true"
