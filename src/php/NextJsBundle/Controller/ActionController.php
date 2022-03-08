@@ -43,7 +43,7 @@ class ActionController
 
         $this->assertActionExists($namespace, $action, $hookName);
 
-        /** @var stdClass $apiResponse */
+        /** @var \stdClass $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest, $actionContext]);
 
         $response = new JsonResponse();
