@@ -42,4 +42,11 @@ class FieldVisitorFactory
         }
         return $this->nodeDataVisitor;
     }
+
+    public function createProjectConfigurationDataVisitor(Context $context): FieldVisitor
+    {
+        return new SequentialFieldVisitor([
+            new SelectTranslationVisitor($context),
+        ]);
+    }
 }

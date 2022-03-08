@@ -2,9 +2,11 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Controller;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context as ClassicContext;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\ActionContext;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Context;
+use Frontastic\Catwalk\NextJsBundle\Domain\ContextCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,25 +18,28 @@ class ActionController
     private HooksService $hooksService;
     private RequestService $requestService;
     private FromFrontasticReactMapper $mapper;
+    private ContextCompletionService $contextCompletionService;
     private bool $debug;
 
     public function __construct(
         HooksService $hooksService,
         RequestService $requestService,
         FromFrontasticReactMapper $mapper,
+        ContextCompletionService $contextCompletionService,
         bool $debug = false
     ) {
         $this->hooksService = $hooksService;
         $this->requestService = $requestService;
         $this->mapper = $mapper;
         $this->debug = $debug;
+        $this->contextCompletionService = $contextCompletionService;
     }
 
     public function indexAction(
         string $namespace,
         string $action,
         SymfonyRequest $request,
-        Context $context
+        ClassicContext $context
     ): JsonResponse {
         $hookName = sprintf('action-%s-%s', $namespace, $action);
 
@@ -79,9 +84,12 @@ class ActionController
         return $response;
     }
 
-    private function createActionContext(Context $context): ActionContext
+    private function createActionContext(ClassicContext $classicContext): ActionContext
     {
-        return new ActionContext(['frontasticContext' => $this->mapper->map($context)]);
+        /** @var Context $context */
+        $context = $this->mapper->map($classicContext);
+        $context = $this->contextCompletionService->completeContextData($context, $classicContext);
+        return new ActionContext(['frontasticContext' => $context]);
     }
 
     /**

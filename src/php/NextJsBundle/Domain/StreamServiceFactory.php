@@ -17,6 +17,8 @@ class StreamServiceFactory
     private RequestService $requestService;
     private LoggerInterface $logger;
     private RequestStack $requestStack;
+    private FromFrontasticReactMapper $fromFrontasticReactMapper;
+    private ContextCompletionService $contextCompletionService;
 
     /**
      * @var StreamHandlerV2[]
@@ -36,6 +38,8 @@ class StreamServiceFactory
         RequestService $requestService,
         LoggerInterface $logger,
         RequestStack $requestStack,
+        FromFrontasticReactMapper $fromFrontasticReactMapper,
+        ContextCompletionService $contextCompletionService,
         iterable $streamHandlers = [],
         iterable $streamOptimizers = [],
         bool $debug = false
@@ -44,6 +48,8 @@ class StreamServiceFactory
         $this->hooksService = $hooksService;
         $this->logger = $logger;
         $this->requestStack = $requestStack;
+        $this->fromFrontasticReactMapper = $fromFrontasticReactMapper;
+        $this->contextCompletionService = $contextCompletionService;
         $this->streamHandlers = $streamHandlers;
         $this->streamOptimizers = $streamOptimizers;
         $this->debug = $debug;
@@ -69,6 +75,8 @@ class StreamServiceFactory
                         new StreamHandlerToDataSourceHandlerAdapter(
                             $this->hooksService,
                             $this->requestService,
+                            $this->fromFrontasticReactMapper,
+                            $this->contextCompletionService,
                             $hook['hookName']
                         )
                     );
