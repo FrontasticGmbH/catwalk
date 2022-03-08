@@ -52,6 +52,17 @@
         grid-column: span 3;
     }
 }
+.o-cell--9,
+.o-cell--3\/4 {
+    grid-column: 1 / -1;
+
+    @include mq($from: lap) {
+        grid-column: span 6;
+    }
+    @include mq($from: desk) {
+        grid-column: span 9;
+    }
+}
 .o-cell--2,
 .o-cell--1\/6 {
     grid-column: span 6;
