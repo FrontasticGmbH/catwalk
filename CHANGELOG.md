@@ -1,5 +1,43 @@
 # catwalk Changelog
 
+## `1.37.1` (2022-03-08)
+
+* fix: add missing classes for 3/4 cells
+* feat: resolve project config in next context
+* fix: coding style
+* fix: sort imports
+* fix: remove unused import
+* fix: coding style
+* fix: qualify class name
+* fix: sort imports
+* fix: Add typehints
+
+## `1.37.0` (2022-03-07)
+
+* misc: allowed ramsey/uuid library version ^4 as dependency
+* feat: enhance nextjs swagger
+
+## `1.36.0` (2022-03-02)
+
+
+* style(FP-1373): Fix style errors in CorsHandler
+* fix(FP-1374): Check if headers are already sent before attempting to remove them
+* fix(FP-1373): Remove CORS headers set by PHP to fix duplicate header errors
+* fix(api-hub): replace content api with dummy for nextjs projects
+* fix(api-hub): replace wishlist api with dummy for nextjs
+* fix(api-hub): use dummy for cart api
+* fix(api-hub): add dummy for AccountApi
+* fix(api-hub): correct service config for product search api factory
+* fix(api-hub): fix syntax and add parameter to factory config
+* feat: wire dummy api classes in nextjs bundle
+* fix: overrides ordering
+* style(FP-1373): Remove space from end of line in CorsHandler
+* style(FP-1373): Fix line length style issues in CorsHandler
+* misc(FP-1373): Add more unit tests for CorsHandler
+* misc(FP-1373): Add basic unit tests for CorsHandler
+* refactor(FP-1373): Use Request event headers to determine host instead of $_SERVER superglobal in CorsHandler
+* refactor(FP-1373): Create CorsHandler event listener to be used instead of hardcoded solution in index.php
+
 ## `1.35.1` (2022-02-17)
 
 * fix: do not autowire localeresolver as it breaks customers code

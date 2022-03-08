@@ -195,6 +195,11 @@ paths:
                                                 type: string
                                             isDynamic:
                                                 type: boolean
+                                            pageFolderType:
+                                                type: string
+                                            configuration:
+                                                type: object
+                                                additionalProperties: true
                                             dataSourceConfigurations:
                                                 type: array
                                                 items:
@@ -208,6 +213,13 @@ paths:
                                                             type: string
                                                         configuration:
                                                             type: object
+                                                            properties:
+                                                                path:
+                                                                    type: string
+                                                                pathTranslations:
+                                                                    type: array
+                                                                    items:
+                                                                        type: string
                                                             additionalProperties: true
                                             name:
                                                 type: string
@@ -259,7 +271,23 @@ paths:
                                                 type: object
                                                 additionalProperties:
                                                     type: object
-    /action/{namespace}/{action}:
+                404:
+                    description: 'Page folder not found'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    ok:
+                                        type: boolean
+                                    message:
+                                        type: string
+                                example:
+                                  {
+                                      "ok": false,
+                                      "message": "Could not resolve page from path"
+                                  }
+    /frontastic/action/{namespace}/{action}:
         summary: 'Execute an action'
         description: 'Execute an action as implemented through an API action extension. Supported HTTP methods, format, headers, and status code are dependent on the action implementation.'
         parameters:
@@ -280,9 +308,41 @@ paths:
             responses:
                 200:
                     description: 'We recommend to use standard HTTP response codes and application/json encoded content'
+                400:
+                    description: 'Action not registered'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    ok:
+                                        type: boolean
+                                    message:
+                                        type: string
+                                example:
+                                  {
+                                      "ok": false,
+                                      "message": "Action \"myAction\" in namespace \"myNamespace\" is not registered"
+                                  }
         post:
             summary: 'Write data'
             description: 'Use the POST or PUT operations write data to a backend system.'
             responses:
                 200:
                     description: 'We recommend to use standard HTTP response codes and application/json encoded content'
+                400:
+                    description: 'Action not registered'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    ok:
+                                        type: boolean
+                                    message:
+                                        type: string
+                                example:
+                                  {
+                                      "ok": false,
+                                      "message": "Action \"myAction\" in namespace \"myNamespace\" is not registered"
+                                  }
