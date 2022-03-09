@@ -6,6 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Request;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Response;
+use Frontastic\Catwalk\NextJsBundle\Domain\ContextCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -20,17 +21,20 @@ class ActionControllerTest extends TestCase
     private HooksService $hooksService;
     private RequestService $requestService;
     private FromFrontasticReactMapper $fromFrontasticReactMapper;
+    private ContextCompletionService $contextCompletionService;
 
     protected function setUp(): void
     {
         $this->hooksService = \Phake::mock(HooksService::class);
         $this->requestService = \Phake::mock(RequestService::class);
         $this->fromFrontasticReactMapper = \Phake::mock(FromFrontasticReactMapper::class);
+        $this->contextCompletionService = \Phake::mock(ContextCompletionService::class);
 
         $this->subject = new ActionController(
             $this->hooksService,
             $this->requestService,
             $this->fromFrontasticReactMapper,
+            $this->contextCompletionService,
             false
         );
     }
