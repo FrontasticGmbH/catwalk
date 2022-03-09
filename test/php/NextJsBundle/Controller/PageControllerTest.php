@@ -1,8 +1,7 @@
 <?php
 
-namespace Frontastic\NextJsBundle\Controller;
+namespace Frontastic\Catwalk\NextJsBundle\Controller;
 
-use DateTime;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
@@ -12,7 +11,6 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Preview;
 use Frontastic\Catwalk\FrontendBundle\Domain\PreviewService;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewData;
 use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
-use Frontastic\Catwalk\NextJsBundle\Controller\PageController;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageDataResponse;
@@ -262,7 +260,7 @@ class PageControllerTest extends TestCase
 
         \Phake::when($this->previewServiceMock)->get($previewId)->thenReturn(new Preview([
             'previewId' => $previewId,
-            'createdAt' => new DateTime(),
+            'createdAt' => new \DateTime(),
             'node' => $this->getFakeNode(),
             'page' => $this->getFakePage()
         ]));
