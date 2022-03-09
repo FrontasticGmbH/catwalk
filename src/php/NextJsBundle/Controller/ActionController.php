@@ -2,43 +2,44 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Controller;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context as ClassicContext;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\ActionContext;
-use Frontastic\Catwalk\NextJsBundle\Domain\Api\Request;
-use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
-use Frontastic\Catwalk\NextJsBundle\Domain\Api\Response;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Context;
+use Frontastic\Catwalk\NextJsBundle\Domain\ContextCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
-use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class ActionController
 {
     private HooksService $hooksService;
     private RequestService $requestService;
     private FromFrontasticReactMapper $mapper;
+    private ContextCompletionService $contextCompletionService;
     private bool $debug;
 
     public function __construct(
         HooksService $hooksService,
         RequestService $requestService,
         FromFrontasticReactMapper $mapper,
+        ContextCompletionService $contextCompletionService,
         bool $debug = false
     ) {
         $this->hooksService = $hooksService;
         $this->requestService = $requestService;
         $this->mapper = $mapper;
         $this->debug = $debug;
+        $this->contextCompletionService = $contextCompletionService;
     }
 
     public function indexAction(
         string $namespace,
         string $action,
         SymfonyRequest $request,
-        Context $context
+        ClassicContext $context
     ): JsonResponse {
         $hookName = sprintf('action-%s-%s', $namespace, $action);
 
@@ -47,7 +48,7 @@ class ActionController
 
         $this->assertActionExists($namespace, $action, $hookName);
 
-        /** @var stdClass $apiResponse */
+        /** @var \stdClass $apiResponse */
         $apiResponse = $this->hooksService->call($hookName, [$apiRequest, $actionContext]);
 
         $response = new JsonResponse();
@@ -59,6 +60,7 @@ class ActionController
                 $this->storeJwtSession($response, $apiResponse->sessionData);
             }
         } else {
+            // send a null payload
             $this->storeJwtSession($response, $apiRequest->sessionData);
         }
 
@@ -83,9 +85,12 @@ class ActionController
         return $response;
     }
 
-    private function createActionContext(Context $context): ActionContext
+    private function createActionContext(ClassicContext $classicContext): ActionContext
     {
-        return new ActionContext(['frontasticContext' => $this->mapper->map($context)]);
+        /** @var Context $context */
+        $context = $this->mapper->map($classicContext);
+        $context = $this->contextCompletionService->completeContextData($context, $classicContext);
+        return new ActionContext(['frontasticContext' => $context]);
     }
 
     /**
@@ -125,24 +130,25 @@ class ActionController
         );
 
         if ($this->debug) {
-            $errorMessage .= 'Registered actions are: ' . implode(
-                ', ',
-                array_map(
-                    function (array $actionHook) {
-                        return sprintf(
-                            '%s/%s',
-                            $actionHook['actionNamespace'] ?? 'UNKNOWN-NAMESPACE',
-                            $actionHook['actionIdentifier'] ?? 'UNKNOWN-IDENTIFIER'
-                        );
-                    },
-                    array_filter(
-                        $this->hooksService->getRegisteredHooks(),
-                        function (array $hook) {
-                            return (isset($hook['hookType']) && $hook['hookType'] === 'action');
-                        }
+            $errorMessage .= 'Registered actions are: ' .
+                implode(
+                    ', ',
+                    array_map(
+                        function (array $actionHook) {
+                            return sprintf(
+                                '%s/%s',
+                                $actionHook['actionNamespace'] ?? 'UNKNOWN-NAMESPACE',
+                                $actionHook['actionIdentifier'] ?? 'UNKNOWN-IDENTIFIER'
+                            );
+                        },
+                        array_filter(
+                            $this->hooksService->getRegisteredHooks(),
+                            function (array $hook) {
+                                return (isset($hook['hookType']) && $hook['hookType'] === 'action');
+                            }
+                        )
                     )
-                )
-            );
+                );
         }
 
         throw new BadRequestHttpException($errorMessage);
