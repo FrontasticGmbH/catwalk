@@ -3,13 +3,12 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamService;
-use Frontastic\Catwalk\NextJsBundle\Domain\StreamHandlerToDataSourceHandlerAdapter;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 
 class StreamServiceFactory
 {
@@ -18,6 +17,8 @@ class StreamServiceFactory
     private RequestService $requestService;
     private LoggerInterface $logger;
     private RequestStack $requestStack;
+    private FromFrontasticReactMapper $fromFrontasticReactMapper;
+    private ContextCompletionService $contextCompletionService;
 
     /**
      * @var StreamHandlerV2[]
@@ -37,6 +38,8 @@ class StreamServiceFactory
         RequestService $requestService,
         LoggerInterface $logger,
         RequestStack $requestStack,
+        FromFrontasticReactMapper $fromFrontasticReactMapper,
+        ContextCompletionService $contextCompletionService,
         iterable $streamHandlers = [],
         iterable $streamOptimizers = [],
         bool $debug = false
@@ -45,6 +48,8 @@ class StreamServiceFactory
         $this->hooksService = $hooksService;
         $this->logger = $logger;
         $this->requestStack = $requestStack;
+        $this->fromFrontasticReactMapper = $fromFrontasticReactMapper;
+        $this->contextCompletionService = $contextCompletionService;
         $this->streamHandlers = $streamHandlers;
         $this->streamOptimizers = $streamOptimizers;
         $this->debug = $debug;
@@ -70,6 +75,8 @@ class StreamServiceFactory
                         new StreamHandlerToDataSourceHandlerAdapter(
                             $this->hooksService,
                             $this->requestService,
+                            $this->fromFrontasticReactMapper,
+                            $this->contextCompletionService,
                             $hook['hookName']
                         )
                     );

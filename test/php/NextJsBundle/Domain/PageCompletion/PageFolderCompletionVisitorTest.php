@@ -7,6 +7,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldConfiguration;
+use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor\SequentialFieldVisitor;
 use PHPUnit\Framework\TestCase;
 
 class PageFolderCompletionVisitorTest extends TestCase
@@ -57,6 +58,7 @@ class PageFolderCompletionVisitorTest extends TestCase
         \Phake::when($this->nodeService)->get->thenReturn($node);
         \Phake::when($this->nodeService)->completeCustomNodeData->thenReturn($node);
         \Phake::when($this->pageService)->getPathsForSiteBuilderPage($pageFolderId)->thenReturn($urls);
+        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
         $this->context->locale = 'it_CH';
 
         $result = $this->subject->processField(
