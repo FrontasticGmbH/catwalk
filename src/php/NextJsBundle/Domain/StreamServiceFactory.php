@@ -68,7 +68,7 @@ class StreamServiceFactory
         );
 
         try {
-            foreach ($this->extensionService->getHooks() as $hook) {
+            foreach ($this->extensionService->getExtensions() as $hook) {
                 if (isset($hook['hookType']) && $hook['hookType'] === 'data-source') {
                     $streamService->addStreamHandlerV2(
                         $hook['dataSourceIdentifier'],

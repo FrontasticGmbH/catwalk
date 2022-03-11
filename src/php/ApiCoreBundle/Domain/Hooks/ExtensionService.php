@@ -7,7 +7,6 @@ use Frontastic\Common\JsonSerializer;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
 use GuzzleHttp\Promise\PromiseInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\HttpClient\Response;
@@ -16,14 +15,12 @@ class ExtensionService
 {
     const DEFAULT_HEADERS = ['Content-Type: application/json'];
     const BASE_PATH = 'http://localhost:8082/'; // TODO: move to a config file later on
-    const DYNAMIC_PAGE_HOOK = 'dynamic-page-handler';
+    const DYNAMIC_PAGE_EXTENSION_NAME = 'dynamic-page-handler';
 
     private ContextService $contextService;
 
     /** @var array[] */
-    private ?array $hooks = null;
-
-    private LoggerInterface $logger;
+    private ?array $extensions = null;
 
     private RequestStack $requestStack;
 
@@ -42,60 +39,118 @@ class ExtensionService
         $this->httpClient = $httpClient;
     }
 
-    public function fetchProjectHooks(string $project): array
+    /**
+     * Fetches the extension list from the extension runner
+     *
+     * @param string $project
+     * @return array
+     * @throws \Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonDecodeException
+     */
+    public function fetchProjectExtensions(string $project): array
     {
+        //TODO: should the path be changed to 'extensions' in the extension runner?
         $response = $this->httpClient->get($this->makePath('hooks', $project));
 
         if ($response->status != 200) {
             throw new \Exception(
-                'Fetching available hooks failed. Error: ' . $response->body
+                'Fetching available extensions failed. Error: ' . $response->body
             );
         }
 
         return Json::decode($response->body, true);
     }
 
-    public function getHooks(): array
+    /**
+     * Gets the list of extensions
+     *
+     * If the list does not exist yet, it will be fetched automatically from the extension runner
+     *
+     * @return array|array[]
+     * @throws \Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonDecodeException
+     */
+    public function getExtensions(): array
     {
-        if ($this->hooks === null) {
-            $this->hooks = $this->fetchProjectHooks($this->getProjectIdentifier());
+        if ($this->extensions === null) {
+            $this->extensions = $this->fetchProjectExtensions($this->getProjectIdentifier());
         }
 
-        return $this->hooks;
+        return $this->extensions;
     }
 
-    public function isHookRegistered(string $hook): bool
+    /**
+     * Check if extension exists
+     *
+     * @param string $extensionName
+     * @return bool
+     * @throws \Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonDecodeException
+     */
+    public function hasExtension(string $extensionName): bool
     {
-        $hooks = $this->getHooks();
+        $hooks = $this->getExtensions();
 
-        return in_array($hook, array_keys($hooks), true);
+        return in_array($extensionName, array_keys($hooks), true);
     }
 
-    public function callDataSource(string $hook, array $arguments)
-    {
-        return $this->callHook($hook, $arguments, true);
-    }
-
-    public function callDynamicPageHandler(array $arguments)
-    {
-        return $this->callHook(self::DYNAMIC_PAGE_HOOK, $arguments, false);
-    }
-
-    public function callAction(string $namespace, string $action, array $arguments)
-    {
-        $hookName = sprintf('action-%s-%s', $namespace, $action);
-        return $this->callHook($hookName, $arguments, false);
-    }
-
+    /**
+     * Checks if the dynamic page handler extension exists
+     *
+     * @return bool
+     * @throws \Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonDecodeException
+     */
     public function hasDynamicPageHandler(): bool
     {
-        return $this->isHookRegistered(self::DYNAMIC_PAGE_HOOK);
+        return $this->hasExtension(self::DYNAMIC_PAGE_EXTENSION_NAME);
     }
 
+    /**
+     * Check if the specified action extension exists
+     *
+     * @param $namespace
+     * @param $action
+     * @return bool
+     * @throws \Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonDecodeException
+     */
     public function hasAction($namespace, $action): bool
     {
         $hookName = sprintf('action-%s-%s', $namespace, $action);
-        return $this->isHookRegistered($hookName);
+        return $this->hasExtension($hookName);
+    }
+
+    /**
+     * Calls a datasource extension
+     *
+     * @param string $extensionName
+     * @param array $arguments
+     * @return PromiseInterface|object
+     */
+    public function callDataSource(string $extensionName, array $arguments)
+    {
+        return $this->callExtension($extensionName, $arguments, true);
+    }
+
+    /**
+     * Calls a dynamic page handler extension
+     *
+     * @param array $arguments
+     * @return mixed|object
+     */
+    public function callDynamicPageHandler(array $arguments)
+    {
+        return $this->callExtension(self::DYNAMIC_PAGE_EXTENSION_NAME, $arguments, false);
+    }
+
+    /**
+     * Calls an action
+     *
+     * @param string $namespace
+     * @param string $action
+     * @param array $arguments
+     * @return mixed|object
+     */
+    public function callAction(string $namespace, string $action, array $arguments)
+    {
+        $hookName = sprintf('action-%s-%s', $namespace, $action);
+        return $this->callExtension($hookName, $arguments, false);
     }
 
     private function getProjectIdentifier(): string
@@ -104,12 +159,12 @@ class ExtensionService
         return $context->project->customer . '_' . $context->project->projectId;
     }
 
-    private function callHook(string $hook, array $arguments, bool $async)
+    private function callExtension(string $extensionName, array $arguments, bool $async)
     {
-        if (!$this->isHookRegistered($hook)) {
+        if (!$this->hasExtension($extensionName)) {
             return (object)[
                 'ok' => false,
-                'message' => sprintf('The requested hook "%s" was not found.', $hook)
+                'message' => sprintf('The requested extension "%s" was not found.', $extensionName)
             ];
         }
 
@@ -122,7 +177,7 @@ class ExtensionService
         $headers = ['Frontastic-Request-Id' => "Frontastic-Request-Id:$requestId"];
 
         try {
-            $eventResult = $this->callEvent($this->getProjectIdentifier(), $hook, $payload, $headers, $async);
+            $eventResult = $this->callEvent($this->getProjectIdentifier(), $extensionName, $payload, $headers, $async);
             return $async ? $eventResult : Json::decode($eventResult, false);
         } catch (\Exception $exception) {
             return (object)[
@@ -137,16 +192,16 @@ class ExtensionService
      * @return string|PromiseInterface
      * @throws \Exception
      */
-    private function callEvent(string $project, string $hookName, string $payload, ?array $headers, bool $async)
+    private function callEvent(string $project, string $extensionName, string $payload, ?array $headers, bool $async)
     {
-        $path = $this->makePath('run', $project, $hookName);
+        $path = $this->makePath('run', $project, $extensionName);
         $requestHeaders = $headers + self::DEFAULT_HEADERS;
 
         if ($async) {
             return $this->httpClient->postAsync($path, $payload, $requestHeaders)->then(
-                function (Response $response) use ($hookName) {
+                function (Response $response) use ($extensionName) {
                     if ($response->status != 200) {
-                        throw new \Exception('Calling hook ' . $hookName . ' failed. Error: ' . $response->body);
+                        throw new \Exception('Calling extension ' . $extensionName . ' failed. Error: ' . $response->body);
                     }
 
                     return $response->body;
@@ -157,7 +212,7 @@ class ExtensionService
         $response = $this->httpClient->post($path, $payload, $requestHeaders);
 
         if ($response->status != 200) {
-            throw new \Exception('Calling hook ' . $hookName . ' failed. Error: ' . $response->body);
+            throw new \Exception('Calling extension ' . $extensionName . ' failed. Error: ' . $response->body);
         }
 
         return $response->body;
