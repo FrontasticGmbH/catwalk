@@ -2,7 +2,7 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
@@ -12,21 +12,21 @@ use GuzzleHttp\Promise\PromiseInterface;
 
 class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
 {
-    private string $hookName;
-    private HooksService $hooksService;
+    private string $extensionName;
+    private ExtensionService $extensionService;
     private RequestService $requestService;
     private FromFrontasticReactMapper $fromFrontasticReactMapper;
     private ContextCompletionService $contextCompletionService;
 
     public function __construct(
-        HooksService $hooksService,
+        ExtensionService $hooksService,
         RequestService $requestService,
         FromFrontasticReactMapper $fromFrontasticReactMapper,
         ContextCompletionService $contextCompletionService,
-        string $hookName
+        string $extensionName
     ) {
-        $this->hookName = $hookName;
-        $this->hooksService = $hooksService;
+        $this->extensionName = $extensionName;
+        $this->extensionService = $hooksService;
         $this->requestService = $requestService;
         $this->fromFrontasticReactMapper = $fromFrontasticReactMapper;
         $this->contextCompletionService = $contextCompletionService;
@@ -34,8 +34,8 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
 
     public function handle(Stream $stream, StreamContext $streamContext): PromiseInterface
     {
-        return $this->hooksService->callDataSource(
-            $this->hookName,
+        return $this->extensionService->callDataSource(
+            $this->extensionName,
             [
                 $this->fromFrontasticReactMapper->map($stream),
                 $this->createDataSourceContext($streamContext)
