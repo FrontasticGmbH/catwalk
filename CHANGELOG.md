@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.38.0` (2022-03-11)
+
+* feat(FP-1375): Change preview url from p to __preview only for NextJS
+* feat(FP-1375): Change preview url from p to __preview in FrontendBundle
+
 ## `1.37.2` (2022-03-09)
 
 * chore: added space to comment to satisfy eslint
