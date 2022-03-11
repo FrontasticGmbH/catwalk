@@ -4,6 +4,8 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks;
 
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\HttpClient;
+use Frontastic\Common\HttpClient\Response;
+use GuzzleHttp\Promise\PromiseInterface;
 
 class HooksApiClient
 {
@@ -52,6 +54,29 @@ class HooksApiClient
         }
 
         return $response->body;
+    }
+
+    public function callEventAsync(HooksCall $call, $mappingFunction): PromiseInterface
+    {
+        return $this->httpClient->postAsync(
+            $this->makePath('run', $call->getProject(), $call->getName()),
+            $call->getPayload(),
+            $call->getHeaders() + self::DEFAULT_HEADERS
+        )->then(
+            function (?Response $response) use ($call, $mappingFunction) {
+
+                if (isset($mappingFunction)) {
+                    $response = $mappingFunction($response);
+                }
+
+//                var_dump("GOT RESPONSE"); var_dump($response);
+                if ($response->status != 200) {
+                    throw new \Exception('Calling hook ' . $call->getName() . ' failed. Error: ' . $response->body);
+                }
+
+                return $response->body;
+            }
+        );
     }
 
     private function makePath(string ...$uri): string
