@@ -2,16 +2,12 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks;
 
-use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\JsonSerializer;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
-use Frontastic\Catwalk\NextJsBundle\Domain\Api\Response;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
 class HooksService
 {
@@ -75,6 +71,22 @@ class HooksService
         }
     }
 
+    protected function callRemoteHookAsync(string $hook, array $arguments, $mappingFunction): PromiseInterface
+    {
+        $requestId = $this->requestStack->getCurrentRequest()->attributes->get(
+            RequestIdListener::REQUEST_ID_ATTRIBUTE_KEY
+        );
+
+        $hookCall = new HooksCall(
+            $this->getProjectIdentifier(),
+            $hook,
+            $arguments
+        );
+        $hookCall->addHeader('Frontastic-Request-Id', $requestId);
+
+        return $this->hooksApiClient->callEventAsync($hookCall, $mappingFunction);
+    }
+
     public function call(string $hook, array $arguments)
     {
         if (!$this->isHookRegistered($hook)) {
@@ -85,6 +97,17 @@ class HooksService
         }
 
         return $this->callRemoteHook($hook, $arguments);
+    }
+
+    function callAsync(string $hook, array $arguments, $callbackFunction) {
+        if (!$this->isHookRegistered($hook)) {
+            return (object)[
+                'ok' => false,
+                'message' => sprintf('The requested hook "%s" was not found.', $hook)
+            ];
+        }
+
+        return $this->callRemoteHookAsync($hook, $arguments, $callbackFunction);
     }
 
     public function getRegisteredHooks(): array

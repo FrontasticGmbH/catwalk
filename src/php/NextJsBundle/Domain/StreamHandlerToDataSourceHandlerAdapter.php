@@ -8,7 +8,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\StreamContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceContext;
-use GuzzleHttp\Promise;
+use Frontastic\Common\HttpClient\Response;
 use GuzzleHttp\Promise\PromiseInterface;
 
 class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
@@ -35,21 +35,22 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
 
     public function handle(Stream $stream, StreamContext $streamContext): PromiseInterface
     {
-        $hookServiceResponse = $this->hooksService->call(
+        return $this->hooksService->callAsync(
             $this->hookName,
             [
                 $this->fromFrontasticReactMapper->map($stream),
                 $this->createDataSourceContext($streamContext)
-            ]
-        );
-        if (!isset($hookServiceResponse->dataSourcePayload)) {
-            throw new \RuntimeException(
-                "Invalid data-source response: Missing `dataSourcePayload`: " .
-                json_encode($hookServiceResponse)
-            );
-        }
-        return Promise\promise_for(
-            $hookServiceResponse->dataSourcePayload
+            ],
+            function (?Response $response) {
+                if (!isset($response->dataSourcePayload)) {
+                    throw new \RuntimeException(
+                        "Invalid data-source response: Missing `dataSourcePayload`: " .
+                        json_encode($response)
+                    );
+                }
+
+                return $response->dataSourcePayload;
+            }
         );
     }
 
