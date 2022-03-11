@@ -42,12 +42,12 @@ class DynamicPageService
 
     public function handleDynamicPage(SymfonyRequest $request, Context $context): ?DynamicPageResult
     {
-        if (!$this->hooksService->isHookRegistered(self::DYNAMIC_PAGE_HOOK)) {
+        if (!$this->hooksService->hasDynamicPageHandler()) {
             return null;
         }
 
         /** @var \stdClass */
-        $dynamicPagePayload = $this->hooksService->call(self::DYNAMIC_PAGE_HOOK, [
+        $dynamicPagePayload = $this->hooksService->callDynamicPageHandler([
             $this->requestService->createApiRequest($request),
             $this->createDynamicPageContext($context)
         ]);

@@ -41,15 +41,15 @@ class ActionController
         SymfonyRequest $request,
         ClassicContext $context
     ): JsonResponse {
-        $hookName = sprintf('action-%s-%s', $namespace, $action);
+//        $hookName = sprintf('action-%s-%s', $namespace, $action);
 
         $apiRequest = $this->requestService->createApiRequest($request);
         $actionContext = $this->createActionContext($context);
 
-        $this->assertActionExists($namespace, $action, $hookName);
+        $this->assertActionExists($namespace, $action);
 
         /** @var \stdClass $apiResponse */
-        $apiResponse = $this->hooksService->call($hookName, [$apiRequest, $actionContext]);
+        $apiResponse = $this->hooksService->callAction($namespace, $action, [$apiRequest, $actionContext]);
 
         $response = new JsonResponse();
 
@@ -117,9 +117,9 @@ class ActionController
         );
     }
 
-    private function assertActionExists(string $namespace, string $action, string $hookName)
+    private function assertActionExists(string $namespace, string $action)
     {
-        if ($this->hooksService->isHookRegistered($hookName)) {
+        if ($this->hooksService->hasAction($namespace, $action)) {
             return;
         }
 
