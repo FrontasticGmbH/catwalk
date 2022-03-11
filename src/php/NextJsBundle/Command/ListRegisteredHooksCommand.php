@@ -26,7 +26,7 @@ class ListRegisteredHooksCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        var_dump($this->hooksService->fetchProjectHooks('demo_swiss'));
+        var_dump($this->hooksService->fetchProjectExtensions('demo_swiss'));
         return 0;
     }
 }
