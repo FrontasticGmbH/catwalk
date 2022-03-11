@@ -40,18 +40,21 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
             [
                 $this->fromFrontasticReactMapper->map($stream),
                 $this->createDataSourceContext($streamContext)
-            ],
-            function (?Response $response) {
-                if (!isset($response->dataSourcePayload)) {
+            ])
+            ->then(function (?string $responseBody) {
+
+                $obj = json_decode($responseBody);
+
+                if (!$obj || !isset($obj->dataSourcePayload)) {
                     throw new \RuntimeException(
                         "Invalid data-source response: Missing `dataSourcePayload`: " .
-                        json_encode($response)
+                        $responseBody
                     );
                 }
 
-                return $response->dataSourcePayload;
-            }
-        );
+                return $obj->dataSourcePayload;
+            });
+
     }
 
     private function createDataSourceContext(StreamContext $streamContext): DataSourceContext
