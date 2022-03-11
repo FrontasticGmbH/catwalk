@@ -8,7 +8,6 @@ use Frontastic\Catwalk\FrontendBundle\Domain\StreamContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceContext;
-use Frontastic\Common\HttpClient\Response;
 use GuzzleHttp\Promise\PromiseInterface;
 
 class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
@@ -35,14 +34,13 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
 
     public function handle(Stream $stream, StreamContext $streamContext): PromiseInterface
     {
-        return $this->hooksService->callAsync(
+        return $this->hooksService->callDataSource(
             $this->hookName,
             [
                 $this->fromFrontasticReactMapper->map($stream),
                 $this->createDataSourceContext($streamContext)
             ])
             ->then(function (?string $responseBody) {
-
                 $obj = json_decode($responseBody);
 
                 if (!$obj || !isset($obj->dataSourcePayload)) {
