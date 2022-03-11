@@ -58,7 +58,7 @@
             />
         </service>
 
-        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" autowire="true">
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService" autowire="true">
             <!--
              * We are using a dedicated instance of JsonSerializer that does not contain any enhancers
              * in order to prevent recursive calls between the UrlGenerator's enhancer and
@@ -86,8 +86,6 @@
                 <argument>token</argument>
             </argument>
         </service>
-
-        <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HookResponseDeserializer" autowire="true" />
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextInContainerDeprecationProvider">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />

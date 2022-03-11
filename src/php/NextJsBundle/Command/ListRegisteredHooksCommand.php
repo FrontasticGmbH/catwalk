@@ -2,16 +2,16 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Command;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListRegisteredHooksCommand extends Command
 {
-    private HooksService $hooksService;
+    private ExtensionService $hooksService;
 
-    public function __construct(HooksService $hooksService)
+    public function __construct(ExtensionService $hooksService)
     {
         $this->hooksService = $hooksService;
 

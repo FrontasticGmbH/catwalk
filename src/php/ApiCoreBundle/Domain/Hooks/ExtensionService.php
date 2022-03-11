@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\HttpClient\Response;
 
-//TODO: RENAME TO EXTENSION SERVICE
-class HooksService
+class ExtensionService
 {
     const DEFAULT_HEADERS = ['Content-Type: application/json'];
     const BASE_PATH = 'http://localhost:8082/'; // TODO: move to a config file later on
@@ -26,8 +25,6 @@ class HooksService
 
     private LoggerInterface $logger;
 
-    private HookResponseDeserializer $hookResponseDeserializer;
-
     private RequestStack $requestStack;
 
     private HttpClient $httpClient;
@@ -35,13 +32,11 @@ class HooksService
 
     public function __construct(
         JsonSerializer $jsonSerializer,
-        HookResponseDeserializer $hookResponseDeserializer,
         ContextService $contextService,
         RequestStack $requestStack,
         HttpClient $httpClient
     ) {
         $this->jsonSerializer = $jsonSerializer;
-        $this->hookResponseDeserializer = $hookResponseDeserializer;
         $this->contextService = $contextService;
         $this->requestStack = $requestStack;
         $this->httpClient = $httpClient;

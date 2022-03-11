@@ -2,7 +2,7 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Controller;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Request;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Response;
@@ -18,20 +18,20 @@ class ActionControllerTest extends TestCase
 
     private ActionController $subject;
 
-    private HooksService $hooksService;
+    private ExtensionService $extensionService;
     private RequestService $requestService;
     private FromFrontasticReactMapper $fromFrontasticReactMapper;
     private ContextCompletionService $contextCompletionService;
 
     protected function setUp(): void
     {
-        $this->hooksService = \Phake::mock(HooksService::class);
+        $this->extensionService = \Phake::mock(ExtensionService::class);
         $this->requestService = \Phake::mock(RequestService::class);
         $this->fromFrontasticReactMapper = \Phake::mock(FromFrontasticReactMapper::class);
         $this->contextCompletionService = \Phake::mock(ContextCompletionService::class);
 
         $this->subject = new ActionController(
-            $this->hooksService,
+            $this->extensionService,
             $this->requestService,
             $this->fromFrontasticReactMapper,
             $this->contextCompletionService,
@@ -87,7 +87,7 @@ class ActionControllerTest extends TestCase
         $actionContext = new \Frontastic\Catwalk\NextJsBundle\Domain\Api\Context();
         \Phake::when($this->fromFrontasticReactMapper)->map($inputContext)->thenReturn($actionContext);
 
-        \Phake::when($this->hooksService)->isHookRegistered("action-$inputNamespace-$inputAction")->thenReturn(true);
+        \Phake::when($this->extensionService)->isHookRegistered("action-$inputNamespace-$inputAction")->thenReturn(true);
 
         $apiResponse = new Response();
         $apiResponse->ok = true;
@@ -99,7 +99,7 @@ class ActionControllerTest extends TestCase
             \Phake::when($this->requestService)->encodeJWTData($apiResponse->sessionData)->thenReturn("dummyJWT");
         }
 
-        \Phake::when($this->hooksService)->call->thenReturn($apiResponse);
+        \Phake::when($this->extensionService)->call->thenReturn($apiResponse);
 
         // Call the subject method
         $result = $this->subject->indexAction($inputNamespace, $inputAction, $inputSymfonyRequest, $inputContext);
@@ -158,7 +158,7 @@ class ActionControllerTest extends TestCase
         $this->assertEquals(200, $result->getStatusCode());
         $this->assertEquals(
             'Data returned from hook did not have statusCode or body fields',
-            $result->headers->get('X-Extension-Error')
+            $result->headers->get('X-Hooks-Error')
         );
     }
 
@@ -200,8 +200,8 @@ class ActionControllerTest extends TestCase
         $actionContext = new \Frontastic\Catwalk\NextJsBundle\Domain\Api\Context();
         \Phake::when($this->fromFrontasticReactMapper)->map($inputContext)->thenReturn($actionContext);
 
-        \Phake::when($this->hooksService)->isHookRegistered("action-$inputNamespace-$inputAction")->thenReturn(true);
+        \Phake::when($this->extensionService)->isHookRegistered("action-$inputNamespace-$inputAction")->thenReturn(true);
 
-        \Phake::when($this->hooksService)->call->thenReturn($apiResponse);
+        \Phake::when($this->extensionService)->call->thenReturn($apiResponse);
     }
 }

@@ -3,7 +3,7 @@
 namespace Frontastic\Catwalk\NextJsBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context as ClassicContext;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\ActionContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\ContextCompletionService;
@@ -15,20 +15,20 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ActionController
 {
-    private HooksService $hooksService;
+    private ExtensionService $extensionService;
     private RequestService $requestService;
     private FromFrontasticReactMapper $mapper;
     private ContextCompletionService $contextCompletionService;
     private bool $debug;
 
     public function __construct(
-        HooksService $hooksService,
+        ExtensionService $extensionService,
         RequestService $requestService,
         FromFrontasticReactMapper $mapper,
         ContextCompletionService $contextCompletionService,
         bool $debug = false
     ) {
-        $this->hooksService = $hooksService;
+        $this->extensionService = $extensionService;
         $this->requestService = $requestService;
         $this->mapper = $mapper;
         $this->debug = $debug;
@@ -41,15 +41,13 @@ class ActionController
         SymfonyRequest $request,
         ClassicContext $context
     ): JsonResponse {
-//        $hookName = sprintf('action-%s-%s', $namespace, $action);
-
         $apiRequest = $this->requestService->createApiRequest($request);
         $actionContext = $this->createActionContext($context);
 
         $this->assertActionExists($namespace, $action);
 
         /** @var \stdClass $apiResponse */
-        $apiResponse = $this->hooksService->callAction($namespace, $action, [$apiRequest, $actionContext]);
+        $apiResponse = $this->extensionService->callAction($namespace, $action, [$apiRequest, $actionContext]);
 
         $response = new JsonResponse();
 
@@ -72,7 +70,7 @@ class ActionController
             // Fixme: Make all extensions return a valid response!
             $response->setStatusCode(200);
             $response->headers->set(
-                'X-Extension-Error',
+                'X-Hooks-Error',
                 'Data returned from hook did not have statusCode or body fields'
             );
             $response->setContent(json_encode((object) $apiResponse));
@@ -119,7 +117,7 @@ class ActionController
 
     private function assertActionExists(string $namespace, string $action)
     {
-        if ($this->hooksService->hasAction($namespace, $action)) {
+        if ($this->extensionService->hasAction($namespace, $action)) {
             return;
         }
 
@@ -142,7 +140,7 @@ class ActionController
                             );
                         },
                         array_filter(
-                            $this->hooksService->getRegisteredHooks(),
+                            $this->extensionService->getRegisteredHooks(),
                             function (array $hook) {
                                 return (isset($hook['hookType']) && $hook['hookType'] === 'action');
                             }

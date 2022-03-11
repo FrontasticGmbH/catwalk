@@ -1,6 +1,6 @@
 #  HooksService
 
-**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService`](../../../../../src/php/ApiCoreBundle/Domain/Hooks/HooksService.php)
+**Fully Qualified**: [`\Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService`](../../../../../src/php/ApiCoreBundle/Domain/Hooks/ExtensionService.php)
 
 ## Methods
 
