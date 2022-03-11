@@ -7,6 +7,7 @@ use Frontastic\Common\HttpClient;
 use Frontastic\Common\HttpClient\Response;
 use GuzzleHttp\Promise\PromiseInterface;
 
+//TODO: move to HookService
 class HooksApiClient
 {
     const BASE_PATH = 'http://localhost:8082/'; // TODO: move to a config file later on
@@ -56,20 +57,14 @@ class HooksApiClient
         return $response->body;
     }
 
-    public function callEventAsync(HooksCall $call, $mappingFunction): PromiseInterface
+    public function callEventAsync(HooksCall $call): PromiseInterface
     {
         return $this->httpClient->postAsync(
             $this->makePath('run', $call->getProject(), $call->getName()),
             $call->getPayload(),
             $call->getHeaders() + self::DEFAULT_HEADERS
         )->then(
-            function (?Response $response) use ($call, $mappingFunction) {
-
-                if (isset($mappingFunction)) {
-                    $response = $mappingFunction($response);
-                }
-
-//                var_dump("GOT RESPONSE"); var_dump($response);
+            function (Response $response) use ($call) {
                 if ($response->status != 200) {
                     throw new \Exception('Calling hook ' . $call->getName() . ' failed. Error: ' . $response->body);
                 }

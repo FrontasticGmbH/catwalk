@@ -9,6 +9,7 @@ use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+//TODO: RENAME TO EXTENSION SERVICE
 class HooksService
 {
     private HooksApiClient $hooksApiClient;
@@ -71,7 +72,7 @@ class HooksService
         }
     }
 
-    protected function callRemoteHookAsync(string $hook, array $arguments, $mappingFunction): PromiseInterface
+    protected function callRemoteHookAsync(string $hook, array $arguments): PromiseInterface
     {
         $requestId = $this->requestStack->getCurrentRequest()->attributes->get(
             RequestIdListener::REQUEST_ID_ATTRIBUTE_KEY
@@ -84,7 +85,7 @@ class HooksService
         );
         $hookCall->addHeader('Frontastic-Request-Id', $requestId);
 
-        return $this->hooksApiClient->callEventAsync($hookCall, $mappingFunction);
+        return $this->hooksApiClient->callEventAsync($hookCall);
     }
 
     public function call(string $hook, array $arguments)
@@ -99,7 +100,7 @@ class HooksService
         return $this->callRemoteHook($hook, $arguments);
     }
 
-    function callAsync(string $hook, array $arguments, $callbackFunction) {
+    function callAsync(string $hook, array $arguments) {
         if (!$this->isHookRegistered($hook)) {
             return (object)[
                 'ok' => false,
@@ -107,7 +108,7 @@ class HooksService
             ];
         }
 
-        return $this->callRemoteHookAsync($hook, $arguments, $callbackFunction);
+        return $this->callRemoteHookAsync($hook, $arguments);
     }
 
     public function getRegisteredHooks(): array
