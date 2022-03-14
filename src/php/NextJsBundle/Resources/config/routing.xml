@@ -29,5 +29,8 @@
         <requirement key="identifier">.+</requirement><!-- allow slashes in the identifier -->
         <default key="_stateless">true</default>
     </route>
+    <route id="Frontastic.Frontend.Preview.view" path="/__preview/{preview}" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\PreviewController::viewAction</default>
+    </route>
 
 </routes>
