@@ -200,8 +200,8 @@ class ActionControllerTest extends TestCase
         $actionContext = new \Frontastic\Catwalk\NextJsBundle\Domain\Api\Context();
         \Phake::when($this->fromFrontasticReactMapper)->map($inputContext)->thenReturn($actionContext);
 
-        \Phake::when($this->extensionService)->isHookRegistered("action-$inputNamespace-$inputAction")->thenReturn(true);
+        \Phake::when($this->extensionService)->hasAction($inputNamespace, $inputAction)->thenReturn(true);
 
-        \Phake::when($this->extensionService)->call->thenReturn($apiResponse);
+        \Phake::when($this->extensionService)->callAction->thenReturn($apiResponse);
     }
 }
