@@ -8,7 +8,6 @@ use Frontastic\Common\HttpClient;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use GuzzleHttp\Promise\Create;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -30,6 +29,12 @@ class ExtensionServiceTest extends TestCase
         "dynamic-page-handler" => [
             "hookType" => "dynamic-page-handler",
             "hookName" => "dynamic-page-handler"
+        ],
+        "action-account-login" => [
+            "hookType" => "action",
+            "hookName" => "action-account-login",
+            "actionNamespace" => "account",
+            "actionIdentifier" => "login"
         ]
     ];
 
@@ -248,6 +253,29 @@ class ExtensionServiceTest extends TestCase
         );
 
         $result = $this->subject->callDynamicPageHandler($arguments);
+
+        $this->assertEquals('hello world', $result->response);
+    }
+
+    public function testCallAction() {
+        $arguments = ["arg1", "arg2"];
+
+        $this->injectSubjectWithExtensions($this->extensions);
+        $this->mockProjectIdentifier();
+
+        $request = new Request(
+            [], [], ['_frontastic_request_id' => '1']
+        );
+        \Phake::when($this->requestStack)->getCurrentRequest->thenReturn($request);
+
+        $response = new HttpClient\Response();
+        $response->status = 200;
+        $response->body = "{\"response\": \"hello world\"}";
+        \Phake::when($this->httpClient)->postAsync->thenReturn(
+            Create::promiseFor($response)
+        );
+
+        $result = $this->subject->callAction("account", "login", $arguments);
 
         $this->assertEquals('hello world', $result->response);
     }
