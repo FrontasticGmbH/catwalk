@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks;
 
 use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonDecodeException;
+use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonEncodeException;
 use Frontastic\Common\HttpClient;
 use Frontastic\Common\JsonSerializer;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
@@ -189,7 +190,6 @@ class ExtensionService
             return $async ?
                 $this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers) :
                 JSON::decode($this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers));
-
         } catch (\Exception $exception) {
             return (object)[
                 'ok' => false,
