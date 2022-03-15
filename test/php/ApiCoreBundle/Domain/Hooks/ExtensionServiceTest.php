@@ -85,21 +85,17 @@ class ExtensionServiceTest extends TestCase
 
     public function testGetExtensionsNotCached()
     {
-        $mockedSubject = \Phake::partialMock(
-            ExtensionService::class,
-            $this->contextService,
-            $this->requestStack,
-            $this->httpClient
-        );
-
+        $mockedSubject = $this->partiallyMockedSubject();
         $this->mockProjectIdentifier();
+
         \Phake::when($mockedSubject)->fetchProjectExtensions->thenReturn($this->extensions);
         $result = $mockedSubject->getExtensions();
 
         $this->assertSame($this->extensions, $result);
     }
 
-    public function testHasExtensionTrue() {
+    public function testHasExtensionTrue()
+    {
         $this->injectSubjectWithExtensions($this->extensions);
 
         $response = $this->subject->hasExtension("data-source-frontastic-product-list");
@@ -107,10 +103,33 @@ class ExtensionServiceTest extends TestCase
         $this->assertTrue($response);
     }
 
-    public function testHasExtensionFalse() {
+    public function testHasExtensionFalse()
+    {
         $this->injectSubjectWithExtensions($this->extensions);
 
         $response = $this->subject->hasExtension("something-random-non-existent");
+
+        $this->assertFalse($response);
+    }
+
+    public function testHasDynamicPageHandlerTrue()
+    {
+        $mockedSubject = $this->partiallyMockedSubject();
+
+        \Phake::when($mockedSubject)->hasExtension('dynamic-page-handler')->thenReturn(true);
+
+        $response = $mockedSubject->hasDynamicPageHandler();
+
+        $this->assertTrue($response);
+    }
+
+    public function testHasDynamicPageHandlerFalse()
+    {
+        $mockedSubject = $this->partiallyMockedSubject();
+
+        \Phake::when($mockedSubject)->hasExtension('dynamic-page-handler')->thenReturn(false);
+
+        $response = $mockedSubject->hasDynamicPageHandler();
 
         $this->assertFalse($response);
     }
@@ -122,6 +141,16 @@ class ExtensionServiceTest extends TestCase
         $reflectionExtensions = $reflection->getProperty("extensions");
         $reflectionExtensions->setAccessible(true);
         $reflectionExtensions->setValue($this->subject, $extensions);
+    }
+
+    private function partiallyMockedSubject(): \Phake_IMock
+    {
+        return \Phake::partialMock(
+            ExtensionService::class,
+            $this->contextService,
+            $this->requestStack,
+            $this->httpClient
+        );
     }
 
     private function mockProjectIdentifier()
