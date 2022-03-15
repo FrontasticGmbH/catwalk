@@ -5,9 +5,9 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks;
 use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonDecodeException;
 use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonEncodeException;
 use Frontastic\Common\HttpClient;
-use Frontastic\Common\JsonSerializer;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
+use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
@@ -45,6 +45,7 @@ class ExtensionService
      * @param string $project
      * @return array
      * @throws InvalidJsonDecodeException
+     * @throws \Exception
      */
     public function fetchProjectExtensions(string $project): array
     {
@@ -121,22 +122,24 @@ class ExtensionService
      *
      * @param string $extensionName
      * @param array $arguments
-     * @return PromiseInterface|object
+     * @return PromiseInterface
+     * @throws InvalidJsonEncodeException|InvalidJsonDecodeException
      */
-    public function callDataSource(string $extensionName, array $arguments)
+    public function callDataSource(string $extensionName, array $arguments): PromiseInterface
     {
-        return $this->callExtension($extensionName, $arguments, true);
+        return $this->callExtension($extensionName, $arguments);
     }
 
     /**
      * Calls a dynamic page handler extension
      *
      * @param array $arguments
-     * @return mixed|object
+     * @return object
+     * @throws InvalidJsonEncodeException|InvalidJsonDecodeException
      */
-    public function callDynamicPageHandler(array $arguments)
+    public function callDynamicPageHandler(array $arguments): object
     {
-        return $this->callExtension(self::DYNAMIC_PAGE_EXTENSION_NAME, $arguments, false);
+        return Json::decode($this->callExtension(self::DYNAMIC_PAGE_EXTENSION_NAME, $arguments)->wait());
     }
 
     /**
@@ -146,11 +149,12 @@ class ExtensionService
      * @param string $action
      * @param array $arguments
      * @return mixed|object
+     * @throws InvalidJsonDecodeException|InvalidJsonEncodeException
      */
     public function callAction(string $namespace, string $action, array $arguments)
     {
         $hookName = $this->getActionHookName($namespace, $action);
-        return $this->callExtension($hookName, $arguments, false);
+        return Json::decode($this->callExtension($hookName, $arguments)->wait());
     }
 
     private function getActionHookName(string $namespace, string $action): string
@@ -164,16 +168,18 @@ class ExtensionService
         return $context->project->customer . '_' . $context->project->projectId;
     }
 
+
     /**
      * @throws InvalidJsonEncodeException
+     * @throws InvalidJsonDecodeException
      */
-    private function callExtension(string $extensionName, array $arguments, bool $async)
+    private function callExtension(string $extensionName, array $arguments): PromiseInterface
     {
         if (!$this->hasExtension($extensionName)) {
-            return (object)[
+            return Create::promiseFor(Json::encode([
                 'ok' => false,
                 'message' => sprintf('The requested extension "%s" was not found.', $extensionName)
-            ];
+            ]));
         }
 
         $requestId = $this->requestStack->getCurrentRequest()->attributes->get(
@@ -185,36 +191,13 @@ class ExtensionService
         $headers = ['Frontastic-Request-Id' => "Frontastic-Request-Id:$requestId"];
 
         try {
-            return $async ?
-                $this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers) :
-                JSON::decode($this->doCall($this->getProjectIdentifier(), $extensionName, $payload, $headers));
+            return $this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers);
         } catch (\Exception $exception) {
-            return (object)[
+            return Create::promiseFor(Json::encode([
                 'ok' => false,
                 'message' => $exception->getMessage()
-            ];
+            ]));
         }
-    }
-
-    /**
-     * @throws \Exception
-     */
-    private function doCall(
-        string $project,
-        string $extensionName,
-        string $payload,
-        ?array $headers
-    ): string {
-        $path = $this->makePath('run', $project, $extensionName);
-        $requestHeaders = $headers + self::DEFAULT_HEADERS;
-
-        $response = $this->httpClient->post($path, $payload, $requestHeaders);
-
-        if ($response->status != 200) {
-            throw new \Exception('Calling extension ' . $extensionName . ' failed. Error: ' . $response->body);
-        }
-
-        return $response->body;
     }
 
     /**
