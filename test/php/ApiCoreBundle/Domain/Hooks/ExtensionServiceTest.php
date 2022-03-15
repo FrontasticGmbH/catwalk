@@ -26,6 +26,10 @@ class ExtensionServiceTest extends TestCase
             "hookType" => "data-source",
             "hookName" => "data-source-frontastic-product-list",
             "dataSourceIdentifier" => "frontastic/product-list"
+        ],
+        "dynamic-page-handler" => [
+            "hookType" => "dynamic-page-handler",
+            "hookName" => "dynamic-page-handler"
         ]
     ];
 
@@ -223,6 +227,29 @@ class ExtensionServiceTest extends TestCase
 
         $this->subject->callDataSource($extensionName, $arguments)
             ->wait();
+    }
+
+    public function testCallDynamicPageHandler() {
+        $arguments = ["arg1", "arg2"];
+
+        $this->injectSubjectWithExtensions($this->extensions);
+        $this->mockProjectIdentifier();
+
+        $request = new Request(
+            [], [], ['_frontastic_request_id' => '1']
+        );
+        \Phake::when($this->requestStack)->getCurrentRequest->thenReturn($request);
+
+        $response = new HttpClient\Response();
+        $response->status = 200;
+        $response->body = "{\"response\": \"hello world\"}";
+        \Phake::when($this->httpClient)->postAsync->thenReturn(
+            Create::promiseFor($response)
+        );
+
+        $result = $this->subject->callDynamicPageHandler($arguments);
+
+        $this->assertEquals('hello world', $result->response);
     }
 
     private function injectSubjectWithExtensions(array $extensions)
