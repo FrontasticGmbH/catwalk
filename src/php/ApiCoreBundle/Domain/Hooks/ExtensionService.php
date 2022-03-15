@@ -87,9 +87,9 @@ class ExtensionService
      */
     public function hasExtension(string $extensionName): bool
     {
-        $hooks = $this->getExtensions();
+        $extensions = $this->getExtensions();
 
-        return in_array($extensionName, array_keys($hooks), true);
+        return in_array($extensionName, array_keys($extensions), true);
     }
 
     /**

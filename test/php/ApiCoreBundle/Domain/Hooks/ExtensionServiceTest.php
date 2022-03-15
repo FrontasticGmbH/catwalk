@@ -18,6 +18,14 @@ class ExtensionServiceTest extends TestCase
     private RequestStack $requestStack;
     private HttpClient $httpClient;
 
+    private array $extensions = [
+        "data-source-frontastic-product-list" => [
+            "hookType" => "data-source",
+            "hookName" => "data-source-frontastic-product-list",
+            "dataSourceIdentifier" => "frontastic/product-list"
+        ]
+    ];
+
     protected function setUp()
     {
         $this->contextService = \Phake::mock(ContextService::class);
@@ -53,45 +61,26 @@ class ExtensionServiceTest extends TestCase
         $project = "project";
         $path = "http://localhost:8082/hooks/$project";
 
-        $responseBody = [
-            "data-source-frontastic-product-list" => [
-                "hookType" => "data-source",
-                "hookName" => "data-source-frontastic-product-list",
-                "dataSourceIdentifier" => "frontastic/product-list"
-            ]
-        ];
 
         $response = new HttpClient\Response();
         $response->status = 200;
-        $response->body = json_encode($responseBody);
+        $response->body = json_encode($this->extensions);
 
         \Phake::when($this->httpClient)->get($path)->thenReturn($response);
 
         $result = $this->subject->fetchProjectExtensions($project);
 
-        $this->assertEquals($responseBody, $result);
+        $this->assertEquals($this->extensions, $result);
     }
 
     public function testGetExtensionsCached()
     {
-        $extensions = [
-            "data-source-frontastic-product-list" => [
-                "hookType" => "data-source",
-                "hookName" => "data-source-frontastic-product-list",
-                "dataSourceIdentifier" => "frontastic/product-list"
-            ]
-        ];
-
-        //Hacky way to manipulate a private property
-        $reflection = new \ReflectionClass($this->subject);
-        $reflection_extensions = $reflection->getProperty("extensions");
-        $reflection_extensions->setAccessible(true);
-        $reflection_extensions->setValue($this->subject, $extensions);
+        $this->injectSubjectWithExtensions($this->extensions);
 
         // Test the method
         $result = $this->subject->getExtensions();
 
-        $this->assertSame($extensions, $result);
+        $this->assertSame($this->extensions, $result);
     }
 
     public function testGetExtensionsNotCached()
@@ -103,22 +92,40 @@ class ExtensionServiceTest extends TestCase
             $this->httpClient
         );
 
-        $extensions = [
-            "data-source-frontastic-product-list" => [
-                "hookType" => "data-source",
-                "hookName" => "data-source-frontastic-product-list",
-                "dataSourceIdentifier" => "frontastic/product-list"
-            ]
-        ];
-
         $this->mockProjectIdentifier();
-        \Phake::when($mockedSubject)->fetchProjectExtensions->thenReturn($extensions);
+        \Phake::when($mockedSubject)->fetchProjectExtensions->thenReturn($this->extensions);
         $result = $mockedSubject->getExtensions();
 
-        $this->assertSame($extensions, $result);
+        $this->assertSame($this->extensions, $result);
     }
 
-    private function mockProjectIdentifier() {
+    public function testHasExtensionTrue() {
+        $this->injectSubjectWithExtensions($this->extensions);
+
+        $response = $this->subject->hasExtension("data-source-frontastic-product-list");
+
+        $this->assertTrue($response);
+    }
+
+    public function testHasExtensionFalse() {
+        $this->injectSubjectWithExtensions($this->extensions);
+
+        $response = $this->subject->hasExtension("something-random-non-existent");
+
+        $this->assertFalse($response);
+    }
+
+    private function injectSubjectWithExtensions(array $extensions)
+    {
+        //Hacky way to manipulate a private property
+        $reflection = new \ReflectionClass($this->subject);
+        $reflectionExtensions = $reflection->getProperty("extensions");
+        $reflectionExtensions->setAccessible(true);
+        $reflectionExtensions->setValue($this->subject, $extensions);
+    }
+
+    private function mockProjectIdentifier()
+    {
 
         $context = new Context([
             "project" => new Project([
