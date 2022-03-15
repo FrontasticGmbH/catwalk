@@ -70,7 +70,7 @@ class ActionController
             // Fixme: Make all extensions return a valid response!
             $response->setStatusCode(200);
             $response->headers->set(
-                'X-Hooks-Error',
+                'X-Extension-Error',
                 'Data returned from hook did not have statusCode or body fields'
             );
             $response->setContent(json_encode((object) $apiResponse));
