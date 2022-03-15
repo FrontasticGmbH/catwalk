@@ -354,6 +354,8 @@ class StreamService
             );
         }
 
+        // There's no need to execute the stream handler if the value is preloaded
+        // The preloadedValue can be fetched in the DynamicPageService when getting the Node
         if ($stream->preloadedValue !== null) {
             return Promise\promise_for($stream->preloadedValue);
         }
