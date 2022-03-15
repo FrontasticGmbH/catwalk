@@ -6,7 +6,10 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Common\HttpClient;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
+use GuzzleHttp\Promise\Create;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ExtensionServiceTest extends TestCase
@@ -132,7 +135,8 @@ class ExtensionServiceTest extends TestCase
         $this->assertFalse($response);
     }
 
-    public function testHasActionTrue() {
+    public function testHasActionTrue()
+    {
         $mockedSubject = $this->partiallyMockedSubject();
         \Phake::when($mockedSubject)->hasExtension('action-namespace-action')->thenReturn(true);
 
@@ -141,14 +145,84 @@ class ExtensionServiceTest extends TestCase
         $this->assertTrue($response);
     }
 
-    public function testHasActionFalse() {
+    public function testHasActionFalse()
+    {
         $mockedSubject = $this->partiallyMockedSubject();
-
         \Phake::when($mockedSubject)->hasExtension('action-namespace-action')->thenReturn(false);
 
         $response = $mockedSubject->hasAction("namespace", "action");
 
         $this->assertFalse($response);
+    }
+
+    public function testCallDataSourceNoExtension()
+    {
+        $extensionName = "random-extension-name-that-does-not-exist";
+        $arguments = ["arg1", "arg2"];
+
+        $this->injectSubjectWithExtensions($this->extensions);
+
+        $response = $this->subject->callDataSource($extensionName, $arguments);
+        $responseData = $response->wait();
+
+        $this->assertNotNull($responseData);
+        $this->assertEquals(
+            '{"ok":false,"message":"The requested extension \"random-extension-name-that-does-not-exist\" was not found."}',
+            $responseData
+        );
+    }
+
+    public function testCallDataSource()
+    {
+        $extensionName = "data-source-frontastic-product-list";
+        $arguments = ["arg1", "arg2"];
+
+        $this->injectSubjectWithExtensions($this->extensions);
+        $this->mockProjectIdentifier();
+
+        $request = new Request(
+            [], [], ['_frontastic_request_id' => '1']
+        );
+        \Phake::when($this->requestStack)->getCurrentRequest->thenReturn($request);
+
+        $response = new HttpClient\Response();
+        $response->status = 200;
+        $response->body = "AsyncResponse";
+        \Phake::when($this->httpClient)->postAsync->thenReturn(
+            Create::promiseFor($response)
+        );
+
+        $result = $this->subject->callDataSource($extensionName, $arguments);
+        $responseData = $result->wait();
+
+        $this->assertNotNull($responseData);
+        $this->assertEquals("AsyncResponse", $responseData);
+    }
+
+    public function testCallDataSourceResponseError()
+    {
+        $extensionName = "data-source-frontastic-product-list";
+        $arguments = ["arg1", "arg2"];
+
+        $this->injectSubjectWithExtensions($this->extensions);
+        $this->mockProjectIdentifier();
+
+        $request = new Request(
+            [], [], ['_frontastic_request_id' => '1']
+        );
+        \Phake::when($this->requestStack)->getCurrentRequest->thenReturn($request);
+
+        $response = new HttpClient\Response();
+        $response->status = 500;
+        $response->body = "Server error";
+        \Phake::when($this->httpClient)->postAsync->thenReturn(
+            Create::promiseFor($response)
+        );
+
+        $this->expectExceptionMessage("Calling extension data-source-frontastic-product-list failed. Error: Server error");
+
+        $this->subject->callDataSource($extensionName, $arguments)
+            ->wait();
     }
 
     private function injectSubjectWithExtensions(array $extensions)
