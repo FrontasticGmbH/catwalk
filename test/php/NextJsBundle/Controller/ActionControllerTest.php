@@ -158,7 +158,7 @@ class ActionControllerTest extends TestCase
         $this->assertEquals(200, $result->getStatusCode());
         $this->assertEquals(
             'Data returned from hook did not have statusCode or body fields',
-            $result->headers->get('X-Hooks-Error')
+            $result->headers->get('X-Extension-Error')
         );
     }
 
