@@ -30,12 +30,10 @@ class ExtensionService
 
 
     public function __construct(
-        JsonSerializer $jsonSerializer,
         ContextService $contextService,
         RequestStack $requestStack,
         HttpClient $httpClient
     ) {
-        $this->jsonSerializer = $jsonSerializer;
         $this->contextService = $contextService;
         $this->requestStack = $requestStack;
         $this->httpClient = $httpClient;
@@ -189,7 +187,7 @@ class ExtensionService
         try {
             return $async ?
                 $this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers) :
-                JSON::decode($this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers));
+                JSON::decode($this->doCall($this->getProjectIdentifier(), $extensionName, $payload, $headers));
         } catch (\Exception $exception) {
             return (object)[
                 'ok' => false,
