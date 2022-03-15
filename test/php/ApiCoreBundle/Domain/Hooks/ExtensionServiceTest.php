@@ -115,7 +115,6 @@ class ExtensionServiceTest extends TestCase
     public function testHasDynamicPageHandlerTrue()
     {
         $mockedSubject = $this->partiallyMockedSubject();
-
         \Phake::when($mockedSubject)->hasExtension('dynamic-page-handler')->thenReturn(true);
 
         $response = $mockedSubject->hasDynamicPageHandler();
@@ -126,10 +125,28 @@ class ExtensionServiceTest extends TestCase
     public function testHasDynamicPageHandlerFalse()
     {
         $mockedSubject = $this->partiallyMockedSubject();
-
         \Phake::when($mockedSubject)->hasExtension('dynamic-page-handler')->thenReturn(false);
 
         $response = $mockedSubject->hasDynamicPageHandler();
+
+        $this->assertFalse($response);
+    }
+
+    public function testHasActionTrue() {
+        $mockedSubject = $this->partiallyMockedSubject();
+        \Phake::when($mockedSubject)->hasExtension('action-namespace-action')->thenReturn(true);
+
+        $response = $mockedSubject->hasAction("namespace", "action");
+
+        $this->assertTrue($response);
+    }
+
+    public function testHasActionFalse() {
+        $mockedSubject = $this->partiallyMockedSubject();
+
+        \Phake::when($mockedSubject)->hasExtension('action-namespace-action')->thenReturn(false);
+
+        $response = $mockedSubject->hasAction("namespace", "action");
 
         $this->assertFalse($response);
     }
