@@ -354,10 +354,9 @@ class StreamService
             );
         }
 
-        // TODO: uncomment this
-//        if ($stream->preloadedValue !== null) {
-//            return Promise\promise_for($stream->preloadedValue);
-//        }
+        if ($stream->preloadedValue !== null) {
+            return Promise\promise_for($stream->preloadedValue);
+        }
 
         if (!isset($this->streamHandlers[$stream->type])) {
             return Promise\rejection_for(
