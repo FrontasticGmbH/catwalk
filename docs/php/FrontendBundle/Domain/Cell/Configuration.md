@@ -7,5 +7,6 @@
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
 `size` | `` | `12` | - | 
+`name` | `string|null` | `null` | - | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
