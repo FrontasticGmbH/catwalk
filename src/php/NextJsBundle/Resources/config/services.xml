@@ -46,6 +46,8 @@
 
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper" />
 
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\ContextCompletionService" autowire="true" />
+
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService"
              autowire="true"
              autoconfigure="true"
@@ -76,8 +78,12 @@
             <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="50"/>
         </service>
 
-        <service id="Frontastic\Catwalk\NextJsBundle\Domain\RedirectService"
-        >
+        <service id="Frontastic\Catwalk\NextJsBundle\EventListener\CorsHandler">
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+        </service>
+
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\RedirectService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectService" />
             <argument type="service" id="Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService" />
         </service>

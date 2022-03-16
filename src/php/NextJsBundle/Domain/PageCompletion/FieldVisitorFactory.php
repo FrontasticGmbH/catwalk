@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
+use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor\SequentialFieldVisitor;
 
 class FieldVisitorFactory
@@ -12,7 +13,7 @@ class FieldVisitorFactory
     private SiteBuilderPageService $pageService;
     private NodeService $nodeService;
 
-    private $nodeDataVisitor = null;
+    private ?FieldVisitor $nodeDataVisitor = null;
 
     public function __construct(SiteBuilderPageService $pageService, NodeService $nodeService)
     {
@@ -20,7 +21,7 @@ class FieldVisitorFactory
         $this->nodeService = $nodeService;
     }
 
-    public function createTasticDataVisitor(Context $context, array $tasticFieldData)
+    public function createTasticDataVisitor(Context $context, array $tasticFieldData): FieldVisitor
     {
         return new SequentialFieldVisitor([
             // IMPORTANT: TasticFieldHandler must be called before PageFolderUrl!
@@ -31,7 +32,7 @@ class FieldVisitorFactory
         ]);
     }
 
-    public function createNodeDataVisitor(Context $context): SequentialFieldVisitor
+    public function createNodeDataVisitor(Context $context): FieldVisitor
     {
         if ($this->nodeDataVisitor === null) {
             $this->nodeDataVisitor = new SequentialFieldVisitor([
@@ -40,5 +41,12 @@ class FieldVisitorFactory
             ]);
         }
         return $this->nodeDataVisitor;
+    }
+
+    public function createProjectConfigurationDataVisitor(Context $context): FieldVisitor
+    {
+        return new SequentialFieldVisitor([
+            new SelectTranslationVisitor($context),
+        ]);
     }
 }
