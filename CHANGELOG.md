@@ -1,5 +1,23 @@
 # catwalk Changelog
 
+## `1.39.0` (2022-03-17)
+
+* refactor(FP-1586): Encapsulate customerName inside a previewContext object
+* feat(FP-1609): ExtensionService - Test callAction
+* feat(FP-1609): ExtensionService - Test callDynamicPageHandler
+* feat(FP-1609): ExtensionService - Test callDataSource, callExtension and doCallAsync
+* feat(FP-1609): ExtensionService - Test hasAction
+* feat(FP-1609): ExtensionService - Test hasDynamicPageHandler
+* feat(FP-1609): ExtensionService - Test hasExtension
+* feat(FP-1609): ExtensionService - Test fetchProjectExtensions
+* feat(FP-1609): Uncomment preloaded datasource value feature
+* feat(FP-1609): Action controller test fix header
+* feat(FP-1609): Header fix
+* feat(FP-1609): Remove sync call
+* feat(FP-1609): Remove unused JsonSerializer
+* feat(FP-1609): Fix PHP formatting
+* fix (FP-1391): Added name attribute to cell configuration class
+
 ## `1.38.0` (2022-03-11)
 
 * feat(FP-1375): Change preview url from p to __preview only for NextJS
