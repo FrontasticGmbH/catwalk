@@ -7,5 +7,6 @@
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
 `previewId` | `string` |  | *Yes* | 
+`previewContext` | [`PagePreviewContext`](PagePreviewContext.md) |  | *Yes* | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
