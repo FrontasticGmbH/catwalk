@@ -14,8 +14,8 @@ class PagePreviewDataResponse extends PageDataResponse
     public $previewId;
 
     /**
-     * @var string
+     * @var PagePreviewContext
      * @required
      */
-    public $customerName;
+    public $previewContext;
 }
