@@ -11,6 +11,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageDataResponse;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
@@ -139,7 +140,9 @@ class PageController
             'page' => $this->mapper->map($preview->page),
             // Stream parameters is deprecated
             'data' => $this->mapper->map($pageViewData),
-            'customerName' => $context->customer->name,
+            'previewContext' => new PagePreviewContext([
+                'customerName' => $context->customer->name
+            ])
         ]);
     }
 
