@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.39.1` (2022-03-21)
+
+* feat(FP-811): Return 404 when product does not exist
+* misc: Don't bootstrap symfony in paas/catwalk
+
 ## `1.39.0` (2022-03-17)
 
 * refactor(FP-1586): Encapsulate customerName inside a previewContext object
