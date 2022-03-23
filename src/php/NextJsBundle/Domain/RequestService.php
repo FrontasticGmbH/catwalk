@@ -87,20 +87,32 @@ class RequestService
         return random_bytes(12);
     }
 
-    public function encodeJWTData($cookie): string
+    /**
+     * Encrypts the given data into a JWT token signed with HS256 algorithm.
+     * Optionally encrypts the payload aswell with AES256
+     * @param object|array $data The data to be encoded into a JWT
+     * @param bool $shouldEncryptPayload True if the data should be AES256 encrypted, false otherwise
+     * @return string The data encoded into a JWT token.
+     */
+    public function encodeJWTData($data, bool $shouldEncryptPayload): string
     {
-        $nonce = $this->generateNonce();
-        $encryptedCookie = sodium_crypto_aead_aes256gcm_encrypt(
-            json_encode($cookie),
-            '',
-            $nonce,
-            base64_decode(self::AES256_KEY)
-        );
+        $jwtPayload = $data;
 
-        return JWT::encode([
-            'payload' => base64_encode($encryptedCookie),
-            'nonce' => base64_encode($nonce)
-        ], self::SALT, 'HS256');
+        if ($shouldEncryptPayload) {
+            $nonce = $this->generateNonce();
+            $encryptedCookie = sodium_crypto_aead_aes256gcm_encrypt(
+                json_encode($data),
+                '',
+                $nonce,
+                base64_decode(self::AES256_KEY)
+            );
+            $jwtPayload = [
+                'payload' => base64_encode($encryptedCookie),
+                'nonce' => base64_encode($nonce)
+            ];
+        }
+
+        return JWT::encode($jwtPayload, self::SALT, 'HS256');
     }
 
     /**
