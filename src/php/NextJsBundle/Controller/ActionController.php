@@ -140,7 +140,7 @@ class ActionController
                             );
                         },
                         array_filter(
-                            $this->extensionService->getRegisteredHooks(),
+                            $this->extensionService->getExtensions(),
                             function (array $hook) {
                                 return (isset($hook['hookType']) && $hook['hookType'] === 'action');
                             }
