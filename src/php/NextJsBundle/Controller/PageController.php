@@ -58,14 +58,14 @@ class PageController
 
     public function indexAction(Request $request, Context $context)
     {
-        if (!$request->query->has('path')) {
-            throw new BadRequestHttpException('Missing path');
+        if (!$request->headers->has('Frontastic-Path')) {
+            throw new BadRequestHttpException('The Frontastic-Path header is required');
         }
-        $path = $request->query->get('path');
-        if (!$request->query->has('locale')) {
-            throw new BadRequestHttpException('Missing locale');
+        $path = $request->headers->get('Frontastic-Path');
+        if (!$request->headers->has('Frontastic-Locale')) {
+            throw new BadRequestHttpException('The Frontastic-Locale header is required');
         }
-        $locale = $request->query->get('locale');
+        $locale = $request->headers->get('Frontastic-Locale');
 
         $this->assertLocaleSupported($locale, $context);
 
