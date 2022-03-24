@@ -46,8 +46,10 @@ class ActionController
 
         $this->assertActionExists($namespace, $action);
 
+        $timeout = $actionContext->frontasticContext->project->configuration["extensions"]["actionTimeout"] ?? null;
+
         /** @var \stdClass $apiResponse */
-        $apiResponse = $this->extensionService->callAction($namespace, $action, [$apiRequest, $actionContext]);
+        $apiResponse = $this->extensionService->callAction($namespace, $action, [$apiRequest, $actionContext], $timeout);
 
         $response = new JsonResponse();
 

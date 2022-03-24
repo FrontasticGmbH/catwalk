@@ -43,11 +43,14 @@ class DynamicPageService
             return null;
         }
 
+        $dynamicPageContext = $this->createDynamicPageContext($context);
+        $timeout = $dynamicPageContext->frontasticContext->project->configuration["extensions"]["pageTimeout"] ?? null;
+
         /** @var \stdClass */
         $dynamicPagePayload = $this->extensionService->callDynamicPageHandler([
             $this->requestService->createApiRequest($request),
-            $this->createDynamicPageContext($context)
-        ]);
+            $dynamicPageContext
+        ], $timeout);
 
         if ($dynamicPagePayload === null) {
             return null;
@@ -58,9 +61,9 @@ class DynamicPageService
         }
 
         if (isset($dynamicPagePayload->redirectLocation)) {
-            return new DynamicPageRedirectResult((array) $dynamicPagePayload);
+            return new DynamicPageRedirectResult((array)$dynamicPagePayload);
         }
-        return new DynamicPageSuccessResult((array) $dynamicPagePayload);
+        return new DynamicPageSuccessResult((array)$dynamicPagePayload);
     }
 
     /**
