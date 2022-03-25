@@ -58,14 +58,8 @@ class PageController
 
     public function indexAction(Request $request, Context $context)
     {
-        if (!$request->headers->has('Frontastic-Path')) {
-            throw new BadRequestHttpException('The Frontastic-Path header is required');
-        }
-        $path = $request->headers->get('Frontastic-Path');
-        if (!$request->headers->has('Frontastic-Locale')) {
-            throw new BadRequestHttpException('The Frontastic-Locale header is required');
-        }
-        $locale = $request->headers->get('Frontastic-Locale');
+        $path = $this->getPath($request);
+        $locale = $this->getLocale($request);
 
         $this->assertLocaleSupported($locale, $context);
 
@@ -181,5 +175,23 @@ class PageController
         if (!in_array($locale, $context->project->languages)) {
             throw new BadRequestHttpException('Locale not supported by project');
         }
+    }
+
+    private function getPath(Request $request)
+    {
+        if (!$request->headers->has('Frontastic-Path') && !$request->query->has('path')) {
+            throw new BadRequestHttpException('Missing path');
+        }
+
+        return $request->headers->get('Frontastic-Path') ?? $request->query->get('path');
+    }
+
+    private function getLocale($request)
+    {
+        if (!$request->headers->has('Frontastic-Locale') && !$request->query->has('locale')) {
+            throw new BadRequestHttpException('Missing locale');
+        }
+
+        return $request->headers->get('Frontastic-Locale') ?? $request->query->get('locale');
     }
 }
