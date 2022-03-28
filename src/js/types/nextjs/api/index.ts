@@ -219,14 +219,13 @@ export interface Request {
       * Will be JSON-decoded on the JS side and hold an object there.
       */
      body?: string;
-     /**
-      * <cookie-name> -> <cookie-value>
-      */
-     cookies?: Map<string, string>;
      hostname?: string;
      method: string;
      path: string;
      query: any;
+     clientIp?: string;
+     headers?: Map<string, string>;
+     frontasticRequestId?: string;
      /**
       * Frontastic session data.
       */
