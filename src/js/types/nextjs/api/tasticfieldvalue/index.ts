@@ -21,6 +21,10 @@ export interface PageFolderValue {
      name?: string;
      configuration?: any;
      _urls?: any;
+     /**
+      * The url for the current locale
+      */
+     _url?: string;
 }
 
 export interface ReferenceValue {
