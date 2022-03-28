@@ -134,10 +134,11 @@ class ExtensionService
      * Calls a dynamic page handler extension
      *
      * @param array $arguments
-     * @return object
-     * @throws InvalidJsonEncodeException|InvalidJsonDecodeException
+     * @return object|null
+     * @throws InvalidJsonDecodeException
+     * @throws InvalidJsonEncodeException
      */
-    public function callDynamicPageHandler(array $arguments): object
+    public function callDynamicPageHandler(array $arguments): ?object
     {
         return Json::decode($this->callExtension(self::DYNAMIC_PAGE_EXTENSION_NAME, $arguments)->wait());
     }
