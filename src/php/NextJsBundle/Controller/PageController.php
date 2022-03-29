@@ -82,7 +82,8 @@ class PageController
         }
 
         if ($node === null) {
-            $redirectResponse = $this->redirectService->getRedirectResponseForPath($path, [], $context);
+            $queryParams = $request->query->all();
+            $redirectResponse = $this->redirectService->getRedirectResponseForPath($path, $queryParams, $context);
             if ($redirectResponse !== null) {
                 return $redirectResponse;
             }
