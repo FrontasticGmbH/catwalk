@@ -163,10 +163,10 @@ class PageControllerTest extends TestCase
         return new Page($pageData);
     }
 
-    private function setupFakeRedirectForPath(string $path)
+    private function setupFakeRedirectForPath(string $path, array $queryParams)
     {
         \Phake::when($this->redirectServiceMock)
-            ->getRedirectResponseForPath($path, [], $this->contextFixture)
+            ->getRedirectResponseForPath($path, $queryParams, $this->contextFixture)
             ->thenReturn(new RedirectResponse([
                 'statusCode' => 301,
                 'reason' => RedirectResponse::REASON_REDIRECT_EXISTS_FOR_PATH,
@@ -220,7 +220,7 @@ class PageControllerTest extends TestCase
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(null);
 
-        $this->setupFakeRedirectForPath($path);
+        $this->setupFakeRedirectForPath($path, $request->query->all());
 
         $response = $this->pageController->indexAction($request, $this->contextFixture);
 
@@ -236,7 +236,7 @@ class PageControllerTest extends TestCase
         \Phake::when($this->nodeServiceMock)->get('fakeNodeId1')->thenReturn($this->getFakeNode());
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(null);
 
-        $this->setupFakeRedirectForPath($path);
+        $this->setupFakeRedirectForPath($path, $request->query->all());
 
         $response = $this->pageController->indexAction($request, $this->contextFixture);
 
@@ -252,7 +252,7 @@ class PageControllerTest extends TestCase
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult());
         \Phake::when($this->dynamicPageService)->matchNodeFor->thenReturn($this->getFakeNode());
 
-        $this->setupFakeRedirectForPath($path);
+        $this->setupFakeRedirectForPath($path, $request->query->all());
 
         $response = $this->pageController->indexAction($request, $this->contextFixture);
 
