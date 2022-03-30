@@ -127,7 +127,7 @@ Return Value: `\GuzzleHttp\Promise\PromiseInterface`
 ```php
 public function callDynamicPageHandler(
     array $arguments
-): object
+): ?object
 ```
 
 *Calls a dynamic page handler extension*
@@ -136,7 +136,7 @@ Argument|Type|Default|Description
 --------|----|-------|-----------
 `$arguments`|`array`||
 
-Return Value: `object`
+Return Value: `?object`
 
 ### callAction()
 

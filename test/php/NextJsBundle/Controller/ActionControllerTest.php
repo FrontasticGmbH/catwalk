@@ -18,9 +18,24 @@ class ActionControllerTest extends TestCase
 
     private ActionController $subject;
 
+    /**
+     * @var ExtensionService|\Phake_IMock
+     */
     private ExtensionService $extensionService;
+
+    /**
+     * @var RequestService|\Phake_IMock
+     */
     private RequestService $requestService;
+
+    /**
+     * @var FromFrontasticReactMapper|\Phake_IMock
+     */
     private FromFrontasticReactMapper $fromFrontasticReactMapper;
+
+    /**
+     * @var ContextCompletionService|\Phake_IMock
+     */
     private ContextCompletionService $contextCompletionService;
 
     protected function setUp(): void
@@ -66,20 +81,23 @@ class ActionControllerTest extends TestCase
     public function indexActionSuccessJwtDataProvider()
     {
         return [
-            [null],
-            [new \stdClass()]
+            [null, false, null],
+            [new \stdClass(), false, 'dummyPlainJWT'],
+            [null, true, null],
+            [new \stdClass(), true, 'dummyEncryptedJWT']
         ];
     }
 
     /**
      * @dataProvider indexActionSuccessJwtDataProvider
      */
-    public function indexActionSuccessJwt($sessionData)
+    public function testIndexActionSuccessJwt($sessionData, $isProduction, $expected)
     {
         $inputNamespace = 'namespace';
         $inputAction = 'action';
         $inputSymfonyRequest = \Phake::mock(SymfonyRequest::class);
         $inputContext = \Phake::mock(Context::class);
+        \Phake::when($inputContext)->isProduction()->thenReturn($isProduction);
 
         $requestMock = \Phake::mock(Request::class);
         \Phake::when($this->requestService)->createApiRequest($inputSymfonyRequest)->thenReturn($requestMock);
@@ -87,7 +105,7 @@ class ActionControllerTest extends TestCase
         $actionContext = new \Frontastic\Catwalk\NextJsBundle\Domain\Api\Context();
         \Phake::when($this->fromFrontasticReactMapper)->map($inputContext)->thenReturn($actionContext);
 
-        \Phake::when($this->extensionService)->isHookRegistered("action-$inputNamespace-$inputAction")->thenReturn(true);
+        \Phake::when($this->extensionService)->hasAction($inputNamespace, $inputAction)->thenReturn(true);
 
         $apiResponse = new Response();
         $apiResponse->ok = true;
@@ -95,11 +113,19 @@ class ActionControllerTest extends TestCase
         $apiResponse->statusCode = 200;
         $apiResponse->sessionData = $sessionData;
 
-        if ($sessionData) {
-            \Phake::when($this->requestService)->encodeJWTData($apiResponse->sessionData)->thenReturn("dummyJWT");
-        }
+        \Phake::when($this->requestService)
+            ->encodeJWTData($apiResponse->sessionData, false)
+            ->thenReturn("dummyPlainJWT");
 
-        \Phake::when($this->extensionService)->call->thenReturn($apiResponse);
+        \Phake::when($this->requestService)
+            ->encodeJWTData($apiResponse->sessionData, true)
+            ->thenReturn("dummyEncryptedJWT");
+
+        \Phake::when($this->requestService)
+            ->encodeJWTData(null)
+            ->thenReturn(null);
+
+        \Phake::when($this->extensionService)->callAction->thenReturn($apiResponse);
 
         // Call the subject method
         $result = $this->subject->indexAction($inputNamespace, $inputAction, $inputSymfonyRequest, $inputContext);
@@ -108,11 +134,7 @@ class ActionControllerTest extends TestCase
         $this->assertEquals($apiResponse->body, $result->getContent());
         $this->assertEquals($apiResponse->statusCode, $result->getStatusCode());
 
-        if ($sessionData) {
-            $this->assertEquals("dummyJWT", $result->headers->get('frontastic-session')); //set session
-        } else {
-            $this->assertNull($result->headers->get('frontastic-session')); //cleared session
-        }
+        $this->assertEquals($expected, $result->headers->get('frontastic-session'));
     }
 
     public function testIndexActionSuccess500()
@@ -126,8 +148,13 @@ class ActionControllerTest extends TestCase
         $inputSymfonyRequest = \Phake::mock(SymfonyRequest::class);
         $inputContext = \Phake::mock(Context::class);
 
-        $this->successResponsesCommonGivenWhenThen($inputNamespace, $inputAction, $inputSymfonyRequest, $inputContext,
-            $apiResponse);
+        $this->successResponsesCommonGivenWhenThen(
+            $inputNamespace,
+            $inputAction,
+            $inputSymfonyRequest,
+            $inputContext,
+            $apiResponse
+        );
 
         // Call the subject method
         $result = $this->subject->indexAction($inputNamespace, $inputAction, $inputSymfonyRequest, $inputContext);
@@ -148,8 +175,13 @@ class ActionControllerTest extends TestCase
         $inputSymfonyRequest = \Phake::mock(SymfonyRequest::class);
         $inputContext = \Phake::mock(Context::class);
 
-        $this->successResponsesCommonGivenWhenThen($inputNamespace, $inputAction, $inputSymfonyRequest, $inputContext,
-            $apiResponse);
+        $this->successResponsesCommonGivenWhenThen(
+            $inputNamespace,
+            $inputAction,
+            $inputSymfonyRequest,
+            $inputContext,
+            $apiResponse
+        );
 
         // Call the subject method
         $result = $this->subject->indexAction($inputNamespace, $inputAction, $inputSymfonyRequest, $inputContext);
@@ -175,8 +207,13 @@ class ActionControllerTest extends TestCase
         $inputSymfonyRequest = \Phake::mock(SymfonyRequest::class);
         $inputContext = \Phake::mock(Context::class);
 
-        $this->successResponsesCommonGivenWhenThen($inputNamespace, $inputAction, $inputSymfonyRequest, $inputContext,
-            $apiResponse);
+        $this->successResponsesCommonGivenWhenThen(
+            $inputNamespace,
+            $inputAction,
+            $inputSymfonyRequest,
+            $inputContext,
+            $apiResponse
+        );
 
         // Call the subject method
         $result = $this->subject->indexAction($inputNamespace, $inputAction, $inputSymfonyRequest, $inputContext);

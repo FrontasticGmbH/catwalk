@@ -156,11 +156,11 @@ class ExtensionService
      *
      * @param array $arguments
      * @param int|null $timeout
-     * @return object
+     * @return object|null
      * @throws InvalidJsonDecodeException
      * @throws InvalidJsonEncodeException
      */
-    public function callDynamicPageHandler(array $arguments, ?int $timeout): object
+    public function callDynamicPageHandler(array $arguments, ?int $timeout): ?object
     {
         if ($timeout && $timeout > self::MAX_PAGE_TIMEOUT) {
             $this->logger->warning(
