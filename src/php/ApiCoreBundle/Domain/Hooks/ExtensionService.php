@@ -2,7 +2,6 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks;
 
-use Frontastic\CI\Logger;
 use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonDecodeException;
 use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonEncodeException;
 use Frontastic\Common\HttpClient;
