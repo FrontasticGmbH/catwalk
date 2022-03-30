@@ -50,7 +50,12 @@ class ActionController
         $timeout = $actionContext->frontasticContext->project->configuration["extensions"]["actionTimeout"] ?? null;
 
         /** @var \stdClass $apiResponse */
-        $apiResponse = $this->extensionService->callAction($namespace, $action, [$apiRequest, $actionContext], $timeout);
+        $apiResponse = $this->extensionService->callAction(
+            $namespace,
+            $action,
+            [$apiRequest, $actionContext],
+            $timeout
+        );
 
         $response = new JsonResponse();
 
@@ -68,7 +73,7 @@ class ActionController
         if (isset($apiResponse->ok) && !$apiResponse->ok) {
             // hooksservice signaled an error
             $response->setStatusCode(500);
-            $response->setContent(json_encode((object) $apiResponse));
+            $response->setContent(json_encode((object)$apiResponse));
         } elseif (!isset($apiResponse->statusCode) || !isset($apiResponse->body)) {
             // Fixme: Make all extensions return a valid response!
             $response->setStatusCode(200);
@@ -76,7 +81,7 @@ class ActionController
                 'X-Extension-Error',
                 'Data returned from hook did not have statusCode or body fields'
             );
-            $response->setContent(json_encode((object) $apiResponse));
+            $response->setContent(json_encode((object)$apiResponse));
         } else {
             $response->setContent($apiResponse->body);
             $response->setStatusCode($apiResponse->statusCode);
