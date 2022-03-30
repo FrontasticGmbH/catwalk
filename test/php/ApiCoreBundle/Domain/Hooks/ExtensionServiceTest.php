@@ -8,6 +8,7 @@ use Frontastic\Common\HttpClient;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use GuzzleHttp\Promise\Create;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -19,6 +20,7 @@ class ExtensionServiceTest extends TestCase
     private ContextService $contextService;
     private RequestStack $requestStack;
     private HttpClient $httpClient;
+    private LoggerInterface $logger;
 
     private array $extensions = [
         "data-source-frontastic-product-list" => [
@@ -40,14 +42,16 @@ class ExtensionServiceTest extends TestCase
 
     protected function setUp()
     {
+        $this->logger = \Phake::mock(LoggerInterface::class);
         $this->contextService = \Phake::mock(ContextService::class);
         $this->requestStack = \Phake::mock(RequestStack::class);
         $this->httpClient = \Phake::mock(HttpClient::class);
 
         $this->subject = new ExtensionService(
+            $this->logger,
             $this->contextService,
             $this->requestStack,
-            $this->httpClient
+            $this->httpClient,
         );
     }
 
@@ -171,7 +175,7 @@ class ExtensionServiceTest extends TestCase
 
         $this->injectSubjectWithExtensions($this->extensions);
 
-        $response = $this->subject->callDataSource($extensionName, $arguments);
+        $response = $this->subject->callDataSource($extensionName, $arguments, 1);
         $responseData = $response->wait();
 
         $this->assertNotNull($responseData);
@@ -201,7 +205,7 @@ class ExtensionServiceTest extends TestCase
             Create::promiseFor($response)
         );
 
-        $result = $this->subject->callDataSource($extensionName, $arguments);
+        $result = $this->subject->callDataSource($extensionName, $arguments, 1);
         $responseData = $result->wait();
 
         $this->assertNotNull($responseData);
@@ -230,7 +234,7 @@ class ExtensionServiceTest extends TestCase
 
         $this->expectExceptionMessage("Calling extension data-source-frontastic-product-list failed. Error: Server error");
 
-        $this->subject->callDataSource($extensionName, $arguments)
+        $this->subject->callDataSource($extensionName, $arguments, 1)
             ->wait();
     }
 
@@ -252,7 +256,7 @@ class ExtensionServiceTest extends TestCase
             Create::promiseFor($response)
         );
 
-        $result = $this->subject->callDynamicPageHandler($arguments);
+        $result = $this->subject->callDynamicPageHandler($arguments, 1);
 
         $this->assertEquals('hello world', $result->response);
     }
@@ -275,7 +279,7 @@ class ExtensionServiceTest extends TestCase
             Create::promiseFor($response)
         );
 
-        $result = $this->subject->callAction("account", "login", $arguments);
+        $result = $this->subject->callAction("account", "login", $arguments, 1);
 
         $this->assertEquals('hello world', $result->response);
     }
@@ -293,6 +297,7 @@ class ExtensionServiceTest extends TestCase
     {
         return \Phake::partialMock(
             ExtensionService::class,
+            $this->logger,
             $this->contextService,
             $this->requestStack,
             $this->httpClient
