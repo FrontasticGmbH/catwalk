@@ -18,6 +18,7 @@
 
 ```php
 public function __construct(
+    \Psr\Log\LoggerInterface $logger,
     ContextService $contextService,
     \Symfony\Component\HttpFoundation\RequestStack $requestStack,
     \Frontastic\Common\HttpClient $httpClient
@@ -26,6 +27,7 @@ public function __construct(
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
+`$logger`|`\Psr\Log\LoggerInterface`||
 `$contextService`|[`ContextService`](../ContextService.md)||
 `$requestStack`|`\Symfony\Component\HttpFoundation\RequestStack`||
 `$httpClient`|`\Frontastic\Common\HttpClient`||
@@ -109,7 +111,8 @@ Return Value: `bool`
 ```php
 public function callDataSource(
     string $extensionName,
-    array $arguments
+    array $arguments,
+    ?int $timeout
 ): \GuzzleHttp\Promise\PromiseInterface
 ```
 
@@ -119,6 +122,7 @@ Argument|Type|Default|Description
 --------|----|-------|-----------
 `$extensionName`|`string`||
 `$arguments`|`array`||
+`$timeout`|`?int`||
 
 Return Value: `\GuzzleHttp\Promise\PromiseInterface`
 
@@ -126,7 +130,8 @@ Return Value: `\GuzzleHttp\Promise\PromiseInterface`
 
 ```php
 public function callDynamicPageHandler(
-    array $arguments
+    array $arguments,
+    ?int $timeout
 ): ?object
 ```
 
@@ -135,6 +140,7 @@ public function callDynamicPageHandler(
 Argument|Type|Default|Description
 --------|----|-------|-----------
 `$arguments`|`array`||
+`$timeout`|`?int`||
 
 Return Value: `?object`
 
@@ -144,7 +150,8 @@ Return Value: `?object`
 public function callAction(
     string $namespace,
     string $action,
-    array $arguments
+    array $arguments,
+    ?int $timeout
 ): mixed
 ```
 
@@ -155,6 +162,7 @@ Argument|Type|Default|Description
 `$namespace`|`string`||
 `$action`|`string`||
 `$arguments`|`array`||
+`$timeout`|`?int`||
 
 Return Value: `mixed`
 
