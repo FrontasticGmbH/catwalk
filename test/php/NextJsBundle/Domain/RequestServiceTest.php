@@ -81,7 +81,7 @@ class RequestServiceTest extends TestCase
         ];
     }
 
-    public function JWTEncodeProvider(): array
+    public function JWTEncodeEncryptedPayloadProvider(): array
     {
         // everything here: JWT HS256, payload AES256 encrypted with a nonce of 000000000000
         return [
@@ -115,6 +115,40 @@ class RequestServiceTest extends TestCase
         ];
     }
 
+    public function JWTEncodeNotEncryptedPayloadProvider(): array
+    {
+        // everything here: JWT HS256, payload not encrypted
+        return [
+            'simple 1 key 1 value' => [
+                ['foo' => 'bar'],
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIifQ.K0I67d15XjGIa1GiHzOXdFqMkPALJH_gwzBp7oULyLA',
+            ],
+            'empty' => [
+                [],
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.W10.aMgKiTUjtr2pEGJaNVhPvohqG0fkTrSmYiVYyNm3HQ0'
+            ],
+            'null value valid key' => [
+                ['foo' => null],
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOm51bGx9._NfEJSA-hoHQjbQ5wMwXqaFMSr23PIKMkDN6bllhU1I'
+            ],
+            'null key null value' => [
+                [null => null],
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIiOm51bGx9.KwU0EoacI6mv4A31-3p9MlzLZWe0O9FmcWuLWmem2MY'
+            ],
+            'complex nested object' => [
+                [
+                    'foo' => [
+                        'chocolate' => 'bar',
+                        'baz' => 'zab'
+                    ],
+                    1 => 2,
+                    3 => 'value'
+                ],
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOnsiY2hvY29sYXRlIjoiYmFyIiwiYmF6IjoiemFiIn0sIjEiOjIsIjMiOiJ2YWx1ZSJ9.oGnyOibHyAb2D0KoppuUIFa8lVsIbihw8-J2DAUF4Vw'
+            ]
+        ];
+    }
+
     /**
      * @dataProvider JWTDecodeProvider
      */
@@ -126,9 +160,9 @@ class RequestServiceTest extends TestCase
     }
 
     /**
-     * @dataProvider JWTEncodeProvider
+     * @dataProvider JWTEncodeEncryptedPayloadProvider
      */
-    public function testEncodeJWTData($data, $expected)
+    public function testEncodeJWTDataWithEncryptedPayload($data, $expected)
     {
         $requestService = $this->getMockClass(
             RequestService::class,
@@ -140,7 +174,17 @@ class RequestServiceTest extends TestCase
             ->method('generateNonce')
             ->will($this->returnValue('000000000000'));
 
-        $result = $requestService->encodeJWTData($data);
+        $result = $requestService->encodeJWTData($data, true);
+
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * @dataProvider JWTEncodeNotEncryptedPayloadProvider
+     */
+    public function testEncodeJWTDataWithNotEncryptedPayload($data, $expected)
+    {
+        $result = $this->requestService->encodeJWTData($data, false);
 
         $this->assertSame($expected, $result);
     }

@@ -41,6 +41,7 @@ class ActionController
         SymfonyRequest $request,
         ClassicContext $context
     ): JsonResponse {
+        $isProduction = $context->isProduction();
         $apiRequest = $this->requestService->createApiRequest($request);
         $actionContext = $this->createActionContext($context);
 
@@ -57,11 +58,11 @@ class ActionController
             if ($apiResponse->sessionData === null) {
                 $this->clearJwtSession($response);
             } else {
-                $this->storeJwtSession($response, $apiResponse->sessionData);
+                $this->storeJwtSession($response, $apiResponse->sessionData, $isProduction);
             }
         } else {
             // send a null payload
-            $this->storeJwtSession($response, $apiRequest->sessionData);
+            $this->storeJwtSession($response, $apiRequest->sessionData, $isProduction);
         }
 
         if (isset($apiResponse->ok) && !$apiResponse->ok) {
@@ -107,9 +108,9 @@ class ActionController
      * @param $sessionData
      * @return void
      */
-    private function storeJwtSession(JsonResponse $response, $sessionData): void
+    private function storeJwtSession(JsonResponse $response, $sessionData, bool $isProduction): void
     {
-        $jwt = $this->requestService->encodeJWTData($sessionData);
+        $jwt = $this->requestService->encodeJWTData($sessionData, $isProduction);
 
         $response->headers->set(
             'frontastic-session',
@@ -142,7 +143,7 @@ class ActionController
                             );
                         },
                         array_filter(
-                            $this->extensionService->getRegisteredHooks(),
+                            $this->extensionService->getExtensions(),
                             function (array $hook) {
                                 return (isset($hook['hookType']) && $hook['hookType'] === 'action');
                             }
