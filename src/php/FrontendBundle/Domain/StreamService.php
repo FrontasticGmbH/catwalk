@@ -109,7 +109,7 @@ class StreamService
     private function findUsageInConfiguration(Tastic $tastic, array $fields, array $configuration, array $usage): array
     {
         foreach ($fields as $field) {
-            if ($field['type'] === 'stream' &&
+            if (($field['type'] === 'stream' || $field['type'] == 'dataSource') &&
                 (!empty($configuration[$field['field']]) || isset($field['default']))
             ) {
                 $streamId = $configuration[$field['field']] ?? $field['default'];
@@ -125,7 +125,7 @@ class StreamService
                 $usage[$streamId]['count'][] = null;
                 $usage[$streamId]['tastics'][] = $tastic->tasticType;
 
-                foreach ($this->countProperties[$field['streamType']] ?? [] as $countFieldName) {
+                foreach ($this->countProperties[$field['streamType'] ?? $field['dataSourceType']] ?? [] as $countFieldName) {
                     $usage[$streamId]['count'][] = $configuration[$countFieldName] ?? null;
                     $usage[$streamId]['tastics'][] = $tastic->tasticType;
                 }
