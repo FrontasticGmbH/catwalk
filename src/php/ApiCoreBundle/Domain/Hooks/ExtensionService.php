@@ -24,6 +24,10 @@ class ExtensionService
     const MAX_DATASOURCE_TIMEOUT = 5;
     const MAX_PAGE_TIMEOUT = 5;
 
+    const TIMEOUT_MESSAGE = <<< EOT
+The provided timeout of '%s' is greater than the maximum allowed value of '%s' using maximum value instead
+EOT;
+
     private LoggerInterface $logger;
     private ContextService $contextService;
 
@@ -140,8 +144,9 @@ class ExtensionService
         if ($timeout && $timeout > self::MAX_DATASOURCE_TIMEOUT) {
             $this->logger->info(
                 sprintf(
-                    "The provided timeout of '%s' is greater than the maximum allowed value of '%s', using maximum value instead",
-                    $timeout, self::MAX_DATASOURCE_TIMEOUT
+                    self::TIMEOUT_MESSAGE,
+                    $timeout,
+                    self::MAX_DATASOURCE_TIMEOUT
                 )
             );
             $timeout = self::MAX_DATASOURCE_TIMEOUT;
@@ -164,15 +169,21 @@ class ExtensionService
         if ($timeout && $timeout > self::MAX_PAGE_TIMEOUT) {
             $this->logger->warning(
                 sprintf(
-                    "The provided timeout of '%s' is greater than the maximum allowed value of '%s', using maximum value instead",
-                    $timeout, self::MAX_PAGE_TIMEOUT
+                    self::TIMEOUT_MESSAGE,
+                    $timeout,
+                    self::MAX_PAGE_TIMEOUT
                 )
             );
             $timeout = self::MAX_PAGE_TIMEOUT;
         }
 
-        return Json::decode($this->callExtension(self::DYNAMIC_PAGE_EXTENSION_NAME, $arguments,
-            $timeout ?? self::MAX_PAGE_TIMEOUT)->wait());
+        return Json::decode(
+            $this->callExtension(
+                self::DYNAMIC_PAGE_EXTENSION_NAME,
+                $arguments,
+                $timeout ?? self::MAX_PAGE_TIMEOUT
+            )->wait()
+        );
     }
 
     /**
@@ -191,8 +202,9 @@ class ExtensionService
         if ($timeout && $timeout > self::MAX_ACTION_TIMEOUT) {
             $this->logger->warning(
                 sprintf(
-                    "The provided timeout of '%s' is greater than the maximum allowed value of '%s', using maximum value instead",
-                    $timeout, self::MAX_ACTION_TIMEOUT
+                    self::TIMEOUT_MESSAGE,
+                    $timeout,
+                    self::MAX_ACTION_TIMEOUT
                 )
             );
             $timeout = self::MAX_ACTION_TIMEOUT;
