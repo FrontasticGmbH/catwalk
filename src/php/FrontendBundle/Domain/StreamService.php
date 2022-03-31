@@ -125,7 +125,8 @@ class StreamService
                 $usage[$streamId]['count'][] = null;
                 $usage[$streamId]['tastics'][] = $tastic->tasticType;
 
-                foreach ($this->countProperties[$field['streamType'] ?? $field['dataSourceType']] ?? [] as $countFieldName) {
+                $streamType = $field['streamType'] ?? $field['dataSourceType'];
+                foreach ($this->countProperties[$streamType] ?? [] as $countFieldName) {
                     $usage[$streamId]['count'][] = $configuration[$countFieldName] ?? null;
                     $usage[$streamId]['tastics'][] = $tastic->tasticType;
                 }
