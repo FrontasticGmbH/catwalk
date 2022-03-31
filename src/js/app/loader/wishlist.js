@@ -192,7 +192,7 @@ let WishlistLoader = function (store, api) {
      * @param update
      * @return Promise
      */
-    this.removeLineItem = (wishlist, update) => {
+    this.removeLineItem = (wishlist, update, showSuccessNotification = true) => {
         return this.api.request(
             'POST',
             'Frontastic.WishlistApi.Wishlist.removeLineItem',
@@ -202,13 +202,15 @@ let WishlistLoader = function (store, api) {
                 // FIXME: No idea why this was here. Caused re-ordering of products in normal node. Can be removed?
                 // let route = this.store.getState().app.route
                 // app.getLoader('node').loadMaster(route.route, route.parameters)
-                app.getLoader('context').notifyUser(
-                    <Message
-                        code='account.message.wishlistRemove'
-                        message='Removed product from wishlist'
-                    />,
-                    'success'
-                )
+                if (showSuccessNotification) {
+                    app.getLoader('context').notifyUser(
+                        <Message
+                            code='account.message.wishlistRemove'
+                            message='Removed product from wishlist'
+                        />,
+                        'success'
+                    )
+                }
                 this.store.dispatch({
                     type: 'WishlistApi.Wishlist.update.success',
                     data: data,
