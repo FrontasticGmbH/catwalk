@@ -243,12 +243,14 @@ class StreamService
                     $schema = $tasticMap[$tastic->tasticType]->configurationSchema['schema'];
                     foreach ($schema as $group) {
                         foreach ($group['fields'] as $field) {
+                            $streamType = $field['streamType'] ?? $field['dataSourceType'] ?? null;
                             if ($field['type'] === 'stream' &&
                                 empty($tastic->configuration->{$field['field']}) &&
-                                isset($defaultStreams[$field['streamType']])
+                                $streamType !== null &&
+                                isset($defaultStreams[$streamType])
                             ) {
                                 $tastic->configuration->{$field['field']} =
-                                    $defaultStreams[$field['streamType']]['streamId'];
+                                    $defaultStreams[$streamType]['streamId'];
                             }
                         }
                     }
