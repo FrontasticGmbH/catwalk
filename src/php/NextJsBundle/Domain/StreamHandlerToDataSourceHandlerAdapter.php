@@ -34,12 +34,17 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
 
     public function handle(Stream $stream, StreamContext $streamContext): PromiseInterface
     {
+        $dataSourceContext = $this->createDataSourceContext($streamContext);
+        $timeout = $dataSourceContext->frontasticContext->project->configuration["extensions"]["dataSourceTimeout"]
+            ?? null;
+
         return $this->extensionService->callDataSource(
             $this->extensionName,
             [
                 $this->fromFrontasticReactMapper->map($stream),
-                $this->createDataSourceContext($streamContext)
-            ]
+                $dataSourceContext
+            ],
+            $timeout
         )
             ->then(
                 function (?string $responseBody) {
