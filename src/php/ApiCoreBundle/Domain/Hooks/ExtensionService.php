@@ -9,6 +9,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
 use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
 use Frontastic\Common\HttpClient\Response;
@@ -19,6 +20,15 @@ class ExtensionService
     const BASE_PATH = 'http://localhost:8082/'; // TODO: move to a config file later on
     const DYNAMIC_PAGE_EXTENSION_NAME = 'dynamic-page-handler';
 
+    const MAX_ACTION_TIMEOUT = 10;
+    const MAX_DATASOURCE_TIMEOUT = 5;
+    const MAX_PAGE_TIMEOUT = 5;
+
+    const TIMEOUT_MESSAGE = <<< EOT
+The provided timeout of '%s' is greater than the maximum allowed value of '%s' using maximum value instead
+EOT;
+
+    private LoggerInterface $logger;
     private ContextService $contextService;
 
     /** @var array[] */
@@ -30,10 +40,12 @@ class ExtensionService
 
 
     public function __construct(
+        LoggerInterface $logger,
         ContextService $contextService,
         RequestStack $requestStack,
         HttpClient $httpClient
     ) {
+        $this->logger = $logger;
         $this->contextService = $contextService;
         $this->requestStack = $requestStack;
         $this->httpClient = $httpClient;
@@ -122,24 +134,56 @@ class ExtensionService
      *
      * @param string $extensionName
      * @param array $arguments
+     * @param int|null $timeout
      * @return PromiseInterface
-     * @throws InvalidJsonEncodeException|InvalidJsonDecodeException
+     * @throws InvalidJsonDecodeException
+     * @throws InvalidJsonEncodeException
      */
-    public function callDataSource(string $extensionName, array $arguments): PromiseInterface
+    public function callDataSource(string $extensionName, array $arguments, ?int $timeout): PromiseInterface
     {
-        return $this->callExtension($extensionName, $arguments);
+        if ($timeout && $timeout > self::MAX_DATASOURCE_TIMEOUT) {
+            $this->logger->info(
+                sprintf(
+                    self::TIMEOUT_MESSAGE,
+                    $timeout,
+                    self::MAX_DATASOURCE_TIMEOUT
+                )
+            );
+            $timeout = self::MAX_DATASOURCE_TIMEOUT;
+        }
+
+        return $this->callExtension($extensionName, $arguments, $timeout ?? self::MAX_DATASOURCE_TIMEOUT);
     }
 
     /**
      * Calls a dynamic page handler extension
      *
      * @param array $arguments
-     * @return object
-     * @throws InvalidJsonEncodeException|InvalidJsonDecodeException
+     * @param int|null $timeout
+     * @return object|null
+     * @throws InvalidJsonDecodeException
+     * @throws InvalidJsonEncodeException
      */
-    public function callDynamicPageHandler(array $arguments): object
+    public function callDynamicPageHandler(array $arguments, ?int $timeout): ?object
     {
-        return Json::decode($this->callExtension(self::DYNAMIC_PAGE_EXTENSION_NAME, $arguments)->wait());
+        if ($timeout && $timeout > self::MAX_PAGE_TIMEOUT) {
+            $this->logger->warning(
+                sprintf(
+                    self::TIMEOUT_MESSAGE,
+                    $timeout,
+                    self::MAX_PAGE_TIMEOUT
+                )
+            );
+            $timeout = self::MAX_PAGE_TIMEOUT;
+        }
+
+        return Json::decode(
+            $this->callExtension(
+                self::DYNAMIC_PAGE_EXTENSION_NAME,
+                $arguments,
+                $timeout ?? self::MAX_PAGE_TIMEOUT
+            )->wait()
+        );
     }
 
     /**
@@ -148,13 +192,26 @@ class ExtensionService
      * @param string $namespace
      * @param string $action
      * @param array $arguments
+     * @param int|null $timeout
      * @return mixed|object
-     * @throws InvalidJsonDecodeException|InvalidJsonEncodeException
+     * @throws InvalidJsonDecodeException
+     * @throws InvalidJsonEncodeException
      */
-    public function callAction(string $namespace, string $action, array $arguments)
+    public function callAction(string $namespace, string $action, array $arguments, ?int $timeout)
     {
+        if ($timeout && $timeout > self::MAX_ACTION_TIMEOUT) {
+            $this->logger->warning(
+                sprintf(
+                    self::TIMEOUT_MESSAGE,
+                    $timeout,
+                    self::MAX_ACTION_TIMEOUT
+                )
+            );
+            $timeout = self::MAX_ACTION_TIMEOUT;
+        }
+
         $hookName = $this->getActionHookName($namespace, $action);
-        return Json::decode($this->callExtension($hookName, $arguments)->wait());
+        return Json::decode($this->callExtension($hookName, $arguments, $timeout ?? self::MAX_ACTION_TIMEOUT)->wait());
     }
 
     private function getActionHookName(string $namespace, string $action): string
@@ -173,7 +230,7 @@ class ExtensionService
      * @throws InvalidJsonEncodeException
      * @throws InvalidJsonDecodeException
      */
-    private function callExtension(string $extensionName, array $arguments): PromiseInterface
+    private function callExtension(string $extensionName, array $arguments, int $timeout): PromiseInterface
     {
         if (!$this->hasExtension($extensionName)) {
             return Create::promiseFor(Json::encode([
@@ -191,7 +248,7 @@ class ExtensionService
         $headers = ['Frontastic-Request-Id' => "Frontastic-Request-Id:$requestId"];
 
         try {
-            return $this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers);
+            return $this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers, $timeout);
         } catch (\Exception $exception) {
             return Create::promiseFor(Json::encode([
                 'ok' => false,
@@ -207,12 +264,16 @@ class ExtensionService
         string $project,
         string $extensionName,
         string $payload,
-        ?array $headers
+        ?array $headers,
+        int $timeout
     ): PromiseInterface {
         $path = $this->makePath('run', $project, $extensionName);
         $requestHeaders = $headers + self::DEFAULT_HEADERS;
 
-        return $this->httpClient->postAsync($path, $payload, $requestHeaders)->then(
+        $requestOptions = new HttpClient\Options();
+        $requestOptions->timeout = $timeout;
+
+        return $this->httpClient->postAsync($path, $payload, $requestHeaders, $requestOptions)->then(
             function (Response $response) use ($extensionName) {
                 if ($response->status != 200) {
                     throw new \Exception('Calling extension ' . $extensionName . ' failed. Error: ' . $response->body);

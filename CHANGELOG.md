@@ -1,5 +1,13 @@
 # catwalk Changelog
 
+## `1.40.0` (2022-03-29)
+
+* chore(ci): re-enable checking of extension types in CI
+* fix(FP-1472): Return 404 on non existing page
+* misc(FP-1399): Add unit tests for testing different isProduction values
+* fix(FP-1678): Fix call to get project extension on ActionController
+* feat(FP-1399): Only encrypt JWT session token in production
+
 ## `1.39.1` (2022-03-21)
 
 * feat(FP-811): Return 404 when product does not exist
