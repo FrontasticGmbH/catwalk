@@ -10,7 +10,7 @@ class DataSourceReferenceFormatUpdater implements FieldVisitor
 {
     public function processField(FieldConfiguration $configuration, $value, array $fieldPath)
     {
-        if ($configuration->getType() !== 'stream') {
+        if ($configuration->getType() !== 'stream' && $configuration->getType() !== 'dataSource') {
             return $value;
         }
 
