@@ -122,8 +122,8 @@ components:
                                                     }
     parameters:
         localeParameter:
-            in: query
-            name: locale
+            in: header
+            name: Frontastic-Locale
             required: true
             schema:
                 $ref: '#/components/schemas/Locale'
@@ -169,8 +169,8 @@ paths:
             parameters:
                 - $ref: '#/components/parameters/acceptHeader'
                 - $ref: '#/components/parameters/localeParameter'
-                - name: path
-                  in: query
+                - name: Frontastic-Path
+                  in: header
                   required: true
                   schema:
                       type: string
