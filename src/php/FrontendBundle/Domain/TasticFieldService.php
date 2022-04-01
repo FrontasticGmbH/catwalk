@@ -166,7 +166,7 @@ class TasticFieldService
             }
         } else {
             try {
-                $streamType = $fieldDefinition['streamType'] ?? $fieldType;
+                $streamType = $fieldDefinition['streamType'] ?? $fieldDefinition['dataSourceType'] ?? $fieldType;
                 if (!array_key_exists($streamType, $this->fieldHandlers)) {
                     return $handledFieldData;
                 }
