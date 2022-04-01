@@ -287,6 +287,21 @@ paths:
                                       "ok": false,
                                       "message": "Could not resolve page from path"
                                   }
+    /frontastic/preview:
+        get:
+            summary: 'Page structure and data for a preview'
+            description: 'Retrieve structure and all data to render a preview'
+            parameters:
+                - $ref: '#/components/parameters/acceptHeader'
+                - $ref: '#/components/parameters/localeParameter'
+                - name: previewId
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: 'Page folder information, page structure, and data source data'
     /frontastic/action/{namespace}/{action}:
         summary: 'Execute an action'
         description: 'Execute an action as implemented through an API action extension. Supported HTTP methods, format, headers, and status code are dependent on the action implementation.'
