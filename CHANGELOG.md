@@ -1,5 +1,11 @@
 # catwalk Changelog
 
+## `1.41.0` (2022-04-04)
+
+* Make success notification for remove from wishlist optional
+* Set timeout for ExtensionRunner calls
+* Allow field type dataSource in schemas
+
 ## `1.40.0` (2022-03-29)
 
 * chore(ci): re-enable checking of extension types in CI
