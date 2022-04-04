@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.42.0` (2022-04-04)
+
+* Accept `path` param as `Frontastic-Path` header in `/frontastic/page` endpoint
+* Accept `locale` param as `Frontastic-Locale` header in `/frontastic/page` endpoint
+
 ## `1.41.0` (2022-04-04)
 
 * Make success notification for remove from wishlist optional
