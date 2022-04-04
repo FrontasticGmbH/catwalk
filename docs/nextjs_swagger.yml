@@ -293,7 +293,11 @@ paths:
             description: 'Retrieve structure and all data to render a preview'
             parameters:
                 - $ref: '#/components/parameters/acceptHeader'
-                - $ref: '#/components/parameters/localeParameter'
+                - name: locale
+                  in: query
+                  required: true
+                  schema:
+                      $ref: '#/components/schemas/Locale'
                 - name: previewId
                   in: query
                   required: true
