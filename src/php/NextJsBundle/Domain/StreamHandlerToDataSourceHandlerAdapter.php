@@ -2,32 +2,31 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamContext;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceContext;
-use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 
 class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
 {
-    private string $hookName;
-    private HooksService $hooksService;
+    private string $extensionName;
+    private ExtensionService $extensionService;
     private RequestService $requestService;
     private FromFrontasticReactMapper $fromFrontasticReactMapper;
     private ContextCompletionService $contextCompletionService;
 
     public function __construct(
-        HooksService $hooksService,
+        ExtensionService $hooksService,
         RequestService $requestService,
         FromFrontasticReactMapper $fromFrontasticReactMapper,
         ContextCompletionService $contextCompletionService,
-        string $hookName
+        string $extensionName
     ) {
-        $this->hookName = $hookName;
-        $this->hooksService = $hooksService;
+        $this->extensionName = $extensionName;
+        $this->extensionService = $hooksService;
         $this->requestService = $requestService;
         $this->fromFrontasticReactMapper = $fromFrontasticReactMapper;
         $this->contextCompletionService = $contextCompletionService;
@@ -35,22 +34,32 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
 
     public function handle(Stream $stream, StreamContext $streamContext): PromiseInterface
     {
-        $hookServiceResponse = $this->hooksService->call(
-            $this->hookName,
+        $dataSourceContext = $this->createDataSourceContext($streamContext);
+        $timeout = $dataSourceContext->frontasticContext->project->configuration["extensions"]["dataSourceTimeout"]
+            ?? null;
+
+        return $this->extensionService->callDataSource(
+            $this->extensionName,
             [
                 $this->fromFrontasticReactMapper->map($stream),
-                $this->createDataSourceContext($streamContext)
-            ]
-        );
-        if (!isset($hookServiceResponse->dataSourcePayload)) {
-            throw new \RuntimeException(
-                "Invalid data-source response: Missing `dataSourcePayload`: " .
-                json_encode($hookServiceResponse)
+                $dataSourceContext
+            ],
+            $timeout
+        )
+            ->then(
+                function (?string $responseBody) {
+                    $obj = json_decode($responseBody);
+
+                    if (!$obj || !isset($obj->dataSourcePayload)) {
+                        throw new \RuntimeException(
+                            "Invalid data-source response: Missing `dataSourcePayload`: " .
+                            $responseBody
+                        );
+                    }
+
+                    return $obj->dataSourcePayload;
+                }
             );
-        }
-        return Promise\promise_for(
-            $hookServiceResponse->dataSourcePayload
-        );
     }
 
     private function createDataSourceContext(StreamContext $streamContext): DataSourceContext

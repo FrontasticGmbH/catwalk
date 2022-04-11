@@ -2,7 +2,7 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class StreamServiceFactory
 {
     private TasticService $tasticService;
-    private HooksService $hooksService;
+    private ExtensionService $extensionService;
     private RequestService $requestService;
     private LoggerInterface $logger;
     private RequestStack $requestStack;
@@ -34,7 +34,7 @@ class StreamServiceFactory
 
     public function __construct(
         TasticService $tasticService,
-        HooksService $hooksService,
+        ExtensionService $extensionService,
         RequestService $requestService,
         LoggerInterface $logger,
         RequestStack $requestStack,
@@ -45,7 +45,7 @@ class StreamServiceFactory
         bool $debug = false
     ) {
         $this->tasticService = $tasticService;
-        $this->hooksService = $hooksService;
+        $this->extensionService = $extensionService;
         $this->logger = $logger;
         $this->requestStack = $requestStack;
         $this->fromFrontasticReactMapper = $fromFrontasticReactMapper;
@@ -68,12 +68,12 @@ class StreamServiceFactory
         );
 
         try {
-            foreach ($this->hooksService->getRegisteredHooks() as $hook) {
+            foreach ($this->extensionService->getExtensions() as $hook) {
                 if (isset($hook['hookType']) && $hook['hookType'] === 'data-source') {
                     $streamService->addStreamHandlerV2(
                         $hook['dataSourceIdentifier'],
                         new StreamHandlerToDataSourceHandlerAdapter(
-                            $this->hooksService,
+                            $this->extensionService,
                             $this->requestService,
                             $this->fromFrontasticReactMapper,
                             $this->contextCompletionService,

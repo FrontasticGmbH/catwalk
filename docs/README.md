@@ -40,10 +40,7 @@ Here you find the API documentation for the relevant classes:
     * [Environment](php/ApiCoreBundle/Domain/Environment.md)
     * [EnvironmentReplicationFilter](php/ApiCoreBundle/Domain/EnvironmentReplicationFilter.md)
     * Hooks
-      * [HookResponseDeserializer](php/ApiCoreBundle/Domain/Hooks/HookResponseDeserializer.md)
-      * [HooksApiClient](php/ApiCoreBundle/Domain/Hooks/HooksApiClient.md)
-      * [HooksCall](php/ApiCoreBundle/Domain/Hooks/HooksCall.md)
-      * [HooksService](php/ApiCoreBundle/Domain/Hooks/HooksService.md)
+      * [ExtensionService](php/ApiCoreBundle/Domain/Hooks/ExtensionService.md)
     * [ProductApiFactoryDecorator](php/ApiCoreBundle/Domain/ProductApiFactoryDecorator.md)
     * [ProductApiWithoutInner](php/ApiCoreBundle/Domain/ProductApiWithoutInner.md)
     * [ProductSearchApiFactoryDecorator](php/ApiCoreBundle/Domain/ProductSearchApiFactoryDecorator.md)
@@ -150,6 +147,7 @@ Here you find the API documentation for the relevant classes:
       * [DynamicPageSuccessResult](php/NextJsBundle/Domain/Api/DynamicPageSuccessResult.md)
       * Frontend
         * [PageDataResponse](php/NextJsBundle/Domain/Api/Frontend/PageDataResponse.md)
+        * [PagePreviewContext](php/NextJsBundle/Domain/Api/Frontend/PagePreviewContext.md)
         * [PagePreviewDataResponse](php/NextJsBundle/Domain/Api/Frontend/PagePreviewDataResponse.md)
         * [RedirectResponse](php/NextJsBundle/Domain/Api/Frontend/RedirectResponse.md)
       * [FrontendContext](php/NextJsBundle/Domain/Api/FrontendContext.md)

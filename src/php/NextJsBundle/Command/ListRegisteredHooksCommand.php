@@ -2,18 +2,18 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Command;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksApiClient;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListRegisteredHooksCommand extends Command
 {
-    private HooksApiClient $hooksApiClient;
+    private ExtensionService $hooksService;
 
-    public function __construct(HooksApiClient $hooksApiClient)
+    public function __construct(ExtensionService $hooksService)
     {
-        $this->hooksApiClient = $hooksApiClient;
+        $this->hooksService = $hooksService;
 
         parent::__construct();
     }
@@ -26,7 +26,7 @@ class ListRegisteredHooksCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        var_dump($this->hooksApiClient->getHooks('demo_swiss'));
+        var_dump($this->hooksService->fetchProjectExtensions('demo_swiss'));
         return 0;
     }
 }

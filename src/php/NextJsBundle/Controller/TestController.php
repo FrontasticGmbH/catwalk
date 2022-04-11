@@ -5,7 +5,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Controller;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceConfiguration;
@@ -16,16 +16,16 @@ use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
 
 class TestController
 {
-    private HooksService $hooksService;
+    private ExtensionService $extensionService;
     private RequestService $requestService;
     private FromFrontasticReactMapper $mapper;
 
     public function __construct(
-        HooksService $hooksService,
+        ExtensionService $extensionService,
         RequestService $requestService,
         FromFrontasticReactMapper $mapper
     ) {
-        $this->hooksService = $hooksService;
+        $this->extensionService = $extensionService;
         $this->requestService = $requestService;
         $this->mapper = $mapper;
     }
@@ -41,7 +41,7 @@ class TestController
         // copied from Typescript TODO: put that in a central place
         $hookName = 'data-source-' . str_replace('/', '-', $identifier);
 
-        return $this->hooksService->call(
+        return $this->extensionService->call(
             $hookName,
             [
                 new DataSourceConfiguration([

@@ -3,7 +3,7 @@
 namespace Frontastic\Catwalk\NextJsBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context as ClassicContext;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\ActionContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\ContextCompletionService;
@@ -15,20 +15,20 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ActionController
 {
-    private HooksService $hooksService;
+    private ExtensionService $extensionService;
     private RequestService $requestService;
     private FromFrontasticReactMapper $mapper;
     private ContextCompletionService $contextCompletionService;
     private bool $debug;
 
     public function __construct(
-        HooksService $hooksService,
+        ExtensionService $extensionService,
         RequestService $requestService,
         FromFrontasticReactMapper $mapper,
         ContextCompletionService $contextCompletionService,
         bool $debug = false
     ) {
-        $this->hooksService = $hooksService;
+        $this->extensionService = $extensionService;
         $this->requestService = $requestService;
         $this->mapper = $mapper;
         $this->debug = $debug;
@@ -41,15 +41,21 @@ class ActionController
         SymfonyRequest $request,
         ClassicContext $context
     ): JsonResponse {
-        $hookName = sprintf('action-%s-%s', $namespace, $action);
-
+        $isProduction = $context->isProduction();
         $apiRequest = $this->requestService->createApiRequest($request);
         $actionContext = $this->createActionContext($context);
 
-        $this->assertActionExists($namespace, $action, $hookName);
+        $this->assertActionExists($namespace, $action);
+
+        $timeout = $actionContext->frontasticContext->project->configuration["extensions"]["actionTimeout"] ?? null;
 
         /** @var \stdClass $apiResponse */
-        $apiResponse = $this->hooksService->call($hookName, [$apiRequest, $actionContext]);
+        $apiResponse = $this->extensionService->callAction(
+            $namespace,
+            $action,
+            [$apiRequest, $actionContext],
+            $timeout
+        );
 
         $response = new JsonResponse();
 
@@ -57,17 +63,17 @@ class ActionController
             if ($apiResponse->sessionData === null) {
                 $this->clearJwtSession($response);
             } else {
-                $this->storeJwtSession($response, $apiResponse->sessionData);
+                $this->storeJwtSession($response, $apiResponse->sessionData, $isProduction);
             }
         } else {
             // send a null payload
-            $this->storeJwtSession($response, $apiRequest->sessionData);
+            $this->storeJwtSession($response, $apiRequest->sessionData, $isProduction);
         }
 
         if (isset($apiResponse->ok) && !$apiResponse->ok) {
             // hooksservice signaled an error
             $response->setStatusCode(500);
-            $response->setContent(json_encode((object) $apiResponse));
+            $response->setContent(json_encode((object)$apiResponse));
         } elseif (!isset($apiResponse->statusCode) || !isset($apiResponse->body)) {
             // Fixme: Make all extensions return a valid response!
             $response->setStatusCode(200);
@@ -75,7 +81,7 @@ class ActionController
                 'X-Extension-Error',
                 'Data returned from hook did not have statusCode or body fields'
             );
-            $response->setContent(json_encode((object) $apiResponse));
+            $response->setContent(json_encode((object)$apiResponse));
         } else {
             $response->setContent($apiResponse->body);
             $response->setStatusCode($apiResponse->statusCode);
@@ -107,9 +113,9 @@ class ActionController
      * @param $sessionData
      * @return void
      */
-    private function storeJwtSession(JsonResponse $response, $sessionData): void
+    private function storeJwtSession(JsonResponse $response, $sessionData, bool $isProduction): void
     {
-        $jwt = $this->requestService->encodeJWTData($sessionData);
+        $jwt = $this->requestService->encodeJWTData($sessionData, $isProduction);
 
         $response->headers->set(
             'frontastic-session',
@@ -117,9 +123,9 @@ class ActionController
         );
     }
 
-    private function assertActionExists(string $namespace, string $action, string $hookName)
+    private function assertActionExists(string $namespace, string $action)
     {
-        if ($this->hooksService->isHookRegistered($hookName)) {
+        if ($this->extensionService->hasAction($namespace, $action)) {
             return;
         }
 
@@ -142,7 +148,7 @@ class ActionController
                             );
                         },
                         array_filter(
-                            $this->hooksService->getRegisteredHooks(),
+                            $this->extensionService->getExtensions(),
                             function (array $hook) {
                                 return (isset($hook['hookType']) && $hook['hookType'] === 'action');
                             }

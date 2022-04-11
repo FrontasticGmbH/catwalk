@@ -24,6 +24,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\RedirectService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageViewData as NextjsPageViewData;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
+use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,6 +93,9 @@ class PageControllerTest extends TestCase
             'project' => new Project([
                 'languages' => ['en_US'],
                 'defaultLanguage' => 'en_US',
+            ]),
+            'customer' => new Customer([
+                'name' => 'demo'
             ])
         ]);
 
@@ -159,10 +163,10 @@ class PageControllerTest extends TestCase
         return new Page($pageData);
     }
 
-    private function setupFakeRedirectForPath(string $path)
+    private function setupFakeRedirectForPath(string $path, array $queryParams)
     {
         \Phake::when($this->redirectServiceMock)
-            ->getRedirectResponseForPath($path, [], $this->contextFixture)
+            ->getRedirectResponseForPath($path, $queryParams, $this->contextFixture)
             ->thenReturn(new RedirectResponse([
                 'statusCode' => 301,
                 'reason' => RedirectResponse::REASON_REDIRECT_EXISTS_FOR_PATH,
@@ -171,13 +175,26 @@ class PageControllerTest extends TestCase
             ]));
     }
 
-    public function testDynamicPageHandlingTriggeredWhenNoNodeFound()
+    public function validRequestProvider()
     {
-        $request = new Request([
-            'path' => '/no/node/found',
-            'locale' => 'en_US',
-        ]);
+        $path = '/redirect';
+        $locale = 'en_US';
 
+        $request = new Request();
+        $request->headers->set('Frontastic-Path', $path);
+        $request->headers->set('Frontastic-Locale', $locale);
+
+        return [
+            [$path, $locale, $request],
+            [$path, $locale, new Request(['path' => $path, 'locale' => $locale])]
+        ];
+    }
+
+    /**
+     * @dataProvider validRequestProvider
+     */
+    public function testDynamicPageHandlingTriggeredWhenNoNodeFound($path, $locale, $request)
+    {
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult());
         \Phake::when($this->dynamicPageService)->matchNodeFor->thenReturn($this->getFakeNode());
@@ -195,59 +212,47 @@ class PageControllerTest extends TestCase
         $this->assertInstanceOf(PageFolder::class, $responseData->pageFolder);
     }
 
-    public function testRedirectResponseSentWhenRedirectExistsForPath()
+    /**
+     * @dataProvider validRequestProvider
+     */
+    public function testRedirectResponseSentWhenRedirectExistsForPath($path, $locale, $request)
     {
-        $path = '/redirect';
-
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(null);
 
-        $this->setupFakeRedirectForPath($path);
-
-        $request = new Request([
-            'path' => $path,
-            'locale' => 'en_US'
-        ]);
+        $this->setupFakeRedirectForPath($path, $request->query->all());
 
         $response = $this->pageController->indexAction($request, $this->contextFixture);
 
         $this->assertInstanceOf(RedirectResponse::class, $response);
     }
 
-    public function testRedirectResponseIsNotSentWhenSiteBuilderPageExists()
+    /**
+     * @dataProvider validRequestProvider
+     */
+    public function testRedirectResponseIsNotSentWhenSiteBuilderPageExists($path, $locale, $request)
     {
-        $path = '/redirect';
-
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn('fakeNodeId1');
         \Phake::when($this->nodeServiceMock)->get('fakeNodeId1')->thenReturn($this->getFakeNode());
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(null);
 
-        $this->setupFakeRedirectForPath($path);
-
-        $request = new Request([
-            'path' => $path,
-            'locale' => 'en_US'
-        ]);
+        $this->setupFakeRedirectForPath($path, $request->query->all());
 
         $response = $this->pageController->indexAction($request, $this->contextFixture);
 
         $this->assertNotInstanceOf(RedirectResponse::class, $response);
     }
 
-    public function testRedirectResponseIsNotSentWhenDynamicPageExists()
+    /**
+     * @dataProvider validRequestProvider
+     */
+    public function testRedirectResponseIsNotSentWhenDynamicPageExists($path, $locale, $request)
     {
-        $path = '/redirect';
-
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult());
         \Phake::when($this->dynamicPageService)->matchNodeFor->thenReturn($this->getFakeNode());
 
-        $this->setupFakeRedirectForPath($path);
-
-        $request = new Request([
-            'path' => $path,
-            'locale' => 'en_US'
-        ]);
+        $this->setupFakeRedirectForPath($path, $request->query->all());
 
         $response = $this->pageController->indexAction($request, $this->contextFixture);
 
@@ -275,9 +280,11 @@ class PageControllerTest extends TestCase
         $this->assertInstanceOf(PagePreviewDataResponse::class, $response);
     }
 
-    public function testDynamicPageRedirect()
+    /**
+     * @dataProvider validRequestProvider
+     */
+    public function testDynamicPageRedirect($path, $locale, $request)
     {
-        $path = '/redirect';
         $result = new DynamicPageRedirectResult([
             'statusCode' => 301,
             'redirectLocation' => '/redirect-to'
@@ -294,11 +301,6 @@ class PageControllerTest extends TestCase
                 'target' => $result->redirectLocation
             ]));
 
-        $request = new Request([
-            'path' => $path,
-            'locale' => 'en_US'
-        ]);
-
         $response = $this->pageController->indexAction($request, $this->contextFixture);
 
         $this->assertInstanceOf(RedirectResponse::class, $response);
@@ -308,10 +310,10 @@ class PageControllerTest extends TestCase
         $this->assertEquals($result->redirectLocation, $response->target);
     }
 
-    public function testIndexActionMissingPath() {
-        $request = new Request([
-            'locale' => 'en_US'
-        ]);
+    public function testIndexActionMissingPath()
+    {
+        $request = new Request();
+        $request->headers->set('Frontastic-Locale', 'en_US');
 
         $this->expectException(BadRequestHttpException::class);
         $this->expectExceptionMessage('Missing path');
@@ -319,10 +321,10 @@ class PageControllerTest extends TestCase
         $this->pageController->indexAction($request, $this->contextFixture);
     }
 
-    public function testIndexActionMissingLocale() {
-        $request = new Request([
-            'path' => '/redirect'
-        ]);
+    public function testIndexActionMissingLocale()
+    {
+        $request = new Request();
+        $request->headers->set('Frontastic-Path', '/redirect');
 
         $this->expectException(BadRequestHttpException::class);
         $this->expectExceptionMessage('Missing locale');
@@ -330,11 +332,11 @@ class PageControllerTest extends TestCase
         $this->pageController->indexAction($request, $this->contextFixture);
     }
 
-    public function testIndexActionLocaleNotSupported() {
-        $request = new Request([
-            'locale' => 'pt_PT',
-            'path' => '/redirect'
-        ]);
+    public function testIndexActionLocaleNotSupported()
+    {
+        $request = new Request();
+        $request->headers->set('Frontastic-Path', '/redirect');
+        $request->headers->set('Frontastic-Locale', 'pt_PT');
 
         $this->expectException(BadRequestHttpException::class);
         $this->expectExceptionMessage('Locale not supported by project');
@@ -342,12 +344,11 @@ class PageControllerTest extends TestCase
         $this->pageController->indexAction($request, $this->contextFixture);
     }
 
-    public function testIndexActionNodeAndRedirectDoesntExist() {
-        $request = new Request([
-            'locale' => 'en_US',
-            'path' => '/redirect'
-        ]);
-
+    /**
+     * @dataProvider validRequestProvider
+     */
+    public function testIndexActionNodeAndRedirectDoesntExist($path, $locale, $request)
+    {
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
         \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(null);
 
@@ -357,12 +358,11 @@ class PageControllerTest extends TestCase
         $this->pageController->indexAction($request, $this->contextFixture);
     }
 
-    public function testSuccessfulRequest() {
-        $request = new Request([
-            'locale' => 'en_US',
-            'path' => '/redirect'
-        ]);
-
+    /**
+     * @dataProvider validRequestProvider
+     */
+    public function testSuccessfulRequest($path, $locale, $request)
+    {
         $nodeMock = \Phake::mock(Node::class);
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(1);
         \Phake::when($this->nodeServiceMock)->get->thenReturn($nodeMock);
