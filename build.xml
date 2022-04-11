@@ -36,6 +36,6 @@
     <import file="${basedir}/src/ant/phpunit-feature.xml" />
 
     <import file="${frontastic_basedir}/paas/integration/react.xml" />
-    <import file="${frontastic_basedir}/paas/integration/symfony.xml" />
+    <!--<import file="${frontastic_basedir}/paas/integration/symfony.xml" />-->
     <import file="${frontastic_basedir}/paas/integration/livepreview.xml" />
 </project>

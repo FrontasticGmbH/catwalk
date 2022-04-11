@@ -3,11 +3,10 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
 use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
-use Frontastic\Catwalk\FrontendBundle\Domain\PageMatcher\PageMatcherContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
@@ -18,23 +17,21 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class DynamicPageService
 {
-    const DYNAMIC_PAGE_HOOK = 'dynamic-page-handler';
-
     private RequestService $requestService;
-    private HooksService $hooksService;
+    private ExtensionService $extensionService;
     private MasterService $masterService;
     private NodeService $nodeService;
     private FromFrontasticReactMapper $mapper;
 
     public function __construct(
         RequestService $requestService,
-        HooksService $hooksService,
+        ExtensionService $hooksService,
         MasterService $masterService,
         NodeService $nodeService,
         FromFrontasticReactMapper $mapper
     ) {
         $this->requestService = $requestService;
-        $this->hooksService = $hooksService;
+        $this->extensionService = $hooksService;
         $this->masterService = $masterService;
         $this->nodeService = $nodeService;
         $this->mapper = $mapper;
@@ -42,15 +39,18 @@ class DynamicPageService
 
     public function handleDynamicPage(SymfonyRequest $request, Context $context): ?DynamicPageResult
     {
-        if (!$this->hooksService->isHookRegistered(self::DYNAMIC_PAGE_HOOK)) {
+        if (!$this->extensionService->hasDynamicPageHandler()) {
             return null;
         }
 
+        $dynamicPageContext = $this->createDynamicPageContext($context);
+        $timeout = $dynamicPageContext->frontasticContext->project->configuration["extensions"]["pageTimeout"] ?? null;
+
         /** @var \stdClass */
-        $dynamicPagePayload = $this->hooksService->call(self::DYNAMIC_PAGE_HOOK, [
+        $dynamicPagePayload = $this->extensionService->callDynamicPageHandler([
             $this->requestService->createApiRequest($request),
-            $this->createDynamicPageContext($context)
-        ]);
+            $dynamicPageContext
+        ], $timeout);
 
         if ($dynamicPagePayload === null) {
             return null;
@@ -61,9 +61,9 @@ class DynamicPageService
         }
 
         if (isset($dynamicPagePayload->redirectLocation)) {
-            return new DynamicPageRedirectResult((array) $dynamicPagePayload);
+            return new DynamicPageRedirectResult((array)$dynamicPagePayload);
         }
-        return new DynamicPageSuccessResult((array) $dynamicPagePayload);
+        return new DynamicPageSuccessResult((array)$dynamicPagePayload);
     }
 
     /**

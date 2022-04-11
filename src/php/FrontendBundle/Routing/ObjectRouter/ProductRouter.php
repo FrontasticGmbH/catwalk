@@ -6,6 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Common\ProductApiBundle\Domain\Product;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi\ProductNotFoundException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
@@ -56,15 +57,22 @@ class ProductRouter
      */
     public function identifyFrom(Request $request, Context $context): ?string
     {
-        $product = $this->getProductApi()->getProduct(new ProductQuery([
-            'locale' => $context->locale,
-            'sku' => $request->attributes->get('identifier'),
-        ]));
+        try {
+            $product = $this->getProductApi()->getProduct(new ProductQuery([
+                'locale' => $context->locale,
+                'sku' => $request->attributes->get('identifier'),
+            ]));
 
-        if (!$product) {
-            return null;
+            if (!$product) {
+                return null;
+            }
+
+            return $product->productId;
+        } catch (ProductNotFoundException $e) {
+            // Product not found
         }
-        return $product->productId;
+
+        return null;
     }
 
     private function getProductApi(): ProductApi

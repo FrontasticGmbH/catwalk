@@ -109,7 +109,7 @@ class StreamService
     private function findUsageInConfiguration(Tastic $tastic, array $fields, array $configuration, array $usage): array
     {
         foreach ($fields as $field) {
-            if ($field['type'] === 'stream' &&
+            if (($field['type'] === 'stream' || $field['type'] == 'dataSource') &&
                 (!empty($configuration[$field['field']]) || isset($field['default']))
             ) {
                 $streamId = $configuration[$field['field']] ?? $field['default'];
@@ -125,7 +125,8 @@ class StreamService
                 $usage[$streamId]['count'][] = null;
                 $usage[$streamId]['tastics'][] = $tastic->tasticType;
 
-                foreach ($this->countProperties[$field['streamType']] ?? [] as $countFieldName) {
+                $streamType = $field['streamType'] ?? $field['dataSourceType'];
+                foreach ($this->countProperties[$streamType] ?? [] as $countFieldName) {
                     $usage[$streamId]['count'][] = $configuration[$countFieldName] ?? null;
                     $usage[$streamId]['tastics'][] = $tastic->tasticType;
                 }
@@ -242,12 +243,14 @@ class StreamService
                     $schema = $tasticMap[$tastic->tasticType]->configurationSchema['schema'];
                     foreach ($schema as $group) {
                         foreach ($group['fields'] as $field) {
+                            $streamType = $field['streamType'] ?? $field['dataSourceType'] ?? null;
                             if ($field['type'] === 'stream' &&
                                 empty($tastic->configuration->{$field['field']}) &&
-                                isset($defaultStreams[$field['streamType']])
+                                $streamType !== null &&
+                                isset($defaultStreams[$streamType])
                             ) {
                                 $tastic->configuration->{$field['field']} =
-                                    $defaultStreams[$field['streamType']]['streamId'];
+                                    $defaultStreams[$streamType]['streamId'];
                             }
                         }
                     }
@@ -354,6 +357,8 @@ class StreamService
             );
         }
 
+        // There's no need to execute the stream handler if the value is preloaded
+        // The preloadedValue can be fetched in the DynamicPageService when getting the Node
         if ($stream->preloadedValue !== null) {
             return Promise\promise_for($stream->preloadedValue);
         }

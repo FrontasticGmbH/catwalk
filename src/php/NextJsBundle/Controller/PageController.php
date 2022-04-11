@@ -11,6 +11,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\ViewDataProvider;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageRedirectResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageDataResponse;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
@@ -57,14 +58,8 @@ class PageController
 
     public function indexAction(Request $request, Context $context)
     {
-        if (!$request->query->has('path')) {
-            throw new BadRequestHttpException('Missing path');
-        }
-        $path = $request->query->get('path');
-        if (!$request->query->has('locale')) {
-            throw new BadRequestHttpException('Missing locale');
-        }
-        $locale = $request->query->get('locale');
+        $path = $this->getPath($request);
+        $locale = $this->getLocale($request);
 
         $this->assertLocaleSupported($locale, $context);
 
@@ -87,7 +82,8 @@ class PageController
         }
 
         if ($node === null) {
-            $redirectResponse = $this->redirectService->getRedirectResponseForPath($path, [], $context);
+            $queryParams = $request->query->all();
+            $redirectResponse = $this->redirectService->getRedirectResponseForPath($path, $queryParams, $context);
             if ($redirectResponse !== null) {
                 return $redirectResponse;
             }
@@ -139,6 +135,9 @@ class PageController
             'page' => $this->mapper->map($preview->page),
             // Stream parameters is deprecated
             'data' => $this->mapper->map($pageViewData),
+            'previewContext' => new PagePreviewContext([
+                'customerName' => $context->customer->name
+            ])
         ]);
     }
 
@@ -177,5 +176,23 @@ class PageController
         if (!in_array($locale, $context->project->languages)) {
             throw new BadRequestHttpException('Locale not supported by project');
         }
+    }
+
+    private function getPath(Request $request)
+    {
+        if (!$request->headers->has('Frontastic-Path') && !$request->query->has('path')) {
+            throw new BadRequestHttpException('Missing path');
+        }
+
+        return $request->headers->get('Frontastic-Path') ?? $request->query->get('path');
+    }
+
+    private function getLocale($request)
+    {
+        if (!$request->headers->has('Frontastic-Locale') && !$request->query->has('locale')) {
+            throw new BadRequestHttpException('Missing locale');
+        }
+
+        return $request->headers->get('Frontastic-Locale') ?? $request->query->get('locale');
     }
 }

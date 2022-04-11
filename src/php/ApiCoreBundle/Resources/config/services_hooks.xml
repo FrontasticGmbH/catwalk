@@ -9,27 +9,27 @@
             WARNING: This file is only loaded conditionally if the frontastic_enable_hooks environment variable is set to true
         -->
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators\AccountDecorator">
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService" />
             <tag name="accountApi.lifecycleEventListener" />
         </service>
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators\CartDecorator">
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService" />
             <tag name="cartApi.lifecycleEventListener" />
         </service>
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators\ContentDecorator">
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService" />
             <tag name="contentApi.lifecycleEventListener" />
         </service>
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators\ProductDecorator">
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService" />
             <tag name="productApi.lifecycleEventListener" />
         </service>
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators\ProductSearchDecorator">
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService" />
             <tag name="productSearchApi.lifecycleEventListener" />
         </service>
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\RemoteDecorators\WishlistDecorator">
-            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\HooksService" />
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService" />
             <tag name="wishlistApi.lifecycleEventListener" />
         </service>
         <service
