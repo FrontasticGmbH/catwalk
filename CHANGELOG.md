@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.42.1` (2022-04-12)
+
+* fix(FP-1743): register ErrorHandler as service
+
 ## `1.42.0` (2022-04-04)
 
 * Accept `path` param as `Frontastic-Path` header in `/frontastic/page` endpoint
