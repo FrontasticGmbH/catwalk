@@ -456,8 +456,13 @@
             <tag name="nextjs.remove" />
         </service>
 
-        <!-- Otherwise auto-configured -->
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\ErrorHandler">
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
+            <argument type="service" id="Frontastic\Catwalk\FrontendBundle\EventListener\ErrorHandler\ErrorNodeRenderer" />
+            <argument type="service" id="Frontastic\Common\JsonSerializer" />
+            <argument type="service" id="logger" />
+
+            <tag name="kernel.event_listener" event="kernel.exception" priority="5" />
             <tag name="nextjs.remove" />
         </service>
 

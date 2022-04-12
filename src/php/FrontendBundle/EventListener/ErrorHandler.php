@@ -6,25 +6,12 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\ErrorHandler\ErrorNodeRenderer;
 use Frontastic\Common\JsonSerializer;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\EventListener\ErrorListener;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
 
-/**
- * This should replace symfonys ErrorListener
- *
- * We do this, because the Error Controller in standard symfony does not receive the full exception,
- * but rather a FlattenException. While this is great for symfony as a framework,
- * we want to be able to access information of the exception, like the $statusCode in the HttpExceptionInterface.
- *
- * @see HttpExceptionInterface
- * @see ErrorListener
- */
-class ErrorHandler implements EventSubscriberInterface
+class ErrorHandler
 {
     /**
      * @var ContextService
@@ -55,7 +42,7 @@ class ErrorHandler implements EventSubscriberInterface
         $this->jsonSerializer = $jsonSerializer;
     }
 
-    public function getResponseForErrorEvent(ExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event)
     {
         $this->logger->error(
             'Error handler: {message}',
@@ -101,16 +88,6 @@ class ErrorHandler implements EventSubscriberInterface
 
         $event->setResponse($response);
     }
-
-    public static function getSubscribedEvents()
-    {
-        return [
-            KernelEvents::EXCEPTION => [
-                ['getResponseForErrorEvent', 5],
-            ],
-        ];
-    }
-
 
     private function getStatusCode(ExceptionEvent $event): int
     {
