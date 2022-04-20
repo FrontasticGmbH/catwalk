@@ -130,13 +130,13 @@ class ActionController
         }
 
         $errorMessage = sprintf(
-            'Action "%s" in namespace "%s" is not registered',
+            'Action "%s" in namespace "%s" is not registered.',
             $action,
             $namespace
         );
 
         if ($this->debug) {
-            $errorMessage .= 'Registered actions are: ' .
+            $errorMessage .= ' Registered actions are: ' .
                 implode(
                     ', ',
                     array_map(
