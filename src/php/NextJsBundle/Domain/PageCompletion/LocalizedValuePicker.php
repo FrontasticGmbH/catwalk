@@ -48,6 +48,10 @@ class LocalizedValuePicker
             return $value[$language];
         }
 
+        if (count($value) > 0) {
+            return reset($value);
+        }
+
         // No translation could be found matching the context, so return null
         return null;
     }
