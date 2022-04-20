@@ -108,7 +108,7 @@ class SelectTranslationVisitorTest extends TestCase
 
         $actualValues = $this->schema->getCompleteValues($visitor);
 
-        $this->assertEquals(null, $actualValues['randomLanguageOnly']);
+        $this->assertEquals('I am an English Groot', $actualValues['randomLanguageOnly']);
     }
 
     /**
