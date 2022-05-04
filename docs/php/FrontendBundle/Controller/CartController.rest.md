@@ -44,9 +44,9 @@ Status: 200
 
         * `state`: `string`
 
-        * `name`: Map of string values 
+        * `name`: `array` 
 
-        * `description`: Map of string values 
+        * `description`: `array` 
 
         * `discountedAmount`: *optional* `int`
 
@@ -208,9 +208,9 @@ Status: 200
 
       * `state`: `string`
 
-      * `name`: Map of string values 
+      * `name`: `array` 
 
-      * `description`: Map of string values 
+      * `description`: `array` 
 
       * `discountedAmount`: *optional* `int`
 
@@ -318,9 +318,9 @@ Optionally you can pass additional attributes with the line item.
 
         * `state`: `string`
 
-        * `name`: Map of string values 
+        * `name`: `array` 
 
-        * `description`: Map of string values 
+        * `description`: `array` 
 
         * `discountedAmount`: *optional* `int`
 
@@ -482,9 +482,9 @@ Optionally you can pass additional attributes with the line item.
 
       * `state`: `string`
 
-      * `name`: Map of string values 
+      * `name`: `array` 
 
-      * `description`: Map of string values 
+      * `description`: `array` 
 
       * `discountedAmount`: *optional* `int`
 
@@ -574,9 +574,9 @@ Optionally you can pass additional attributes with each line item.
 
         * `state`: `string`
 
-        * `name`: Map of string values 
+        * `name`: `array` 
 
-        * `description`: Map of string values 
+        * `description`: `array` 
 
         * `discountedAmount`: *optional* `int`
 
@@ -738,9 +738,9 @@ Optionally you can pass additional attributes with each line item.
 
       * `state`: `string`
 
-      * `name`: Map of string values 
+      * `name`: `array` 
 
-      * `description`: Map of string values 
+      * `description`: `array` 
 
       * `discountedAmount`: *optional* `int`
 
@@ -816,9 +816,9 @@ Status: 200
 
         * `state`: `string`
 
-        * `name`: Map of string values 
+        * `name`: `array` 
 
-        * `description`: Map of string values 
+        * `description`: `array` 
 
         * `discountedAmount`: *optional* `int`
 
@@ -980,9 +980,9 @@ Status: 200
 
       * `state`: `string`
 
-      * `name`: Map of string values 
+      * `name`: `array` 
 
-      * `description`: Map of string values 
+      * `description`: `array` 
 
       * `discountedAmount`: *optional* `int`
 
@@ -1054,9 +1054,9 @@ Status: 200
 
         * `state`: `string`
 
-        * `name`: Map of string values 
+        * `name`: `array` 
 
-        * `description`: Map of string values 
+        * `description`: `array` 
 
         * `discountedAmount`: *optional* `int`
 
@@ -1218,9 +1218,9 @@ Status: 200
 
       * `state`: `string`
 
-      * `name`: Map of string values 
+      * `name`: `array` 
 
-      * `description`: Map of string values 
+      * `description`: `array` 
 
       * `discountedAmount`: *optional* `int`
 
@@ -1366,9 +1366,9 @@ Status: 200
 
         * `state`: `string`
 
-        * `name`: Map of string values 
+        * `name`: `array` 
 
-        * `description`: Map of string values 
+        * `description`: `array` 
 
         * `discountedAmount`: *optional* `int`
 
@@ -1530,9 +1530,9 @@ Status: 200
 
       * `state`: `string`
 
-      * `name`: Map of string values 
+      * `name`: `array` 
 
-      * `description`: Map of string values 
+      * `description`: `array` 
 
       * `discountedAmount`: *optional* `int`
 
@@ -1618,9 +1618,9 @@ Status: 200
 
         * `state`: `string`
 
-        * `name`: Map of string values 
+        * `name`: `array` 
 
-        * `description`: Map of string values 
+        * `description`: `array` 
 
         * `discountedAmount`: *optional* `int`
 
@@ -1782,9 +1782,9 @@ Status: 200
 
       * `state`: `string`
 
-      * `name`: Map of string values 
+      * `name`: `array` 
 
-      * `description`: Map of string values 
+      * `description`: `array` 
 
       * `discountedAmount`: *optional* `int`
 
@@ -1856,9 +1856,9 @@ Status: 200
 
         * `state`: `string`
 
-        * `name`: Map of string values 
+        * `name`: `array` 
 
-        * `description`: Map of string values 
+        * `description`: `array` 
 
         * `discountedAmount`: *optional* `int`
 
@@ -2020,9 +2020,9 @@ Status: 200
 
       * `state`: `string`
 
-      * `name`: Map of string values 
+      * `name`: `array` 
 
-      * `description`: Map of string values 
+      * `description`: `array` 
 
       * `discountedAmount`: *optional* `int`
 
