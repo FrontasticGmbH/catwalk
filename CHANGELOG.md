@@ -1,5 +1,10 @@
 # catwalk Changelog
 
+## `1.43.0` (2022-04-21)
+
+* feat: use random translation instead of none
+* fix(api-hub): Improve error message when action was not found
+
 ## `1.42.1` (2022-04-12)
 
 * fix(FP-1743): register ErrorHandler as service
