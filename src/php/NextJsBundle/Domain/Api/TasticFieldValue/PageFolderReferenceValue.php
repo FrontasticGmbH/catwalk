@@ -3,7 +3,8 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue;
 
 /**
- * @type
+ * This type is not exported to TypeScript. We need to define it manually as the
+ * data structure given to components differs from the structure of this class.
  */
 class PageFolderReferenceValue extends ReferenceValue
 {
