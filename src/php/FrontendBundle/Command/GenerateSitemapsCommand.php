@@ -492,6 +492,15 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 ];
             }
 
+            if ($query->cursor === $result->nextCursor) {
+                $output->writeln(sprintf(
+                    '<error>Product pagination broken. Current cursor (%s) equals next cursor (%s).</error>',
+                    $query->cursor,
+                    $result->nextCursor
+                ));
+                break;
+            }
+
             $query->cursor = $result->nextCursor;
         } while (!is_null($result->nextCursor));
 
