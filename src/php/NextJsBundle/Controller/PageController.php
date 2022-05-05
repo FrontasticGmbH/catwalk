@@ -174,14 +174,16 @@ class PageController
     private function assertLocaleSupported($locale, Context $context): void
     {
         if (!in_array($locale, $context->project->languages)) {
-            throw new BadRequestHttpException('Locale not supported by project');
+            throw new BadRequestHttpException(
+                "Locale ${locale} not supported by project (" . implode(', ', $context->project->languages) . ")"
+            );
         }
     }
 
     private function getPath(Request $request)
     {
         if (!$request->headers->has('Frontastic-Path') && !$request->query->has('path')) {
-            throw new BadRequestHttpException('Missing path');
+            throw new BadRequestHttpException('Missing path query parameter');
         }
 
         return $request->headers->get('Frontastic-Path') ?? $request->query->get('path');
@@ -190,7 +192,7 @@ class PageController
     private function getLocale($request)
     {
         if (!$request->headers->has('Frontastic-Locale') && !$request->query->has('locale')) {
-            throw new BadRequestHttpException('Missing locale');
+            throw new BadRequestHttpException('Missing locale query parameter');
         }
 
         return $request->headers->get('Frontastic-Locale') ?? $request->query->get('locale');
