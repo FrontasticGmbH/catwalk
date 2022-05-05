@@ -1,5 +1,9 @@
 # catwalk Changelog
 
+## `1.43.1` (2022-05-05)
+
+* fix(FP-1934): Resilience of sitemap command for same-cursor loop.
+
 ## `1.43.0` (2022-04-21)
 
 * feat: use random translation instead of none
