@@ -339,7 +339,7 @@ class PageControllerTest extends TestCase
         $request->headers->set('Frontastic-Locale', 'pt_PT');
 
         $this->expectException(BadRequestHttpException::class);
-        $this->expectExceptionMessage('Locale not supported by project');
+        $this->expectExceptionMessage('Locale pt_PT not supported by project (en_US)');
 
         $this->pageController->indexAction($request, $this->contextFixture);
     }
