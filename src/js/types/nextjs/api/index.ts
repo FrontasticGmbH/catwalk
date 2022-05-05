@@ -51,7 +51,7 @@ export interface Context {
      /**
       * Feature flags mapped to their state.
       */
-     featureFlags: Map<string, boolean>;
+     featureFlags: Record<string, boolean> | [];
 }
 
 /**
@@ -133,7 +133,7 @@ export interface DynamicPageRedirectResult {
       *     "Retry-After": "120"
       * }
       */
-     additionalResponseHeaders?: Map<string, string>;
+     additionalResponseHeaders?: Record<string, string> | [];
 }
 
 /**
@@ -224,7 +224,7 @@ export interface Request {
      path: string;
      query: any;
      clientIp?: string;
-     headers?: Map<string, string>;
+     headers?: Record<string, string> | [];
      frontasticRequestId?: string;
      /**
       * Frontastic session data.

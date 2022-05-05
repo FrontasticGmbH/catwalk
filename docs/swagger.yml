@@ -73,9 +73,13 @@ paths:
                                   state:
                                     type: string
                                   name:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   description:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   discountedAmount:
                                     type: integer
                                     nullable: true
@@ -276,9 +280,13 @@ paths:
                             state:
                               type: string
                             name:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             description:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             discountedAmount:
                               type: integer
                               nullable: true
@@ -429,9 +437,13 @@ paths:
                                   state:
                                     type: string
                                   name:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   description:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   discountedAmount:
                                     type: integer
                                     nullable: true
@@ -632,9 +644,13 @@ paths:
                             state:
                               type: string
                             name:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             description:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             discountedAmount:
                               type: integer
                               nullable: true
@@ -774,9 +790,13 @@ paths:
                                   state:
                                     type: string
                                   name:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   description:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   discountedAmount:
                                     type: integer
                                     nullable: true
@@ -977,9 +997,13 @@ paths:
                             state:
                               type: string
                             name:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             description:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             discountedAmount:
                               type: integer
                               nullable: true
@@ -1098,9 +1122,13 @@ paths:
                                   state:
                                     type: string
                                   name:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   description:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   discountedAmount:
                                     type: integer
                                     nullable: true
@@ -1301,9 +1329,13 @@ paths:
                             state:
                               type: string
                             name:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             description:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             discountedAmount:
                               type: integer
                               nullable: true
@@ -1416,9 +1448,13 @@ paths:
                                   state:
                                     type: string
                                   name:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   description:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   discountedAmount:
                                     type: integer
                                     nullable: true
@@ -1619,9 +1655,13 @@ paths:
                             state:
                               type: string
                             name:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             description:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             discountedAmount:
                               type: integer
                               nullable: true
@@ -1822,9 +1862,13 @@ paths:
                                   state:
                                     type: string
                                   name:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   description:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   discountedAmount:
                                     type: integer
                                     nullable: true
@@ -2025,9 +2069,13 @@ paths:
                             state:
                               type: string
                             name:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             description:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             discountedAmount:
                               type: integer
                               nullable: true
@@ -2157,9 +2205,13 @@ paths:
                                   state:
                                     type: string
                                   name:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   description:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   discountedAmount:
                                     type: integer
                                     nullable: true
@@ -2360,9 +2412,13 @@ paths:
                             state:
                               type: string
                             name:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             description:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             discountedAmount:
                               type: integer
                               nullable: true
@@ -2475,9 +2531,13 @@ paths:
                                   state:
                                     type: string
                                   name:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   description:
-                                    type: \Frontastic\Common\Translatable
+                                    type: object
+                                    additionalProperties:
+                                      type: string
                                   discountedAmount:
                                     type: integer
                                     nullable: true
@@ -2678,9 +2738,13 @@ paths:
                             state:
                               type: string
                             name:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             description:
-                              type: \Frontastic\Common\Translatable
+                              type: object
+                              additionalProperties:
+                                type: string
                             discountedAmount:
                               type: integer
                               nullable: true
