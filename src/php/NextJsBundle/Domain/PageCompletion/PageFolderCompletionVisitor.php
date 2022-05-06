@@ -51,7 +51,7 @@ class PageFolderCompletionVisitor implements FieldVisitor
             if (isset($value['type']) && $value['type'] === 'node') {
                 try {
                     $pageFolderRepresentation = $this->createNodeRepresentation($value['target']);
-                } catch (\Exception $e) {
+                } catch (\Throwable $e) {
                     return $this->createPageFolderNotFoundError($value['target']);
                 }
                 return new PageFolderReferenceValue([
