@@ -1,4 +1,12 @@
-<p>Our Catwalk library is updated every Tuesday and Thursday. We add to this list after each release. Big changes will have their own changelog to explain the updates in more detail.</p>
+# catwalk Changelog
+
+## `1.43.2` (2022-05-12)
+
+* fix: Escape referer passed to Kameloon
+* updated catwalk with hash action
+* Format changelog files
+* fix(FP-1559): Properly handle null page folder references in PageFolderCompletionVisitor
+* chore(api-hub): copy manual type files to source directory
 
 ## Version 1.43.1 (2022-05-05)
 
