@@ -1,4 +1,3 @@
-<p>Our Catwalk library is updated every Tuesday and Thursday. We add to this list after each release. Big changes will have their own changelog to explain the updates in more detail.</p>
 
 ## Version 1.43.2 (2022-05-12)
 
