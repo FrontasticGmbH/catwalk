@@ -1,6 +1,5 @@
-# catwalk Changelog
 
-## `1.43.2` (2022-05-12)
+## Version 1.43.2 (2022-05-12)
 
 * fix: Escape referer passed to Kameloon
 * updated catwalk with hash action
