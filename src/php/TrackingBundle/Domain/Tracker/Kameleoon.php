@@ -113,7 +113,14 @@ class Kameleoon extends Tracker
         debug($this->visitorCode, $this->getTrackingBrowserId());
         debug($this->visitorCode, $path, $pageType, $_SERVER['HTTP_REFERER'] ?? null);
         $this->client->addData($this->visitorCode, new Browser($this->getTrackingBrowserId()));
-        $this->client->addData($this->visitorCode, new PageView($path, $pageType, $_SERVER['HTTP_REFERER'] ?? null));
+        $this->client->addData(
+            $this->visitorCode,
+            new PageView(
+                $path,
+                $pageType,
+                preg_replace('([^A-Za-z0-9:/?&_=% -]+)', '', $_SERVER['HTTP_REFERER'] ?? '')
+            )
+        );
     }
 
     public function reachOrder(Context $context, Order $order): void
