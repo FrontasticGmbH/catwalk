@@ -7,11 +7,7 @@
 class UrlContext {
     static parameterKeyFilter = /^(s|nocrawl|_.*|nodeId)$/
 
-    static getActionHash = (route) => {
-        /* if(route?.historyState?.ignoreParameters) {
-            return route.route;
-        } */
-
+    static getActionHash = (route) => {        
         return route.route + '-' + JSON.stringify(UrlContext.getActionParameters(route.parameters))
     }
 
