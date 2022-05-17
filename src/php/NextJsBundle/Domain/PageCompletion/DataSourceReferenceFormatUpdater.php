@@ -14,6 +14,10 @@ class DataSourceReferenceFormatUpdater implements FieldVisitor
             return $value;
         }
 
+        if ($value == null) {
+            return $value;
+        }
+
         return new DataSourceReference([
             'dataSourceId' => $value,
         ]);
