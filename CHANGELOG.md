@@ -1,8 +1,6 @@
 
 ## Version 1.43.3 (2022-05-17)
 
-*  Library `catwalk` *
-
 * fix: removed empty spaces
 * fix: removed comment
 * chore: Fix styling error in urlContext.js that makes build fail
