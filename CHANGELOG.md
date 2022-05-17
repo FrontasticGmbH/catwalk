@@ -4,6 +4,7 @@
 * fix: removed empty spaces
 * fix: removed comment
 * chore: Fix styling error in urlContext.js that makes build fail
+
 ## Version 1.43.2 (2022-05-12)
 
 * fix: Escape referer passed to Kameloon
