@@ -23,7 +23,10 @@ with open(args.json_file) as json_file:
         # create the csv writer
         writer = csv.writer(csv_file)
         for r in redirects:
-            row = [r['path'], r['target']['target']]
+            if r['query'] != "":
+                row = [r['path'] + '?' + r['query'], r['target']['target']]
+            else:
+                row = [r['path'], r['target']['target']]
             print(r)
             print('Importing redirect from ' + r['path'] + ' to ' + r['target']['target'])
             # write a row to the csv file
