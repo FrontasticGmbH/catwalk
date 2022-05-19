@@ -1,4 +1,8 @@
 
+## Version 1.43.4 (2022-05-19)
+
+* fix(api-hub): fix type error when no data source was selected yet
+* fix: add query value to source path
 ## Version 1.43.3 (2022-05-17)
 
 * fix: removed empty spaces
