@@ -1,3 +1,6 @@
+## Version 1.43.5 (2022-06-03)
+
+* fix(FP-2083): Updated catwalk path cache in an atomic operation.
 
 ## Version 1.43.4 (2022-05-19)
 
