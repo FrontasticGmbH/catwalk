@@ -53,6 +53,17 @@ class SiteBuilderPageServiceTest extends TestCase
         $this->assertNull($actualNodeId);
     }
 
+    public function testAtomicUpdateOfCacheFile()
+    {
+        $routesFixture = require __DIR__ . '/_fixtures/routes_fixture.php';
+
+        $this->siteBuilderPageService->storeSiteBuilderPagePathsFromRoutes($routesFixture);
+
+        $this->assertFileExists($this->vfsRoot->url() . '/' . SiteBuilderPageService::STORAGE_FILE);
+
+        $this->assertSame(1, count($this->vfsRoot->getChildren()), 'Temporary file was not removed');
+    }
+
     private function injectPathMapFixture()
     {
         copy(
