@@ -24,10 +24,20 @@ class SiteBuilderPageService
      */
     public function storeSiteBuilderPagePathsFromRoutes(array $routes): void
     {
-        file_put_contents(
-            $this->getStorageFile(),
-            "<?php\n\nreturn " . var_export(self::routesToPathMap($routes), true) . ";\n"
-        );
+        // Atomic update through store & rename
+        $temporaryFile = $this->getTemporaryStorageFile();
+        try {
+            file_put_contents(
+                $temporaryFile,
+                "<?php\n\nreturn " . var_export(self::routesToPathMap($routes), true) . ";\n"
+            );
+            rename($temporaryFile, $this->getStorageFile());
+        } finally {
+            // Cleanup when things go wrong
+            if (file_exists($temporaryFile)) {
+                unlink($temporaryFile);
+            }
+        }
     }
 
     public function matchSiteBuilderPage(string $path, string $locale): ?string
@@ -92,5 +102,10 @@ class SiteBuilderPageService
     private function getStorageFile(): string
     {
         return sprintf('%s/%s', $this->cacheDir, self::STORAGE_FILE);
+    }
+
+    private function getTemporaryStorageFile(): string
+    {
+        return sprintf('%s.%s', $this->getStorageFile(), md5(random_bytes(10)));
     }
 }
