@@ -134,29 +134,8 @@ let CartLoader = function (store, api) {
      * @return Promise
      */
     this.addPayment = (cartInformation) => {
-        this.store.dispatch({
-            type: 'CartApi.Cart.loading',
-        })
-
-        return this.api.request(
-            'POST',
-            'Demo.Payment.Invoice.add',
-            { ownErrorHandler: true },
-            cartInformation,
-            (data) => {
-                this.store.dispatch({
-                    type: 'CartApi.Cart.update.success',
-                    data: data,
-                })
-            },
-            (error) => {
-                app.getLoader('context').notifyUser(<Message {...error} />, 'error')
-                this.store.dispatch({
-                    type: 'CartApi.Cart.update.error',
-                    error: error,
-                })
-            }
-        )
+        // eslint-disable-next-line no-console
+        console.error('The cart loader addPayment() method is not implemented and only was there for demo purposes')
     }
 
     /**
