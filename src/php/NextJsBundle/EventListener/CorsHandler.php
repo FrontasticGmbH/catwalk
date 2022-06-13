@@ -43,7 +43,7 @@ class CorsHandler
                 'Access-Control-Allow-Origin' => $origin,
                 'Access-Control-Allow-Methods' => '*',
                 // @codingStandardsIgnoreLine
-                'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Cookie, Frontastic-Session, X-Frontastic-Access-Token',
+                'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token',
                 'Access-Control-Allow-Credentials' => 'true'
             ]);
 
@@ -66,11 +66,11 @@ class CorsHandler
         $headers->set('Access-Control-Allow-Methods', '*');
         $headers->set(
             'Access-Control-Allow-Headers',
-            'Origin, Content-Type, Accept, Cookie, Frontastic-Session, X-Frontastic-Access-Token'
+            'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token'
         );
         $headers->set(
             'Access-Control-Expose-Headers',
-            '*, Authorization, Frontastic-Session, X-Frontastic-Access-Token'
+            '*, Authorization, Frontastic-Locale,Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token'
         );
         $headers->set('Access-Control-Allow-Credentials', 'true');
     }
