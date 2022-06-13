@@ -147,13 +147,15 @@ class PageService implements Target
      * @param Page $page
      * @return Page without the unneeded data
      */
-    public function filterOutHiddenData(Page $page): Page {
+    public function filterOutHiddenData(Page $page): Page
+    {
         $result = clone $page;
         $result->regions = $this->filterOutHiddenRegions($result->regions);
         return $result;
     }
 
-    private function filterOutHiddenRegions(array $regions): array {
+    private function filterOutHiddenRegions(array $regions): array
+    {
         $result = [];
         foreach ($regions as $region) {
             if (!$region->configuration->isHidden()) {
@@ -165,7 +167,8 @@ class PageService implements Target
         return $result;
     }
 
-    private function filterOutHiddenRegionElements(array $regionElements): array {
+    private function filterOutHiddenRegionElements(array $regionElements): array
+    {
         $result = [];
         foreach ($regionElements as $elem) {
             if (!$elem->configuration->isHidden()) {
@@ -176,7 +179,8 @@ class PageService implements Target
         return $result;
     }
 
-    private function filterOutHiddenTastics(array $tastics): array {
+    private function filterOutHiddenTastics(array $tastics): array
+    {
         $result = [];
         foreach ($tastics as $tastic) {
             if (!$tastic->configuration->isHidden()) {
