@@ -70,7 +70,7 @@ class CorsHandler
         );
         $headers->set(
             'Access-Control-Expose-Headers',
-            '*, Authorization, Frontastic-Locale,Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token'
+            '*, Authorization, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token'
         );
         $headers->set('Access-Control-Allow-Credentials', 'true');
     }
