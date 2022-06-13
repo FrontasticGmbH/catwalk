@@ -137,6 +137,55 @@ class PageService implements Target
         throw new \RuntimeException('No active page for node ' . $node->nodeId . ' found.');
     }
 
+    /**
+     * Removes data from the page that would be hidden, therefore it makes no sense to return it for visualization
+     * purposes.
+     *
+     * Data being removed:
+     *  - Regions, elements and tastics with hidden desktop, mobile and tablet
+     *
+     * @param Page $page
+     * @return Page without the unneeded data
+     */
+    public function filterOutHiddenData(Page $page): Page {
+        $result = clone $page;
+        $result->regions = $this->filterOutHiddenRegions($result->regions);
+        return $result;
+    }
+
+    private function filterOutHiddenRegions(array $regions): array {
+        $result = [];
+        foreach ($regions as $region) {
+            if (!$region->configuration->isHidden()) {
+                $result[] = $region;
+                $region->elements = $this->filterOutHiddenRegionElements($region->elements);
+            }
+        }
+
+        return $result;
+    }
+
+    private function filterOutHiddenRegionElements(array $regionElements): array {
+        $result = [];
+        foreach ($regionElements as $elem) {
+            if (!$elem->configuration->isHidden()) {
+                $result[] = $elem;
+                $elem->tastics = $this->filterOutHiddenTastics($elem->tastics);
+            }
+        }
+        return $result;
+    }
+
+    private function filterOutHiddenTastics(array $tastics): array {
+        $result = [];
+        foreach ($tastics as $tastic) {
+            if (!$tastic->configuration->isHidden()) {
+                $result[] = $tastic;
+            }
+        }
+        return $result;
+    }
+
     public function get(string $pageId): Page
     {
         return $this->pageGateway->get($pageId);
