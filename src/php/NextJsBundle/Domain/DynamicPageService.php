@@ -82,7 +82,9 @@ class DynamicPageService
     {
         $nodeId = $this->masterService->matchNodeIdForCustomTypes(
             $result->dynamicPageType,
-            $result->pageMatchingPayload
+            isset($result->pageMatchingPayload)
+                ? $result->pageMatchingPayload
+                : $result->dataSourcePayload
         );
 
         $node = $this->nodeService->get($nodeId);
