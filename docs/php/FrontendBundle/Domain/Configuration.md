@@ -13,6 +13,7 @@ Property|Type|Default|Required|Description
 ## Methods
 
 * [getVisibilityClasses()](#getvisibilityclasses)
+* [isHidden()](#ishidden)
 
 ### getVisibilityClasses()
 
@@ -21,5 +22,13 @@ public function getVisibilityClasses(): string
 ```
 
 Return Value: `string`
+
+### isHidden()
+
+```php
+public function isHidden(): bool
+```
+
+Return Value: `bool`
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
