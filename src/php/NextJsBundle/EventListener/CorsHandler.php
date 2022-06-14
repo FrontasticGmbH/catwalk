@@ -66,6 +66,7 @@ class CorsHandler
         $headers->set('Access-Control-Allow-Methods', '*');
         $headers->set(
             'Access-Control-Allow-Headers',
+            // @codingStandardsIgnoreLine
             'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token'
         );
         $headers->set(

@@ -34,4 +34,9 @@ class Configuration extends DataObject
             (!$this->tablet ? 'hidden-sm ' : '') .
             (!$this->desktop ? 'hidden-md hidden-lg ' : '');
     }
+
+    public function isHidden(): bool
+    {
+        return !($this->desktop || $this->tablet || $this->mobile);
+    }
 }

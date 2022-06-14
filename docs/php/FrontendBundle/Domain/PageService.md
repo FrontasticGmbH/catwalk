@@ -11,6 +11,7 @@
 * [replicate()](#replicate)
 * [fill()](#fill)
 * [fetchForNode()](#fetchfornode)
+* [filterOutHiddenData()](#filterouthiddendata)
 * [get()](#get)
 * [store()](#store)
 * [remove()](#remove)
@@ -84,6 +85,26 @@ Argument|Type|Default|Description
 --------|----|-------|-----------
 `$node`|[`Node`](Node.md)||
 `$context`|[`Context`](../../ApiCoreBundle/Domain/Context.md)||
+
+Return Value: [`Page`](Page.md)
+
+### filterOutHiddenData()
+
+```php
+public function filterOutHiddenData(
+    Page $page
+): Page
+```
+
+*Removes data from the page that would be hidden, therefore it makes no sense to return it for visualization
+purposes.*
+
+Data being removed:
+- Regions, elements and tastics with hidden desktop, mobile and tablet
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$page`|[`Page`](Page.md)||
 
 Return Value: [`Page`](Page.md)
 

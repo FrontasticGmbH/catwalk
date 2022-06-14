@@ -368,6 +368,7 @@ class PageControllerTest extends TestCase
         \Phake::when($this->nodeServiceMock)->get->thenReturn($nodeMock);
         $pageMock = \Phake::mock(Page::class);
         \Phake::when($this->pageServiceMock)->fetchForNode->thenReturn($pageMock);
+        \Phake::when($this->pageServiceMock)->filterOutHiddenData->thenReturn($pageMock);
 
         $viewData = new ViewData([
             'stream' => new \stdClass(),
