@@ -95,6 +95,8 @@ class PageController
 
         $page = $this->pageService->fetchForNode($node, $context);
 
+        $page = $this->pageService->filterOutHiddenData($page);
+
         $pageViewData = $this->convertStreamErrors(
             $this->viewDataProvider->fetchDataFor($node, $context, [], $page)
         );
