@@ -170,9 +170,9 @@ class PageService implements Target
     private function filterOutHiddenRegionElements(array $regionElements): array
     {
         $result = [];
-        foreach ($regionElements as $elem) {
+        foreach ($regionElements as $regionIdentifier => $elem) {
             if (!$elem->configuration->isHidden()) {
-                $result[] = $elem;
+                $result[$regionIdentifier] = $elem;
                 $elem->tastics = $this->filterOutHiddenTastics($elem->tastics);
             }
         }
