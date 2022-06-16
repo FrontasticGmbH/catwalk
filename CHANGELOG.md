@@ -1,4 +1,16 @@
-## Version 1.43.5 (2022-06-03)
+
+## Version 1.44.0 (2022-06-16)
+
+** Bug fixes **
+
+- Fix error when missing optional field pageMatchingPayload
+
+** Improvements **
+
+- Remove components from rendering which are not rendered on ANY device
+
+- Added Frontastic Locale and Path to headers config
+
 
 * fix(FP-2083): Updated catwalk path cache in an atomic operation.
 
