@@ -177,7 +177,7 @@ function handleComponentOverwrites (injectionReplacableComponents, componentsToE
  */
 function overwriteInjectionReplacedComponents (PRODUCTION, componentInjectorAlias) {
     var customerOverrides = getCustomerOverrides()
-    if (PRODUCTION && customerOverrides.length !== 0) {
+    if (PRODUCTION) {
         var injectionReplacableComponents = getInjectionReplacableComponents(path.join(paths.catwalk, 'src/js'))
             .concat(getInjectionReplacableComponents(path.join(paths.theme, 'src/js')))
 
