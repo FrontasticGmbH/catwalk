@@ -1,4 +1,11 @@
 
+## Version 1.44.1 (2022-06-21)
+
+
+** Bug fixes **
+
+- Injector replaced components removed are replaced when there are no overrides
+
 ## Version 1.44.0 (2022-06-16)
 
 ** Bug fixes **
