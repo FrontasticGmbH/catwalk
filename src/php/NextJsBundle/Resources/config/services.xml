@@ -74,8 +74,13 @@
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="0"/>
         </service>
 
+        <service id="json_serializer" class="Frontastic\Common\JsonSerializer" autowire="true">
+            <argument key="$includeType">false</argument>
+        </service>
+
         <service id="Frontastic\Catwalk\NextJsBundle\EventListener\EnsureAlwaysJsonViewListener" autowire="true">
             <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="50"/>
+            <argument key="$jsonSerializer" type="service" id="json_serializer"/>
         </service>
 
         <service id="Frontastic\Catwalk\NextJsBundle\EventListener\CorsHandler">
