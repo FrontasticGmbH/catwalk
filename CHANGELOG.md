@@ -1,11 +1,4 @@
 
-## Version 1.45.0 (2022-06-29)
-
-
-** New Features **
-
-- The UrlContext can now be replaced with the ComponentInjector
-
 ## Version 1.44.1 (2022-06-21)
 
 
