@@ -35,7 +35,7 @@ class RequestService
         $apiRequest->clientIp = $request->getClientIp();
         $apiRequest->hostname = $request->getHost();
         $apiRequest->frontasticRequestId = $request->attributes->get('_frontastic_request_id');
-        
+
         $requestSessionData = null;
         if ($request->headers->get('frontastic-session')) {
             $requestSessionData = (object)$this->decodeAndValidateJWTSessionToken(
