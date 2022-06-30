@@ -44,3 +44,11 @@ export type {
     ComponentValueBoolean,
     ComponentValueJson,
 } from './basicComponentValues';
+export type {
+    ExtensionRegistry,
+    DataSourceRegistry,
+    ActionRegistry,
+    ActionHandler,
+    DataSourceHandler,
+    DynamicPageHandler
+} from './extensions';
