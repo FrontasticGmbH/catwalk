@@ -1,3 +1,6 @@
+
+import ComponentInjector from '../app/injector'
+
 /**
  * Provides unified handling of URL context.
  *
@@ -37,4 +40,4 @@ class UrlContext {
     }
 }
 
-export default UrlContext
+export default ComponentInjector.return('UrlContext', UrlContext)
