@@ -1,4 +1,11 @@
 
+## Version 1.45.0 (2022-06-30)
+
+** New features and Improvements **
+
+- The UrlContext can now be replaced with the ComponentInjector
+- Add new types to catwalk
+
 ## Version 1.44.1 (2022-06-21)
 
 
