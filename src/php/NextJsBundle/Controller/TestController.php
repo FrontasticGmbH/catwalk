@@ -41,7 +41,8 @@ class TestController
         // copied from Typescript TODO: put that in a central place
         $hookName = 'data-source-' . str_replace('/', '-', $identifier);
 
-        return $this->extensionService->call(
+
+        $extensionResult = $this->extensionService->callDataSource(
             $hookName,
             [
                 new DataSourceConfiguration([
@@ -58,8 +59,10 @@ class TestController
                     'usingTastics' => null,
                     'request' => $this->requestService->createApiRequest($request)
                 ])
-            ]
+            ],
+            null
         );
+        return $this->streamHandlerToDataSourceAdapter->convertDataSourceResult($extensionResult)->wait();
     }
 
     private function unsupportedContentType(): SymfonyResponse
