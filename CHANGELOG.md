@@ -1,4 +1,10 @@
 
+## Version 1.46.0 (2022-07-07)
+
+** New Features and Improvements **
+
+- Remove type field from JSON serializer
+
 ## Version 1.45.0 (2022-06-30)
 
 ** New features and Improvements **
