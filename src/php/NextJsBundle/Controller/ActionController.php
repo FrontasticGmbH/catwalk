@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Controller;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context as ClassicContext;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
+use Frontastic\Catwalk\AppKernel;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\ActionContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\ContextCompletionService;
@@ -45,7 +46,9 @@ class ActionController
         $apiRequest = $this->requestService->createApiRequest($request);
         $actionContext = $this->createActionContext($context);
 
-        $this->assertActionExists($namespace, $action);
+        if (!AppKernel::isProduction()) {
+            $this->assertActionExists($namespace, $action);
+        }
 
         $timeout = $actionContext->frontasticContext->project->configuration["extensions"]["actionTimeout"] ?? null;
 
