@@ -178,9 +178,7 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         \Phake::when($streamHandler)->getType()->thenReturn('product-list');
         \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
 
-        \Phake::when($this->streamHandlerFromExtensions)->fetch()->thenReturn(
-            ['product-list' => $streamHandler]
-        );
+        $this->streamService->addStreamHandler($streamHandler);
 
         $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);
 
@@ -210,9 +208,7 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $streamOptimizer = \Phake::mock(StreamOptimizer::class);
         \Phake::when($streamOptimizer)->optimizeStreamData(\Phake::anyParameters())->thenReturn('optimized data');
 
-        \Phake::when($this->streamHandlerFromExtensions)->fetch()->thenReturn(
-            ['product-list' => $streamHandler]
-        );
+        $this->streamService->addStreamHandler($streamHandler);
         $this->streamService->addStreamOptimizer($streamOptimizer);
 
         $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);

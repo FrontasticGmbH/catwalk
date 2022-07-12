@@ -5,7 +5,6 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
-use Frontastic\Catwalk\NextJsBundle\Domain\StreamHandlerFromExtensions;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Log\LoggerInterface;
@@ -35,7 +34,7 @@ class StreamService
      */
     private $streamOptimizers = [];
 
-    private StreamHandlerFromExtensions $streamHandlerFromExtensions;
+    private ?StreamHandlerSupplier $streamHandlerSupplier;
 
     /**
      * @var bool
@@ -73,7 +72,7 @@ class StreamService
         TasticService $tasticService,
         LoggerInterface $logger,
         RequestStack $requestStack,
-        StreamHandlerFromExtensions $streamHandlerFromExtensions,
+        ?StreamHandlerSupplier $streamHandlerSupplier = null,
         iterable $streamHandlers = [],
         iterable $streamOptimizers = [],
         bool $debug = false
@@ -90,7 +89,7 @@ class StreamService
             $this->addStreamHandler($streamHandler);
         }
 
-        $this->streamHandlerFromExtensions = $streamHandlerFromExtensions;
+        $this->streamHandlerSupplier = $streamHandlerSupplier;
 
         $this->debug = $debug;
     }
@@ -371,8 +370,8 @@ class StreamService
             return Promise\promise_for($stream->preloadedValue);
         }
 
-        if (isset($this->streamHandlerFromExtensions)) {
-            foreach ($this->streamHandlerFromExtensions->fetch() as $key => $value) {
+        if (isset($this->streamHandlerSupplier)) {
+            foreach ($this->streamHandlerSupplier->fetch() as $key => $value) {
                 if (!isset($this->streamHandlers[$key])) {
                     $this->addStreamHandlerV2($key, $value);
                 }

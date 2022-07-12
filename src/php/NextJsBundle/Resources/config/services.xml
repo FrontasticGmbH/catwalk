@@ -28,12 +28,11 @@
         </service>
 
         <service
-            id="Frontastic\Catwalk\NextJsBundle\Domain\StreamHandlerFromExtensions"
+            id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerSupplier"
             class="Frontastic\Catwalk\NextJsBundle\Domain\StreamHandlerFromExtensions"
-            autowire="true"
-        >
-
+            autowire="true">
         </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService"
              class="Frontastic\Catwalk\NextJsBundle\Domain\FrontasticNextJsRouteService"
              autowire="true"
