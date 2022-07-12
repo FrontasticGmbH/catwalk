@@ -31,7 +31,7 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
     private StreamService $streamService;
 
-    private StreamHandlerFromExtensions $streamHandlerFromExtensions;
+    private StreamHandlerSupplier $streamHandlerSupplier;
 
     public function setUp()
     {
@@ -42,13 +42,13 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         $this->requestStackMock = \Phake::mock(RequestStack::class);
 
-        $this->streamHandlerFromExtensions = \Phake::mock(StreamHandlerFromExtensions::class);
+        $this->streamHandlerSupplier = \Phake::mock(StreamHandlerSupplier::class);
 
         $this->streamService = new StreamService(
             $this->tasticServiceMock,
             $this->loggerMock,
             $this->requestStackMock,
-            $this->streamHandlerFromExtensions
+            $this->streamHandlerSupplier
         );
     }
 
