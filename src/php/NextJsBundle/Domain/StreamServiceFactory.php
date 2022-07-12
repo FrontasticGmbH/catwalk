@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerSupplier;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamService;
@@ -14,7 +15,7 @@ class StreamServiceFactory
     private TasticService $tasticService;
     private LoggerInterface $logger;
     private RequestStack $requestStack;
-    private StreamHandlerFromExtensions $streamHandlerFromExtensions;
+    private StreamHandlerSupplier $streamHandlerSupplier;
 
     /**
      * @var StreamHandlerV2[]
@@ -32,7 +33,7 @@ class StreamServiceFactory
         TasticService $tasticService,
         LoggerInterface $logger,
         RequestStack $requestStack,
-        StreamHandlerFromExtensions $streamHandlerFromExtensions,
+        StreamHandlerSupplier $streamHandlerSupplier,
         iterable $streamHandlers = [],
         iterable $streamOptimizers = [],
         bool $debug = false
@@ -40,7 +41,7 @@ class StreamServiceFactory
         $this->tasticService = $tasticService;
         $this->logger = $logger;
         $this->requestStack = $requestStack;
-        $this->streamHandlerFromExtensions = $streamHandlerFromExtensions;
+        $this->streamHandlerSupplier = $streamHandlerSupplier;
         $this->streamHandlers = $streamHandlers;
         $this->streamOptimizers = $streamOptimizers;
         $this->debug = $debug;
@@ -52,7 +53,7 @@ class StreamServiceFactory
             $this->tasticService,
             $this->logger,
             $this->requestStack,
-            $this->streamHandlerFromExtensions,
+            $this->streamHandlerSupplier,
             $this->streamHandlers,
             $this->streamOptimizers,
             $this->debug,

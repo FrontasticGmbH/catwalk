@@ -3,8 +3,9 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
+use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerSupplier;
 
-class StreamHandlerFromExtensions
+class StreamHandlerFromExtensions implements StreamHandlerSupplier
 {
 
     private ExtensionService $extensionService;

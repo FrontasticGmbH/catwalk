@@ -165,6 +165,7 @@
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\StreamService" autowire="true">
             <argument key="$streamHandlers" type="tagged" tag="frontend.streamHandler" />
             <argument key="$streamOptimizers" type="tagged" tag="frontend.streamOptimizer" />
+            <argument key="$streamHandlerSupplier" type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerSupplier" on-invalid="ignore" />
             <argument key="$debug">%kernel.debug%</argument>
         </service>
 
