@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Frontastic\Catwalk\NextJsBundle\Domain\StreamHandlerFromExtensions;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Log\LoggerInterface;
@@ -33,6 +34,8 @@ class StreamService
      * @var StreamOptimizer[]
      */
     private $streamOptimizers = [];
+
+    private StreamHandlerFromExtensions $streamHandlerFromExtensions;
 
     /**
      * @var bool
@@ -70,7 +73,7 @@ class StreamService
         TasticService $tasticService,
         LoggerInterface $logger,
         RequestStack $requestStack,
-        iterable $streamHandlers = [],
+        StreamHandlerFromExtensions $fetchStreamHandlersFunction,
         iterable $streamOptimizers = [],
         bool $debug = false
     ) {
@@ -78,12 +81,12 @@ class StreamService
         $this->logger = $logger;
         $this->requestStack = $requestStack;
 
-        foreach ($streamHandlers as $streamHandler) {
-            $this->addStreamHandler($streamHandler);
-        }
         foreach ($streamOptimizers as $streamOptimizer) {
             $this->addStreamOptimizer($streamOptimizer);
         }
+
+        $this->streamHandlerFromExtensions = $fetchStreamHandlersFunction;
+
         $this->debug = $debug;
     }
 
@@ -361,6 +364,12 @@ class StreamService
         // The preloadedValue can be fetched in the DynamicPageService when getting the Node
         if ($stream->preloadedValue !== null) {
             return Promise\promise_for($stream->preloadedValue);
+        }
+
+        if (empty($this->streamHandlers) && isset($this->streamHandlerFromExtensions)) {
+            foreach ($this->streamHandlerFromExtensions->fetch() as $key => $value) {
+                $this->addStreamHandlerV2($key, $value);
+            }
         }
 
         if (!isset($this->streamHandlers[$stream->type])) {

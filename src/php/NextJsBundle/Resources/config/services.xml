@@ -27,6 +27,13 @@
             <argument key="$streamOptimizers" type="tagged" tag="frontend.streamOptimizer" />
         </service>
 
+        <service
+            id="Frontastic\Catwalk\NextJsBundle\Domain\StreamHandlerFromExtensions"
+            class="Frontastic\Catwalk\NextJsBundle\Domain\StreamHandlerFromExtensions"
+            autowire="true"
+        >
+
+        </service>
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService"
              class="Frontastic\Catwalk\NextJsBundle\Domain\FrontasticNextJsRouteService"
              autowire="true"

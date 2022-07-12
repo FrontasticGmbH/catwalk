@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\NextJsBundle\Domain\StreamHandlerFromExtensions;
 use GuzzleHttp\Promise;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
@@ -30,6 +31,8 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
     private StreamService $streamService;
 
+    private StreamHandlerFromExtensions $streamHandlerFromExtensions;
+
     public function setUp()
     {
         $this->tasticServiceMock = \Phake::mock(TasticService::class);
@@ -39,10 +42,13 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         $this->requestStackMock = \Phake::mock(RequestStack::class);
 
+        $this->streamHandlerFromExtensions = \Phake::mock(StreamHandlerFromExtensions::class);
+
         $this->streamService = new StreamService(
             $this->tasticServiceMock,
             $this->loggerMock,
-            $this->requestStackMock
+            $this->requestStackMock,
+            $this->streamHandlerFromExtensions
         );
     }
 
@@ -172,7 +178,9 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         \Phake::when($streamHandler)->getType()->thenReturn('product-list');
         \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
 
-        $this->streamService->addStreamHandler($streamHandler);
+        \Phake::when($this->streamHandlerFromExtensions)->fetch()->thenReturn(
+            ['product-list' => $streamHandler]
+        );
 
         $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);
 
@@ -202,7 +210,9 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $streamOptimizer = \Phake::mock(StreamOptimizer::class);
         \Phake::when($streamOptimizer)->optimizeStreamData(\Phake::anyParameters())->thenReturn('optimized data');
 
-        $this->streamService->addStreamHandler($streamHandler);
+        \Phake::when($this->streamHandlerFromExtensions)->fetch()->thenReturn(
+            ['product-list' => $streamHandler]
+        );
         $this->streamService->addStreamOptimizer($streamOptimizer);
 
         $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);
