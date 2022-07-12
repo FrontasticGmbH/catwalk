@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamOptimizer;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamService;
 use Psr\Log\LoggerInterface;
@@ -16,6 +17,11 @@ class StreamServiceFactory
     private StreamHandlerFromExtensions $streamHandlerFromExtensions;
 
     /**
+     * @var StreamHandlerV2[]
+     */
+    private iterable $streamHandlers;
+
+    /**
      * @var StreamOptimizer[]
      */
     private iterable $streamOptimizers;
@@ -27,6 +33,7 @@ class StreamServiceFactory
         LoggerInterface $logger,
         RequestStack $requestStack,
         StreamHandlerFromExtensions $streamHandlerFromExtensions,
+        iterable $streamHandlers = [],
         iterable $streamOptimizers = [],
         bool $debug = false
     ) {
@@ -34,6 +41,7 @@ class StreamServiceFactory
         $this->logger = $logger;
         $this->requestStack = $requestStack;
         $this->streamHandlerFromExtensions = $streamHandlerFromExtensions;
+        $this->streamHandlers = $streamHandlers;
         $this->streamOptimizers = $streamOptimizers;
         $this->debug = $debug;
     }
@@ -45,6 +53,7 @@ class StreamServiceFactory
             $this->logger,
             $this->requestStack,
             $this->streamHandlerFromExtensions,
+            $this->streamHandlers,
             $this->streamOptimizers,
             $this->debug,
         );

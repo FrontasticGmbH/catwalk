@@ -73,7 +73,8 @@ class StreamService
         TasticService $tasticService,
         LoggerInterface $logger,
         RequestStack $requestStack,
-        StreamHandlerFromExtensions $fetchStreamHandlersFunction,
+        StreamHandlerFromExtensions $streamHandlerFromExtensions,
+        iterable $streamHandlers = [],
         iterable $streamOptimizers = [],
         bool $debug = false
     ) {
@@ -85,7 +86,11 @@ class StreamService
             $this->addStreamOptimizer($streamOptimizer);
         }
 
-        $this->streamHandlerFromExtensions = $fetchStreamHandlersFunction;
+        foreach ($streamHandlers as $streamHandler) {
+            $this->addStreamHandler($streamHandler);
+        }
+
+        $this->streamHandlerFromExtensions = $streamHandlerFromExtensions;
 
         $this->debug = $debug;
     }
@@ -366,9 +371,11 @@ class StreamService
             return Promise\promise_for($stream->preloadedValue);
         }
 
-        if (empty($this->streamHandlers) && isset($this->streamHandlerFromExtensions)) {
+        if (isset($this->streamHandlerFromExtensions)) {
             foreach ($this->streamHandlerFromExtensions->fetch() as $key => $value) {
-                $this->addStreamHandlerV2($key, $value);
+                if (!isset($this->streamHandlers[$key])) {
+                    $this->addStreamHandlerV2($key, $value);
+                }
             }
         }
 
