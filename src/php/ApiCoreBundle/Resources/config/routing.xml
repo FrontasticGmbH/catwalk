@@ -20,6 +20,11 @@
         <default key="_stateless">true</default>
     </route>
 
+    <route id="Frontastic.ApiCoreBundle.Api.clear" path="/api/endpoint/clear" methods="GET">
+        <default key="_controller">Frontastic\Catwalk\ApiCoreBundle\Controller\ApiController::clearAction</default>
+        <default key="_stateless">true</default>
+    </route>
+
     <route id="Frontastic.ApiCoreBundle.App.data" path="/api/{app}/data" methods="GET">
         <default key="_controller">Frontastic\Catwalk\ApiCoreBundle\Controller\AppController::dataAction</default>
     </route>

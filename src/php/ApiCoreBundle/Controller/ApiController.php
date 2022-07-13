@@ -8,14 +8,20 @@ use Frontastic\Common\ReplicatorBundle\Domain\Command;
 use Frontastic\Common\ReplicatorBundle\Domain\EndpointService;
 use Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier;
 use Frontastic\Common\ReplicatorBundle\Domain\Result;
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ApiController extends AbstractController
 {
     const VERSION_PARAMETER_NAME = 'version';
     const DEFAULT_VERSION = 'unknown';
+    const ALLOWED_CUSTOMERS = [
+        // 'demo',
+        'fixture',
+    ];
 
     private ContextService $contextService;
     private EndpointService $endpointService;
@@ -84,6 +90,41 @@ class ApiController extends AbstractController
             ]);
         } catch (\Throwable $exception) {
             return new JsonResponse(Result::fromThrowable($exception));
+        }
+    }
+
+    public function clearAction(Request $request): JsonResponse
+    {
+        $context = $this->contextService->createContextFromRequest($request);
+        try {
+            $this->ensureCustomerIsInAllowedCustomerList($context);
+            $this->verifyRequest($request);
+        } catch (\Throwable $exception) {
+            return new JsonResponse(Result::fromThrowable($exception));
+        }
+
+        $connection = $this->get('database_connection');
+        $schemaManager = $connection->getSchemaManager();
+
+        $tables = $schemaManager->listTables();
+        foreach ($tables as $table) {
+            $tableName = $table->getName();
+            if ($tableName === 'changelog') {
+                continue;
+            }
+
+            $connection->executeQuery('TRUNCATE `' . $tableName . '`', [], []);
+        }
+
+        return new JsonResponse([
+            'ok' => true,
+        ]);
+    }
+
+    private function ensureCustomerIsInAllowedCustomerList(Context $context): void
+    {
+        if (!\in_array($context->customer->name, self::ALLOWED_CUSTOMERS)) {
+            throw new AccessDeniedException('This endpoint is disabled for this customer.');
         }
     }
 
