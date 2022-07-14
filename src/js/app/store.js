@@ -78,10 +78,9 @@ if (typeof window !== 'undefined') {
     /* eslint-enable */
 }
 
-let cacheKey = UrlContext.getActionHash(props.route)
-
 export default () => {
     const combinedMiddlewares = [thunk, ...ComponentInjector.getMiddlewares()]
+    let cacheKey = UrlContext.getActionHash(props.route)
 
     return createStore(
         createReducer(),
