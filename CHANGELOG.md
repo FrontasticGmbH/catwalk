@@ -1,7 +1,9 @@
 
 ## Version 1.46.1 (2022-07-14)
 
-fix: allow customers to overwrite the UrlContext
+** Bug fixes **
+
+- Allow customers to overwrite the UrlContext
 
 ## Version 1.46.0 (2022-07-07)
 
