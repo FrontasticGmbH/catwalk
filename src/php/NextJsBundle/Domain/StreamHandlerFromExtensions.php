@@ -3,7 +3,9 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
+use Frontastic\Catwalk\AppKernel;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerSupplier;
+use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandlerV2;
 
 class StreamHandlerFromExtensions implements StreamHandlerSupplier
 {
@@ -25,27 +27,20 @@ class StreamHandlerFromExtensions implements StreamHandlerSupplier
         $this->fromFrontasticReactMapper = $fromFrontasticReactMapper;
     }
 
-    public function fetch(): array
+    public function get(string $streamType): StreamHandlerV2
     {
-        $result = [];
-        try {
-            foreach ($this->extensionService->getExtensions() as $hook) {
-                if (isset($hook['hookType']) && $hook['hookType'] === 'data-source') {
-                    $result[$hook['dataSourceIdentifier']] =
-                        new StreamHandlerToDataSourceHandlerAdapter(
-                            $this->extensionService,
-                            $this->requestService,
-                            $this->fromFrontasticReactMapper,
-                            $this->contextCompletionService,
-                            $hook['hookName']
-                        );
-                }
-            }
-        } catch (\Throwable $e) {
-            // EAT for now
-            // FIXME: log!!!
+        $dataSourceName = "data-source-" . str_replace("/", "-", $streamType);
+
+        if (!AppKernel::isProduction() && !$this->extensionService->hasExtension($dataSourceName)) {
+            throw new \RuntimeException("No extension for data source $dataSourceName configured.");
         }
 
-        return $result;
+        return new StreamHandlerToDataSourceHandlerAdapter(
+            $this->extensionService,
+            $this->requestService,
+            $this->fromFrontasticReactMapper,
+            $this->contextCompletionService,
+            $dataSourceName
+        );
     }
 }
