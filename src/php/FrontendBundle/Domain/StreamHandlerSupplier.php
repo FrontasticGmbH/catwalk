@@ -4,5 +4,5 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 interface StreamHandlerSupplier
 {
-    public function fetch(): array;
+    public function get(string $streamType): StreamHandlerV2;
 }

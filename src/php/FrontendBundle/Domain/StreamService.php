@@ -370,26 +370,14 @@ class StreamService
             return Promise\promise_for($stream->preloadedValue);
         }
 
-        if (isset($this->streamHandlerSupplier)) {
-            foreach ($this->streamHandlerSupplier->fetch() as $key => $value) {
-                if (!isset($this->streamHandlers[$key])) {
-                    $this->addStreamHandlerV2($key, $value);
-                }
-            }
-        }
-
-        if (!isset($this->streamHandlers[$stream->type])) {
-            return Promise\rejection_for(
-                new \RuntimeException("No stream handler for stream type {$stream->type} configured.")
-            );
-        }
-
         if (isset($streamContext->parameters['streamContent'])) {
             return Promise\promise_for($streamContext->parameters['streamContent']);
         }
 
+        $streamHandler = $this->streamHandlers[$stream->type] ?? $this->streamHandlerSupplier->get($stream->type);
+
         try {
-            return $this->streamHandlers[$stream->type]->handle($stream, $streamContext);
+            return $streamHandler->handle($stream, $streamContext);
         } catch (\Throwable $exception) {
             return Promise\rejection_for($exception);
         }
