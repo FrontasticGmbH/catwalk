@@ -303,6 +303,7 @@ class StreamService
                     $streamContext
                 )
                 ->otherwise(function (\Throwable $exception) use ($stream) {
+                    var_dump($exception->getTraceAsString());
                     $errorResult = [
                         'ok' => false,
                         'message' => $exception->getMessage(),
