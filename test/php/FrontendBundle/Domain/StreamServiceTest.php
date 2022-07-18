@@ -174,18 +174,20 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn($tastics);
 
-        $streamHandler = \Phake::mock(StreamHandler::class);
-        \Phake::when($streamHandler)->getType()->thenReturn('product-list');
-        \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
+        $streamHandlerV2 = \Phake::mock(StreamHandlerV2::class);
+        \Phake::when($this->streamHandlerSupplier)->get('product-list')->thenReturn($streamHandlerV2);
+        \Phake::when($streamHandlerV2)->handle(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
 
-        $this->streamService->addStreamHandler($streamHandler);
+        $streamHandlerV2Content = \Phake::mock(StreamHandlerV2::class);
+        \Phake::when($this->streamHandlerSupplier)->get('content')->thenReturn($streamHandlerV2Content);
+        \Phake::when($streamHandlerV2Content)->handle(\Phake::anyParameters())->thenReturn(Promise\promise_for('some other data'));
 
         $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);
 
         $this->assertEquals(
             [
                 '70b37120-b446-4d11-b441-b6a80fabb48a' => 'some data',
-                'd9c9bea5-ad6e-4e6a-a516-f1ecd46c66b0' => ['ok' => false, 'message' => 'No stream handler for stream type content configured.'],
+                'd9c9bea5-ad6e-4e6a-a516-f1ecd46c66b0' => 'some other data',
                 'aabf67e7-8134-451e-85f5-4e069d0e41d4' => 'some data',
                 '7440' => 'some data',
             ],
@@ -207,6 +209,10 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         $streamOptimizer = \Phake::mock(StreamOptimizer::class);
         \Phake::when($streamOptimizer)->optimizeStreamData(\Phake::anyParameters())->thenReturn('optimized data');
+
+        $streamHandlerV2 = \Phake::mock(StreamHandlerV2::class);
+        \Phake::when($this->streamHandlerSupplier)->get('content')->thenReturn($streamHandlerV2);
+        \Phake::when($streamHandlerV2)->handle(\Phake::anyParameters())->thenReturn(Promise\promise_for(null));
 
         $this->streamService->addStreamHandler($streamHandler);
         $this->streamService->addStreamOptimizer($streamOptimizer);
@@ -238,6 +244,10 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         $this->streamService->addStreamHandler($streamHandler);
         // 70b37120-b446-4d11-b441-b6a80fabb48a
+
+        $streamHandlerV2 = \Phake::mock(StreamHandlerV2::class);
+        \Phake::when($this->streamHandlerSupplier)->get('content')->thenReturn($streamHandlerV2);
+        \Phake::when($streamHandlerV2)->handle(\Phake::anyParameters())->thenReturn(Promise\promise_for(null));
 
         $request = new Request();
         $request->request->set('s', [
