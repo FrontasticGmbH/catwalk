@@ -31,6 +31,7 @@ class RequestService
         $apiRequest->path = $request->getPathInfo();
         $apiRequest->body = $request->getContent();
         $apiRequest->headers = $this->filterOutHeaders($request->headers->all());
+        $apiRequest->method = $request->getMethod();
         $apiRequest->clientIp = $request->getClientIp();
         $apiRequest->hostname = $request->getHost();
         $apiRequest->frontasticRequestId = $request->attributes->get('_frontastic_request_id');
