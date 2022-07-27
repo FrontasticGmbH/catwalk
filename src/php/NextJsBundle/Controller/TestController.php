@@ -42,7 +42,7 @@ class TestController
         $hookName = 'data-source-' . str_replace('/', '-', $identifier);
 
 
-        $extensionResult = $this->extensionService->callDataSource(
+        return $this->extensionService->callDataSource(
             $hookName,
             [
                 new DataSourceConfiguration([
@@ -61,8 +61,7 @@ class TestController
                 ])
             ],
             null
-        );
-        return $this->streamHandlerToDataSourceAdapter->convertDataSourceResult($extensionResult)->wait();
+        )->wait();
     }
 
     private function unsupportedContentType(): SymfonyResponse
