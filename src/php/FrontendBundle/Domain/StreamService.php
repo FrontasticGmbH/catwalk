@@ -377,7 +377,7 @@ class StreamService
         if (isset($this->streamHandlers[$stream->type])) {
             $streamHandler = $this->streamHandlers[$stream->type];
         } else {
-            if (getenv('is_frontastic_nextjs') === '1' || !isset($this->streamHandlerSupplier)) {
+            if (getenv('is_frontastic_nextjs') === '1' && isset($this->streamHandlerSupplier)) {
                 $streamHandler = $this->streamHandlerSupplier->get($stream->type);
             } else {
                 return Promise\rejection_for(
