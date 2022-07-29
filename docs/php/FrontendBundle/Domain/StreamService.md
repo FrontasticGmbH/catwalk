@@ -19,6 +19,7 @@ public function __construct(
     TasticService $tasticService,
     \Psr\Log\LoggerInterface $logger,
     \Symfony\Component\HttpFoundation\RequestStack $requestStack,
+    ?StreamHandlerSupplier $streamHandlerSupplier = null,
     iterable $streamHandlers = [],
     iterable $streamOptimizers = [],
     bool $debug = false
@@ -30,6 +31,7 @@ Argument|Type|Default|Description
 `$tasticService`|[`TasticService`](../../ApiCoreBundle/Domain/TasticService.md)||
 `$logger`|`\Psr\Log\LoggerInterface`||
 `$requestStack`|`\Symfony\Component\HttpFoundation\RequestStack`||
+`$streamHandlerSupplier`|?[`StreamHandlerSupplier`](StreamHandlerSupplier.md)|`null`|
 `$streamHandlers`|`iterable`|`[]`|Only "legacy" stream handlers go here, StreamHandlerV2 please go to {@link self::addStreamHandlerV2()}.
 `$streamOptimizers`|`iterable`|`[]`|
 `$debug`|`bool`|`false`|
