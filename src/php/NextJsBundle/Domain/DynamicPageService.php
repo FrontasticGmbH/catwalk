@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
+use Frontastic\Catwalk\AppKernel;
 use Frontastic\Catwalk\FrontendBundle\Domain\MasterService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
@@ -39,7 +40,7 @@ class DynamicPageService
 
     public function handleDynamicPage(SymfonyRequest $request, Context $context): ?DynamicPageResult
     {
-        if (!$this->extensionService->hasDynamicPageHandler()) {
+        if (!AppKernel::isProduction() && !$this->extensionService->hasDynamicPageHandler()) {
             return null;
         }
 
