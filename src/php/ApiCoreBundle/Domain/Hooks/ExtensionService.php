@@ -7,6 +7,7 @@ use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonEncodeException;
 use Frontastic\Common\HttpClient;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
+use Frontastic\Catwalk\ApiCoreBundle\Exception\ExtensionRunnerException;
 use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Log\LoggerInterface;
@@ -252,7 +253,7 @@ EOT;
         } catch (\Exception $exception) {
             return Create::promiseFor(Json::encode([
                 'ok' => false,
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
             ]));
         }
     }
@@ -276,9 +277,8 @@ EOT;
         return $this->httpClient->postAsync($path, $payload, $requestHeaders, $requestOptions)->then(
             function (Response $response) use ($extensionName) {
                 if ($response->status != 200) {
-                    throw new \Exception('Calling extension ' . $extensionName . ' failed. Error: ' . $response->body);
+                    throw new ExtensionRunnerException('Calling extension ' . $extensionName . ' failed.', 0, null, json_decode($response->body, true)['context']);
                 }
-
                 return $response->body;
             }
         );
