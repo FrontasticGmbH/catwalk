@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Frontastic\Catwalk\ApiCoreBundle\Exception\ExtensionRunnerException;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Log\LoggerInterface;
@@ -304,6 +305,9 @@ class StreamService
                         $errorResult['trace'] = $exception->getTrace();
                         $errorResult['file'] = $exception->getFile();
                         $errorResult['line'] = $exception->getLine();
+                        if ($exception instanceof ExtensionRunnerException) {
+                            $errorResult['context'] = $exception->getContext();
+                        }
 
                         debug(
                             sprintf('Error fetching data for stream %s (type %s)', $stream->streamId, $stream->type),
