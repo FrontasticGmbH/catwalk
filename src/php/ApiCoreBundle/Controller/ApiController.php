@@ -21,6 +21,7 @@ class ApiController extends AbstractController
     const ALLOWED_CUSTOMERS = [
         // 'demo',
         'fixture',
+        'salesdemoct',
     ];
 
     private ContextService $contextService;

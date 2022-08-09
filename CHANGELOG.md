@@ -1,4 +1,14 @@
 
+## Version 1.47.0 (2022-08-04)
+
+** New Features and Improvements **
+
+- Improve performance by preventing extension-availability check in production
+
+** Bug fixes **
+
+- Handle medium upload fail during fixture import
+
 ## Version 1.46.1 (2022-07-14)
 
 ** Bug fixes **
