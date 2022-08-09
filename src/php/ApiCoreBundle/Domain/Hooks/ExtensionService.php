@@ -249,7 +249,18 @@ EOT;
         $headers = ['Frontastic-Request-Id' => "Frontastic-Request-Id:$requestId"];
 
         try {
-            return $this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers, $timeout);
+            return $this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers, $timeout)->then(
+                function (Response $response) use ($extensionName, $requestId) {
+                    if ($response->status != 200) {
+                        $contextFromExtension = json_decode($response->body, true)['context'] ?? array();
+                        $context = array_merge($contextFromExtension, [
+                            'frontasticRequestId' => $requestId
+                        ]);
+                        throw new ExtensionRunnerException('Calling extension ' . $extensionName . ' failed.', 0, null, $context);
+                    }
+                    return $response->body;
+                }
+            );
         } catch (\Exception $exception) {
             return Create::promiseFor(Json::encode([
                 'ok' => false,
@@ -274,14 +285,7 @@ EOT;
         $requestOptions = new HttpClient\Options();
         $requestOptions->timeout = $timeout;
 
-        return $this->httpClient->postAsync($path, $payload, $requestHeaders, $requestOptions)->then(
-            function (Response $response) use ($extensionName) {
-                if ($response->status != 200) {
-                    throw new ExtensionRunnerException('Calling extension ' . $extensionName . ' failed.', 0, null, json_decode($response->body, true)['context']);
-                }
-                return $response->body;
-            }
-        );
+        return $this->httpClient->postAsync($path, $payload, $requestHeaders, $requestOptions);
     }
 
 
