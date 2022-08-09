@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks;
 
+use Frontastic\Catwalk\AppKernel;
 use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonDecodeException;
 use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonEncodeException;
 use Frontastic\Common\HttpClient;
@@ -233,7 +234,7 @@ EOT;
      */
     private function callExtension(string $extensionName, array $arguments, int $timeout): PromiseInterface
     {
-        if (!$this->hasExtension($extensionName)) {
+        if (!AppKernel::isProduction() && !$this->hasExtension($extensionName)) {
             return Create::promiseFor(Json::encode([
                 'ok' => false,
                 'message' => sprintf('The requested extension "%s" was not found.', $extensionName)
