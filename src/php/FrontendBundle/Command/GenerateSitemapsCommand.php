@@ -479,6 +479,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         ]);
 
         $entries = [];
+        $fileNames = [];
 
         do {
             $result = $productSearchApi->query($query)->wait();
@@ -501,10 +502,26 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 break;
             }
 
+            // Generates multiple sitemaps with $maxEntries products, so the process won´t break with to many entries
+            if (!$this->singleSitemap && count($entries) >= $this->maxEntries) {
+                $entryChunk = array_splice($entries, 0, $this->maxEntries);
+                $fileName = $this->createSitemapName('products', count($fileNames));
+
+                $this->renderSitemap($this->publicUrl, $entryChunk, $fileName);
+                $fileNames[] = $fileName;
+            }
+
             $query->cursor = $result->nextCursor;
         } while (!is_null($result->nextCursor));
 
-        return $this->singleSitemap ? $entries : $this->renderSitemaps($context, $entries, 'products');
+        // Generate a sitemap for the remaining entries
+        if (!$this->singleSitemap && count($entries) > 0) {
+            $fileName = $this->createSitemapName('products', count($fileNames));
+            $this->renderSitemap($this->publicUrl, $entries, $fileName);
+            $fileNames[] = $fileName;
+        }
+
+        return $this->singleSitemap ? $entries : $fileNames;
     }
 
     private function filterEntries(array $entries): array
@@ -529,9 +546,8 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         $sitemaps = [];
 
         while (count($entries) > 0) {
-            $sitemaps[] = sprintf('sitemap_%s-%d.xml', $type, count($sitemaps));
-            $siteMapFileName = end($sitemaps);
-            $filePath = $siteMapFileName;
+            $filePath = $this->createSitemapName($type, count($sitemaps));
+            $sitemaps[] = $filePath;
 
             $this->renderSitemap(
                 $this->publicUrl,
@@ -570,9 +586,14 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         );
     }
 
+    private function createSitemapName(string $type, int $number): string
+    {
+        return sprintf('sitemap_%s-%d.xml', $type, $number);
+    }
+
     private function render(
         string $publicUrl,
-        array $data,
+        array  $data,
         string $templateFile,
         string $file,
         bool $isSiteMapIndex = false
