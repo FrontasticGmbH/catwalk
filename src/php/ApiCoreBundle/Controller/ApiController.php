@@ -23,7 +23,9 @@ class ApiController extends AbstractController
         'fixture',
         'salesdemoct',
     ];
-    const SUPPORTED_FEATURES = [];
+    const SUPPORTED_FEATURES = [
+        'queryProductsByMultipleCategories'
+    ];
 
     private ContextService $contextService;
     private EndpointService $endpointService;
