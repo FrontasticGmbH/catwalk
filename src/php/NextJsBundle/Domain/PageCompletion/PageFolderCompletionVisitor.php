@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue\Error;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue\LinkReferenceValue;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue\PageFolderReferenceValue;
@@ -16,19 +17,22 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class PageFolderCompletionVisitor implements FieldVisitor
 {
-    private SiteBuilderPageService $pageService;
+    private SiteBuilderPageService $siteBuilderPageService;
     private NodeService $nodeService;
     private Context $context;
     private FieldVisitorFactory $fieldVisitorFactory;
+    private PageService $pageService;
 
     public function __construct(
-        SiteBuilderPageService $pageService,
+        SiteBuilderPageService $siteBuilderPageService,
         NodeService $nodeService,
+        PageService $pageService,
         Context $context,
         FieldVisitorFactory $fieldVisitorFactory
     ) {
-        $this->pageService = $pageService;
+        $this->siteBuilderPageService = $siteBuilderPageService;
         $this->nodeService = $nodeService;
+        $this->pageService = $pageService;
         $this->context = $context;
         $this->fieldVisitorFactory = $fieldVisitorFactory;
     }
@@ -85,12 +89,13 @@ class PageFolderCompletionVisitor implements FieldVisitor
             $this->fieldVisitorFactory->createNodeDataVisitor($this->context)
         );
 
-        $urls = $this->pageService->getPathsForSiteBuilderPage($pageFolderId);
+        $urls = $this->siteBuilderPageService->getPathsForSiteBuilderPage($pageFolderId);
 
         return new PageFolderValue([
             'pageFolderId' => $pageFolderId,
             'name' => $node->name,
             'configuration' => (object)$node->configuration,
+            'hasLivePage' => $this->pageExists($pageFolderId),
             '_urls' => $urls,
             '_url' => LocalizedValuePicker::getValueForCurrentLocale($this->context, $urls)
         ]);
@@ -119,8 +124,9 @@ class PageFolderCompletionVisitor implements FieldVisitor
             'pageFolderId' => $node->nodeId,
             'name' => $node->name,
             'configuration' => (object)$node->configuration,
+            'hasLivePage' => $this->pageExists($node->nodeId),
             'requestedDepth' => $requestedDepth,
-            '_urls' => $this->pageService->getPathsForSiteBuilderPage($node->nodeId),
+            '_urls' => $this->siteBuilderPageService->getPathsForSiteBuilderPage($node->nodeId),
         ]);
 
         foreach ($node->children as $childNode) {
@@ -142,5 +148,17 @@ class PageFolderCompletionVisitor implements FieldVisitor
             'errorCode' => Error::ERROR_CODE_PAGE_FOLDER_NOT_FOUND,
             'developerHint' => '// TODO: Docs link',
         ]);
+    }
+
+    private function pageExists(string $pageFolderId)
+    {
+        try {
+            $page = $this->pageService->fetchForNode(new Node(["nodeId" => $pageFolderId]), $this->context);
+            return $page != null;
+        } catch (\Exception $e) {
+            // Page does not exist, do nothing
+        }
+
+        return false;
     }
 }
