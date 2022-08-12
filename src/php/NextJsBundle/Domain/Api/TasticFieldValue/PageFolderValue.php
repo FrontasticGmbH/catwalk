@@ -24,6 +24,11 @@ class PageFolderValue extends DataObject
      */
     public object $configuration;
 
+    /**
+     * @var bool
+     */
+    public bool $hasLivePage;
+
     // phpcs:disable
     /**
      * @var array
