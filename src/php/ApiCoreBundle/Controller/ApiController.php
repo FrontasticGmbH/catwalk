@@ -23,6 +23,9 @@ class ApiController extends AbstractController
         'fixture',
         'salesdemoct',
     ];
+    const SUPPORTED_FEATURES = [
+        'queryProductsByMultipleCategories'
+    ];
 
     private ContextService $contextService;
     private EndpointService $endpointService;
@@ -88,9 +91,30 @@ class ApiController extends AbstractController
             return new JsonResponse([
                 'ok' => true,
                 'version' => $version,
+                'catwalkVersion' => $this->getCatwalkVersion(),
+                'commonVersion' => $this->getCommonVersion(),
+                'supportedFeatures' => self::SUPPORTED_FEATURES
             ]);
         } catch (\Throwable $exception) {
             return new JsonResponse(Result::fromThrowable($exception));
+        }
+    }
+
+    private function getCatwalkVersion()
+    {
+        try {
+            return \Composer\InstalledVersions::getPrettyVersion('frontastic/catwalk');
+        } catch (\OutOfBoundsException $e) {
+            return null;
+        }
+    }
+
+    private function getCommonVersion()
+    {
+        try {
+            return \Composer\InstalledVersions::getPrettyVersion('frontastic/common');
+        } catch (\OutOfBoundsException $e) {
+            return null;
         }
     }
 
