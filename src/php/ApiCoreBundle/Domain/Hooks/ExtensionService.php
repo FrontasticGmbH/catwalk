@@ -253,9 +253,23 @@ EOT;
             return $this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers, $timeout)->then(
                 function (Response $response) use ($extensionName, $requestId) {
                     if ($response->status != 200) {
-                        $contextFromExtension = json_decode($response->body, true)['context'] ?? array();
+                        $jsonBody = json_decode($response->body, true);
+                        $contextFromExtension = $jsonBody !== null ? $jsonBody['context'] : array();
+                        if ($jsonBody === null) {
+                            if ($response->status == 599) {
+                                // this is our magic response code which is set when a guzzle request exception occurs
+                                $contextFromExtension = array_merge($contextFromExtension, [
+                                    'message' => "Error calling the extension runner: ". $response->body
+                                ]);
+                            } else {
+                                $contextFromExtension = array_merge($contextFromExtension, [
+                                    'message' => $response->body,
+                                ]);
+                            }
+                        }
                         $context = array_merge($contextFromExtension, [
-                            'frontasticRequestId' => $requestId
+                            'frontasticRequestId' => $requestId,
+                            'http_status_from_extension_runner' => $response->status,
                         ]);
                         throw new ExtensionRunnerException('Calling extension ' . $extensionName . ' failed.', 0, null, $context);
                     }
