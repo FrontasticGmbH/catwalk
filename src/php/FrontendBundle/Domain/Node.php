@@ -87,6 +87,14 @@ class Node extends DataObject
     public $error;
 
     /**
+     * Page is live
+     *
+     * @var boolean
+     * @transient
+     */
+    public $hasLivePage = false;
+
+    /**
      * @var bool
      * @required
      */

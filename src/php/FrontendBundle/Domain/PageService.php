@@ -157,9 +157,9 @@ class PageService implements Target
     private function filterOutHiddenRegions(array $regions): array
     {
         $result = [];
-        foreach ($regions as $regionIdentifer => $region) {
+        foreach ($regions as $regionIdentifier => $region) {
             if (!$region->configuration->isHidden()) {
-                $result[$regionIdentifer] = $region;
+                $result[$regionIdentifier] = $region;
                 $region->elements = $this->filterOutHiddenRegionElements($region->elements);
             }
         }
