@@ -41,6 +41,7 @@ class TasticFieldService
         $this->tasticDefinitionService = $tasticDefinitionService;
         $this->logger = $logger;
         foreach ($fieldHandlers as $fieldHandler) {
+            var_dump($fieldHandler->getType());
             $this->addFieldHandler($fieldHandler);
         }
     }
@@ -138,6 +139,9 @@ class TasticFieldService
         array $handledFieldData,
         array $configuration
     ): array {
+        $isTree = $fieldDefinition["type"] == "tree";
+
+
         if (!array_key_exists('field', $fieldDefinition) ||
             !array_key_exists('type', $fieldDefinition)) {
             return $handledFieldData;
@@ -150,6 +154,9 @@ class TasticFieldService
         // check if field is of type group and then recursively handle the group's fieldset.
         if ($fieldType === 'group') {
             if (!is_array($fieldValue) || !array_key_exists('fields', $fieldDefinition)) {
+                if ($isTree) {
+                    var_dump("No handlers for the tree IN non m-tenant :(");
+                }
                 return $handledFieldData;
             }
             $handledFieldData[$fieldName] = [];
