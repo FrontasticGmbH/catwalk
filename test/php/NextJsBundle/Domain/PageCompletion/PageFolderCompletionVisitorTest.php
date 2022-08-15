@@ -5,6 +5,8 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
+use Frontastic\Catwalk\FrontendBundle\Domain\Page;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldConfiguration;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor\SequentialFieldVisitor;
@@ -15,8 +17,9 @@ class PageFolderCompletionVisitorTest extends TestCase
 
     private PageFolderCompletionVisitor $subject;
 
-    private SiteBuilderPageService $pageService;
+    private SiteBuilderPageService $siteBuilderPageService;
     private NodeService $nodeService;
+    private PageService $pageService;
     private Context $context;
     private FieldVisitorFactory $fieldVisitorFactory;
 
@@ -25,14 +28,19 @@ class PageFolderCompletionVisitorTest extends TestCase
 
     public function setUp()
     {
-        $this->pageService = \Phake::mock(SiteBuilderPageService::class);
+        $this->siteBuilderPageService = \Phake::mock(SiteBuilderPageService::class);
         $this->fieldConfiguration = \Phake::mock(FieldConfiguration::class);
         $this->nodeService = \Phake::mock(NodeService::class);
+        $this->pageService = \Phake::mock(PageService::class);
         $this->context = new Context();
         $this->fieldVisitorFactory = \Phake::mock(FieldVisitorFactory::class);
 
         $this->subject = new PageFolderCompletionVisitor(
-            $this->pageService, $this->nodeService, $this->context, $this->fieldVisitorFactory
+            $this->siteBuilderPageService,
+            $this->nodeService,
+            $this->pageService,
+            $this->context,
+            $this->fieldVisitorFactory
         );
     }
 
@@ -54,11 +62,13 @@ class PageFolderCompletionVisitorTest extends TestCase
         $node->name = $nodeName;
         $node->configuration = $nodeConfiguration;
 
+        $page = \Phake::mock(Page::class);
+
         \Phake::when($this->fieldConfiguration)->getType->thenReturn('node');
         \Phake::when($this->nodeService)->get->thenReturn($node);
         \Phake::when($this->nodeService)->completeCustomNodeData->thenReturn($node);
-        \Phake::when($this->pageService)->getPathsForSiteBuilderPage($pageFolderId)->thenReturn($urls);
-        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
+        \Phake::when($this->pageService)->fetchForNode->thenReturn($page);
+        \Phake::when($this->siteBuilderPageService)->getPathsForSiteBuilderPage($pageFolderId)->thenReturn($urls);        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
         $this->context->locale = 'it_CH';
 
         $result = $this->subject->processField(
