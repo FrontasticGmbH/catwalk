@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 
 use Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway;
@@ -15,17 +16,34 @@ class NodeService implements Target
     private $nodeGateway;
 
     /**
+     * @var PageService
+     */
+    private $pageService;
+
+    /**
+     * @var ContextService
+     */
+    private $contextService;
+
+    /**
      * @var RouteService
      */
     private $routeService;
 
     private SchemaService $schemaService;
 
-    public function __construct(NodeGateway $nodeGateway, RouteService $routeService, SchemaService $schemaService)
-    {
+    public function __construct(
+        NodeGateway $nodeGateway,
+        PageService $pageService,
+        RouteService $routeService,
+        SchemaService $schemaService,
+        ContextService $contextService
+    ) {
         $this->nodeGateway = $nodeGateway;
+        $this->pageService = $pageService;
         $this->routeService = $routeService;
         $this->schemaService = $schemaService;
+        $this->contextService = $contextService;
     }
 
     public function lastUpdate(): string
@@ -97,6 +115,7 @@ class NodeService implements Target
                 'name' => $node->name,
                 'path' => $node->path,
                 'depth' => $node->depth,
+                'hasLivePage' => $this->pageExists($node->nodeId),
             ]);
         }
 
@@ -147,5 +166,21 @@ class NodeService implements Target
         // FIXME: Also complete data source configuration!
         $this->schemaService->completeNodeData($node, $fieldVisitor);
         return $node;
+    }
+
+    private function pageExists(string $pageFolderId)
+    {
+        try {
+            $page = $this->pageService->fetchForNode(
+                new Node(["nodeId" => $pageFolderId]),
+                $this->contextService->getContext()
+            );
+
+            return $page != null;
+        } catch (\Exception $e) {
+            // Page does not exist, do nothing
+        }
+
+        return false;
     }
 }
