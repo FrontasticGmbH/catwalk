@@ -258,8 +258,25 @@ EOT;
                         if ($jsonBody === null) {
                             if ($response->status == 599) {
                                 // this is our magic response code which is set when a guzzle request exception occurs
+
+                                /* if a timeout happended while connecting to
+                                the extension runner, the error message is:
+                                "Could not connect to server
+                                http://localhost:8082/run/demo_swiss/data-source-example-star-wars-movie:
+                                cURL error 28: Operation timed out after 5001
+                                milliseconds with 0 bytes received (see
+                                https://curl.haxx.se/libcurl/c/libcurl-errors.html)"
+                                Adding some heuristics to recognize that while
+                                staying robust against slight variations of the
+                                message. */
+                                $isTimeout = strpos($response->body, 'Operation timed out after') !== false;
+                                if ($isTimeout) {
+                                    $message = 'Request to extension runner timed out:';
+                                } else {
+                                    $message = 'Error calling the extension runner:';
+                                }
                                 $contextFromExtension = array_merge($contextFromExtension, [
-                                    'message' => "Error calling the extension runner: ". $response->body
+                                    'message' => $message . ' ' . $response->body
                                 ]);
                             } else {
                                 $contextFromExtension = array_merge($contextFromExtension, [
