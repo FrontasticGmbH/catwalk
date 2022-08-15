@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
+use Frontastic\Catwalk\ApiCoreBundle\Exception\ExtensionRunnerException;
 use Frontastic\Common\HttpClient;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use GuzzleHttp\Promise\Create;
@@ -194,7 +195,9 @@ class ExtensionServiceTest extends TestCase
         $this->mockProjectIdentifier();
 
         $request = new Request(
-            [], [], ['_frontastic_request_id' => '1']
+            [],
+            [],
+            ['_frontastic_request_id' => '1']
         );
         \Phake::when($this->requestStack)->getCurrentRequest->thenReturn($request);
 
@@ -221,7 +224,9 @@ class ExtensionServiceTest extends TestCase
         $this->mockProjectIdentifier();
 
         $request = new Request(
-            [], [], ['_frontastic_request_id' => '1']
+            [],
+            [],
+            ['_frontastic_request_id' => '1']
         );
         \Phake::when($this->requestStack)->getCurrentRequest->thenReturn($request);
 
@@ -232,20 +237,24 @@ class ExtensionServiceTest extends TestCase
             Create::promiseFor($response)
         );
 
-        $this->expectExceptionMessage("Calling extension data-source-frontastic-product-list failed. Error: Server error");
+        $this->expectException(ExtensionRunnerException::class);
+        $this->expectExceptionMessage("Calling extension data-source-frontastic-product-list failed.");
 
         $this->subject->callDataSource($extensionName, $arguments, 1)
             ->wait();
     }
 
-    public function testCallDynamicPageHandler() {
+    public function testCallDynamicPageHandler()
+    {
         $arguments = ["arg1", "arg2"];
 
         $this->injectSubjectWithExtensions($this->extensions);
         $this->mockProjectIdentifier();
 
         $request = new Request(
-            [], [], ['_frontastic_request_id' => '1']
+            [],
+            [],
+            ['_frontastic_request_id' => '1']
         );
         \Phake::when($this->requestStack)->getCurrentRequest->thenReturn($request);
 
@@ -261,14 +270,17 @@ class ExtensionServiceTest extends TestCase
         $this->assertEquals('hello world', $result->response);
     }
 
-    public function testCallAction() {
+    public function testCallAction()
+    {
         $arguments = ["arg1", "arg2"];
 
         $this->injectSubjectWithExtensions($this->extensions);
         $this->mockProjectIdentifier();
 
         $request = new Request(
-            [], [], ['_frontastic_request_id' => '1']
+            [],
+            [],
+            ['_frontastic_request_id' => '1']
         );
         \Phake::when($this->requestStack)->getCurrentRequest->thenReturn($request);
 
