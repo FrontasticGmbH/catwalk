@@ -19,6 +19,7 @@ Property|Type|Default|Required|Description
 `children` | [`Node`](Node.md)[] | `[]` | *Yes* | 
 `metaData` | `\Frontastic\Backstage\UserBundle\Domain\MetaData` |  | *Yes* | 
 `error` | `?string` |  | - | Optional error string during development
+`hasLivePage` | `bool` | `false` | - | Page is live
 `isDeleted` | `bool` | `false` | *Yes* | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
