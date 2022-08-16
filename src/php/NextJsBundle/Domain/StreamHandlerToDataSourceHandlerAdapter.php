@@ -55,11 +55,10 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
             function (?string $responseBody) {
                 $obj = json_decode($responseBody);
 
+                // If there is not dataSourcePayload field, the response is
+                // likely an error. Pass it through unmodified.
                 if (!$obj || !isset($obj->dataSourcePayload)) {
-                    throw new \RuntimeException(
-                        "Invalid data-source response: Missing `dataSourcePayload`: " .
-                        $responseBody
-                    );
+                    return $responseBody;
                 }
 
                 return $obj->dataSourcePayload;
