@@ -250,7 +250,13 @@ EOT;
         $headers = ['Frontastic-Request-Id' => "Frontastic-Request-Id:$requestId"];
 
         try {
-            return $this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers, $timeout)->then(
+            return $this->doCallAsync(
+                $this->getProjectIdentifier(),
+                $extensionName,
+                $payload,
+                $headers,
+                $timeout
+            )->then(
                 function (Response $response) use ($extensionName, $requestId) {
                     if ($response->status != 200) {
                         $jsonBody = json_decode($response->body, true);
@@ -288,7 +294,12 @@ EOT;
                             'frontasticRequestId' => $requestId,
                             'http_status_from_extension_runner' => $response->status,
                         ]);
-                        throw new ExtensionRunnerException('Calling extension ' . $extensionName . ' failed.', 0, null, $context);
+                        throw new ExtensionRunnerException(
+                            'Calling extension ' . $extensionName . ' failed.',
+                            0,
+                            null,
+                            $context
+                        );
                     }
                     return $response->body;
                 }

@@ -65,7 +65,11 @@ class TestController
                 null
             )->wait();
         } catch (ExtensionRunnerException $exception) {
-            throw new \Exception($exception->getMessage().' Context: '.var_export($exception->getContext(), true), $exception->getCode(), $exception);
+            throw new \Exception(
+                $exception->getMessage().' Context: '.var_export($exception->getContext(), true),
+                $exception->getCode(),
+                $exception
+            );
         }
     }
 
