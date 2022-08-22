@@ -10,7 +10,23 @@ use Symfony\Component\Templating\EngineInterface;
 
 class Http2LinkListener
 {
-    private $appDir;
+    private string $appDir;
+
+    private array $allowedExtensions = [
+        'js',
+        'css',
+        'svg',
+        'jpg',
+        'gif',
+        'png',
+        'jpeg',
+        'webp',
+        'woff2',
+        'woff',
+        'ttf',
+        'eot',
+        'otf',
+    ];
 
     public function __construct(string $appDir)
     {
@@ -43,7 +59,8 @@ class Http2LinkListener
             array_values(array_filter(
                 glob($this->appDir . '/public/assets/*/*main*'),
                 function (string $file): bool {
-                    return !strpos($file, '.map');
+                    $extension = pathinfo($file, PATHINFO_EXTENSION);
+                    return in_array($extension, $this->allowedExtensions, true);
                 }
             ))
         );

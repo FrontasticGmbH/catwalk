@@ -138,6 +138,9 @@ class TasticFieldService
         array $handledFieldData,
         array $configuration
     ): array {
+        $isTree = $fieldDefinition["type"] == "tree";
+
+
         if (!array_key_exists('field', $fieldDefinition) ||
             !array_key_exists('type', $fieldDefinition)) {
             return $handledFieldData;

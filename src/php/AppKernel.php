@@ -168,6 +168,11 @@ class AppKernel extends \Frontastic\Common\Kernel
 
         throw new \RuntimeException('The source of the gedmo doctrine extension was not found');
     }
+
+    public static function isProduction()
+    {
+        return self::getEnvironmentFromConfiguration() === 'prod';
+    }
 }
 
 // @FIXME: Remove references to \AppKernel from Frontastic\Common

@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
+use Frontastic\Catwalk\ApiCoreBundle\Exception\ExtensionRunnerException;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Log\LoggerInterface;
@@ -33,6 +34,8 @@ class StreamService
      * @var StreamOptimizer[]
      */
     private $streamOptimizers = [];
+
+    private ?StreamHandlerSupplier $streamHandlerSupplier;
 
     /**
      * @var bool
@@ -70,6 +73,7 @@ class StreamService
         TasticService $tasticService,
         LoggerInterface $logger,
         RequestStack $requestStack,
+        ?StreamHandlerSupplier $streamHandlerSupplier = null,
         iterable $streamHandlers = [],
         iterable $streamOptimizers = [],
         bool $debug = false
@@ -78,12 +82,16 @@ class StreamService
         $this->logger = $logger;
         $this->requestStack = $requestStack;
 
-        foreach ($streamHandlers as $streamHandler) {
-            $this->addStreamHandler($streamHandler);
-        }
         foreach ($streamOptimizers as $streamOptimizer) {
             $this->addStreamOptimizer($streamOptimizer);
         }
+
+        foreach ($streamHandlers as $streamHandler) {
+            $this->addStreamHandler($streamHandler);
+        }
+
+        $this->streamHandlerSupplier = $streamHandlerSupplier;
+
         $this->debug = $debug;
     }
 
@@ -304,6 +312,9 @@ class StreamService
                         $errorResult['trace'] = $exception->getTrace();
                         $errorResult['file'] = $exception->getFile();
                         $errorResult['line'] = $exception->getLine();
+                        if ($exception instanceof ExtensionRunnerException) {
+                            $errorResult['context'] = $exception->getContext();
+                        }
 
                         debug(
                             sprintf('Error fetching data for stream %s (type %s)', $stream->streamId, $stream->type),
@@ -363,18 +374,24 @@ class StreamService
             return Promise\promise_for($stream->preloadedValue);
         }
 
-        if (!isset($this->streamHandlers[$stream->type])) {
-            return Promise\rejection_for(
-                new \RuntimeException("No stream handler for stream type {$stream->type} configured.")
-            );
-        }
-
         if (isset($streamContext->parameters['streamContent'])) {
             return Promise\promise_for($streamContext->parameters['streamContent']);
         }
 
+        if (isset($this->streamHandlers[$stream->type])) {
+            $streamHandler = $this->streamHandlers[$stream->type];
+        } else {
+            if (getenv('is_frontastic_nextjs') === '1' && isset($this->streamHandlerSupplier)) {
+                $streamHandler = $this->streamHandlerSupplier->get($stream->type);
+            } else {
+                return Promise\rejection_for(
+                    new \RuntimeException("No stream handler for stream type {$stream->type} configured.")
+                );
+            }
+        }
+
         try {
-            return $this->streamHandlers[$stream->type]->handle($stream, $streamContext);
+            return $streamHandler->handle($stream, $streamContext);
         } catch (\Throwable $exception) {
             return Promise\rejection_for($exception);
         }

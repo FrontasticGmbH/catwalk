@@ -9,6 +9,7 @@ Property|Type|Default|Required|Description
 `pageFolderId` | `string` |  | - | 
 `name` | `string` |  | - | 
 `configuration` | `object` |  | - | 
+`hasLivePage` | `bool` |  | - | 
 `_urls` | `array` |  | - | 
 `_url` | `string` |  | - | The url for the current locale
 

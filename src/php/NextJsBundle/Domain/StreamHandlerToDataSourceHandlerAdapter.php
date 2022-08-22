@@ -38,28 +38,32 @@ class StreamHandlerToDataSourceHandlerAdapter implements StreamHandlerV2
         $timeout = $dataSourceContext->frontasticContext->project->configuration["extensions"]["dataSourceTimeout"]
             ?? null;
 
-        return $this->extensionService->callDataSource(
+        $extensionResult = $this->extensionService->callDataSource(
             $this->extensionName,
             [
                 $this->fromFrontasticReactMapper->map($stream),
                 $dataSourceContext
             ],
             $timeout
-        )
-            ->then(
-                function (?string $responseBody) {
-                    $obj = json_decode($responseBody);
+        );
+        return $this->convertDataSourceResult($extensionResult);
+    }
 
-                    if (!$obj || !isset($obj->dataSourcePayload)) {
-                        throw new \RuntimeException(
-                            "Invalid data-source response: Missing `dataSourcePayload`: " .
-                            $responseBody
-                        );
-                    }
+    public function convertDataSourceResult(PromiseInterface $extensionResult): PromiseInterface
+    {
+        return $extensionResult->then(
+            function (?string $responseBody) {
+                $obj = json_decode($responseBody);
 
-                    return $obj->dataSourcePayload;
+                // If there is not dataSourcePayload field, the response is
+                // likely an error. Pass it through unmodified.
+                if (!$obj || !isset($obj->dataSourcePayload)) {
+                    return $responseBody;
                 }
-            );
+
+                return $obj->dataSourcePayload;
+            }
+        );
     }
 
     private function createDataSourceContext(StreamContext $streamContext): DataSourceContext

@@ -2,11 +2,13 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks;
 
+use Frontastic\Catwalk\AppKernel;
 use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonDecodeException;
 use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonEncodeException;
 use Frontastic\Common\HttpClient;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
+use Frontastic\Catwalk\ApiCoreBundle\Exception\ExtensionRunnerException;
 use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Log\LoggerInterface;
@@ -232,7 +234,7 @@ EOT;
      */
     private function callExtension(string $extensionName, array $arguments, int $timeout): PromiseInterface
     {
-        if (!$this->hasExtension($extensionName)) {
+        if (!AppKernel::isProduction() && !$this->hasExtension($extensionName)) {
             return Create::promiseFor(Json::encode([
                 'ok' => false,
                 'message' => sprintf('The requested extension "%s" was not found.', $extensionName)
@@ -248,11 +250,64 @@ EOT;
         $headers = ['Frontastic-Request-Id' => "Frontastic-Request-Id:$requestId"];
 
         try {
-            return $this->doCallAsync($this->getProjectIdentifier(), $extensionName, $payload, $headers, $timeout);
+            return $this->doCallAsync(
+                $this->getProjectIdentifier(),
+                $extensionName,
+                $payload,
+                $headers,
+                $timeout
+            )->then(
+                function (Response $response) use ($extensionName, $requestId) {
+                    if ($response->status != 200) {
+                        $jsonBody = json_decode($response->body, true);
+                        $contextFromExtension = $jsonBody !== null ? $jsonBody['context'] : array();
+                        if ($jsonBody === null) {
+                            if ($response->status == 599) {
+                                // this is our magic response code which is set when a guzzle request exception occurs
+
+                                /* if a timeout happended while connecting to
+                                the extension runner, the error message is:
+                                "Could not connect to server
+                                http://localhost:8082/run/demo_swiss/data-source-example-star-wars-movie:
+                                cURL error 28: Operation timed out after 5001
+                                milliseconds with 0 bytes received (see
+                                https://curl.haxx.se/libcurl/c/libcurl-errors.html)"
+                                Adding some heuristics to recognize that while
+                                staying robust against slight variations of the
+                                message. */
+                                $isTimeout = strpos($response->body, 'Operation timed out after') !== false;
+                                if ($isTimeout) {
+                                    $message = 'Request to extension runner timed out:';
+                                } else {
+                                    $message = 'Error calling the extension runner:';
+                                }
+                                $contextFromExtension = array_merge($contextFromExtension, [
+                                    'message' => $message . ' ' . $response->body
+                                ]);
+                            } else {
+                                $contextFromExtension = array_merge($contextFromExtension, [
+                                    'message' => $response->body,
+                                ]);
+                            }
+                        }
+                        $context = array_merge($contextFromExtension, [
+                            'frontasticRequestId' => $requestId,
+                            'http_status_from_extension_runner' => $response->status,
+                        ]);
+                        throw new ExtensionRunnerException(
+                            'Calling extension ' . $extensionName . ' failed.',
+                            0,
+                            null,
+                            $context
+                        );
+                    }
+                    return $response->body;
+                }
+            );
         } catch (\Exception $exception) {
             return Create::promiseFor(Json::encode([
                 'ok' => false,
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
             ]));
         }
     }
@@ -273,15 +328,7 @@ EOT;
         $requestOptions = new HttpClient\Options();
         $requestOptions->timeout = $timeout;
 
-        return $this->httpClient->postAsync($path, $payload, $requestHeaders, $requestOptions)->then(
-            function (Response $response) use ($extensionName) {
-                if ($response->status != 200) {
-                    throw new \Exception('Calling extension ' . $extensionName . ' failed. Error: ' . $response->body);
-                }
-
-                return $response->body;
-            }
-        );
+        return $this->httpClient->postAsync($path, $payload, $requestHeaders, $requestOptions);
     }
 
 
