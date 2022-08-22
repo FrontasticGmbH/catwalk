@@ -5,8 +5,6 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use GuzzleHttp\Promise;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Frontastic\Catwalk\FrontendBundle\Domain\Page;
-use Frontastic\Catwalk\FrontendBundle\Domain\Tastic;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -30,6 +28,8 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
     private StreamService $streamService;
 
+    private StreamHandlerSupplier $streamHandlerSupplier;
+
     public function setUp()
     {
         $this->tasticServiceMock = \Phake::mock(TasticService::class);
@@ -39,10 +39,13 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         $this->requestStackMock = \Phake::mock(RequestStack::class);
 
+        $this->streamHandlerSupplier = \Phake::mock(StreamHandlerSupplier::class);
+
         $this->streamService = new StreamService(
             $this->tasticServiceMock,
             $this->loggerMock,
-            $this->requestStackMock
+            $this->requestStackMock,
+            $this->streamHandlerSupplier
         );
     }
 
@@ -162,6 +165,37 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
     public function testGetStreamData()
     {
+        putenv("is_frontastic_nextjs=1");
+        $node = include __DIR__ . '/__fixtures/GroupNode.php';
+        $page = include __DIR__ . '/__fixtures/GroupPage.php';
+        $tastics = include __DIR__ . '/__fixtures/tastics.php';
+
+        \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn($tastics);
+
+        $streamHandlerV2 = \Phake::mock(StreamHandlerV2::class);
+        \Phake::when($this->streamHandlerSupplier)->get('product-list')->thenReturn($streamHandlerV2);
+        \Phake::when($streamHandlerV2)->handle(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
+
+        $streamHandlerV2Content = \Phake::mock(StreamHandlerV2::class);
+        \Phake::when($this->streamHandlerSupplier)->get('content')->thenReturn($streamHandlerV2Content);
+        \Phake::when($streamHandlerV2Content)->handle(\Phake::anyParameters())->thenReturn(Promise\promise_for('some other data'));
+
+        $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);
+
+        $this->assertEquals(
+            [
+                '70b37120-b446-4d11-b441-b6a80fabb48a' => 'some data',
+                'd9c9bea5-ad6e-4e6a-a516-f1ecd46c66b0' => 'some other data',
+                'aabf67e7-8134-451e-85f5-4e069d0e41d4' => 'some data',
+                '7440' => 'some data',
+            ],
+            $streamData
+        );
+    }
+
+    public function testGetStreamDataClassic()
+    {
+        putenv("is_frontastic_nextjs=0");
         $node = include __DIR__ . '/__fixtures/GroupNode.php';
         $page = include __DIR__ . '/__fixtures/GroupPage.php';
         $tastics = include __DIR__ . '/__fixtures/tastics.php';
@@ -173,7 +207,6 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
 
         $this->streamService->addStreamHandler($streamHandler);
-
         $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);
 
         $this->assertEquals(
@@ -186,6 +219,7 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
             $streamData
         );
     }
+
 
     public function testOptimizeStreamData()
     {
@@ -201,6 +235,10 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         $streamOptimizer = \Phake::mock(StreamOptimizer::class);
         \Phake::when($streamOptimizer)->optimizeStreamData(\Phake::anyParameters())->thenReturn('optimized data');
+
+        $streamHandlerV2 = \Phake::mock(StreamHandlerV2::class);
+        \Phake::when($this->streamHandlerSupplier)->get('content')->thenReturn($streamHandlerV2);
+        \Phake::when($streamHandlerV2)->handle(\Phake::anyParameters())->thenReturn(Promise\promise_for(null));
 
         $this->streamService->addStreamHandler($streamHandler);
         $this->streamService->addStreamOptimizer($streamOptimizer);
@@ -232,6 +270,10 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         $this->streamService->addStreamHandler($streamHandler);
         // 70b37120-b446-4d11-b441-b6a80fabb48a
+
+        $streamHandlerV2 = \Phake::mock(StreamHandlerV2::class);
+        \Phake::when($this->streamHandlerSupplier)->get('content')->thenReturn($streamHandlerV2);
+        \Phake::when($streamHandlerV2)->handle(\Phake::anyParameters())->thenReturn(Promise\promise_for(null));
 
         $request = new Request();
         $request->request->set('s', [

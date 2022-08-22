@@ -27,6 +27,7 @@ abstract class IntegrationTest extends \PHPUnit\Framework\TestCase
 
         if (!self::$container) {
             $kernel = new AppKernel('test', true);
+            (new \Symfony\Component\Filesystem\Filesystem())->remove($kernel->getCacheDir());
             $kernel->boot();
             self::$container = $kernel->getContainer();
         }

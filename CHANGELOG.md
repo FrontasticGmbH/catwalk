@@ -1,4 +1,33 @@
 
+## Version 1.48.0 (2022-08-19)
+
+** New Features and Improvements **
+
+- Add new extension exception class 
+
+- Return supported features along with catwalk and common lib versions
+
+- Add 'queryProductsByMultipleCategories' to supported features
+
+
+** Bug fixes **
+
+- Select translation before completing PageFolder data. 
+
+- Adjust test for new exception class
+
+- Handle guzzle (httpclient) connection errors
+
+## Version 1.47.0 (2022-08-04)
+
+** New Features and Improvements **
+
+- Improve performance by preventing extension-availability check in production
+
+** Bug fixes **
+
+- Handle medium upload fail during fixture import
+
 ## Version 1.46.1 (2022-07-14)
 
 ** Bug fixes **

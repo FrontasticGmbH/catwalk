@@ -22,16 +22,20 @@
 ```php
 public function __construct(
     \Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway $nodeGateway,
+    PageService $pageService,
     RouteService $routeService,
-    SchemaService $schemaService
+    SchemaService $schemaService,
+    ContextService $contextService
 ): mixed
 ```
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
 `$nodeGateway`|`\Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway`||
+`$pageService`|[`PageService`](PageService.md)||
 `$routeService`|[`RouteService`](RouteService.md)||
 `$schemaService`|[`SchemaService`](SchemaService.md)||
+`$contextService`|[`ContextService`](../../ApiCoreBundle/Domain/ContextService.md)||
 
 Return Value: `mixed`
 

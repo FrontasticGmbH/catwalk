@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks\ExtensionService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Frontastic\Catwalk\ApiCoreBundle\Exception\ExtensionRunnerException;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceConfiguration;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
@@ -41,25 +42,35 @@ class TestController
         // copied from Typescript TODO: put that in a central place
         $hookName = 'data-source-' . str_replace('/', '-', $identifier);
 
-        return $this->extensionService->call(
-            $hookName,
-            [
-                new DataSourceConfiguration([
-                    'configuration' => $requestContentJson
-                ]),
-                new DataSourceContext([
-                    'frontasticContext' => $this->mapper->map($context),
-                    'pageFolder' => new PageFolder(
-                        ['pageFolderId' => 'somePageFolderId']
-                    ),
-                    'page' => new Page(
-                        ['pageId' => 'somePageId', 'state' => 'development']
-                    ),
-                    'usingTastics' => null,
-                    'request' => $this->requestService->createApiRequest($request)
-                ])
-            ]
-        );
+
+        try {
+            return $this->extensionService->callDataSource(
+                $hookName,
+                [
+                    new DataSourceConfiguration([
+                        'configuration' => $requestContentJson
+                    ]),
+                    new DataSourceContext([
+                        'frontasticContext' => $this->mapper->map($context),
+                        'pageFolder' => new PageFolder(
+                            ['pageFolderId' => 'somePageFolderId']
+                        ),
+                        'page' => new Page(
+                            ['pageId' => 'somePageId', 'state' => 'development']
+                        ),
+                        'usingTastics' => null,
+                        'request' => $this->requestService->createApiRequest($request)
+                    ])
+                ],
+                null
+            )->wait();
+        } catch (ExtensionRunnerException $exception) {
+            throw new \Exception(
+                $exception->getMessage().' Context: '.var_export($exception->getContext(), true),
+                $exception->getCode(),
+                $exception
+            );
+        }
     }
 
     private function unsupportedContentType(): SymfonyResponse
