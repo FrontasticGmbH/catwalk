@@ -44,7 +44,7 @@ class TestController
 
 
         try {
-            return $this->extensionService->callDataSource(
+            return json_decode($this->extensionService->callDataSource(
                 $hookName,
                 [
                     new DataSourceConfiguration([
@@ -59,11 +59,12 @@ class TestController
                             ['pageId' => 'somePageId', 'state' => 'development']
                         ),
                         'usingTastics' => null,
-                        'request' => $this->requestService->createApiRequest($request)
+                        'request' => $this->requestService->createApiRequest($request),
+                        'isPreview' => boolval($request->get('__isPreview'))
                     ])
                 ],
                 null
-            )->wait();
+            )->wait());
         } catch (ExtensionRunnerException $exception) {
             throw new \Exception(
                 $exception->getMessage().' Context: '.var_export($exception->getContext(), true),
