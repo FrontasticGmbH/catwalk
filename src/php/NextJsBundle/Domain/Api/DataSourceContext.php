@@ -44,4 +44,10 @@ class DataSourceContext extends DataObject
      * @var Request
      */
     public ?Request $request = null;
+
+    /**
+     * Denotes whether a request is coming from the /frontastic/data-source-preview
+     * Useful for determining when to send back a proper pagePreviewPayload.
+     */
+    public bool $isPreview = false;
 }
