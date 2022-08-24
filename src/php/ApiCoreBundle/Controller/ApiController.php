@@ -24,7 +24,8 @@ class ApiController extends AbstractController
         'salesdemoct',
     ];
     const SUPPORTED_FEATURES = [
-        'queryProductsByMultipleCategories'
+        'queryProductsByMultipleCategories',
+        'dataSourcePreview'
     ];
 
     private ContextService $contextService;
