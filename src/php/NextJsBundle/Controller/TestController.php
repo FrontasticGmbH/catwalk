@@ -10,6 +10,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Exception\ExtensionRunnerException;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceConfiguration;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Page;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
@@ -44,7 +45,7 @@ class TestController
 
 
         try {
-            return json_decode($this->extensionService->callDataSource(
+            $dataSourceResultResponse = $this->extensionService->callDataSource(
                 $hookName,
                 [
                     new DataSourceConfiguration([
@@ -64,10 +65,20 @@ class TestController
                     ])
                 ],
                 null
-            )->wait());
+            )->wait();
+
+            return new DataSourceResult(
+                json_decode(
+                    $dataSourceResultResponse,
+                    true,
+                    512,
+                    JSON_THROW_ON_ERROR
+                ),
+                true
+            );
         } catch (ExtensionRunnerException $exception) {
             throw new \Exception(
-                $exception->getMessage().' Context: '.var_export($exception->getContext(), true),
+                $exception->getMessage() . ' Context: ' . var_export($exception->getContext(), true),
                 $exception->getCode(),
                 $exception
             );
