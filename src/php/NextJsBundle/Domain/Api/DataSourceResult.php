@@ -28,10 +28,10 @@ class DataSourceResult extends DataObject
 
     /**
      * Studio will get the data when showing the data source previews from this array.
-     * 
+     *
      * To increase performance it is recommended to only set this when the data source is requested with
      * the DataSourceContext.isPreview property is true.
-     * 
+     *
      * @var DataSourcePreviewPayloadElement[]
      */
     public $previewPayload = [];
