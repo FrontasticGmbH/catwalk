@@ -4,7 +4,6 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
 use Kore\DataObject\DataObject;
 
-
 class DataSourcePreviewPayloadElement extends DataObject
 {
     /**
