@@ -260,7 +260,9 @@ EOT;
                 function (Response $response) use ($extensionName, $requestId) {
                     if ($response->status != 200) {
                         $jsonBody = json_decode($response->body, true);
-                        $contextFromExtension = $jsonBody !== null ? $jsonBody['context'] : array();
+                        $contextFromExtension = $jsonBody !== null && isset($jsonBody['context'])
+                            ? $jsonBody['context']
+                            : array();
                         if ($jsonBody === null) {
                             if ($response->status == 599) {
                                 // this is our magic response code which is set when a guzzle request exception occurs
