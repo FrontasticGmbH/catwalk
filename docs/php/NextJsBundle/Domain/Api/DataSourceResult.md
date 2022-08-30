@@ -8,5 +8,6 @@ Different data source implementations
 Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
 `dataSourcePayload` | `mixed` |  | *Yes* | Arbitrary (JSON serializable) payload information returned by the data source.
+`previewPayload` | [`DataSourcePreviewPayloadElement`](DataSourcePreviewPayloadElement.md)[] | `[]` | - | Studio will get the data when showing the data source previews from this array.
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).

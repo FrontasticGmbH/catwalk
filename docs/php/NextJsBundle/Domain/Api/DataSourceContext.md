@@ -13,5 +13,6 @@ Property|Type|Default|Required|Description
 `page` | [`Page`](Page.md) | `null` | - | The page being rendered.
 `usingTastics` | [`Tastic`](Tastic.md)[]|null | `null` | - | Tastics on the page which are using this data source.
 `request` | [`Request`](Request.md) | `null` | - | 
+`isPreview` | `bool` | `false` | - | Denotes whether a request is coming from the /frontastic/data-source-preview Useful for determining when to send back a proper pagePreviewPayload.
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
