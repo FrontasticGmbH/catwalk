@@ -136,6 +136,7 @@ Here you find the API documentation for the relevant classes:
       * [DataSourceConfiguration](php/NextJsBundle/Domain/Api/DataSourceConfiguration.md)
       * [DataSourceContext](php/NextJsBundle/Domain/Api/DataSourceContext.md)
       * [DataSourceHandler](php/NextJsBundle/Domain/Api/DataSourceHandler.md)
+      * [DataSourcePreviewPayloadElement](php/NextJsBundle/Domain/Api/DataSourcePreviewPayloadElement.md)
       * [DataSourceResult](php/NextJsBundle/Domain/Api/DataSourceResult.md)
       * [DynamicPageContext](php/NextJsBundle/Domain/Api/DynamicPageContext.md)
       * [DynamicPageHandler](php/NextJsBundle/Domain/Api/DynamicPageHandler.md)
