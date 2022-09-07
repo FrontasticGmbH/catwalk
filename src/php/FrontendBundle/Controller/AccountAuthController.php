@@ -336,7 +336,8 @@ class AccountAuthController
 
         return $projectSpecificData;
     }
-    private function getEmailInUseErrorMessage(string $locale): string{
+    private function getEmailInUseErrorMessage(string $locale): string
+    {
         $locale = Locale::createFromPosix($locale);
 
         switch ($locale->language) {
