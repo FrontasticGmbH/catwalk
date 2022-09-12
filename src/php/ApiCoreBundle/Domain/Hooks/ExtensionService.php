@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain\Hooks;
 
 use Frontastic\Catwalk\AppKernel;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\ServiceStatus;
 use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonDecodeException;
 use Frontastic\Common\CoreBundle\Domain\Json\InvalidJsonEncodeException;
 use Frontastic\Common\HttpClient;
@@ -51,6 +52,27 @@ EOT;
         $this->contextService = $contextService;
         $this->requestStack = $requestStack;
         $this->httpClient = $httpClient;
+    }
+
+    public function status(): ServiceStatus
+    {
+        $start = microtime(true);
+
+        $response = $this->httpClient->get(
+            self::BASE_PATH,
+            '',
+            ["Cache-Control: no-cache"]
+        );
+
+        $responseBodyObj = json_decode($response->body);
+
+        $timeElapsedSecs = microtime(true) - $start;
+
+        return new ServiceStatus([
+            "status" => $response->body,
+            "up" => isset($responseBodyObj->status) && $responseBodyObj->status === "Running",
+            "responseTimeMs" => $timeElapsedSecs * 1000
+        ]);
     }
 
     /**
