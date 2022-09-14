@@ -6,8 +6,6 @@ use Kore\DataObject\DataObject;
 
 /**
  * Represents the status of a service
- *
- * @type
  */
 class ServiceStatus extends DataObject
 {
