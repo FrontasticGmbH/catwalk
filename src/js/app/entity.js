@@ -12,7 +12,7 @@ let Entity = function (data = null, ttl = 60) {
     this.ttl = ttl
 
     this.isComplete = function () {
-        return !this.loading && !this.error
+        return !(this.loading && this.error)
     }
 
     this.isCurrent = function () {
