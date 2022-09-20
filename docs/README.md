@@ -158,6 +158,7 @@ Here you find the API documentation for the relevant classes:
       * [Request](php/NextJsBundle/Domain/Api/Request.md)
       * [Response](php/NextJsBundle/Domain/Api/Response.md)
       * [Section](php/NextJsBundle/Domain/Api/Section.md)
+      * [ServiceStatus](php/NextJsBundle/Domain/Api/ServiceStatus.md)
       * [Tastic](php/NextJsBundle/Domain/Api/Tastic.md)
       * Tastic
         * [Configuration](php/NextJsBundle/Domain/Api/Tastic/Configuration.md)
