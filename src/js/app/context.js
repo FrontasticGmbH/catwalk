@@ -1,6 +1,6 @@
 import { deprecate } from '@frontastic/common'
 
-let Locale = function (localeString) {
+let Locale = function () {
     this.language = null
 
     this.territory = null
@@ -63,7 +63,7 @@ let Context = function (context = {}) {
         return this.session && this.session.loggedIn
     }
 
-    this.fromParameters = function (parameters) {
+    this.fromParameters = function () {
     }
 
     this.toParameters = function () {
