@@ -5,6 +5,7 @@
 ## Methods
 
 * [__construct()](#__construct)
+* [status()](#status)
 * [fetchProjectExtensions()](#fetchprojectextensions)
 * [getExtensions()](#getextensions)
 * [hasExtension()](#hasextension)
@@ -33,6 +34,14 @@ Argument|Type|Default|Description
 `$httpClient`|`\Frontastic\Common\HttpClient`||
 
 Return Value: `mixed`
+
+### status()
+
+```php
+public function status(): ServiceStatus
+```
+
+Return Value: [`ServiceStatus`](../../../NextJsBundle/Domain/Api/ServiceStatus.md)
 
 ### fetchProjectExtensions()
 

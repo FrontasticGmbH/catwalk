@@ -37,5 +37,16 @@
     <route id="Frontastic.Frontend.Preview.view" path="/__preview/{preview}" methods="GET">
         <default key="_controller">Frontastic\Catwalk\FrontendBundle\Controller\PreviewController::viewAction</default>
     </route>
-
+    <route id="Frontastic.NextJs.Api.status" path="/frontastic/status/{service}">
+        <default key="_controller">
+            Frontastic\Catwalk\NextJsBundle\Controller\StatusController::checkStatusAction
+        </default>
+        <default key="_stateless">true</default>
+    </route>
+    <route id="Frontastic.NextJs.Api.status.all" path="/frontastic/status">
+        <default key="_controller">
+            Frontastic\Catwalk\NextJsBundle\Controller\StatusController::checkAllStatusAction
+        </default>
+        <default key="_stateless">true</default>
+    </route>
 </routes>
