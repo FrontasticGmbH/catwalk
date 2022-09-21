@@ -43,7 +43,7 @@ class Login extends Component {
                     className='c-form__input'
                     type='password'
                     required
-                    autoComplete='password'
+                    autoComplete='current-password'
                     value={this.state.login_password}
                     onChange={(event) => {
                         this.setState({ login_password: event.target.value })
