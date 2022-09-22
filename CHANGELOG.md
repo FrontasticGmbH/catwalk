@@ -1,4 +1,17 @@
 
+## Version 1.49.0 (2022-09-20)
+
+** New Features and Improvements **
+
+- Improve performance of the generation of sitemaps for product detail pages
+
+- Allow the SEO keywords from the node schema to be translatable
+
+
+** Bug fixes **
+
+- Don't return a german error message on duplicate account errors by default
+
 ## Version 1.48.0 (2022-08-19)
 
 ** New Features and Improvements **
