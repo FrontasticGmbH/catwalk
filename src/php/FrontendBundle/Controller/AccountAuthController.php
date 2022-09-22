@@ -12,6 +12,7 @@ use Frontastic\Common\AccountApiBundle\Domain\Address;
 use Frontastic\Common\AccountApiBundle\Domain\DuplicateAccountException;
 use Frontastic\Common\CoreBundle\Domain\ErrorResult;
 use Frontastic\Common\CoreBundle\Domain\Json\Json;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Locale;
 use Monolog\Logger;
 use QafooLabs\MVC\RedirectRoute;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -125,7 +126,8 @@ class AccountAuthController
                 $context->locale
             );
         } catch (DuplicateAccountException $exception) {
-            return new JsonResponse(new ErrorResult(['message' => "Die E-Mail-Adresse wird bereits verwendet."]), 409);
+            $errorMessage = $this->getEmailInUseErrorMessage($context->locale);
+            return new JsonResponse(new ErrorResult(['message' => $errorMessage]), 409);
         }
 
         if ($account->confirmationToken !== null) {
@@ -333,5 +335,16 @@ class AccountAuthController
         }
 
         return $projectSpecificData;
+    }
+    private function getEmailInUseErrorMessage(string $locale): string
+    {
+        $locale = Locale::createFromPosix($locale);
+
+        switch ($locale->language) {
+            case 'de':
+                return 'Die E-Mail-Adresse wird bereits verwendet.';
+            default:
+                return 'This e-mail-address is already in use.';
+        }
     }
 }
