@@ -1,12 +1,16 @@
 {
     "name": "frontastic/catwalk",
-    "version": "1.48.0",
+    "version": "1.49.0",
     "license": "None",
     "type": "library",
     "repositories": [
         {
             "type": "path",
             "url": "../libraries/*"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/FrontasticGmbH/DataObject.git"
         }
     ],
     "config": {
@@ -37,7 +41,7 @@
 
         "sensio/framework-extra-bundle": "@stable",
 
-        "kore/data-object": "@stable",
+        "kore/data-object": "dev-master",
         "qafoolabs/no-framework-bundle": "@stable",
         "beberlei/doctrineextensions": "@stable",
 
