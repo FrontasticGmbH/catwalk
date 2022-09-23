@@ -10,6 +10,7 @@ use Frontastic\Common\HttpClient;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
 use Frontastic\Catwalk\ApiCoreBundle\Exception\ExtensionRunnerException;
+use Frontastic\Catwalk\NextJsBundle\Domain\TidewaysWrapper\ProfilerWrapper;
 use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Log\LoggerInterface;
@@ -201,13 +202,24 @@ EOT;
             $timeout = self::MAX_PAGE_TIMEOUT;
         }
 
-        return Json::decode(
-            $this->callExtension(
-                self::DYNAMIC_PAGE_EXTENSION_NAME,
-                $arguments,
-                $timeout ?? self::MAX_PAGE_TIMEOUT
-            )->wait()
-        );
+        $profilerSpan = ProfilerWrapper::createSpan("extension call");
+        $profilerSpan->annotate(['title' => "dynamic page handler"]);
+
+        try {
+            $result = Json::decode(
+                $this->callExtension(
+                    self::DYNAMIC_PAGE_EXTENSION_NAME,
+                    $arguments,
+                    $timeout ?? self::MAX_PAGE_TIMEOUT
+                )->wait()
+            );
+        } catch (\Throwable $e) {
+            throw $e;
+        } finally {
+            $profilerSpan->finish();
+        }
+
+        return $result;
     }
 
     /**
@@ -235,7 +247,20 @@ EOT;
         }
 
         $hookName = $this->getActionHookName($namespace, $action);
-        return Json::decode($this->callExtension($hookName, $arguments, $timeout ?? self::MAX_ACTION_TIMEOUT)->wait());
+
+        $profilerSpan = ProfilerWrapper::createSpan("extension call");
+        $profilerSpan->annotate(['title' => "action($hookName)"]);
+
+        try {
+            $result = Json::decode(
+                $this->callExtension($hookName, $arguments, $timeout ?? self::MAX_ACTION_TIMEOUT)->wait()
+            );
+        } catch (\Throwable $e) {
+            throw $e;
+        } finally {
+            $profilerSpan->finish();
+        }
+        return $result;
     }
 
     private function getActionHookName(string $namespace, string $action): string
