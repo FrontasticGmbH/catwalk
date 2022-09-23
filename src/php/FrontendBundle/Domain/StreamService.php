@@ -299,8 +299,13 @@ class StreamService
                 $parameterMap[$stream->streamId] :
                 [];
 
-            $profilerSpan = ProfilerWrapper::createSpan("Fetching data source: {$stream->type}");
-            $profilerSpan->annotate(['title' => "datasource($stream->type)"]);
+            $profilerSpan = ProfilerWrapper::createSpan("extension call");
+            $profilerSpan->annotate([
+                'title' => "datasource($stream->type)",
+                'preloaded' => $stream->preloadedValue !== null
+                    ? 'Yes. No request should be made to the extension runner.'
+                    : 'No. A request should be sent to the extension runner to fetch the data source.'
+            ]);
 
             $data[$stream->streamId] = $this
                 ->handle(
@@ -308,8 +313,9 @@ class StreamService
                     $streamContext
                 )
                 ->then(
-                    function() use($profilerSpan){
+                    function ($data) use ($profilerSpan) {
                         $profilerSpan->finish();
+                        return $data;
                     },
                     function (\Throwable $exception) use ($stream, $profilerSpan) {
                         $profilerSpan->finish();
@@ -327,7 +333,11 @@ class StreamService
                             }
     
                             debug(
-                                sprintf('Error fetching data for stream %s (type %s)', $stream->streamId, $stream->type),
+                                sprintf(
+                                    'Error fetching data for stream %s (type %s)',
+                                    $stream->streamId,
+                                    $stream->type
+                                ),
                                 [
                                     'message' => $exception->getMessage(),
                                     'file' => $exception->getFile(),
