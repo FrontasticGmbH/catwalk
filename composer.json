@@ -50,7 +50,8 @@
         "ramsey/uuid": "^3.9||^4",
         "jaybizzle/crawler-detect": "^1.2",
         "nikic/php-parser": "^4.12",
-        "firebase/php-jwt": "^5.4"
+        "firebase/php-jwt": "^5.4",
+        "composer-runtime-api": "^2.2"
     },
     "require-dev":  {
         "frontastic/apidocs": "^1.0.0@alpha",
