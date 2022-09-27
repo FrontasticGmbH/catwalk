@@ -1,6 +1,6 @@
 {
     "name": "@frontastic/catwalk",
-    "version": "1.49.1",
+    "version": "1.49.0",
     "resolutions": {
         "mime": "^1.6.0",
         "unidragger": "2.2.3"
