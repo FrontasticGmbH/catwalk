@@ -7,10 +7,6 @@
         {
             "type": "path",
             "url": "../libraries/*"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/FrontasticGmbH/DataObject.git"
         }
     ],
     "config": {
@@ -41,7 +37,7 @@
 
         "sensio/framework-extra-bundle": "@stable",
 
-        "kore/data-object": "dev-master",
+        "kore/data-object": "@stable",
         "qafoolabs/no-framework-bundle": "@stable",
         "beberlei/doctrineextensions": "@stable",
 
