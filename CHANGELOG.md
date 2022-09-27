@@ -1,12 +1,4 @@
 
-## Version 1.49.1 (2022-09-27)
-
-** Bug fixes **
-
-- Fix a performance issue when fetching large page trees
-
-- Fix a potential exception when fetching the current version
-
 ## Version 1.49.0 (2022-09-20)
 
 ** New Features and Improvements **
