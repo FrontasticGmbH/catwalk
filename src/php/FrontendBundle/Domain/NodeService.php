@@ -115,7 +115,9 @@ class NodeService implements Target
                 'name' => $node->name,
                 'path' => $node->path,
                 'depth' => $node->depth,
-                'hasLivePage' => $this->pageExists($node->nodeId),
+                // Disabled the live page feature for now since it causes major performance issues when there are a lot
+                // of references on a page.
+                //'hasLivePage' => $this->pageExists($node->nodeId),
             ]);
         }
 
