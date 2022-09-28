@@ -18,6 +18,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\RedirectService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
+use Frontastic\Catwalk\NextJsBundle\Domain\TidewaysWrapper\ProfilerWrapper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -74,6 +75,7 @@ class PageController
         if ($node === null) {
             $dynamicPageResult = $this->dynamicPageService->handleDynamicPage($request, $context);
             if ($dynamicPageResult instanceof DynamicPageRedirectResult) {
+                ProfilerWrapper::setTransactionName('Dynamic page redirect');
                 return $this->redirectService->createResponseFromDynamicPageRedirectResult($dynamicPageResult);
             }
             if ($dynamicPageResult instanceof DynamicPageSuccessResult) {
@@ -85,11 +87,18 @@ class PageController
             $queryParams = $request->query->all();
             $redirectResponse = $this->redirectService->getRedirectResponseForPath($path, $queryParams, $context);
             if ($redirectResponse !== null) {
+                ProfilerWrapper::setTransactionName('Sitebuilder redirect');
                 return $redirectResponse;
             }
-
+            ProfilerWrapper::setTransactionName("Page NOT FOUND (404)");
             throw new NotFoundHttpException('Could not resolve page from path');
         }
+
+        ProfilerWrapper::setTransactionName(
+            isset($dynamicPageResult) && ($dynamicPageResult instanceof DynamicPageSuccessResult)
+                ? "DynamicPage: " . $dynamicPageResult->dynamicPageType
+                : "Sitebuilder Page"
+        );
 
         $this->completionService->completeNodeData($node, $context);
 
@@ -102,6 +111,11 @@ class PageController
         );
 
         $this->completionService->completePageData($page, $node, $context, $pageViewData->tastic);
+
+        ProfilerWrapper::setCustomVariable('path', $path);
+        ProfilerWrapper::setCustomVariable('locale', $locale);
+        ProfilerWrapper::setCustomVariable('node.id', $node->nodeId);
+        ProfilerWrapper::setCustomVariable('node.name', $node->name);
 
         return new PageDataResponse([
             'pageFolder' => $this->mapper->map($node),
