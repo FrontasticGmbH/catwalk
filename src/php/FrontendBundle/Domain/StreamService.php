@@ -6,6 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\ApiCoreBundle\Exception\ExtensionRunnerException;
+use Frontastic\Catwalk\NextJsBundle\Domain\TidewaysWrapper\ProfilerWrapper;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Log\LoggerInterface;
@@ -298,49 +299,69 @@ class StreamService
                 $parameterMap[$stream->streamId] :
                 [];
 
+            $profilerSpan = ProfilerWrapper::createSpan("extension call");
+            $profilerSpan->annotate([
+                'title' => "datasource($stream->type)",
+                'preloaded' => $stream->preloadedValue !== null
+                    ? 'Yes. No request should be made to the extension runner.'
+                    : 'No. A request should be sent to the extension runner to fetch the data source.'
+            ]);
+
             $data[$stream->streamId] = $this
                 ->handle(
                     $stream,
                     $streamContext
                 )
-                ->otherwise(function (\Throwable $exception) use ($stream) {
-                    $errorResult = [
-                        'ok' => false,
-                        'message' => $exception->getMessage(),
-                    ];
-                    if ($this->debug) {
-                        $errorResult['trace'] = $exception->getTrace();
-                        $errorResult['file'] = $exception->getFile();
-                        $errorResult['line'] = $exception->getLine();
-                        if ($exception instanceof ExtensionRunnerException) {
-                            $errorResult['context'] = $exception->getContext();
+                ->then(
+                    function ($data) use ($profilerSpan) {
+                        $profilerSpan->finish();
+                        return $data;
+                    },
+                    function (\Throwable $exception) use ($stream, $profilerSpan) {
+                        $profilerSpan->finish();
+
+                        $errorResult = [
+                            'ok' => false,
+                            'message' => $exception->getMessage(),
+                        ];
+                        if ($this->debug) {
+                            $errorResult['trace'] = $exception->getTrace();
+                            $errorResult['file'] = $exception->getFile();
+                            $errorResult['line'] = $exception->getLine();
+                            if ($exception instanceof ExtensionRunnerException) {
+                                $errorResult['context'] = $exception->getContext();
+                            }
+    
+                            debug(
+                                sprintf(
+                                    'Error fetching data for stream %s (type %s)',
+                                    $stream->streamId,
+                                    $stream->type
+                                ),
+                                [
+                                    'message' => $exception->getMessage(),
+                                    'file' => $exception->getFile(),
+                                    'line' => $exception->getLine(),
+                                    // Don't include the `$exception->getTrace()` here since it is not always cloneable.
+                                ]
+                            );
+    
+                            $this->logger->warning(
+                                sprintf(
+                                    'Error fetching data for stream %s (type %s): %s',
+                                    $stream->streamId,
+                                    $stream->type,
+                                    $exception->getMessage()
+                                ),
+                                [
+                                    'file' => $exception->getFile(),
+                                    'line' => $exception->getLine(),
+                                ]
+                            );
                         }
-
-                        debug(
-                            sprintf('Error fetching data for stream %s (type %s)', $stream->streamId, $stream->type),
-                            [
-                                'message' => $exception->getMessage(),
-                                'file' => $exception->getFile(),
-                                'line' => $exception->getLine(),
-                                // Don't include the `$exception->getTrace()` here since it is not always cloneable.
-                            ]
-                        );
-
-                        $this->logger->warning(
-                            sprintf(
-                                'Error fetching data for stream %s (type %s): %s',
-                                $stream->streamId,
-                                $stream->type,
-                                $exception->getMessage()
-                            ),
-                            [
-                                'file' => $exception->getFile(),
-                                'line' => $exception->getLine(),
-                            ]
-                        );
+                        return $errorResult;
                     }
-                    return $errorResult;
-                });
+                );
         }
 
         $data = Promise\unwrap($data);

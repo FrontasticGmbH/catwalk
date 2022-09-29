@@ -196,7 +196,9 @@ class PageControllerTest extends TestCase
     public function testDynamicPageHandlingTriggeredWhenNoNodeFound($path, $locale, $request)
     {
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
-        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult());
+        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult([
+            'dynamicPageType' => 'test'
+        ]));
         \Phake::when($this->dynamicPageService)->matchNodeFor->thenReturn($this->getFakeNode());
         \Phake::when($this->pageServiceMock)->fetchForNode->thenReturn($this->getFakePage());
 
@@ -249,7 +251,9 @@ class PageControllerTest extends TestCase
     public function testRedirectResponseIsNotSentWhenDynamicPageExists($path, $locale, $request)
     {
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
-        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult());
+        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult([
+            'dynamicPageType' => 'test'
+        ]));
         \Phake::when($this->dynamicPageService)->matchNodeFor->thenReturn($this->getFakeNode());
 
         $this->setupFakeRedirectForPath($path, $request->query->all());

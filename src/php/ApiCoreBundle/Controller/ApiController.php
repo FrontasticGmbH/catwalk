@@ -103,6 +103,9 @@ class ApiController extends AbstractController
 
     private function getCatwalkVersion()
     {
+        if (!class_exists(\Composer\InstalledVersions::class)) {
+            return null;
+        }
         try {
             return \Composer\InstalledVersions::getPrettyVersion('frontastic/catwalk');
         } catch (\OutOfBoundsException $e) {
@@ -112,6 +115,9 @@ class ApiController extends AbstractController
 
     private function getCommonVersion()
     {
+        if (!class_exists(\Composer\InstalledVersions::class)) {
+            return null;
+        }
         try {
             return \Composer\InstalledVersions::getPrettyVersion('frontastic/common');
         } catch (\OutOfBoundsException $e) {
