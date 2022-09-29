@@ -1,19 +1,24 @@
 {
     "name": "frontastic/catwalk",
-    "version": "1.49.0",
+    "version": "1.49.1",
     "license": "None",
     "type": "library",
     "repositories": [
         {
             "type": "path",
             "url": "../libraries/*"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/FrontasticGmbH/DataObject.git"
         }
     ],
     "config": {
         "platform": {
             "php": "7.4"
         },
-        "discard-changes": true
+        "discard-changes": true,
+        "github-protocols": ["https"]
     },
     "require":      {
         "php": ">=7.4",
@@ -37,7 +42,7 @@
 
         "sensio/framework-extra-bundle": "@stable",
 
-        "kore/data-object": "@stable",
+        "kore/data-object": "dev-master",
         "qafoolabs/no-framework-bundle": "@stable",
         "beberlei/doctrineextensions": "@stable",
 
@@ -50,7 +55,8 @@
         "ramsey/uuid": "^3.9||^4",
         "jaybizzle/crawler-detect": "^1.2",
         "nikic/php-parser": "^4.12",
-        "firebase/php-jwt": "^5.4"
+        "firebase/php-jwt": "^5.4",
+        "composer-runtime-api": "^2.2"
     },
     "require-dev":  {
         "frontastic/apidocs": "^1.0.0@alpha",

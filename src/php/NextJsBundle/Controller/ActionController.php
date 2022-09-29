@@ -10,6 +10,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\Context;
 use Frontastic\Catwalk\NextJsBundle\Domain\ContextCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
+use Frontastic\Catwalk\NextJsBundle\Domain\TidewaysWrapper\ProfilerWrapper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -61,6 +62,8 @@ class ActionController
         );
 
         $response = new JsonResponse();
+
+        ProfilerWrapper::setTransactionName("Action: $namespace/$action");
 
         if (property_exists($apiResponse, 'sessionData')) {
             if ($apiResponse->sessionData === null) {
