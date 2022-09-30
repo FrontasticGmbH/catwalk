@@ -18,7 +18,10 @@
             "php": "7.4"
         },
         "discard-changes": true,
-        "github-protocols": ["https"]
+        "github-protocols": ["https"],
+        "github-oauth": {
+            "github.com": "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"
+        }
     },
     "require":      {
         "php": ">=7.4",
