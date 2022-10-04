@@ -274,7 +274,7 @@ class MasterService implements Target
                 'nodeId' => $update['rule']['nodeId'],
                 'criterion' => $update['rule']['criterion'],
             ];
-        } elseif (($update['rule']['type'] ?? '') === 'Frontastic.Backstage.MasterBundle.Domain.DefaultRule') {
+        } elseif (($update['rule']['_type'] ?? '') === 'Frontastic\\Backstage\\MasterBundle\\Domain\\DefaultRule') {
             $rules->rules[$pageType]['default'] = $update['rule']['nodeId'];
         }
 
