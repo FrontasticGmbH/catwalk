@@ -240,6 +240,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\TreeFieldHandler" class="Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler\TreeFieldHandler">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService" />
+            <argument type="service" id="logger" />
 
              <tag name="frontend.tasticFieldHandler"/>
         </service>
