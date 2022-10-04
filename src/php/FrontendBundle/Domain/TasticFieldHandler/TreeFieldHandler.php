@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\TasticFieldHandler;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Psr\Log\LoggerInterface;
 
 class TreeFieldHandler extends TasticFieldHandler
 {
@@ -15,9 +16,15 @@ class TreeFieldHandler extends TasticFieldHandler
      */
     private $nodeService;
 
-    public function __construct(NodeService $nodeService)
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(NodeService $nodeService, LoggerInterface $logger)
     {
         $this->nodeService = $nodeService;
+        $this->logger = $logger;
     }
 
     /**
@@ -35,9 +42,22 @@ class TreeFieldHandler extends TasticFieldHandler
      */
     public function handle(Context $context, $fieldValue)
     {
-        return $this->nodeService->getTree(
-            (empty($fieldValue['node']) ? null : $fieldValue['node']),
-            ((empty($fieldValue['depth']) && (int)$fieldValue['depth'] !== 0) ? null : (int)$fieldValue['depth'])
-        );
+        try {
+            return $this->nodeService->getTree(
+                (empty($fieldValue['node']) ? null : $fieldValue['node']),
+                ((empty($fieldValue['depth']) && (int) $fieldValue['depth'] !== 0) ? null : (int) $fieldValue['depth'])
+            );
+        } catch (\Throwable $exception) {
+            $this->logger->error(
+                'Error fetching the node tree with root {root} and depth {depth}: {message}',
+                [
+                    'root' => $fieldValue['node'] ?? '<null>',
+                    'depth' => $fieldValue['depth'] ?? 0,
+                    'message' => $exception->getMessage(),
+                    'exception' => $exception,
+                ]
+            );
+            return null;
+        }
     }
 }

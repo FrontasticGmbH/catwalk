@@ -14,13 +14,15 @@
 
 ```php
 public function __construct(
-    NodeService $nodeService
+    NodeService $nodeService,
+    \Psr\Log\LoggerInterface $logger
 ): mixed
 ```
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
 `$nodeService`|[`NodeService`](../NodeService.md)||
+`$logger`|`\Psr\Log\LoggerInterface`||
 
 Return Value: `mixed`
 
