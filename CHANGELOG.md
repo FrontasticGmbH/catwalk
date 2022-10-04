@@ -1,4 +1,10 @@
 
+## Version 1.49.3 (2022-10-04)
+
+** Bug fixes **
+
+- Fix an issue with composer dependencies
+
 ## Version 1.49.2 (2022-10-04)
 
 ** Bug fixes **
