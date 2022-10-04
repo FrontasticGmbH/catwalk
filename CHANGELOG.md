@@ -1,4 +1,12 @@
 
+## Version 1.49.2 (2022-10-04)
+
+** Bug fixes **
+
+- Fix an issue replicating default page matchers
+
+- Catch and log exceptions in the tree field handler
+
 ## Version 1.49.1 (2022-09-27)
 
 ** New Features and Improvements **
