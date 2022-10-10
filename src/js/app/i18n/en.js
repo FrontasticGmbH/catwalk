@@ -1,4 +1,4 @@
-export default {
+const en = {
     account: {
         greet: 'Hi, {name}!',
         orders: 'My orders',
@@ -438,3 +438,5 @@ export default {
         next: 'Next',
     },
 }
+
+export default en
