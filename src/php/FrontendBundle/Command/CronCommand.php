@@ -72,7 +72,7 @@ class CronCommand extends ContainerAwareCommand
         $verbose && $output->writeln("Running: {$command}");
 
         $process = new Process($command, $projectDir);
-        $process->setTimeout(300);
+        $process->setTimeout(600);
         $process->run();
 
         $processOutput = trim($process->getOutput());
