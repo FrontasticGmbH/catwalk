@@ -8,29 +8,30 @@ import Node from './node'
 import Preview from './preview'
 import AppContainer from './appContainer'
 import ScrollbarContainer from './scrollbarContainer'
+import NotificationContainer from './notificationContainer'
 
 const AppComponent = ({ app, renderRouter }) => {
     const appLayout = (
         <AppContainer>
             <ScrollbarContainer>
-                <Switch>
-                    <Route
-                        exact
-                        path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
-                        component={Preview}
-                    />
+                <NotificationContainer>
+                    <Switch>
+                        <Route
+                            exact
+                            path={app.getRouter().reactRoute('Frontastic.Frontend.Preview.view')}
+                            component={Preview}
+                        />
 
-                    <Route component={Node} />
-                </Switch>
+                        <Route component={Node} />
+                    </Switch>
+                </NotificationContainer>
             </ScrollbarContainer>
         </AppContainer>
     )
 
     return (
         <Provider store={app.getStore()}>
-            <IntlProvider>
-                {renderRouter(appLayout)}
-            </IntlProvider>
+            <IntlProvider>{renderRouter(appLayout)}</IntlProvider>
         </Provider>
     )
 }
