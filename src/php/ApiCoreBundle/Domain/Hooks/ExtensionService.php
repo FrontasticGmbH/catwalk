@@ -25,8 +25,8 @@ class ExtensionService
     const DYNAMIC_PAGE_EXTENSION_NAME = 'dynamic-page-handler';
 
     const MAX_ACTION_TIMEOUT = 10;
-    const MAX_DATASOURCE_TIMEOUT = 5;
-    const MAX_PAGE_TIMEOUT = 5;
+    const MAX_DATASOURCE_TIMEOUT = 10;
+    const MAX_PAGE_TIMEOUT = 10;
 
     const TIMEOUT_MESSAGE = <<< EOT
 The provided timeout of '%s' is greater than the maximum allowed value of '%s' using maximum value instead
