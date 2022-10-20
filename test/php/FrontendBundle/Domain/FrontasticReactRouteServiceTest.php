@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService;
+use Frontastic\Catwalk\FrontendBundle\Gateway\FrontendRoutesGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -20,12 +21,23 @@ class FrontasticReactRouteServiceTest extends TestCase
      */
     private $customerServiceMock;
 
+    /**
+     * @var FrontendRoutesGateway|MockObject
+     */
+    private $frontendRoutesGateway;
+
     public function setUp(): void
     {
         $this->customerServiceMock = $this->getMockBuilder(CustomerService::class)->disableOriginalConstructor()
             ->getMock();
 
-        $this->routeService = new FrontasticReactRouteService($this->customerServiceMock, '__NO_DIR__');
+        $this->frontendRoutesGateway = \Phake::mock(FrontendRoutesGateway::class);
+
+        $this->routeService = new FrontasticReactRouteService(
+            $this->customerServiceMock,
+            '__NO_DIR__',
+            $this->frontendRoutesGateway
+        );
 
         $this->customerServiceMock->expects($this->any())
             ->method('getCustomer')
@@ -42,6 +54,33 @@ class FrontasticReactRouteServiceTest extends TestCase
                     ],
                 ])
             ));
+    }
+
+    public function testGetRoutesIsCalled() {
+        $frontendRoutes = new FrontendRoutes();
+        $frontendRoutes->frontendRoutesId = 1;
+        $frontendRoutes->frontendRoutes = [
+            new Route([
+                'nodeId' => 'n1',
+                'route' => '/',
+                'locale' => 'en_GB',
+            ]),
+        ];
+
+        \Phake::when($this->frontendRoutesGateway)->get()->thenReturn($frontendRoutes);
+
+        $routes = $this->routeService->getRoutes();
+
+        $this->assertNotEmpty($routes);
+        $this->assertEquals($frontendRoutes->frontendRoutes, $routes);
+    }
+
+    public function testGetRoutesIsCalledWithException() {
+        \Phake::when($this->frontendRoutesGateway)->get()->thenThrow(new \OutOfBoundsException());
+
+        $routes = $this->routeService->getRoutes();
+
+        $this->assertEquals([], $routes);
     }
 
     public function testGenerateRoutesForNonTranslatedPaths()
