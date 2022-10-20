@@ -83,6 +83,44 @@ class FrontasticReactRouteServiceTest extends TestCase
         $this->assertEquals([], $routes);
     }
 
+    public function testStoreRoutesIsCalledForTheFirstTime() {
+        $routes = [
+            new Route([
+                'nodeId' => 'n1',
+                'route' => '/',
+                'locale' => 'en_GB',
+            ]),
+        ];
+
+        $frontendRoutes = new FrontendRoutes();
+        $frontendRoutes->frontendRoutesId = 1;
+        $frontendRoutes->frontendRoutes = $routes;
+
+        \Phake::when($this->frontendRoutesGateway)->get()->thenReturn($frontendRoutes);
+
+        $this->routeService->storeRoutes($routes);
+        \Phake::verify($this->frontendRoutesGateway)->store($frontendRoutes);
+    }
+
+    public function testStoreRoutesIsCalledAfterFirstTime() {
+        $routes = [
+            new Route([
+                'nodeId' => 'n1',
+                'route' => '/',
+                'locale' => 'en_GB',
+            ]),
+        ];
+
+        $frontendRoutes = new FrontendRoutes();
+        $frontendRoutes->frontendRoutesId = 1;
+        $frontendRoutes->frontendRoutes = $routes;
+
+        \Phake::when($this->frontendRoutesGateway)->get()->thenThrow(new \OutOfBoundsException());
+
+        $this->routeService->storeRoutes($routes);
+        \Phake::verify($this->frontendRoutesGateway)->store($frontendRoutes);
+    }
+
     public function testGenerateRoutesForNonTranslatedPaths()
     {
         $nodes = [];
