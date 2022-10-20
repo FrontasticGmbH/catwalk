@@ -3,6 +3,8 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService;
+use Frontastic\Catwalk\FrontendBundle\Gateway\FrontendRoutesGateway;
+use Frontastic\Common\JsonSerializer;
 
 class FrontasticReactRouteService implements RouteService
 {
@@ -16,10 +18,19 @@ class FrontasticReactRouteService implements RouteService
      */
     private $cacheDirectory;
 
-    public function __construct(CustomerService $customerService, string $cacheDirectory)
-    {
+    /**
+     * @var FrontendRoutesGateway
+     */
+    private $frontendRoutesGateway;
+
+    public function __construct(
+        CustomerService $customerService,
+        string $cacheDirectory,
+        FrontendRoutesGateway $frontendRoutesGateway
+    ) {
         $this->customerService = $customerService;
         $this->cacheDirectory = $cacheDirectory;
+        $this->frontendRoutesGateway = $frontendRoutesGateway;
     }
 
     /**
@@ -27,31 +38,34 @@ class FrontasticReactRouteService implements RouteService
      */
     public function getRoutes(): array
     {
-        $cacheFile = $this->getCacheFile();
-        if (file_exists($cacheFile)) {
-            return include $cacheFile;
-        }
+        try {
+            $frontendRoutes = $this->frontendRoutesGateway->get();
 
-        return [];
+            return $frontendRoutes->frontendRoutes;
+        } catch (\Throwable $e) {
+            return [];
+        }
     }
 
     public function storeRoutes(array $routes): void
     {
-        file_put_contents(
-            $this->getCacheFile(),
-            '<?php return ' . var_export($routes, true) . ';'
-        );
+        try {
+            $frontendRoutes = $this->frontendRoutesGateway->get();
+        } catch (\Throwable $e) {
+            // Frontend routes does not exist
+            $frontendRoutes = new FrontendRoutes();
+            $frontendRoutes->frontendRoutesId = 1;
+        }
+
+        $frontendRoutes->frontendRoutes = $routes;
+
+        $this->frontendRoutesGateway->store($frontendRoutes);
 
         // @HACK There seems not to be a sane way to rebuild just the route
         // cache so that we force rebuild by removing the old cache files
         foreach (glob($this->cacheDirectory . '/*Url*') as $routerCacheFile) {
             unlink($routerCacheFile);
         }
-    }
-
-    protected function getCacheFile(): string
-    {
-        return $this->cacheDirectory . '/frontastic_frontent_routes.php';
     }
 
     /**
