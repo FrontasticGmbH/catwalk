@@ -9,6 +9,6 @@
             <generator strategy="NONE"/>
         </id>
 
-        <field name="frontendRoutes" column="fr_frontend_routes" type="json_array" />
+        <field name="frontendRoutes" column="fr_frontend_routes" type="object" />
     </entity>
 </doctrine-mapping>
