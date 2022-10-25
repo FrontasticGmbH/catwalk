@@ -44,7 +44,7 @@ let Router = function (history, routes = {}, context = null) {
             return { pathname: '/', search: '' }
         }
 
-        let query = []
+        let query = {}
         for (let [key, value] of Object.entries(allParameters)) {
             if (!keys.includes(key)) {
                 query[key] = value
