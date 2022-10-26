@@ -24,15 +24,15 @@ class FrontendRoutesGateway
         $this->manager = $manager;
     }
 
-    public function get(): FrontendRoutes
+    public function getById(int $id): FrontendRoutes
     {
-        $frontendRoutes = $this->repository->findAll();
+        $frontendRoutes = $this->repository->find($id);
 
-        if (count($frontendRoutes) === 0) {
-            throw new \OutOfBoundsException('No FrontendRoutes found for this project.');
+        if ($frontendRoutes === null) {
+            throw new \OutOfBoundsException("No FrontendRoutes found for this project with ID $id.");
         }
 
-        return reset($frontendRoutes);
+        return $frontendRoutes;
     }
 
     public function store(FrontendRoutes $frontendRoutes): FrontendRoutes

@@ -4,10 +4,12 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService;
 use Frontastic\Catwalk\FrontendBundle\Gateway\FrontendRoutesGateway;
-use Frontastic\Common\JsonSerializer;
 
 class FrontasticReactRouteService implements RouteService
 {
+    // ID used to cache the Frontend Routes in DB
+    const CACHE_ID = 1;
+
     /**
      * @var CustomerService
      */
@@ -39,7 +41,7 @@ class FrontasticReactRouteService implements RouteService
     public function getRoutes(): array
     {
         try {
-            $frontendRoutes = $this->frontendRoutesGateway->get();
+            $frontendRoutes = $this->frontendRoutesGateway->getById(self::CACHE_ID);
 
             return $frontendRoutes->frontendRoutes;
         } catch (\Throwable $e) {
@@ -50,11 +52,11 @@ class FrontasticReactRouteService implements RouteService
     public function storeRoutes(array $routes): void
     {
         try {
-            $frontendRoutes = $this->frontendRoutesGateway->get();
+            $frontendRoutes = $this->frontendRoutesGateway->getById(self::CACHE_ID);
         } catch (\Throwable $e) {
             // Frontend routes does not exist
             $frontendRoutes = new FrontendRoutes();
-            $frontendRoutes->frontendRoutesId = 1;
+            $frontendRoutes->frontendRoutesId = self::CACHE_ID;
         }
 
         $frontendRoutes->frontendRoutes = $routes;

@@ -67,7 +67,9 @@ class FrontasticReactRouteServiceTest extends TestCase
             ]),
         ];
 
-        \Phake::when($this->frontendRoutesGateway)->get()->thenReturn($frontendRoutes);
+        \Phake::when($this->frontendRoutesGateway)
+            ->getById(FrontasticReactRouteService::CACHE_ID)
+            ->thenReturn($frontendRoutes);
 
         $routes = $this->routeService->getRoutes();
 
@@ -76,7 +78,9 @@ class FrontasticReactRouteServiceTest extends TestCase
     }
 
     public function testGetRoutesIsCalledWithException() {
-        \Phake::when($this->frontendRoutesGateway)->get()->thenThrow(new \OutOfBoundsException());
+        \Phake::when($this->frontendRoutesGateway)
+            ->getById(FrontasticReactRouteService::CACHE_ID)
+            ->thenThrow(new \OutOfBoundsException());
 
         $routes = $this->routeService->getRoutes();
 
@@ -96,7 +100,7 @@ class FrontasticReactRouteServiceTest extends TestCase
         $frontendRoutes->frontendRoutesId = 1;
         $frontendRoutes->frontendRoutes = $routes;
 
-        \Phake::when($this->frontendRoutesGateway)->get()->thenReturn($frontendRoutes);
+        \Phake::when($this->frontendRoutesGateway)->getById(FrontasticReactRouteService::CACHE_ID)->thenReturn($frontendRoutes);
 
         $this->routeService->storeRoutes($routes);
         \Phake::verify($this->frontendRoutesGateway)->store($frontendRoutes);
@@ -115,7 +119,9 @@ class FrontasticReactRouteServiceTest extends TestCase
         $frontendRoutes->frontendRoutesId = 1;
         $frontendRoutes->frontendRoutes = $routes;
 
-        \Phake::when($this->frontendRoutesGateway)->get()->thenThrow(new \OutOfBoundsException());
+        \Phake::when($this->frontendRoutesGateway)
+            ->getById(FrontasticReactRouteService::CACHE_ID)
+            ->thenThrow(new \OutOfBoundsException());
 
         $this->routeService->storeRoutes($routes);
         \Phake::verify($this->frontendRoutesGateway)->store($frontendRoutes);
