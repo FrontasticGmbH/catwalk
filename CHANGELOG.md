@@ -1,4 +1,8 @@
 
+## Version 1.50.1 (2022-10-24)
+
+* fix: increased max timeout for dynamic page handler and datasources
+
 ## Version 1.50.0 (2022-10-13)
 
 ** New Features and Improvements **
