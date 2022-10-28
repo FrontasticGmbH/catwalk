@@ -81,22 +81,6 @@
         </service>
 
         <service id="json_serializer" class="Frontastic\Common\JsonSerializer" autowire="true">
-            <argument type="collection">
-                <argument>accessToken</argument>
-                <argument>apiKey</argument>
-                <argument>apiSecret</argument>
-                <argument>apiToken</argument>
-                <argument>clientId</argument>
-                <argument>clientSecret</argument>
-                <argument>newPassword</argument>
-                <argument>password</argument>
-                <argument>passwordHash</argument>
-                <argument>previewToken</argument>
-                <argument>secret</argument>
-                <argument>token</argument>
-                <argument>metaData</argument>
-            </argument>
-            <argument type="tagged" tag="frontastic.json_serializer.enhancer"/>
             <argument key="$includeType">false</argument>
         </service>
 
@@ -107,6 +91,10 @@
 
         <service id="Frontastic\Catwalk\NextJsBundle\EventListener\CorsHandler">
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+        </service>
+
+        <service id="Frontastic\Catwalk\NextJsBundle\EventListener\DisallowOldRoutesListener">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
 

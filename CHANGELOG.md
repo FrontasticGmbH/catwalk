@@ -1,4 +1,10 @@
 
+## Version 1.50.2 (2022-10-28)
+
+** Bug fixes **
+
+- When nextjsbundle is active only allow explicitly defined old routes
+
 ## Version 1.50.1 (2022-10-24)
 
 * fix: increased max timeout for dynamic page handler and datasources
