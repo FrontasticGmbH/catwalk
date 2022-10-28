@@ -1,5 +1,3 @@
-DROP TABLE frontend_routes;
-
 CREATE TABLE frontend_routes (
     fr_id INT NOT NULL,
     fr_frontend_routes LONGTEXT NOT NULL,
