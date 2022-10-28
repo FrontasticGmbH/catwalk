@@ -71,7 +71,8 @@ class CorsHandler
         );
         $headers->set(
             'Access-Control-Expose-Headers',
-            '*, Authorization, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration'
+            '*, Authorization, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, 
+            coFE-Custom-Configuration'
         );
         $headers->set('Access-Control-Allow-Credentials', 'true');
     }
