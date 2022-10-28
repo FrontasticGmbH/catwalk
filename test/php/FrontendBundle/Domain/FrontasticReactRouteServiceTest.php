@@ -56,7 +56,9 @@ class FrontasticReactRouteServiceTest extends TestCase
             ));
     }
 
-    public function testGetRoutesIsCalled() {
+    public function testGetRoutesIsCalledWhenCacheRoutesOnDb() {
+        putenv("database_routing=1");
+
         $frontendRoutes = new FrontendRoutes();
         $frontendRoutes->frontendRoutesId = 1;
         $frontendRoutes->frontendRoutes = [
@@ -87,7 +89,9 @@ class FrontasticReactRouteServiceTest extends TestCase
         $this->assertEquals([], $routes);
     }
 
-    public function testStoreRoutesIsCalledForTheFirstTime() {
+    public function testStoreRoutesIsCalledForTheFirstTimeWhenCacheRoutesOnDb() {
+        putenv("database_routing=1");
+        
         $routes = [
             new Route([
                 'nodeId' => 'n1',
@@ -106,7 +110,9 @@ class FrontasticReactRouteServiceTest extends TestCase
         \Phake::verify($this->frontendRoutesGateway)->store($frontendRoutes);
     }
 
-    public function testStoreRoutesIsCalledAfterFirstTime() {
+    public function testStoreRoutesIsCalledAfterFirstTimeWhenCacheRoutesOnDb() {
+        putenv("database_routing=1");
+
         $routes = [
             new Route([
                 'nodeId' => 'n1',
