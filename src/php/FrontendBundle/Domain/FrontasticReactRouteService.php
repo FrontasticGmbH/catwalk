@@ -40,34 +40,53 @@ class FrontasticReactRouteService implements RouteService
      */
     public function getRoutes(): array
     {
-        try {
-            $frontendRoutes = $this->frontendRoutesGateway->getById(self::CACHE_ID);
-
-            return $frontendRoutes->frontendRoutes;
-        } catch (\Throwable $e) {
-            return [];
+        if ($this->databaseRouting()) {
+            try {
+                return $this->frontendRoutesGateway->getById(self::CACHE_ID)->frontendRoutes;
+            } catch (\Throwable $e) {
+                return [];
+            }
         }
+
+        $cacheFile = $this->getCacheFile();
+        if (file_exists($cacheFile)) {
+            return include $cacheFile;
+        }
+
+        return [];
     }
 
     public function storeRoutes(array $routes): void
     {
-        try {
-            $frontendRoutes = $this->frontendRoutesGateway->getById(self::CACHE_ID);
-        } catch (\Throwable $e) {
-            // Frontend routes does not exist
-            $frontendRoutes = new FrontendRoutes();
-            $frontendRoutes->frontendRoutesId = self::CACHE_ID;
+        if ($this->databaseRouting()) {
+            try {
+                $frontendRoutes = $this->frontendRoutesGateway->getById(self::CACHE_ID);
+            } catch (\Throwable $e) {
+                // Frontend routes does not exist
+                $frontendRoutes = new FrontendRoutes();
+                $frontendRoutes->frontendRoutesId = self::CACHE_ID;
+            }
+
+            $frontendRoutes->frontendRoutes = $routes;
+
+            $this->frontendRoutesGateway->store($frontendRoutes);
+        } else {
+            file_put_contents(
+                $this->getCacheFile(),
+                '<?php return ' . var_export($routes, true) . ';'
+            );
         }
-
-        $frontendRoutes->frontendRoutes = $routes;
-
-        $this->frontendRoutesGateway->store($frontendRoutes);
 
         // @HACK There seems not to be a sane way to rebuild just the route
         // cache so that we force rebuild by removing the old cache files
         foreach (glob($this->cacheDirectory . '/*Url*') as $routerCacheFile) {
             unlink($routerCacheFile);
         }
+    }
+
+    protected function getCacheFile(): string
+    {
+        return $this->cacheDirectory . '/frontastic_frontent_routes.php';
     }
 
     /**
@@ -184,5 +203,10 @@ class FrontasticReactRouteService implements RouteService
             }
         }
         return '';
+    }
+
+    private function databaseRouting(): bool
+    {
+        return getenv('database_routing') === '1';
     }
 }
