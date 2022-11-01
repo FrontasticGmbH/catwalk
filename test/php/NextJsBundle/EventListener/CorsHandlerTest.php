@@ -150,13 +150,11 @@ class CorsHandlerTest extends TestCase
             $headers->get('Access-Control-Allow-Methods')
         );
         $this->assertEquals(
-            'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token,
-            coFE-Custom-Configuration',
+            'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration',
             $headers->get('Access-Control-Allow-Headers')
         );
         $this->assertEquals(
-            '*, Authorization, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token,
-            coFE-Custom-Configuration',
+            '*, Authorization, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration',
             $headers->get('Access-Control-Expose-Headers')
         );
         $this->assertEquals(
