@@ -1,4 +1,26 @@
 
+## Version 1.50.2 (2022-10-28)
+
+** Bug fixes **
+
+- When nextjsbundle is active only allow explicitly defined old routes
+
+## Version 1.50.1 (2022-10-24)
+
+* fix: increased max timeout for dynamic page handler and datasources
+
+## Version 1.50.0 (2022-10-13)
+
+** New Features and Improvements **
+
+- Add a `NotificationContainer` around the application which can be overwritten and customized in projects
+
+- Increase the timeout of cron jobs from 5 to 10 minutes
+
+** Bug fixes **
+
+- Refresh the context after successfully resetting the password
+
 ## Version 1.49.3 (2022-10-04)
 
 ** Bug fixes **

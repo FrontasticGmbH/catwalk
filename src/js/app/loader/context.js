@@ -272,6 +272,7 @@ let Loader = function (store, api) {
                 this.notifyUser(<Message code='account.message.passwordUpdate' message='Password updated' />, 'success')
 
                 app.getRouter().replace('Frontastic.Frontend.Master.Account.profile')
+                app.getLoader('context').refresh()
             },
             (json) => {
                 this.notifyUser(<Message {...json} />, 'error')

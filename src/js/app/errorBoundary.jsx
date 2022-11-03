@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import ComponentInjector from './injector'
 
 class ErrorBoundary extends Component {
     constructor (props) {
@@ -40,4 +41,4 @@ ErrorBoundary.propTypes = {
 ErrorBoundary.defaultProps = {
 }
 
-export default ErrorBoundary
+export default ComponentInjector.return('ErrorBoundary', ErrorBoundary)

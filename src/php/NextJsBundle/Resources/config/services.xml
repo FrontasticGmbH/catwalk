@@ -94,6 +94,10 @@
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
 
+        <service id="Frontastic\Catwalk\NextJsBundle\EventListener\DisallowOldRoutesListener">
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+        </service>
+
         <service id="Frontastic\Catwalk\NextJsBundle\Domain\RedirectService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RedirectService" />
             <argument type="service" id="Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService" />

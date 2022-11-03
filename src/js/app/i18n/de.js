@@ -1,4 +1,4 @@
-export default {
+const de = {
     account: {
         profile: 'Meine Daten',
         addresses: 'Adressen',
@@ -481,3 +481,5 @@ export default {
         next: 'Nächster',
     },
 }
+
+export default de
