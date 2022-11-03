@@ -62,6 +62,7 @@ let Api = function (router, store) {
 
             // eslint-disable-next-line no-console
             console.trace('Unhandled Response Type:', response)
+            // eslint-disable-next-line no-throw-literal
             throw { status: 500, message: 'Internal Server Error' }
         }).then((response) => {
             if (response.json && response.json['__DEBUG']) {
@@ -80,6 +81,7 @@ let Api = function (router, store) {
             } else {
                 // eslint-disable-next-line no-console
                 console.error('Unhandled Error:', response)
+                // eslint-disable-next-line no-throw-literal
                 throw { status: 500, message: 'Internal Server Error' }
             }
         }).then((response) => {
