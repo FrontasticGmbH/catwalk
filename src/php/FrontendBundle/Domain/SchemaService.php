@@ -8,17 +8,26 @@ use Frontastic\Catwalk\FrontendBundle\Gateway\SchemaGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 use Frontastic\Common\SpecificationBundle\Domain\ConfigurationSchema;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
+use Psr\SimpleCache\CacheInterface;
 
 class SchemaService implements Target, ContextDecorator
 {
+    private const SCHEMA_CACHE_KEY = 'frontastic.schema';
+
     /**
      * @var SchemaGateway
      */
     private $schemaGateway;
 
-    public function __construct(SchemaGateway $schemaGateway)
+    /**
+     * @var \Psr\SimpleCache\CacheInterface
+     */
+    private $cache;
+
+    public function __construct(SchemaGateway $schemaGateway, CacheInterface $cache)
     {
         $this->schemaGateway = $schemaGateway;
+        $this->cache = $cache;
     }
 
     public function lastUpdate(): string
@@ -53,8 +62,8 @@ class SchemaService implements Target, ContextDecorator
 
     public function completeNodeData(Node $node, ?FieldVisitor $fieldVisitor = null): void
     {
-        // TODO: Cache!
-        $nodeSchema = $this->schemaGateway->getSchemaOfType(Schema::TYPE_NODE_CONFIGURATION);
+        $nodeSchema = $this->getNodeSchema();
+
         if ($nodeSchema === null) {
             return;
         }
@@ -65,6 +74,18 @@ class SchemaService implements Target, ContextDecorator
         );
 
         $node->configuration = $configuration->getCompleteValues($fieldVisitor);
+    }
+
+    private function getNodeSchema(): ?Schema
+    {
+        $nodeSchema = $this->cache->get(self::SCHEMA_CACHE_KEY, false);
+
+        if ($nodeSchema === false) {
+            $nodeSchema = $this->schemaGateway->getSchemaOfType(Schema::TYPE_NODE_CONFIGURATION);
+            $this->cache->set(self::SCHEMA_CACHE_KEY, $nodeSchema, 600);
+        }
+
+        return $nodeSchema;
     }
 
     private function fill(Schema $schema, array $data): Schema
