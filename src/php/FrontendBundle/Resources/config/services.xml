@@ -764,5 +764,9 @@
             <tag name="endpoint.target" channel="custom_data_sources" />
         </service>
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Routing\RoutingConfigCacheFactory">
+            <argument type="service" id="logger" />
+        </service>
+
     </services>
 </container>
