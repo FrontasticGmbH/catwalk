@@ -1,4 +1,10 @@
 
+## Version 1.50.3 (2022-11-04)
+
+** Bug fixes **
+
+- Added coFE-Custom-Configuration as additional header accepted by CORS
+
 ## Version 1.50.2 (2022-10-28)
 
 ** Bug fixes **
