@@ -20,7 +20,7 @@ class ContentSecurityPolicyTest extends TestCase
 
     private Project $project;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->project = new Project();
         $mockResponse = new stdClass;

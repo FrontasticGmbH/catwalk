@@ -13,7 +13,7 @@ class FromFrontasticReactMapperTest extends TestCase
 
     private FromFrontasticReactMapper $mapper;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mapper = new FromFrontasticReactMapper();
     }
