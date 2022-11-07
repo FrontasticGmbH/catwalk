@@ -16,7 +16,7 @@ class CorsHandlerTest extends TestCase
 {
     private CorsHandler $corsHandler;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->corsHandler = new CorsHandler();
     }

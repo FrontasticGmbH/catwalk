@@ -14,7 +14,7 @@ class SitemapServiceTest extends TestCase
     private $sitemapGatewayMock;
     private SitemapService $sitemapService;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->sitemapGatewayMock = \Phake::mock(SitemapGateway::class);
         $this->sitemapService = new SitemapService($this->sitemapGatewayMock, []);
