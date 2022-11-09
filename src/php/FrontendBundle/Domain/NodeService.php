@@ -7,6 +7,8 @@ use Frontastic\Common\ReplicatorBundle\Domain\Target;
 
 use Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
+use Psr\SimpleCache\CacheInterface;
+use Symfony\Component\Cache\Simple\NullCache;
 
 class NodeService implements Target
 {
@@ -30,6 +32,11 @@ class NodeService implements Target
      */
     private $routeService;
 
+    /**
+     * @var \Psr\SimpleCache\CacheInterface
+     */
+    private $cache;
+
     private SchemaService $schemaService;
 
     public function __construct(
@@ -37,7 +44,8 @@ class NodeService implements Target
         PageService $pageService,
         RouteService $routeService,
         SchemaService $schemaService,
-        ContextService $contextService
+        ContextService $contextService,
+        CacheInterface $cache
     ) {
         $this->nodeGateway = $nodeGateway;
         $this->pageService = $pageService;
@@ -147,7 +155,36 @@ class NodeService implements Target
 
     public function get(string $nodeId): Node
     {
-        return $this->nodeGateway->get($nodeId);
+        $node = $this->cache->get($nodeId, false);
+        if ($node === false) {
+            $node = $this->nodeGateway->get($nodeId);
+            $this->cache->set($nodeId, $node, 60);
+        }
+        return $node;
+    }
+
+    /**
+     * @param array $nodeIds
+     * @return Node[]
+     */
+    public function getByIds(array $nodeIds): array
+    {
+        $result = [];
+
+        $nodeIdsToFetch = [];
+        foreach ($nodeIds as $nodeId) {
+            $node = $this->cache->get($nodeId, false);
+
+            if ($node === false) {
+                $nodeIdsToFetch[] = $nodeId;
+            } else {
+                $result[] = $node;
+            }
+        }
+
+        $fetchedNodes = count($nodeIdsToFetch) > 0 ? $this->nodeGateway->getByIds($nodeIdsToFetch): [];
+
+        return array_merge($result, $fetchedNodes);
     }
 
     public function store(Node $node): Node
@@ -158,6 +195,10 @@ class NodeService implements Target
     public function remove(Node $node): void
     {
         $this->nodeGateway->remove($node);
+
+        if ($node->nodeId) {
+            $this->cache->delete($node->nodeId);
+        }
     }
 
     /**
