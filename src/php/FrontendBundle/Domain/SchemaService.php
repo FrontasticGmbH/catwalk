@@ -15,6 +15,11 @@ class SchemaService implements Target, ContextDecorator
     private const SCHEMA_CACHE_KEY = 'frontastic.schema';
 
     /**
+     * @var Context
+     */
+    private $context;
+
+    /**
      * @var SchemaGateway
      */
     private $schemaGateway;
@@ -24,8 +29,13 @@ class SchemaService implements Target, ContextDecorator
      */
     private $cache;
 
-    public function __construct(SchemaGateway $schemaGateway, CacheInterface $cache)
+    public function __construct(
+        Context $context,
+        SchemaGateway $schemaGateway,
+        CacheInterface $cache
+    )
     {
+        $this->context = $context;
         $this->schemaGateway = $schemaGateway;
         $this->cache = $cache;
     }
@@ -78,11 +88,11 @@ class SchemaService implements Target, ContextDecorator
 
     private function getNodeSchema(): ?Schema
     {
-        $nodeSchema = $this->cache->get(self::SCHEMA_CACHE_KEY, false);
+        $nodeSchema = $this->cache->get($this->projectSchemaCacheKey(), false);
 
         if ($nodeSchema === false) {
             $nodeSchema = $this->schemaGateway->getSchemaOfType(Schema::TYPE_NODE_CONFIGURATION);
-            $this->cache->set(self::SCHEMA_CACHE_KEY, $nodeSchema, 600);
+            $this->cache->set($this->projectSchemaCacheKey(), $nodeSchema, 600);
         }
 
         return $nodeSchema;
@@ -97,5 +107,9 @@ class SchemaService implements Target, ContextDecorator
         $schema->isDeleted = (bool)$data['isDeleted'];
 
         return $schema;
+    }
+
+    private function projectSchemaCacheKey() {
+        return $this->context->project->name. '-' . self::SCHEMA_CACHE_KEY;
     }
 }
