@@ -52,6 +52,7 @@ class NodeService implements Target
         $this->routeService = $routeService;
         $this->schemaService = $schemaService;
         $this->contextService = $contextService;
+        $this->cache = $cache;
     }
 
     public function lastUpdate(): string
@@ -183,6 +184,10 @@ class NodeService implements Target
         }
 
         $fetchedNodes = count($nodeIdsToFetch) > 0 ? $this->nodeGateway->getByIds($nodeIdsToFetch): [];
+
+        foreach ($fetchedNodes as $node) {
+            $this->cache->set($node->nodeId, $node);
+        }
 
         return array_merge($result, $fetchedNodes);
     }
