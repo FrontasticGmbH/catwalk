@@ -121,7 +121,6 @@ class PageDataCompletionService
         foreach ($page->regions as $region) {
             foreach ($region->elements as $element) {
                 foreach ($element->tastics as $tasticInstance) {
-
                     $tasticDefinition = $this->getTasticDefinition($tasticInstance->tasticType);
                     if ($tasticDefinition === null) {
                         continue;
@@ -145,5 +144,4 @@ class PageDataCompletionService
 
         return $referencedNodeIds;
     }
-
 }
