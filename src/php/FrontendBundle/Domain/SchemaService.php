@@ -99,7 +99,8 @@ class SchemaService implements Target, ContextDecorator
         return $schema;
     }
 
-    private function projectSchemaCacheKey(Context $context) {
+    private function projectSchemaCacheKey(Context $context)
+    {
         return $context->project->name. '-' . self::SCHEMA_CACHE_KEY;
     }
 }
