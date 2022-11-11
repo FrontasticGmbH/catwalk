@@ -115,7 +115,6 @@ class PageDataCompletionService
      */
     private function fetchReferencedNodeIds(Page $page): array
     {
-        $referencedNodeIds = [];
         $visitor = new NodeReferenceGetterVisitor();
 
         foreach ($page->regions as $region) {
@@ -131,17 +130,11 @@ class PageDataCompletionService
                         (array)$tasticInstance->configuration
                     );
 
-                    $fieldConfigurations = $schema->getFieldConfigurations();
-                    foreach ($fieldConfigurations as $configuration) {
-                        $referencedNodeId = $schema->getFieldValue($configuration->getField(), $visitor);
-                        if ($referencedNodeId) {
-                            $referencedNodeIds[] = $referencedNodeId;
-                        }
-                    }
+                    $schema->getCompleteValues($visitor);
                 }
             }
         }
 
-        return $referencedNodeIds;
+        return $visitor->getReferencedNodeIds();
     }
 }
