@@ -77,11 +77,12 @@ class SchemaService implements Target, ContextDecorator
 
     private function getNodeSchema(Context $context): ?Schema
     {
-        $nodeSchema = $this->cache->get($this->projectSchemaCacheKey($context), false);
+        $projectSchemaCacheKey = $this->projectSchemaCacheKey($context);
+        $nodeSchema = $this->cache->get($projectSchemaCacheKey, false);
 
         if ($nodeSchema === false) {
             $nodeSchema = $this->schemaGateway->getSchemaOfType(Schema::TYPE_NODE_CONFIGURATION);
-            $this->cache->set($this->projectSchemaCacheKey($context), $nodeSchema, 600);
+            $this->cache->set($projectSchemaCacheKey, $nodeSchema, 600);
         }
 
         return $nodeSchema;
