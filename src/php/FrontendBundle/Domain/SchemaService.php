@@ -13,12 +13,6 @@ use Psr\SimpleCache\CacheInterface;
 class SchemaService implements Target, ContextDecorator
 {
     private const SCHEMA_CACHE_KEY = 'frontastic.schema';
-
-    /**
-     * @var Context
-     */
-    private $context;
-
     /**
      * @var SchemaGateway
      */
@@ -29,13 +23,8 @@ class SchemaService implements Target, ContextDecorator
      */
     private $cache;
 
-    public function __construct(
-        Context $context,
-        SchemaGateway $schemaGateway,
-        CacheInterface $cache
-    )
+    public function __construct(SchemaGateway $schemaGateway, CacheInterface $cache)
     {
-        $this->context = $context;
         $this->schemaGateway = $schemaGateway;
         $this->cache = $cache;
     }
@@ -70,9 +59,9 @@ class SchemaService implements Target, ContextDecorator
         return $context;
     }
 
-    public function completeNodeData(Node $node, ?FieldVisitor $fieldVisitor = null): void
+    public function completeNodeData(Context $context, Node $node, ?FieldVisitor $fieldVisitor = null): void
     {
-        $nodeSchema = $this->getNodeSchema();
+        $nodeSchema = $this->getNodeSchema($context);
 
         if ($nodeSchema === null) {
             return;
@@ -86,13 +75,13 @@ class SchemaService implements Target, ContextDecorator
         $node->configuration = $configuration->getCompleteValues($fieldVisitor);
     }
 
-    private function getNodeSchema(): ?Schema
+    private function getNodeSchema(Context $context): ?Schema
     {
-        $nodeSchema = $this->cache->get($this->projectSchemaCacheKey(), false);
+        $nodeSchema = $this->cache->get($this->projectSchemaCacheKey($context), false);
 
         if ($nodeSchema === false) {
             $nodeSchema = $this->schemaGateway->getSchemaOfType(Schema::TYPE_NODE_CONFIGURATION);
-            $this->cache->set($this->projectSchemaCacheKey(), $nodeSchema, 600);
+            $this->cache->set($this->projectSchemaCacheKey($context), $nodeSchema, 600);
         }
 
         return $nodeSchema;
@@ -109,7 +98,7 @@ class SchemaService implements Target, ContextDecorator
         return $schema;
     }
 
-    private function projectSchemaCacheKey() {
-        return $this->context->project->name. '-' . self::SCHEMA_CACHE_KEY;
+    private function projectSchemaCacheKey(Context $context) {
+        return $context->project->name. '-' . self::SCHEMA_CACHE_KEY;
     }
 }
