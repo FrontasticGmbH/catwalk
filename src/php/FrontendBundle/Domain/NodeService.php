@@ -212,7 +212,7 @@ class NodeService implements Target
     public function completeCustomNodeData(Node $node, ?FieldVisitor $fieldVisitor = null): Node
     {
         // FIXME: Also complete data source configuration!
-        $this->schemaService->completeNodeData($node, $fieldVisitor);
+        $this->schemaService->completeNodeData($this->contextService->getContext(), $node, $fieldVisitor);
         return $node;
     }
 
