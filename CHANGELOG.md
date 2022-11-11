@@ -1,4 +1,10 @@
 
+## Version 1.51.1 (2022-11-11)
+
+** Bug fixes **
+
+- Re-enabled endpoint in coFE used for health checking deployments
+
 ## Version 1.51.0 (2022-11-08)
 
 ** Bug fixes **
