@@ -108,6 +108,7 @@ class CategoryController
             'locale' => $context->locale,
             'limit' => 500,
             'parentId' => $categoryId,
+            'categoryId' => $categoryId,
         ]);
         foreach ($this->productApi->getCategories($categoryQuery) as $category) {
             if ($category->categoryId === $categoryId) {

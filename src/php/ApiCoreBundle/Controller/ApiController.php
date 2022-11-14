@@ -76,6 +76,10 @@ class ApiController extends AbstractController
         }
     }
 
+    /**
+     * This endpoint provides information about the current library versions
+     * and supported features to the replicator and studio.
+     */
     public function versionAction(Request $request): JsonResponse
     {
         try {
