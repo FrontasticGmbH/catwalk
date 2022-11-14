@@ -12,7 +12,8 @@ class DisallowOldRoutesListener
         'Frontastic.Frontend.Preview.view',
         'Frontastic.ApiCoreBundle.Api.endpoint',
         'Frontastic.ApiCoreBundle.Api.version',
-        'Frontastic.ApiCoreBundle.Api.clear'
+        'Frontastic.ApiCoreBundle.Api.clear',
+        'Frontastic.Core.System.version'
     ];
 
     public function onKernelRequest(RequestEvent $event)

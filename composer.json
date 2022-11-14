@@ -1,6 +1,6 @@
 {
     "name": "frontastic/catwalk",
-    "version": "1.50.2",
+    "version": "1.51.1",
     "license": "None",
     "type": "library",
     "repositories": [
@@ -37,7 +37,7 @@
 
         "sensio/framework-extra-bundle": "@stable",
 
-        "kore/data-object": "@stable",
+        "frontastic/data-object": "@stable",
         "qafoolabs/no-framework-bundle": "@stable",
         "beberlei/doctrineextensions": "@stable",
 
