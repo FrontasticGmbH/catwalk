@@ -1,4 +1,22 @@
 
+## Version 1.51.1 (2022-11-11)
+
+** Bug fixes **
+
+- Re-enabled endpoint in coFE used for health checking deployments
+
+## Version 1.51.0 (2022-11-08)
+
+** Bug fixes **
+
+- Category list pages work with more than 500 categories in commercetools. Before only the first 500 categories could be viewed. This fix requires and update of the frontastic/common library to version 2.37.0
+
+## Version 1.50.3 (2022-11-04)
+
+** Bug fixes **
+
+- Added coFE-Custom-Configuration as additional header accepted by CORS
+
 ## Version 1.50.2 (2022-10-28)
 
 ** Bug fixes **
