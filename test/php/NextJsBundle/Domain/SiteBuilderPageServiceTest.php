@@ -11,7 +11,7 @@ class SiteBuilderPageServiceTest extends TestCase
     private vfsStreamDirectory $vfsRoot;
     private SiteBuilderPageService $siteBuilderPageService;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->vfsRoot = vfsStream::setup();
 
