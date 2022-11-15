@@ -95,6 +95,7 @@ class FrontasticSessionHandler extends AbstractSessionHandler
     }
 
     /** @noinspection PhpParameterNameChangedDuringInheritanceInspection */
+    #[\ReturnTypeWillChange]
     public function gc($maxLifetime)
     {
         $this->shouldCleanUpExpiredSessions = true;
@@ -102,6 +103,7 @@ class FrontasticSessionHandler extends AbstractSessionHandler
         return true;
     }
 
+    #[\ReturnTypeWillChange]
     public function updateTimestamp($sessionId, $data)
     {
         // We need to implement this as AbstractSessionHandler uses \SessionUpdateTimestampHandlerInterface
@@ -114,7 +116,7 @@ class FrontasticSessionHandler extends AbstractSessionHandler
     }
 
     /** @return bool */
-    public function close()
+    public function close(): bool
     {
         $maxLifetime = (int) ini_get('session.gc_maxlifetime');
 

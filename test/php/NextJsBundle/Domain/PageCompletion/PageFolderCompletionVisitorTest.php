@@ -26,7 +26,7 @@ class PageFolderCompletionVisitorTest extends TestCase
     private FieldConfiguration $fieldConfiguration;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->siteBuilderPageService = \Phake::mock(SiteBuilderPageService::class);
         $this->fieldConfiguration = \Phake::mock(FieldConfiguration::class);
