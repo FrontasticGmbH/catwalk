@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Routing;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\RandomValueProvider;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TimeProvider;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\ConfigCacheFactoryInterface;
@@ -28,7 +29,13 @@ class RoutingConfigCacheFactory implements ConfigCacheFactoryInterface
 
         $this->logger->debug('Checking custom route cache');
 
-        $cache = new RoutingConfigCache($file, $this->logger, new TimeProvider(), $this->debug);
+        $cache = new RoutingConfigCache(
+            $file,
+            $this->logger,
+            new TimeProvider(),
+            new RandomValueProvider(),
+            $this->debug
+        );
         if (!$cache->isFresh()) {
             $callback($cache);
         }
