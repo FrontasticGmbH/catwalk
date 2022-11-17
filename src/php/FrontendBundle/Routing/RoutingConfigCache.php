@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Routing;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\RandomValueProvider;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TimeProvider;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\ConfigCache;
@@ -15,17 +16,20 @@ class RoutingConfigCache extends ConfigCache
     private TimeProvider $timeProvider;
 
     private static ?bool $regenerateInThisRequest = null;
+    private RandomValueProvider $randomValueProvider;
 
     public function __construct(
         string $file,
         LoggerInterface $logger,
         TimeProvider $timeProvider,
+        RandomValueProvider $randomValueProvider,
         bool $debug
     )
     {
         parent::__construct($file, $debug);
         $this->logger = $logger;
         $this->timeProvider = $timeProvider;
+        $this->randomValueProvider = $randomValueProvider;
     }
 
     public function isFresh()
@@ -57,7 +61,7 @@ class RoutingConfigCache extends ConfigCache
             $now = $this->timeProvider->microtimeNow();
             // Inspired by stampede protection of Symfony cache: https://github.com/symfony/cache-contracts/blob/2eab7fa459af6d75c6463e63e633b667a9b761d3/CacheTrait.php#L58
             // This increases probability of the item being re-generated the closer we get to 2 minutes expiry
-            $probableRegenerateTime = ($now - $fileChangeTime) * (1 + random_int(1, \PHP_INT_MAX) / \PHP_INT_MAX);
+            $probableRegenerateTime = ($now - $fileChangeTime) * (1 + $this->randomValueProvider->randomInt(0, \PHP_INT_MAX) / \PHP_INT_MAX);
             self::$regenerateInThisRequest = (self::HARD_EXPIRY <= $probableRegenerateTime);
         }
         return self::$regenerateInThisRequest;
