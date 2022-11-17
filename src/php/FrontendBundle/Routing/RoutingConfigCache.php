@@ -2,21 +2,30 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Routing;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\TimeProvider;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\ConfigCache;
+use Symfony\Component\Filesystem\Filesystem;
 
 class RoutingConfigCache extends ConfigCache
 {
     private const HARD_EXPIRY = 120; // seconds
 
     private LoggerInterface $logger;
+    private TimeProvider $timeProvider;
 
     private static ?bool $regenerateInThisRequest = null;
 
-    public function __construct(string $file, LoggerInterface $logger, bool $debug)
+    public function __construct(
+        string $file,
+        LoggerInterface $logger,
+        TimeProvider $timeProvider,
+        bool $debug
+    )
     {
         parent::__construct($file, $debug);
         $this->logger = $logger;
+        $this->timeProvider = $timeProvider;
     }
 
     public function isFresh()
@@ -45,7 +54,7 @@ class RoutingConfigCache extends ConfigCache
         // Decide once per request if cache should be re-generated so that all files are in sync
         if (self::$regenerateInThisRequest === null) {
             $fileChangeTime = filectime($this->getPath());
-            $now = microtime(true);
+            $now = $this->timeProvider->microtimeNow();
             // Inspired by stampede protection of Symfony cache: https://github.com/symfony/cache-contracts/blob/2eab7fa459af6d75c6463e63e633b667a9b761d3/CacheTrait.php#L58
             // This increases probability of the item being re-generated the closer we get to 2 minutes expiry
             $probableRegenerateTime = ($now - $fileChangeTime) * (1 + random_int(1, \PHP_INT_MAX) / \PHP_INT_MAX);
