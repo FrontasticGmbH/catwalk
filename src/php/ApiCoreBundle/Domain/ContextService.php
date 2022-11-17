@@ -131,7 +131,7 @@ class ContextService
         $localeObject = Locale::createFromPosix($locale);
 
         if ($host === null) {
-            $host = parse_url($project->publicUrl ?? $project->previewUrl, PHP_URL_HOST);
+            $host = parse_url($project->publicUrl ?? $project->previewUrl ?? '', PHP_URL_HOST);
         }
 
         $context = new Context([
