@@ -11,7 +11,7 @@ class SelectTranslationVisitorTest extends TestCase
 {
     private ConfigurationSchema $schema;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->schema = ConfigurationSchema::fromSchemaAndConfiguration(
             json_decode(file_get_contents(
