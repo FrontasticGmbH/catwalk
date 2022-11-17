@@ -41,7 +41,7 @@ class ExtensionServiceTest extends TestCase
         ]
     ];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->logger = \Phake::mock(LoggerInterface::class);
         $this->contextService = \Phake::mock(ContextService::class);
@@ -305,7 +305,7 @@ class ExtensionServiceTest extends TestCase
         $reflectionExtensions->setValue($this->subject, $extensions);
     }
 
-    private function partiallyMockedSubject(): \Phake_IMock
+    private function partiallyMockedSubject(): \Phake\IMock
     {
         return \Phake::partialMock(
             ExtensionService::class,

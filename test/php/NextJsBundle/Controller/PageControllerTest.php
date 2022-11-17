@@ -77,7 +77,7 @@ class PageControllerTest extends TestCase
      */
     private $contextFixture;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->siteBuilderPageServiceMock = \Phake::mock(SiteBuilderPageService::class);
         $this->dynamicPageService = \Phake::mock(DynamicPageService::class);

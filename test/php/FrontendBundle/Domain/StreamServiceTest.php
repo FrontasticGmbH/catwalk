@@ -30,7 +30,7 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
     private StreamHandlerSupplier $streamHandlerSupplier;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->tasticServiceMock = \Phake::mock(TasticService::class);
         \Phake::when($this->tasticServiceMock)->getTasticsMappedByType()->thenReturn([]);
