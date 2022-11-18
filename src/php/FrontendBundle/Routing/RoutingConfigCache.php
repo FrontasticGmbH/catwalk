@@ -24,8 +24,7 @@ class RoutingConfigCache extends ConfigCache
         TimeProvider $timeProvider,
         RandomValueProvider $randomValueProvider,
         bool $debug
-    )
-    {
+    ) {
         parent::__construct($file, $debug);
         $this->logger = $logger;
         $this->timeProvider = $timeProvider;
@@ -36,14 +35,20 @@ class RoutingConfigCache extends ConfigCache
     {
         // Symfony thinks the cache is not fresh, we agree (e.g. dev, file not exists …)
         if (!parent::isFresh()) {
-            $this->logger->info('Regenerate route cache because parent indicated non fresh.', ['path' => $this->getPath()]);
+            $this->logger->info(
+                'Regenerate route cache because parent indicated non fresh.',
+                ['path' => $this->getPath()]
+            );
             return false;
         }
 
         $shouldRegenerate = $this->shouldRegenerate();
 
         if ($shouldRegenerate) {
-            $this->logger->info('Regenerating route cache to get newest routes from studio.', ['path' => $this->getPath()]);
+            $this->logger->info(
+                'Regenerating route cache to get newest routes from studio.',
+                ['path' => $this->getPath()]
+            );
         }
         return !$shouldRegenerate;
     }
@@ -67,7 +72,8 @@ class RoutingConfigCache extends ConfigCache
 
             // Inspired by stampede protection of Symfony cache: https://github.com/symfony/cache-contracts/blob/2eab7fa459af6d75c6463e63e633b667a9b761d3/CacheTrait.php#L58
             // This increases probability of the item being re-generated the closer we get to 2 minutes expiry
-            $probableRegenerateTime = ($now - $fileChangeTime) * (1 + $this->randomValueProvider->randomInt(0, \PHP_INT_MAX) / \PHP_INT_MAX);
+            $probableRegenerateTime = ($now - $fileChangeTime)
+                * (1 + $this->randomValueProvider->randomInt(0, \PHP_INT_MAX) / \PHP_INT_MAX);
             self::$regenerateInThisRequest = (self::HARD_EXPIRY <= $probableRegenerateTime);
         }
         return self::$regenerateInThisRequest;
