@@ -59,6 +59,12 @@ class RoutingConfigCache extends ConfigCache
         if (self::$regenerateInThisRequest === null) {
             $fileChangeTime = filectime($this->getPath());
             $now = $this->timeProvider->microtimeNow();
+
+            if ($fileChangeTime > $now) {
+                // Server time issue, re-geenrate with 10% probability to prevent stampeed
+                $fileChangeTime = $now - ((int) round(self::HARD_EXPIRY * 0.55));
+            }
+
             // Inspired by stampede protection of Symfony cache: https://github.com/symfony/cache-contracts/blob/2eab7fa459af6d75c6463e63e633b667a9b761d3/CacheTrait.php#L58
             // This increases probability of the item being re-generated the closer we get to 2 minutes expiry
             $probableRegenerateTime = ($now - $fileChangeTime) * (1 + $this->randomValueProvider->randomInt(0, \PHP_INT_MAX) / \PHP_INT_MAX);

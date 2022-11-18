@@ -164,4 +164,48 @@ class RoutingConfigCacheTest extends TestCase
 
         $this->assertFalse($cache->isFresh());
     }
+
+    public function testRegeneratesWith10PercentProbabilityIfFileFromFuture()
+    {
+        $now = self::NOW;
+
+        $cacheFile = vfsStream::newFile('semi-fresh-cache')->at($this->vfsRoot)->lastAttributeModified(
+            self::NOW + 120, // Time travel!
+        );
+
+        $cache = new RoutingConfigCache(
+            $cacheFile->url(),
+            $this->loggerMock,
+            $this->timeProviderMock,
+            $this->randomValueProvider,
+            false
+        );
+
+        // Maximum probability in first run
+        \Phake::when($this->randomValueProvider)->randomInt->thenReturn((int) round(\PHP_INT_MAX * 0.9));
+
+        $this->assertFalse($cache->isFresh());
+    }
+
+    public function testDoesNotRegenerateWith90PercentProbabilityIfFileFromFuture()
+    {
+        $now = self::NOW;
+
+        $cacheFile = vfsStream::newFile('semi-fresh-cache')->at($this->vfsRoot)->lastAttributeModified(
+            self::NOW + 120, // Time travel!
+        );
+
+        $cache = new RoutingConfigCache(
+            $cacheFile->url(),
+            $this->loggerMock,
+            $this->timeProviderMock,
+            $this->randomValueProvider,
+            false
+        );
+
+        // Maximum probability in first run
+        \Phake::when($this->randomValueProvider)->randomInt->thenReturn((int) round(\PHP_INT_MAX * 0.1));
+
+        $this->assertTrue($cache->isFresh());
+    }
 }
