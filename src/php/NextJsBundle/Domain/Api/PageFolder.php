@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
+use Frontastic\Catwalk\NextJsBundle\Domain\PageFolderBreadcrumb;
 use Kore\DataObject\DataObject;
 
 /**
@@ -78,6 +79,11 @@ class PageFolder extends DataObject
      * @required
      */
     public $sort = 0;
+
+    /**
+     * @var PageFolderBreadcrumb[]
+     */
+    public array $breadcrumbs = [];
 
     /**
      * @removed Removing this for now as it is ambiguously used and can lead to large payloads.

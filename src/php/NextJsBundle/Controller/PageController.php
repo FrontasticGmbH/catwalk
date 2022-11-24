@@ -13,6 +13,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewDataResponse;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
@@ -112,13 +113,17 @@ class PageController
 
         $this->completionService->completePageData($page, $node, $context, $pageViewData->tastic);
 
+        /** @var PageFolder $pageFolder */
+        $pageFolder = $this->mapper->map($node);
+        $this->completionService->completePageFolderData($pageFolder, $node, $context);
+
         ProfilerWrapper::setCustomVariable('path', $path);
         ProfilerWrapper::setCustomVariable('locale', $locale);
         ProfilerWrapper::setCustomVariable('node.id', $node->nodeId);
         ProfilerWrapper::setCustomVariable('node.name', $node->name);
 
         return new PageDataResponse([
-            'pageFolder' => $this->mapper->map($node),
+            'pageFolder' => $pageFolder,
             'page' => $this->mapper->map($page),
             // Stream parameters is deprecated
             'data' => $this->mapper->map($pageViewData),
