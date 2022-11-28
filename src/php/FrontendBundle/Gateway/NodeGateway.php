@@ -72,6 +72,15 @@ class NodeGateway
         return $node;
     }
 
+    /**
+     * @param array $nodeIds
+     * @return Node[]
+     */
+    public function getByIds(array $nodeIds): array
+    {
+        return $this->repository->findBy(['nodeId' => $nodeIds]);
+    }
+
     public function getHighestSequence(): string
     {
         return $this->withoutUndeletedFilter(function () {
