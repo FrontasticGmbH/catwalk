@@ -38,7 +38,8 @@ class PageDataCompletionService
         );
     }
 
-    public function completePageData(Page $page, Node $node, Context $context, object $tasticFieldData): void {
+    public function completePageData(Page $page, Node $node, Context $context, object $tasticFieldData): void
+    {
         $this->tasticService->getTasticsMappedByType();
 
         // Get all referenced and ancestor node ids and fetched them in a single query.
@@ -62,7 +63,8 @@ class PageDataCompletionService
         $pageFolder->breadcrumbs = $this->getBreadcrumbs($node, $context);
     }
 
-    private function completeTasticData(TasticInstance $tasticInstance, Context $context, object $tasticFieldData) {
+    private function completeTasticData(TasticInstance $tasticInstance, Context $context, object $tasticFieldData)
+    {
         $tasticDefinition = $this->getTasticDefinition($tasticInstance->tasticType);
         if ($tasticDefinition === null) {
             return;
@@ -196,5 +198,4 @@ class PageDataCompletionService
 
         return $pathTranslations;
     }
-
 }
