@@ -16,13 +16,15 @@
 
 ```php
 public function __construct(
-    \Frontastic\Catwalk\FrontendBundle\Gateway\SchemaGateway $schemaGateway
+    \Frontastic\Catwalk\FrontendBundle\Gateway\SchemaGateway $schemaGateway,
+    \Psr\SimpleCache\CacheInterface $cache
 ): mixed
 ```
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
 `$schemaGateway`|`\Frontastic\Catwalk\FrontendBundle\Gateway\SchemaGateway`||
+`$cache`|`\Psr\SimpleCache\CacheInterface`||
 
 Return Value: `mixed`
 
@@ -66,6 +68,7 @@ Return Value: [`Context`](../../ApiCoreBundle/Domain/Context.md)
 
 ```php
 public function completeNodeData(
+    Context $context,
     Node $node,
     ?\Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor $fieldVisitor = null
 ): void
@@ -73,6 +76,7 @@ public function completeNodeData(
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
+`$context`|[`Context`](../../ApiCoreBundle/Domain/Context.md)||
 `$node`|[`Node`](Node.md)||
 `$fieldVisitor`|`?\Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor`|`null`|
 
