@@ -8,17 +8,25 @@ use Frontastic\Catwalk\FrontendBundle\Gateway\SchemaGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 use Frontastic\Common\SpecificationBundle\Domain\ConfigurationSchema;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
+use Psr\SimpleCache\CacheInterface;
 
 class SchemaService implements Target, ContextDecorator
 {
+    private const SCHEMA_CACHE_KEY = 'frontastic.schema';
     /**
      * @var SchemaGateway
      */
     private $schemaGateway;
 
-    public function __construct(SchemaGateway $schemaGateway)
+    /**
+     * @var \Psr\SimpleCache\CacheInterface
+     */
+    private $cache;
+
+    public function __construct(SchemaGateway $schemaGateway, CacheInterface $cache)
     {
         $this->schemaGateway = $schemaGateway;
+        $this->cache = $cache;
     }
 
     public function lastUpdate(): string
@@ -51,10 +59,10 @@ class SchemaService implements Target, ContextDecorator
         return $context;
     }
 
-    public function completeNodeData(Node $node, ?FieldVisitor $fieldVisitor = null): void
+    public function completeNodeData(Context $context, Node $node, ?FieldVisitor $fieldVisitor = null): void
     {
-        // TODO: Cache!
-        $nodeSchema = $this->schemaGateway->getSchemaOfType(Schema::TYPE_NODE_CONFIGURATION);
+        $nodeSchema = $this->getNodeSchema($context);
+
         if ($nodeSchema === null) {
             return;
         }
@@ -67,6 +75,19 @@ class SchemaService implements Target, ContextDecorator
         $node->configuration = $configuration->getCompleteValues($fieldVisitor);
     }
 
+    private function getNodeSchema(Context $context): ?Schema
+    {
+        $projectSchemaCacheKey = $this->projectSchemaCacheKey($context);
+        $nodeSchema = $this->cache->get($projectSchemaCacheKey, false);
+
+        if ($nodeSchema === false) {
+            $nodeSchema = $this->schemaGateway->getSchemaOfType(Schema::TYPE_NODE_CONFIGURATION);
+            $this->cache->set($projectSchemaCacheKey, $nodeSchema, 600);
+        }
+
+        return $nodeSchema;
+    }
+
     private function fill(Schema $schema, array $data): Schema
     {
         $schema->schemaType = $data['schemaType'];
@@ -76,5 +97,10 @@ class SchemaService implements Target, ContextDecorator
         $schema->isDeleted = (bool)$data['isDeleted'];
 
         return $schema;
+    }
+
+    private function projectSchemaCacheKey(Context $context)
+    {
+        return $context->project->name. '-' . self::SCHEMA_CACHE_KEY;
     }
 }

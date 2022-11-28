@@ -11,6 +11,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Page;
 use Frontastic\Catwalk\FrontendBundle\Domain\Tastic as TasticInstance;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticDefinition;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\FieldVisitorFactory;
+use Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion\NodeReferenceGetterVisitor;
 use Frontastic\Common\SpecificationBundle\Domain\ConfigurationSchema;
 
 class PageDataCompletionService
@@ -40,6 +41,11 @@ class PageDataCompletionService
     public function completePageData(Page $page, Node $node, Context $context, object $tasticFieldData): void
     {
         $this->tasticService->getTasticsMappedByType();
+
+        // Get all referenced nodes and fetched them in a single query
+        // They will be cached now, preventing the nodes from being fetched one by one later.
+        $referencedNodeIds = $this->fetchReferencedNodeIds($page);
+        $this->nodeService->getByIds($referencedNodeIds);
 
         foreach ($page->regions as $region) {
             foreach ($region->elements as $element) {
@@ -100,5 +106,35 @@ class PageDataCompletionService
             return null;
         }
         return $tasticMap[$tasticType];
+    }
+
+    /**
+     * Iterates through all tastics and get the referenced node ids
+     * @param Page $page
+     * @return array
+     */
+    private function fetchReferencedNodeIds(Page $page): array
+    {
+        $visitor = new NodeReferenceGetterVisitor();
+
+        foreach ($page->regions as $region) {
+            foreach ($region->elements as $element) {
+                foreach ($element->tastics as $tasticInstance) {
+                    $tasticDefinition = $this->getTasticDefinition($tasticInstance->tasticType);
+                    if ($tasticDefinition === null) {
+                        continue;
+                    }
+
+                    $schema = ConfigurationSchema::fromSchemaAndConfiguration(
+                        $tasticDefinition->configurationSchema['schema'],
+                        (array)$tasticInstance->configuration
+                    );
+
+                    $schema->getCompleteValues($visitor);
+                }
+            }
+        }
+
+        return $visitor->getReferencedNodeIds();
     }
 }

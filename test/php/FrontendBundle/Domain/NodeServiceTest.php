@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway;
+use Psr\SimpleCache\CacheInterface;
 
 class NodeServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -37,6 +38,11 @@ class NodeServiceTest extends \PHPUnit\Framework\TestCase
      */
     private $contextServiceMock;
 
+    /**
+     * @var CacheInterface
+     */
+    private $cacheMock;
+
     public function setUp(): void
     {
         $this->nodeGatewayMock = \Phake::mock(NodeGateway::class);
@@ -44,13 +50,15 @@ class NodeServiceTest extends \PHPUnit\Framework\TestCase
         $this->routeServiceMock = \Phake::mock(RouteService::class);
         $this->schemaServiceMock = \Phake::mock(SchemaService::class);
         $this->contextServiceMock = \Phake::mock(ContextService::class);
+        $this->cacheMock = \Phake::mock(CacheInterface::class);
 
         $this->nodeService = new NodeService(
             $this->nodeGatewayMock,
             $this->pageServiceMock,
             $this->routeServiceMock,
             $this->schemaServiceMock,
-            $this->contextServiceMock
+            $this->contextServiceMock,
+            $this->cacheMock,
         );
     }
 
