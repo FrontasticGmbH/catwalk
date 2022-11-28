@@ -186,6 +186,8 @@ class ContextServiceTest extends TestCase
         $project = new Project([
             'languages' => ['en_GB', 'de_DE'],
             'defaultLanguage' => 'en_GB',
+            'previewUrl' => 'https://test-example.frontastic.io/preview',
+            'publicUrl' => 'https://example.com',
         ]);
 
         $customer = new Customer();

@@ -14,6 +14,7 @@
         <default key="_stateless">true</default>
     </route>
 
+    <!--This endpoint provides information about the current library versions and supported features to the replicator and studio. -->
     <route id="Frontastic.ApiCoreBundle.Api.version" path="/api/endpoint/version" methods="GET">
         <default key="_controller">Frontastic\Catwalk\ApiCoreBundle\Controller\ApiController::versionAction</default>
 
