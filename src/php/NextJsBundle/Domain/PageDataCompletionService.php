@@ -164,7 +164,6 @@ class PageDataCompletionService
      */
     private function getBreadcrumbs(Node $node, Context $context): array
     {
-        $ancestorNodes = [];
         $breadcrumbs = [];
 
         $ancestorIds = $this->fetchAncestorNodeIds($node);
@@ -173,10 +172,7 @@ class PageDataCompletionService
         // we'll return first the breadcrumb for "nodeId02" and after "nodeId01".
         foreach (array_reverse($ancestorIds) as $ancestorsId) {
             $ancestorNode = $this->nodeService->get($ancestorsId);
-            $ancestorNodes[] = $ancestorNode;
-        }
 
-        foreach ($ancestorNodes as $ancestorNode) {
             $pageBreadcrumbElement = new PageFolderBreadcrumb();
             $pageBreadcrumbElement->pageFolderId = $ancestorNode->nodeId;
             $pageBreadcrumbElement->ancestorIdsMaterializedPath = $ancestorNode->path ?? null;
