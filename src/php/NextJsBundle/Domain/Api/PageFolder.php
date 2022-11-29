@@ -2,7 +2,6 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
-use Frontastic\Catwalk\NextJsBundle\Domain\PageFolderBreadcrumb;
 use Kore\DataObject\DataObject;
 
 /**
