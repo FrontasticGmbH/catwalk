@@ -85,6 +85,24 @@ export interface DataSourceContext {
       */
      usingTastics?: Tastic[] | null;
      request?: Request;
+     /**
+      * Denotes whether a request is coming from the /frontastic/data-source-preview
+      * Useful for determining when to send back a proper pagePreviewPayload.
+      */
+     isPreview?: boolean;
+}
+
+export interface DataSourcePreviewPayloadElement {
+     /**
+      * This will show up as the name of the element in the
+      * data source preview list in Studio.
+      */
+     title: string;
+     /**
+      * This is the image URL that will be loaded when viewing
+      * the data source preview list in Studio.
+      */
+     image?: string;
 }
 
 /**
@@ -101,6 +119,13 @@ export interface DataSourceResult {
       * references).
       */
      dataSourcePayload: any;
+     /**
+      * Studio will get the data when showing the data source previews from this array.
+      *
+      * To increase performance it is recommended to only set this when the data source is requested with
+      * the DataSourceContext.isPreview property is true.
+      */
+     previewPayload?: DataSourcePreviewPayloadElement[];
 }
 
 /**
@@ -192,6 +217,13 @@ export interface PageFolder {
       * Sort order in the page folder tree.
       */
      sort: number;
+     breadcrumbs?: PageFolderBreadcrumb[];
+}
+
+export interface PageFolderBreadcrumb {
+     pageFolderId: string;
+     pathTranslations?: any;
+     ancestorIdsMaterializedPath?: string;
 }
 
 /**
