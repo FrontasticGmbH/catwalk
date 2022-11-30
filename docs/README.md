@@ -42,8 +42,10 @@ Here you find the API documentation for the relevant classes:
     * [ProductSearchApiFactoryDecorator](php/ApiCoreBundle/Domain/ProductSearchApiFactoryDecorator.md)
     * [ProductSearchApiWithoutInner](php/ApiCoreBundle/Domain/ProductSearchApiWithoutInner.md)
     * [ProjectService](php/ApiCoreBundle/Domain/ProjectService.md)
+    * [RandomValueProvider](php/ApiCoreBundle/Domain/RandomValueProvider.md)
     * [Tastic](php/ApiCoreBundle/Domain/Tastic.md)
     * [TasticService](php/ApiCoreBundle/Domain/TasticService.md)
+    * [TimeProvider](php/ApiCoreBundle/Domain/TimeProvider.md)
 * FrontendBundle
   * Domain
     * [Cell](php/FrontendBundle/Domain/Cell.md)
