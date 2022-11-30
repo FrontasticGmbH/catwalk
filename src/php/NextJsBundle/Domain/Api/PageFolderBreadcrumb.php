@@ -4,6 +4,9 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
 use Kore\DataObject\DataObject;
 
+/**
+ * @type
+ */
 class PageFolderBreadcrumb extends DataObject
 {
     /**
