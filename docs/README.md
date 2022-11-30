@@ -156,6 +156,7 @@ Here you find the API documentation for the relevant classes:
         * [Configuration](php/NextJsBundle/Domain/Api/LayoutElement/Configuration.md)
       * [Page](php/NextJsBundle/Domain/Api/Page.md)
       * [PageFolder](php/NextJsBundle/Domain/Api/PageFolder.md)
+      * [PageFolderBreadcrumb](php/NextJsBundle/Domain/Api/PageFolderBreadcrumb.md)
       * [Project](php/NextJsBundle/Domain/Api/Project.md)
       * [Request](php/NextJsBundle/Domain/Api/Request.md)
       * [Response](php/NextJsBundle/Domain/Api/Response.md)

@@ -15,5 +15,6 @@ Property|Type|Default|Required|Description
 `ancestorIdsMaterializedPath` | `string` |  | *Yes* | Materialized path of IDs of ancestor page folders.
 `depth` | `int` |  | *Yes* | Depth of this page folder in the page folder tree.
 `sort` | `int` |  | *Yes* | Sort order in the page folder tree.
+`breadcrumbs` | [`PageFolderBreadcrumb`](PageFolderBreadcrumb.md)[] | `[]` | - | 
 
 Generated with [Frontastic API Docs](https://github.com/FrontasticGmbH/apidocs).
