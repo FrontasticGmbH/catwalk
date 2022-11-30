@@ -1,4 +1,14 @@
 
+## Version 1.52.0 (2022-11-30)
+
+** New Features and Improvements **
+
+- Improve node reference performance
+
+- Implement Route caching
+
+- Include Page Folder Breadcrumbs localized
+
 ## Version 1.51.1 (2022-11-11)
 
 ** Bug fixes **
