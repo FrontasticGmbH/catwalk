@@ -58,7 +58,6 @@ class PageFolderService
         return array_values($pageFolderTreeNodeIndex);
     }
 
-
     /**
      * Check if this is not a virtual node and if the node has routes
      */
