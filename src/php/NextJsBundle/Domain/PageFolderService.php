@@ -19,11 +19,12 @@ class PageFolderService
 
 
     public function __construct(
-        SiteBuilderPageService $siteBuilderPageService,
-        NodeService $nodeService,
+        SiteBuilderPageService    $siteBuilderPageService,
+        NodeService               $nodeService,
         FromFrontasticReactMapper $mapper,
-        RouteService $routeService
-    ) {
+        RouteService              $routeService
+    )
+    {
         $this->siteBuilderPageService = $siteBuilderPageService;
         $this->nodeService = $nodeService;
         $this->mapper = $mapper;
@@ -48,13 +49,7 @@ class PageFolderService
 
         $pageFolderTreeNodeIndex = [];
         foreach ($nodes as $node) {
-            if (!$node->nodeId) {
-                // Skip virtual root node
-                continue;
-            }
-
-            if (!$this->nodeHasRoutes($node, $routes)) {
-                // There is no route for this node, maybe some parent nodes in the tree of this node has been deleted.
+            if (!$this->isValidNode($node, $routes)) {
                 continue;
             }
 
@@ -65,6 +60,18 @@ class PageFolderService
         return array_values($pageFolderTreeNodeIndex);
     }
 
+
+    /**
+     * Check if this is not a virtual node and if the node has routes
+     */
+    private function isValidNode(Node $node, array $routes): bool
+    {
+        if ($node->nodeId && $this->nodeHasRoutes($node, $routes)) {
+            return true;
+        }
+
+        return false;
+    }
 
     private function nodeHasRoutes(Node $node, array $routes): bool
     {
