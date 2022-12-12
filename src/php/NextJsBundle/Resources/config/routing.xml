@@ -12,6 +12,10 @@
         <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\PageController::previewAction</default>
         <default key="_stateless">true</default>
     </route>
+    <route id="Frontastic.NextJs.Api.tree" path="/frontastic/tree">
+        <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\PageController::treeAction</default>
+        <default key="_stateless">true</default>
+    </route>
     <route id="Frontastic.NextJs.Api.project" path="/frontastic/project">
         <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\ProjectController::indexAction</default>
         <default key="_stateless">true</default>

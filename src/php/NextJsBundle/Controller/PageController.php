@@ -17,6 +17,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
+use Frontastic\Catwalk\NextJsBundle\Domain\PageFolderService;
 use Frontastic\Catwalk\NextJsBundle\Domain\RedirectService;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\TidewaysWrapper\ProfilerWrapper;
@@ -35,6 +36,7 @@ class PageController
     private ViewDataProvider $viewDataProvider;
     private DynamicPageService $dynamicPageService;
     private RedirectService $redirectService;
+    private PageFolderService $pageFolderService;
 
     public function __construct(
         SiteBuilderPageService $siteBuilderPageService,
@@ -45,7 +47,8 @@ class PageController
         PreviewService $previewService,
         PageDataCompletionService $completionService,
         ViewDataProvider $viewDataProvider,
-        RedirectService $redirectService
+        RedirectService $redirectService,
+        PageFolderService $pageFolderService
     ) {
         $this->siteBuilderPageService = $siteBuilderPageService;
         $this->dynamicPageService = $dynamicPageService;
@@ -56,6 +59,7 @@ class PageController
         $this->mapper = $mapper;
         $this->viewDataProvider = $viewDataProvider;
         $this->redirectService = $redirectService;
+        $this->pageFolderService = $pageFolderService;
     }
 
     public function indexAction(Request $request, Context $context)
@@ -160,6 +164,16 @@ class PageController
                 'customerName' => $context->customer->name
             ])
         ]);
+    }
+
+    public function treeAction(Request $request, Context $context)
+    {
+        $locale = $this->getLocale($request);
+
+        $path = $request->get('path', null);
+        $depth = $request->get('depth', 1);
+
+        return $this->pageFolderService->getTree($locale, $depth, $path);
     }
 
     /**
