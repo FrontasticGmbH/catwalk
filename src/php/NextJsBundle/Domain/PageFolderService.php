@@ -11,12 +11,10 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolderTreeNode;
 
 class PageFolderService
 {
-
     private SiteBuilderPageService $siteBuilderPageService;
     private NodeService $nodeService;
     private FromFrontasticReactMapper $mapper;
     private RouteService $routeService;
-
 
     public function __construct(
         SiteBuilderPageService    $siteBuilderPageService,
