@@ -13,6 +13,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewDataResponse;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\TreeDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
@@ -173,7 +174,11 @@ class PageController
         $path = $request->get('path', null);
         $depth = $request->get('depth', 1);
 
-        return $this->pageFolderService->getTree($locale, $depth, $path);
+        $tree = $this->pageFolderService->getTree($locale, $depth, $path);
+
+        return new TreeDataResponse([
+            'tree' => $tree,
+        ]);
     }
 
     /**
