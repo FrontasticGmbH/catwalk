@@ -174,7 +174,7 @@ class PageController
         $path = $request->get('path', null);
         $depth = $request->get('depth', 1);
 
-        $tree = $this->pageFolderService->getTree($locale, $depth, $path);
+        $tree = $this->pageFolderService->getTree($context, $locale, $depth, $path);
 
         return new TreeDataResponse([
             'tree' => $tree,

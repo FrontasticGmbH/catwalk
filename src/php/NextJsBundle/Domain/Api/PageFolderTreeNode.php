@@ -21,6 +21,12 @@ class PageFolderTreeNode extends DataObject
     public string $pageFolderType = 'landingpage';
 
     /**
+     * @required
+     * @var array
+     */
+    public array $configuration = [];
+
+    /**
      * @var string
      */
     public string $name;

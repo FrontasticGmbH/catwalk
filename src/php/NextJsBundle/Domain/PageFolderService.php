@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Route;
@@ -15,26 +16,30 @@ class PageFolderService
     private NodeService $nodeService;
     private FromFrontasticReactMapper $mapper;
     private RouteService $routeService;
+    private PageDataCompletionService $completionService;
 
     public function __construct(
         SiteBuilderPageService    $siteBuilderPageService,
         NodeService               $nodeService,
         FromFrontasticReactMapper $mapper,
-        RouteService              $routeService
+        RouteService              $routeService,
+        PageDataCompletionService $completionService
     ) {
         $this->siteBuilderPageService = $siteBuilderPageService;
         $this->nodeService = $nodeService;
         $this->mapper = $mapper;
         $this->routeService = $routeService;
+        $this->completionService = $completionService;
     }
 
     /**
+     * @param Context $context
      * @param string $locale
      * @param int $depth
      * @param string|null $path
      * @return PageFolderTreeNode[]
      */
-    public function getTree(string $locale, int $depth, string $path = null): array
+    public function getTree(Context $context, string $locale, int $depth, string $path = null): array
     {
         $nodeId = null;
         if ($path) {
@@ -44,17 +49,17 @@ class PageFolderService
         $nodes = $this->nodeService->getNodes($nodeId, $depth);
         $routes = $this->routeService->generateRoutes($nodes);
 
-        $pageFolderTreeNodeIndex = [];
+        $tree = [];
         foreach ($nodes as $node) {
             if (!$this->isValidNode($node, $routes)) {
                 continue;
             }
 
-            $pageFolderTreeNode = $this->mapNodeToPageFolderTreeNode($node);
-            $pageFolderTreeNodeIndex[$node->nodeId] = $pageFolderTreeNode;
+            $pageFolderTreeNode = $this->mapNodeToPageFolderTreeNode($node, $context);
+            $tree[] = $pageFolderTreeNode;
         }
 
-        return array_values($pageFolderTreeNodeIndex);
+        return $tree;
     }
 
     /**
@@ -83,16 +88,19 @@ class PageFolderService
 
     /**
      * @param Node $node
+     * @param Context $context
      * @return PageFolderTreeNode
      */
-    private function mapNodeToPageFolderTreeNode(Node $node): PageFolderTreeNode
+    private function mapNodeToPageFolderTreeNode(Node $node, Context $context): PageFolderTreeNode
     {
         /** @var PageFolder $pageFolder */
         $pageFolder = $this->mapper->map($node);
+        $this->completionService->completePageFolderData($pageFolder, $node, $context);
 
         $pageFolderTree = new PageFolderTreeNode();
         $pageFolderTree->pageFolderId = $pageFolder->pageFolderId;
         $pageFolderTree->pageFolderType = $pageFolder->pageFolderType;
+        $pageFolderTree->configuration = $pageFolder->configuration;
         $pageFolderTree->name = $pageFolder->name;
         $pageFolderTree->ancestorIdsMaterializedPath = $pageFolder->ancestorIdsMaterializedPath;
         $pageFolderTree->depth = $pageFolder->depth;
