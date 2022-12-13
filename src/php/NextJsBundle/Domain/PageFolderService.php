@@ -21,8 +21,7 @@ class PageFolderService
         NodeService               $nodeService,
         FromFrontasticReactMapper $mapper,
         RouteService              $routeService
-    )
-    {
+    ) {
         $this->siteBuilderPageService = $siteBuilderPageService;
         $this->nodeService = $nodeService;
         $this->mapper = $mapper;
