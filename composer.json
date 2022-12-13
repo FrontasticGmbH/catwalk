@@ -10,9 +10,6 @@
         }
     ],
     "config": {
-        "platform": {
-            "php": "7.4"
-        },
         "discard-changes": true
     },
     "require":      {
@@ -25,15 +22,16 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/monolog-bundle": "^3.2",
         "symfony/swiftmailer-bundle": "^3.2",
-        "doctrine/doctrine-bundle": "^1.9",
-        "doctrine/doctrine-cache-bundle": "^1.3",
+        "doctrine/doctrine-bundle": "^1.9||^2",
         "stof/doctrine-extensions-bundle": "^1.3",
 
         "frontastic/common": "^2.35.0",
 
         "doctrine/orm": "^2.6",
+        "doctrine/dbal": "^2.13",
+        "doctrine/cache": "^1.13",
         "guzzlehttp/guzzle": "~6",
-        "gedmo/doctrine-extensions": "^2.4",
+        "gedmo/doctrine-extensions": "^2.4||^3",
 
         "sensio/framework-extra-bundle": "@stable",
 

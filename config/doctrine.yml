@@ -27,7 +27,7 @@ doctrine:
                 type: annotation
                 alias: Gedmo
                 prefix: Gedmo\Tree\Entity
-                dir: "%frontastic.gedmo_extension_source_dir%/Gedmo/Tree/Entity"
+                dir: "%frontastic.gedmo_extension_source_dir%/Tree/Entity"
                 is_bundle: false
             FrontasticCatwalkApiCoreBundleAppTest:
                 type: annotation
