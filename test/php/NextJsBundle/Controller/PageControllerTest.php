@@ -16,6 +16,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\RedirectResponse;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\TreeDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Page as NextjsPage;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
@@ -403,5 +404,34 @@ class PageControllerTest extends TestCase
         $this->assertEquals($pageFolderMock, $result->pageFolder);
         $this->assertEquals($nextJsPageMock, $result->page);
         $this->assertEquals($viewData, $result->data);
+    }
+
+    public function testTreeActionWithCorrectData()
+    {
+        $request = new Request([
+            'locale' => 'en_US'
+        ]);
+
+        $response = $this->pageController->treeAction($request, $this->contextFixture);
+
+        $this->assertInstanceOf(
+            TreeDataResponse::class,
+            $response,
+            "Action response with only locale"
+        );
+
+        $request = new Request([
+            'locale' => 'en_US',
+            'path' => '/',
+            'depth' => '2',
+        ]);
+
+        $response = $this->pageController->treeAction($request, $this->contextFixture);
+
+        $this->assertInstanceOf(
+            TreeDataResponse::class,
+            $response,
+            "Action response with locale, path and depth"
+        );
     }
 }
