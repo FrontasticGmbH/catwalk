@@ -1,4 +1,10 @@
 
+## Version 1.53.1 (2022-12-14)
+
+** New Features and Improvements **
+
+- Bump version requirement of a dependency to ease the PHP 8.1 migration
+
 ## Version 1.53.0 (2022-12-13)
 
 ** New Features and Improvements **
