@@ -13,6 +13,7 @@
 * [getNodes()](#getnodes)
 * [getTree()](#gettree)
 * [get()](#get)
+* [getByIds()](#getbyids)
 * [store()](#store)
 * [remove()](#remove)
 * [completeCustomNodeData()](#completecustomnodedata)
@@ -25,7 +26,8 @@ public function __construct(
     PageService $pageService,
     RouteService $routeService,
     SchemaService $schemaService,
-    ContextService $contextService
+    ContextService $contextService,
+    \Psr\SimpleCache\CacheInterface $cache
 ): mixed
 ```
 
@@ -36,6 +38,7 @@ Argument|Type|Default|Description
 `$routeService`|[`RouteService`](RouteService.md)||
 `$schemaService`|[`SchemaService`](SchemaService.md)||
 `$contextService`|[`ContextService`](../../ApiCoreBundle/Domain/ContextService.md)||
+`$cache`|`\Psr\SimpleCache\CacheInterface`||
 
 Return Value: `mixed`
 
@@ -127,6 +130,20 @@ Argument|Type|Default|Description
 `$nodeId`|`string`||
 
 Return Value: [`Node`](Node.md)
+
+### getByIds()
+
+```php
+public function getByIds(
+    array $nodeIds
+): array
+```
+
+Argument|Type|Default|Description
+--------|----|-------|-----------
+`$nodeIds`|`array`||
+
+Return Value: `array`
 
 ### store()
 

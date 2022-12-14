@@ -156,8 +156,10 @@ class AppKernel extends \Frontastic\Common\Kernel
         // projects vendor dir if it exists there and fall back to the vendor dir in paas/catwalk to support legacy
         // catwalks without touching them.
         $candidates = [
-            $this->getProjectDir() . '/vendor/gedmo/doctrine-extensions/lib',
-            __DIR__ . '/../../vendor/gedmo/doctrine-extensions/lib',
+            $this->getProjectDir() . '/vendor/gedmo/doctrine-extensions/lib/Gedmo',
+            __DIR__ . '/../../vendor/gedmo/doctrine-extensions/lib/Gedmo',
+            $this->getProjectDir() . '/vendor/gedmo/doctrine-extensions/src',
+            __DIR__ . '/../../vendor/gedmo/doctrine-extensions/src',
         ];
 
         foreach ($candidates as $candidate) {

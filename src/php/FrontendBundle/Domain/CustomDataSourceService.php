@@ -42,7 +42,7 @@ class CustomDataSourceService implements Target
         $customDataSource->sequence = $data['sequence'];
         $customDataSource->name = $data['name'];
         $customDataSource->description = $data['description'];
-        $customDataSource->icon = $data['icon'];
+        $customDataSource->icon = strval($data['icon']);
         $customDataSource->category = (!empty($data['category']) ? $data['category'] : 'General');
         $customDataSource->configurationSchema = (object)$data['configurationSchema'];
         $customDataSource->metaData = (object)$data['metaData'];

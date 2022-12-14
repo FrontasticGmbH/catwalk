@@ -80,6 +80,11 @@ class PageFolder extends DataObject
     public $sort = 0;
 
     /**
+     * @var PageFolderBreadcrumb[]
+     */
+    public array $breadcrumbs = [];
+
+    /**
      * @removed Removing this for now as it is ambiguously used and can lead to large payloads.
      */
     // public $children = [];
