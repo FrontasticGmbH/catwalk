@@ -4,7 +4,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Domain\Api;
 
 use Kore\DataObject\DataObject;
 
-class PageFolderTreeNode extends DataObject
+class PageFolderStructureValue extends DataObject
 {
     /**
      * @replaces $nodeId.
@@ -55,4 +55,22 @@ class PageFolderTreeNode extends DataObject
      * @required
      */
     public $sort = 0;
+
+    /**
+     * @var PageFolderBreadcrumb[]
+     */
+    public array $breadcrumbs = [];
+
+    // phpcs:disable
+    /**
+     * @var array
+     */
+    public array $_urls;
+
+    /**
+     * The url for the current locale
+     * @var string
+     */
+    public string $_url;
+    // phpcs:enable
 }
