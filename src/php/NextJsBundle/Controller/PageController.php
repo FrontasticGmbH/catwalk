@@ -13,7 +13,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewContext;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewDataResponse;
-use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\TreeDataResponse;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageFolderStructureResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
@@ -167,17 +167,17 @@ class PageController
         ]);
     }
 
-    public function treeAction(Request $request, Context $context)
+    public function structureAction(Request $request, Context $context)
     {
         $locale = $this->getLocale($request);
 
         $path = $request->get('path', null);
         $depth = $request->get('depth', 1);
 
-        $tree = $this->pageFolderService->getTree($context, $locale, $depth, $path);
+        $pageFolderStructure = $this->pageFolderService->getStructure($context, $locale, $depth, $path);
 
-        return new TreeDataResponse([
-            'tree' => $tree,
+        return new PageFolderStructureResponse([
+            'pageFolderStructure' => $pageFolderStructure,
         ]);
     }
 

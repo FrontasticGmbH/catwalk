@@ -5,9 +5,10 @@ namespace Frontastic\NextJsBundle\Controller;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
+use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Route;
 use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
-use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolderTreeNode;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolderStructureValue;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageFolderService;
@@ -24,6 +25,7 @@ class PageFolderServiceTest extends TestCase
     private FromFrontasticReactMapper $mapperMock;
     private RouteService $routeServiceMock;
     private PageDataCompletionService $completionServiceMock;
+    private PageService $pageServiceMock;
 
     private Context $contextFixture;
 
@@ -44,17 +46,19 @@ class PageFolderServiceTest extends TestCase
         $this->mapperMock = new FromFrontasticReactMapper();
         $this->routeServiceMock =  \Phake::mock(RouteService::class);
         $this->completionServiceMock =  \Phake::mock(PageDataCompletionService::class);
+        $this->pageServiceMock =  \Phake::mock(PageService::class);
 
         $this->pageFolderService = new PageFolderService(
             $this->siteBuilderPageServiceMock,
             $this->nodeServiceMock,
             $this->mapperMock,
             $this->routeServiceMock,
-            $this->completionServiceMock
+            $this->completionServiceMock,
+            $this->pageServiceMock
         );
     }
 
-    public function testGetTree()
+    public function testGetStructure()
     {
         /** @var Route[] $routes */
         $routes = require __DIR__ . '/_fixtures/routes_fixture.php';
@@ -76,6 +80,10 @@ class PageFolderServiceTest extends TestCase
             ->matchSiteBuilderPage(\Phake::anyParameters())
             ->thenReturn($nodeId);
 
+        \Phake::when($this->siteBuilderPageServiceMock)
+            ->getPathsForSiteBuilderPage(\Phake::anyParameters())
+            ->thenReturn(['en_US' => $path]);
+
         \Phake::when($this->nodeServiceMock)
             ->getNodes(\Phake::anyParameters())
             ->thenReturn($nodes);
@@ -87,13 +95,13 @@ class PageFolderServiceTest extends TestCase
         \Phake::when($this->completionServiceMock)
             ->completePageFolderData(\Phake::anyParameters());
 
-        $tree = $this->pageFolderService->getTree($this->contextFixture, $locale, $depth, $path);
+        $structure = $this->pageFolderService->getStructure($this->contextFixture, $locale, $depth, $path);
 
-        $this->assertIsArray($tree);
-        $this->assertContainsOnly(PageFolderTreeNode::class, $tree);
+        $this->assertIsArray($structure);
+        $this->assertContainsOnly(PageFolderStructureValue::class, $structure);
     }
 
-    public function testGetEmptyTree()
+    public function testGetEmptyStructure()
     {
         /** @var Route[] $routes */
         $routes = require __DIR__ . '/_fixtures/routes_fixture.php';
@@ -116,9 +124,9 @@ class PageFolderServiceTest extends TestCase
             ->generateRoutes(\Phake::anyParameters())
             ->thenReturn($routes);
 
-        $tree = $this->pageFolderService->getTree($this->contextFixture, $locale, $depth);
+        $structure = $this->pageFolderService->getStructure($this->contextFixture, $locale, $depth);
 
-        $this->assertIsArray($tree);
-        $this->assertEmpty($tree);
+        $this->assertIsArray($structure);
+        $this->assertEmpty($structure);
     }
 }
