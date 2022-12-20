@@ -147,6 +147,7 @@ Here you find the API documentation for the relevant classes:
       * [DynamicPageSuccessResult](php/NextJsBundle/Domain/Api/DynamicPageSuccessResult.md)
       * Frontend
         * [PageDataResponse](php/NextJsBundle/Domain/Api/Frontend/PageDataResponse.md)
+        * [PageFolderStructureResponse](php/NextJsBundle/Domain/Api/Frontend/PageFolderStructureResponse.md)
         * [PagePreviewContext](php/NextJsBundle/Domain/Api/Frontend/PagePreviewContext.md)
         * [PagePreviewDataResponse](php/NextJsBundle/Domain/Api/Frontend/PagePreviewDataResponse.md)
         * [RedirectResponse](php/NextJsBundle/Domain/Api/Frontend/RedirectResponse.md)
@@ -157,6 +158,7 @@ Here you find the API documentation for the relevant classes:
       * [Page](php/NextJsBundle/Domain/Api/Page.md)
       * [PageFolder](php/NextJsBundle/Domain/Api/PageFolder.md)
       * [PageFolderBreadcrumb](php/NextJsBundle/Domain/Api/PageFolderBreadcrumb.md)
+      * [PageFolderStructureValue](php/NextJsBundle/Domain/Api/PageFolderStructureValue.md)
       * [Project](php/NextJsBundle/Domain/Api/Project.md)
       * [Request](php/NextJsBundle/Domain/Api/Request.md)
       * [Response](php/NextJsBundle/Domain/Api/Response.md)
