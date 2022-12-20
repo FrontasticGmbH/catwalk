@@ -71,6 +71,11 @@
              autoconfigure="true"
         />
 
+        <service id="Frontastic\Catwalk\NextJsBundle\Domain\PageFolderService"
+                 autowire="true"
+                 autoconfigure="true"
+        />
+
         <service id="Frontastic\Catwalk\NextJsBundle\Routing\Loader" class="Frontastic\Catwalk\NextJsBundle\Routing\Loader">
             <tag name="routing.loader" />
         </service>
