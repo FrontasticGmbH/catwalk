@@ -142,6 +142,11 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_NONE,
                 'Generate all sitemaps in a single sitemap.xml file'
+            )->addOption(
+                'keep-working-dir-on-error',
+                null,
+                InputOption::VALUE_NONE,
+                'Keep temporary workdir with sitemaps if something goes wrong'
             );
     }
 
@@ -171,64 +176,75 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         $this->filesystem = new Filesystem();
         $this->filesystem->mkdir($this->workingDir);
 
-        /** @var ContextService $contextService */
-        $contextService = $this->getContainer()->get(ContextService::class);
-        $context = $contextService->getContext($input->getOption('locale'));
+        try {
+            /** @var ContextService $contextService */
+            $contextService = $this->getContainer()->get(ContextService::class);
+            $context = $contextService->getContext($input->getOption('locale'));
 
-        $this->publicUrl = $this->determinePublicUrl($context, $input->getOption('base-url'));
+            $this->publicUrl = $this->determinePublicUrl($context, $input->getOption('base-url'));
 
-        $sitemaps = [];
-        $entries = [];
+            $sitemaps = [];
+            $entries = [];
 
-        if ($input->getOption('all') || $input->getOption('with-nodes')) {
-            $result = $this->generateNodeSitemap($context, $input, $output);
-            if ($this->singleSitemap) {
-                $entries = array_merge($entries, $result);
-            } else {
-                $sitemaps = array_merge($sitemaps, $result);
+            if ($input->getOption('all') || $input->getOption('with-nodes')) {
+                $result = $this->generateNodeSitemap($context, $input, $output);
+                if ($this->singleSitemap) {
+                    $entries = array_merge($entries, $result);
+                } else {
+                    $sitemaps = array_merge($sitemaps, $result);
+                }
             }
-        }
 
-        if ($input->getOption('all') || $input->getOption('with-categories')) {
-            $result = $this->generateCategorySitemap($context, $input, $output);
-            if ($this->singleSitemap) {
-                $entries = array_merge($entries, $result);
-            } else {
-                $sitemaps = array_merge($sitemaps, $result);
+            if ($input->getOption('all') || $input->getOption('with-categories')) {
+                $result = $this->generateCategorySitemap($context, $input, $output);
+                if ($this->singleSitemap) {
+                    $entries = array_merge($entries, $result);
+                } else {
+                    $sitemaps = array_merge($sitemaps, $result);
+                }
             }
-        }
 
-        if ($input->getOption('all') || $input->getOption('with-products')) {
-            $result = $this->generateProductSitemap($context, $output);
-            if ($this->singleSitemap) {
-                $entries = array_merge($entries, $result);
-            } else {
-                $sitemaps = array_merge($sitemaps, $result);
+            if ($input->getOption('all') || $input->getOption('with-products')) {
+                $result = $this->generateProductSitemap($context, $output);
+                if ($this->singleSitemap) {
+                    $entries = array_merge($entries, $result);
+                } else {
+                    $sitemaps = array_merge($sitemaps, $result);
+                }
             }
-        }
 
-        if ($input->getOption('all') || $input->getOption('with-extensions')) {
-            $result = $this->generateSitemapExtensions($context, $output);
-            if ($this->singleSitemap) {
-                $entries = array_merge($entries, $result);
-            } else {
-                $sitemaps = array_merge($sitemaps, $result);
+            if ($input->getOption('all') || $input->getOption('with-extensions')) {
+                $result = $this->generateSitemapExtensions($context, $output);
+                if ($this->singleSitemap) {
+                    $entries = array_merge($entries, $result);
+                } else {
+                    $sitemaps = array_merge($sitemaps, $result);
+                }
             }
-        }
 
-        $outputDir = $input->getArgument('output-directory');
-        $basePath = $this->cleanBasePath($outputDir);
+            $outputDir = $input->getArgument('output-directory');
+            $basePath = $this->cleanBasePath($outputDir);
 
-        $output->writeln('Generating sitemap index…');
-        $filePath = 'sitemap_index.xml';
-        if ($this->singleSitemap) {
-            $this->renderSitemap($this->publicUrl, $this->filterEntries($entries), $filePath);
-        } else {
-            $sitemaps = array_map(function ($sitemap) use ($basePath) {
-                return $basePath . $sitemap;
-            }, $sitemaps);
+            $output->writeln('Generating sitemap index…');
+            $filePath = 'sitemap_index.xml';
+            if ($this->singleSitemap) {
+                $this->renderSitemap($this->publicUrl, $this->filterEntries($entries), $filePath);
+            } else {
+                $sitemaps = array_map(function ($sitemap) use ($basePath) {
+                    return $basePath . $sitemap;
+                }, $sitemaps);
 
-            $this->renderIndex($this->publicUrl, $sitemaps, $filePath);
+                $this->renderIndex($this->publicUrl, $sitemaps, $filePath);
+            }
+        } catch (\Throwable $e) {
+            $output->writeln("Something went wrong while generating the sitemaps: {$e->getMessage()}");
+            if ($input->getOption('keep-working-dir-on-error')) {
+                $output->writeln("The temporary files were kept at: {$this->workingDir}");
+            } else {
+                $output->writeln("Removing temporary files at: {$this->workingDir}");
+                $this->removeDirectoryRecursive($this->workingDir);
+            }
+            throw $e;
         }
 
         if (!$this->useDatabase) {
