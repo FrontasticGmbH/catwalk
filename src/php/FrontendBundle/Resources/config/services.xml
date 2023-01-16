@@ -65,7 +65,6 @@
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\SchemaService" />
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
-            <argument type="service" id="cache.app.simple" />
         </service>
 
         <service id="frontastic.catwalk.frontend_bundle.domain.node.replication_target" class="Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter">
