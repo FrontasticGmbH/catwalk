@@ -159,7 +159,7 @@ class NodeService implements Target
         $node = $this->cache->get($nodeId, false);
         if ($node === false) {
             $node = $this->nodeGateway->get($nodeId);
-            $this->cache->set($nodeId, $node, 60);
+            $this->cache->set($nodeId, $node, 10);
         }
         return $node;
     }
@@ -186,7 +186,7 @@ class NodeService implements Target
         $fetchedNodes = count($nodeIdsToFetch) > 0 ? $this->nodeGateway->getByIds($nodeIdsToFetch): [];
 
         foreach ($fetchedNodes as $node) {
-            $this->cache->set($node->nodeId, $node);
+            $this->cache->set($node->nodeId, $node, 10);
         }
 
         return array_merge($result, $fetchedNodes);
