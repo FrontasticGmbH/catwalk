@@ -32,10 +32,7 @@ class NodeService implements Target
      */
     private $routeService;
 
-    /**
-     * @var \Psr\SimpleCache\CacheInterface
-     */
-    private $cache;
+    private array $cache;
 
     private SchemaService $schemaService;
 
@@ -44,15 +41,14 @@ class NodeService implements Target
         PageService $pageService,
         RouteService $routeService,
         SchemaService $schemaService,
-        ContextService $contextService,
-        CacheInterface $cache
+        ContextService $contextService
     ) {
         $this->nodeGateway = $nodeGateway;
         $this->pageService = $pageService;
         $this->routeService = $routeService;
         $this->schemaService = $schemaService;
         $this->contextService = $contextService;
-        $this->cache = $cache;
+        $this->cache = [];
     }
 
     public function lastUpdate(): string
@@ -156,12 +152,11 @@ class NodeService implements Target
 
     public function get(string $nodeId): Node
     {
-        $node = $this->cache->get($nodeId, false);
-        if ($node === false) {
-            $node = $this->nodeGateway->get($nodeId);
-            $this->cache->set($nodeId, $node, 10);
+        if (array_key_exists($nodeId, $this->cache)) {
+            return $this->cache[$nodeId];
         }
-        return $node;
+
+        return $this->cache[$nodeId] = $this->nodeGateway->get($nodeId);
     }
 
     /**
@@ -174,9 +169,10 @@ class NodeService implements Target
 
         $nodeIdsToFetch = [];
         foreach ($nodeIds as $nodeId) {
-            $node = $this->cache->get($nodeId, false);
 
-            if ($node === false) {
+            $node = array_key_exists($nodeId, $this->cache) ? $this->cache[$nodeId] : false;
+
+            if ($node === null) {
                 $nodeIdsToFetch[] = $nodeId;
             } else {
                 $result[] = $node;
@@ -186,7 +182,7 @@ class NodeService implements Target
         $fetchedNodes = count($nodeIdsToFetch) > 0 ? $this->nodeGateway->getByIds($nodeIdsToFetch): [];
 
         foreach ($fetchedNodes as $node) {
-            $this->cache->set($node->nodeId, $node, 10);
+            $this->cache[$node->nodeId] = $node;
         }
 
         return array_merge($result, $fetchedNodes);
@@ -202,7 +198,7 @@ class NodeService implements Target
         $this->nodeGateway->remove($node);
 
         if ($node->nodeId) {
-            $this->cache->delete($node->nodeId);
+            unset($this->cache[$node->nodeId]);
         }
     }
 
