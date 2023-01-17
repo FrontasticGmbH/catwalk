@@ -7,8 +7,6 @@ use Frontastic\Common\ReplicatorBundle\Domain\Target;
 
 use Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
-use Psr\SimpleCache\CacheInterface;
-use Symfony\Component\Cache\Simple\NullCache;
 
 class NodeService implements Target
 {
@@ -156,7 +154,8 @@ class NodeService implements Target
             return $this->cache[$nodeId];
         }
 
-        return $this->cache[$nodeId] = $this->nodeGateway->get($nodeId);
+        $this->cache[$nodeId] = $this->nodeGateway->get($nodeId);
+        return $this->cache[$nodeId];
     }
 
     /**
