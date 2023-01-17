@@ -168,7 +168,6 @@ class NodeService implements Target
 
         $nodeIdsToFetch = [];
         foreach ($nodeIds as $nodeId) {
-
             $node = array_key_exists($nodeId, $this->cache) ? $this->cache[$nodeId] : false;
 
             if ($node === null) {
