@@ -1,4 +1,24 @@
 
+## Version 1.53.2 (2023-01-16)
+
+** New Features and Improvements **
+
+- API for sitemap generation
+
+** Bug fixes **
+
+- Set node cache TTL to 10 seconds
+
+## Version 1.53.2 (2023-01-16)
+
+** New Features and Improvements **
+
+- API for sitemap generation
+
+** Bug fixes **
+
+- Set node cache TTL to 10 seconds
+
 ## Version 1.53.1 (2022-12-14)
 
 ** New Features and Improvements **
