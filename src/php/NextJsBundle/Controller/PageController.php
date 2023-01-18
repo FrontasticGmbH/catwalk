@@ -135,6 +135,19 @@ class PageController
         ]);
     }
 
+    public function dynamicPageAction(Request $request, Context $context)
+    {
+        $locale = $this->getLocale($request);
+        $this->assertLocaleSupported($locale, $context);
+
+        $dynamicPageResult = $this->dynamicPageService->handleDynamicPage($request, $context);
+
+        if (!isset($dynamicPageResult)) {
+            throw new NotFoundHttpException('Could not resolve dynamic page');
+        }
+        return $dynamicPageResult;
+    }
+
     public function previewAction(Request $request, Context $context)
     {
         if (!$request->query->has('previewId')) {
