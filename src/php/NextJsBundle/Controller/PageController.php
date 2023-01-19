@@ -142,8 +142,8 @@ class PageController
 
         $dynamicPageResult = $this->dynamicPageService->handleDynamicPage($request, $context);
 
-        if (!isset($dynamicPageResult)) {
-            throw new NotFoundHttpException('Could not resolve dynamic page');
+        if ($dynamicPageResult === null) {
+            throw new NotFoundHttpException('Could not resolve dynamic page from path');
         }
         return $dynamicPageResult;
     }
