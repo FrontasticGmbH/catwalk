@@ -82,10 +82,6 @@ export interface Node {
       * Optional error string during development
       */
      error?: null | string;
-     /**
-      * Page is live
-      */
-     hasLivePage?: boolean;
      isDeleted: boolean;
 }
 
