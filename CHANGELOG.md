@@ -1,4 +1,14 @@
 
+## Version 1.54.0 (2023-01-24)
+
+** New Features and Improvements **
+
+- Implemented index and session storage for Pages
+
+** Bug fixes **
+
+- Replace Node cache strategy with session storage 
+
 ## Version 1.53.2 (2023-01-16)
 
 ** New Features and Improvements **
