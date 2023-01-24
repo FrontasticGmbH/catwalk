@@ -28,11 +28,14 @@ class PageService implements Target
      */
     private $trackingService;
 
+    private $pageCandidatesFeched;
+
     public function __construct(PageGateway $pageGateway, RulerZ $rulerz, TrackingService $trackingService)
     {
         $this->pageGateway = $pageGateway;
         $this->rulerz = $rulerz;
         $this->trackingService = $trackingService;
+        $this->pageCandidatesFeched = [];
     }
 
     public function lastUpdate(): string
@@ -116,7 +119,8 @@ class PageService implements Target
             'host' => $context->host,
         ];
 
-        $pageCandidates = $this->pageGateway->fetchForNode($node->nodeId);
+        $pageCandidates = $this->getPageCandidatesForNode($node->nodeId);
+
         foreach ($pageCandidates as $pageCandidate) {
             try {
                 $scheduled = empty($pageCandidate->scheduledExperiment) ||
@@ -135,6 +139,20 @@ class PageService implements Target
         }
 
         throw new \RuntimeException('No active page for node ' . $node->nodeId . ' found.');
+    }
+
+    /**
+     * @return Page[]
+     */
+    private function getPageCandidatesForNode(string $nodeId): array
+    {
+        if (array_key_exists($nodeId, $this->pageCandidatesFeched)) {
+            return $this->pageCandidatesFeched[$nodeId];
+        }
+
+        $this->pageCandidatesFeched[$nodeId] = $this->pageGateway->fetchForNode($nodeId);
+
+        return $this->pageCandidatesFeched[$nodeId];
     }
 
     /**
