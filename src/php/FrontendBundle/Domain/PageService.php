@@ -28,14 +28,14 @@ class PageService implements Target
      */
     private $trackingService;
 
-    private $pageCandidatesFeched;
+    private array $pageCandidatesFetched;
 
     public function __construct(PageGateway $pageGateway, RulerZ $rulerz, TrackingService $trackingService)
     {
         $this->pageGateway = $pageGateway;
         $this->rulerz = $rulerz;
         $this->trackingService = $trackingService;
-        $this->pageCandidatesFeched = [];
+        $this->pageCandidatesFetched = [];
     }
 
     public function lastUpdate(): string
@@ -146,13 +146,13 @@ class PageService implements Target
      */
     private function getPageCandidatesForNode(string $nodeId): array
     {
-        if (array_key_exists($nodeId, $this->pageCandidatesFeched)) {
-            return $this->pageCandidatesFeched[$nodeId];
+        if (array_key_exists($nodeId, $this->pageCandidatesFetched)) {
+            return $this->pageCandidatesFetched[$nodeId];
         }
 
-        $this->pageCandidatesFeched[$nodeId] = $this->pageGateway->fetchForNode($nodeId);
+        $this->pageCandidatesFetched[$nodeId] = $this->pageGateway->fetchForNode($nodeId);
 
-        return $this->pageCandidatesFeched[$nodeId];
+        return $this->pageCandidatesFetched[$nodeId];
     }
 
     /**
