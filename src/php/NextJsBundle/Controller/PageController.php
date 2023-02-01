@@ -153,9 +153,7 @@ class PageController
         if (!$request->query->has('previewId')) {
             throw new BadRequestHttpException('Missing previewId');
         }
-        if (!$request->query->has('locale')) {
-            throw new BadRequestHttpException('Missing locale');
-        }
+        $this->getLocale($request);
 
         $this->assertLocaleSupported($request->query->has('locale'), $context);
 
