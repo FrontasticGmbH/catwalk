@@ -291,6 +291,46 @@ class PageControllerTest extends TestCase
 
         $this->assertInstanceOf(PagePreviewDataResponse::class, $response);
     }
+    public function testPreviewActionWithoutLocale()
+    {
+        $previewId = '1';
+
+        \Phake::when($this->previewServiceMock)->get($previewId)->thenReturn(new Preview([
+            'previewId' => $previewId,
+            'createdAt' => new \DateTime(),
+            'node' => $this->getFakeNode(),
+            'page' => $this->getFakePage()
+        ]));
+
+        $request = new Request([
+            'previewId' => $previewId,
+        ]);
+
+
+        $this->expectException(BadRequestHttpException::class);
+        $this->expectExceptionMessage('Missing locale query parameter');
+
+        $this->pageController->previewAction($request, $this->contextFixture);
+    }
+    public function testPreviewActionWithoutPreviewId()
+    {
+        $previewId = '1';
+
+        \Phake::when($this->previewServiceMock)->get($previewId)->thenReturn(new Preview([
+            'previewId' => $previewId,
+            'createdAt' => new \DateTime(),
+            'node' => $this->getFakeNode(),
+            'page' => $this->getFakePage()
+        ]));
+
+        $request = new Request();
+
+
+        $this->expectException(BadRequestHttpException::class);
+        $this->expectExceptionMessage('Missing previewId');
+
+        $this->pageController->previewAction($request, $this->contextFixture);
+    }
 
     /**
      * @dataProvider validRequestProvider
