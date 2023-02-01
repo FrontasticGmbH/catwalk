@@ -103,7 +103,10 @@ class PageFolderCompletionVisitor implements FieldVisitor
 
     private function generateTreeStructure($value): ?PageFolderTreeValue
     {
-        if (!isset($value['handledValue']) || !($value['handledValue'] instanceof Node)) {
+        if (!isset($value['handledValue']) 
+            || !($value['handledValue'] instanceof Node) 
+            || !isset($value['handledValue']->nodeId)
+        ) {
             // TODO: Log!
             return null;
         }
