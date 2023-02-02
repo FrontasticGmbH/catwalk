@@ -1,4 +1,8 @@
 
+## Version 1.54.1 (2023-02-02)
+
+* Fixed an issue that caused the API Hub to respond with an error when an empty tree field was present.
+
 ## Version 1.54.0 (2023-01-24)
 
 ** New Features and Improvements **
