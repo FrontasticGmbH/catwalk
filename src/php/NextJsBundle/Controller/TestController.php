@@ -77,7 +77,7 @@ class TestController
             if (array_key_exists('ok', $jsonPayload) && $jsonPayload['ok'] == false) {
                 $msg = isset($jsonPayload['message'])
                     ? $jsonPayload['message']
-                    : "Extension call failed with unknown error. Raw response from the extension runner: " . $dataSourceResultResponse;
+                    : "An unknown error occured in the extension runner. Raw response: " . $dataSourceResultResponse;
                 throw new \Exception($msg);
             }
             return new DataSourceResult(
