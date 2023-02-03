@@ -67,13 +67,21 @@ class TestController
                 null
             )->wait();
 
+            $jsonPayload = json_decode(
+                $dataSourceResultResponse,
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+
+            if (array_key_exists('ok', $jsonPayload) && $jsonPayload['ok'] == false) {
+                $msg = isset($jsonPayload['message'])
+                    ? $jsonPayload['message']
+                    : "Extension call failed with unknown error. Raw response from the extension runner: " . $dataSourceResultResponse;
+                throw new \Exception($msg);
+            }
             return new DataSourceResult(
-                json_decode(
-                    $dataSourceResultResponse,
-                    true,
-                    512,
-                    JSON_THROW_ON_ERROR
-                ),
+                $jsonPayload,
                 true
             );
         } catch (ExtensionRunnerException $exception) {
