@@ -291,6 +291,26 @@ class PageControllerTest extends TestCase
 
         $this->assertInstanceOf(PagePreviewDataResponse::class, $response);
     }
+    public function testPreviewActionWithFrontasticLocaleHeader()
+    {
+        $previewId = '1';
+
+        \Phake::when($this->previewServiceMock)->get($previewId)->thenReturn(new Preview([
+            'previewId' => $previewId,
+            'createdAt' => new \DateTime(),
+            'node' => $this->getFakeNode(),
+            'page' => $this->getFakePage()
+        ]));
+
+        $request = new Request([
+            'previewId' => $previewId,
+        ]);
+        $request->headers->set('Frontastic-Locale', 'en_US');
+
+        $response = $this->pageController->previewAction($request, $this->contextFixture);
+
+        $this->assertInstanceOf(PagePreviewDataResponse::class, $response);
+    }
     public function testPreviewActionWithoutLocale()
     {
         $previewId = '1';
