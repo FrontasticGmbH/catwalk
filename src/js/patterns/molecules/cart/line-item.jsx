@@ -74,6 +74,7 @@ class MoleculesLineItem extends Component {
                     </div> : null}
                 </div>
             </div>
+            {/* eslint-disable-next-line react/no-unknown-property */}
             <div className='o-layout__item u-1/1 u-1/3@lap u-1/4@desk' align='right'>
                 <div className='c-cart__price'>
                     {lineItem.type === 'variant' && this.props.onChangeCount ?
