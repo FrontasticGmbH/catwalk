@@ -430,6 +430,7 @@
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService" />
             <argument>%kernel.cache_dir%</argument>
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\FrontendRoutesGateway" />
+            <argument type="service" id="filesystem" />
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\RouteService"
