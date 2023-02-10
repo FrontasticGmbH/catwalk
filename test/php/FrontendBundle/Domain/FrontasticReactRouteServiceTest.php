@@ -8,6 +8,7 @@ use Frontastic\Common\ReplicatorBundle\Domain\Customer;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Filesystem\Filesystem;
 
 class FrontasticReactRouteServiceTest extends TestCase
 {
@@ -36,7 +37,8 @@ class FrontasticReactRouteServiceTest extends TestCase
         $this->routeService = new FrontasticReactRouteService(
             $this->customerServiceMock,
             '__NO_DIR__',
-            $this->frontendRoutesGateway
+            $this->frontendRoutesGateway,
+            new Filesystem()
         );
 
         $this->customerServiceMock->expects($this->any())
@@ -91,7 +93,7 @@ class FrontasticReactRouteServiceTest extends TestCase
 
     public function testStoreRoutesIsCalledForTheFirstTimeWhenCacheRoutesOnDb() {
         putenv("database_routing=1");
-        
+
         $routes = [
             new Route([
                 'nodeId' => 'n1',
