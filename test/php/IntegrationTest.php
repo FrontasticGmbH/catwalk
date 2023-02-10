@@ -45,7 +45,11 @@ abstract class IntegrationTest extends \PHPUnit\Framework\TestCase
 
     protected static function initializeMysql($container)
     {
-        AnnotationRegistry::registerFile(__DIR__ . "/../../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php");
+        if (file_exists(__DIR__ . "/../../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php")) {
+            AnnotationRegistry::registerFile(
+                __DIR__ . "/../../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php"
+            );
+        }
 
         $connection = self::getContainer()->get('doctrine.dbal.default_connection');
         $parameters = $connection->getParams();

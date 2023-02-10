@@ -16,10 +16,12 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\DynamicPageSuccessResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PagePreviewDataResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\RedirectResponse;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\Frontend\PageFolderStructureResponse;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Page as NextjsPage;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
 use Frontastic\Catwalk\NextJsBundle\Domain\DynamicPageService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
+use Frontastic\Catwalk\NextJsBundle\Domain\PageFolderService;
 use Frontastic\Catwalk\NextJsBundle\Domain\RedirectService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageDataCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\PageViewData as NextjsPageViewData;
@@ -71,6 +73,10 @@ class PageControllerTest extends TestCase
      * @var RedirectService|\Phake_IMock
      */
     private $redirectServiceMock;
+    /**
+     * @var PageFolderService|\Phake_IMock
+     */
+    private $pageFolderServiceMock;
 
     /**
      * @var Context
@@ -88,6 +94,7 @@ class PageControllerTest extends TestCase
         $this->mapperMock = \Phake::mock(FromFrontasticReactMapper::class);
         $this->viewDataProviderMock = \Phake::mock(ViewDataProvider::class);
         $this->redirectServiceMock = \Phake::mock(RedirectService::class);
+        $this->pageFolderServiceMock = \Phake::mock(PageFolderService::class);
 
         $this->contextFixture = new Context([
             'project' => new Project([
@@ -124,7 +131,8 @@ class PageControllerTest extends TestCase
             $this->previewServiceMock,
             $this->completionServiceMock,
             $this->viewDataProviderMock,
-            $this->redirectServiceMock
+            $this->redirectServiceMock,
+            $this->pageFolderServiceMock
         );
     }
 
@@ -283,6 +291,66 @@ class PageControllerTest extends TestCase
 
         $this->assertInstanceOf(PagePreviewDataResponse::class, $response);
     }
+    public function testPreviewActionWithFrontasticLocaleHeader()
+    {
+        $previewId = '1';
+
+        \Phake::when($this->previewServiceMock)->get($previewId)->thenReturn(new Preview([
+            'previewId' => $previewId,
+            'createdAt' => new \DateTime(),
+            'node' => $this->getFakeNode(),
+            'page' => $this->getFakePage()
+        ]));
+
+        $request = new Request([
+            'previewId' => $previewId,
+        ]);
+        $request->headers->set('Frontastic-Locale', 'en_US');
+
+        $response = $this->pageController->previewAction($request, $this->contextFixture);
+
+        $this->assertInstanceOf(PagePreviewDataResponse::class, $response);
+    }
+    public function testPreviewActionWithoutLocale()
+    {
+        $previewId = '1';
+
+        \Phake::when($this->previewServiceMock)->get($previewId)->thenReturn(new Preview([
+            'previewId' => $previewId,
+            'createdAt' => new \DateTime(),
+            'node' => $this->getFakeNode(),
+            'page' => $this->getFakePage()
+        ]));
+
+        $request = new Request([
+            'previewId' => $previewId,
+        ]);
+
+
+        $this->expectException(BadRequestHttpException::class);
+        $this->expectExceptionMessage('Missing locale query parameter');
+
+        $this->pageController->previewAction($request, $this->contextFixture);
+    }
+    public function testPreviewActionWithoutPreviewId()
+    {
+        $previewId = '1';
+
+        \Phake::when($this->previewServiceMock)->get($previewId)->thenReturn(new Preview([
+            'previewId' => $previewId,
+            'createdAt' => new \DateTime(),
+            'node' => $this->getFakeNode(),
+            'page' => $this->getFakePage()
+        ]));
+
+        $request = new Request();
+
+
+        $this->expectException(BadRequestHttpException::class);
+        $this->expectExceptionMessage('Missing previewId');
+
+        $this->pageController->previewAction($request, $this->contextFixture);
+    }
 
     /**
      * @dataProvider validRequestProvider
@@ -396,5 +464,34 @@ class PageControllerTest extends TestCase
         $this->assertEquals($pageFolderMock, $result->pageFolder);
         $this->assertEquals($nextJsPageMock, $result->page);
         $this->assertEquals($viewData, $result->data);
+    }
+
+    public function testStructureActionWithCorrectData()
+    {
+        $request = new Request([
+            'locale' => 'en_US'
+        ]);
+
+        $response = $this->pageController->structureAction($request, $this->contextFixture);
+
+        $this->assertInstanceOf(
+            PageFolderStructureResponse::class,
+            $response,
+            "Action response with only locale"
+        );
+
+        $request = new Request([
+            'locale' => 'en_US',
+            'path' => '/',
+            'depth' => '2',
+        ]);
+
+        $response = $this->pageController->structureAction($request, $this->contextFixture);
+
+        $this->assertInstanceOf(
+            PageFolderStructureResponse::class,
+            $response,
+            "Action response with locale, path and depth"
+        );
     }
 }

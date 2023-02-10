@@ -1,6 +1,6 @@
 {
     "name": "frontastic/catwalk",
-    "version": "1.53.0",
+    "version": "1.54.1",
     "license": "None",
     "type": "library",
     "repositories": [
@@ -18,7 +18,7 @@
 
         "symfony/symfony": "^4.4",
         "symfony/dotenv": "^4.4",
-        "symfony/psr-http-message-bridge": "~1.0",
+        "symfony/psr-http-message-bridge": "^1.0||^2.0",
         "symfony/polyfill-apcu": "^1.0",
         "symfony/monolog-bundle": "^3.2",
         "symfony/swiftmailer-bundle": "^3.2",
