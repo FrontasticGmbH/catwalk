@@ -7,8 +7,6 @@ use Frontastic\Common\ReplicatorBundle\Domain\Target;
 
 use Frontastic\Catwalk\FrontendBundle\Gateway\NodeGateway;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor;
-use Psr\SimpleCache\CacheInterface;
-use Symfony\Component\Cache\Simple\NullCache;
 
 class NodeService implements Target
 {
@@ -32,10 +30,7 @@ class NodeService implements Target
      */
     private $routeService;
 
-    /**
-     * @var \Psr\SimpleCache\CacheInterface
-     */
-    private $cache;
+    private array $cache;
 
     private SchemaService $schemaService;
 
@@ -44,15 +39,14 @@ class NodeService implements Target
         PageService $pageService,
         RouteService $routeService,
         SchemaService $schemaService,
-        ContextService $contextService,
-        CacheInterface $cache
+        ContextService $contextService
     ) {
         $this->nodeGateway = $nodeGateway;
         $this->pageService = $pageService;
         $this->routeService = $routeService;
         $this->schemaService = $schemaService;
         $this->contextService = $contextService;
-        $this->cache = $cache;
+        $this->cache = [];
     }
 
     public function lastUpdate(): string
@@ -156,12 +150,12 @@ class NodeService implements Target
 
     public function get(string $nodeId): Node
     {
-        $node = $this->cache->get($nodeId, false);
-        if ($node === false) {
-            $node = $this->nodeGateway->get($nodeId);
-            $this->cache->set($nodeId, $node, 60);
+        if (array_key_exists($nodeId, $this->cache)) {
+            return $this->cache[$nodeId];
         }
-        return $node;
+
+        $this->cache[$nodeId] = $this->nodeGateway->get($nodeId);
+        return $this->cache[$nodeId];
     }
 
     /**
@@ -174,9 +168,9 @@ class NodeService implements Target
 
         $nodeIdsToFetch = [];
         foreach ($nodeIds as $nodeId) {
-            $node = $this->cache->get($nodeId, false);
+            $node = array_key_exists($nodeId, $this->cache) ? $this->cache[$nodeId] : false;
 
-            if ($node === false) {
+            if (!$node) {
                 $nodeIdsToFetch[] = $nodeId;
             } else {
                 $result[] = $node;
@@ -186,7 +180,7 @@ class NodeService implements Target
         $fetchedNodes = count($nodeIdsToFetch) > 0 ? $this->nodeGateway->getByIds($nodeIdsToFetch): [];
 
         foreach ($fetchedNodes as $node) {
-            $this->cache->set($node->nodeId, $node);
+            $this->cache[$node->nodeId] = $node;
         }
 
         return array_merge($result, $fetchedNodes);
@@ -202,7 +196,7 @@ class NodeService implements Target
         $this->nodeGateway->remove($node);
 
         if ($node->nodeId) {
-            $this->cache->delete($node->nodeId);
+            unset($this->cache[$node->nodeId]);
         }
     }
 

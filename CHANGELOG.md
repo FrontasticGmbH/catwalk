@@ -1,4 +1,44 @@
 
+## Version 1.54.1 (2023-02-02)
+
+* Fixed an issue that caused the API Hub to respond with an error when an empty tree field was present.
+
+## Version 1.54.0 (2023-01-24)
+
+** New Features and Improvements **
+
+- Implemented index and session storage for Pages
+
+** Bug fixes **
+
+- Replace Node cache strategy with session storage 
+
+## Version 1.53.2 (2023-01-16)
+
+** New Features and Improvements **
+
+- API for sitemap generation
+
+** Bug fixes **
+
+- Set node cache TTL to 10 seconds
+
+## Version 1.53.2 (2023-01-16)
+
+** New Features and Improvements **
+
+- API for sitemap generation
+
+** Bug fixes **
+
+- Set node cache TTL to 10 seconds
+
+## Version 1.53.1 (2022-12-14)
+
+** New Features and Improvements **
+
+- Bump version requirement of a dependency to ease the PHP 8.1 migration
+
 ## Version 1.53.0 (2022-12-13)
 
 ** New Features and Improvements **

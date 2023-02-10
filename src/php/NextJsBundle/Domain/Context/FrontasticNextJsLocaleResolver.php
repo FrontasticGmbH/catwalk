@@ -15,6 +15,10 @@ class FrontasticNextJsLocaleResolver implements LocaleResolverInterface
         $locale = $request->get('locale');
         $availableLocales = $project->languages;
 
+        if ($locale === null) {
+            $locale = $request->headers->get('Frontastic-Locale');
+        }
+
         if ($locale != null) {
             if (($matchedLocale = $this->getLocaleMatch($locale, $availableLocales)) !== null) {
                 return $matchedLocale;

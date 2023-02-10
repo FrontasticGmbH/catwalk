@@ -26,8 +26,7 @@ public function __construct(
     PageService $pageService,
     RouteService $routeService,
     SchemaService $schemaService,
-    ContextService $contextService,
-    \Psr\SimpleCache\CacheInterface $cache
+    ContextService $contextService
 ): mixed
 ```
 
@@ -38,7 +37,6 @@ Argument|Type|Default|Description
 `$routeService`|[`RouteService`](RouteService.md)||
 `$schemaService`|[`SchemaService`](SchemaService.md)||
 `$contextService`|[`ContextService`](../../ApiCoreBundle/Domain/ContextService.md)||
-`$cache`|`\Psr\SimpleCache\CacheInterface`||
 
 Return Value: `mixed`
 

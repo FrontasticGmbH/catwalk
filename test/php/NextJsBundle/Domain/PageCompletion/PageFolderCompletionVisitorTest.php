@@ -68,7 +68,8 @@ class PageFolderCompletionVisitorTest extends TestCase
         \Phake::when($this->nodeService)->get->thenReturn($node);
         \Phake::when($this->nodeService)->completeCustomNodeData->thenReturn($node);
         \Phake::when($this->pageService)->fetchForNode->thenReturn($page);
-        \Phake::when($this->siteBuilderPageService)->getPathsForSiteBuilderPage($pageFolderId)->thenReturn($urls);        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
+        \Phake::when($this->siteBuilderPageService)->getPathsForSiteBuilderPage($pageFolderId)->thenReturn($urls);
+        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
         $this->context->locale = 'it_CH';
 
         $result = $this->subject->processField(
@@ -83,5 +84,24 @@ class PageFolderCompletionVisitorTest extends TestCase
         $this->assertEquals($nodeConfiguration, $result->configuration);
         $this->assertEquals($urls, $result->_urls);
         $this->assertEquals('/dummy/pageit', $result->_url);
+    }
+
+    public function testEmptyTreeDoesntError()
+    {
+        \Phake::when($this->fieldConfiguration)->getType->thenReturn('tree');
+
+        $result = $this->subject->processField(
+            $this->fieldConfiguration,
+            [
+                "studioValue" => [
+                    'node' => null,
+                    'depth' => 0
+                ],
+                'handledValue' => new Node()
+            ],
+            []
+        );
+
+        $this->assertNull($result);
     }
 }

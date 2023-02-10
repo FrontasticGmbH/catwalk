@@ -8,8 +8,16 @@
         <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\PageController::indexAction</default>
         <default key="_stateless">true</default>
     </route>
+    <route id="Frontastic.NextJs.Api.dynamicPage" path="/frontastic/dynamic-page">
+        <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\PageController::dynamicPageAction</default>
+        <default key="_stateless">true</default>
+    </route>
     <route id="Frontastic.NextJs.Api.preview" path="/frontastic/preview">
         <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\PageController::previewAction</default>
+        <default key="_stateless">true</default>
+    </route>
+    <route id="Frontastic.NextJs.Api.structure" path="/frontastic/structure">
+        <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\PageController::structureAction</default>
         <default key="_stateless">true</default>
     </route>
     <route id="Frontastic.NextJs.Api.project" path="/frontastic/project">
