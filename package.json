@@ -119,9 +119,9 @@
         "start": "node bin/start.js",
         "build": "node bin/build.js",
         "test": "node bin/test.js --env=jsdom",
-        "check": "node node_modules/.bin/eslint --ext .js --ext .jsx -c ../integration/eslint.config.json src/js/ test/js/",
-        "check-typescript": "if [ `find src/js -name \"*.tsx\" | wc -l` -gt 0 ]; then ../../node_modules/.bin/tsc --noEmit ; fi",
-        "fix": "node node_modules/.bin/eslint --fix --ext .js --ext .jsx -c ../integration/eslint.config.json src/js/ test/js/",
+        "check": "eslint --ext .js --ext .jsx -c ../integration/eslint.config.json src/js/ test/js/",
+        "check-typescript": "if [ `find src/js -name \"*.tsx\" | wc -l` -gt 0 ]; then tsc --noEmit ; fi",
+        "fix": "eslint --fix --ext .js --ext .jsx -c ../integration/eslint.config.json src/js/ test/js/",
         "server:start": "NODE_ENV=development nodemon --legacy-watch --watch src/js/ bin/devServer.js --exec babel-node --presets env,react-app",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook"
