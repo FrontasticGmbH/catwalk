@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService;
 use Frontastic\Catwalk\FrontendBundle\Gateway\FrontendRoutesGateway;
+use Symfony\Component\Filesystem\Filesystem;
 
 class FrontasticReactRouteService implements RouteService
 {
@@ -25,14 +26,21 @@ class FrontasticReactRouteService implements RouteService
      */
     private $frontendRoutesGateway;
 
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
     public function __construct(
         CustomerService $customerService,
         string $cacheDirectory,
-        FrontendRoutesGateway $frontendRoutesGateway
+        FrontendRoutesGateway $frontendRoutesGateway,
+        Filesystem $filesystem
     ) {
         $this->customerService = $customerService;
         $this->cacheDirectory = $cacheDirectory;
         $this->frontendRoutesGateway = $frontendRoutesGateway;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -71,7 +79,7 @@ class FrontasticReactRouteService implements RouteService
 
             $this->frontendRoutesGateway->store($frontendRoutes);
         } else {
-            file_put_contents(
+            $this->filesystem->dumpFile(
                 $this->getCacheFile(),
                 '<?php return ' . var_export($routes, true) . ';'
             );
