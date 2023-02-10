@@ -47,6 +47,7 @@ class ProductStockTastic extends Component {
 
         if (this.props.variant.isOnStock) {
             return (<div className='o-layout o-layout-small'>
+                {/* eslint-disable-next-line react/no-unknown-property */}
                 <div className='o-layout__item u-1/4' align='right'>
                     <img src={icon} alt='Fast Delivery' />
                 </div>
