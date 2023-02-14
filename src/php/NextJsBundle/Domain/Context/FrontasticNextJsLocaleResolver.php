@@ -32,13 +32,8 @@ class FrontasticNextJsLocaleResolver implements LocaleResolverInterface
     {
         $localeValue = strtolower(strtr($localeValue, ['-' => '_']));
 
-        if (strpos($localeValue, '_') === false) {
-            // Suffix for correct matching below
-            $localeValue .= '_';
-        }
-
         foreach ($availableLocales as $availableLocale) {
-            if (strpos(strtolower($availableLocale), $localeValue) !== false) {
+            if ( strtolower(strtr($availableLocale, ['-' => '_'])) ===$localeValue) {
                 return $availableLocale;
             }
         }
