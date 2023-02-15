@@ -14,9 +14,12 @@ class JsonFormatter implements FormatterInterface
      */
     private $customerService;
 
-    public function __construct(CustomerService $customerService)
+    private $applicationEnvironment;
+
+    public function __construct(CustomerService $customerService, string $applicationEnvironment)
     {
         $this->customerService = $customerService;
+        $this->applicationEnvironment = $applicationEnvironment;
     }
 
     public function format(array $record)
@@ -107,20 +110,16 @@ class JsonFormatter implements FormatterInterface
 
     private function formatExceptionTrace(\Throwable $exception): array
     {
-
-        $env = getenv('env') ?? 'prod';
+        $environment = $this->applicationEnvironment;
         $stackTrace = $exception->getTrace();
 
-        if ($env === 'prod') {
-            return array_map(function ($traceElement) {
-                unset($traceElement['args']);
-                return $traceElement;
-            }, array_slice($stackTrace, 0, 2));
-        } else {
-            return array_map(function ($traceElement) {
-                unset($traceElement['args']);
-                return $traceElement;
-            }, $exception->getTrace());
+        if (in_array($environment, ['prod', 'production'])) {
+            return array_slice($stackTrace, 0, 2);
         }
+
+        return array_map(function ($traceElement) {
+            unset($traceElement['args']);
+            return $traceElement;
+        }, $exception->getTrace());
     }
 }
