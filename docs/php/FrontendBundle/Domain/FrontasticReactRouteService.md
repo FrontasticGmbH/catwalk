@@ -17,7 +17,9 @@
 ```php
 public function __construct(
     CustomerService $customerService,
-    string $cacheDirectory
+    string $cacheDirectory,
+    \Frontastic\Catwalk\FrontendBundle\Gateway\FrontendRoutesGateway $frontendRoutesGateway,
+    \Symfony\Component\Filesystem\Filesystem $filesystem
 ): mixed
 ```
 
@@ -25,6 +27,8 @@ Argument|Type|Default|Description
 --------|----|-------|-----------
 `$customerService`|[`CustomerService`](../../ApiCoreBundle/Domain/CustomerService.md)||
 `$cacheDirectory`|`string`||
+`$frontendRoutesGateway`|`\Frontastic\Catwalk\FrontendBundle\Gateway\FrontendRoutesGateway`||
+`$filesystem`|`\Symfony\Component\Filesystem\Filesystem`||
 
 Return Value: `mixed`
 

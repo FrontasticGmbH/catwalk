@@ -3,9 +3,14 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService;
+use Frontastic\Catwalk\FrontendBundle\Gateway\FrontendRoutesGateway;
+use Symfony\Component\Filesystem\Filesystem;
 
 class FrontasticReactRouteService implements RouteService
 {
+    // ID used to cache the Frontend Routes in DB
+    const CACHE_ID = 1;
+
     /**
      * @var CustomerService
      */
@@ -16,10 +21,26 @@ class FrontasticReactRouteService implements RouteService
      */
     private $cacheDirectory;
 
-    public function __construct(CustomerService $customerService, string $cacheDirectory)
-    {
+    /**
+     * @var FrontendRoutesGateway
+     */
+    private $frontendRoutesGateway;
+
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    public function __construct(
+        CustomerService $customerService,
+        string $cacheDirectory,
+        FrontendRoutesGateway $frontendRoutesGateway,
+        Filesystem $filesystem
+    ) {
         $this->customerService = $customerService;
         $this->cacheDirectory = $cacheDirectory;
+        $this->frontendRoutesGateway = $frontendRoutesGateway;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -27,6 +48,14 @@ class FrontasticReactRouteService implements RouteService
      */
     public function getRoutes(): array
     {
+        if ($this->databaseRouting()) {
+            try {
+                return $this->frontendRoutesGateway->getById(self::CACHE_ID)->frontendRoutes;
+            } catch (\Throwable $e) {
+                return [];
+            }
+        }
+
         $cacheFile = $this->getCacheFile();
         if (file_exists($cacheFile)) {
             return include $cacheFile;
@@ -37,10 +66,24 @@ class FrontasticReactRouteService implements RouteService
 
     public function storeRoutes(array $routes): void
     {
-        file_put_contents(
-            $this->getCacheFile(),
-            '<?php return ' . var_export($routes, true) . ';'
-        );
+        if ($this->databaseRouting()) {
+            try {
+                $frontendRoutes = $this->frontendRoutesGateway->getById(self::CACHE_ID);
+            } catch (\Throwable $e) {
+                // Frontend routes does not exist
+                $frontendRoutes = new FrontendRoutes();
+                $frontendRoutes->frontendRoutesId = self::CACHE_ID;
+            }
+
+            $frontendRoutes->frontendRoutes = $routes;
+
+            $this->frontendRoutesGateway->store($frontendRoutes);
+        } else {
+            $this->filesystem->dumpFile(
+                $this->getCacheFile(),
+                '<?php return ' . var_export($routes, true) . ';'
+            );
+        }
 
         // @HACK There seems not to be a sane way to rebuild just the route
         // cache so that we force rebuild by removing the old cache files
@@ -168,5 +211,10 @@ class FrontasticReactRouteService implements RouteService
             }
         }
         return '';
+    }
+
+    private function databaseRouting(): bool
+    {
+        return getenv('database_routing') === '1';
     }
 }

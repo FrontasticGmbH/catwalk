@@ -61,6 +61,7 @@ Here you find the API documentation for the relevant classes:
     * [FacetService](php/FrontendBundle/Domain/FacetService.md)
     * [FeatureFlagService](php/FrontendBundle/Domain/FeatureFlagService.md)
     * [FrontasticReactRouteService](php/FrontendBundle/Domain/FrontasticReactRouteService.md)
+    * [FrontendRoutes](php/FrontendBundle/Domain/FrontendRoutes.md)
     * [Layout](php/FrontendBundle/Domain/Layout.md)
     * [MasterPageMatcherRules](php/FrontendBundle/Domain/MasterPageMatcherRules.md)
     * [MasterService](php/FrontendBundle/Domain/MasterService.md)
