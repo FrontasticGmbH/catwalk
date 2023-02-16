@@ -1,4 +1,17 @@
 
+## Version 1.55.0 (2023-02-15)
+
+** New Features and Improvements **
+
+- Update context to support language only locales
+- Add request header checks for pageController
+- Return error in TestController when data source throws error with 200 status code
+
+** Bug fixes **
+
+- Remove extra space om NextJsLocaleResolver
+- Add missing dependency in test
+
 ## Version 1.54.1 (2023-02-02)
 
 * Fixed an issue that caused the API Hub to respond with an error when an empty tree field was present.
