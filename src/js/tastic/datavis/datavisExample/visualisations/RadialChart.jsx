@@ -71,7 +71,7 @@ class RadialChart extends Component {
          <circle r={d.r} fill='none' stroke='#999' />
          <text y={-d.r - 2} textAnchor='middle'>{d.temp}℉</text>
      </g>
-                    )
+ )
 })}
                 </g>
             </svg>

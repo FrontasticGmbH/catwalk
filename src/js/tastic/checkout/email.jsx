@@ -67,6 +67,7 @@ class Email extends Component {
                         }}
                     />
                 </div>
+                {/* eslint-disable-next-line react/no-unknown-property */}
                 <div className='c-form__item o-layout__item u-1/1' align='right'>
                     <button
                         className='c-button c-button--primary'

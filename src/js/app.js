@@ -123,6 +123,7 @@ function appCreator (mountNode, dataNode, tastics = null) {
 
     // If you append ?_frontastic_disable_hydration to your URL, frontastic will not do the client side hydration.
     // You can use this to debug problems in server side rendering or in hydration.
+    // eslint-disable-next-line no-prototype-builtins
     if (props.route.parameters.hasOwnProperty('_frontastic_disable_hydration')) {
         // this allows the developer to manually hydrate at some point
         window._frontastic_hydrate = () => {
@@ -130,6 +131,7 @@ function appCreator (mountNode, dataNode, tastics = null) {
             // hydration should only happen once, so we remove that callback
             delete window._frontastic_hydrate
         }
+        // eslint-disable-next-line no-prototype-builtins
     } else if (props.route.parameters.hasOwnProperty('_frontastic_delay_hydration')) {
         document.addEventListener('DOMContentLoaded', () => {
             return hydrate(store, mountNode, dispatchViewportDimensions)
