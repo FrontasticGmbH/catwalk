@@ -1,4 +1,10 @@
 
+## Version 1.55.1 (2023-02-17)
+
+** New Features and Improvements **
+
+- Some JavaScript dependency updates
+
 ## Version 1.55.0 (2023-02-15)
 
 ** New Features and Improvements **
