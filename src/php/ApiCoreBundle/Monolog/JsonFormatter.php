@@ -115,10 +115,12 @@ class JsonFormatter implements FormatterInterface
         $stackTrace =  array_map(function ($traceElement) {
             unset($traceElement['args']);
             return $traceElement;
-        }, $exception->getTrace())[0];
+        }, $exception->getTrace());
 
         if (in_array($environment, ['prod', 'production'])) {
-            return array_slice($stackTrace, 0, 2);
+            return array_map(function ($element) {
+                return array_slice($element, 0, 2);
+            }, $stackTrace);
         }
 
         return $stackTrace;

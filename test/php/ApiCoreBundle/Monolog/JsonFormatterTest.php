@@ -30,33 +30,36 @@ class JsonFormatterText extends TestCase
     public function testFormatExceptionTraceProd()
     {
         $exception = new Exception("Something happened");
-        $formatException = $this->getAppMethod("formatExceptionTrace", "prod");
+        $formatException = $this->getJsonFormatterMethod("prod");
 
         $exceptionResponse = $formatException->invokeArgs($this->prodJsonFormatter,[$exception]);
 
         $this->assertIsArray($exceptionResponse);
-        $this->assertArrayHasKey("file", $exceptionResponse);
-        $this->assertArrayHasKey("line", $exceptionResponse);
+
+        foreach ($exceptionResponse as $exception) {
+            $count = count($exception);
+            $this->assertEquals(2, $count);
+        }
     }
     public function testFormatExceptionTraceStaging()
     {
         $exception = new Exception("Something happened");
-        $formatException = $this->getAppMethod("formatExceptionTrace", "staging");
+        $formatException = $this->getJsonFormatterMethod("staging");
 
         $exceptionResponse = $formatException->invokeArgs($this->stagingJsonFormatter, [$exception]);
 
         $this->assertIsArray($exceptionResponse);
-        $this->assertArrayHasKey("file", $exceptionResponse);
-        $this->assertArrayHasKey("line", $exceptionResponse);
-        $this->assertArrayHasKey("function", $exceptionResponse);
-
+        foreach ($exceptionResponse as $exception) {
+            $count = count($exception);
+            $this->assertGreaterThan(2, $count);
+        }
     }
 
-  public function getAppMethod($name, $env): ReflectionMethod
+  private function getJsonFormatterMethod(string $env): ReflectionMethod
   {
-        $reflection = new ReflectionClass("Frontastic\Catwalk\ApiCoreBundle\Monolog\JsonFormatter");
+      $reflection = new ReflectionClass("Frontastic\Catwalk\ApiCoreBundle\Monolog\JsonFormatter");
         $reflection->newInstanceArgs([$this->customerService, $env]);
-        $method = $reflection->getMethod($name);
+        $method = $reflection->getMethod("formatExceptionTrace");
         $method->setAccessible(true);
         return $method;
     }
