@@ -118,7 +118,7 @@ class JsonFormatter implements FormatterInterface
         }, $exception->getTrace())[0];
 
         if (in_array($environment, ['prod', 'production'])) {
-          return  array_slice($stackTrace, 0, 2);
+            return array_slice($stackTrace, 0, 2);
         }
 
         return $stackTrace;
