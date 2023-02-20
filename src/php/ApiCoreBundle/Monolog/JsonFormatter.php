@@ -111,15 +111,16 @@ class JsonFormatter implements FormatterInterface
     private function formatExceptionTrace(\Throwable $exception): array
     {
         $environment = $this->applicationEnvironment;
-        $stackTrace = $exception->getTrace();
 
-        if (in_array($environment, ['prod', 'production'])) {
-            return array_slice($stackTrace, 0, 2);
-        }
-
-        return array_map(function ($traceElement) {
+        $stackTrace =  array_map(function ($traceElement) {
             unset($traceElement['args']);
             return $traceElement;
-        }, $exception->getTrace());
+        }, $exception->getTrace())[0];
+
+        if (in_array($environment, ['prod', 'production'])) {
+          return  array_slice($stackTrace, 0, 2);
+        }
+
+        return $stackTrace;
     }
 }
