@@ -55,7 +55,7 @@ class JsonFormatterText extends TestCase
         }
     }
 
-  private function getJsonFormatterMethod(string $env): ReflectionMethod
+  private function getJsonFormatterMethod($env): ReflectionMethod
   {
       $reflection = new ReflectionClass("Frontastic\Catwalk\ApiCoreBundle\Monolog\JsonFormatter");
         $reflection->newInstanceArgs([$this->customerService, $env]);
