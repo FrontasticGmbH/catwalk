@@ -33,6 +33,7 @@ let Router = function (history, routes = {}, context = null) {
 
         let unknownKeys = []
         for (let key of keys) {
+            // eslint-disable-next-line no-prototype-builtins
             if (!allParameters.hasOwnProperty(key)) {
                 unknownKeys.push(key)
             }
