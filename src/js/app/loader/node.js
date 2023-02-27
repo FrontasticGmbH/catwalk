@@ -179,8 +179,14 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         let currentNodeId = globalState.currentNodeId
 
         if (action.lastRoute && action.lastRoute.route !== action.route.route) {
-            // We are apparently changing the node, so do not render the current node anymore.
-            currentNodeId = null
+            let cck = UrlContext.getActionHash(action.route)
+            if(globalState?.nodeData[cck]?.currentNodeId){
+                //already visiten node with this route
+                currentNodeId = globalState?.nodeData[cck]?.currentNodeId
+            } else {
+                // We are apparently changing the node, so do not render the current node anymore.
+                currentNodeId = null
+            }
         }
 
         return {
@@ -212,7 +218,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
                 [action.data.node.nodeId || action.data.route.parameters.preview]: page,
             },
             nodeData: {
-                [globalState.currentCacheKey]: data,
+                [globalState.currentCacheKey]: {...data, currentNodeId: action.data.node.nodeId},
             },
             last: {
                 node: node,
@@ -251,7 +257,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         pages = { ...globalState.pages }
         if (action.id) {
             nodes[action.id] = new Entity(action.data.node, 3600)
-            nodeData[globalState.currentCacheKey] = new Entity(action.data.data, 3600)
+            nodeData[globalState.currentCacheKey] = {...new Entity(action.data.data, 3600), currentNodeId: action.id}
             pages[action.id] = new Entity(action.data.page, 3600)
         }
 
