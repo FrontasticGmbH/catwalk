@@ -80,7 +80,7 @@ class BarChart extends Component {
          height={d.height}
          fill={d.fill}
                     />
-                )
+ )
 })}
                 <g>
                     <g

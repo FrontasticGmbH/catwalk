@@ -1,4 +1,10 @@
 
+## Version 1.55.1 (2023-02-17)
+
+** New Features and Improvements **
+
+- Some JavaScript dependency updates
+
 ## Version 1.55.0 (2023-02-15)
 
 ** New Features and Improvements **
@@ -6,11 +12,13 @@
 - Update context to support language only locales
 - Add request header checks for pageController
 - Return error in TestController when data source throws error with 200 status code
+- Add possibility to store the route cache in the database
 
 ** Bug fixes **
 
 - Remove extra space om NextJsLocaleResolver
 - Add missing dependency in test
+- Clean up temporary files on errors during sitemap generation
 
 ## Version 1.54.1 (2023-02-02)
 

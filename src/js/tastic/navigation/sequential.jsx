@@ -67,7 +67,7 @@ class Sequential extends Component {
                     pulledLeft={this.state.showChildNavigation === node.nodeId}
                     onClose={() => {
                         this.setState({ showChildNavigation: null })
-                    }} />
+                }} />
             })}
         </Fragment>)
     }
