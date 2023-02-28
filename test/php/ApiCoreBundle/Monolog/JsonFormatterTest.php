@@ -37,10 +37,8 @@ class JsonFormatterText extends TestCase
 
         $this->assertIsArray($exceptionResponse);
 
-        foreach ($exceptionResponse as $exception) {
-            $count = count($exception);
-            $this->assertEquals(2, $count);
-        }
+        $count = count((array)$exceptionResponse);
+        $this->assertEquals(2, $count);
     }
     public function testFormatExceptionTraceStaging()
     {
@@ -48,6 +46,7 @@ class JsonFormatterText extends TestCase
         $formatException = $this->getJsonFormatterMethod("staging");
 
         $exceptionResponse = $formatException->invokeArgs($this->stagingJsonFormatter, [$exception]);
+
 
         $this->assertIsArray($exceptionResponse);
         foreach ($exceptionResponse as $exception) {
