@@ -5,6 +5,7 @@ parameters:
     env(smtp_password): ""
     env(smtp_encryption): "tls"
     env(smtp_sender): "support@frontastic.io"
+    env(session_cookie_lifetime): 0
 
 imports:
     - { resource: security.yml }
@@ -36,6 +37,7 @@ framework:
         gc_probability: 0
         metadata_update_threshold: 3600
         cookie_samesite: none
+        cookie_lifetime: "%env(session_cookie_lifetime)%"
     fragments:       ~
     http_method_override: true
     assets: ~
