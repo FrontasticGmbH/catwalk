@@ -57,7 +57,7 @@
         "eslint-plugin-standard": "^4.0.0",
         "express": "^4.17.1",
         "fast-levenshtein": "^2.0.6",
-        "file-loader": "4.2.0",
+        "file-loader": "6.2.0",
         "flickity": "^2.2.0",
         "flickity-as-nav-for": "^2.0.1",
         "fs-extra": "8.0.1",
