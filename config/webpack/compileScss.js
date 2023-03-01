@@ -34,12 +34,13 @@ module.exports = (config, PRODUCTION, SERVER) => {
                         {
                             loader: require.resolve('postcss-loader'),
                             options: {
-                                ident: 'postcss',
-                                plugins: () => {
-                                    return [
-                                        require('postcss-flexbugs-fixes'),
-                                        autoprefixer(),
-                                    ]
+                                postcssOptions: {
+                                    plugins: () => {
+                                        return [
+                                            require('postcss-flexbugs-fixes'),
+                                            autoprefixer(),
+                                        ]
+                                    },
                                 },
                             },
                         },
@@ -67,12 +68,13 @@ module.exports = (config, PRODUCTION, SERVER) => {
                         {
                             loader: require.resolve('postcss-loader'),
                             options: {
-                                ident: 'postcss',
-                                plugins: () => {
-                                    return [
-                                        require('postcss-flexbugs-fixes'),
-                                        autoprefixer(),
-                                    ]
+                                postcssOptions: {
+                                    plugins: () => {
+                                        return [
+                                            require('postcss-flexbugs-fixes'),
+                                            autoprefixer(),
+                                        ]
+                                    },
                                 },
                             },
                         },
