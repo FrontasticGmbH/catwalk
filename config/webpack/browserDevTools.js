@@ -1,7 +1,7 @@
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 
 module.exports = (config, PRODUCTION, SERVER) => {
-    return merge.smart(
+    return merge(
         {
             entry: [
                 // Include an alternative client for WebpackDevServer. A client's
