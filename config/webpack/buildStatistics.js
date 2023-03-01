@@ -1,9 +1,9 @@
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const StatsPlugin = require('stats-webpack-plugin')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 
 module.exports = (config, PRODUCTION, SERVER) => {
-    return merge.smart(
+    return merge(
         {
             plugins: [
                 // Anlyze bundle size

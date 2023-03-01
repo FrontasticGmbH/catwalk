@@ -1,8 +1,8 @@
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 
 module.exports = (config, PRODUCTION, SERVER) => {
-    return merge.smart(
+    return merge(
         {
             plugins: [
                 // Generate a manifest file which contains a mapping of all asset filenames

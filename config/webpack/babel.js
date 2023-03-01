@@ -1,11 +1,11 @@
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const path = require('path')
 
 // @TODO: Make this more readable and especially extensible:
 const ie11packages = require('../ie11packages')
 
 module.exports = (config, PRODUCTION, SERVER) => {
-    return merge.smart(
+    return merge(
         config,
         {
             module: {

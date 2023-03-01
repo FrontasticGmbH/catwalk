@@ -1,4 +1,4 @@
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 
 // Using a normal merge instead of a smart merge,
 // because the smart merge only decides based
