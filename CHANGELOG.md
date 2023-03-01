@@ -1,4 +1,11 @@
 
+## Version 1.56.0 (2023-03-01)
+
+** New Features and Improvements **
+
+- Allow customers to set the session cookie lifetime using the `session_cookie_lifetime` variable in the `environment` file
+- Limit exception backtraces to two frames in production
+
 ## Version 1.55.1 (2023-02-17)
 
 ** New Features and Improvements **
