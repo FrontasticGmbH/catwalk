@@ -1,4 +1,11 @@
 
+## Version 1.57.0 (2023-03-02)
+
+** New Features and Improvements **
+
+- Update webpack and related packages. This might need adjustments to custom webpack extensions
+- Remove hardcoded list of customer names in clear endpoint
+
 ## Version 1.56.0 (2023-03-01)
 
 ** New Features and Improvements **
