@@ -23,7 +23,7 @@
         {% if response.status < 400 %}{{ response.body.app|raw }}{% endif %}
     </div>
     <div id="appData"
-         data-props="{{ pageData|frontastic_json_serialize|json_encode }}"
+         data-props="{{ pageData|frontastic_json_serialize|frontastic_app_data_cleanup|json_encode }}"
          data-user-agent="{{ app.request.headers.get('User-Agent') }}">
     </div>
 {% endapply %}
