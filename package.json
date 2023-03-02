@@ -1,6 +1,6 @@
 {
     "name": "@frontastic/catwalk",
-    "version": "1.56.0",
+    "version": "1.57.0",
     "resolutions": {
         "mime": "^1.6.0",
         "unidragger": "2.2.3"
@@ -12,7 +12,7 @@
         "@babel/preset-env": "^7.5.4",
         "@babel/preset-react": "^7.0.0",
         "@babel/types": "^7.12.6",
-        "@frontastic/common": "*",
+        "@frontastic/common": "^2.42.0",
         "@svgr/webpack": "^5.5.0",
         "@types/jest": "^26.0.15",
         "@types/react": "17.0.0",
