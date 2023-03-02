@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\Twig;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
+use Frontastic\Common\AppDataFilter;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
@@ -41,6 +42,16 @@ class NodeExtension extends AbstractExtension implements GlobalsInterface
         return [
             new \Twig\TwigFunction('frontastic_tree', [$this->container->get(NodeService::class), 'getTree']),
             new \Twig\TwigFunction('completeInformation', [$this, 'completeInformation']),
+        ];
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            new \Twig\TwigFilter(
+                'frontastic_app_data_cleanup',
+                [$this->container->get(AppDataFilter::class), 'filterAppData']
+            ),
         ];
     }
 
