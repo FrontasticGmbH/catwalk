@@ -154,6 +154,7 @@ const initialGlobalState = {
     trees: {},
     nodes: {},
     nodeData: {},
+    nodeIds: {},
     pages: {},
     last: {
         node: null,
@@ -168,10 +169,13 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
     let trees = {}
     let nodes = {}
     let nodeData = {}
+    let nodeIds = {}
     let pages = {}
 
     switch (action.type) {
     case 'FRONTASTIC_ROUTE':
+        const currentCacheKey = UrlContext.getActionHash(action.route)
+
         // Assume that the currentNode does not change.
         // This is particularly important for the first render cycle,
         // because it will (otherwise) we initialized to late and we will
@@ -179,8 +183,12 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         let currentNodeId = globalState.currentNodeId
 
         if (action.lastRoute && action.lastRoute.route !== action.route.route) {
-            // We are apparently changing the node, so do not render the current node anymore.
-            currentNodeId = null
+            // We are apparently changing the node, so check if we have the node ID cached
+            if (globalState.nodeIds[currentCacheKey]?.isComplete && globalState.nodeIds[currentCacheKey].isComplete()) {
+                currentNodeId = globalState.nodeIds[currentCacheKey].data?.nodeId ?? null
+            } else {
+                currentNodeId = null
+            }
         }
 
         return {
@@ -189,16 +197,21 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             trees: Entity.purgeMap(globalState.trees),
             nodes: Entity.purgeMap(globalState.nodes),
             nodeData: Entity.purgeMap(globalState.nodeData),
+            nodeIds: Entity.purgeMap(globalState.nodeIds),
             pages: Entity.purgeMap(globalState.pages),
             last: globalState.last,
-            currentCacheKey: UrlContext.getActionHash(action.route),
+            currentCacheKey,
             currentNodeId,
         }
 
     case 'Frontend.Node.initialize':
-        let node = new Entity(action.data.node)
-        let page = new Entity(action.data.page)
-        let data = new Entity(action.data.data)
+        const node = new Entity(action.data.node)
+        const page = new Entity(action.data.page)
+        const data = new Entity(action.data.data)
+        let nodeId = new Entity()
+        if (action.data.node.nodeId ?? null) {
+            nodeId = new Entity({ nodeId: action.data.node.nodeId })
+        }
 
         return {
             ...globalState,
@@ -213,6 +226,9 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             },
             nodeData: {
                 [globalState.currentCacheKey]: data,
+            },
+            nodeIds: {
+                [globalState.currentCacheKey]: nodeId,
             },
             last: {
                 node: node,
@@ -248,10 +264,12 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
     case 'Frontend.Master.Error.view.success':
         nodes = { ...globalState.nodes }
         nodeData = { ...globalState.nodeData }
+        nodeIds = { ...globalState.nodeIds }
         pages = { ...globalState.pages }
         if (action.id) {
             nodes[action.id] = new Entity(action.data.node, 3600)
             nodeData[globalState.currentCacheKey] = new Entity(action.data.data, 3600)
+            nodeIds[globalState.currentCacheKey] = new Entity({ nodeId: action.data.node.nodeId }, 3600)
             pages[action.id] = new Entity(action.data.page, 3600)
         }
 
@@ -264,6 +282,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             currentNodeId: action.id,
             nodes: nodes,
             nodeData: nodeData,
+            nodeIds: nodeIds,
             pages: pages,
             last: {
                 node: new Entity({ ...action.data.node }),
@@ -277,10 +296,12 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
     case 'Frontend.Master.Error.view.error':
         nodes = { ...globalState.nodes }
         nodeData = { ...globalState.nodeData }
+        nodeIds = { ...globalState.nodeIds }
         pages = { ...globalState.pages }
         if (action.id) {
             nodes[action.id] = new Entity().setError(action.error)
             nodeData[action.cacheKey] = new Entity().setError(action.error)
+            nodeIds[action.cacheKey] = new Entity().setError(action.error)
             pages[action.id] = new Entity().setError(action.error)
         }
 
@@ -291,6 +312,7 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
             currentCacheKey: 'error',
             nodes: nodes,
             nodeData: nodeData,
+            nodeIds: nodeIds,
             pages: pages,
         }
 
