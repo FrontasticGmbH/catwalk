@@ -205,12 +205,12 @@ Loader.handleAction = (globalState = initialGlobalState, action) => {
         }
 
     case 'Frontend.Node.initialize':
-        const node = new Entity(action.data.node)
-        const page = new Entity(action.data.page)
-        const data = new Entity(action.data.data)
+        const node = new Entity(action.data.node, 3600)
+        const page = new Entity(action.data.page, 3600)
+        const data = new Entity(action.data.data, 3600)
         let nodeId = new Entity()
         if (action.data.node.nodeId ?? null) {
-            nodeId = new Entity({ nodeId: action.data.node.nodeId })
+            nodeId = new Entity({ nodeId: action.data.node.nodeId }, 3600)
         }
 
         return {
