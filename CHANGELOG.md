@@ -1,4 +1,11 @@
 
+## Version 1.58.0 (2023-03-13)
+
+** New Features and Improvements **
+
+- Cache Node IDs per route in redux in the frontend, so navigating to already visited pages is instantaneously
+- Load the Gedmo doctrine extensions from the root directories vendor directory, if available
+
 ## Version 1.57.0 (2023-03-02)
 
 ** New Features and Improvements **
