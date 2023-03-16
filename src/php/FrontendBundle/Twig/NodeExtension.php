@@ -3,7 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\Twig;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
-use Frontastic\Common\AppDataFilter;
+use Frontastic\Catwalk\FrontendBundle\Domain\AppDataFilter;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
