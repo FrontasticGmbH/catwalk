@@ -40,9 +40,13 @@ class AppDataFilter
 
     public function filterAppData(array $appData): array
     {
-        $appData = $this->filterByPropertyPath($appData);
+        if ($this->appDataShouldBeFiltered()) {
+            $appData = $this->filterByPropertyPath($appData);
 
-        return $this->removeNullValuesAndEmptyArrays($appData);
+            return $this->removeNullValuesAndEmptyArrays($appData);
+        }
+
+        return $appData;
     }
 
     private function removeNullValuesAndEmptyArrays(array $data): array
@@ -84,5 +88,10 @@ class AppDataFilter
         }
 
         return $appData;
+    }
+
+    private function appDataShouldBeFiltered(): bool
+    {
+        return getenv('filter_app_data') === '1';
     }
 }
