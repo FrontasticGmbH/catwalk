@@ -50,7 +50,7 @@ class AppDataFilter
         $result = [];
 
         foreach ($data as $key => $value) {
-            if (in_array($key, $this->keysToKeepList, true)) {
+            if (is_numeric($key) || in_array($key, $this->keysToKeepList, true)) {
                 $result[$key] = $value;
                 continue;
             }

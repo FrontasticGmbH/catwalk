@@ -21,8 +21,11 @@ class AppDataFilterTest extends TestCase
             '_type' => 'TestType',
             'nullValue' => null,
             'emptyString' => '',
+            'numeric_key' => [
+                2 => [],
+            ],
         ]);
 
-        self::assertEquals(['children' => [], 'emptyString' => ''], $result);
+        self::assertEquals(['children' => [], 'emptyString' => '', 'numeric_key' => [2 => []]], $result);
     }
 }
