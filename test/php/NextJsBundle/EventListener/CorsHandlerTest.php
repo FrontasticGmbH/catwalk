@@ -29,7 +29,7 @@ class CorsHandlerTest extends TestCase
 
         $request->headers->set('Origin', 'https://frontastic.cloud');
         $request->headers->set('Access-Control-Request-Method', 'GET');
-        $request->headers->set('Access-Control-Request-Headers', 'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration');
+        $request->headers->set('Access-Control-Request-Headers', 'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration, Commercetools-Frontend-Extension-Version');
 
         return $request;
     }
@@ -84,7 +84,7 @@ class CorsHandlerTest extends TestCase
             $headers->get('Access-Control-Allow-Methods')
         );
         $this->assertEquals(
-            'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration',
+            'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration, Commercetools-Frontend-Extension-Version',
             $headers->get('Access-Control-Allow-Headers')
         );
         $this->assertEquals(
@@ -150,11 +150,11 @@ class CorsHandlerTest extends TestCase
             $headers->get('Access-Control-Allow-Methods')
         );
         $this->assertEquals(
-            'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration',
+            'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration, Commercetools-Frontend-Extension-Version',
             $headers->get('Access-Control-Allow-Headers')
         );
         $this->assertEquals(
-            '*, Authorization, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration',
+            '*, Authorization, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration, Commercetools-Frontend-Extension-Version',
             $headers->get('Access-Control-Expose-Headers')
         );
         $this->assertEquals(
