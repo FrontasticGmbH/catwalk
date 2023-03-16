@@ -51,7 +51,7 @@ class AppDataFilter
 
         foreach ($data as $key => $value) {
             if (is_numeric($key) || in_array($key, $this->keysToKeepList, true)) {
-                $result[$key] = $value;
+                $result[$key] = is_array($value) ? $this->removeNullValuesAndEmptyArrays($value) : $value;
                 continue;
             }
 
