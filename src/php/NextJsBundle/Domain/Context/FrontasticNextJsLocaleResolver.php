@@ -31,13 +31,23 @@ class FrontasticNextJsLocaleResolver implements LocaleResolverInterface
     private function getLocaleMatch(string $localeValue, array $availableLocales): ?string
     {
         $localeValue = strtolower(strtr($localeValue, ['-' => '_']));
+        $localeWithoutCurrency = self::stripCurrencyFromLocale($localeValue);
 
         foreach ($availableLocales as $availableLocale) {
-            if (strtolower(strtr($availableLocale, ['-' => '_'])) ===$localeValue) {
+            if (strtolower(strtr($availableLocale, ['-' => '_'])) === $localeWithoutCurrency) {
                 return $availableLocale;
             }
         }
 
         return null;
+    }
+
+    private static function stripCurrencyFromLocale(string $locale): string
+    {
+        if (strpos($locale, "@") !== false) {
+            $split_string = explode("@", $locale);
+            return $split_string[0];
+        }
+        return  $locale;
     }
 }
