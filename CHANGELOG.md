@@ -1,4 +1,8 @@
 
+## Version 1.59.0 (2023-03-20)
+
+* feat: Accept Commercetools-Frontend headers
+
 ## Version 1.58.0 (2023-03-13)
 
 ** New Features and Improvements **
