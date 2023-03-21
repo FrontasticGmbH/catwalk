@@ -35,8 +35,7 @@ class FrontasticNextJsLocaleResolver implements LocaleResolverInterface
 
         foreach ($availableLocales as $availableLocale) {
             $localeToBeMatched = strtolower(strtr($availableLocale, ['-' => '_']));
-            if ($localeToBeMatched === $localeWithoutCurrency || $localeToBeMatched === $localeValue
-            ) {
+            if ($localeToBeMatched === $localeWithoutCurrency || $localeToBeMatched === $localeValue) {
                 return $availableLocale;
             }
         }
