@@ -34,7 +34,9 @@ class FrontasticNextJsLocaleResolver implements LocaleResolverInterface
         $localeWithoutCurrency = self::stripCurrencyFromLocale($localeValue);
 
         foreach ($availableLocales as $availableLocale) {
-            if (strtolower(strtr($availableLocale, ['-' => '_'])) === $localeWithoutCurrency) {
+            $localeToBeMatched = strtolower(strtr($availableLocale, ['-' => '_']));
+            if ($localeToBeMatched === $localeWithoutCurrency || $localeToBeMatched === $localeValue
+            ) {
                 return $availableLocale;
             }
         }
