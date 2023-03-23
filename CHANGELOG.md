@@ -1,4 +1,8 @@
-## Version 1.59.1 (2023-03-22)
+## Version 1.59.1 (2023-03-23)
+
+* feat: add checks for both locale with currency and without currency
+* feat: strip off currency from the locale if available and translate the page correctly
+
 
 * feat: add checks for both locale with currency and without currency
 * feat: strip off currency from the locale if available and translate the page correctly
