@@ -46,8 +46,8 @@ class FrontasticNextJsLocaleResolver implements LocaleResolverInterface
     private static function stripCurrencyFromLocale(string $locale): string
     {
         if (strpos($locale, "@") !== false) {
-            $split_string = explode("@", $locale);
-            return $split_string[0];
+            $splitString = explode("@", $locale);
+            return $splitString[0];
         }
         return  $locale;
     }
