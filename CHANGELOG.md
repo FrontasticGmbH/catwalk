@@ -1,4 +1,7 @@
-## Version 1.59.1 (2023-03-23)
+## Version 1.59.2 (2023-03-31)
+
+* feat: patch LocalizedValue to also accept locales with currencies
+
 
 * feat: add checks for both locale with currency and without currency
 * feat: strip off currency from the locale if available and translate the page correctly
