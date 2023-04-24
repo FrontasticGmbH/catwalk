@@ -1,4 +1,8 @@
 
+## Version 1.59.4 (2023-04-24)
+
+* misc: Add back missing section in catwalk changelog
+
 ## Version 1.59.3 (2023-04-21)
 
 * fix: Security fix API Hub
