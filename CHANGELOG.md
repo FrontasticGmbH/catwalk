@@ -1,8 +1,9 @@
 
 ## Version 1.59.3 (2023-04-21)
 
-* fix: Remove sensitive data from the /frontastic/project endpoint
+* fix: Security fix API Hub
 
+## Version 1.59.2 (2023-03-31)
 
 * feat: patch LocalizedValue to also accept locales with currencies
 
