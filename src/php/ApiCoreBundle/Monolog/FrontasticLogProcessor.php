@@ -27,6 +27,12 @@ class FrontasticLogProcessor
     {
         $request = $this->requestStack->getMasterRequest();
 
+        if ($this->shouldFilterOutLogMessage($record['message'] ?? '')) {
+            $record['level'] = 1000;
+            return $record;
+        }
+
+
         if (!$request instanceof Request) {
             // There might be no master request, for instance for console commands.
             return $record;
@@ -44,5 +50,24 @@ class FrontasticLogProcessor
 
 
         return $record;
+    }
+
+    private function shouldFilterOutLogMessage(string $message): bool
+    {
+        // We can add more keywords we want to filter out here
+        $filterKeywords = [
+            'Matched route',
+            'Checking custom route cache',
+            'Routes rebuild',
+            'Regenerating route cache to get newest routes from studio',
+        ];
+
+        foreach ($filterKeywords as $keyword) {
+            if (strpos($message, $keyword) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
