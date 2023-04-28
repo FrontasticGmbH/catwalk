@@ -1,4 +1,10 @@
 
+## Version 1.60.0 (2023-04-28)
+
+** Bug fixes **
+
+- Use the correct version of the `@types/react` package (16 instead of 17) in the dependencies
+
 ## Version 1.59.4 (2023-04-24)
 
 * misc: Add back missing section in catwalk changelog
