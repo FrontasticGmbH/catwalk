@@ -7,38 +7,31 @@
 
 ## Version 1.59.4 (2023-04-24)
 
-* misc: Add back missing section in catwalk changelog
+** No relevant changes **
 
 ## Version 1.59.3 (2023-04-21)
 
-* fix: Security fix API Hub
+** Bug fixes **
+
+- Security fix for Commercetools Frontend
 
 ## Version 1.59.2 (2023-03-31)
 
-* feat: patch LocalizedValue to also accept locales with currencies
+** Bug fixes **
 
-
-* feat: add checks for both locale with currency and without currency
-* feat: strip off currency from the locale if available and translate the page correctly
-
-
-* feat: add checks for both locale with currency and without currency
-* feat: strip off currency from the locale if available and translate the page correctly
-
-
-* feat: add checks for both locale with currency and without currency
-* feat: strip off currency from the locale if available and translate the page correctly
-
-* feat: strip off currency from the locale if available and translate the page correctly
+- Strip the currency off the locale in Commercetools Frontend for page completion as well
 
 ## Version 1.59.1 (2023-03-22)
 
-* feat: add checks for both locale with currency and without currency
-* feat: strip off currency from the locale if available and translate the page correctly
+** New Features and Improvements **
+
+- Strip the currency off the locale in Commercetools Frontend endpoints
 
 ## Version 1.59.0 (2023-03-20)
 
-* feat: Accept Commercetools-Frontend headers
+** New Features and Improvements **
+
+- Accept Commercetools-Frontend header in Commercetools Frontend endpoints
 
 ## Version 1.58.0 (2023-03-13)
 
