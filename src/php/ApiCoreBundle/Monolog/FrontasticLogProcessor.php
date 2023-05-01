@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Monolog;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\EventListener\RequestIdListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -17,19 +18,27 @@ class FrontasticLogProcessor
      * @var RequestStack
      */
     private $requestStack;
+    private $applicationEnvironment;
 
-    public function __construct(RequestStack $requestStack)
+
+    public function __construct(RequestStack $requestStack, string $applicationEnvironment)
     {
         $this->requestStack = $requestStack;
+        $this->applicationEnvironment = $applicationEnvironment;
     }
 
     public function __invoke(array $record)
     {
+        $environment = $this->applicationEnvironment;
+
         $request = $this->requestStack->getMasterRequest();
 
-        if ($this->shouldFilterOutLogMessage($record['message'] ?? '')) {
-            $record['level'] = 1000;
-            return $record;
+        if (in_array($environment, ['prod', 'production', 'staging', 'stag'])) {
+            if ($this->shouldFilterOutLogMessage($record['message'] ?? '')) {
+                //Set the level high so it doesn't get logged
+                $record['level'] = 1000;
+                return $record;
+            }
         }
 
 
