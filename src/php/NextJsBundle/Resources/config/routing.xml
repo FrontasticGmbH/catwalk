@@ -57,4 +57,8 @@
         </default>
         <default key="_stateless">true</default>
     </route>
+    <route id="Frontastic.NextJs.Api.frontendError" path="/frontastic/frontendError" methods="POST">
+        <default key="_controller">Frontastic\Catwalk\NextJsBundle\Controller\FrontendErrorController::indexAction</default>
+        <default key="_stateless">true</default>
+    </route>
 </routes>
