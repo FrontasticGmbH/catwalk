@@ -65,10 +65,7 @@ class FrontasticLogProcessor
     {
         // We can add more keywords we want to filter out here
         $filterKeywords = [
-            'Matched route',
-            'Checking custom route cache',
-            'Routes rebuild',
-            'Regenerating route cache to get newest routes from studio',
+            'Matched route'
         ];
 
         foreach ($filterKeywords as $keyword) {
