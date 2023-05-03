@@ -52,7 +52,7 @@ class RequestService
     public function decodeAndValidateJWTSessionToken(string $sessionData): ?array
     {
         try {
-            $decodedJWT = (array) JWT::decode($sessionData,   new Key(self::SALT, 'HS256'));
+            $decodedJWT = (array) JWT::decode($sessionData, new Key(self::SALT, 'HS256'));
 
             if (isset($decodedJWT['nonce']) && isset($decodedJWT['payload'])) {
                 $decryptedPayload = sodium_crypto_aead_aes256gcm_decrypt(
