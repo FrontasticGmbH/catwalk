@@ -35,12 +35,12 @@ class Loader extends BaseLoader
             throw new \RuntimeException('Do not add the "frontastic" loader twice');
         }
 
-        // We don't use the Frontastic React way of routing in coFE
-        if ($this->routeService instanceof FrontasticNextJsRouteService) {
-            return [];
-        }
-
         $routes = new RouteCollection();
+
+        // We don't use the Frontastic React way of routing in coFE, so we just return an empty RouteCollection
+        if ($this->routeService instanceof FrontasticNextJsRouteService) {
+            return $routes;
+        }
 
         $this->addRoutesToRouteCollection($routes);
 
