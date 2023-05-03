@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Routing;
 
 use Frontastic\Catwalk\FrontendBundle\Controller\NodeController;
 use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
+use Frontastic\Catwalk\NextJsBundle\Domain\FrontasticNextJsRouteService;
 use Symfony\Component\Config\Loader\Loader as BaseLoader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
@@ -32,6 +33,11 @@ class Loader extends BaseLoader
     {
         if (true === $this->loaded) {
             throw new \RuntimeException('Do not add the "frontastic" loader twice');
+        }
+
+        // We don't use the Frontastic React way of routing in coFE
+        if ($this->routeService instanceof FrontasticNextJsRouteService) {
+            return [];
         }
 
         $routes = new RouteCollection();

@@ -26,10 +26,14 @@ class FrontasticNextJsRouteService implements RouteService
         $this->siteBuilderPageService->storeSiteBuilderPagePathsFromRoutes($routes);
     }
 
+    /**
+     * Only to be used in RebuildRoutesListener
+     */
     public function getRoutes(): array
     {
-        // We don't use the Frontastic React way of routing anymore
-        return [];
+        $mapping = $this->siteBuilderPageService->getMapping();
+
+        return is_array($mapping['pathToNodeId']) ? $mapping['pathToNodeId'] : [];
     }
 
     public function rebuildRoutes(array $nodes): void

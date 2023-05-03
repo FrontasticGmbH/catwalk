@@ -59,7 +59,7 @@ class SiteBuilderPageService
         return $pathMap[$nodeId];
     }
 
-    private function getMapping(): array
+    public function getMapping(): array
     {
         if (isset($this->mapping)) {
             return $this->mapping;
