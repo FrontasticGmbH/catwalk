@@ -1,4 +1,10 @@
 
+## Version 1.60.1 (2023-05-04)
+
+** Bug fixes **
+
+- Fix bug that causes reduced performance for Commercetools Frontend customers with large number of Studio pages
+
 ## Version 1.60.0 (2023-04-28)
 
 ** Bug fixes **
