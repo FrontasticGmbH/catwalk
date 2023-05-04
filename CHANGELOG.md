@@ -1,4 +1,10 @@
 
+## Version 1.60.3 (2023-05-04)
+
+** Bug fixes **
+
+- Fix bug affecting Commercetools Frontend where JWT tokens were unable to be decoded
+
 ## Version 1.60.2 (2023-05-04)
 
 ** New Features and Improvements **
