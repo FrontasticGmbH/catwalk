@@ -87,11 +87,11 @@ class RequestServiceTest extends TestCase
         return [
             'simple 1 key 1 value' => [
                 ['foo' => 'bar'],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiZUpFellxdmVwMHFpMWZNRDhcLyt2T0V2MFNvdWVvUzlQZXpnMnJXdz0iLCJub25jZSI6Ik1EQXdNREF3TURBd01EQXcifQ.QttFQsH_jeS_sugnJB-mNplG4st0e-SXc3Eirruo1PM',
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiZUpFellxdmVwMHFpMWZNRDgvK3ZPRXYwU291ZW9TOVBlemcycld3PSIsIm5vbmNlIjoiTURBd01EQXdNREF3TURBdyJ9.isJ1p08XMh1p28dnDUxmJcBNAGvOXtpB66Pai0_Sv5g',
             ],
             'empty' => [
                 [],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiV081dCtHV0RxSnlRWFwvMFVaSExmUVUxMyIsIm5vbmNlIjoiTURBd01EQXdNREF3TURBdyJ9.8tTqmMQivj_KvLHxsp9QQrrkZh3fI-z8lEZLALYk57k'
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiV081dCtHV0RxSnlRWC8wVVpITGZRVTEzIiwibm9uY2UiOiJNREF3TURBd01EQXdNREF3In0.DKJ1ovCl_WvThJtluWhoFspWUKYYgtWzDVtyPWtNkfE'
             ],
             'null value valid key' => [
                 ['foo' => null],
@@ -110,7 +110,7 @@ class RequestServiceTest extends TestCase
                     1 => 2,
                     3 => 'value'
                 ],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiZUpFellxdmVweFBpMStsTzdaMHhKXC9GWjlVSXl2NHVyRkdtUGdwYlBZeERUNW9ZcHZYTzE0ZWczeUVreUp6V2FGeFIxSVhuZFhSanRzZHVcLzljV1ZOaTdpZXBwZGw5YW5SZz09Iiwibm9uY2UiOiJNREF3TURBd01EQXdNREF3In0.Qz_A3Uw7cEKlQZ5ETKiTrtH3iizDYP4IQ_-heH4flUM'
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiZUpFellxdmVweFBpMStsTzdaMHhKL0ZaOVVJeXY0dXJGR21QZ3BiUFl4RFQ1b1lwdlhPMTRlZzN5RWt5SnpXYUZ4UjFJWG5kWFJqdHNkdS85Y1dWTmk3aWVwcGRsOWFuUmc9PSIsIm5vbmNlIjoiTURBd01EQXdNREF3TURBdyJ9.HLHknjVtp3GftK_DRek2xVI0YOrCJJ5oCiBJSZ5VUB8'
             ]
         ];
     }
@@ -164,6 +164,7 @@ class RequestServiceTest extends TestCase
      */
     public function testEncodeJWTDataWithEncryptedPayload($data, $expected)
     {
+
         $requestService = $this->getMockClass(
             RequestService::class,
             array('generateNonce')
