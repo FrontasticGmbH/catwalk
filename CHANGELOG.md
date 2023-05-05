@@ -1,4 +1,14 @@
 
+## Version 1.60.4 (2023-05-05)
+
+** Bug fixes **
+
+- Always pass array to JWT token encoding function in Commercetools Frontend
+
+** New Features and Improvements **
+
+- New endpoint in Commercetools Frontend to record frontend errors
+
 ## Version 1.60.3 (2023-05-04)
 
 ** Bug fixes **
