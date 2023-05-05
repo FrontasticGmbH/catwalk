@@ -117,6 +117,10 @@ class RequestService
         // JWT::encode requires an array so we need to make sure it's always an array
         if (!is_array($jwtPayload)) {
             $jwtPayload = json_decode(json_encode($jwtPayload), true);
+
+            if (!is_array($jwtPayload)) {
+                $jwtPayload = [];
+            }
         }
 
         return JWT::encode($jwtPayload, self::SALT, 'HS256');
