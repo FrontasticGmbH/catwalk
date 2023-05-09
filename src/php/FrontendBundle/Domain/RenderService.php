@@ -77,7 +77,7 @@ class RenderService
                 'User-Agent: ' . $request->headers->get('User-Agent'),
             ],
             new HttpClient\Options([
-                'timeout' => \AppKernel::getDebug() ? 5.0 : 0.5,
+                'timeout' => $this->getRenderTimeout(),
             ])
         );
 
@@ -117,5 +117,18 @@ class RenderService
         }
 
         return $response;
+    }
+
+    private function getRenderTimeout(): float
+    {
+        $configValue = getenv('ssr_render_timeout');
+        if (is_string($configValue) && is_numeric($configValue)) {
+            $timeout = (float) $configValue;
+            if ($timeout <= 10) {
+                return $timeout;
+            }
+        }
+
+        return \AppKernel::getDebug() ? 5.0 : 0.5;
     }
 }
