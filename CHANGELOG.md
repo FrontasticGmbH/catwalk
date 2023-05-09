@@ -1,4 +1,10 @@
 
+## Version 1.61.0 (2023-05-09)
+
+** New Features and Improvements **
+
+- Add option to specify the server side rendering timeout in the environment
+
 ## Version 1.60.4 (2023-05-05)
 
 ** Bug fixes **
