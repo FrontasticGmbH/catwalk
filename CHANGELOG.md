@@ -1,4 +1,44 @@
 
+## Version 1.61.0 (2023-05-09)
+
+** New Features and Improvements **
+
+- Add option to specify the server side rendering timeout in the environment
+
+## Version 1.60.4 (2023-05-05)
+
+** Bug fixes **
+
+- Always pass array to JWT token encoding function in Commercetools Frontend
+
+** New Features and Improvements **
+
+- New endpoint in Commercetools Frontend to record frontend errors
+
+## Version 1.60.3 (2023-05-04)
+
+** Bug fixes **
+
+- Fix bug affecting Commercetools Frontend where JWT tokens were unable to be decoded
+
+## Version 1.60.2 (2023-05-04)
+
+** New Features and Improvements **
+
+* Update firebase dependency in catwalk to v 6.4
+
+## Version 1.60.1 (2023-05-04)
+
+** Bug fixes **
+
+- Fix bug that causes reduced performance for Commercetools Frontend customers with large number of Studio pages
+
+## Version 1.60.0 (2023-04-28)
+
+** Bug fixes **
+
+- Use the correct version of the `@types/react` package (16 instead of 17) in the dependencies
+
 ## Version 1.59.4 (2023-04-24)
 
 * misc: Add back missing section in catwalk changelog
