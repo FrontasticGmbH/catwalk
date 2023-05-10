@@ -108,8 +108,6 @@ class PageFolderCompletionVisitor implements FieldVisitor
             || !isset($value['handledValue']->nodeId)
         ) {
             // TODO: Log!
-            var_dump($value);
-            die();
             return null;
         }
 
