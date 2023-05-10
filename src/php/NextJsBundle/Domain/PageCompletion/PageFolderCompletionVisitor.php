@@ -108,12 +108,16 @@ class PageFolderCompletionVisitor implements FieldVisitor
             || !isset($value['handledValue']->nodeId)
         ) {
             // TODO: Log!
+            var_dump($value);
+            die();
             return null;
         }
 
         $requestedDepth = $value['studioValue']['depth'] ?? null;
-
-        if (!is_int($requestedDepth) && $requestedDepth !== null) {
+        
+        if (!is_int($requestedDepth) && is_numeric($requestedDepth)) {
+            $requestedDepth = intval($requestedDepth);
+        } elseif (!is_int($requestedDepth) && $requestedDepth !== null) {
             $requestedDepth = null;
         }
         
