@@ -104,4 +104,51 @@ class PageFolderCompletionVisitorTest extends TestCase
 
         $this->assertNull($result);
     }
+
+    public function testDepthIsStringDoesntError()
+    {
+        $nodeName = 'nodeName';
+        $nodeConfiguration = (object)['configuration' => 'helloWorld'];
+
+        $node = \Phake::mock(Node::class);
+        $node->name = $nodeName;
+        $node->configuration = $nodeConfiguration;
+    
+        \Phake::when($this->fieldConfiguration)->getType->thenReturn('tree');
+        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
+        \Phake::when($this->nodeService)->completeCustomNodeData->thenReturn($node);
+
+        $result = $this->subject->processField(
+            $this->fieldConfiguration,
+            [
+                "studioValue" => [
+                    'node' => $node,
+                    'depth' => "test"
+                ],
+                'handledValue' => $node
+            ],
+            []
+        );
+
+        $this->assertNull($result);
+    }
+
+    public function testDepthIsStringWithEmptyNodeDoesntError()
+    {
+        \Phake::when($this->fieldConfiguration)->getType->thenReturn('tree');
+
+        $result = $this->subject->processField(
+            $this->fieldConfiguration,
+            [
+                "studioValue" => [
+                    'node' => null,
+                    'depth' => "test"
+                ],
+                'handledValue' => new Node()
+            ],
+            []
+        );
+
+        $this->assertNull($result);
+    }
 }
