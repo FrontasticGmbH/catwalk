@@ -35,7 +35,7 @@ class RoutingConfigCache extends ConfigCache
     {
         // Symfony thinks the cache is not fresh, we agree (e.g. dev, file not exists …)
         if (!parent::isFresh()) {
-            $this->logger->info(
+            $this->logger->debug(
                 'Regenerate route cache because parent indicated non fresh.',
                 ['path' => $this->getPath()]
             );
@@ -45,7 +45,7 @@ class RoutingConfigCache extends ConfigCache
         $shouldRegenerate = $this->shouldRegenerate();
 
         if ($shouldRegenerate) {
-            $this->logger->info(
+            $this->logger->debug(
                 'Regenerating route cache to get newest routes from studio.',
                 ['path' => $this->getPath()]
             );

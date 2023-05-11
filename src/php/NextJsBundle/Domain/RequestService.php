@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\NextJsBundle\Domain;
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Request;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -51,7 +52,7 @@ class RequestService
     public function decodeAndValidateJWTSessionToken(string $sessionData): ?array
     {
         try {
-            $decodedJWT = (array) JWT::decode($sessionData, self::SALT, ['HS256']);
+            $decodedJWT = (array) JWT::decode($sessionData, new Key(self::SALT, 'HS256'));
 
             if (isset($decodedJWT['nonce']) && isset($decodedJWT['payload'])) {
                 $decryptedPayload = sodium_crypto_aead_aes256gcm_decrypt(
@@ -111,6 +112,15 @@ class RequestService
                 'payload' => base64_encode($encryptedCookie),
                 'nonce' => base64_encode($nonce)
             ];
+        }
+
+        // JWT::encode requires an array so we need to make sure it's always an array
+        if (!is_array($jwtPayload)) {
+            $jwtPayload = json_decode(json_encode($jwtPayload), true);
+
+            if (!is_array($jwtPayload)) {
+                $jwtPayload = [];
+            }
         }
 
         return JWT::encode($jwtPayload, self::SALT, 'HS256');
