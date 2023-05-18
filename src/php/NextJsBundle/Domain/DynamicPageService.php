@@ -23,19 +23,22 @@ class DynamicPageService
     private MasterService $masterService;
     private NodeService $nodeService;
     private FromFrontasticReactMapper $mapper;
+    private ContextCompletionService $contextCompletionService;
 
     public function __construct(
         RequestService $requestService,
         ExtensionService $hooksService,
         MasterService $masterService,
         NodeService $nodeService,
-        FromFrontasticReactMapper $mapper
+        FromFrontasticReactMapper $mapper,
+        ContextCompletionService $contextCompletionService
     ) {
         $this->requestService = $requestService;
         $this->extensionService = $hooksService;
         $this->masterService = $masterService;
         $this->nodeService = $nodeService;
         $this->mapper = $mapper;
+        $this->contextCompletionService = $contextCompletionService;
     }
 
     public function handleDynamicPage(SymfonyRequest $request, Context $context): ?DynamicPageResult
@@ -101,8 +104,11 @@ class DynamicPageService
 
     private function createDynamicPageContext(Context $context): DynamicPageContext
     {
+        $dynamicPageContext = $this->mapper->map($context);
+        $dynamicPageContext = $this->contextCompletionService->completeContextData($dynamicPageContext, $context);
+
         return new DynamicPageContext([
-            'frontasticContext' => $this->mapper->map($context)
+            'frontasticContext' => $dynamicPageContext
         ]);
     }
 }
