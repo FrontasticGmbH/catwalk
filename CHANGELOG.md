@@ -1,4 +1,10 @@
 
+## Version 1.61.1 (2023-05-22)
+
+** Bug fixes **
+
+- Fix an issue with custom app entity class auto loading
+
 ## Version 1.61.0 (2023-05-09)
 
 ** New Features and Improvements **
