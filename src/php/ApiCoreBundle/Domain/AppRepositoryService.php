@@ -121,14 +121,25 @@ class AppRepositoryService
      * While the custom app is still not synchronized, this will return null.
      * Please make sure your code works accordingly!
      */
-    public function getRepository(string $className): ?DataRepository
+    public function getRepository(string $identifier): ?DataRepository
     {
         $this->ensureEntitiesInSync();
 
-        $className = $this->getFullyQualifiedClassName($className);
+        $className = $this->getFullyQualifiedClassName($identifier);
 
         if (!class_exists($className, true)) {
-            return null;
+            // Sometimes composer is not able to properly autoload these classes for some reason
+
+            $filename = $this->sourceDir . '/App/' . $this->makeClassName($identifier) . '.php';
+            if (file_exists($filename)) {
+                require_once $filename;
+
+                if (!class_exists($className, false)) {
+                    return null;
+                }
+            } else {
+                return null;
+            }
         }
 
         return $this->entityManager->getRepository($className);
