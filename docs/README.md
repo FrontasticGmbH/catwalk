@@ -48,6 +48,7 @@ Here you find the API documentation for the relevant classes:
     * [TimeProvider](php/ApiCoreBundle/Domain/TimeProvider.md)
 * FrontendBundle
   * Domain
+    * [AppDataFilter](php/FrontendBundle/Domain/AppDataFilter.md)
     * [Cell](php/FrontendBundle/Domain/Cell.md)
     * Cell
       * [Configuration](php/FrontendBundle/Domain/Cell/Configuration.md)
