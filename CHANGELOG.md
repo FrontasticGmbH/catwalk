@@ -1,4 +1,10 @@
 
+## Version 1.62.0 (2023-05-26)
+
+** New Features and Improvements **
+
+- Add option to remove empty fields from `appData` in the rendered HTML by setting `filter_app_data=1` in the environment
+
 ## Version 1.61.1 (2023-05-22)
 
 ** Bug fixes **
