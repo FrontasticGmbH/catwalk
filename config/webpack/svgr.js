@@ -1,4 +1,4 @@
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 
 // Using a normal merge instead of a smart merge,
 // because the smart merge only decides based
@@ -18,9 +18,7 @@ module.exports = (config, PRODUCTION, SERVER) => {
             rules: [
                 {
                     test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                    issuer: {
-                        test: /\.(jsx|tsx)?$/,
-                    },
+                    issuer: /\.[jt]sx?$/,
                     use: [
                         {
                             loader: '@svgr/webpack',

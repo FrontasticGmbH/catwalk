@@ -9,6 +9,7 @@ export interface PageFolderValue {
      pageFolderId?: string;
      name?: string;
      configuration?: any;
+     hasLivePage?: boolean;
      _urls?: any;
      /**
       * The url for the current locale

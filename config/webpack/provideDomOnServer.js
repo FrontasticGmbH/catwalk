@@ -1,8 +1,8 @@
 const webpack = require('webpack')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 
 module.exports = (config, PRODUCTION, SERVER) => {
-    return merge.smart(
+    return merge(
         {
             plugins: [
                 new webpack.ProvidePlugin({

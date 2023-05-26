@@ -46,13 +46,9 @@ export const storybookStore = createStore(
                 project: {
                     configuration: {
                         cloudinary: {
-                            apiKey: '183832318368184',
-                            apiSecret: '93R2n-_itjETBA3o1OSN0X-w56g',
                             cloudName: 'dlwdq84ig',
                         },
                         media: {
-                            apiKey: '183832318368184',
-                            apiSecret: '93R2n-_itjETBA3o1OSN0X-w56g',
                             cloudName: 'dlwdq84ig',
                             engine: 'cloudinary',
                         },

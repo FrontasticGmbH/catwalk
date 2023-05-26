@@ -43,7 +43,7 @@ class CorsHandler
                 'Access-Control-Allow-Origin' => $origin,
                 'Access-Control-Allow-Methods' => '*',
                 // @codingStandardsIgnoreLine
-                'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration',
+                'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Cookie, Frontastic-Session, X-Frontastic-Access-Token, Frontastic-Locale, Frontastic-Path, coFE-Custom-Configuration, Commercetools-Frontend-Extension-Version',
                 'Access-Control-Allow-Credentials' => 'true'
             ]);
 
@@ -68,12 +68,12 @@ class CorsHandler
             'Access-Control-Allow-Headers',
             // @codingStandardsIgnoreLine
             'Origin, Content-Type, Accept, Cookie, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, '
-            .'coFE-Custom-Configuration'
+            .'coFE-Custom-Configuration, Commercetools-Frontend-Extension-Version'
         );
         $headers->set(
             'Access-Control-Expose-Headers',
             '*, Authorization, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, '
-            .'coFE-Custom-Configuration'
+            .'coFE-Custom-Configuration, Commercetools-Frontend-Extension-Version'
         );
         $headers->set('Access-Control-Allow-Credentials', 'true');
     }

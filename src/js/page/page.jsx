@@ -41,7 +41,7 @@ const PageView = ({ page, tastics, node, data, highlight }) => {
         return layouts[pageState.layoutId] || DefaultLayout
     }
 
-    let Layout = getLayout()
+    const Layout = getLayout()
     return (
         <Layout
             node={node}

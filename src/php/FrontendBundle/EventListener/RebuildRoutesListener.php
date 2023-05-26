@@ -41,6 +41,6 @@ class RebuildRoutesListener
         $nodeService = $this->container->get(NodeService::class);
         $routeService->rebuildRoutes($nodeService->getNodes());
 
-        $this->logger->info('Routes rebuild in ' . __METHOD__ . '()');
+        $this->logger->debug('Routes rebuild in ' . __METHOD__ . '()');
     }
 }

@@ -64,7 +64,7 @@ Return Value: `mixed`
 
 ```php
 public function getRepository(
-    string $className
+    string $identifier
 ): ?DataRepository
 ```
 
@@ -75,7 +75,7 @@ Please make sure your code works accordingly!
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
-`$className`|`string`||
+`$identifier`|`string`||
 
 Return Value: ?[`DataRepository`](DataRepository.md)
 
