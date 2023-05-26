@@ -112,7 +112,13 @@ class PageFolderCompletionVisitor implements FieldVisitor
         }
 
         $requestedDepth = $value['studioValue']['depth'] ?? null;
-
+        
+        if (!is_int($requestedDepth) && is_numeric($requestedDepth)) {
+            $requestedDepth = intval($requestedDepth);
+        } elseif (!is_int($requestedDepth) && $requestedDepth !== null) {
+            $requestedDepth = null;
+        }
+        
         return $this->generateTreeRecursive($value['handledValue'], $requestedDepth);
     }
 

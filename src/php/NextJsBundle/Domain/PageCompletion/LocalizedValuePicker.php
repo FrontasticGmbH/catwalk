@@ -18,16 +18,28 @@ class LocalizedValuePicker
             return $value;
         }
 
+        $locale = $context->locale;
+
         // Text available in currently selected locale
-        if (isset($value[$context->locale])) {
-            return $value[$context->locale];
+        if (isset($value[$locale])) {
+            return $value[$locale];
+        }
+
+        // Remove the currency if available
+        if (strpos($locale, "@") !== false) {
+            $splitString = explode("@", $locale);
+            $locale = $splitString[0];
+        }
+        // Text available in the updated locale
+        if (isset($value[$locale])) {
+            return $value[$locale];
         }
 
         // Text available in language of current locale
         $language = substr(
             $context->locale,
             0,
-            strpos($context->locale, '_')
+            strpos($locale, '_')
         );
         if (isset($value[$language])) {
             return $value[$language];

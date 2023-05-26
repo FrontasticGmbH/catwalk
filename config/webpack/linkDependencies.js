@@ -1,4 +1,4 @@
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const PrebuildPlugin = require('prebuild-webpack-plugin')
 const paths = require('../paths')
 const fs = require('fs')

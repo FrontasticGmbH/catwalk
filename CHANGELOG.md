@@ -1,4 +1,92 @@
 
+## Version 1.61.1 (2023-05-22)
+
+** Bug fixes **
+
+- Fix an issue with custom app entity class auto loading
+
+## Version 1.61.0 (2023-05-09)
+
+** New Features and Improvements **
+
+- Add option to specify the server side rendering timeout in the environment
+
+## Version 1.60.4 (2023-05-05)
+
+** Bug fixes **
+
+- Always pass array to JWT token encoding function in Commercetools Frontend
+
+** New Features and Improvements **
+
+- New endpoint in Commercetools Frontend to record frontend errors
+
+## Version 1.60.3 (2023-05-04)
+
+** Bug fixes **
+
+- Fix bug affecting Commercetools Frontend where JWT tokens were unable to be decoded
+
+## Version 1.60.2 (2023-05-04)
+
+** New Features and Improvements **
+
+* Update firebase dependency in catwalk to v 6.4
+
+## Version 1.60.1 (2023-05-04)
+
+** Bug fixes **
+
+- Fix bug that causes reduced performance for Commercetools Frontend customers with large number of Studio pages
+
+## Version 1.60.0 (2023-04-28)
+
+** Bug fixes **
+
+- Use the correct version of the `@types/react` package (16 instead of 17) in the dependencies
+
+## Version 1.59.4 (2023-04-24)
+
+** No relevant changes **
+
+## Version 1.59.3 (2023-04-21)
+
+** Bug fixes **
+
+- Security fix for Commercetools Frontend
+
+## Version 1.59.2 (2023-03-31)
+
+** Bug fixes **
+
+- Strip the currency off the locale in Commercetools Frontend for page completion as well
+
+## Version 1.59.1 (2023-03-22)
+
+** New Features and Improvements **
+
+- Strip the currency off the locale in Commercetools Frontend endpoints
+
+## Version 1.59.0 (2023-03-20)
+
+** New Features and Improvements **
+
+- Accept Commercetools-Frontend header in Commercetools Frontend endpoints
+
+## Version 1.58.0 (2023-03-13)
+
+** New Features and Improvements **
+
+- Cache Node IDs per route in redux in the frontend, so navigating to already visited pages is instantaneously
+- Load the Gedmo doctrine extensions from the root directories vendor directory, if available
+
+## Version 1.57.0 (2023-03-02)
+
+** New Features and Improvements **
+
+- Update webpack and related packages. This might need adjustments to custom webpack extensions
+- Remove hardcoded list of customer names in clear endpoint
+
 ## Version 1.56.0 (2023-03-01)
 
 ** New Features and Improvements **

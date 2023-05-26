@@ -1,4 +1,4 @@
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const autoprefixer = require('autoprefixer')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const paths = require('../paths')
@@ -34,12 +34,11 @@ module.exports = (config, PRODUCTION, SERVER) => {
                         {
                             loader: require.resolve('postcss-loader'),
                             options: {
-                                ident: 'postcss',
-                                plugins: () => {
-                                    return [
+                                postcssOptions: {
+                                    plugins: [
                                         require('postcss-flexbugs-fixes'),
                                         autoprefixer(),
-                                    ]
+                                    ],
                                 },
                             },
                         },
@@ -67,12 +66,11 @@ module.exports = (config, PRODUCTION, SERVER) => {
                         {
                             loader: require.resolve('postcss-loader'),
                             options: {
-                                ident: 'postcss',
-                                plugins: () => {
-                                    return [
+                                postcssOptions: {
+                                    plugins: [
                                         require('postcss-flexbugs-fixes'),
                                         autoprefixer(),
-                                    ]
+                                    ],
                                 },
                             },
                         },

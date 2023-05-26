@@ -7,6 +7,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Node;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\Page;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue\PageFolderTreeValue;
 use Frontastic\Catwalk\NextJsBundle\Domain\SiteBuilderPageService;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldConfiguration;
 use Frontastic\Common\SpecificationBundle\Domain\Schema\FieldVisitor\SequentialFieldVisitor;
@@ -103,5 +104,82 @@ class PageFolderCompletionVisitorTest extends TestCase
         );
 
         $this->assertNull($result);
+    }
+
+    public function testDepthIsStringDoesntError()
+    {
+        $nodeName = 'nodeName';
+        $nodeConfiguration = (object)['configuration' => 'helloWorld'];
+
+        $node = new Node(["nodeId" => "test"]);
+        $node->name = $nodeName;
+        $node->configuration = $nodeConfiguration;
+    
+        \Phake::when($this->fieldConfiguration)->getType->thenReturn('tree');
+        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
+        \Phake::when($this->nodeService)->completeCustomNodeData->thenReturn($node);
+
+        $result = $this->subject->processField(
+            $this->fieldConfiguration,
+            [
+                "studioValue" => [
+                    'node' => $node,
+                    'depth' => "test"
+                ],
+                'handledValue' => $node
+            ],
+            []
+        );
+
+        $this->assertInstanceOf(PageFolderTreeValue::class, $result);
+        $this->assertNull($result->requestedDepth);
+    }
+
+    public function testDepthIsStringWithEmptyNodeDoesntError()
+    {
+        \Phake::when($this->fieldConfiguration)->getType->thenReturn('tree');
+
+        $result = $this->subject->processField(
+            $this->fieldConfiguration,
+            [
+                "studioValue" => [
+                    'node' => null,
+                    'depth' => "test"
+                ],
+                'handledValue' => new Node()
+            ],
+            []
+        );
+
+        $this->assertNull($result);
+    }
+
+    public function testDepthIsNumericStringDoesntError()
+    {
+        $nodeName = 'nodeName';
+        $nodeConfiguration = (object)['configuration' => 'helloWorld'];
+
+        $node = new Node(["nodeId" => "test"]);
+        $node->name = $nodeName;
+        $node->configuration = $nodeConfiguration;
+    
+        \Phake::when($this->fieldConfiguration)->getType->thenReturn('tree');
+        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
+        \Phake::when($this->nodeService)->completeCustomNodeData->thenReturn($node);
+
+        $result = $this->subject->processField(
+            $this->fieldConfiguration,
+            [
+                "studioValue" => [
+                    'node' => $node,
+                    'depth' => "1"
+                ],
+                'handledValue' => $node
+            ],
+            []
+        );
+
+        $this->assertInstanceOf(PageFolderTreeValue::class, $result);
+        $this->assertEquals(1, $result->requestedDepth);
     }
 }
