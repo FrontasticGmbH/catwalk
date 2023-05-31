@@ -67,13 +67,14 @@ class CorsHandler
         $headers->set(
             'Access-Control-Allow-Headers',
             // @codingStandardsIgnoreLine
-            'Origin, Content-Type, Accept, Cookie, Frontastic-Currency, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, '
-            .'coFE-Custom-Configuration, Commercetools-Frontend-Extension-Version'
+            'Origin, Content-Type, Accept, Cookie, Frontastic-Currency, Frontastic-Locale, Frontastic-Path,'
+            . ' Frontastic-Session, X-Frontastic-Access-Token, coFE-Custom-Configuration,'
+            . ' Commercetools-Frontend-Extension-Version'
         );
         $headers->set(
             'Access-Control-Expose-Headers',
-            '*, Authorization, Frontastic-Currency, Frontastic-Locale, Frontastic-Path, Frontastic-Session, X-Frontastic-Access-Token, '
-            .'coFE-Custom-Configuration, Commercetools-Frontend-Extension-Version'
+            '*, Authorization, Frontastic-Currency, Frontastic-Locale, Frontastic-Path, Frontastic-Session,'
+            . ' X-Frontastic-Access-Token, coFE-Custom-Configuration, Commercetools-Frontend-Extension-Version'
         );
         $headers->set('Access-Control-Allow-Credentials', 'true');
     }
