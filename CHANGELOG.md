@@ -1,4 +1,10 @@
 
+## Version 1.63.0 (2023-05-31)
+
+** New Features and Improvements **
+
+- Accepted Frontastic-Currency header in Cors handler
+
 ## Version 1.62.0 (2023-05-26)
 
 ** New Features and Improvements **
