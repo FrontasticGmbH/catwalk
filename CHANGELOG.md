@@ -1,4 +1,10 @@
 
+## Version 1.63.1 (2023-06-05)
+
+** Bug fixes **
+
+- Fix dynamic page contexts not properly passed to extensions in Commercetools Frontend
+
 ## Version 1.63.0 (2023-05-31)
 
 ** New Features and Improvements **
