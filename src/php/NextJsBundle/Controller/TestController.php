@@ -13,6 +13,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceConfiguration;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\DataSourceResult;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\PageFolder;
 use Frontastic\Catwalk\NextJsBundle\Domain\Api\Page;
+use Frontastic\Catwalk\NextJsBundle\Domain\ContextCompletionService;
 use Frontastic\Catwalk\NextJsBundle\Domain\FromFrontasticReactMapper;
 use Frontastic\Catwalk\NextJsBundle\Domain\RequestService;
 
@@ -21,15 +22,18 @@ class TestController
     private ExtensionService $extensionService;
     private RequestService $requestService;
     private FromFrontasticReactMapper $mapper;
+    private ContextCompletionService $contextCompletionService;
 
     public function __construct(
         ExtensionService $extensionService,
         RequestService $requestService,
-        FromFrontasticReactMapper $mapper
+        FromFrontasticReactMapper $mapper,
+        ContextCompletionService $contextCompletionService
     ) {
         $this->extensionService = $extensionService;
         $this->requestService = $requestService;
         $this->mapper = $mapper;
+        $this->contextCompletionService = $contextCompletionService;
     }
 
     public function dataSourceAction(string $identifier, SymfonyRequest $request, Context $context)
@@ -43,6 +47,8 @@ class TestController
         // copied from Typescript TODO: put that in a central place
         $hookName = 'data-source-' . str_replace('/', '-', $identifier);
 
+        $dataSourceContext = $this->mapper->map($context);
+        $dataSourceContext = $this->contextCompletionService->completeContextData($dataSourceContext, $context);
 
         try {
             $dataSourceResultResponse = $this->extensionService->callDataSource(
@@ -52,7 +58,7 @@ class TestController
                         'configuration' => $requestContentJson
                     ]),
                     new DataSourceContext([
-                        'frontasticContext' => $this->mapper->map($context),
+                        'frontasticContext' => $dataSourceContext,
                         'pageFolder' => new PageFolder(
                             ['pageFolderId' => 'somePageFolderId']
                         ),
