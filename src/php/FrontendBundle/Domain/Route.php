@@ -25,4 +25,9 @@ class Route extends DataObject
      * @var ?string
      */
     public $locale;
+
+    /**
+     * @var string[] The list of all locales which have the exact same route for this node.
+     */
+    public $matchingLocales = [];
 }
