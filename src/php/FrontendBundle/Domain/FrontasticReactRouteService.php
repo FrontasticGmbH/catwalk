@@ -163,6 +163,8 @@ class FrontasticReactRouteService implements RouteService
     {
         $project = reset($this->customerService->getCustomer()->projects);
 
+        $localesByUrl = [];
+
         $routes = [];
         foreach ($project->languages as $locale) {
             $relativeRoute =
@@ -174,11 +176,22 @@ class FrontasticReactRouteService implements RouteService
 
             $parentPath = $this->determineParentPath($parentRoutes, $locale);
 
+            $generatedUrl = rtrim($parentPath, '/') . $relativeRoute;
+
+            if (!array_key_exists($generatedUrl, $localesByUrl)) {
+                $localesByUrl[$generatedUrl] = [];
+            }
+            $localesByUrl[$generatedUrl][] = $locale;
+
             $routes[] = new Route([
                 'nodeId' => $node->nodeId,
-                'route' => rtrim($parentPath, '/') . $relativeRoute,
+                'route' => $generatedUrl,
                 'locale' => $locale,
             ]);
+        }
+
+        foreach ($routes as $route) {
+            $route->matchingLocales = $localesByUrl[$route->route] ?? [];
         }
 
         return $routes;
