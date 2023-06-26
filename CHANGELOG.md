@@ -1,4 +1,14 @@
 
+## Version 1.64.0 (2023-06-26)
+
+** New Features and Improvements **
+
+- Add option to only use static page paths matching the current users locale. This needs to be enabled by registering the `VerifyStaticPagePathLocaleMatchesRequestLocale`.
+
+** Bug fixes **
+
+- Fix a TypeScript error in generated code for files overwritten by the component injector
+
 ## Version 1.63.1 (2023-06-05)
 
 ** Bug fixes **
