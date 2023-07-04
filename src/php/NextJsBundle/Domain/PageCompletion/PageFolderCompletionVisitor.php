@@ -86,7 +86,7 @@ class PageFolderCompletionVisitor implements FieldVisitor
         $node = $this->nodeService->get($pageFolderId);
         $node = $this->nodeService->completeCustomNodeData(
             $node,
-            $this->fieldVisitorFactory->createNodeDataVisitor($this->context)
+            $this->fieldVisitorFactory->createOneLevelNodeDataVisitor($this->context)
         );
 
         $urls = $this->siteBuilderPageService->getPathsForSiteBuilderPage($pageFolderId);
@@ -112,13 +112,13 @@ class PageFolderCompletionVisitor implements FieldVisitor
         }
 
         $requestedDepth = $value['studioValue']['depth'] ?? null;
-        
+
         if (!is_int($requestedDepth) && is_numeric($requestedDepth)) {
             $requestedDepth = intval($requestedDepth);
         } elseif (!is_int($requestedDepth) && $requestedDepth !== null) {
             $requestedDepth = null;
         }
-        
+
         return $this->generateTreeRecursive($value['handledValue'], $requestedDepth);
     }
 
