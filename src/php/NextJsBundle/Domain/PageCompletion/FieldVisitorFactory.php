@@ -61,6 +61,23 @@ class FieldVisitorFactory
         return $this->nodeDataVisitor;
     }
 
+    public function createOneLevelNodeDataVisitor(Context $context): FieldVisitor
+    {
+        if ($this->oneLevelNodeDataVisitor === null) {
+            $this->oneLevelNodeDataVisitor = new SequentialFieldVisitor([
+                new SelectTranslationVisitor($context),
+                new PageFolderCompletionVisitor(
+                    $this->siteBuilderPageService,
+                    $this->nodeService,
+                    $this->pageService,
+                    $context,
+                    $this
+                ),
+            ]);
+        }
+        return $this->oneLevelNodeDataVisitor;
+    }
+
     public function createProjectConfigurationDataVisitor(Context $context): FieldVisitor
     {
         return new SequentialFieldVisitor([
