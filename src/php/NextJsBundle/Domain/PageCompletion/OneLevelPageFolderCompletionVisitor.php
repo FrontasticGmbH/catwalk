@@ -7,7 +7,7 @@ use Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue\PageFolderValue;
 class OneLevelPageFolderCompletionVisitor extends PageFolderCompletionVisitor
 {
     // this is the same as in PageFolderCompletionVisitor, but with the call to completeCustomNodeData() removed
-    private function createNodeRepresentation(string $pageFolderId): PageFolderValue
+    protected function createNodeRepresentation(string $pageFolderId): PageFolderValue
     {
         $node = $this->nodeService->get($pageFolderId);
 
