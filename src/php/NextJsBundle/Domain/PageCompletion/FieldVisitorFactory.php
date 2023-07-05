@@ -67,7 +67,7 @@ class FieldVisitorFactory
         if ($this->oneLevelNodeDataVisitor === null) {
             $this->oneLevelNodeDataVisitor = new SequentialFieldVisitor([
                 new SelectTranslationVisitor($context),
-                new PageFolderCompletionVisitor(
+                new OneLevelPageFolderCompletionVisitor(
                     $this->siteBuilderPageService,
                     $this->nodeService,
                     $this->pageService,

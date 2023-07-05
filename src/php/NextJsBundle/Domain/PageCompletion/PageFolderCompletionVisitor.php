@@ -81,7 +81,7 @@ class PageFolderCompletionVisitor implements FieldVisitor
         return $value;
     }
 
-    private function createNodeRepresentation(string $pageFolderId): PageFolderValue
+    protected function createNodeRepresentation(string $pageFolderId): PageFolderValue
     {
         $node = $this->nodeService->get($pageFolderId);
         $node = $this->nodeService->completeCustomNodeData(

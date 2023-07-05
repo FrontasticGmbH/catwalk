@@ -282,7 +282,7 @@ class PageFolderCompletionVisitorTest extends TestCase
 
         $this->assertNotEmpty($result);
 
-        // root node is requested once for resolving the ctaReference
+        // leaf node is requested once for resolving the ctaReference
         \Phake::verify($this->nodeService, \Phake::atLeast(1))->get('LeafNode');
         \Phake::verify($this->nodeService, \Phake::atLeast(1))->completeCustomNodeData(\Phake::anyParameters());
         \Phake::verifyNoOtherInteractions($this->nodeService);
