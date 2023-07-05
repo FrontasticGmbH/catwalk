@@ -2,6 +2,8 @@
 
 namespace Frontastic\Catwalk\NextJsBundle\Domain\PageCompletion;
 
+use Frontastic\Catwalk\NextJsBundle\Domain\Api\TasticFieldValue\PageFolderValue;
+
 class OneLevelPageFolderCompletionVisitor extends PageFolderCompletionVisitor
 {
     // this is the same as in PageFolderCompletionVisitor, but with the call to completeCustomNodeData() removed
