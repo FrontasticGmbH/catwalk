@@ -16,6 +16,7 @@ class FieldVisitorFactory
     private PageService $pageService;
 
     private ?FieldVisitor $nodeDataVisitor = null;
+    private ?FieldVisitor $oneLevelNodeDataVisitor = null;
 
     public function __construct(
         SiteBuilderPageService $siteBuilderPageService,

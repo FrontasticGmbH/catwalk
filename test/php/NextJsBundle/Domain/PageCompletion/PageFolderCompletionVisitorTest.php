@@ -79,7 +79,7 @@ class PageFolderCompletionVisitorTest extends TestCase
         \Phake::when($this->nodeService)->completeCustomNodeData->thenReturn($node);
         \Phake::when($this->pageService)->fetchForNode->thenReturn($page);
         \Phake::when($this->siteBuilderPageService)->getPathsForSiteBuilderPage($pageFolderId)->thenReturn($urls);
-        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
+        \Phake::when($this->fieldVisitorFactory)->createOneLevelNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
         $this->context->locale = 'it_CH';
 
         $result = $this->subject->processField(
@@ -241,7 +241,6 @@ class PageFolderCompletionVisitorTest extends TestCase
         $schemaService = \Phake::partialMock(SchemaService::class, \Phake::mock(SchemaGateway::class), $tenantCache);
         $nodeGateway = \Phake::mock(NodeGateway::class);
 
-        // TODO delete
         $this->context->project = new Project(['projectId' => 'testProject', 'name' => 'testProject']);
         $contextService = \Phake::mock(ContextService::class);
         \Phake::when($contextService)->getContext()->thenReturn($this->context);

@@ -17,11 +17,11 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class PageFolderCompletionVisitor implements FieldVisitor
 {
-    private SiteBuilderPageService $siteBuilderPageService;
-    private NodeService $nodeService;
-    private Context $context;
-    private FieldVisitorFactory $fieldVisitorFactory;
-    private PageService $pageService;
+    protected SiteBuilderPageService $siteBuilderPageService;
+    protected NodeService $nodeService;
+    protected Context $context;
+    protected FieldVisitorFactory $fieldVisitorFactory;
+    protected PageService $pageService;
 
     public function __construct(
         SiteBuilderPageService $siteBuilderPageService,
@@ -159,7 +159,7 @@ class PageFolderCompletionVisitor implements FieldVisitor
         ]);
     }
 
-    private function pageExists(string $pageFolderId)
+    protected function pageExists(string $pageFolderId)
     {
         try {
             $page = $this->pageService->fetchForNode(new Node(["nodeId" => $pageFolderId]), $this->context);
