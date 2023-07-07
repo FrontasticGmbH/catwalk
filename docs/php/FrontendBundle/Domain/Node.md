@@ -13,7 +13,7 @@ Property|Type|Default|Required|Description
 `configuration` | `array` | `[]` | *Yes* | 
 `streams` | [`Stream`](Stream.md)[] | `[]` | *Yes* | 
 `name` | `string` |  | - | 
-`path` | `string[]` | `[]` | *Yes* | 
+`path` | `string` | `''` | *Yes* | 
 `depth` | `int` |  | - | 
 `sort` | `int` |  | *Yes* | 
 `children` | [`Node`](Node.md)[] | `[]` | *Yes* | 
