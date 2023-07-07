@@ -16,6 +16,7 @@ class FieldVisitorFactory
     private PageService $pageService;
 
     private ?FieldVisitor $nodeDataVisitor = null;
+    private ?FieldVisitor $oneLevelNodeDataVisitor = null;
 
     public function __construct(
         SiteBuilderPageService $siteBuilderPageService,
@@ -59,6 +60,23 @@ class FieldVisitorFactory
             ]);
         }
         return $this->nodeDataVisitor;
+    }
+
+    public function createOneLevelNodeDataVisitor(Context $context): FieldVisitor
+    {
+        if ($this->oneLevelNodeDataVisitor === null) {
+            $this->oneLevelNodeDataVisitor = new SequentialFieldVisitor([
+                new SelectTranslationVisitor($context),
+                new OneLevelPageFolderCompletionVisitor(
+                    $this->siteBuilderPageService,
+                    $this->nodeService,
+                    $this->pageService,
+                    $context,
+                    $this
+                ),
+            ]);
+        }
+        return $this->oneLevelNodeDataVisitor;
     }
 
     public function createProjectConfigurationDataVisitor(Context $context): FieldVisitor

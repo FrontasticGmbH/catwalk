@@ -51,10 +51,10 @@ class Node extends DataObject
     public $name;
 
     /**
-     * @var string[]
+     * @var string
      * @required
      */
-    public $path = [];
+    public $path = '';
 
     /**
      * @var integer
