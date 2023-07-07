@@ -17,11 +17,11 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 
 class PageFolderCompletionVisitor implements FieldVisitor
 {
-    private SiteBuilderPageService $siteBuilderPageService;
-    private NodeService $nodeService;
-    private Context $context;
-    private FieldVisitorFactory $fieldVisitorFactory;
-    private PageService $pageService;
+    protected SiteBuilderPageService $siteBuilderPageService;
+    protected NodeService $nodeService;
+    protected Context $context;
+    protected FieldVisitorFactory $fieldVisitorFactory;
+    protected PageService $pageService;
 
     public function __construct(
         SiteBuilderPageService $siteBuilderPageService,
@@ -81,12 +81,12 @@ class PageFolderCompletionVisitor implements FieldVisitor
         return $value;
     }
 
-    private function createNodeRepresentation(string $pageFolderId): PageFolderValue
+    protected function createNodeRepresentation(string $pageFolderId): PageFolderValue
     {
         $node = $this->nodeService->get($pageFolderId);
         $node = $this->nodeService->completeCustomNodeData(
             $node,
-            $this->fieldVisitorFactory->createNodeDataVisitor($this->context)
+            $this->fieldVisitorFactory->createOneLevelNodeDataVisitor($this->context)
         );
 
         $urls = $this->siteBuilderPageService->getPathsForSiteBuilderPage($pageFolderId);
@@ -112,13 +112,13 @@ class PageFolderCompletionVisitor implements FieldVisitor
         }
 
         $requestedDepth = $value['studioValue']['depth'] ?? null;
-        
+
         if (!is_int($requestedDepth) && is_numeric($requestedDepth)) {
             $requestedDepth = intval($requestedDepth);
         } elseif (!is_int($requestedDepth) && $requestedDepth !== null) {
             $requestedDepth = null;
         }
-        
+
         return $this->generateTreeRecursive($value['handledValue'], $requestedDepth);
     }
 
@@ -159,7 +159,7 @@ class PageFolderCompletionVisitor implements FieldVisitor
         ]);
     }
 
-    private function pageExists(string $pageFolderId)
+    protected function pageExists(string $pageFolderId)
     {
         try {
             $page = $this->pageService->fetchForNode(new Node(["nodeId" => $pageFolderId]), $this->context);
