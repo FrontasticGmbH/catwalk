@@ -1,3 +1,8 @@
+## Version 1.64.1 (2023-07-07)
+
+** Bug fixes **
+
+- Fix an infinite loop which occurs if a page folder has a reference to itself
 
 ## Version 1.64.0 (2023-06-26)
 
