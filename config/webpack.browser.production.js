@@ -35,7 +35,7 @@ config.optimization = {
                 test: /\/layout\/icons\//,
                 priority: 10,
             },
-            vendors: {
+            defaultVendors: {
                 test: /\/node_modules\//,
                 priority: 5,
             },
