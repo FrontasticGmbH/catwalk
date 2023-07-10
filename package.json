@@ -97,7 +97,7 @@
         "resolve-url-loader": "^5.0.0",
         "rss-parser": "^3.4.2",
         "sass": "^1.23.7",
-        "sass-loader": "^10.4.1",
+        "sass-loader": "^13.3.2",
         "stats-webpack-plugin": "^0.7.0",
         "storybook-react-router": "^1.0.5",
         "style-loader": "^2.0.0",
