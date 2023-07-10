@@ -176,7 +176,6 @@
         <service id="Frontastic\Catwalk\ApiCoreBundle\Monolog\FrontasticLogProcessor">
             <tag name="monolog.processor"/>
             <argument type="service" id="request_stack" />
-            <argument>%frontastic.environment%</argument>
         </service>
 
     </services>
