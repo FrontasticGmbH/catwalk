@@ -73,7 +73,7 @@
         "paypal-checkout": "^4.0.218",
         "postcss": "^7.0.39",
         "postcss-flexbugs-fixes": "4.1.0",
-        "postcss-loader": "4.2.0",
+        "postcss-loader": "7.3.3",
         "prebuild-webpack-plugin": "^1.1.0",
         "promise": "8.0.3",
         "prop-types": "^15.6.2",
