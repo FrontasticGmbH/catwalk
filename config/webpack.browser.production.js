@@ -28,7 +28,6 @@ config.optimization = {
         maxSize: 0,
         minChunks: 1,
         automaticNameDelimiter: '~',
-        name: true,
         cacheGroups: {
             icons: {
                 minChunks: 1,
