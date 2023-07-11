@@ -25,7 +25,6 @@ config.optimization = {
     splitChunks: {
         chunks: 'all',
         minSize: 10 * 1024,
-        maxSize: 0,
         minChunks: 1,
         automaticNameDelimiter: '~',
         cacheGroups: {
