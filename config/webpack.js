@@ -28,8 +28,8 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
     const assetBaseDir = PRODUCTION ? 'assets/' : 'webpack/'
 
     let config = {
-        // Configure build target
-        target: SERVER ? 'node' : 'web',
+        // Configure build target, use defaults for the "web" case to let webpack decide between static web and browserslist
+        target: SERVER ? 'node' : undefined,
         // Fail out on the first error instead of tolerating it.
         bail: !!PRODUCTION,
         // General webpack mode, which can effect different settings
