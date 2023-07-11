@@ -8,7 +8,10 @@ module.exports = (config, PRODUCTION, SERVER) => {
         config,
         {
             plugins: [
-                new webpack.IgnorePlugin(/^\.css$/, /\.scss$/),
+                new webpack.IgnorePlugin({
+                    resourceRegExp: /^\.css$/,
+                    contextRegExp: /\.scss$/,
+                }),
                 new MiniCssExtractPlugin({
                     filename: '../build/css/[name].[hash:8].css',
                     chunkFilename: '../build/css/[name].[hash:8].css',
