@@ -55,8 +55,8 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
             path: paths.appBuild,
             // Add /* filename */ comments to generated require()s in the output.
             pathinfo: true,
-            filename: assetBaseDir + 'js/[name].[hash:8].js',
-            chunkFilename: assetBaseDir + 'js/[name].[hash:8].chunk.js',
+            filename: assetBaseDir + 'js/[name].[contenthash:8].js',
+            chunkFilename: assetBaseDir + 'js/[name].[contenthash:8].chunk.js',
             // This is the URL that app is served from. We use "/" in development.
             publicPath: publicPath,
             // Point sourcemap entries to original disk location (format as URL on Windows)
@@ -168,7 +168,7 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
                     ],
                     loader: require.resolve('file-loader'),
                     options: {
-                        name: assetBaseDir + 'media/[name].[hash:8].[ext]',
+                        name: assetBaseDir + 'media/[name].[contenthash:8].[ext]',
                     },
                 },
                 // 'url' loader works just like 'file' loader but it also embeds
@@ -178,7 +178,7 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
                     loader: require.resolve('url-loader'),
                     options: {
                         limit: 10 * 1024,
-                        name: assetBaseDir + 'media/[name].[hash:8].[ext]',
+                        name: assetBaseDir + 'media/[name].[contenthash:8].[ext]',
                     },
                 },
                 // ** STOP ** Are you adding a new loader?

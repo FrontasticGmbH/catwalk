@@ -13,8 +13,8 @@ module.exports = (config, PRODUCTION, SERVER) => {
                     contextRegExp: /\.scss$/,
                 }),
                 new MiniCssExtractPlugin({
-                    filename: '../build/css/[name].[hash:8].css',
-                    chunkFilename: '../build/css/[name].[hash:8].css',
+                    filename: '../build/css/[name].[contenthash:8].css',
+                    chunkFilename: '../build/css/[name].[contenthash:8].css',
                 }),
             ],
             module: {
