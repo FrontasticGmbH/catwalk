@@ -93,6 +93,8 @@ function build (previousFileSizes) {
 
     return new Promise((resolve, reject) => {
         compiler.run((err, stats) => {
+            compiler.close(() => {})
+
             if (err) {
                 return reject(err)
             }

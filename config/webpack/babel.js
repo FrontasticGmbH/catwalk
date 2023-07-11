@@ -50,7 +50,7 @@ module.exports = (config, PRODUCTION, SERVER) => {
                     },
                     {
                         test: /\.(tsx)$/,
-                        loaders: [
+                        use: [
                             require.resolve('babel-loader'),
                             {
                                 loader: require.resolve('ts-loader'),

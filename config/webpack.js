@@ -93,6 +93,16 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
             alias: {
                 'ComponentInjector': path.join(paths.catwalk, "src/js/app/injector")
             },
+            // Some libraries import Node modules but don't use them in the browser.
+            // Tell Webpack to provide empty mocks for them so importing them works.
+            fallback: SERVER
+                ? {}
+                : {
+                    dgram: 'empty',
+                    fs: 'empty',
+                    net: 'empty',
+                    tls: 'empty',
+                },
         },
         plugins: [
             // Makes some environment variables available to the JS code, for example:
@@ -173,16 +183,6 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
                 // Remember to add the new extension(s) to the 'file' loader exclusion list.
             ],
         },
-        // Some libraries import Node modules but don't use them in the browser.
-        // Tell Webpack to provide empty mocks for them so importing them works.
-        node: SERVER
-            ? false
-            : {
-                dgram: 'empty',
-                fs: 'empty',
-                net: 'empty',
-                tls: 'empty',
-            },
     }
 
     config = require('./webpack/babel.js')(config, PRODUCTION, SERVER)
