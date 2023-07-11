@@ -91,8 +91,8 @@ module.exports = (config, PRODUCTION, SERVER) => {
         },
         plugins: [
             new MiniCssExtractPlugin({
-                filename: 'assets/css/[name].[hash:8].css',
-                chunkFilename: 'assets/css/[name].[hash:8].css',
+                filename: 'assets/css/[name].[contenthash:8].css',
+                chunkFilename: 'assets/css/[name].[contenthash:8].css',
             }),
         ],
     })
