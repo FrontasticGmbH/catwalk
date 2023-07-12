@@ -21,6 +21,7 @@ config.optimization = {
     minimize: true,
     minimizer: [new CssMinimizerPlugin(), new TerserPlugin({
         test: /\.js(\?.*)?$/i,
+        extractComments: false,
     })],
     splitChunks: {
         chunks: 'all',
