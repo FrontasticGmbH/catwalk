@@ -37,6 +37,7 @@ config.optimization = {
             defaultVendors: {
                 test: /\/node_modules\//,
                 priority: 5,
+                name: 'vendors~main',
             },
             default: {
                 minChunks: 2,
