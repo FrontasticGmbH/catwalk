@@ -20,6 +20,7 @@ config.optimization = {
     minimize: true,
     minimizer: [new CssMinimizerPlugin(), new TerserPlugin({
         test: /\.js(\?.*)?$/i,
+        extractComments: false,
     })]
 }
 config.output.filename = 'assets/js/server.js'
