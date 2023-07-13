@@ -18,6 +18,8 @@ module.exports = function (proxy = null) {
         client: {
             logging: 'none',
             overlay: false,
+            // Magic value to automatically detect websocket url from browser
+            webSocketURL: 'auto://0.0.0.0:0/ws',
         },
         // Enable hot reloading server. It will provide /sockjs-node/ endpoint
         // for the WebpackDevServer client so it can learn when the files were
@@ -30,9 +32,6 @@ module.exports = function (proxy = null) {
         devMiddleware: {
             publicPath: config.output.publicPath,
         },
-        // WebpackDevServer is noisy by default so we emit custom message instead
-        // by listening to the compiler events with `compiler.plugin` calls above.
-        quiet: true,
         // Reportedly, this avoids CPU overload on some systems.
         // https://github.com/facebookincubator/create-react-app/issues/293
         static: {
@@ -50,7 +49,7 @@ module.exports = function (proxy = null) {
             // for files like `favicon.ico`, `manifest.json`, and libraries that are
             // for some reason broken when imported through Webpack. If you just want to
             // use an image, put it in `src` and `import` it from JavaScript instead.
-            contentBase: paths.appPublic,
+            directory: paths.appPublic,
             watch: {
                 ignored: /node_modules/,
                 usePolling: true,
@@ -73,7 +72,7 @@ module.exports = function (proxy = null) {
             // We do this in development to avoid hitting the production cache if
             // it used the same host and port.
             // https://github.com/facebookincubator/create-react-app/issues/2272#issuecomment-302832432
-            devServer.app.use(noopServiceWorkerMiddleware())
+            devServer.app.use(noopServiceWorkerMiddleware(''))
         },
     }
 }

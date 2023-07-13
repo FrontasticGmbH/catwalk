@@ -112,6 +112,10 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
             new webpack.DefinePlugin({
                 PRODUCTION: JSON.stringify(PRODUCTION),
                 'process.env.NODE_ENV': PRODUCTION ? '"production"' : '"development"',
+                // Workaround for react-dev-utils/webpackHotDevClient.js hard-requiring 'process'
+                'process.env.WDS_SOCKET_HOST': undefined,
+                'process.env.WDS_SOCKET_PORT': undefined,
+                'process.env.WDS_SOCKET_PATH': undefined,
             }),
             // Watcher doesn't work well if you mistype casing in a path so we use
             // a plugin that prints an error when you attempt to do this.
