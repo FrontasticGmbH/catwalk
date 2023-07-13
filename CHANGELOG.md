@@ -1,4 +1,9 @@
-## Version 1.64.1 (2023-07-07)
+## Version 1.64.2 (2023-07-13)
+
+** Bug fixes **
+
+- remove route logging in staging and production
+
 
 ** Bug fixes **
 
