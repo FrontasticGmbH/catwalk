@@ -97,13 +97,14 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
             // Tell Webpack to provide empty mocks for them so importing them works.
             fallback: SERVER
                 ? {
-                    util: require.resolve("util/")
+                    util: require.resolve('util/'),
                 }
                 : {
-                    dgram: 'empty',
-                    fs: 'empty',
-                    net: 'empty',
-                    tls: 'empty',
+                    url: require.resolve('url/'),
+                    dgram: false,
+                    fs: false,
+                    net: false,
+                    tls: false,
                 },
         },
         plugins: [
