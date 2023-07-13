@@ -115,7 +115,7 @@
         "webpack-merge": "^5.9.0",
         "webpack-node-externals": "^3.0.0",
         "whatwg-fetch": "3.0.0",
-        "workbox-webpack-plugin": "^7.0.0"
+        "workbox-webpack-plugin": "6.5.4"
     },
     "module": "src/js/index.js",
     "scripts": {
