@@ -33,6 +33,10 @@ config.optimization = {
                 minChunks: 1,
                 test: /\/layout\/icons\//,
                 priority: 10,
+                name: 'icons~main',
+                // Force the 'chunk.js' suffix which is no longer generated in webpack 5
+                // but required for the build pipeline for now.
+                filename: 'assets/js/icons~main.[contenthash:8].chunk.js',
             },
             defaultVendors: {
                 test: /\/node_modules\//,
