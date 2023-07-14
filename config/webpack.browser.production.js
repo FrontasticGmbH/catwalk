@@ -38,6 +38,9 @@ config.optimization = {
                 test: /\/node_modules\//,
                 priority: 5,
                 name: 'vendors~main',
+                // Force the 'chunk.js' suffix which is no longer generated in webpack 5
+                // but required for the build pipeline for now.
+                filename: 'assets/js/vendors~main.[contenthash:8].chunk.js',
             },
             default: {
                 minChunks: 2,
