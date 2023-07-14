@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const paths = require('./paths')
 const path = require('path')
 const env = require('./env')
+const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath')
 
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
@@ -113,9 +114,8 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
                 PRODUCTION: JSON.stringify(PRODUCTION),
                 'process.env.NODE_ENV': PRODUCTION ? '"production"' : '"development"',
                 // Workaround for react-dev-utils/webpackHotDevClient.js hard-requiring 'process'
-                'process.env.WDS_SOCKET_HOST': undefined,
-                'process.env.WDS_SOCKET_PORT': undefined,
-                'process.env.WDS_SOCKET_PATH': undefined,
+                // Used by the service worker during registration
+                'process.env.PUBLIC_URL': JSON.stringify(getPublicUrlOrPath(!PRODUCTION, undefined, process.env.PUBLIC_URL)),
             }),
             // Watcher doesn't work well if you mistype casing in a path so we use
             // a plugin that prints an error when you attempt to do this.

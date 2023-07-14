@@ -20,6 +20,9 @@ module.exports = (config, PRODUCTION, SERVER) => {
                     },
                     // For unknown URLs, fallback to the index page
                     navigateFallback: '/',
+                    additionalManifestEntries: [
+                        { url: '/', revision: null },
+                    ],
                     // Ignores URLs starting from /__ (useful for Firebase):
                     // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
                     navigateFallbackAllowlist: [/^(?!\/__).*/],
@@ -27,8 +30,9 @@ module.exports = (config, PRODUCTION, SERVER) => {
                     exclude: [/\.map$/, /asset-manifest\.json$/, /LICENSE/],
                     clientsClaim: true,
                     skipWaiting: true,
-                })
-            ]
+                    inlineWorkboxRuntime: true,
+                }),
+            ],
         },
         config,
     )
