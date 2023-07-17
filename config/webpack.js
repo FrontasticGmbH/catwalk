@@ -116,6 +116,9 @@ module.exports = (PRODUCTION, SERVER, SINGLE_SERVER = false) => {
                 // Workaround for react-dev-utils/webpackHotDevClient.js hard-requiring 'process'
                 // Used by the service worker during registration
                 'process.env.PUBLIC_URL': JSON.stringify(getPublicUrlOrPath(!PRODUCTION, undefined, process.env.PUBLIC_URL)),
+                'process.env.WDS_SOCKET_HOST': undefined,
+                'process.env.WDS_SOCKET_PORT': undefined,
+                'process.env.WDS_SOCKET_PATH': undefined,
             }),
             // Watcher doesn't work well if you mistype casing in a path so we use
             // a plugin that prints an error when you attempt to do this.
