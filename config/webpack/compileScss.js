@@ -29,7 +29,12 @@ module.exports = (config, PRODUCTION, SERVER) => {
                         {
                             // Translates CSS into CommonJS
                             loader: require.resolve('css-loader'),
-                            options: { modules: true, importLoaders: 1 },
+                            options: {
+                                modules: {
+                                    localIdentName: PRODUCTION ? '[hash:base64]' : '[path][name]__[local]',
+                                },
+                                importLoaders: 1,
+                            },
                         },
                         {
                             loader: require.resolve('postcss-loader'),
