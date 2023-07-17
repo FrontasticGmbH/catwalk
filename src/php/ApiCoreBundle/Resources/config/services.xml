@@ -176,6 +176,12 @@
         <service id="Frontastic\Catwalk\ApiCoreBundle\Monolog\FrontasticLogProcessor">
             <tag name="monolog.processor"/>
             <argument type="service" id="request_stack" />
+        </service>
+
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Monolog\RouteLoggingFilter"
+            decorates="monolog.handler.filter_out_debug_in_production"
+        >
+            <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Monolog\RouteLoggingFilter.inner"/>
             <argument>%frontastic.environment%</argument>
         </service>
 
