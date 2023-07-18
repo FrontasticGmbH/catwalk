@@ -32,7 +32,7 @@ class VerifyStaticPagePathLocaleMatchesRequestLocale
             return;
         }
         $matchingLocales = $routeParameters['_frontastic_matching_locales'];
-        if (!is_array($matchingLocales)) {
+        if (!is_array($matchingLocales) || count($matchingLocales) <= 0) {
             return;
         }
 
