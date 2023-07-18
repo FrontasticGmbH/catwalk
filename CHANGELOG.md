@@ -1,4 +1,17 @@
-## Version 1.64.2 (2023-07-13)
+
+## Version 1.65.0 (2023-07-18)
+
+** New Features and Improvements **  
+  
+- Update to webpack 5: Please refer to the [official upgrade guide](https://webpack.js.org/migrate/5/) for any customized webpack configurations.
+- Replace the deprecated [SW Precache Webpack Plugin](https://www.npmjs.com/package/sw-precache-webpack-plugin) with the [workbox-webpack-plugin](https://www.npmjs.com/package/workbox-webpack-plugin)
+- Implemented an enhancement to adopt the usage of contenthash instead of fullhash in the filenames of generated artifact files. This adjustment ensures that the hash value only updates when there are changes made to the content of a specific file. As a result different files have different hash values.
+- In development, employ human-readable class names for CSS modules instead of utilizing hash values.
+
+** Bug fixes **
+
+- Fix a potential array access on null warning in tree fields.
+
 
 ** Bug fixes **
 
