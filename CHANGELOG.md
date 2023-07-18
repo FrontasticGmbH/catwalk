@@ -12,6 +12,7 @@
 
 - Fix a potential array access on null warning in tree fields.
 
+## Version 1.64.2 (2023-07-13)
 
 ** Bug fixes **
 
