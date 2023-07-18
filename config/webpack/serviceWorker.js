@@ -18,14 +18,6 @@ module.exports = (config, PRODUCTION, SERVER) => {
                     modifyURLPrefix: {
                         '/public/': '/',
                     },
-                    // For unknown URLs, fallback to the index page
-                    navigateFallback: '/',
-                    additionalManifestEntries: [
-                        { url: '/', revision: null },
-                    ],
-                    // Ignores URLs starting from /__ (useful for Firebase):
-                    // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
-                    navigateFallbackAllowlist: [/^(?!\/__).*/],
                     // Don't precache sourcemaps (they're large) and build asset manifest:
                     exclude: [/\.map$/, /asset-manifest\.json$/, /LICENSE/],
                     clientsClaim: true,
