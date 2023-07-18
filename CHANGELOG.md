@@ -4,6 +4,7 @@
 
 - remove route logging in staging and production
 
+## Version 1.64.1 (2023-07-07)
 
 ** Bug fixes **
 
