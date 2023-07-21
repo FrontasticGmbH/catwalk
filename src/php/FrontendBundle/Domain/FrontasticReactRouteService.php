@@ -31,6 +31,11 @@ class FrontasticReactRouteService implements RouteService
      */
     private $filesystem;
 
+    /**
+     * @var string
+     */
+    private $routeSuffix = '';
+
     public function __construct(
         CustomerService $customerService,
         string $cacheDirectory,
@@ -41,6 +46,10 @@ class FrontasticReactRouteService implements RouteService
         $this->cacheDirectory = $cacheDirectory;
         $this->frontendRoutesGateway = $frontendRoutesGateway;
         $this->filesystem = $filesystem;
+
+        if (getenv('append_slash_to_node_routes') === '1') {
+            $this->routeSuffix = '/';
+        }
     }
 
     /**
@@ -176,7 +185,7 @@ class FrontasticReactRouteService implements RouteService
 
             $parentPath = $this->determineParentPath($parentRoutes, $locale);
 
-            $generatedUrl = rtrim($parentPath, '/') . $relativeRoute;
+            $generatedUrl = rtrim($parentPath, '/') . $relativeRoute . $this->routeSuffix;
 
             if (!array_key_exists($generatedUrl, $localesByUrl)) {
                 $localesByUrl[$generatedUrl] = [];
