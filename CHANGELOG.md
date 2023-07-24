@@ -1,4 +1,14 @@
 
+## Version 1.66.0 (2023-07-24)
+
+** New Features and Improvements **  
+
+- Add option to append a trailing slash to the URLs of static pages. This can be enabled by setting `append_slash_to_node_routes=1` in the environment
+
+** Bug fixes **
+
+- Don't throw a 404 when the verification that a users locale matches the static page path is enabled but no locale information is available for the routes.
+
 ## Version 1.65.0 (2023-07-18)
 
 ** New Features and Improvements **  
