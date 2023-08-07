@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Scrollbars } from 'react-custom-scrollbars'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 
 import { ScrollContext } from './app/scrollContext'
 import pageSelector from './helper/pageSelector'
@@ -10,7 +10,7 @@ import ComponentInjector from './app/injector'
 /**
  * Provides frontastic specific scrollbar behaviour.
  *
- * It leverages react-custom-scrollbars.
+ * It leverages react-custom-scrollbars-2.
  *
  * I also takes care that, if you go back in your browser history,
  * you go back to the same scroll position as before.
