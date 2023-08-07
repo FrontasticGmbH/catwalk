@@ -15,7 +15,6 @@
         "@babel/types": "^7.12.6",
         "@formatjs/intl-pluralrules": "^5.2.4",
         "@formatjs/intl-relativetimeformat": "^11.2.4",
-        "@formatjs/intl-utils": "^3.8.4",
         "@frontastic/common": "^2.42.0",
         "@svgr/webpack": "^5.5.0",
         "@types/jest": "^26.0.15",
