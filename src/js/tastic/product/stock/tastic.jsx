@@ -5,10 +5,11 @@ import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { FormattedRelative, FormattedDate } from 'react-intl'
+import {FormattedDate, FormattedRelativeTime} from 'react-intl'
 
 import productConnector from '../connector'
 import icon from '../../../../layout/fastDelivery.svg'
+import {selectUnit} from "@formatjs/intl-utils";
 
 class ProductStockTastic extends Component {
     ucFirst = (string) => {
@@ -46,6 +47,8 @@ class ProductStockTastic extends Component {
         }
 
         if (this.props.variant.isOnStock) {
+            const {value, unit} = selectUnit(this.getNextOrderTime())
+
             return (<div className='o-layout o-layout-small'>
                 {/* eslint-disable-next-line react/no-unknown-property */}
                 <div className='o-layout__item u-1/4' align='right'>
@@ -54,7 +57,7 @@ class ProductStockTastic extends Component {
                 <div className='o-layout__item u-3/4'>
                     <p>
                         <strong>Express Delivery</strong>: Order in the next <em>
-                            <FormattedRelative value={this.getNextOrderTime()} />
+                            <FormattedRelativeTime value={value} unit={unit} />
                         </em> for a delivery until <em>
                             <FormattedDate value={this.getNextDeliveryDay()} day='numeric' month='long' />
                         </em>.
