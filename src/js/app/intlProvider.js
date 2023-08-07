@@ -4,17 +4,18 @@ import dot from 'dot-object'
 
 import ComponentInjector from './injector'
 
+import '@formatjs/intl-pluralrules/polyfill'
+import '@formatjs/intl-pluralrules/locale-data/en'
+import '@formatjs/intl-pluralrules/locale-data/de'
+import '@formatjs/intl-relativetimeformat/polyfill'
+import '@formatjs/intl-relativetimeformat/locale-data/en'
+import '@formatjs/intl-relativetimeformat/locale-data/de'
+
 import deMessages from './i18n/de.js'
 import enMessages from './i18n/en.js'
 
 export default ComponentInjector.return('App.IntlProvider', connect(
     (globalState) => {
-        const { addLocaleData } = require('react-intl')
-        const en = require('react-intl/locale-data/en')
-        const de = require('react-intl/locale-data/de')
-
-        addLocaleData([...en, ...de])
-
         const messages = {
             en: enMessages,
             de: deMessages,
