@@ -5,7 +5,7 @@ import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {FormattedDate, FormattedRelativeTime} from 'react-intl'
+import { FormattedDate, FormattedRelativeTime } from 'react-intl'
 
 import productConnector from '../connector'
 import icon from '../../../../layout/fastDelivery.svg'
@@ -38,7 +38,6 @@ class ProductStockTastic extends Component {
         return date
     }
 
-
     getBestFitRemainingTimeValueAndUnit = (date) => {
         const timeRemainingMs = date - Date.now()
         const seconds = Math.round((timeRemainingMs / 1000))
@@ -46,23 +45,22 @@ class ProductStockTastic extends Component {
         if (seconds < 60) {
             return {
                 value: seconds,
-                unit: 'second'
+                unit: 'second',
             }
         }
 
         if (seconds < 3600) {
             return {
                 value: Math.round(seconds / 60),
-                unit: 'minute'
+                unit: 'minute',
             }
         }
 
         return {
             value: Math.round(seconds / 3600),
-            unit: 'hour'
+            unit: 'hour',
         }
     }
-
 
     render () {
         deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
@@ -72,7 +70,7 @@ class ProductStockTastic extends Component {
         }
 
         if (this.props.variant.isOnStock) {
-            const {value, unit} = this.getBestFitRemainingTimeValueAndUnit(this.getNextOrderTime())
+            const { value, unit } = this.getBestFitRemainingTimeValueAndUnit(this.getNextOrderTime())
 
             return (<div className='o-layout o-layout-small'>
                 {/* eslint-disable-next-line react/no-unknown-property */}
