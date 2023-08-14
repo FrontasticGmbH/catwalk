@@ -9,11 +9,12 @@ import enMessages from './i18n/en.js'
 
 export default ComponentInjector.return('App.IntlProvider', connect(
     (globalState) => {
-        const { addLocaleData } = require('react-intl')
-        const en = require('react-intl/locale-data/en')
-        const de = require('react-intl/locale-data/de')
-
-        addLocaleData([...en, ...de])
+        require('@formatjs/intl-pluralrules/polyfill')
+        require('@formatjs/intl-pluralrules/locale-data/en')
+        require('@formatjs/intl-pluralrules/locale-data/de')
+        require('@formatjs/intl-relativetimeformat/polyfill')
+        require('@formatjs/intl-relativetimeformat/locale-data/en')
+        require('@formatjs/intl-relativetimeformat/locale-data/de')
 
         const messages = {
             en: enMessages,
