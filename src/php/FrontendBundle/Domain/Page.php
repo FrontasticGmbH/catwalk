@@ -22,7 +22,7 @@ class Page extends DataObject
     public $sequence;
 
     /**
-     * @var Node
+     * @var string
      * @required
      */
     public $node;
