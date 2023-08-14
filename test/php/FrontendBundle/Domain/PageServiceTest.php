@@ -83,7 +83,7 @@ class PageServiceTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $expectedPage = $this->fakePage(['isDeleted' => true]);
-        $expectedPage->node = new Node();
+        $expectedPage->node = '';
         \Phake::verify($this->pageGatewayMock)->store($expectedPage);
     }
 

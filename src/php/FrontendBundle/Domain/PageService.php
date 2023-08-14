@@ -61,7 +61,7 @@ class PageService implements Target
     public function fill(Page $page, array $data): Page
     {
         $page->sequence = $data['sequence'];
-        $page->node = $data['nodes'][0] ?? new Node();
+        $page->node = $data['nodes'][0] ?? '';
         $page->layoutId = $data['layoutId'];
         $page->regions = array_map(
             function (array $regionData): Region {
