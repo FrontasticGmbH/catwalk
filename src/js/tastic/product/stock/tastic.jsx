@@ -5,7 +5,7 @@ import { deprecate } from '@frontastic/common'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { FormattedRelative, FormattedDate } from 'react-intl'
+import { FormattedDate, FormattedRelativeTime } from 'react-intl'
 
 import productConnector from '../connector'
 import icon from '../../../../layout/fastDelivery.svg'
@@ -38,6 +38,30 @@ class ProductStockTastic extends Component {
         return date
     }
 
+    getBestFitRemainingTimeValueAndUnit = (date) => {
+        const timeRemainingMs = date - Date.now()
+        const seconds = Math.round((timeRemainingMs / 1000))
+
+        if (seconds < 60) {
+            return {
+                value: seconds,
+                unit: 'second',
+            }
+        }
+
+        if (seconds < 3600) {
+            return {
+                value: Math.round(seconds / 60),
+                unit: 'minute',
+            }
+        }
+
+        return {
+            value: Math.round(seconds / 3600),
+            unit: 'hour',
+        }
+    }
+
     render () {
         deprecate('This component is deprecated – please use the Boost Theme instead: https://github.com/FrontasticGmbH/theme-boost.', this)
 
@@ -46,6 +70,8 @@ class ProductStockTastic extends Component {
         }
 
         if (this.props.variant.isOnStock) {
+            const { value, unit } = this.getBestFitRemainingTimeValueAndUnit(this.getNextOrderTime())
+
             return (<div className='o-layout o-layout-small'>
                 {/* eslint-disable-next-line react/no-unknown-property */}
                 <div className='o-layout__item u-1/4' align='right'>
@@ -54,7 +80,7 @@ class ProductStockTastic extends Component {
                 <div className='o-layout__item u-3/4'>
                     <p>
                         <strong>Express Delivery</strong>: Order in the next <em>
-                            <FormattedRelative value={this.getNextOrderTime()} />
+                            <FormattedRelativeTime value={value} unit={unit} />
                         </em> for a delivery until <em>
                             <FormattedDate value={this.getNextDeliveryDay()} day='numeric' month='long' />
                         </em>.
