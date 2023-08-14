@@ -8,7 +8,7 @@ Property|Type|Default|Required|Description
 --------|----|-------|--------|-----------
 `pageId` | `string` |  | *Yes* | 
 `sequence` | `string` |  | *Yes* | 
-`node` | [`Node`](Node.md) |  | *Yes* | 
+`node` | `string` |  | *Yes* | 
 `layoutId` | `string` |  | - | 
 `regions` | [`Region`](Region.md)[] | `[]` | *Yes* | 
 `metaData` | `\Frontastic\UserBundle\Domain\MetaData` |  | *Yes* | 
