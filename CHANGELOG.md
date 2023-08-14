@@ -1,4 +1,14 @@
 
+## Version 1.67.0 (2023-08-14)
+
+** New Features and Improvements **  
+
+- Update react-intl from version 2.4 to version 6.4. Please see the react-intl upgrade guides ([to version 3](https://formatjs.io/docs/react-intl/upgrade-guide-3x), [to version 4](https://formatjs.io/docs/react-intl/upgrade-guide-4x) and [to version 5](https://formatjs.io/docs/react-intl/upgrade-guide-5x)) for details. The boost-theme needs to be updated to version 1.4.1 to work with a recent react-intl version.
+
+** Bug fixes **
+
+- Disable the `DevVmBundle` in production.
+
 ## Version 1.66.0 (2023-07-24)
 
 ** New Features and Improvements **  
