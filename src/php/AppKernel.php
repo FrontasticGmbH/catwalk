@@ -44,6 +44,7 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Frontastic\Common\FindologicBundle\FrontasticCommonFindologicBundle(),
             new \Frontastic\Catwalk\FrontendBundle\FrontasticCatwalkFrontendBundle(),
             new \Frontastic\Catwalk\ApiCoreBundle\FrontasticCatwalkApiCoreBundle(),
+            new \Frontastic\Catwalk\DevVmBundle\FrontasticCatwalkDevVmBundle(),
         );
 
         if (getenv('is_frontastic_nextjs') === '1') {
@@ -52,7 +53,6 @@ class AppKernel extends \Frontastic\Common\Kernel
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new \Frontastic\Common\DevelopmentBundle\FrontasticCommonDevelopmentBundle();
-            $bundles[] = new \Frontastic\Catwalk\DevVmBundle\FrontasticCatwalkDevVmBundle();
         } else {
             if (!function_exists('\\debug')) {
                 require __DIR__ . '/debug.php';
