@@ -1,4 +1,8 @@
 
+## Version 1.67.1 (2023-08-16)
+
+* Fixed incorrect de-registration of DevVmBundle in non-dev environments.
+
 ## Version 1.67.0 (2023-08-14)
 
 ** New Features and Improvements **  
