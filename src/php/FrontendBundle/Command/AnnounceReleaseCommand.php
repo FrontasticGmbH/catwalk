@@ -3,13 +3,16 @@
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
 use Frontastic\Common\HttpClient;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class AnnounceReleaseCommand extends ContainerAwareCommand
+class AnnounceReleaseCommand extends Command
 {
+    use ContainerAwareTrait;
+
     const TIDEWAYS_URL = 'https://app.tideways.io/api/events';
 
     /**
@@ -46,7 +49,7 @@ class AnnounceReleaseCommand extends ContainerAwareCommand
             return;
         }
 
-        $response = $this->getContainer()->get(HttpClient::class)
+        $response = $this->container->get(HttpClient::class)
             ->request(
                 'POST',
                 self::TIDEWAYS_URL,

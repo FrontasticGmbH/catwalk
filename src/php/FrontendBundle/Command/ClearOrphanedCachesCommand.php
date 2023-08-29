@@ -1,9 +1,10 @@
 <?php
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -11,8 +12,10 @@ use Symfony\Component\Finder\Finder;
  * This command clears the symfony caches of older versions, which is necessary on the deploy-hosts and has no effect
  * on production catwalks.
  */
-class ClearOrphanedCachesCommand extends ContainerAwareCommand
+class ClearOrphanedCachesCommand extends Command
 {
+    use ContainerAwareTrait;
+
     protected function configure()
     {
         $this
@@ -24,7 +27,7 @@ class ClearOrphanedCachesCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $container = $this->getContainer();
+        $container = $this->container;
 
         if ('catwalk' === $container->getParameter('kernel.name')) {
             $rootDir = realpath($container->getParameter('kernel.root_dir') . '/../../');

@@ -4,15 +4,18 @@ namespace Frontastic\Catwalk\DevVmBundle\Command;
 use Frontastic\Catwalk\DevVmBundle\Domain\Archive;
 use Frontastic\Common\HttpClient;
 use Frontastic\Common\HttpClient\Signing;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Yaml\Yaml;
 
-class SyncCommand extends ContainerAwareCommand
+class SyncCommand extends Command
 {
+    use ContainerAwareTrait;
+
     protected function configure()
     {
         $this
@@ -46,7 +49,7 @@ class SyncCommand extends ContainerAwareCommand
     {
         $syncDirectory = realpath(sprintf(
             '%s/public/assets/',
-            $this->getContainer()->getParameter('kernel.root_dir')
+            $this->container->getParameter('kernel.root_dir')
         ));
 
         if ($restoreFile = $input->getArgument('archive')) {
@@ -55,7 +58,7 @@ class SyncCommand extends ContainerAwareCommand
             $archive = Archive::createFromDirectory($syncDirectory);
         }
 
-        $projectFile = $this->getContainer()->getParameter('frontastic.project_file');
+        $projectFile = $this->container->getParameter('frontastic.project_file');
         $yaml = Yaml::parse(file_get_contents($projectFile), Yaml::PARSE_OBJECT_FOR_MAP);
 
         $uri = sprintf(
@@ -77,11 +80,11 @@ class SyncCommand extends ContainerAwareCommand
 
         /** @var \Frontastic\Common\HttpClient\Signing $httpClient */
         $httpClient = new Signing(
-            $this->getContainer()->get(HttpClient::class),
+            $this->container->get(HttpClient::class),
             $customerSecret
         );
 
-        if ($this->getContainer()->getParameter('kernel.debug')) {
+        if ($this->container->getParameter('kernel.debug')) {
             $output->writeln("curl -X POST {$uri}/devvm/sync?" . http_build_query($parameters));
         }
 
@@ -91,7 +94,7 @@ class SyncCommand extends ContainerAwareCommand
             $archive->dump()
         );
 
-        if ($this->getContainer()->getParameter('kernel.debug')) {
+        if ($this->container->getParameter('kernel.debug')) {
             $output->writeln("Response:\n" . var_export($response, true));
         }
 

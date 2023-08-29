@@ -2,14 +2,17 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Yaml\Yaml;
 
-class SendNewOrderMailsCommand extends ContainerAwareCommand
+class SendNewOrderMailsCommand extends Command
 {
+    use ContainerAwareTrait;
+
     protected function configure()
     {
         $this
@@ -22,8 +25,8 @@ class SendNewOrderMailsCommand extends ContainerAwareCommand
     {
         $to = $input->getArgument('mail');
 
-        $context = $this->getContainer()->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
-        $cartApi = $this->getContainer()->get('Frontastic\Common\CartApiBundle\Domain\CartApiFactory')->factor(
+        $context = $this->container->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
+        $cartApi = $this->container->get('Frontastic\Common\CartApiBundle\Domain\CartApiFactory')->factor(
             $context->project
         );
 
