@@ -117,7 +117,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\EnabledFacetService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\FacetService" />
-            <argument type="service" id="cache.app.simple" />
+            <argument type="service" id="cache.app.psr16" />
         </service>
 
         <service id="Frontastic\Common\ProductApiBundle\Domain\ProductApi\EnabledFacetService"
@@ -144,7 +144,7 @@
 
         <service id="Frontastic\Catwalk\FrontendBundle\Domain\SchemaService">
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Gateway\SchemaGateway" />
-            <argument type="service" id="cache.app.simple" />
+            <argument type="service" id="cache.app.psr16" />
 
             <tag name="context.decorator" />
         </service>
@@ -634,7 +634,7 @@
              * the ContextService in context free situations.
             -->
             <argument type="service" id="service_container" />
-            <argument type="service" id="cache.app.simple" />
+            <argument type="service" id="cache.app.psr16" />
 
             <tag name="twig.extension" />
         </service>

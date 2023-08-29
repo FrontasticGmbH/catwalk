@@ -15,14 +15,14 @@
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProductApiFactoryDecorator"
                  decorates="Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProductApiFactoryDecorator.inner"/>
-            <argument type="service" id="cache.app.simple"/>
+            <argument type="service" id="cache.app.psr16"/>
             <argument>%kernel.debug%</argument>
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProductSearchApiFactoryDecorator"
                  decorates="Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ProductSearchApiFactoryDecorator.inner"/>
-            <argument type="service" id="cache.app.simple"/>
+            <argument type="service" id="cache.app.psr16"/>
             <argument>%kernel.debug%</argument>
         </service>
 
