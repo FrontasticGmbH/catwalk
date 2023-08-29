@@ -28,6 +28,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\Environment;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -614,8 +615,8 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         string $file,
         bool $isSiteMapIndex = false
     ): void {
-        /** @var EngineInterface $template */
-        $template = $this->getContainer()->get('templating');
+        /** @var Environment $template */
+        $template = $this->container->get('twig');
 
         $data['_publicUrl'] = rtrim($publicUrl, '/');
 

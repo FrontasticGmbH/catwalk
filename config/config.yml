@@ -26,8 +26,6 @@ framework:
     csrf_protection: ~
     validation:      { enable_annotations: false }
     serializer:      { enable_annotations: false }
-    templating:
-        engines: ['twig']
     default_locale:  "%env(locale)%"
     trusted_hosts:   ~
     session:

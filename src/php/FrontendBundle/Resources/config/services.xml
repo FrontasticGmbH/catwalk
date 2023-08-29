@@ -671,7 +671,7 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\MissingHomepageRouteListener">
-            <argument type="service" id="Symfony\Component\Templating\EngineInterface" />
+            <argument type="service" id="twig" />
             <argument>%kernel.debug%</argument>
 
             <tag name="kernel.event_listener" event="kernel.exception" />
