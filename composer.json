@@ -7,6 +7,10 @@
         {
             "type": "path",
             "url": "../libraries/*"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/mantiz/mvc-bundle.git"
         }
     ],
     "config": {
@@ -36,14 +40,14 @@
         "sensio/framework-extra-bundle": "@stable",
 
         "frontastic/data-object": "@stable",
-        "qafoolabs/no-framework-bundle": "@stable",
+        "gyro/mvc-bundle": "dev-php74-compatibility as 1.0.0",
         "beberlei/doctrineextensions": "@stable",
 
         "predis/predis": "@stable",
         "michelf/php-markdown": "@stable",
         "aptoma/twig-markdown": "@stable",
         "mtdowling/cron-expression": "@stable",
-        "kphoen/rulerz-bundle": "^0.15.0",
+        "frontastic/rulerz-bundle": "^0.16",
         "zetacomponents/graph": "^1.5",
         "ramsey/uuid": "^3.9||^4",
         "jaybizzle/crawler-detect": "^1.2",
