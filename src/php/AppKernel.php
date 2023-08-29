@@ -23,7 +23,7 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new \Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new \QafooLabs\Bundle\NoFrameworkBundle\QafooLabsNoFrameworkBundle(),
+            new \Gyro\Bundle\MVCBundle\GyroMVCBundle(),
             new \KPhoen\RulerZBundle\KPhoenRulerZBundle(),
 
             new \Frontastic\Common\CoreBundle\FrontasticCommonCoreBundle(),

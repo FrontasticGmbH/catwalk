@@ -2,8 +2,8 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Twig;
 
+use Gyro\Bundle\MVCBundle\View\TemplateGuesser;
 use Psr\Log\LoggerInterface;
-use QafooLabs\Bundle\NoFrameworkBundle\View\TemplateGuesser;
 use Twig\Environment;
 
 /**
@@ -33,7 +33,7 @@ class FrontasticNodeViewFallbackTemplateGuesser implements TemplateGuesser
         $this->twigLoader = $twig->getLoader();
     }
 
-    public function guessControllerTemplateName($controller, $actionName, $format, $engine)
+    public function guessControllerTemplateName($controller, $actionName, $format, $engine): string
     {
         $templateName = $this->innerTemplateGuesser->guessControllerTemplateName(
             $controller,
