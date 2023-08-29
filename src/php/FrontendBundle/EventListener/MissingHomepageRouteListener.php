@@ -7,6 +7,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\NoConfigurationException;
 use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 class MissingHomepageRouteListener
 {
@@ -20,7 +21,7 @@ class MissingHomepageRouteListener
      */
     private $templating;
 
-    public function __construct(EngineInterface $templating, bool $debug = false)
+    public function __construct(Environment $templating, bool $debug = false)
     {
         $this->debug = $debug;
         $this->templating = $templating;
