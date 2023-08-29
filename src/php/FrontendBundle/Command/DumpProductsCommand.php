@@ -3,13 +3,16 @@
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class DumpProductsCommand extends ContainerAwareCommand
+class DumpProductsCommand extends Command
 {
+    use ContainerAwareTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -31,9 +34,9 @@ class DumpProductsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $context = $this->getContainer()->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
+        $context = $this->container->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
 
-        $productSearchApi = $this->getContainer()
+        $productSearchApi = $this->container
             ->get('Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory')
             ->factor(
                 $context->project

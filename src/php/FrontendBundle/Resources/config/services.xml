@@ -18,6 +18,12 @@
 
         <service id="logger" alias="monolog.logger" public="true" />
 
+        <service id="Frontastic\Catwalk\FrontendBundle\Command\RebuildRoutesCommand" autoconfigure="true" autowire="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
         <service id="Frontastic\Catwalk\FrontendBundle\Routing\UrlGenerator">
             <argument type="collection">
                 <argument
@@ -389,6 +395,9 @@
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Controller\CartFetcher" />
             <argument type="service" id="Psr\Log\LoggerInterface" />
             <argument type="service" id="Frontastic\Common\CartApiBundle\Domain\CartApiFactory" />
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
         </service>
 
         <service id="frontastic.catwalk.account_api" class="Frontastic\Common\AccountApiBundle\Domain\AccountApi">

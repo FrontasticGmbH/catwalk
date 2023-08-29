@@ -2,13 +2,16 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class CreateBundleCommand extends ContainerAwareCommand
+class CreateBundleCommand extends Command
 {
+    use ContainerAwareTrait;
+
     protected function configure()
     {
         $this
@@ -24,7 +27,7 @@ class CreateBundleCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $context = $this->getContainer()->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
+        $context = $this->container->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
         $bundleName = $input->getArgument('bundleName');
 
         if (!preg_match('(^[A-Za-z]+$)', $bundleName)) {
@@ -40,7 +43,7 @@ class CreateBundleCommand extends ContainerAwareCommand
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
-        $destination = $this->getContainer()->getParameter('kernel.project_dir') . '/src/php/' . $bundleName;
+        $destination = $this->container->getParameter('kernel.project_dir') . '/src/php/' . $bundleName;
         mkdir($destination, 0755, true);
 
         $namespace = ucfirst(strtolower($context->customer->name));
@@ -58,7 +61,7 @@ class CreateBundleCommand extends ContainerAwareCommand
             }
         }
 
-        $bundleDefinitionFile = $this->getContainer()->getParameter('kernel.project_dir') . '/config/bundles.php';
+        $bundleDefinitionFile = $this->container->getParameter('kernel.project_dir') . '/config/bundles.php';
         $bundles = [];
         if (file_exists($bundleDefinitionFile)) {
             $bundleObjects = include($bundleDefinitionFile);
@@ -75,8 +78,8 @@ class CreateBundleCommand extends ContainerAwareCommand
         );
 
         // Clear Caches
-        $cacheClearer = $this->getContainer()->get('cache_clearer');
-        $cacheClearer->clear($this->getContainer()->getParameter('kernel.cache_dir'));
+        $cacheClearer = $this->container->get('cache_clearer');
+        $cacheClearer->clear($this->container->getParameter('kernel.cache_dir'));
 
         return 0;
     }

@@ -2,13 +2,16 @@
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
 use Cron\CronExpression;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Process\Process;
 
-class CronCommand extends ContainerAwareCommand
+class CronCommand extends Command
 {
+    use ContainerAwareTrait;
+
     const REGEXP = '(^(\S+\s+\S+\s+\S+\s+\S+\s+\S+)\s+(.*)$)';
 
     protected function configure(): void
@@ -49,7 +52,7 @@ class CronCommand extends ContainerAwareCommand
                 $this->processCommand($output, $verbose, $command, $projectDir);
             } catch (\Exception $e) {
                 $this
-                    ->getContainer()
+                    ->container
                     ->get('logger')
                     ->alert(
                         sprintf(
@@ -90,7 +93,7 @@ class CronCommand extends ContainerAwareCommand
 
         if ($processOutput || $processErrorOutput || !$process->isSuccessful() || $process->getExitCode() != 0) {
             $this
-                ->getContainer()
+                ->container
                 ->get('logger')
                 ->warn($result);
         }

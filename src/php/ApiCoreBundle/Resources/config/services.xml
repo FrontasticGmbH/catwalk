@@ -166,6 +166,9 @@
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\EndpointService" />
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier" />
             <argument>%secret%</argument>
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
         </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Controller\AppController">

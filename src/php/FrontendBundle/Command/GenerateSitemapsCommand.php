@@ -20,11 +20,12 @@ use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result;
 use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -34,8 +35,10 @@ use Twig\Environment;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.CountInLoopExpression)
  */
-class GenerateSitemapsCommand extends ContainerAwareCommand
+class GenerateSitemapsCommand extends Command
 {
+    use ContainerAwareTrait;
+
     const MAX_ENTRIES = 10000;
 
     /**
@@ -179,7 +182,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
 
         try {
             /** @var ContextService $contextService */
-            $contextService = $this->getContainer()->get(ContextService::class);
+            $contextService = $this->container->get(ContextService::class);
             $context = $contextService->getContext($input->getOption('locale'));
 
             $this->publicUrl = $this->determinePublicUrl($context, $input->getOption('base-url'));
@@ -275,7 +278,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
     private function generateSitemapExtensions(Context $context, OutputInterface $output): array
     {
         /** @var SitemapService $sitemapService */
-        $sitemapService = $this->getContainer()->get(SitemapService::class);
+        $sitemapService = $this->container->get(SitemapService::class);
 
         $sitemaps = [];
         $allExtensionEntries = [];
@@ -331,11 +334,11 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
     private function generateNodeSitemap(Context $context, InputInterface $input, OutputInterface $output): array
     {
         /** @var NodeService $nodeService */
-        $nodeService = $this->getContainer()->get(NodeService::class);
+        $nodeService = $this->container->get(NodeService::class);
         /** @var RouteService $routeService */
-        $routeService = $this->getContainer()->get(RouteService::class);
+        $routeService = $this->container->get(RouteService::class);
         /** @var PageService $pageService */
-        $pageService = $this->getContainer()->get(PageService::class);
+        $pageService = $this->container->get(PageService::class);
 
         $output->writeln('Generating node sitemaps…');
 
@@ -386,13 +389,13 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         $limit = min(500, $this->maxEntries);
 
         /** @var ProductApi $productApi */
-        $productApi = $this->getContainer()->get(ProductApi::class);
+        $productApi = $this->container->get(ProductApi::class);
         /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $this->getContainer()->get('router');
+        $urlGenerator = $this->container->get('router');
         /** @var MasterService $pageMatcherService */
-        $masterService = $this->getContainer()->get(MasterService::class);
+        $masterService = $this->container->get(MasterService::class);
         /** @var NodeService $nodeService */
-        $nodeService = $this->getContainer()->get(NodeService::class);
+        $nodeService = $this->container->get(NodeService::class);
 
         $output->writeln('Generating category sitemaps…');
 
@@ -448,7 +451,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
     private function generatePagerEntries(Node $node, Context $context, $baseUri): array
     {
         /** @var StreamService $streamService */
-        $streamService = $this->getContainer()->get(StreamService::class);
+        $streamService = $this->container->get(StreamService::class);
 
         $streams = $streamService->getStreamData($node, $context);
 
@@ -484,9 +487,9 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
         $limit = min(500, $this->maxEntries);
 
         /** @var ProductSearchApi $productSearchApi */
-        $productSearchApi = $this->getContainer()->get(ProductSearchApi::class);
+        $productSearchApi = $this->container->get(ProductSearchApi::class);
         /** @var ProductRouter $productRouter */
-        $productRouter = $this->getContainer()->get(ProductRouter::class);
+        $productRouter = $this->container->get(ProductRouter::class);
 
         $output->writeln('Generating product sitemaps…');
 
@@ -689,7 +692,7 @@ class GenerateSitemapsCommand extends ContainerAwareCommand
     private function storeInDatabase(string $outputDir)
     {
         /** @var SitemapService $sitemapService */
-        $sitemapService = $this->getContainer()->get(SitemapService::class);
+        $sitemapService = $this->container->get(SitemapService::class);
 
         try {
             $basedir = $this->cleanBasePath($outputDir);

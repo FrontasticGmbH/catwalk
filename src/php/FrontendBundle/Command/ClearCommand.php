@@ -2,12 +2,15 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class ClearCommand extends ContainerAwareCommand
+class ClearCommand extends Command
 {
+    use ContainerAwareTrait;
+
     protected function configure()
     {
         $this
@@ -17,7 +20,7 @@ class ClearCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $connection = $this->getContainer()->get('database_connection');
+        $connection = $this->container->get('database_connection');
         $schemaManager = $connection->getSchemaManager();
 
         $query = '';

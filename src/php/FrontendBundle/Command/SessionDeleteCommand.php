@@ -2,13 +2,16 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class SessionDeleteCommand extends ContainerAwareCommand
+class SessionDeleteCommand extends Command
 {
+    use ContainerAwareTrait;
+
     const DEFAULT_ROWS_TO_DELETE_PER_EXECUTION = 1000;
 
     protected function configure()
@@ -29,7 +32,7 @@ class SessionDeleteCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $batchLimit = (int) $input->getArgument('batchLimit');
-        $connection = $this->getContainer()->get('database_connection');
+        $connection = $this->container->get('database_connection');
         $loopCheck = true;
 
         while ($loopCheck) {
