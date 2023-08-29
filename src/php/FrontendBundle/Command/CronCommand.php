@@ -24,13 +24,13 @@ class CronCommand extends Command
     /**
      * @SuppressWarnings(PHPMD.CyclomaticComplexity) Batch code
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $projectDir = dirname(dirname(realpath($_SERVER['SCRIPT_NAME'])));
         $crontabFile = $projectDir . '/config/crontab';
 
         if (false === file_exists($crontabFile)) {
-            return;
+            return 0;
         }
 
         $verbose = (bool) $input->getOption('verbose');
@@ -62,8 +62,12 @@ class CronCommand extends Command
                             $e->getTraceAsString()
                         )
                     );
+
+                return 1;
             }
         }
+
+        return 0;
     }
 
     protected function processCommand(
