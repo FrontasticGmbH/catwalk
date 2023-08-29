@@ -39,11 +39,12 @@ framework:
     fragments:       ~
     http_method_override: true
     assets: ~
+    error_controller: Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::errorAction
 
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    exception_controller: Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::errorAction
+    exception_controller: null
     paths:
         "%kernel.project_dir%/templates/": FrontasticCatwalkFrontendBundle
         "%frontastic.paas_catwalk_dir%/src/php/FrontendBundle/Resources/views/": FrontasticCatwalkFrontendBundle
