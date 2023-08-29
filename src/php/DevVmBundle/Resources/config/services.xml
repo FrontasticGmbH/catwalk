@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="frontastic.web_assets">%kernel.root_dir%/public/assets</parameter>
+        <parameter key="frontastic.web_assets">%kernel.project_dir%/public/assets</parameter>
     </parameters>
 
     <services>

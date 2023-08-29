@@ -467,7 +467,7 @@
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\EventListener\Http2LinkListener">
-            <argument>%kernel.root_dir%</argument>
+            <argument>%kernel.project_dir%</argument>
 
             <tag name="kernel.event_listener" event="kernel.request" />
             <tag name="nextjs.remove" />

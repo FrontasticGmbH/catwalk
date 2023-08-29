@@ -49,7 +49,7 @@ class SyncCommand extends Command
     {
         $syncDirectory = realpath(sprintf(
             '%s/public/assets/',
-            $this->container->getParameter('kernel.root_dir')
+            $this->container->getParameter('kernel.project_dir')
         ));
 
         if ($restoreFile = $input->getArgument('archive')) {

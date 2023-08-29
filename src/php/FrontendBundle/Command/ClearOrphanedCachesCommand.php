@@ -30,9 +30,9 @@ class ClearOrphanedCachesCommand extends Command
         $container = $this->container;
 
         if ('catwalk' === $container->getParameter('kernel.name')) {
-            $rootDir = realpath($container->getParameter('kernel.root_dir') . '/../../');
+            $rootDir = realpath($container->getParameter('kernel.project_dir') . '/../../');
         } else {
-            $rootDir = realpath($container->getParameter('kernel.root_dir') . '/../');
+            $rootDir = realpath($container->getParameter('kernel.project_dir') . '/../');
         }
 
         $filesystem = new Filesystem();
