@@ -46,9 +46,9 @@ class FrontasticSessionHandler extends AbstractSessionHandler
         $query = 'SELECT sess_data, sess_time FROM http_session WHERE sess_id = :id';
         $select = $this->connection()->prepare($query);
         $select->bindParam(':id', $sessionId, PDO::PARAM_STR);
-        $select->execute();
+        $result = $select->executeQuery();
 
-        $row = $select->fetch(PDO::FETCH_NUM);
+        $row = $result->fetchNumeric();
         if (!$row) {
             return '';
         }
