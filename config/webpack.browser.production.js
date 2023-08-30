@@ -41,10 +41,23 @@ config.optimization = {
             defaultVendors: {
                 test: /\/node_modules\//,
                 priority: 5,
-                name: 'vendors~main',
+                name: (module, chunks) => {
+                    const allChunksNames = chunks.map((chunk) => { return chunk.name })
+                        .filter(name => { return !!name })
+                        .join('~')
+
+                    // Workaround for BC reasons. The chunk emitted for the main entrypoint needs to be named
+                    // "vendors~main" to work with existing build pipelines
+                    if (allChunksNames === 'main') {
+                        return `vendors~main`
+                    }
+
+                    // Leave all other chunk names untouched
+                    return undefined
+                },
                 // Force the 'chunk.js' suffix which is no longer generated in webpack 5
                 // but required for the build pipeline for now.
-                filename: 'assets/js/vendors~main.[contenthash:8].chunk.js',
+                filename: 'assets/js/[name].[contenthash:8].chunk.js',
             },
             default: {
                 minChunks: 2,
