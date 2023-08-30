@@ -3,7 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\NoConfigurationException;
 use Symfony\Component\Templating\EngineInterface;
@@ -33,7 +33,7 @@ class Http2LinkListener
         $this->appDir = $appDir;
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         if (!$event->isMasterRequest()) {
             // Don't do anything if it's not the master request

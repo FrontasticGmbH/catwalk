@@ -3,7 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class ContentSecurityPolicy
 {
@@ -68,7 +68,7 @@ class ContentSecurityPolicy
         $this->project = $project;
     }
 
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event)
     {
         $responseHeaders = $event->getResponse()->headers;
         $policies = $this->merge(

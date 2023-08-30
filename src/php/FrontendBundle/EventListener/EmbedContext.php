@@ -2,11 +2,11 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Twig\NodeExtension;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class EmbedContext
 {
@@ -17,7 +17,7 @@ class EmbedContext
         $this->nodeExtension = $nodeExtension;
     }
 
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event)
     {
         if (!$event->getRequest()->get('_embed')) {
             return;

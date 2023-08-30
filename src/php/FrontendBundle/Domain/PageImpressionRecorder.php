@@ -2,7 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-use Symfony\Component\HttpKernel\Event\PostResponseEvent;
+use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Domnikl\Statsd\Client as StatsD;
 
@@ -17,7 +17,7 @@ class PageImpressionRecorder
         $this->statsd = $statsd;
     }
 
-    public function onKernelTerminate(PostResponseEvent $event)
+    public function onKernelTerminate(TerminateEvent $event)
     {
         if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
             return;

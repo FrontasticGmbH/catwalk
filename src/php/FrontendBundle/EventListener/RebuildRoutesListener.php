@@ -5,7 +5,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class RebuildRoutesListener
 {
@@ -25,7 +25,7 @@ class RebuildRoutesListener
         $this->logger = $logger;
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         if (false === $event->isMasterRequest()) {
             return;

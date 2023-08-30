@@ -6,11 +6,11 @@ use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class ContentSecurityPolicyTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|FilterResponseEvent */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ResponseEvent */
     private $event;
 
     private ContentSecurityPolicy $contentSecurityPolicy;
@@ -26,7 +26,7 @@ class ContentSecurityPolicyTest extends TestCase
         $mockResponse = new stdClass;
         $this->responseHeaders = $this->getMockBuilder(ResponseHeaderBag::class)->getMock();
         $mockResponse->headers = $this->responseHeaders;
-        $this->event = $this->getMockBuilder(FilterResponseEvent::class)->disableOriginalConstructor()->getMock();
+        $this->event = $this->getMockBuilder(ResponseEvent::class)->disableOriginalConstructor()->getMock();
         $this->event->expects($this->once())->method('getResponse')->willReturn($mockResponse);
 
         $this->contentSecurityPolicy = new ContentSecurityPolicy($this->project);

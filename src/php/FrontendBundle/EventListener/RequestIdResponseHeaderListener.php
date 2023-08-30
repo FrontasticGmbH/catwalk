@@ -4,7 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
 use Frontastic\Common\CoreBundle\Domain\Tracing;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class RequestIdResponseHeaderListener implements EventSubscriberInterface
 {
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event)
     {
         $requestAttributes = $event->getRequest()->attributes;
 

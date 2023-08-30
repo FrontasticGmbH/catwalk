@@ -3,7 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\NoConfigurationException;
 use Symfony\Component\Templating\EngineInterface;
@@ -27,9 +27,9 @@ class MissingHomepageRouteListener
         $this->templating = $templating;
     }
 
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event)
     {
-        if (!$this->debug || !($e = $event->getException()) instanceof NotFoundHttpException) {
+        if (!$this->debug || !($e = $event->getThrowable()) instanceof NotFoundHttpException) {
             return;
         }
 
