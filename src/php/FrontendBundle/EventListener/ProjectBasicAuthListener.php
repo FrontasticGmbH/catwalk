@@ -7,7 +7,7 @@ use Frontastic\Common\SpecificationBundle\Domain\ConfigurationSchema;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\HttpFoundation\IpUtils;
 
@@ -44,7 +44,7 @@ class ProjectBasicAuthListener
         $this->contextService = $contextService;
     }
 
-    public function onKernelRequest(GetResponseEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
         $this->handleAuthRequest($event);
     }
@@ -144,9 +144,9 @@ class ProjectBasicAuthListener
     }
 
     /**
-     * @param GetResponseEvent $event
+     * @param RequestEvent $event
      */
-    private function handleAuthRequest(GetResponseEvent $event)
+    private function handleAuthRequest(RequestEvent $event)
     {
         $request = $event->getRequest();
 

@@ -4,7 +4,7 @@ namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
 use Frontastic\Common\CoreBundle\Domain\Tracing;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
@@ -17,7 +17,7 @@ class RequestIdListener implements EventSubscriberInterface
 {
     public const REQUEST_ID_ATTRIBUTE_KEY = '_frontastic_request_id';
 
-    public function onKernelRequest(GetResponseEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->isMasterRequest()) {
             return;

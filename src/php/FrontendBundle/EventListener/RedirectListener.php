@@ -5,7 +5,7 @@ namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\Domain\RedirectService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RedirectListener
@@ -26,7 +26,7 @@ class RedirectListener
         $this->contextService = $contextService;
     }
 
-    public function onKernelException(GetResponseForExceptionEvent $event): void
+    public function onKernelException(ExceptionEvent $event): void
     {
         if (!$this->isNotFoundException($event) || !$event->isMasterRequest()) {
             return;
@@ -45,8 +45,8 @@ class RedirectListener
         $event->setResponse(new RedirectResponse($redirect->target, $redirect->statusCode));
     }
 
-    protected function isNotFoundException(GetResponseForExceptionEvent $event): bool
+    protected function isNotFoundException(ExceptionEvent $event): bool
     {
-        return $event->getException() instanceof NotFoundHttpException;
+        return $event->getThrowable() instanceof NotFoundHttpException;
     }
 }

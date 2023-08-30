@@ -22,7 +22,7 @@ class RouteLoggingFilter extends HandlerWrapper
         $this->environment = $environment;
     }
 
-    public function isHandling(array $record)
+    public function isHandling(array $record): bool
     {
         if ($this->shouldFilter($record)) {
             return false;
@@ -31,7 +31,7 @@ class RouteLoggingFilter extends HandlerWrapper
         return $this->handler->isHandling($record);
     }
 
-    public function handle(array $record)
+    public function handle(array $record): bool
     {
         if (!$this->isHandling($record)) {
             return false;
@@ -40,7 +40,7 @@ class RouteLoggingFilter extends HandlerWrapper
         return $this->handler->handle($record);
     }
 
-    public function handleBatch(array $records)
+    public function handleBatch(array $records): void
     {
         foreach ($records as $record) {
             $this->handle($record);

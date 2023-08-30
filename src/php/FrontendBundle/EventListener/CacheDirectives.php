@@ -2,13 +2,12 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class CacheDirectives
 {
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event)
     {
         $responseHeaders = $event->getResponse()->headers;
 
