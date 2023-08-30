@@ -16,9 +16,6 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('frontastic-nextjs');
-
-        return $treeBuilder;
+        return new TreeBuilder('frontastic-nextjs');
     }
 }

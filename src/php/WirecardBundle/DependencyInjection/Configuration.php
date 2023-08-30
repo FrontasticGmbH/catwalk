@@ -9,8 +9,6 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('frontastic_catwalk_wirecard');
-        return $treeBuilder;
+        return new TreeBuilder('frontastic_catwalk_wirecard');
     }
 }
