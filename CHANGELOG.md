@@ -1,4 +1,10 @@
 
+## Version 1.67.2 (2023-09-04)
+
+** Bug fixes **
+
+- Fix incompatibility with `netlify-plugin-commercetools-frontend`
+
 ## Version 1.67.1 (2023-08-16)
 
 * Fixed incorrect de-registration of DevVmBundle in non-dev environments.
