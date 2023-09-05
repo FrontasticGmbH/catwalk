@@ -1,4 +1,11 @@
 
+## Version 1.67.3 (2023-09-05)
+
+** Bug fixes **
+
+- Split the vendor JS bundle with webpack 5 into multiple chunks as was done with webpack 4.
+- Don't expose the `DevVmBundle` routes in production.
+
 ## Version 1.67.2 (2023-09-04)
 
 ** Bug fixes **
