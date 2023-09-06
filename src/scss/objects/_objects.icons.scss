@@ -2,6 +2,8 @@
    #ICONS
 ========================================================================== */
 
+@use "sass:math";
+
 // IconSizes in px
 $icon-sizes: (
     auto: 1em, // required
@@ -10,7 +12,7 @@ $icon-sizes: (
     base: $fs-base, // required
     l: $fs-l,
     xl: $fs-xl,
-    xxl: $fs-xxl * (30/32), // Normalize to 30px
+    xxl: $fs-xxl * math.div(30, 32), // Normalize to 30px
 ) !default;
 
 $icon-default-size: auto !default;

@@ -42,7 +42,7 @@
     backface-visibility: hidden;
     height: 100vh;
     width: 100vw;
-    max-width: (map-get($breakpoints, desk) / 2);
+    max-width: (map-get($breakpoints, desk) * 0.5);
     position: fixed;
     z-index: 10;
 

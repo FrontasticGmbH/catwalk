@@ -294,7 +294,7 @@ a.c-button, button.c-button:enabled, input.c-button:enabled {
 .c-button--small {
     @include font-size($fs-s, false);
     min-height: $unit + $unit-tiny;
-    padding: $unit-tiny / 2 $unit-small;
+    padding: $unit-tiny * 0.5 $unit-small;
 
     /* Icons */
     .c-button__icon {
