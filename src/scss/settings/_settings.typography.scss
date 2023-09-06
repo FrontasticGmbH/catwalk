@@ -2,6 +2,8 @@
    #TYPOGRAPHY
 ======================================================================== */
 
+@use "sass:math";
+
 // Base font family.
 $base-font: 'Helvetica Neue' !default;
 $ff-base: #{$base-font}, -apple-system, BlinkMacSystemFont, “Roboto”, “Droid Sans”, “Helvetica Neue”, Helvetica, Arial, sans-serif !default;
@@ -28,17 +30,17 @@ $fw-bold: 700 !default;
 // $fs-xxxxxl: ms(12) !default;
 
 $fs-base-px: 16 !default;
-$fs-xs:      0.8rem / 16 * $fs-base-px !default;
-$fs-s:       0.9rem / 16 * $fs-base-px !default;
-$fs-base:    1rem / 16 * $fs-base-px !default;
-$fs-l:       1.25rem / 16 * $fs-base-px !default;
-$fs-xl:      1.5625rem / 16 * $fs-base-px !default;
-$fs-xxl:     1.75rem / 16 * $fs-base-px !default;
-$fs-xxxl:    2rem / 16 * $fs-base-px !default;
-$fs-xxxxl:   3rem / 16 * $fs-base-px !default;
+$fs-xs:      math.div(0.8rem, 16) * $fs-base-px !default;
+$fs-s:       math.div(0.9rem, 16) * $fs-base-px !default;
+$fs-base:    math.div(1rem, 16) * $fs-base-px !default;
+$fs-l:       math.div(1.25rem, 16) * $fs-base-px !default;
+$fs-xl:      math.div(1.5625rem, 16) * $fs-base-px !default;
+$fs-xxl:     math.div(1.75rem, 16) * $fs-base-px !default;
+$fs-xxxl:    math.div(2rem, 16) * $fs-base-px !default;
+$fs-xxxxl:   math.div(3rem, 16) * $fs-base-px !default;
 
 @function rem2px($value) {
-    @return $value / ($value * 0 + 1) * 16px;
+    @return math.div($value, $value * 0 + 1) * 16px;
 }
 
 // Line height

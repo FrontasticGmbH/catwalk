@@ -63,7 +63,7 @@ $transition-filter-bar-button: 150ms !default;
 
     .c-filter-bar__item {
         display: inline-block;
-        margin-right: $color-filter-bar-horizontal-offset / 4;
+        margin-right: $color-filter-bar-horizontal-offset * 0.25;
     }
 
     .c-filter-bar__button {

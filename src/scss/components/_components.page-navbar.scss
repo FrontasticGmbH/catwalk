@@ -67,7 +67,7 @@ $transition-page-navbar-button: 150ms !default;
 
 		.c-page-navbar__item {
 			display: inline-block;
-			margin-right: $color-page-navbar-horizontal-offset / 4;
+			margin-right: $color-page-navbar-horizontal-offset * 0.25;
 		}
 
 		.c-page-navbar__button {
