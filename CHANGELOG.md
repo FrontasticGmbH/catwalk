@@ -1,4 +1,10 @@
 
+## Version 1.67.4 (2023-09-06)
+
+** Bug fixes **
+
+- Fix deprecation warnings in Sass code
+
 ## Version 1.67.3 (2023-09-05)
 
 ** Bug fixes **
