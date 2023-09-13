@@ -9,7 +9,7 @@
             <generator strategy="NONE"/>
         </id>
 
-        <field name="rules" column="pmr_rules" type="json_array" />
+        <field name="rules" column="pmr_rules" type="json" />
         <field name="sequence" column="pmr_sequence" type="string" />
         <field name="metaData" column="pmr_meta_data" type="object" />
     </entity>

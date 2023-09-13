@@ -11,7 +11,7 @@
 
         <field name="sequence" column="l_sequence" type="string" />
         <field name="name" column="l_name" type="string" />
-        <field name="regions" column="l_regions" type="json_array" />
+        <field name="regions" column="l_regions" type="json" />
         <field name="metaData" column="l_meta_data" type="object" />
 
         <indexes>
