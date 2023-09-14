@@ -96,6 +96,17 @@ class TasticFieldService
             $fieldHandler = new TasticFieldHandlerAdapterV3($fieldHandler);
         }
 
+        if (!$fieldHandler instanceof TasticFieldHandlerV3) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Tastic field handler %s (%s) does not implement %s',
+                    $fieldHandler->getType(),
+                    get_class($fieldHandler),
+                    TasticFieldHandlerV3::class
+                )
+            );
+        }
+
         if (isset($this->fieldHandlers[$fieldHandler->getType()])) {
             throw new \LogicException('Duplicate field handler: "' . $fieldHandler->getType() . '"');
         }
