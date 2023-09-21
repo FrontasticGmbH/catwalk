@@ -3,18 +3,20 @@
 namespace Frontastic\Catwalk\FrontendBundle\Database;
 
 use Doctrine\DBAL\Cache\QueryCacheProfile;
+use Doctrine\DBAL\Result;
+use Doctrine\DBAL\Statement;
 
 class FrontasticDbalConnection extends \Doctrine\DBAL\Connection
 {
     /** {@inheritDoc} */
-    public function prepare($sql)
+    public function prepare($sql): Statement
     {
         $sql = $this->appendLoggingInformation($sql);
         return parent::prepare($sql);
     }
 
     /** {@inheritDoc} */
-    public function executeQuery($sql, array $params = [], $types = [], ?QueryCacheProfile $qcp = null)
+    public function executeQuery($sql, array $params = [], $types = [], ?QueryCacheProfile $qcp = null): Result
     {
         $sql = $this->appendLoggingInformation($sql);
         return parent::executeQuery($sql, $params, $types, $qcp);
