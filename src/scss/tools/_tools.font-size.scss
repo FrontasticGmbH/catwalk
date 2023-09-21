@@ -2,6 +2,8 @@
    #FONT-SIZE
 ======================================================================== */
 
+@use "sass:math";
+
 // Generate a font-size and baseline-compatible line-height.
 @mixin inuit-font-size($font-size, $line-height: none, $important: false) {
 
@@ -26,7 +28,7 @@
     font-size: $font-size $important;
 
     @if ($line-height == 'auto') {
-        line-height: ceil($font-size / $inuit-global-line-height) * ($inuit-global-line-height / $font-size) $important;
+        line-height: ceil(math.div($font-size, $inuit-global-line-height)) * math.div($inuit-global-line-height, $font-size) $important;
     }
 
     @else {
