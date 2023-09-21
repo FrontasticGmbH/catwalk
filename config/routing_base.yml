@@ -21,5 +21,6 @@ tracking:
 dev_vm:
     resource: "@FrontasticCatwalkDevVmBundle/Resources/config/routing.xml"
     prefix:   /
+    condition: "'%kernel.environment%' === 'dev'"
 
 # Frontastic Next.js routes are loaded through a custom loader when the bundle is activate

@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\NextJsBundle\Controller;
 
 use Frontastic\Catwalk\NextJsBundle\Domain\StatusService;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class StatusController
 {
@@ -27,12 +28,14 @@ class StatusController
         return $response;
     }
 
-    public function checkStatusAction(string $service): JsonResponse
+    public function checkStatusAction(string $service, Request $request): JsonResponse
     {
         $status = $this->statusService->serviceStatus($service);
 
-        $response = new JsonResponse();
+        $version = $request->headers->get('Commercetools-Frontend-Extension-Version');
 
+        $response = new JsonResponse();
+        $response->headers->set('Commercetools-Frontend-Extension-Version', $version);
         $response->setStatusCode(200);
         $response->setContent(json_encode($status));
         return $response;

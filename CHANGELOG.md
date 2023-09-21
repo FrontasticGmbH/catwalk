@@ -1,4 +1,23 @@
 
+## Version 1.67.4 (2023-09-06)
+
+** Bug fixes **
+
+- Fix deprecation warnings in Sass code
+
+## Version 1.67.3 (2023-09-05)
+
+** Bug fixes **
+
+- Split the vendor JS bundle with webpack 5 into multiple chunks as was done with webpack 4.
+- Don't expose the `DevVmBundle` routes in production.
+
+## Version 1.67.2 (2023-09-04)
+
+** Bug fixes **
+
+- Fix incompatibility with `netlify-plugin-commercetools-frontend`
+
 ## Version 1.67.1 (2023-08-16)
 
 * Fixed incorrect de-registration of DevVmBundle in non-dev environments.

@@ -6,7 +6,7 @@
 // need to be made available to the entire codebase.
 
 $inuit-global-spacing-unit: 1.5rem;
-$inuit-global-baseline: 1.5rem / 4;
+$inuit-global-baseline: 1.5rem * 0.25;
 
 // Which fractions would you like in your grid system(s)?
 $inuit-fractions: 1 2 3 4 5 7 !default;
