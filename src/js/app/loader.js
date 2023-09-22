@@ -53,11 +53,6 @@ let Loader = function (store, router, api) {
                 parameters: {},
             }, query, historyState)
         }
-        this.store.dispatch({
-            type: 'FRONTASTIC_ROUTE',
-            route: route,
-            lastRoute: this.store.getState().app.route,
-        })
 
         if (typeof PRODUCTION === 'undefined' || !PRODUCTION) { // eslint-disable-line no-undef
             // eslint-disable-next-line no-console
@@ -90,6 +85,12 @@ let Loader = function (store, router, api) {
                 this.loaders.node.loadMaster(route.route, route.parameters)
             }
         }
+
+        this.store.dispatch({
+            type: 'FRONTASTIC_ROUTE',
+            route: route,
+            lastRoute: this.store.getState().app.route,
+        })
     }
 
     this.getLoader = function (name) {
