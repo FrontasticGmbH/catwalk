@@ -7,10 +7,6 @@
         {
             "type": "path",
             "url": "../libraries/*"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/mantiz/mvc-bundle.git"
         }
     ],
     "config": {
@@ -40,7 +36,6 @@
         "sensio/framework-extra-bundle": "@stable",
 
         "frontastic/data-object": "@stable",
-        "gyro/mvc-bundle": "dev-php74-compatibility as 1.0.0",
         "beberlei/doctrineextensions": "@stable",
 
         "predis/predis": "@stable",
