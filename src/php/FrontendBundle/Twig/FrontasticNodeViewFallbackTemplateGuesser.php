@@ -2,7 +2,7 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Twig;
 
-use Gyro\Bundle\MVCBundle\View\TemplateGuesser;
+use Frontastic\Common\MvcBundle\View\TemplateGuesser;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 
