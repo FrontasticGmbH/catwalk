@@ -61,7 +61,7 @@
         "squizlabs/php_codesniffer": "@stable",
         "sebastian/phpcpd": "@stable",
         "phake/phake": "^4.0",
-        "phpstan/phpstan": "^0.12.18",
+        "phpstan/phpstan": "^1.10",
         "mikey179/vfsstream": "^1"
     },
     "autoload": {
