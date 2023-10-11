@@ -1,4 +1,18 @@
 
+## Version 1.68.0 (2023-10-11)
+
+** New Features and Improvements **
+
+- Add compatibility with React 18.
+- Add compatibiltiy with Symfony 5.4.
+- Move `react` and `react-dom` to peer dependencies. When updating you might need to add both as an explicit dependency of your package.
+- Set the `nodeId` in the route parameters before dispatching the `FRONTASTIC_ROUTE` action.
+- Removed some unused tastics (`datavis-barChart`, `datavis-lineChart`, `datavis-example` and `instagramPost`).
+
+** Bug fixes **
+
+- Throw a descriptive exception if a tastic field handler does not implement one of the required interfaces.
+
 ## Version 1.67.4 (2023-09-06)
 
 ** Bug fixes **
