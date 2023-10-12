@@ -12,6 +12,9 @@
     "config": {
         "discard-changes": true
     },
+    "conflict": {
+        "frontastic/payment-adyen": "<1.2.0"
+    },
     "require":      {
         "php": ">=7.4",
         "ext-json": "*",
@@ -25,7 +28,7 @@
         "doctrine/doctrine-bundle": "^1.9||^2",
         "stof/doctrine-extensions-bundle": "^1.3",
 
-        "frontastic/common": "^2.35.0",
+        "frontastic/common": "^2.48.0",
 
         "doctrine/annotations": "^1.14.3",
         "doctrine/orm": "^2.6",
