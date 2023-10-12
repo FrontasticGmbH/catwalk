@@ -1,4 +1,13 @@
 
+## Version 1.68.1 (2023-10-12)
+
+** Bug fixes **
+
+- Disable the Symfony 5.4 compatibility for now.
+- Add breaking statement for old Adyen Payment versions.
+- Add dependency to a recent common package.
+- Add missing yarn dependency to the `nodemon` package. This is required to run the frontend build on a locale machine.
+
 ## Version 1.68.0 (2023-10-11)
 
 ** New Features and Improvements **
