@@ -4,7 +4,6 @@ namespace Frontastic\Catwalk\FrontendBundle\Controller;
 
 use Assert\Assertion;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use Frontastic\Catwalk\FrontendBundle\Security\Authenticator;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
 use Frontastic\Common\AccountApiBundle\Domain\Account;
 use Frontastic\Common\AccountApiBundle\Domain\AccountService;
@@ -21,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\LogoutException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Guard\AuthenticatorInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 /**
@@ -31,7 +31,7 @@ class AccountAuthController
 {
     private TrackingService $trackingService;
     private AccountService $accountService;
-    private Authenticator $authenticator;
+    private AuthenticatorInterface $authenticator;
     private CartFetcher $cartFetcher;
     private GuardAuthenticatorHandler $guardAuthenticatorHandler;
     private Logger $logger;
@@ -39,7 +39,7 @@ class AccountAuthController
     public function __construct(
         TrackingService $trackingService,
         AccountService $accountService,
-        Authenticator $authenticator,
+        AuthenticatorInterface $authenticator,
         CartFetcher $cartFetcher,
         GuardAuthenticatorHandler $guardAuthenticatorHandler,
         Logger $logger
