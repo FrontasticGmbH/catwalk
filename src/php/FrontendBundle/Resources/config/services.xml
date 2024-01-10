@@ -318,6 +318,9 @@
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\PageService" />
             <argument type="service" id="frontastic.catwalk.product_api" />
             <argument>%secret%</argument>
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Controller\AttributesController">
@@ -395,6 +398,19 @@
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Controller\CartFetcher" />
             <argument type="service" id="Psr\Log\LoggerInterface" />
             <argument type="service" id="Frontastic\Common\CartApiBundle\Domain\CartApiFactory" />
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\AssetController">
+            <argument type="service" id="kernel" />
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <service id="Frontastic\Catwalk\FrontendBundle\Controller\ErrorController">
             <call method="setContainer">
                 <argument type="service" id="service_container" />
             </call>
