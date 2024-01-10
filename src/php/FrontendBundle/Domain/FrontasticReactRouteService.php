@@ -185,6 +185,11 @@ class FrontasticReactRouteService implements RouteService
 
             $parentPath = $this->determineParentPath($parentRoutes, $locale);
 
+            if ($relativeRoute === '/' && $this->routeSuffix === '/') {
+                // Don't set the route of the root node to '//'
+                $relativeRoute = '';
+            }
+
             $generatedUrl = rtrim($parentPath, '/') . $relativeRoute . $this->routeSuffix;
 
             if (!array_key_exists($generatedUrl, $localesByUrl)) {

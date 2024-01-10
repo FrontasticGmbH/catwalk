@@ -36,3 +36,11 @@ it('it filters the nocrawl parameter', () => {
         relevantParameter: 'foo',
     })
 })
+
+it('it sorts parameters alphabetically', () => {
+    expect(JSON.stringify(UrlContext.getActionParameters({
+        x: 'X',
+        a: 'A',
+        z: 'Z',
+    }))).toEqual('{"a":"A","x":"X","z":"Z"}')
+})

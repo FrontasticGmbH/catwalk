@@ -10,15 +10,24 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class RequestService
 {
-    const SALT = 'A_OIK_+(#@&#U(98as7ydy6AS%D^sW98sa8d)kMNcx_Si)xudyhX*ASD';
-    const AES256_KEY = '6hrRm4EdwrHmdabeg2VXqcA0LNTzIUaZefxQaSRBo9g=';
     const EXCLUDE_HEADERS = ['frontastic-session', 'cookie', 'x-frontastic-access-token', 'frontastic-access-token'];
 
     private LoggerInterface $logger;
+    private string $oldKey;
+    private string $newKey;
+    private string $payloadKey;
 
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
+        $this->oldKey = strval(isset($_ENV['session_old_key']) ? $_ENV['session_old_key'] : "");
+        $this->newKey = strval(isset($_ENV['session_new_key']) ? $_ENV['session_new_key'] : "");
+        $this->payloadKey = strval(isset($_ENV['session_payload_key']) ? $_ENV['session_payload_key'] : "");
+
+        // It's better to just stop the API Hub from working than allowing empty keys
+        if (trim($this->newKey) == "" || trim($this->oldKey) == "" || trim($this->payloadKey) == "") {
+            throw new \Exception("Invalid session keys");
+        }
     }
 
     /**
@@ -52,14 +61,18 @@ class RequestService
     public function decodeAndValidateJWTSessionToken(string $sessionData): ?array
     {
         try {
-            $decodedJWT = (array) JWT::decode($sessionData, new Key(self::SALT, 'HS256'));
+            try {
+                $decodedJWT = (array) JWT::decode($sessionData, new Key($this->oldKey, 'HS256'));
+            } catch (\Exception $e) {
+                $decodedJWT = (array) JWT::decode($sessionData, new Key($this->newKey, 'HS256'));
+            }
 
             if (isset($decodedJWT['nonce']) && isset($decodedJWT['payload'])) {
                 $decryptedPayload = sodium_crypto_aead_aes256gcm_decrypt(
                     base64_decode($decodedJWT['payload']),
                     '',
                     base64_decode($decodedJWT['nonce']),
-                    base64_decode(self::AES256_KEY)
+                    base64_decode($this->payloadKey)
                 );
 
                 if ($decryptedPayload !== false) {
@@ -106,7 +119,7 @@ class RequestService
                 json_encode($data),
                 '',
                 $nonce,
-                base64_decode(self::AES256_KEY)
+                base64_decode($this->payloadKey)
             );
             $jwtPayload = [
                 'payload' => base64_encode($encryptedCookie),
@@ -123,7 +136,7 @@ class RequestService
             }
         }
 
-        return JWT::encode($jwtPayload, self::SALT, 'HS256');
+        return JWT::encode($jwtPayload, $this->newKey, 'HS256');
     }
 
     /**

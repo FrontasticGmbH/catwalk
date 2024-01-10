@@ -7,6 +7,7 @@ use Frontastic\Catwalk\FrontendBundle\Gateway\PageGateway;
 use Frontastic\Common\ReplicatorBundle\Domain\Target;
 use RulerZ\RulerZ;
 use Frontastic\Catwalk\TrackingBundle\Domain\TrackingService;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -138,7 +139,7 @@ class PageService implements Target
             }
         }
 
-        throw new \RuntimeException('No active page for node ' . $node->nodeId . ' found.');
+        throw new NotFoundHttpException('No active page for node ' . $node->nodeId . ' found.');
     }
 
     /**

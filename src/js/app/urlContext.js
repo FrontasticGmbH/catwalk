@@ -15,16 +15,16 @@ class UrlContext {
     }
 
     static getActionParameters = (parameters = {}) => {
-        let actionParameters = {}
-
-        for (let [parameter, value] of Object.entries(parameters)) {
-            if (parameter.match(UrlContext.parameterKeyFilter) === null) {
-                actionParameters[parameter] = value
-            }
-        }
-
-        return actionParameters
-    }
+        return Object.fromEntries(
+            Object.entries(parameters)
+                .filter(([parameter, value]) => {
+                    return parameter.match(UrlContext.parameterKeyFilter) === null
+                })
+                .toSorted(([parameter1, value1], [parameter2, value2]) => {
+                    return parameter1.localeCompare(parameter2)
+                })
+        )
+    };
 
     static hasChanged = (lastRoute, route) => {
         if (!lastRoute) {

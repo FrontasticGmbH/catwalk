@@ -1,4 +1,13 @@
 
+## Version 1.68.2 (2024-01-10)
+
+** Bug fixes **
+
+- Don't reload the page if only the order of action parameters changed.
+- Don't set the route of the root node to '//'.
+- Return a 404 if no active page could be found for a node.
+- Correctly call the `setContainer` for additional services.
+
 ## Version 1.68.1 (2023-10-12)
 
 ** Bug fixes **
