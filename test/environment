@@ -1,6 +1,3 @@
 env=test
 
 mailer_transport="null"
-session_old_key="oldKey"
-session_new_key="newKey"
-session_payload_key="payloadKey"

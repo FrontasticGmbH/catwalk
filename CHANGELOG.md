@@ -1,4 +1,10 @@
 
+## Version 1.68.3 (2024-01-11)
+
+** Bug fixes **
+
+- Resolve issue for coFE that could cause invalid session keys error
+
 ## Version 1.68.2 (2024-01-10)
 
 ** Bug fixes **
