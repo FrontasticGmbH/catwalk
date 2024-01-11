@@ -1,4 +1,10 @@
 
+## Version 1.68.4 (2024-01-11)
+
+** New Features and Improvements **
+
+- Add compatibiltiy with Symfony 5.4.
+
 ## Version 1.68.3 (2024-01-11)
 
 ** Bug fixes **
