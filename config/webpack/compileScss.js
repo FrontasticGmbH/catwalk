@@ -34,6 +34,10 @@ module.exports = (config, PRODUCTION, SERVER) => {
                                     localIdentName: PRODUCTION ? '[hash:base64]' : '[path][name]__[local]',
                                 },
                                 importLoaders: 1,
+                                url: {
+                                    // skip any data URLs
+                                    filter: url => { return !(/^data:/i.test(url)) },
+                                },
                             },
                         },
                         {
@@ -67,6 +71,12 @@ module.exports = (config, PRODUCTION, SERVER) => {
                         {
                             // Translates CSS into CommonJS
                             loader: require.resolve('css-loader'),
+                            options: {
+                                url: {
+                                    // skip any data URLs
+                                    filter: url => { return !(/^data:/i.test(url)) },
+                                },
+                            },
                         },
                         {
                             loader: require.resolve('postcss-loader'),

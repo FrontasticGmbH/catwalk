@@ -1,4 +1,10 @@
 
+## Version 1.68.5 (2024-01-25)
+
+** Bug fixes **
+
+- Leave data urls in CSS untouched
+
 ## Version 1.68.4 (2024-01-11)
 
 ** New Features and Improvements **

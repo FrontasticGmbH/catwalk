@@ -52,7 +52,7 @@ class PageFolderCompletionVisitor implements FieldVisitor
         }
 
         if ($configuration->getType() === 'reference') {
-            if (isset($value['type']) && $value['type'] === 'node') {
+            if (is_array($value) && isset($value['type']) && $value['type'] === 'node') {
                 try {
                     $pageFolderRepresentation = $this->createNodeRepresentation($value['target']);
                 } catch (\Throwable $e) {
@@ -63,14 +63,15 @@ class PageFolderCompletionVisitor implements FieldVisitor
                     'openInNewWindow' => (isset($value['mode']) && $value['mode'] === 'new_window'),
                 ]);
             }
-            if (isset($value['type']) && $value['type'] === 'link') {
+            if (is_array($value) && isset($value['type']) && $value['type'] === 'link') {
                 return new LinkReferenceValue([
                     'link' => $value['target'],
                     'openInNewWindow' => (isset($value['mode']) && $value['mode'] === 'new_window'),
                 ]);
             }
 
-            // TODO: Log strange unknown reference value
+            // in this case, the value was already converted because it is a circular reference
+            // or it is a case not covered above
             return $value;
         }
 

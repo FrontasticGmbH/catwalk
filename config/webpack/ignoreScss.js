@@ -31,6 +31,10 @@ module.exports = (config, PRODUCTION, SERVER) => {
                                         localIdentName: PRODUCTION ? '[hash:base64]' : '[path][name]__[local]',
                                     },
                                     importLoaders: 1,
+                                    url: {
+                                        // skip any data URLs
+                                        filter: url => { return !(/^data:/i.test(url)) },
+                                    },
                                 },
                             },
                             {
