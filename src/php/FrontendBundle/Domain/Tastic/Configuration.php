@@ -9,6 +9,9 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Configuration as BaseConfiguration;
  */
 class Configuration extends BaseConfiguration
 {
+    /**
+     * @return null
+     */
     public function __get($name)
     {
         return null;
