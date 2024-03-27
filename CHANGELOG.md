@@ -1,4 +1,11 @@
 
+## Version 1.68.6 (2024-03-27)
+
+** Bug fixes **
+
+- Fix issues with cron and other commands with Symfony 5.4
+- Fix an error in development with Symfony 5.4
+
 ## Version 1.68.5 (2024-01-25)
 
 ** Bug fixes **

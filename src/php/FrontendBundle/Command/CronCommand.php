@@ -78,7 +78,7 @@ class CronCommand extends Command
     ): void {
         $verbose && $output->writeln("Running: {$command}");
 
-        $process = new Process($command, $projectDir);
+        $process = Process::fromShellCommandline($command, $projectDir);
         $process->setTimeout(600);
         $process->run();
 
