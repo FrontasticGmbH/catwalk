@@ -1,4 +1,10 @@
 
+## Version 1.68.7 (2024-03-28)
+
+** Bug fixes **
+
+- Fix another error in development with Symfony 5.4
+
 ## Version 1.68.6 (2024-03-27)
 
 ** Bug fixes **
