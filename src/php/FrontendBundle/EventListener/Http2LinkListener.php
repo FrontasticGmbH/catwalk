@@ -41,8 +41,10 @@ class Http2LinkListener
         }
 
         $acceptableContentTypes = $event->getRequest()->getAcceptableContentTypes();
-        if (!in_array('text/html', $acceptableContentTypes) ||
-            $event->getRequest()->isXmlHttpRequest()) {
+        if (
+            !in_array('text/html', $acceptableContentTypes) ||
+            $event->getRequest()->isXmlHttpRequest()
+        ) {
             return;
         }
 
