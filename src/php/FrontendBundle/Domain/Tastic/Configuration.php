@@ -17,6 +17,9 @@ class Configuration extends BaseConfiguration
         return null;
     }
 
+    /**
+     * @return void
+     */
     public function __set($name, $value)
     {
         $this->$name = $value;
