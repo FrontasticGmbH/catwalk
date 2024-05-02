@@ -25,13 +25,13 @@ Return Value: `mixed`
 
 ```php
 public function onKernelTerminate(
-    \Symfony\Component\HttpKernel\Event\PostResponseEvent $event
+    \Symfony\Component\HttpKernel\Event\TerminateEvent $event
 ): mixed
 ```
 
 Argument|Type|Default|Description
 --------|----|-------|-----------
-`$event`|`\Symfony\Component\HttpKernel\Event\PostResponseEvent`||
+`$event`|`\Symfony\Component\HttpKernel\Event\TerminateEvent`||
 
 Return Value: `mixed`
 

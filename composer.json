@@ -1,6 +1,6 @@
 {
     "name": "frontastic/catwalk",
-    "version": "1.68.7",
+    "version": "1.68.8",
     "license": "None",
     "type": "library",
     "repositories": [
@@ -34,7 +34,7 @@
         "doctrine/orm": "^2.6",
         "doctrine/dbal": "^2.13||^3.0",
         "doctrine/cache": "^1.13",
-        "guzzlehttp/guzzle": "~6",
+        "guzzlehttp/guzzle": "^6||^7",
         "gedmo/doctrine-extensions": "^2.4||^3",
 
         "sensio/framework-extra-bundle": "@stable",
