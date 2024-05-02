@@ -1,4 +1,10 @@
 
+## Version 1.68.8 (2024-05-02)
+
+** New Features and Improvements **
+
+- Add compatibility with Guzzle version 7
+
 ## Version 1.68.7 (2024-03-28)
 
 ** Bug fixes **
