@@ -1,4 +1,10 @@
 
+## Version 1.68.9 (2024-06-25)
+
+** Bug fixes **
+
+- Set route in Redux before fetching cart and wishlist
+
 ## Version 1.68.8 (2024-05-02)
 
 ** New Features and Improvements **

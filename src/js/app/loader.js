@@ -54,6 +54,18 @@ let Loader = function (store, router, api) {
             }, query, historyState)
         }
 
+        const isDynamicRoute = route.route.substr(0, 5) === 'node_'
+        const isMasterRoute = route.route.includes('.Master.')
+        if (isDynamicRoute) {
+            route.parameters.nodeId = route.route.substr(5).split('.')[0]
+        }
+
+        this.store.dispatch({
+            type: 'FRONTASTIC_ROUTE',
+            route: route,
+            lastRoute: this.store.getState().app.route,
+        })
+
         if (typeof PRODUCTION === 'undefined' || !PRODUCTION) { // eslint-disable-line no-undef
             // eslint-disable-next-line no-console
             console.groupCollapsed('%c🔀 %c%s', 'color: gray', 'color: darkmagenta', route.route)
@@ -78,19 +90,12 @@ let Loader = function (store, router, api) {
             this.loaders.dev.loadTunnel(route.parameters)
             break
         default:
-            if (route.route.substr(0, 5) === 'node_') {
-                route.parameters.nodeId = route.route.substr(5).split('.')[0]
+            if (isDynamicRoute) {
                 this.loaders.node.loadNode(route.parameters)
-            } else if (route.route.includes('.Master.')) {
+            } else if (isMasterRoute) {
                 this.loaders.node.loadMaster(route.route, route.parameters)
             }
         }
-
-        this.store.dispatch({
-            type: 'FRONTASTIC_ROUTE',
-            route: route,
-            lastRoute: this.store.getState().app.route,
-        })
     }
 
     this.getLoader = function (name) {
