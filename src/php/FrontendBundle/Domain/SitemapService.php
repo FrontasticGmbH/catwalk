@@ -47,7 +47,7 @@ class SitemapService
                 continue;
             }
 
-            foreach (array_slice($timestamps, 3) as $timestamp) {
+            foreach (array_slice($timestamps, $keep) as $timestamp) {
                 $this->sitemapGateway->remove($basedir, $timestamp);
             }
         }

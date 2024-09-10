@@ -1,4 +1,10 @@
 
+## Version 1.68.10 (2024-09-10)
+
+** Bug fixes **
+
+- Respekt the `$keep` parameter when cleaning up old sitemaps
+
 ## Version 1.68.9 (2024-06-25)
 
 ** Bug fixes **
