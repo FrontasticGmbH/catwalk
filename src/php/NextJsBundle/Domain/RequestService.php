@@ -10,15 +10,18 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class RequestService
 {
-    const SALT = 'A_OIK_+(#@&#U(98as7ydy6AS%D^sW98sa8d)kMNcx_Si)xudyhX*ASD';
-    const AES256_KEY = '6hrRm4EdwrHmdabeg2VXqcA0LNTzIUaZefxQaSRBo9g=';
     const EXCLUDE_HEADERS = ['frontastic-session', 'cookie', 'x-frontastic-access-token', 'frontastic-access-token'];
 
     private LoggerInterface $logger;
+    private string $salt;
+    private string $aes256Key;
+
 
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
+        $this->salt = strval(getenv('jwt_salt'));
+        $this->aes256Key = strval(getenv('aes256_key'));
     }
 
     /**
@@ -51,15 +54,16 @@ class RequestService
 
     public function decodeAndValidateJWTSessionToken(string $sessionData): ?array
     {
+        $this->assertSessionKeys();
         try {
-            $decodedJWT = (array) JWT::decode($sessionData, new Key(self::SALT, 'HS256'));
+            $decodedJWT = (array) JWT::decode($sessionData, new Key($this->salt, 'HS256'));
 
             if (isset($decodedJWT['nonce']) && isset($decodedJWT['payload'])) {
                 $decryptedPayload = sodium_crypto_aead_aes256gcm_decrypt(
                     base64_decode($decodedJWT['payload']),
                     '',
                     base64_decode($decodedJWT['nonce']),
-                    base64_decode(self::AES256_KEY)
+                    base64_decode($this->aes256Key)
                 );
 
                 if ($decryptedPayload !== false) {
@@ -98,6 +102,7 @@ class RequestService
      */
     public function encodeJWTData($data, bool $shouldEncryptPayload): string
     {
+        $this->assertSessionKeys();
         $jwtPayload = $data;
 
         if ($shouldEncryptPayload) {
@@ -106,7 +111,7 @@ class RequestService
                 json_encode($data),
                 '',
                 $nonce,
-                base64_decode(self::AES256_KEY)
+                base64_decode($this->aes256Key)
             );
             $jwtPayload = [
                 'payload' => base64_encode($encryptedCookie),
@@ -123,7 +128,7 @@ class RequestService
             }
         }
 
-        return JWT::encode($jwtPayload, self::SALT, 'HS256');
+        return JWT::encode($jwtPayload, $this->salt, 'HS256');
     }
 
     /**
@@ -139,5 +144,11 @@ class RequestService
             fn ($key) => !in_array(strtolower($key), self::EXCLUDE_HEADERS),
             ARRAY_FILTER_USE_KEY
         );
+    }
+
+    private function assertSessionKeys() {
+        if (empty($this->salt) || empty($this->aes256Key)) {
+            throw new \RuntimeException('Session keys not set');
+        }
     }
 }
