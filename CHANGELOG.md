@@ -1,4 +1,10 @@
 
+## Version 1.69.0 (2025-04-30)
+
+** New Features & Improvements **
+
+- Configure keys from environment
+
 ## Version 1.68.10 (2024-09-10)
 
 ** Bug fixes **
