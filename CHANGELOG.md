@@ -1,4 +1,14 @@
 
+## Version 1.70.1 (2026-03-12)
+
+** New Features & Improvements **
+
+- only overwrite route cache when there are changes
+
+** Bug Fixes **
+
+- delete correct symfony route cache for new symfony versions
+
 ## Version 1.70.0 (2026-03-12)
 
 ** New Features & Improvements **

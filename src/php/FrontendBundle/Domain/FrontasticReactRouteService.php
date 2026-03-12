@@ -5,6 +5,7 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService;
 use Frontastic\Catwalk\FrontendBundle\Gateway\FrontendRoutesGateway;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 class FrontasticReactRouteService implements RouteService
 {
@@ -88,17 +89,29 @@ class FrontasticReactRouteService implements RouteService
 
             $this->frontendRoutesGateway->store($frontendRoutes);
         } else {
-            $this->filesystem->dumpFile(
-                $this->getCacheFile(),
-                '<?php return ' . var_export($routes, true) . ';'
-            );
+            $newContent = '<?php return ' . var_export($routes, true) . ';';
+            $cacheFile = $this->getCacheFile();
+
+            if ($this->filesystem->exists($cacheFile)) {
+                $oldContent = @\file_get_contents($cacheFile);
+                if (is_string($oldContent) && $oldContent === $newContent) {
+                    // Don't regenerate the cache if it did not change
+                    return;
+                }
+            }
+
+            $this->filesystem->dumpFile($cacheFile, $newContent);
         }
 
         // @HACK There seems not to be a sane way to rebuild just the route
         // cache so that we force rebuild by removing the old cache files
-        foreach (glob($this->cacheDirectory . '/*Url*') as $routerCacheFile) {
-            unlink($routerCacheFile);
-        }
+        $symfonyCacheFiles =
+            Finder::create()
+                  ->in($this->cacheDirectory)
+                  ->name(['*Url*', 'url_*'])
+                  ->depth(0)
+                  ->files();
+        $this->filesystem->remove($symfonyCacheFiles);
     }
 
     protected function getCacheFile(): string

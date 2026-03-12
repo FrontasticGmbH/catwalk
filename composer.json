@@ -1,6 +1,6 @@
 {
     "name": "frontastic/catwalk",
-    "version": "1.70.0",
+    "version": "1.70.1",
     "license": "None",
     "type": "library",
     "repositories": [
@@ -38,6 +38,8 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/monolog-bridge": "^5.4||^6.4",
         "symfony/monolog-bundle": "^3.2",
+        "symfony/finder": "^5.4||^6.4",
+        "symfony/filesystem": "^5.4||^6.4",
         "doctrine/doctrine-bundle": "^1.9||^2",
         "stof/doctrine-extensions-bundle": "^1.3",
 
