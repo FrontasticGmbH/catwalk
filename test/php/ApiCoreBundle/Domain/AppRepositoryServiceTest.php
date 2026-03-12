@@ -3,6 +3,7 @@
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
 use Frontastic\Catwalk\IntegrationTest;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @group integration
@@ -15,7 +16,7 @@ class AppRepositoryServiceTest extends IntegrationTest
             $this->getContainer()->get('doctrine.orm.entity_manager'),
             $this->getContainer()->get(\Frontastic\Catwalk\ApiCoreBundle\Gateway\AppGateway::class),
             $this->getContainer()->get('logger'),
-            $this->getContainer()->get('filesystem'),
+            new Filesystem(),
             __DIR__
         );
     }

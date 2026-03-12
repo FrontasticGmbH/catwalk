@@ -5,7 +5,7 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi;
 use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiBase;
-use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\SimpleCache\CacheInterface;
 
@@ -38,7 +38,7 @@ class CachingProductSearchApi extends ProductSearchApiBase
 
         $cacheEntry = $this->cache->get($cacheKey, null);
         if (!$this->debug && $cacheEntry !== null) {
-            return Promise\promise_for($cacheEntry);
+            return Create::promiseFor($cacheEntry);
         }
 
         return $this->aggregate

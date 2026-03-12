@@ -25,7 +25,12 @@ class AccountProvider implements UserProviderInterface
 
     public function loadUserByUsername($username): Account
     {
-        throw new \BadMethodCallException();
+        throw new \BadMethodCallException('loadUserByUsername not supported');
+    }
+
+    public function loadUserByIdentifier(string $identifier): Account
+    {
+        throw new \BadMethodCallException('loadUserByIdentifier not supported');
     }
 
     public function refreshUser(UserInterface $user): Account

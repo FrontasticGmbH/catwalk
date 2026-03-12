@@ -146,7 +146,8 @@ class RequestService
         );
     }
 
-    private function assertSessionKeys() {
+    private function assertSessionKeys()
+    {
         if (empty($this->salt) || empty($this->aes256Key)) {
             throw new \RuntimeException('Session keys not set');
         }

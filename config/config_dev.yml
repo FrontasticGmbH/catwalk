@@ -9,10 +9,6 @@ framework:
     session:
         cookie_samesite: null
 
-swiftmailer:
-    # Providing null via environment variables does not work
-    encryption: null
-
 monolog:
     handlers:
         syslog:

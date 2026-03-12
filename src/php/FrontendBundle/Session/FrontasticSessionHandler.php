@@ -41,7 +41,7 @@ class FrontasticSessionHandler extends AbstractSessionHandler
     }
 
     /** @return string */
-    public function doRead($sessionId)
+    public function doRead($sessionId): string
     {
         $query = 'SELECT sess_data, sess_time FROM http_session WHERE sess_id = :id';
         $select = $this->connection()->prepare($query);
@@ -56,7 +56,7 @@ class FrontasticSessionHandler extends AbstractSessionHandler
         return $row[0];
     }
 
-    protected function doWrite($sessionId, $data)
+    protected function doWrite($sessionId, $data): bool
     {
         if (isset($this->sessions[$sessionId])
             && $data === $this->sessions[$sessionId]['data']
@@ -84,7 +84,7 @@ class FrontasticSessionHandler extends AbstractSessionHandler
         return true;
     }
 
-    protected function doDestroy($sessionId)
+    protected function doDestroy($sessionId): bool
     {
         $query = 'DELETE FROM http_session WHERE sess_id = :id';
         $delete = $this->connection()->prepare($query);
@@ -95,16 +95,15 @@ class FrontasticSessionHandler extends AbstractSessionHandler
     }
 
     /** @noinspection PhpParameterNameChangedDuringInheritanceInspection */
-    #[\ReturnTypeWillChange]
-    public function gc($maxLifetime)
+    public function gc($maxLifetime): int
     {
         $this->shouldCleanUpExpiredSessions = true;
 
-        return true;
+        return 0;
     }
 
-    #[\ReturnTypeWillChange]
-    public function updateTimestamp($sessionId, $data)
+    /** @noinspection PhpParameterNameChangedDuringInheritanceInspection */
+    public function updateTimestamp($sessionId, $data): bool
     {
         // We need to implement this as AbstractSessionHandler uses \SessionUpdateTimestampHandlerInterface
 

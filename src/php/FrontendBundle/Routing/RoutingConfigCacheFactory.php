@@ -21,7 +21,7 @@ class RoutingConfigCacheFactory implements ConfigCacheFactoryInterface
         $this->debug = $debug;
     }
 
-    public function cache($file, $callback)
+    public function cache($file, $callback): RoutingConfigCache
     {
         if (!\is_callable($callback)) {
             throw new \InvalidArgumentException(

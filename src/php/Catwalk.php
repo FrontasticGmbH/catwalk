@@ -114,7 +114,10 @@ class Catwalk
         }
         $trustedProxies[] = $_SERVER['REMOTE_ADDR'];
 
-        Request::setTrustedProxies($trustedProxies, Request::HEADER_X_FORWARDED_ALL);
+        Request::setTrustedProxies(
+            $trustedProxies,
+            Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO
+        );
     }
 
     private static function setTrustedHosts(): void

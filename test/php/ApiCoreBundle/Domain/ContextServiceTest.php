@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
+use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use ArrayObject;
 
@@ -85,7 +86,7 @@ class ContextServiceTest extends TestCase
         );
 
         $this->routerMock->expects($this->any())->method('getRouteCollection')
-            ->will($this->returnValue(new ArrayObject()));
+            ->will($this->returnValue(new RouteCollection()));
 
         $this->tokenStorageMock->expects($this->any())->method('getToken')
             ->will($this->returnValue(null));

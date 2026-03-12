@@ -7,7 +7,7 @@ use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 use Frontastic\Common\ContentApiBundle\Domain\ContentApi;
 use Frontastic\Common\ContentApiBundle\Domain\ContentQueryFactory;
-use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 
 class ContentList extends StreamHandler
@@ -33,7 +33,7 @@ class ContentList extends StreamHandler
                 ContentApi::QUERY_ASYNC
             );
         } catch (\Exception $exception) {
-            return Promise\rejection_for($exception);
+            return Create::rejectionFor($exception);
         }
     }
 }

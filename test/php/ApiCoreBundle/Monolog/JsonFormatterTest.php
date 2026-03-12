@@ -16,7 +16,6 @@ class JsonFormatterText extends TestCase
     public function setUp(): void
     {
         $this->customerService = Phake::mock(CustomerService::class);
-        $this->JsonFormatter = Phake::mock(JsonFormatter::class);
         $this->prodJsonFormatter = new JsonFormatter(
             $this->customerService,
             "prod"

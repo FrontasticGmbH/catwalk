@@ -35,7 +35,7 @@ class Http2LinkListener
 
     public function onKernelRequest(RequestEvent $event)
     {
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             // Don't do anything if it's not the master request
             return;
         }

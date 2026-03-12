@@ -28,7 +28,7 @@ class RedirectListener
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        if (!$this->isNotFoundException($event) || !$event->isMasterRequest()) {
+        if (!$this->isNotFoundException($event) || !$event->isMainRequest()) {
             return;
         }
 

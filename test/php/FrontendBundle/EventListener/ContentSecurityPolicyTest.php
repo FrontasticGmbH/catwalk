@@ -5,8 +5,11 @@ namespace Frontastic\Catwalk\FrontendBundle\EventListener;
 use Frontastic\Common\ReplicatorBundle\Domain\Project;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class ContentSecurityPolicyTest extends TestCase
 {
@@ -23,11 +26,15 @@ class ContentSecurityPolicyTest extends TestCase
     public function setUp(): void
     {
         $this->project = new Project();
-        $mockResponse = new stdClass;
+        $mockResponse = $this->getMockBuilder(Response::class)->getMock();
         $this->responseHeaders = $this->getMockBuilder(ResponseHeaderBag::class)->getMock();
         $mockResponse->headers = $this->responseHeaders;
-        $this->event = $this->getMockBuilder(ResponseEvent::class)->disableOriginalConstructor()->getMock();
-        $this->event->expects($this->once())->method('getResponse')->willReturn($mockResponse);
+        $this->event = new ResponseEvent(
+            $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
+            $this->getMockBuilder(Request::class)->getMock(),
+            HttpKernelInterface::MAIN_REQUEST,
+            $mockResponse,
+        );
 
         $this->contentSecurityPolicy = new ContentSecurityPolicy($this->project);
     }

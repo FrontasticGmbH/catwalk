@@ -52,7 +52,7 @@ class CorsHandlerTest extends TestCase
         $event = new RequestEvent(
             new HttpKernel(new EventDispatcher(), new ControllerResolver()),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $this->corsHandler->onKernelRequest($event);
@@ -67,7 +67,7 @@ class CorsHandlerTest extends TestCase
         $event = new RequestEvent(
             new HttpKernel(new EventDispatcher(), new ControllerResolver()),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $this->corsHandler->onKernelRequest($event);
@@ -115,7 +115,7 @@ class CorsHandlerTest extends TestCase
         $event = new RequestEvent(
             new HttpKernel(new EventDispatcher(), new ControllerResolver()),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $this->corsHandler->onKernelRequest($event);
@@ -132,7 +132,7 @@ class CorsHandlerTest extends TestCase
         $event = new ResponseEvent(
             new HttpKernel(new EventDispatcher(), new ControllerResolver()),
             $request,
-            HttpKernelInterface::MASTER_REQUEST,
+            HttpKernelInterface::MAIN_REQUEST,
             $response
         );
 

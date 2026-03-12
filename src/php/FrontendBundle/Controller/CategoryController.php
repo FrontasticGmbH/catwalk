@@ -87,7 +87,7 @@ class CategoryController
         return [
             'node' => $node,
             'page' => $page = $this->pageService->fetchForNode($node, $context),
-            'data' => $this->viewDataProvider->fetchDataFor($node, $context, $request->query->get('s', []), $page),
+            'data' => $this->viewDataProvider->fetchDataFor($node, $context, $request->query->all('s'), $page),
         ];
     }
 

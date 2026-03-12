@@ -12,6 +12,9 @@ imports:
     - { resource: doctrine.yml }
 
 services:
+    Psr\Container\ContainerInterface: '@service_container'
+    Symfony\Component\DependencyInjection\ContainerInterface: '@service_container'
+
     Frontastic\Catwalk\FrontendBundle\Session\FrontasticSessionHandler:
         autowire: true
         arguments:
@@ -22,6 +25,7 @@ framework:
     router:
         resource: "%kernel.project_dir%/config/routing.yml"
         strict_requirements: ~
+        utf8: true
     form:            ~
     csrf_protection: ~
     validation:      { enable_annotations: false }
@@ -36,10 +40,13 @@ framework:
         metadata_update_threshold: 3600
         cookie_samesite: none
         cookie_lifetime: "%env(session_cookie_lifetime)%"
+        storage_factory_id: session.storage.factory.native
     fragments:       ~
     http_method_override: true
     assets: ~
     error_controller: Frontastic\Catwalk\FrontendBundle\Controller\ErrorController::errorAction
+    mailer:
+        dsn: "smtp://%env(smtp_user)%:%env(smtp_password)%@%env(smtp_host)%:%env(smtp_port)%?require_tls=%env(smtp_encryption)%"
 
 twig:
     debug:            "%kernel.debug%"
@@ -50,15 +57,6 @@ twig:
         "%frontastic.paas_catwalk_dir%/src/php/FrontendBundle/Resources/views/": FrontasticCatwalkFrontendBundle
         "%kernel.project_dir%/templates/Tastic/": Tastic
         "%frontastic.paas_catwalk_dir%/src/php/TwigTasticBundle/Resources/views/": Tastic
-
-swiftmailer:
-  # url:        "%env(mailer_url)%"
-    host:       "%env(smtp_host)%"
-    port:       "%env(smtp_port)%"
-    username:   "%env(smtp_user)%"
-    password:   "%env(smtp_password)%"
-    encryption: "%env(smtp_encryption)%"
-    spool: { type: memory }
 
 sensio_framework_extra:
     router:
@@ -108,6 +106,8 @@ monolog:
 
 doctrine:
     orm:
+        enable_lazy_ghost_objects: true
+        auto_generate_proxy_classes: "%kernel.debug%"
         filters:
             undeleted:
                 class: "Frontastic\\Catwalk\\ApiCoreBundle\\Doctrine\\UndeletedFilter"

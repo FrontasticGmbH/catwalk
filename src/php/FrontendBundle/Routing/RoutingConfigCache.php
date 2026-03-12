@@ -31,7 +31,7 @@ class RoutingConfigCache extends ConfigCache
         $this->randomValueProvider = $randomValueProvider;
     }
 
-    public function isFresh()
+    public function isFresh(): bool
     {
         // Symfony thinks the cache is not fresh, we agree (e.g. dev, file not exists …)
         if (!parent::isFresh()) {

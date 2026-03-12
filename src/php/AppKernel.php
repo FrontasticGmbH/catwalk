@@ -13,14 +13,13 @@ class AppKernel extends \Frontastic\Common\Kernel
 {
     public static $catwalkBaseDir;
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         $bundles = array(
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new \Symfony\Bundle\TwigBundle\TwigBundle(),
             new \Symfony\Bundle\MonologBundle\MonologBundle(),
             new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
-            new \Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new \Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new \Frontastic\Common\MvcBundle\FrontasticCommonMvcBundle(),
@@ -76,7 +75,7 @@ class AppKernel extends \Frontastic\Common\Kernel
      *
      * @TODO Use Symfony Flex mechanism instead
      */
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $environment = $this->getEnvironment();
 
@@ -105,7 +104,7 @@ class AppKernel extends \Frontastic\Common\Kernel
     /**
      * Symfony uses reflection and AppKernel class file otherwise.
      */
-    public function getProjectDir()
+    public function getProjectDir(): string
     {
         return static::getBaseDir();
     }
@@ -113,7 +112,7 @@ class AppKernel extends \Frontastic\Common\Kernel
     /**
      * Symfony uses reflection and AppKernel class file otherwise.
      */
-    public function getRootDir()
+    public function getRootDir(): string
     {
         return static::getBaseDir();
     }

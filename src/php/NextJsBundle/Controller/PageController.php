@@ -226,7 +226,7 @@ class PageController
     {
         if (!in_array($locale, $context->project->languages)) {
             throw new BadRequestHttpException(
-                "Locale ${locale} not supported by project (" . implode(', ', $context->project->languages) . ")"
+                "Locale {$locale} not supported by project (" . implode(', ', $context->project->languages) . ")"
             );
         }
     }

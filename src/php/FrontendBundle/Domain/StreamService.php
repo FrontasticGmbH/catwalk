@@ -7,8 +7,9 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Tastic as TasticModel;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\ApiCoreBundle\Exception\ExtensionRunnerException;
 use Frontastic\Catwalk\NextJsBundle\Domain\TidewaysWrapper\ProfilerWrapper;
-use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Promise\Utils;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -331,7 +332,7 @@ class StreamService
                             if ($exception instanceof ExtensionRunnerException) {
                                 $errorResult['context'] = $exception->getContext();
                             }
-    
+
                             debug(
                                 sprintf(
                                     'Error fetching data for stream %s (type %s)',
@@ -345,7 +346,7 @@ class StreamService
                                     // Don't include the `$exception->getTrace()` here since it is not always cloneable.
                                 ]
                             );
-    
+
                             $this->logger->warning(
                                 sprintf(
                                     'Error fetching data for stream %s (type %s): %s',
@@ -364,7 +365,7 @@ class StreamService
                 );
         }
 
-        $data = Promise\unwrap($data);
+        $data = Utils::unwrap($data);
         foreach ($streams as $stream) {
             $stream = new Stream($stream);
             $streamContext->usingTastics = $stream->tastics;
@@ -384,7 +385,7 @@ class StreamService
     private function handle(Stream $stream, StreamContext $streamContext): PromiseInterface
     {
         if (!$stream->type) {
-            return Promise\rejection_for(
+            return Create::rejectionFor(
                 new \RuntimeException('The stream has no type')
             );
         }
@@ -392,11 +393,11 @@ class StreamService
         // There's no need to execute the stream handler if the value is preloaded
         // The preloadedValue can be fetched in the DynamicPageService when getting the Node
         if ($stream->preloadedValue !== null) {
-            return Promise\promise_for($stream->preloadedValue);
+            return Create::promiseFor($stream->preloadedValue);
         }
 
         if (isset($streamContext->parameters['streamContent'])) {
-            return Promise\promise_for($streamContext->parameters['streamContent']);
+            return Create::promiseFor($streamContext->parameters['streamContent']);
         }
 
         if (isset($this->streamHandlers[$stream->type])) {
@@ -405,7 +406,7 @@ class StreamService
             if (getenv('is_frontastic_nextjs') === '1' && isset($this->streamHandlerSupplier)) {
                 $streamHandler = $this->streamHandlerSupplier->get($stream->type);
             } else {
-                return Promise\rejection_for(
+                return Create::rejectionFor(
                     new \RuntimeException("No stream handler for stream type {$stream->type} configured.")
                 );
             }
@@ -414,7 +415,7 @@ class StreamService
         try {
             return $streamHandler->handle($stream, $streamContext);
         } catch (\Throwable $exception) {
-            return Promise\rejection_for($exception);
+            return Create::rejectionFor($exception);
         }
     }
 }

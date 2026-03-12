@@ -26,7 +26,7 @@ class FrontasticLogProcessor
 
     public function __invoke(array $record)
     {
-        $request = $this->requestStack->getMasterRequest();
+        $request = $this->requestStack->getMainRequest();
 
         if (!$request instanceof Request) {
             // There might be no master request, for instance for console commands.

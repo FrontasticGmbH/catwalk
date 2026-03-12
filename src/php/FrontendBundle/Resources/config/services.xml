@@ -492,7 +492,7 @@
             <argument type="service" id="Frontastic\Common\AccountApiBundle\Domain\AccountService" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Security\Authenticator" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Controller\CartFetcher" />
-            <argument type="service" id="Symfony\Component\Security\Guard\GuardAuthenticatorHandler" />
+            <argument type="service" id="security.user_authenticator" />
             <argument type="service" id="logger" />
         </service>
 
@@ -587,17 +587,6 @@
                     <factory service="doctrine.orm.default_entity_manager"
                              method="getRepository" />
                     <argument>Frontastic\Catwalk\FrontendBundle\Domain\MasterPageMatcherRules</argument>
-                </service>
-            </argument>
-            <argument type="service" id="doctrine.orm.entity_manager" />
-        </service>
-
-        <service id="Frontastic\Catwalk\FrontendBundle\Gateway\LayoutGateway">
-            <argument type="service">
-                <service class="Doctrine\ORM\DocumentRepository">
-                    <factory service="doctrine.orm.default_entity_manager"
-                        method="getRepository" />
-                    <argument>Frontastic\Catwalk\FrontendBundle\Domain\Layout</argument>
                 </service>
             </argument>
             <argument type="service" id="doctrine.orm.entity_manager" />
@@ -848,14 +837,16 @@
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
         </service>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Security\LogoutSuccessHandler" />
+        <service id="Frontastic\Catwalk\FrontendBundle\Security\LogoutEventHandler">
+            <tag name="kernel.event_listener" event="security.logout" />
+        </service>
 
         <service id="Frontastic\Common\AccountApiBundle\Domain\AccountService">
             <argument type="service" id="frontastic.catwalk.account_api" />
             <argument type="service" id="Frontastic\Common\CoreBundle\Domain\Mailer" />
         </service>
 
-        <service id="frontastic.user.guard_handler" alias="Symfony\Component\Security\Guard\GuardAuthenticatorHandler" />
+        <service id="frontastic.user.authenticator" alias="security.user_authenticator" />
 
         <service id="Frontastic\Catwalk\FrontendBundle\Twig\FrontasticNodeViewFallbackTemplateGuesser" decorates="frontastic_common_mvc.template_guesser" autowire="true">
 <!--            <argument key="$innerTemplateGuesser" type="service" id="Frontastic\Catwalk\FrontendBundle\Twig\FrontasticNodeViewFallbackTemplateGuesser.inner"/>-->

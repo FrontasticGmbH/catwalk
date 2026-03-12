@@ -28,7 +28,7 @@ class UndeletedFilter extends SQLFilter
 
     const APP_DATA_NAMESPACE = 'Frontastic\\Catwalk\\ApiCoreBundle\\Domain\\App';
 
-    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
+    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias): string
     {
         if (!$this->shouldCareFor($targetEntity)) {
             return "";

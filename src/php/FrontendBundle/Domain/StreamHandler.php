@@ -3,7 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
-use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 
 /**
@@ -25,9 +25,9 @@ abstract class StreamHandler
     public function handleAsync(Stream $stream, Context $context, array $parameters = []): PromiseInterface
     {
         try {
-            return Promise\promise_for($this->handle($stream, $context, $parameters));
+            return Create::promiseFor($this->handle($stream, $context, $parameters));
         } catch (\Throwable $exception) {
-            return Promise\rejection_for($exception);
+            return Create::rejectionFor($exception);
         }
     }
 }

@@ -47,7 +47,7 @@ class NodeController
 
         $this->trackingService->trackPageView($context, $node->nodeType);
 
-        $streamParameters = $request->query->get('s', []);
+        $streamParameters = $request->query->all('s');
 
         if (!is_array($streamParameters)) {
             $streamParameters = [];

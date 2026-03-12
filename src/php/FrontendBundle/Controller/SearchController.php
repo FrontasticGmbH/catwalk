@@ -42,7 +42,7 @@ class SearchController
         $node->streams = $this->masterService->completeDefaultQuery($node->streams, 'search', $phrase);
 
         $parameters = array_merge_recursive(
-            $request->query->get('s', []),
+            $request->query->all('s'),
             ['__master' => ['query' => $phrase]]
         );
 

@@ -60,7 +60,7 @@ const updateSettings = (SINGLE_SERVER) => {
             Object.entries(settings).reduce((head, [key, value]) => {
                 return head + `    ${key}: '${value}',\n`
             }, `// This is an auto generated file, please edit config/project.yml instead\n\nmodule.exports = {\n`) +
-            `}\n`
+            `};\n`
         )
     })
 }

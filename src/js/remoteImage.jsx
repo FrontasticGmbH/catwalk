@@ -37,7 +37,7 @@ class RemoteImage extends Component {
             this.props.cropRatio
         )
 
-        if (this.state.error || !width || !height) {
+        if (this.state.error || !width || !height || !this.props.url) {
             return (
                 <img
                     style={this.props.style}

@@ -2,9 +2,9 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
-use GuzzleHttp\Promise;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
+use GuzzleHttp\Promise\Create;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -174,11 +174,11 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         $streamHandlerV2 = \Phake::mock(StreamHandlerV2::class);
         \Phake::when($this->streamHandlerSupplier)->get('product-list')->thenReturn($streamHandlerV2);
-        \Phake::when($streamHandlerV2)->handle(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
+        \Phake::when($streamHandlerV2)->handle(\Phake::anyParameters())->thenReturn(Create::promiseFor('some data'));
 
         $streamHandlerV2Content = \Phake::mock(StreamHandlerV2::class);
         \Phake::when($this->streamHandlerSupplier)->get('content')->thenReturn($streamHandlerV2Content);
-        \Phake::when($streamHandlerV2Content)->handle(\Phake::anyParameters())->thenReturn(Promise\promise_for('some other data'));
+        \Phake::when($streamHandlerV2Content)->handle(\Phake::anyParameters())->thenReturn(Create::promiseFor('some other data'));
 
         $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);
 
@@ -204,7 +204,7 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         $streamHandler = \Phake::mock(StreamHandler::class);
         \Phake::when($streamHandler)->getType()->thenReturn('product-list');
-        \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
+        \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Create::promiseFor('some data'));
 
         $this->streamService->addStreamHandler($streamHandler);
         $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);
@@ -231,14 +231,14 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         $streamHandler = \Phake::mock(StreamHandler::class);
         \Phake::when($streamHandler)->getType()->thenReturn('product-list');
-        \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
+        \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Create::promiseFor('some data'));
 
         $streamOptimizer = \Phake::mock(StreamOptimizer::class);
         \Phake::when($streamOptimizer)->optimizeStreamData(\Phake::anyParameters())->thenReturn('optimized data');
 
         $streamHandlerV2 = \Phake::mock(StreamHandlerV2::class);
         \Phake::when($this->streamHandlerSupplier)->get('content')->thenReturn($streamHandlerV2);
-        \Phake::when($streamHandlerV2)->handle(\Phake::anyParameters())->thenReturn(Promise\promise_for(null));
+        \Phake::when($streamHandlerV2)->handle(\Phake::anyParameters())->thenReturn(Create::promiseFor(null));
 
         $this->streamService->addStreamHandler($streamHandler);
         $this->streamService->addStreamOptimizer($streamOptimizer);
@@ -266,14 +266,14 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
 
         $streamHandler = \Phake::mock(StreamHandler::class);
         \Phake::when($streamHandler)->getType()->thenReturn('product-list');
-        \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Promise\promise_for('some data'));
+        \Phake::when($streamHandler)->handleAsync(\Phake::anyParameters())->thenReturn(Create::promiseFor('some data'));
 
         $this->streamService->addStreamHandler($streamHandler);
         // 70b37120-b446-4d11-b441-b6a80fabb48a
 
         $streamHandlerV2 = \Phake::mock(StreamHandlerV2::class);
         \Phake::when($this->streamHandlerSupplier)->get('content')->thenReturn($streamHandlerV2);
-        \Phake::when($streamHandlerV2)->handle(\Phake::anyParameters())->thenReturn(Promise\promise_for(null));
+        \Phake::when($streamHandlerV2)->handle(\Phake::anyParameters())->thenReturn(Create::promiseFor(null));
 
         $request = new Request();
         $request->request->set('s', [

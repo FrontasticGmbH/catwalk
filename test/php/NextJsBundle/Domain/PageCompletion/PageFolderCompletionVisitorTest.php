@@ -45,6 +45,7 @@ class PageFolderCompletionVisitorTest extends TestCase
         $this->nodeService = \Phake::mock(NodeService::class);
         $this->pageService = \Phake::mock(PageService::class);
         $this->context = new Context();
+        $this->context->locale = 'en';
         $this->fieldVisitorFactory = \Phake::mock(FieldVisitorFactory::class);
 
         $this->subject = new PageFolderCompletionVisitor(

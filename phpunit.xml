@@ -12,14 +12,11 @@
   processIsolation="false"
   stopOnFailure="false"
 >
-  <coverage includeUncoveredFiles="true">
-    <include>
-      <directory>src/php/</directory>
-    </include>
-  </coverage>
   <php>
     <server name="KERNEL_DIR" value="./app"/>
     <env name="CONFIG" value="./test/environment"/>
+    <env name="jwt_salt" value="00000000000000000000000000000000"/>
+    <env name="aes256_key" value="elArK3RZN05kc0xYNXVXWnI5aGJnYk1sSTRqMUtybXM="/>
   </php>
   <testsuites>
     <testsuite name="Catwalk Test Suite">

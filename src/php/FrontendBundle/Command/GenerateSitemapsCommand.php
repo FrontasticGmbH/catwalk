@@ -41,10 +41,16 @@ class GenerateSitemapsCommand extends Command
 
     const MAX_ENTRIES = 10000;
 
-    /**
-     * @var \Symfony\Component\Filesystem\Filesystem
-     */
-    private $filesystem;
+    private Environment $twig;
+
+    private Filesystem $filesystem;
+
+    public function __construct(Environment $twig, Filesystem $filesystem)
+    {
+        $this->twig = $twig;
+        $this->filesystem = $filesystem;
+        parent::__construct();
+    }
 
     /**
      * @var string
@@ -177,7 +183,6 @@ class GenerateSitemapsCommand extends Command
         $this->singleSitemap = $input->getOption('single-sitemap');
         $this->workingDir = uniqid(sprintf('%s/sitemap_', sys_get_temp_dir()));
         $this->excludes = $input->getOption('exclude');
-        $this->filesystem = new Filesystem();
         $this->filesystem->mkdir($this->workingDir);
 
         try {
@@ -618,14 +623,11 @@ class GenerateSitemapsCommand extends Command
         string $file,
         bool $isSiteMapIndex = false
     ): void {
-        /** @var Environment $template */
-        $template = $this->container->get('twig');
-
         $data['_publicUrl'] = rtrim($publicUrl, '/');
 
         $this->filesystem->dumpFile(
             $this->workingDir . '/' . $file,
-            $template->render($templateFile, $data)
+            $this->twig->render($templateFile, $data)
         );
     }
 

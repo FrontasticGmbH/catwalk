@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\LogoutException;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 /**
  * @IgnoreAnnotation("Docs\Request")
@@ -33,7 +33,7 @@ class AccountAuthController
     private AccountService $accountService;
     private Authenticator $authenticator;
     private CartFetcher $cartFetcher;
-    private GuardAuthenticatorHandler $guardAuthenticatorHandler;
+    private UserAuthenticatorInterface $userAuthenticator;
     private Logger $logger;
 
     public function __construct(
@@ -41,14 +41,14 @@ class AccountAuthController
         AccountService $accountService,
         Authenticator $authenticator,
         CartFetcher $cartFetcher,
-        GuardAuthenticatorHandler $guardAuthenticatorHandler,
+        UserAuthenticatorInterface $userAuthenticator,
         Logger $logger
     ) {
         $this->trackingService = $trackingService;
         $this->accountService = $accountService;
         $this->authenticator = $authenticator;
         $this->cartFetcher = $cartFetcher;
-        $this->guardAuthenticatorHandler = $guardAuthenticatorHandler;
+        $this->userAuthenticator = $userAuthenticator;
         $this->logger = $logger;
     }
 
@@ -299,11 +299,10 @@ class AccountAuthController
     {
         $this->trackingService->reachLogin($context, $account);
 
-        return $this->guardAuthenticatorHandler->authenticateUserAndHandleSuccess(
-            $account,
-            $request,
+        return $this->userAuthenticator->authenticateUser(
+            $account->cleanForSession(),
             $this->authenticator,
-            'api'
+            $request
         );
     }
 

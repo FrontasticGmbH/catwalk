@@ -6,7 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi;
-use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 
@@ -27,7 +27,7 @@ class Product extends StreamHandler
     public function handleAsync(Stream $stream, Context $context, array $parameters = []): PromiseInterface
     {
         if (!isset($stream->configuration['product'])) {
-            return Promise\promise_for(null);
+            return Create::promiseFor(null);
         }
 
         $query = ProductApi\Query\SingleProductQuery::byProductIdWithLocale(

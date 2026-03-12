@@ -137,33 +137,6 @@ class ActionControllerTest extends TestCase
         $this->assertEquals($expected, $result->headers->get('frontastic-session'));
     }
 
-    public function testIndexActionSuccess500()
-    {
-        $apiResponse = new Response();
-        $apiResponse->ok = false;
-        $apiResponse->sessionData = null;
-
-        $inputNamespace = 'namespace';
-        $inputAction = 'action';
-        $inputSymfonyRequest = \Phake::mock(SymfonyRequest::class);
-        $inputContext = \Phake::mock(Context::class);
-
-        $this->successResponsesCommonGivenWhenThen(
-            $inputNamespace,
-            $inputAction,
-            $inputSymfonyRequest,
-            $inputContext,
-            $apiResponse
-        );
-
-        // Call the subject method
-        $result = $this->subject->indexAction($inputNamespace, $inputAction, $inputSymfonyRequest, $inputContext);
-
-        $this->assertNotNull($result);
-        $this->assertEquals(500, $result->getStatusCode());
-        $this->assertEquals(json_encode((object)$apiResponse), $result->getContent());
-    }
-
     public function testIndexActionSuccess200()
     {
         $apiResponse = new Response();

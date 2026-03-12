@@ -28,7 +28,7 @@ class CorsHandler
 
     public function onKernelRequest(RequestEvent $event)
     {
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
 
@@ -42,8 +42,9 @@ class CorsHandler
             $response = new Response('', 204, [
                 'Access-Control-Allow-Origin' => $origin,
                 'Access-Control-Allow-Methods' => '*',
-                // @codingStandardsIgnoreLine
-                'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Cookie, Frontastic-Session, X-Frontastic-Access-Token, Frontastic-Currency, Frontastic-Locale, Frontastic-Path, coFE-Custom-Configuration, Commercetools-Frontend-Extension-Version',
+                'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Cookie, Frontastic-Session, ' .
+                    'X-Frontastic-Access-Token, Frontastic-Currency, Frontastic-Locale, ' .
+                    'Frontastic-Path, coFE-Custom-Configuration, Commercetools-Frontend-Extension-Version',
                 'Access-Control-Allow-Credentials' => 'true'
             ]);
 
@@ -53,7 +54,7 @@ class CorsHandler
 
     public function onKernelResponse(ResponseEvent $event)
     {
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
 

@@ -6,7 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 use Frontastic\Common\CartApiBundle\Domain\CartApi;
-use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 
 class AccountOrders extends StreamHandler
@@ -26,18 +26,18 @@ class AccountOrders extends StreamHandler
     public function handleAsync(Stream $stream, Context $context, array $parameters = []): PromiseInterface
     {
         if (!$context->session->loggedIn) {
-            return Promise\promise_for([]);
+            return Create::promiseFor([]);
         }
 
         try {
-            return Promise\promise_for(
+            return Create::promiseFor(
                 $this->cartApi->getOrders(
                     $context->session->account,
                     $context->locale
                 )
             );
         } catch (\Throwable $exception) {
-            return Promise\rejection_for($exception);
+            return Create::rejectionFor($exception);
         }
     }
 }

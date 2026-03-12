@@ -6,7 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Domain\Context;
 use Frontastic\Catwalk\FrontendBundle\Domain\Stream;
 use Frontastic\Catwalk\FrontendBundle\Domain\StreamHandler;
 use Frontastic\Common\ContentApiBundle\Domain\ContentApi;
-use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 
 class Content extends StreamHandler
@@ -26,7 +26,7 @@ class Content extends StreamHandler
     public function handleAsync(Stream $stream, Context $context, array $parameters = []): PromiseInterface
     {
         if (!isset($stream->configuration['content'])) {
-            return Promise\promise_for(null);
+            return Create::promiseFor(null);
         }
 
         try {
@@ -36,7 +36,7 @@ class Content extends StreamHandler
                 ContentApi::QUERY_ASYNC
             );
         } catch (\Throwable $exception) {
-            return Promise\rejection_for($exception);
+            return Create::rejectionFor($exception);
         }
     }
 }

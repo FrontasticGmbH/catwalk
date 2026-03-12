@@ -1,4 +1,16 @@
 
+## Version 1.70.0 (2026-03-12)
+
+** New Features & Improvements **
+
+- Drop support for Symfony 4.4
+- Add support for Symfony 5.4
+- Replace dependency on symfony/symonfy with dependencies for individual components
+
+** Bug Fixes **
+
+- fail gracefully in RemoteImage component when media is not defined
+
 ## Version 1.69.0 (2025-04-30)
 
 ** New Features & Improvements **

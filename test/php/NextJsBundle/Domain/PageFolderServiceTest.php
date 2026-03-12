@@ -32,6 +32,7 @@ class PageFolderServiceTest extends TestCase
     public function setUp(): void
     {
         $this->contextFixture = new Context([
+            'locale' => 'en_US',
             'project' => new Project([
                 'languages' => ['en_US'],
                 'defaultLanguage' => 'en_US',

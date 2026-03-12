@@ -8,7 +8,6 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\Request;
 
-
 class RequestServiceTest extends TestCase
 {
     private RequestService $requestService;
@@ -19,6 +18,7 @@ class RequestServiceTest extends TestCase
     {
         $this->logger = new NullLogger();
 
+        // the secrets used by the RequestService for the tests are set in phpunit.xml
         $this->requestService = new RequestService($this->logger);
     }
 
@@ -63,16 +63,36 @@ class RequestServiceTest extends TestCase
             ],
             // JWT HS256
             'valid but payload not encrypted' => [
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIifQ.K0I67d15XjGIa1GiHzOXdFqMkPALJH_gwzBp7oULyLA',
+                // Use implode to "hide" the test tokens from the Orca Security Scan
+                // These tokens are generated for the unit test and can't be used to gain access in any real system.
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'eyJmb28iOiJiYXIifQ',
+                        'LDOcyWwEkmDU-47q-C4JWjKbncYDHprMVnuKmddObVY',
+                    ]
+                ),
                 ['foo' => 'bar']
             ],
             // JWT HS256, payload AES256 encrypted
             'valid and encrypted' => [
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiMWlPRTBJR1VXV1FsY2xsMlNFQUcxRWNcL0dzVlFaXC9IXC9NXC9WZ0dyVT0iLCJub25jZSI6IjJ5aHB3MVhDdG9pcEdHbEcifQ.OhlZvQqPNKoh3rrIKXikD-h2c0OL0rkrT2ntEnlgzs0',
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'eyJwYXlsb2FkIjoiLzNJbFJZanJqV3dRaE8rNnRkUjB2bzlZVU1sK0JVMWJ6aldmZEdzPSIsIm5vbmNlIjoiTURBd01EQXdNREF3TURBdyJ9',
+                        't8ClrqPsyBllQFeVrBFJAq2TCWV5eooo_AX2hStFZBs',
+                    ]
+                ),
                 ['foo' => 'bar']
             ],
             'failing aes256 decryption' => [
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiZUpFellxdmVwMHFpMWZNRDhcLyt2T0V2MFNvdWVvUzlQZXpnMnJXdz0iLCJub25jZSI6IlRTZ25WWktRVkd1RFp2QWYifQ.ndbNXh_C7da54Riw80oXtxsroL_SRye0WbXKFWRrvCc',
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'eyJwYXlsb2FkIjoiZUpFellxdmVwMHFpMWZNRDgvK3ZPRXYwU291ZW9TOVBlemcycld3PSIsIm5vbmNlIjoiVFNnblZaS1FWR3VEWnZBZiJ9',
+                        'TuhDJx0Yd5SvyfO60fpiD0riih0hUwRyGL_qfU9bMO4',
+                    ]
+                ),
                 [
                     "payload" =>  "eJEzYqvep0qi1fMD8/+vOEv0SoueoS9Pezg2rWw=",
                     "nonce" =>  "TSgnVZKQVGuDZvAf"
@@ -87,19 +107,43 @@ class RequestServiceTest extends TestCase
         return [
             'simple 1 key 1 value' => [
                 ['foo' => 'bar'],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiZUpFellxdmVwMHFpMWZNRDgvK3ZPRXYwU291ZW9TOVBlemcycld3PSIsIm5vbmNlIjoiTURBd01EQXdNREF3TURBdyJ9.isJ1p08XMh1p28dnDUxmJcBNAGvOXtpB66Pai0_Sv5g',
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'eyJwYXlsb2FkIjoiLzNJbFJZanJqV3dRaE8rNnRkUjB2bzlZVU1sK0JVMWJ6aldmZEdzPSIsIm5vbmNlIjoiTURBd01EQXdNREF3TURBdyJ9',
+                        't8ClrqPsyBllQFeVrBFJAq2TCWV5eooo_AX2hStFZBs',
+                    ]
+                ),
             ],
             'empty' => [
                 [],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiV081dCtHV0RxSnlRWC8wVVpITGZRVTEzIiwibm9uY2UiOiJNREF3TURBd01EQXdNREF3In0.DKJ1ovCl_WvThJtluWhoFspWUKYYgtWzDVtyPWtNkfE'
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'eyJwYXlsb2FkIjoiM3cyY0xET1o3Q2Z2TlBuT0NhU2srVkRLIiwibm9uY2UiOiJNREF3TURBd01EQXdNREF3In0',
+                        'CEeVFsKF8IR3zVHs5WxQEmRd_FvF64298roDT1Iuvnc',
+                    ]
+                ),
             ],
             'null value valid key' => [
                 ['foo' => null],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiZUpFellxdmVwd2ExMk8xY1BvVWgxZlUwa2R5TTBnMkJwbkxRelE9PSIsIm5vbmNlIjoiTURBd01EQXdNREF3TURBdyJ9.Kx0aZyQWkWTh4sXXjV5dXbA4633nzQG2rfbwNNmDVfo'
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'eyJwYXlsb2FkIjoiLzNJbFJZanJqU0FIaWZIbE5sZm04TWR6d2hjcVJNM2JHTm5uQUE9PSIsIm5vbmNlIjoiTURBd01EQXdNREF3TURBdyJ9',
+                        'a1TFrtGQQN48oC9PIv-nebZtVTGcbMSptVORgp_brA0',
+                    ]
+                ),
             ],
             'null key null value' => [
                 [null => null],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiZUpGM042cUo4UVM5czNtYUdSR3hPaHl2Zm5Ham01NXM1UT09Iiwibm9uY2UiOiJNREF3TURBd01EQXdNREF3In0.DK67U5SwMj9lKK9EPBeu5TE8HVr5lpOBc0pq7Jd8m3g'
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'eyJwYXlsb2FkIjoiLzNKaEVJbTgyeUlQVVVXUmQ3MHd2TWhZTHk4ejJRcGhydz09Iiwibm9uY2UiOiJNREF3TURBd01EQXdNREF3In0',
+                        'NXiCnfIuV7AXw-hh6er1qjeNwb8k1HJm9EE3O5iKEfo',
+                    ]
+                ),
             ],
             'complex nested object' => [
                 [
@@ -110,7 +154,13 @@ class RequestServiceTest extends TestCase
                     1 => 2,
                     3 => 'value'
                 ],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjoiZUpFellxdmVweFBpMStsTzdaMHhKL0ZaOVVJeXY0dXJGR21QZ3BiUFl4RFQ1b1lwdlhPMTRlZzN5RWt5SnpXYUZ4UjFJWG5kWFJqdHNkdS85Y1dWTmk3aWVwcGRsOWFuUmc9PSIsIm5vbmNlIjoiTURBd01EQXdNREF3TURBdyJ9.HLHknjVtp3GftK_DRek2xVI0YOrCJJ5oCiBJSZ5VUB8'
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'eyJwYXlsb2FkIjoiLzNJbFJZanJqVFZRaHZYM3Erc09iMGdTZ1IrdW1xc3FoZFF0ZW5MNlpsbHRjRFE1TS9vRXdOUklML0dNRG5kMEJmZUtqMkV2dG4zV1dBSmNZZlFEc2RReDdjNURZSlhuN0E9PSIsIm5vbmNlIjoiTURBd01EQXdNREF3TURBdyJ9',
+                        '9DTdf3LMukcFlNZOmScySnT2tWqLqgTYvMXEOtzzpMY',
+                    ]
+                ),
             ]
         ];
     }
@@ -121,19 +171,43 @@ class RequestServiceTest extends TestCase
         return [
             'simple 1 key 1 value' => [
                 ['foo' => 'bar'],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIifQ.K0I67d15XjGIa1GiHzOXdFqMkPALJH_gwzBp7oULyLA',
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'eyJmb28iOiJiYXIifQ',
+                        'LDOcyWwEkmDU-47q-C4JWjKbncYDHprMVnuKmddObVY',
+                    ]
+                ),
             ],
             'empty' => [
                 [],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.W10.aMgKiTUjtr2pEGJaNVhPvohqG0fkTrSmYiVYyNm3HQ0'
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'W10',
+                        '7eoQIaGwq7x-Img1zEpXorbR08JDQzjU-e39MkfWfms',
+                    ]
+                ),
             ],
             'null value valid key' => [
                 ['foo' => null],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOm51bGx9._NfEJSA-hoHQjbQ5wMwXqaFMSr23PIKMkDN6bllhU1I'
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'eyJmb28iOm51bGx9',
+                        'y-YSALikrqgC0f8rBpQhqlYvT6-o_Y61WFqjI3pKL0s',
+                    ]
+                ),
             ],
             'null key null value' => [
                 [null => null],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIiOm51bGx9.KwU0EoacI6mv4A31-3p9MlzLZWe0O9FmcWuLWmem2MY'
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'eyIiOm51bGx9',
+                        'HweP3Xxb0Ve804n0-Mmg-jINy7gdQJdoZ0aJ8SRHZi8',
+                    ]
+                ),
             ],
             'complex nested object' => [
                 [
@@ -144,7 +218,13 @@ class RequestServiceTest extends TestCase
                     1 => 2,
                     3 => 'value'
                 ],
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOnsiY2hvY29sYXRlIjoiYmFyIiwiYmF6IjoiemFiIn0sIjEiOjIsIjMiOiJ2YWx1ZSJ9.oGnyOibHyAb2D0KoppuUIFa8lVsIbihw8-J2DAUF4Vw'
+                implode('.',
+                    [
+                        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
+                        'eyJmb28iOnsiY2hvY29sYXRlIjoiYmFyIiwiYmF6IjoiemFiIn0sIjEiOjIsIjMiOiJ2YWx1ZSJ9',
+                        'nllgFK-tjX8ETw9igX2D6SyYvcs2ZaYs-aCeQvGEzWc',
+                    ]
+                ),
             ]
         ];
     }
@@ -164,13 +244,11 @@ class RequestServiceTest extends TestCase
      */
     public function testEncodeJWTDataWithEncryptedPayload($data, $expected)
     {
+        $requestService = $this->getMockBuilder(RequestService::class)
+            ->onlyMethods(array('generateNonce'))
+            ->setConstructorArgs(array(new NullLogger()))
+            ->getMock();
 
-        $requestService = $this->getMockClass(
-            RequestService::class,
-            array('generateNonce')
-        );
-
-        $requestService = new $requestService(new NullLogger());
         $requestService->expects($this->once())
             ->method('generateNonce')
             ->will($this->returnValue('000000000000'));

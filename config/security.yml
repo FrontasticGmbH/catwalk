@@ -1,9 +1,11 @@
 security:
+    enable_authenticator_manager: true
+
     providers:
         frontastic:
             id: Frontastic\Catwalk\FrontendBundle\Security\AccountProvider
 
-    encoders:
+    password_hashers:
         Frontastic\Common\AccountApiBundle\Domain\Account: bcrypt
 
     firewalls:
@@ -30,13 +32,11 @@ security:
 
         main:
             pattern: ^/
-            anonymous: ~
+            lazy: true
             logout:
                 path: /api/account/logout # Use route ID
-                success_handler: Frontastic\Catwalk\FrontendBundle\Security\LogoutSuccessHandler
-            guard:
-                authenticators:
-                    - Frontastic\Catwalk\FrontendBundle\Security\Authenticator
+            custom_authenticators:
+                - Frontastic\Catwalk\FrontendBundle\Security\Authenticator
 
     access_control:
-        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: PUBLIC_ACCESS }

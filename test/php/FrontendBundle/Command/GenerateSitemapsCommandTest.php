@@ -120,8 +120,7 @@ class GenerateSitemapsCommandTest extends IntegrationTest
 
     private function givenAGenerateSitemapsCommandTester(): CommandTester
     {
-        $command = new GenerateSitemapsCommand();
-        $command->setContainer(self::getContainer());
+        $command = self::getContainer()->get(GenerateSitemapsCommand::class);
 
         return new CommandTester($command);
     }

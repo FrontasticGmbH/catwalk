@@ -80,7 +80,7 @@ class AnnounceReleaseCommand extends Command
 
         $releaseTag = $input->getArgument('release-tag');
 
-        newrelic_record_custom_event("New Release: ${releaseTag}", [
+        newrelic_record_custom_event("New Release: {$releaseTag}", [
             'name' => $releaseTag,
             'type' => 'release',
             'environment' => getenv('environment'),
