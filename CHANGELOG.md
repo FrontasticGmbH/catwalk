@@ -1,4 +1,10 @@
 
+## Version 1.70.2 (2026-03-24)
+
+** Bug Fixes **
+
+- Fix basic auth from project config with Symfony 6.4
+
 ## Version 1.70.1 (2026-03-12)
 
 ** New Features & Improvements **

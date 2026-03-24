@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\HttpFoundation\IpUtils;
 
 class ProjectBasicAuthListener
@@ -74,7 +73,7 @@ class ProjectBasicAuthListener
         return true;
     }
 
-    private function getExpectedUser(ConfigurationSchema $configuration): ?User
+    private function getExpectedUser(ConfigurationSchema $configuration): ?array
     {
         if (!$configuration->hasField(self::USERNAME_FIELD_NAME) ||
             !$configuration->hasField(self::PASSWORD_FIELD_NAME)) {
@@ -88,10 +87,13 @@ class ProjectBasicAuthListener
             return null;
         }
 
-        return new User($username, $password);
+        return [
+            'username' => $username,
+            'password' => $password,
+        ];
     }
 
-    private function getUserFromRequest(Request $request): ?User
+    private function getUserFromRequest(Request $request): ?array
     {
         $username = $request->getUser();
         $password = $request->getPassword();
@@ -100,7 +102,10 @@ class ProjectBasicAuthListener
             return null;
         }
 
-        return new User($username, $password);
+        return [
+            'username' => $username,
+            'password' => $password,
+        ];
     }
 
     private function buildUnauthorizedResponse(ConfigurationSchema $configurationSchema): Response
@@ -179,8 +184,8 @@ class ProjectBasicAuthListener
         }
 
         // Compare the passwords even if the usernames don't match to prevent timing attacks
-        $usernameMatches = hash_equals($expectedUser->getUsername(), $requestUser->getUsername());
-        $passwordMatches = hash_equals($expectedUser->getPassword(), $requestUser->getPassword());
+        $usernameMatches = hash_equals($expectedUser['username'], $requestUser['username']);
+        $passwordMatches = hash_equals($expectedUser['password'], $requestUser['password']);
         if (!$usernameMatches || !$passwordMatches) {
             $event->setResponse($this->buildUnauthorizedResponse($configuration));
         }
