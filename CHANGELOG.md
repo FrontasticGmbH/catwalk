@@ -1,4 +1,10 @@
 
+## Version 1.70.3 (2026-03-31)
+
+** Bug Fixes **
+
+- Don't use removed constructor method `Response::create()`
+
 ## Version 1.70.2 (2026-03-24)
 
 ** Bug Fixes **
