@@ -4,9 +4,9 @@ namespace Frontastic\Catwalk\FrontendBundle\Session;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
-use Frontastic\Catwalk\IntegrationTest;
+use Frontastic\Catwalk\IntegrationTestCase;
 
-class FrontasticSessionHandlerIntegrationTest extends IntegrationTest
+class FrontasticSessionHandlerIntegrationTest extends IntegrationTestCase
 {
     protected const SESSION_ACTIVE_ID = 'test-session-active-id';
     protected const SESSION_ACTIVE_DATA = 'test-session-active-data';
@@ -67,6 +67,8 @@ SQL
             $connection,
             15
         );
+
+        $this->sessionHandler->open(__DIR__ . '/_NOT_EXISTING_', 'FrontasticSessionHandlerIntegrationTest');
     }
 
     public function testReadSession()

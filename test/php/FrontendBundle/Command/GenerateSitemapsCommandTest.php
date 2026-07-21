@@ -5,12 +5,12 @@ namespace Frontastic\Catwalk\FrontendBundle\Command;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\PageService;
-use Frontastic\Catwalk\IntegrationTest;
+use Frontastic\Catwalk\IntegrationTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-class GenerateSitemapsCommandTest extends IntegrationTest
+class GenerateSitemapsCommandTest extends IntegrationTestCase
 {
     /**
      * @var Filesystem

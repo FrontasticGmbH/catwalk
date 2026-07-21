@@ -140,7 +140,7 @@ class ErrorNodeRenderer
         }
     }
 
-    private function getExceptionInformation(\Throwable $exception = null): ?string
+    private function getExceptionInformation(?\Throwable $exception = null): ?string
     {
         if (!$exception) {
             return '# Unknown Frontastic Error';

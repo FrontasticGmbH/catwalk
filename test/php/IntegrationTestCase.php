@@ -10,7 +10,7 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
-abstract class IntegrationTest extends \PHPUnit\Framework\TestCase
+abstract class IntegrationTestCase extends \PHPUnit\Framework\TestCase
 {
     private static $container;
 

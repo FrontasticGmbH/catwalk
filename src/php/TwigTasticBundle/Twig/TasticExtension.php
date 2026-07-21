@@ -31,7 +31,7 @@ class TasticExtension extends AbstractExtension
      */
     public function classnames(): string
     {
-        return join(
+        return implode(
             ' ',
             array_unique(
                 array_map(

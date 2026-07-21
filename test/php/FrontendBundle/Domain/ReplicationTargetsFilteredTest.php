@@ -5,10 +5,10 @@ namespace Frontastic\Catwalk\FrontendBundle\Domain;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\AppService;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\EnvironmentReplicationFilter;
-use Frontastic\Catwalk\IntegrationTest;
+use Frontastic\Catwalk\IntegrationTestCase;
 use Frontastic\Common\ReplicatorBundle\Domain\EndpointService;
 
-class ReplicationTargetsFilteredTest extends IntegrationTest
+class ReplicationTargetsFilteredTest extends IntegrationTestCase
 {
     private const REPLICATION_FILTER_EXCLUDE_LIST = [
         // Apps only have 1 definition (data integrity, migration, etc.)
@@ -38,7 +38,9 @@ class ReplicationTargetsFilteredTest extends IntegrationTest
     {
         $reflectionObject = new \ReflectionObject($endpointService);
         $property = $reflectionObject->getProperty('targets');
-        $property->setAccessible(true);
+        if (\PHP_VERSION_ID < 80100) {
+            $property->setAccessible(true);
+        }
         return $property->getValue($endpointService);
     }
 }

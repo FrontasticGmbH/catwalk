@@ -25,7 +25,7 @@ class MapCartDataDecorator extends BaseImplementation
         $this->rawDataService = $rawDataService;
     }
 
-    public function beforeAddToCart(CartApi $cartApi, Cart $cart, LineItem $lineItem, string $locale = null): void
+    public function beforeAddToCart(CartApi $cartApi, Cart $cart, LineItem $lineItem, ?string $locale = null): void
     {
         if (!($cartApi->getDangerousInnerClient() instanceof CommerceToolsClient)) {
             return;
@@ -40,7 +40,7 @@ class MapCartDataDecorator extends BaseImplementation
         LineItem $lineItem,
         int $count,
         ?array $custom = null,
-        string $locale = null
+        ?string $locale = null
     ): void {
         if (!($cartApi->getDangerousInnerClient() instanceof CommerceToolsClient)) {
             return;
@@ -53,7 +53,7 @@ class MapCartDataDecorator extends BaseImplementation
         CartApi $cartApi,
         Cart $cart,
         Address $address,
-        string $locale = null
+        ?string $locale = null
     ): void {
         if (!($cartApi->getDangerousInnerClient() instanceof CommerceToolsClient)) {
             return;
@@ -62,7 +62,7 @@ class MapCartDataDecorator extends BaseImplementation
         $address->rawApiInput = $this->mapAddressRawApiInputData($address);
     }
 
-    public function beforeSetBillingAddress(CartApi $cartApi, Cart $cart, Address $address, string $locale = null): void
+    public function beforeSetBillingAddress(CartApi $cartApi, Cart $cart, Address $address, ?string $locale = null): void
     {
         if (!($cartApi->getDangerousInnerClient() instanceof CommerceToolsClient)) {
             return;
@@ -76,7 +76,7 @@ class MapCartDataDecorator extends BaseImplementation
         Cart $cart,
         Payment $payment,
         ?array $custom = null,
-        string $locale = null
+        ?string $locale = null
     ): void {
         if (!($cartApi->getDangerousInnerClient() instanceof CommerceToolsClient)) {
             return;
@@ -86,7 +86,7 @@ class MapCartDataDecorator extends BaseImplementation
         $custom = null;
     }
 
-    public function beforeSetRawApiInput(CartApi $cartApi, Cart $cart, string $locale = null): void
+    public function beforeSetRawApiInput(CartApi $cartApi, Cart $cart, ?string $locale = null): void
     {
         if (!($cartApi->getDangerousInnerClient() instanceof CommerceToolsClient)) {
             return;

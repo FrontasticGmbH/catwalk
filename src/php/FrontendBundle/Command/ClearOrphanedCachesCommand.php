@@ -40,7 +40,7 @@ class ClearOrphanedCachesCommand extends Command
 
         $cacheDir = $container->getParameter('cache_dir');
         foreach ($finder->directories()->in($cacheDir)->depth(1) as $dir) {
-            if (2 !== (sizeof($parts = explode('@', $dir->getBasename())))) {
+            if (2 !== (count($parts = explode('@', $dir->getBasename())))) {
                 continue;
             }
             $component = basename($dir->getPath());

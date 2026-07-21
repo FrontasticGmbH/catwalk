@@ -281,7 +281,7 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
                 'search' => 'foobar',
             ]
         ]);
-        \Phake::when($this->requestStackMock)->getCurrentRequest->thenReturn($request);
+        \Phake::when($this->requestStackMock)->getCurrentRequest(\Phake::anyParameters())->thenReturn($request);
 
         $streamData = $this->streamService->getStreamData($node, new Context(), [], $page);
 

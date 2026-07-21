@@ -110,7 +110,7 @@ class Authenticator extends AbstractAuthenticator implements AuthenticationEntry
      * Called when authentication is needed, but it's not sent.
      * This is the entry point to start authentication.
      */
-    public function start(Request $request, AuthenticationException $authException = null): Response
+    public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         return new JsonResponse(
             new Session([

@@ -108,7 +108,6 @@ class ActionControllerTest extends TestCase
         \Phake::when($this->extensionService)->hasAction($inputNamespace, $inputAction)->thenReturn(true);
 
         $apiResponse = new Response();
-        $apiResponse->ok = true;
         $apiResponse->body = "Response Body";
         $apiResponse->statusCode = 200;
         $apiResponse->sessionData = $sessionData;
@@ -125,7 +124,7 @@ class ActionControllerTest extends TestCase
             ->encodeJWTData(null)
             ->thenReturn(null);
 
-        \Phake::when($this->extensionService)->callAction->thenReturn($apiResponse);
+        \Phake::when($this->extensionService)->callAction(\Phake::anyParameters())->thenReturn($apiResponse);
 
         // Call the subject method
         $result = $this->subject->indexAction($inputNamespace, $inputAction, $inputSymfonyRequest, $inputContext);
@@ -140,7 +139,6 @@ class ActionControllerTest extends TestCase
     public function testIndexActionSuccess200()
     {
         $apiResponse = new Response();
-        $apiResponse->ok = true;
         $apiResponse->sessionData = null;
 
         $inputNamespace = 'namespace';
@@ -170,7 +168,6 @@ class ActionControllerTest extends TestCase
     public function testIndexActionSuccess201()
     {
         $apiResponse = new Response();
-        $apiResponse->ok = true;
         $apiResponse->statusCode = 201;
         $apiResponse->body = 'TheBody';
         $apiResponse->sessionData = null;
@@ -212,6 +209,6 @@ class ActionControllerTest extends TestCase
 
         \Phake::when($this->extensionService)->hasAction($inputNamespace, $inputAction)->thenReturn(true);
 
-        \Phake::when($this->extensionService)->callAction->thenReturn($apiResponse);
+        \Phake::when($this->extensionService)->callAction(\Phake::anyParameters())->thenReturn($apiResponse);
     }
 }

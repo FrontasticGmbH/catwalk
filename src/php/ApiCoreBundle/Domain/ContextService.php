@@ -89,7 +89,7 @@ class ContextService
      * @param ?Request $request
      * @return Context
      */
-    public function createContextFromRequest(Request $request = null): Context
+    public function createContextFromRequest(?Request $request = null): Context
     {
         $request = $request ?: $this->requestStack->getCurrentRequest();
         $project = $this->projectService->getProject();
@@ -114,7 +114,7 @@ class ContextService
      * @param ?string $host
      * @return Context
      */
-    public function getContext(string $locale = null, Session $session = null, string $host = null): Context
+    public function getContext(?string $locale = null, ?Session $session = null, ?string $host = null): Context
     {
         $contextCacheHash = $locale . '-' . md5(Json::encode($session));
         if (isset($this->contextCache[$contextCacheHash])) {
@@ -235,7 +235,7 @@ class ContextService
 
         $language = $this->getLanguageFromLocaleWithTerritory($locale);
 
-        foreach ($routes as $id => $route) {
+        foreach ($routes as $route) {
             $routeLocale = $route->_locale;
             $canonicalRoute = $route->_frontastic_canonical_route;
 

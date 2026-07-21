@@ -94,7 +94,7 @@ class NodeService implements Target
     /**
      * @return \Frontastic\Catwalk\FrontendBundle\Domain\Node[]
      */
-    public function getNodes(string $root = null, int $maxDepth = null): array
+    public function getNodes(?string $root = null, ?int $maxDepth = null): array
     {
         return $this->nodeGateway->getTree($root, $maxDepth);
     }
@@ -105,11 +105,11 @@ class NodeService implements Target
      * Note that changes to the returned nodes are *not* reflected to other instances of the same node. We need to
      * reflect that multiple trees with different depth might be fetched in the same request.
      */
-    public function getTree(string $root = null, int $maxDepth = null): Node
+    public function getTree(?string $root = null, ?int $maxDepth = null): Node
     {
         $nodes = $this->nodeGateway->getTree($root, $maxDepth);
 
-        $nodeIndex = [$root => new Node()];
+        $nodeIndex = [(string) $root => new Node()];
         foreach ($nodes as $node) {
             // Minimize potential large tree data structures
             $nodeIndex[$node->nodeId] = new Node([
@@ -131,14 +131,14 @@ class NodeService implements Target
             }
 
             $nodePath = array_filter(explode('/', $node->path));
-            $parentNodeId = end($nodePath) ?: null;
+            $parentNodeId = end($nodePath) ?: '';
 
             if (isset($nodeIndex[$parentNodeId])) {
                 $nodeIndex[$parentNodeId]->children[] = $node;
             }
         }
 
-        return $nodeIndex[$root];
+        return $nodeIndex[(string) $root];
     }
 
     private function cloneAll(array $objects): array

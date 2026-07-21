@@ -3,9 +3,9 @@
 namespace Frontastic\Catwalk;
 
 use Frontastic\Common\HttpClient;
-use Frontastic\Catwalk\IntegrationTest;
+use Frontastic\Catwalk\IntegrationTestCase;
 
-abstract class ApiTest extends IntegrationTest
+abstract class ApiTestCase extends IntegrationTestCase
 {
     protected $httpClient;
 

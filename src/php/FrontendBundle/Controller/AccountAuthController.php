@@ -52,7 +52,7 @@ class AccountAuthController
         $this->logger = $logger;
     }
 
-    public function indexAction(Request $request, UserInterface $account = null): JsonResponse
+    public function indexAction(Request $request, ?UserInterface $account = null): JsonResponse
     {
         Assertion::isInstanceOf($account, Account::class);
 
@@ -323,7 +323,7 @@ class AccountAuthController
         $projectSpecificData = $requestBody['projectSpecificData'] ?? [];
 
         foreach ($keys as $key) {
-            if (!key_exists($key, $projectSpecificData) && key_exists($key, $requestBody)) {
+            if (!array_key_exists($key, $projectSpecificData) && array_key_exists($key, $requestBody)) {
                 $this->logger
                     ->warning(
                         'This usage of the key "{key}" is deprecated, move it into "projectSpecificData" instead',

@@ -22,7 +22,7 @@ class SitemapServiceTest extends TestCase
 
     public function testCleanOutdatedWhenExistSingleSitemap()
     {
-        \Phake::when($this->sitemapGatewayMock)->loadGenerationTimestampsByBasedir->thenReturn(
+        \Phake::when($this->sitemapGatewayMock)->loadGenerationTimestampsByBasedir(\Phake::anyParameters())->thenReturn(
             $this->singleBasedirHasOutdatedFixture()
         );
 
@@ -37,19 +37,19 @@ class SitemapServiceTest extends TestCase
 
     public function testDontCleanOutdatedWhenNoneExists()
     {
-        \Phake::when($this->sitemapGatewayMock)->loadGenerationTimestampsByBasedir->thenReturn(
+        \Phake::when($this->sitemapGatewayMock)->loadGenerationTimestampsByBasedir(\Phake::anyParameters())->thenReturn(
             $this->noBasedirHasOutdatedFixture()
         );
 
         $this->sitemapService->cleanOutdated(3);
 
-        \Phake::verify($this->sitemapGatewayMock, \Phake::never())->remove;
+        \Phake::verify($this->sitemapGatewayMock, \Phake::never())->remove(\Phake::anyParameters());
 
     }
 
     public function testCleanOutdatedInOnlyOneBasedirSitemap()
     {
-        \Phake::when($this->sitemapGatewayMock)->loadGenerationTimestampsByBasedir->thenReturn(
+        \Phake::when($this->sitemapGatewayMock)->loadGenerationTimestampsByBasedir(\Phake::anyParameters())->thenReturn(
             $this->multipleBasedirsOneHasOutdatedFixture()
         );
 

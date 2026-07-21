@@ -167,7 +167,7 @@ class MasterServiceTest extends \PHPUnit\Framework\TestCase
     public function testReplicationCreatesValidMasterPageMatcherRules()
     {
         $pageMatcherRules = new MasterPageMatcherRules();
-        \Phake::when($this->rulesGateway)->get->thenReturn($pageMatcherRules);
+        \Phake::when($this->rulesGateway)->get(\Phake::anyParameters())->thenReturn($pageMatcherRules);
 
         $updatesFixture = include __DIR__ . '/_fixtures/master-service-replication-regression/fixture.export.php';
 
@@ -188,7 +188,7 @@ class MasterServiceTest extends \PHPUnit\Framework\TestCase
     public function testReplicationWithReplicationFilterWorks()
     {
         $pageMatcherRules = new MasterPageMatcherRules();
-        \Phake::when($this->rulesGateway)->get->thenReturn($pageMatcherRules);
+        \Phake::when($this->rulesGateway)->get(\Phake::anyParameters())->thenReturn($pageMatcherRules);
 
         $filteredReplicationMasterService = new EnvironmentReplicationFilter(
             $this->masterService,

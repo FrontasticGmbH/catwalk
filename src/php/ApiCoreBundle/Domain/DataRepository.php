@@ -21,7 +21,7 @@ class DataRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function findOneByEvenIfDeleted(array $criteria, array $orderBy = null)
+    public function findOneByEvenIfDeleted(array $criteria, ?array $orderBy = null)
     {
         return ($this->withoutUndeletedFilter(function () use ($criteria, $orderBy) {
             return $this->findOneBy($criteria, $orderBy);

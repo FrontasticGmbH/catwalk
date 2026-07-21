@@ -6,7 +6,7 @@ use Frontastic\Catwalk\ApiCoreBundle\Monolog\JsonFormatter;
 use PHPUnit\Framework\TestCase;
 
 
-class JsonFormatterText extends TestCase
+class JsonFormatterTest extends TestCase
 {
 
     private CustomerService $customerService;
@@ -59,7 +59,9 @@ class JsonFormatterText extends TestCase
       $reflection = new ReflectionClass("Frontastic\Catwalk\ApiCoreBundle\Monolog\JsonFormatter");
         $reflection->newInstanceArgs([$this->customerService, $env]);
         $method = $reflection->getMethod("formatExceptionTrace");
-        $method->setAccessible(true);
+        if (\PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
         return $method;
     }
 

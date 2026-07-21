@@ -77,12 +77,12 @@ class PageFolderCompletionVisitorTest extends TestCase
 
         $page = \Phake::mock(Page::class);
 
-        \Phake::when($this->fieldConfiguration)->getType->thenReturn('node');
-        \Phake::when($this->nodeService)->get->thenReturn($node);
-        \Phake::when($this->nodeService)->completeCustomNodeData->thenReturn($node);
-        \Phake::when($this->pageService)->fetchForNode->thenReturn($page);
+        \Phake::when($this->fieldConfiguration)->getType(\Phake::anyParameters())->thenReturn('node');
+        \Phake::when($this->nodeService)->get(\Phake::anyParameters())->thenReturn($node);
+        \Phake::when($this->nodeService)->completeCustomNodeData(\Phake::anyParameters())->thenReturn($node);
+        \Phake::when($this->pageService)->fetchForNode(\Phake::anyParameters())->thenReturn($page);
         \Phake::when($this->siteBuilderPageService)->getPathsForSiteBuilderPage($pageFolderId)->thenReturn($urls);
-        \Phake::when($this->fieldVisitorFactory)->createOneLevelNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
+        \Phake::when($this->fieldVisitorFactory)->createOneLevelNodeDataVisitor(\Phake::anyParameters())->thenReturn(new SequentialFieldVisitor([]));
         $this->context->locale = 'it_CH';
 
         $result = $this->subject->processField(
@@ -101,7 +101,7 @@ class PageFolderCompletionVisitorTest extends TestCase
 
     public function testEmptyTreeDoesntError()
     {
-        \Phake::when($this->fieldConfiguration)->getType->thenReturn('tree');
+        \Phake::when($this->fieldConfiguration)->getType(\Phake::anyParameters())->thenReturn('tree');
 
         $result = $this->subject->processField(
             $this->fieldConfiguration,
@@ -127,9 +127,9 @@ class PageFolderCompletionVisitorTest extends TestCase
         $node->name = $nodeName;
         $node->configuration = $nodeConfiguration;
 
-        \Phake::when($this->fieldConfiguration)->getType->thenReturn('tree');
-        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
-        \Phake::when($this->nodeService)->completeCustomNodeData->thenReturn($node);
+        \Phake::when($this->fieldConfiguration)->getType(\Phake::anyParameters())->thenReturn('tree');
+        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor(\Phake::anyParameters())->thenReturn(new SequentialFieldVisitor([]));
+        \Phake::when($this->nodeService)->completeCustomNodeData(\Phake::anyParameters())->thenReturn($node);
 
         $result = $this->subject->processField(
             $this->fieldConfiguration,
@@ -149,7 +149,7 @@ class PageFolderCompletionVisitorTest extends TestCase
 
     public function testDepthIsStringWithEmptyNodeDoesntError()
     {
-        \Phake::when($this->fieldConfiguration)->getType->thenReturn('tree');
+        \Phake::when($this->fieldConfiguration)->getType(\Phake::anyParameters())->thenReturn('tree');
 
         $result = $this->subject->processField(
             $this->fieldConfiguration,
@@ -175,9 +175,9 @@ class PageFolderCompletionVisitorTest extends TestCase
         $node->name = $nodeName;
         $node->configuration = $nodeConfiguration;
 
-        \Phake::when($this->fieldConfiguration)->getType->thenReturn('tree');
-        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor->thenReturn(new SequentialFieldVisitor([]));
-        \Phake::when($this->nodeService)->completeCustomNodeData->thenReturn($node);
+        \Phake::when($this->fieldConfiguration)->getType(\Phake::anyParameters())->thenReturn('tree');
+        \Phake::when($this->fieldVisitorFactory)->createNodeDataVisitor(\Phake::anyParameters())->thenReturn(new SequentialFieldVisitor([]));
+        \Phake::when($this->nodeService)->completeCustomNodeData(\Phake::anyParameters())->thenReturn($node);
 
         $result = $this->subject->processField(
             $this->fieldConfiguration,
@@ -251,10 +251,10 @@ class PageFolderCompletionVisitorTest extends TestCase
         // we need to return the right nodes without actually loading them from the database, so mock the NodeService
         $this->nodeService = \Phake::partialMock(NodeService::class, $nodeGateway, \Phake::mock(PageService::class), \Phake::mock(RouteService::class), $schemaService, $contextService);
 
-        \Phake::when($this->fieldConfiguration)->getType->thenReturn('tree');
-        \Phake::when($this->fieldConfiguration)->getField->thenReturn('pageLink');
-        \Phake::when($this->fieldConfiguration)->getDefault->thenReturn(null);
-        \Phake::when($this->fieldConfiguration)->isTranslatable->thenReturn(false);
+        \Phake::when($this->fieldConfiguration)->getType(\Phake::anyParameters())->thenReturn('tree');
+        \Phake::when($this->fieldConfiguration)->getField(\Phake::anyParameters())->thenReturn('pageLink');
+        \Phake::when($this->fieldConfiguration)->getDefault(\Phake::anyParameters())->thenReturn(null);
+        \Phake::when($this->fieldConfiguration)->isTranslatable(\Phake::anyParameters())->thenReturn(false);
 
         \Phake::when($this->nodeService)->get('LeafNode')->thenReturn($leafNode);
 
@@ -351,10 +351,10 @@ class PageFolderCompletionVisitorTest extends TestCase
         // we need to return the right nodes without actually loading them from the database, so mock the NodeService
         $this->nodeService = \Phake::partialMock(NodeService::class, $nodeGateway, \Phake::mock(PageService::class), \Phake::mock(RouteService::class), $schemaService, $contextService);
 
-        \Phake::when($this->fieldConfiguration)->getType->thenReturn('reference');
-        \Phake::when($this->fieldConfiguration)->getField->thenReturn('pageLink');
-        \Phake::when($this->fieldConfiguration)->getDefault->thenReturn(null);
-        \Phake::when($this->fieldConfiguration)->isTranslatable->thenReturn(false);
+        \Phake::when($this->fieldConfiguration)->getType(\Phake::anyParameters())->thenReturn('reference');
+        \Phake::when($this->fieldConfiguration)->getField(\Phake::anyParameters())->thenReturn('pageLink');
+        \Phake::when($this->fieldConfiguration)->getDefault(\Phake::anyParameters())->thenReturn(null);
+        \Phake::when($this->fieldConfiguration)->isTranslatable(\Phake::anyParameters())->thenReturn(false);
 
         \Phake::when($this->nodeService)->get('LeafNode')->thenReturn($leafNode);
 

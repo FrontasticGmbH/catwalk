@@ -555,7 +555,7 @@ class GenerateSitemapsCommand extends Command
             return $entries;
         }
 
-        $pattern = sprintf('(%s)', join('|', array_map('trim', $this->excludes)));
+        $pattern = sprintf('(%s)', implode('|', array_map('trim', $this->excludes)));
         return array_filter(
             $entries,
             function (array $entry) use ($pattern): bool {

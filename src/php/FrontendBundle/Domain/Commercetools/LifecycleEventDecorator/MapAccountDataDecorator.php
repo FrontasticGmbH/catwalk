@@ -44,7 +44,7 @@ class MapAccountDataDecorator extends BaseImplementation
         AccountApi $accountApi,
         Account $account,
         ?Cart $cart = null,
-        string $locale = null
+        ?string $locale = null
     ): void {
         if (!($accountApi->getDangerousInnerClient() instanceof CommerceToolsClient)) {
             return;
@@ -53,7 +53,7 @@ class MapAccountDataDecorator extends BaseImplementation
         $account->rawApiInput = $this->mapAccountRawApiInputData($account);
     }
 
-    public function beforeUpdate(AccountApi $accountApi, Account $account, string $locale = null): void
+    public function beforeUpdate(AccountApi $accountApi, Account $account, ?string $locale = null): void
     {
         if (!($accountApi->getDangerousInnerClient() instanceof CommerceToolsClient)) {
             return;
@@ -66,7 +66,7 @@ class MapAccountDataDecorator extends BaseImplementation
         AccountApi $accountApi,
         Account $account,
         Address $address,
-        string $locale = null
+        ?string $locale = null
     ): void {
         if (!($accountApi->getDangerousInnerClient() instanceof CommerceToolsClient)) {
             return;
@@ -79,7 +79,7 @@ class MapAccountDataDecorator extends BaseImplementation
         AccountApi $accountApi,
         Account $account,
         Address $address,
-        string $locale = null
+        ?string $locale = null
     ): void {
         if (!($accountApi->getDangerousInnerClient() instanceof CommerceToolsClient)) {
             return;

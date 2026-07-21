@@ -1,4 +1,11 @@
 
+## Version 1.70.4 (2026-07-21)
+
+** Bug Fixes **
+
+- Don't enable Doctrine lazy ghost objects. These don't work with some supported library versions.
+- Fix a lot of PHP 8.5 deprecations.
+
 ## Version 1.70.3 (2026-03-31)
 
 ** Bug Fixes **

@@ -42,7 +42,7 @@ class RawDataService
 
         foreach ($commerceToolsFields as $fieldKey => $value) {
             // CommerceTools has it, but we don't map
-            if (key_exists($fieldKey, $apiDataObject->projectSpecificData)) {
+            if (array_key_exists($fieldKey, $apiDataObject->projectSpecificData)) {
                 $rawApiInputData[$fieldKey] = $apiDataObject->projectSpecificData[$fieldKey];
             }
         }

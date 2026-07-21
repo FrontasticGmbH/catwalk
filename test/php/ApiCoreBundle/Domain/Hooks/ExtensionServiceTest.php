@@ -105,7 +105,7 @@ class ExtensionServiceTest extends TestCase
         $mockedSubject = $this->partiallyMockedSubject();
         $this->mockProjectIdentifier();
 
-        \Phake::when($mockedSubject)->fetchProjectExtensions->thenReturn($this->extensions);
+        \Phake::when($mockedSubject)->fetchProjectExtensions(\Phake::anyParameters())->thenReturn($this->extensions);
         $result = $mockedSubject->getExtensions();
 
         $this->assertSame($this->extensions, $result);
@@ -199,12 +199,12 @@ class ExtensionServiceTest extends TestCase
             [],
             ['_frontastic_request_id' => '1']
         );
-        \Phake::when($this->requestStack)->getCurrentRequest->thenReturn($request);
+        \Phake::when($this->requestStack)->getCurrentRequest(\Phake::anyParameters())->thenReturn($request);
 
         $response = new HttpClient\Response();
         $response->status = 200;
         $response->body = "AsyncResponse";
-        \Phake::when($this->httpClient)->postAsync->thenReturn(
+        \Phake::when($this->httpClient)->postAsync(\Phake::anyParameters())->thenReturn(
             Create::promiseFor($response)
         );
 
@@ -228,12 +228,12 @@ class ExtensionServiceTest extends TestCase
             [],
             ['_frontastic_request_id' => '1']
         );
-        \Phake::when($this->requestStack)->getCurrentRequest->thenReturn($request);
+        \Phake::when($this->requestStack)->getCurrentRequest(\Phake::anyParameters())->thenReturn($request);
 
         $response = new HttpClient\Response();
         $response->status = 500;
         $response->body = "Server error";
-        \Phake::when($this->httpClient)->postAsync->thenReturn(
+        \Phake::when($this->httpClient)->postAsync(\Phake::anyParameters())->thenReturn(
             Create::promiseFor($response)
         );
 
@@ -256,12 +256,12 @@ class ExtensionServiceTest extends TestCase
             [],
             ['_frontastic_request_id' => '1']
         );
-        \Phake::when($this->requestStack)->getCurrentRequest->thenReturn($request);
+        \Phake::when($this->requestStack)->getCurrentRequest(\Phake::anyParameters())->thenReturn($request);
 
         $response = new HttpClient\Response();
         $response->status = 200;
         $response->body = "{\"response\": \"hello world\"}";
-        \Phake::when($this->httpClient)->postAsync->thenReturn(
+        \Phake::when($this->httpClient)->postAsync(\Phake::anyParameters())->thenReturn(
             Create::promiseFor($response)
         );
 
@@ -282,12 +282,12 @@ class ExtensionServiceTest extends TestCase
             [],
             ['_frontastic_request_id' => '1']
         );
-        \Phake::when($this->requestStack)->getCurrentRequest->thenReturn($request);
+        \Phake::when($this->requestStack)->getCurrentRequest(\Phake::anyParameters())->thenReturn($request);
 
         $response = new HttpClient\Response();
         $response->status = 200;
         $response->body = "{\"response\": \"hello world\"}";
-        \Phake::when($this->httpClient)->postAsync->thenReturn(
+        \Phake::when($this->httpClient)->postAsync(\Phake::anyParameters())->thenReturn(
             Create::promiseFor($response)
         );
 
@@ -301,7 +301,9 @@ class ExtensionServiceTest extends TestCase
         //Hacky way to manipulate a private property
         $reflection = new \ReflectionClass($this->subject);
         $reflectionExtensions = $reflection->getProperty("extensions");
-        $reflectionExtensions->setAccessible(true);
+        if (\PHP_VERSION_ID < 80100) {
+            $reflectionExtensions->setAccessible(true);
+        }
         $reflectionExtensions->setValue($this->subject, $extensions);
     }
 
@@ -326,6 +328,6 @@ class ExtensionServiceTest extends TestCase
             ])
         ]);
 
-        \Phake::when($this->contextService)->createContextFromRequest->thenReturn($context);
+        \Phake::when($this->contextService)->createContextFromRequest(\Phake::anyParameters())->thenReturn($context);
     }
 }

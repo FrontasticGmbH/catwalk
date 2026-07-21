@@ -44,7 +44,7 @@ class PageFolderService
      * @param string|null $path
      * @return PageFolderStructureValue[]
      */
-    public function getStructure(Context $context, string $locale, int $depth, string $path = null): array
+    public function getStructure(Context $context, string $locale, int $depth, ?string $path = null): array
     {
         $nodeId = null;
         if ($path) {

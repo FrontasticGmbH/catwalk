@@ -10,7 +10,7 @@ class FeatureFlagService implements ContextDecorator
 {
     private $repository;
 
-    public function __construct(DataRepository $repository = null)
+    public function __construct(?DataRepository $repository = null)
     {
         $this->repository = $repository;
     }

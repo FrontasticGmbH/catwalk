@@ -2,13 +2,13 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
-use Frontastic\Catwalk\IntegrationTest;
+use Frontastic\Catwalk\IntegrationTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @group integration
  */
-class AppRepositoryServiceTest extends IntegrationTest
+class AppRepositoryServiceTest extends IntegrationTestCase
 {
     protected function getService(): AppRepositoryService
     {

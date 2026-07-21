@@ -36,7 +36,7 @@ class RoutingConfigCacheTest extends TestCase
 
         $this->vfsRoot = vfsStream::setup('cache');
 
-        \Phake::when($this->timeProviderMock)->microtimeNow->thenReturn((float) self::NOW);
+        \Phake::when($this->timeProviderMock)->microtimeNow(\Phake::anyParameters())->thenReturn((float) self::NOW);
 
         $cacheClass = new \ReflectionClass(RoutingConfigCache::class);
         $cacheClass->setStaticPropertyValue('regenerateInThisRequest', null);
@@ -62,7 +62,7 @@ class RoutingConfigCacheTest extends TestCase
         );
 
         // Maximum probability, because time base fresh should be fine
-        \Phake::when($this->randomValueProvider)->randomInt->thenReturn(\PHP_INT_MAX);
+        \Phake::when($this->randomValueProvider)->randomInt(\Phake::anyParameters())->thenReturn(\PHP_INT_MAX);
 
         $cache = new RoutingConfigCache(
             $cacheFile->url(),
@@ -83,7 +83,7 @@ class RoutingConfigCacheTest extends TestCase
             self::NOW - 61, // Created 61 seconds earlier
         );
         // Maximum probability will lead to cache being re-generated after 60 seconds
-        \Phake::when($this->randomValueProvider)->randomInt->thenReturn(\PHP_INT_MAX);
+        \Phake::when($this->randomValueProvider)->randomInt(\Phake::anyParameters())->thenReturn(\PHP_INT_MAX);
 
         $cache = new RoutingConfigCache(
             $cacheFile->url(),
@@ -104,7 +104,7 @@ class RoutingConfigCacheTest extends TestCase
             self::NOW - 120, // Created 120 seconds earlier
         );
         // Minimum probability lets cache still be re-generated after 120 seconds
-        \Phake::when($this->randomValueProvider)->randomInt->thenReturn(0);
+        \Phake::when($this->randomValueProvider)->randomInt(\Phake::anyParameters())->thenReturn(0);
 
         $cache = new RoutingConfigCache(
             $cacheFile->url(),
@@ -125,7 +125,7 @@ class RoutingConfigCacheTest extends TestCase
             self::NOW - 91, // Created 91 seconds earlier
         );
         // 50% probability with 50+% of overtime
-        \Phake::when($this->randomValueProvider)->randomInt->thenReturn((int)round(\PHP_INT_MAX / 2));
+        \Phake::when($this->randomValueProvider)->randomInt(\Phake::anyParameters())->thenReturn((int)round(\PHP_INT_MAX / 2));
 
         $cache = new RoutingConfigCache(
             $cacheFile->url(),
@@ -155,12 +155,12 @@ class RoutingConfigCacheTest extends TestCase
         );
 
         // Maximum probability in first run
-        \Phake::when($this->randomValueProvider)->randomInt->thenReturn(\PHP_INT_MAX);
+        \Phake::when($this->randomValueProvider)->randomInt(\Phake::anyParameters())->thenReturn(\PHP_INT_MAX);
 
         $this->assertFalse($cache->isFresh());
 
         // Minimum probability in second run
-        \Phake::when($this->randomValueProvider)->randomInt->thenReturn(0);
+        \Phake::when($this->randomValueProvider)->randomInt(\Phake::anyParameters())->thenReturn(0);
 
         $this->assertFalse($cache->isFresh());
     }
@@ -182,7 +182,7 @@ class RoutingConfigCacheTest extends TestCase
         );
 
         // Maximum probability in first run
-        \Phake::when($this->randomValueProvider)->randomInt->thenReturn((int) round(\PHP_INT_MAX * 0.9));
+        \Phake::when($this->randomValueProvider)->randomInt(\Phake::anyParameters())->thenReturn((int) round(\PHP_INT_MAX * 0.9));
 
         $this->assertFalse($cache->isFresh());
     }
@@ -204,7 +204,7 @@ class RoutingConfigCacheTest extends TestCase
         );
 
         // Maximum probability in first run
-        \Phake::when($this->randomValueProvider)->randomInt->thenReturn((int) round(\PHP_INT_MAX * 0.1));
+        \Phake::when($this->randomValueProvider)->randomInt(\Phake::anyParameters())->thenReturn((int) round(\PHP_INT_MAX * 0.1));
 
         $this->assertTrue($cache->isFresh());
     }

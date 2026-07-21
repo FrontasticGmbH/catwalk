@@ -106,11 +106,11 @@ class PageControllerTest extends TestCase
             ])
         ]);
 
-        \Phake::when($this->viewDataProviderMock)->fetchDataFor->thenReturn(new ViewData([
+        \Phake::when($this->viewDataProviderMock)->fetchDataFor(\Phake::anyParameters())->thenReturn(new ViewData([
             'stream' => new \stdClass(),
             'tastic' => new \stdClass(),
         ]));
-        \Phake::when($this->mapperMock)->map->thenReturnCallback(function ($input) {
+        \Phake::when($this->mapperMock)->map(\Phake::anyParameters())->thenReturnCallback(function ($input) {
             if ($input instanceof ViewData) {
                 return \Phake::mock(NextjsPageViewData::class);
             } else if ($input instanceof Node) {
@@ -120,7 +120,7 @@ class PageControllerTest extends TestCase
             }
             return $input;
         });
-        \Phake::when($this->redirectServiceMock)->getRedirectResponseForPath->thenReturn(null);
+        \Phake::when($this->redirectServiceMock)->getRedirectResponseForPath(\Phake::anyParameters())->thenReturn(null);
 
         $this->pageController = new PageController(
             $this->siteBuilderPageServiceMock,
@@ -203,20 +203,20 @@ class PageControllerTest extends TestCase
      */
     public function testDynamicPageHandlingTriggeredWhenNoNodeFound($path, $locale, $request)
     {
-        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
-        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult([
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage(\Phake::anyParameters())->thenReturn(null);
+        \Phake::when($this->dynamicPageService)->handleDynamicPage(\Phake::anyParameters())->thenReturn(new DynamicPageSuccessResult([
             'dynamicPageType' => 'test'
         ]));
-        \Phake::when($this->dynamicPageService)->matchNodeFor->thenReturn($this->getFakeNode());
-        \Phake::when($this->pageServiceMock)->fetchForNode->thenReturn($this->getFakePage());
+        \Phake::when($this->dynamicPageService)->matchNodeFor(\Phake::anyParameters())->thenReturn($this->getFakeNode());
+        \Phake::when($this->pageServiceMock)->fetchForNode(\Phake::anyParameters())->thenReturn($this->getFakePage());
 
         $responseData = $this->pageController->indexAction(
             $request,
             $this->contextFixture
         );
 
-        \Phake::verify($this->dynamicPageService)->handleDynamicPage;
-        \Phake::verify($this->dynamicPageService)->matchNodeFor;
+        \Phake::verify($this->dynamicPageService)->handleDynamicPage(\Phake::anyParameters());
+        \Phake::verify($this->dynamicPageService)->matchNodeFor(\Phake::anyParameters());
 
         $this->assertInstanceOf(PageDataResponse::class, $responseData);
         $this->assertInstanceOf(PageFolder::class, $responseData->pageFolder);
@@ -227,8 +227,8 @@ class PageControllerTest extends TestCase
      */
     public function testRedirectResponseSentWhenRedirectExistsForPath($path, $locale, $request)
     {
-        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
-        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(null);
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage(\Phake::anyParameters())->thenReturn(null);
+        \Phake::when($this->dynamicPageService)->handleDynamicPage(\Phake::anyParameters())->thenReturn(null);
 
         $this->setupFakeRedirectForPath($path, $request->query->all());
 
@@ -242,9 +242,9 @@ class PageControllerTest extends TestCase
      */
     public function testRedirectResponseIsNotSentWhenSiteBuilderPageExists($path, $locale, $request)
     {
-        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn('fakeNodeId1');
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage(\Phake::anyParameters())->thenReturn('fakeNodeId1');
         \Phake::when($this->nodeServiceMock)->get('fakeNodeId1')->thenReturn($this->getFakeNode());
-        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(null);
+        \Phake::when($this->dynamicPageService)->handleDynamicPage(\Phake::anyParameters())->thenReturn(null);
 
         $this->setupFakeRedirectForPath($path, $request->query->all());
 
@@ -258,11 +258,11 @@ class PageControllerTest extends TestCase
      */
     public function testRedirectResponseIsNotSentWhenDynamicPageExists($path, $locale, $request)
     {
-        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
-        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(new DynamicPageSuccessResult([
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage(\Phake::anyParameters())->thenReturn(null);
+        \Phake::when($this->dynamicPageService)->handleDynamicPage(\Phake::anyParameters())->thenReturn(new DynamicPageSuccessResult([
             'dynamicPageType' => 'test'
         ]));
-        \Phake::when($this->dynamicPageService)->matchNodeFor->thenReturn($this->getFakeNode());
+        \Phake::when($this->dynamicPageService)->matchNodeFor(\Phake::anyParameters())->thenReturn($this->getFakeNode());
 
         $this->setupFakeRedirectForPath($path, $request->query->all());
 
@@ -362,8 +362,8 @@ class PageControllerTest extends TestCase
             'redirectLocation' => '/redirect-to'
         ]);
 
-        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
-        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn($result);
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage(\Phake::anyParameters())->thenReturn(null);
+        \Phake::when($this->dynamicPageService)->handleDynamicPage(\Phake::anyParameters())->thenReturn($result);
         \Phake::when($this->redirectServiceMock)
             ->createResponseFromDynamicPageRedirectResult($result)
             ->thenReturn(new RedirectResponse([
@@ -421,8 +421,8 @@ class PageControllerTest extends TestCase
      */
     public function testIndexActionNodeAndRedirectDoesntExist($path, $locale, $request)
     {
-        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
-        \Phake::when($this->dynamicPageService)->handleDynamicPage->thenReturn(null);
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage(\Phake::anyParameters())->thenReturn(null);
+        \Phake::when($this->dynamicPageService)->handleDynamicPage(\Phake::anyParameters())->thenReturn(null);
 
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('Could not resolve page from path');
@@ -436,17 +436,17 @@ class PageControllerTest extends TestCase
     public function testSuccessfulRequest($path, $locale, $request)
     {
         $nodeMock = \Phake::mock(Node::class);
-        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(1);
-        \Phake::when($this->nodeServiceMock)->get->thenReturn($nodeMock);
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage(\Phake::anyParameters())->thenReturn(1);
+        \Phake::when($this->nodeServiceMock)->get(\Phake::anyParameters())->thenReturn($nodeMock);
         $pageMock = \Phake::mock(Page::class);
-        \Phake::when($this->pageServiceMock)->fetchForNode->thenReturn($pageMock);
-        \Phake::when($this->pageServiceMock)->filterOutHiddenData->thenReturn($pageMock);
+        \Phake::when($this->pageServiceMock)->fetchForNode(\Phake::anyParameters())->thenReturn($pageMock);
+        \Phake::when($this->pageServiceMock)->filterOutHiddenData(\Phake::anyParameters())->thenReturn($pageMock);
 
         $viewData = new ViewData([
             'stream' => new \stdClass(),
             'tastic' => new \stdClass(),
         ], false);
-        \Phake::when($this->viewDataProviderMock)->fetchDataFor->thenReturn($viewData);
+        \Phake::when($this->viewDataProviderMock)->fetchDataFor(\Phake::anyParameters())->thenReturn($viewData);
         $pageFolderMock = \Phake::mock(PageFolder::class);
         \Phake::when($this->mapperMock)->map($nodeMock)->thenReturn($pageFolderMock);
         $nextJsPageMock = \Phake::mock(NextjsPage::class);

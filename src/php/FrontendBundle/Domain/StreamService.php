@@ -277,7 +277,7 @@ class StreamService
      * @return array
      * @throws \Throwable
      */
-    public function getStreamData(Node $node, Context $context, array $parameterMap = [], Page $page = null): array
+    public function getStreamData(Node $node, Context $context, array $parameterMap = [], ?Page $page = null): array
     {
         if ($page) {
             $page = $this->completeDefaultStreams($node, $page);

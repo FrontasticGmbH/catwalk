@@ -136,7 +136,7 @@ class RequestServiceTest extends TestCase
                 ),
             ],
             'null key null value' => [
-                [null => null],
+                ['' => null],
                 implode('.',
                     [
                         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
@@ -200,7 +200,7 @@ class RequestServiceTest extends TestCase
                 ),
             ],
             'null key null value' => [
-                [null => null],
+                ['' => null],
                 implode('.',
                     [
                         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',

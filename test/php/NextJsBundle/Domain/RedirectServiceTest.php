@@ -68,7 +68,7 @@ class RedirectServiceTest extends \PHPUnit\Framework\TestCase
 
     protected function setupSitebuilderServiceMocks()
     {
-        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage->thenReturn(null);
+        \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage(\Phake::anyParameters())->thenReturn(null);
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage('/page-us', 'en_US')->thenReturn('1');
         \Phake::when($this->siteBuilderPageServiceMock)->matchSiteBuilderPage('/page-gb', 'en_GB')->thenReturn('1');
 
@@ -100,7 +100,7 @@ class RedirectServiceTest extends \PHPUnit\Framework\TestCase
     protected function setupReactRedirectServiceMocks()
     {
         \Phake::when($this->reactRedirectServiceMock)
-            ->getRedirectForRequest
+            ->getRedirectForRequest(\Phake::anyParameters())
             ->thenReturn(null);
 
         \Phake::when($this->reactRedirectServiceMock)
@@ -198,7 +198,7 @@ class RedirectServiceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->pageFolderRedirect->statusCode, $redirectResponse->statusCode);
     }
 
-    public function testCreateResponseFromDynamicPageRedirectResult() 
+    public function testCreateResponseFromDynamicPageRedirectResult()
     {
         $result = new DynamicPageRedirectResult([
             'statusCode' => 301,
@@ -206,7 +206,7 @@ class RedirectServiceTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $redirectResponse = $this->redirectService->createResponseFromDynamicPageRedirectResult($result);
-        
+
         $this->assertInstanceOf(RedirectResponse::class, $redirectResponse);
         $this->assertEquals($result->statusCode, $redirectResponse->statusCode);
         $this->assertEquals(RedirectResponse::REASON_DYNAMIC_PAGE_REDIRECT, $redirectResponse->reason);

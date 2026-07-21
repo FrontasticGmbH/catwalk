@@ -224,7 +224,7 @@ class PageService implements Target
         $this->pageGateway->remove($page);
     }
 
-    private function dateTimeStringToUnixTimestamp(string $time = null)
+    private function dateTimeStringToUnixTimestamp(?string $time = null)
     {
         if ($time === null) {
             return null;

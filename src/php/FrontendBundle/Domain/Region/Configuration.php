@@ -45,7 +45,7 @@ class Configuration extends BaseConfiguration
             ['property' => 'align-content', 'value' => $this->alignContent],
         ];
 
-        return join('; ', array_map(
+        return implode('; ', array_map(
             function (array $style): string {
                 return sprintf(
                     '%s: %s',

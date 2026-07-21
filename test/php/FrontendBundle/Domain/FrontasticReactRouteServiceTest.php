@@ -36,7 +36,7 @@ class FrontasticReactRouteServiceTest extends TestCase
 
         $this->routeService = new FrontasticReactRouteService(
             $this->customerServiceMock,
-            '__NO_DIR__',
+            __DIR__ . '/empty',
             $this->frontendRoutesGateway,
             new Filesystem()
         );

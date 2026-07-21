@@ -7,6 +7,7 @@ use Kore\DataObject\DataObject;
 /**
  * @type
  */
+#[\AllowDynamicProperties]
 class Configuration extends DataObject
 {
     /**
