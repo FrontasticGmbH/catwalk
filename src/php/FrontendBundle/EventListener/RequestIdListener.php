@@ -31,7 +31,7 @@ class RequestIdListener implements EventSubscriberInterface
         $request->attributes->set(self::REQUEST_ID_ATTRIBUTE_KEY, Tracing::getCurrentTraceId());
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => [

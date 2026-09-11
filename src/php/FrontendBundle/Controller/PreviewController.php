@@ -16,6 +16,7 @@ use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi;
 use Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier;
 use Frontastic\Common\ReplicatorBundle\Domain\Result;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +35,7 @@ class PreviewController extends AbstractController
     private NodeService $nodeService;
     private PageService $pageService;
     private ProductApi $productApi;
+    private LoggerInterface $logger;
     private string $secret;
 
     public function __construct(
@@ -44,6 +46,7 @@ class PreviewController extends AbstractController
         NodeService $nodeService,
         PageService $pageService,
         ProductApi $productApi,
+        LoggerInterface $logger,
         string $secret
     ) {
         $this->previewService = $previewService;
@@ -53,6 +56,7 @@ class PreviewController extends AbstractController
         $this->nodeService = $nodeService;
         $this->pageService = $pageService;
         $this->productApi = $productApi;
+        $this->logger = $logger;
         $this->secret = $secret;
     }
 
@@ -164,7 +168,7 @@ class PreviewController extends AbstractController
                 'preview' => $this->previewService->store($preview),
             ]);
         } catch (\Throwable $e) {
-            $this->get('logger')->error(
+            $this->logger->error(
                 'Error storing the preview: {message}',
                 [
                     'message' => $e->getMessage(),

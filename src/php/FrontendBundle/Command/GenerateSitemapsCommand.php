@@ -20,12 +20,12 @@ use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result;
 use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApi;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -35,20 +35,26 @@ use Twig\Environment;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.CountInLoopExpression)
  */
+#[AsCommand(name: 'frontastic:sitemap:generate', description: 'Generates static sitemap files')]
 class GenerateSitemapsCommand extends Command
 {
-    use ContainerAwareTrait;
-
     const MAX_ENTRIES = 10000;
 
-    private Environment $twig;
-
-    private Filesystem $filesystem;
-
-    public function __construct(Environment $twig, Filesystem $filesystem)
-    {
-        $this->twig = $twig;
-        $this->filesystem = $filesystem;
+    public function __construct(
+        private readonly Environment $twig,
+        private readonly Filesystem $filesystem,
+        private readonly ContextService $contextService,
+        private readonly SitemapService $sitemapService,
+        private readonly NodeService $nodeService,
+        private readonly RouteService $routeService,
+        private readonly PageService $pageService,
+        private readonly ProductApi $productApi,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly MasterService $masterService,
+        private readonly StreamService $streamService,
+        private readonly ProductSearchApi $productSearchApi,
+        private readonly ProductRouter $productRouter
+    ) {
         parent::__construct();
     }
 
@@ -82,8 +88,6 @@ class GenerateSitemapsCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('frontastic:sitemap:generate')
-            ->setDescription('Generates static sitemap files')
             ->addArgument(
                 'output-directory',
                 InputArgument::REQUIRED,
@@ -186,9 +190,7 @@ class GenerateSitemapsCommand extends Command
         $this->filesystem->mkdir($this->workingDir);
 
         try {
-            /** @var ContextService $contextService */
-            $contextService = $this->container->get(ContextService::class);
-            $context = $contextService->getContext($input->getOption('locale'));
+            $context = $this->contextService->getContext($input->getOption('locale'));
 
             $this->publicUrl = $this->determinePublicUrl($context, $input->getOption('base-url'));
 
@@ -282,12 +284,9 @@ class GenerateSitemapsCommand extends Command
 
     private function generateSitemapExtensions(Context $context, OutputInterface $output): array
     {
-        /** @var SitemapService $sitemapService */
-        $sitemapService = $this->container->get(SitemapService::class);
-
         $sitemaps = [];
         $allExtensionEntries = [];
-        foreach ($sitemapService->getExtensions() as $extension) {
+        foreach ($this->sitemapService->getExtensions() as $extension) {
             $output->writeln('Generating sitemaps for extension ' . get_class($extension) . ' …');
 
             try {
@@ -338,23 +337,16 @@ class GenerateSitemapsCommand extends Command
 
     private function generateNodeSitemap(Context $context, InputInterface $input, OutputInterface $output): array
     {
-        /** @var NodeService $nodeService */
-        $nodeService = $this->container->get(NodeService::class);
-        /** @var RouteService $routeService */
-        $routeService = $this->container->get(RouteService::class);
-        /** @var PageService $pageService */
-        $pageService = $this->container->get(PageService::class);
-
         $output->writeln('Generating node sitemaps…');
 
-        $nodes = $nodeService->getNodes();
-        $routes = $routeService->generateRoutes($nodes);
+        $nodes = $this->nodeService->getNodes();
+        $routes = $this->routeService->generateRoutes($nodes);
 
         $entries = [];
         foreach ($nodes as $node) {
             try {
                 // Only render urls for nodes with pages
-                $pageService->fetchForNode($node, $context);
+                $this->pageService->fetchForNode($node, $context);
             } catch (\Exception $e) {
                 continue;
             }
@@ -393,15 +385,6 @@ class GenerateSitemapsCommand extends Command
     {
         $limit = min(500, $this->maxEntries);
 
-        /** @var ProductApi $productApi */
-        $productApi = $this->container->get(ProductApi::class);
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $this->container->get('router');
-        /** @var MasterService $pageMatcherService */
-        $masterService = $this->container->get(MasterService::class);
-        /** @var NodeService $nodeService */
-        $nodeService = $this->container->get(NodeService::class);
-
         $output->writeln('Generating category sitemaps…');
 
         $query = new CategoryQuery([
@@ -413,10 +396,10 @@ class GenerateSitemapsCommand extends Command
 
         do {
             /** @var \Frontastic\Common\ProductApiBundle\Domain\ProductApi\Result $result */
-            $result = $productApi->queryCategories($query);
+            $result = $this->productApi->queryCategories($query);
 
             foreach ($result as $category) {
-                $uri = $urlGenerator->generate(
+                $uri = $this->urlGenerator->generate(
                     'Frontastic.Frontend.Master.Category.view',
                     [
                         'id' => $category->categoryId,
@@ -433,12 +416,12 @@ class GenerateSitemapsCommand extends Command
                     continue;
                 }
 
-                $node = $nodeService->get($masterService->matchNodeId(
+                $node = $this->nodeService->get($this->masterService->matchNodeId(
                     new PageMatcherContext([
                         'categoryId' => $category->categoryId,
                     ])
                 ));
-                $node->streams = $masterService->completeDefaultQuery(
+                $node->streams = $this->masterService->completeDefaultQuery(
                     $node->streams,
                     'category',
                     $category->categoryId
@@ -455,10 +438,7 @@ class GenerateSitemapsCommand extends Command
 
     private function generatePagerEntries(Node $node, Context $context, $baseUri): array
     {
-        /** @var StreamService $streamService */
-        $streamService = $this->container->get(StreamService::class);
-
-        $streams = $streamService->getStreamData($node, $context);
+        $streams = $this->streamService->getStreamData($node, $context);
 
         $entries = [];
         foreach ($streams as $streamId => $result) {
@@ -491,11 +471,6 @@ class GenerateSitemapsCommand extends Command
     {
         $limit = min(500, $this->maxEntries);
 
-        /** @var ProductSearchApi $productSearchApi */
-        $productSearchApi = $this->container->get(ProductSearchApi::class);
-        /** @var ProductRouter $productRouter */
-        $productRouter = $this->container->get(ProductRouter::class);
-
         $output->writeln('Generating product sitemaps…');
 
         $query = new ProductQuery([
@@ -507,12 +482,12 @@ class GenerateSitemapsCommand extends Command
         $fileNames = [];
 
         do {
-            $result = $productSearchApi->query($query)->wait();
+            $result = $this->productSearchApi->query($query)->wait();
 
             /** @var \Frontastic\Common\ProductApiBundle\Domain\Product $product */
             foreach ($result as $product) {
                 $entries[] = [
-                    'uri' => $productRouter->generateUrlFor($product),
+                    'uri' => $this->productRouter->generateUrlFor($product),
                     'changed' => $product->changed ?? time(),
                     'images' => $product->images,
                 ];
@@ -693,9 +668,6 @@ class GenerateSitemapsCommand extends Command
 
     private function storeInDatabase(string $outputDir)
     {
-        /** @var SitemapService $sitemapService */
-        $sitemapService = $this->container->get(SitemapService::class);
-
         try {
             $basedir = $this->cleanBasePath($outputDir);
 
@@ -715,14 +687,14 @@ class GenerateSitemapsCommand extends Command
                 ]);
             }
 
-            $sitemapService->storeAll($sitemaps);
+            $this->sitemapService->storeAll($sitemaps);
 
             $this->removeDirectoryRecursive($outputDir);
         } finally {
             $this->removeDirectoryRecursive($this->workingDir);
         }
 
-        $sitemapService->cleanOutdated(3);
+        $this->sitemapService->cleanOutdated(3);
     }
 
     /**

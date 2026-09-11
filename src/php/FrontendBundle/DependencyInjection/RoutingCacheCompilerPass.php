@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class RoutingCacheCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $container->getDefinition('router.default')->addMethodCall(
             'setConfigCacheFactory',

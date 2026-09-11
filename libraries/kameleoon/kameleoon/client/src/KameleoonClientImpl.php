@@ -507,7 +507,7 @@ class KameleoonClientImpl implements KameleoonClient
             curl_setopt($tokenRequest, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($tokenRequest, CURLOPT_POSTFIELDS, "grant_type=client_credentials&client_id=" . $this->clientId . "&client_secret=" . $this->clientSecret);
             $tokenOutput = curl_exec($tokenRequest);
-            if (\PHP_VERSION_ID < 80000) { curl_close($tokenRequest); }
+            curl_close($tokenRequest);
             $token = json_decode($tokenOutput)->access_token;
 
             $experimentsRequest = curl_init(self::API_URL . "/v1/graphql?perPage=-1");
@@ -520,7 +520,7 @@ class KameleoonClientImpl implements KameleoonClient
                 'Authorization: Bearer ' . $token,
             ));
             $experimentsOutput = curl_exec($experimentsRequest);
-            if (\PHP_VERSION_ID < 80000) { curl_close($experimentsRequest); }
+            curl_close($experimentsRequest);
 
             $ffRequest = curl_init(self::API_URL . "/v1/graphql?perPage=-1");
             curl_setopt($ffRequest,CURLOPT_TIMEOUT, $timeOut);
@@ -533,7 +533,7 @@ class KameleoonClientImpl implements KameleoonClient
             ));
             
             $ffOutput = curl_exec($ffRequest);
-            if (\PHP_VERSION_ID < 80000) { curl_close($ffRequest); }
+            curl_close($ffRequest);
 
             $json = json_decode($experimentsOutput)->data;
             $json->featureFlags = json_decode($ffOutput)->data->featureFlags;
@@ -624,7 +624,7 @@ class KameleoonClientImpl implements KameleoonClient
         if (curl_error($curl)) {
             throw new Exception('API-SSX call returned status code 404');
         }
-        if (\PHP_VERSION_ID < 80000) { curl_close($curl); }
+        curl_close($curl);
         return $response;
     }
 

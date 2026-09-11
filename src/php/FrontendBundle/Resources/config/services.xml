@@ -18,71 +18,36 @@
 
         <service id="logger" alias="monolog.logger" public="true" />
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Command\AnnounceReleaseCommand" autoconfigure="true" autowire="true">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
+        <service id="Frontastic\Catwalk\FrontendBundle\Command\AnnounceReleaseCommand" autoconfigure="true" autowire="true"/>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Command\ClearCommand" autoconfigure="true" autowire="true">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
+        <service id="Frontastic\Catwalk\FrontendBundle\Command\ClearCommand" autoconfigure="true" autowire="true"/>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Command\ClearOrphanedCachesCommand" autoconfigure="true" autowire="true">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
+            <argument key="$kernelProjectDir">%kernel.project_dir%</argument>
+            <argument key="$cacheDir">%cache_dir%</argument>
         </service>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Command\CreateBundleCommand" autoconfigure="true" autowire="true">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
+            <argument key="$kernelProjectDir">%kernel.project_dir%</argument>
+            <argument key="$kernelCacheDir">%kernel.cache_dir%</argument>
+            <argument key="$cacheClearer" type="service" id="cache_clearer"/>
         </service>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Command\CronCommand" autoconfigure="true" autowire="true">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
+        <service id="Frontastic\Catwalk\FrontendBundle\Command\CronCommand" autoconfigure="true" autowire="true"/>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Command\DumpCategoriesCommand" autoconfigure="true" autowire="true">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
+        <service id="Frontastic\Catwalk\FrontendBundle\Command\DumpCategoriesCommand" autoconfigure="true" autowire="true"/>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Command\DumpProductsCommand" autoconfigure="true" autowire="true">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
+        <service id="Frontastic\Catwalk\FrontendBundle\Command\DumpProductsCommand" autoconfigure="true" autowire="true"/>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Command\GenerateSitemapsCommand" autoconfigure="true" autowire="true">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
+            <argument key="$urlGenerator" type="service" id="router"/>
         </service>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Command\RebuildRoutesCommand" autoconfigure="true" autowire="true">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
+        <service id="Frontastic\Catwalk\FrontendBundle\Command\RebuildRoutesCommand" autoconfigure="true" autowire="true"/>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Command\SendNewOrderMailsCommand" autoconfigure="true" autowire="true">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
+        <service id="Frontastic\Catwalk\FrontendBundle\Command\SendNewOrderMailsCommand" autoconfigure="true" autowire="true"/>
 
-        <service id="Frontastic\Catwalk\FrontendBundle\Command\SessionDeleteCommand" autoconfigure="true" autowire="true">
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
+        <service id="Frontastic\Catwalk\FrontendBundle\Command\SessionDeleteCommand" autoconfigure="true" autowire="true"/>
 
         <service id="Frontastic\Catwalk\FrontendBundle\Routing\UrlGenerator">
             <argument type="collection">
@@ -377,6 +342,7 @@
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\NodeService" />
             <argument type="service" id="Frontastic\Catwalk\FrontendBundle\Domain\PageService" />
             <argument type="service" id="frontastic.catwalk.product_api" />
+            <argument type="service" id="logger" />
             <argument>%secret%</argument>
             <call method="setContainer">
                 <argument type="service" id="service_container" />

@@ -65,7 +65,7 @@ class NodeExtension extends AbstractExtension implements GlobalsInterface
         $parameters = [];
 
         if ($request) {
-            $route = $request->get('_route');
+            $route = $request->attributes->get('_route');
             $parameters = array_merge(
                 $request->query->all(),
                 array_filter(

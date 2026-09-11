@@ -2,22 +2,28 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
+use Frontastic\Common\CartApiBundle\Domain\CartApiFactory;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Yaml\Yaml;
 
+#[AsCommand(name: 'frontastic:order:send', description: 'Sends all new orders per mail to the defiend address')]
 class SendNewOrderMailsCommand extends Command
 {
-    use ContainerAwareTrait;
+    public function __construct(
+        private readonly ContextService $contextService,
+        private readonly CartApiFactory $cartApiFactory,
+    ) {
+        parent::__construct();
+    }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('frontastic:order:send')
-            ->setDescription('Sends all new orders per mail to the defiend address')
             ->addArgument('mail', InputArgument::REQUIRED, 'Target mail address');
     }
 
@@ -25,8 +31,8 @@ class SendNewOrderMailsCommand extends Command
     {
         $to = $input->getArgument('mail');
 
-        $context = $this->container->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
-        $cartApi = $this->container->get('Frontastic\Common\CartApiBundle\Domain\CartApiFactory')->factor(
+        $context = $this->contextService->getContext();
+        $cartApi = $this->cartApiFactory->factor(
             $context->project
         );
 

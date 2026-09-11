@@ -1,4 +1,25 @@
 
+## Version 1.71.0 (2026-09-11)
+
+** New Features & Improvements **
+
+- Drop support for Symfony 5.4 and add support for Symfony 7.4
+- Require PHP 8.1
+- Drop support for Doctrine DBAL 2, Guzzle 6 and ramsey/uuid 3
+- Remove `sensio/framework-extra-bundle`. Its controller annotations (`@IsGranted`, `@Cache`, `@ParamConverter`, `@Template`) are no longer processed, use the Symfony attributes instead.
+- Remove `doctrine/annotations`, `gedmo/doctrine-extensions` and `stof/doctrine-extensions-bundle`. Doctrine entities mapped with annotations must be mapped with attributes instead.
+- Enable Doctrine lazy ghost objects
+- Replace `mtdowling/cron-expression` with `dragonmantank/cron-expression`
+- Remove `symfony/templating` and `nikic/php-parser` dependencies
+
+** Bug Fixes **
+
+- Skip custom app data of unsupported schema types instead of failing the replication
+- Regenerate custom app entities when the code generator changes
+- Return the correct status code on error pages for flattened exceptions
+- Fix crashes in `frontastic:clear:orphaned-system-caches` and `frontastic:cron:run`
+- Fix error preview routes in the dev environment
+
 ## Version 1.70.4 (2026-07-21)
 
 ** Bug Fixes **

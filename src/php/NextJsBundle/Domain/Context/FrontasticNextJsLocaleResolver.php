@@ -12,7 +12,7 @@ class FrontasticNextJsLocaleResolver implements LocaleResolverInterface
 {
     public function determineLocale(Request $request, Project $project): string
     {
-        $locale = $request->get('locale');
+        $locale = $request->query->get('locale');
         $availableLocales = $project->languages;
 
         if ($locale === null) {

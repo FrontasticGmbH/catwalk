@@ -32,7 +32,7 @@ class MasterLoader extends BaseLoader
         $this->logger = $logger;
     }
 
-    public function load($resource, $type = null)
+    public function load($resource, $type = null): RouteCollection
     {
         if (true === $this->loaded) {
             throw new \RuntimeException('Do not add the "master" loader twice');
@@ -46,7 +46,7 @@ class MasterLoader extends BaseLoader
         return $routes;
     }
 
-    public function supports($resource, $type = null)
+    public function supports($resource, $type = null): bool
     {
         return 'master' === $type;
     }

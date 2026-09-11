@@ -3,7 +3,7 @@
 namespace Frontastic\Catwalk\FrontendBundle\Session;
 
 use Doctrine\DBAL\Connection;
-use PDO;
+use Doctrine\DBAL\ParameterType;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\AbstractSessionHandler;
 
 /**
@@ -44,9 +44,10 @@ class FrontasticSessionHandler extends AbstractSessionHandler
     public function doRead($sessionId): string
     {
         $query = 'SELECT sess_data, sess_time FROM http_session WHERE sess_id = :id';
-        $select = $this->connection()->prepare($query);
-        $select->bindParam(':id', $sessionId, PDO::PARAM_STR);
-        $result = $select->executeQuery();
+        $result = $this->connection()->executeQuery(
+            $query,
+            ['id' => $sessionId]
+        );
 
         $row = $result->fetchNumeric();
         if (!$row) {
@@ -71,15 +72,21 @@ class FrontasticSessionHandler extends AbstractSessionHandler
             ' ON DUPLICATE KEY UPDATE' .
             ' sess_data = VALUES(sess_data), sess_lifetime = VALUES(sess_lifetime), sess_time = VALUES(sess_time);'
         ;
-        $insert = $this->connection()->prepare($query);
-        $insert->bindParam(':id', $sessionId, PDO::PARAM_STR);
-        $insert->bindParam(':data', $data, PDO::PARAM_LOB);
-        $insert->bindValue(':time', time(), PDO::PARAM_INT);
-
         $maxLifetime = (int) ini_get('session.gc_maxlifetime');
-        $insert->bindValue(':expiry', time() + $maxLifetime, PDO::PARAM_INT);
-
-        $insert->execute();
+        $this->connection()->executeStatement(
+            $query,
+            [
+                'id' => $sessionId,
+                'data' => $data,
+                'time' => time(),
+                'expiry' => time() + $maxLifetime,
+            ],
+            [
+                'data' => ParameterType::LARGE_OBJECT,
+                'time' => ParameterType::INTEGER,
+                'expiry' => ParameterType::INTEGER,
+            ]
+        );
 
         return true;
     }
@@ -87,9 +94,10 @@ class FrontasticSessionHandler extends AbstractSessionHandler
     protected function doDestroy($sessionId): bool
     {
         $query = 'DELETE FROM http_session WHERE sess_id = :id';
-        $delete = $this->connection()->prepare($query);
-        $delete->bindParam(':id', $sessionId, PDO::PARAM_STR);
-        $delete->execute();
+        $this->connection()->executeStatement(
+            $query,
+            ['id' => $sessionId]
+        );
 
         return true;
     }
@@ -123,9 +131,11 @@ class FrontasticSessionHandler extends AbstractSessionHandler
             $this->shouldCleanUpExpiredSessions = false;
 
             $sql = 'DELETE FROM http_session WHERE sess_time < :time LIMIT 10000';
-            $delete = $this->connection()->prepare($sql);
-            $delete->bindValue(':time', time() - $maxLifetime, PDO::PARAM_INT);
-            $delete->execute();
+            $this->connection()->executeStatement(
+                $sql,
+                ['time' => time() - $maxLifetime],
+                ['time' => ParameterType::INTEGER]
+            );
         }
         return true;
     }

@@ -2,21 +2,29 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface;
 
+#[AsCommand(name: 'frontastic:create:bundle', description: 'Creates a basic bundle follow the Frontastic naming schema')]
 class CreateBundleCommand extends Command
 {
-    use ContainerAwareTrait;
+    public function __construct(
+        private readonly ContextService $contextService,
+        private readonly CacheClearerInterface $cacheClearer,
+        private readonly string $kernelProjectDir,
+        private readonly string $kernelCacheDir,
+    ) {
+        parent::__construct();
+    }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('frontastic:create:bundle')
-            ->setDescription('Creates a basic bundle follow the Frontastic naming schema')
             // @TODO: Add option --with-controller
             ->addArgument(
                 'bundleName',
@@ -27,7 +35,7 @@ class CreateBundleCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $context = $this->container->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
+        $context = $this->contextService->getContext();
         $bundleName = $input->getArgument('bundleName');
 
         if (!preg_match('(^[A-Za-z]+$)', $bundleName)) {
@@ -43,7 +51,7 @@ class CreateBundleCommand extends Command
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
-        $destination = $this->container->getParameter('kernel.project_dir') . '/src/php/' . $bundleName;
+        $destination = $this->kernelProjectDir . '/src/php/' . $bundleName;
         mkdir($destination, 0755, true);
 
         $namespace = ucfirst(strtolower($context->customer->name));
@@ -61,7 +69,7 @@ class CreateBundleCommand extends Command
             }
         }
 
-        $bundleDefinitionFile = $this->container->getParameter('kernel.project_dir') . '/config/bundles.php';
+        $bundleDefinitionFile = $this->kernelProjectDir . '/config/bundles.php';
         $bundles = [];
         if (file_exists($bundleDefinitionFile)) {
             $bundleObjects = include($bundleDefinitionFile);
@@ -78,8 +86,7 @@ class CreateBundleCommand extends Command
         );
 
         // Clear Caches
-        $cacheClearer = $this->container->get('cache_clearer');
-        $cacheClearer->clear($this->container->getParameter('kernel.cache_dir'));
+        $this->cacheClearer->clear($this->kernelCacheDir);
 
         return 0;
     }

@@ -16,7 +16,7 @@ class TasticExtension extends AbstractExtension
         $this->contextService = $contextService;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('classnames', [$this, 'classnames']),

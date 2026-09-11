@@ -25,6 +25,14 @@ class AppRepositoryService
         'group' => 'object',
         'json' => 'text',
     ];
+
+    /**
+     * Prefix of the stamp the codegen template renders into every generated
+     * file (followed by the template hash). Files without the current stamp
+     * were written by a different generator version and get purged.
+     */
+    const TEMPLATE_HASH_STAMP = 'Generated-Template-Hash: ';
+
     private $entityManager;
 
     private $sourceDir;
@@ -167,7 +175,7 @@ class AppRepositoryService
         );
 
         // @TODO: Map PHP type information for better autocompletion
-        file_put_contents(
+        $this->filesystem->dumpFile(
             $fileName,
             $templating->render(
                 'dataObject.php.twig',
@@ -177,6 +185,7 @@ class AppRepositoryService
                     'properties' => $properties,
                     'indexes' => $indexes,
                     'doctrineTypeMap' => self::DOCTRINE_TYPE_MAP,
+                    'templateHash' => $this->computeTemplateHash(),
                 ]
             )
         );
@@ -220,6 +229,27 @@ class AppRepositoryService
 
     private function syncEntityClasses()
     {
+        $metaData = $this->loadEntitiesMetaData();
+
+        // Regenerate all entity classes when the generator itself changed
+        // (template or type map) — a deploy does not bump any app sequence,
+        // so long-lived environments would otherwise keep outdated files.
+        $templateHash = $this->computeTemplateHash();
+        $forceRegeneration = $templateHash !== ($metaData['~template_hash'] ?? null);
+
+        // The meta data alone cannot prove the files are current:
+        // pre-upgrade releases regenerate entities from their own template
+        // but round-trip our meta keys untouched (branch switches, deploy
+        // rollbacks). Every generated file therefore carries the hash of
+        // the template that produced it; purge files with a missing or
+        // foreign stamp before anything can load them. A missing file only
+        // makes getRepository() return null — the fresh-deploy state — while
+        // a wrong-format file breaks every Doctrine metadata access. This
+        // runs before the gateway call on purpose: the purge must also
+        // happen when the database is unavailable (cache:clear).
+        $purgedFiles = $this->purgeStaleEntityFiles($templateHash);
+        $droppedApps = $this->dropAppsWithoutEntityFile($metaData);
+
         try {
             $maxSequence = $this->appGateway->getHighestSequence();
         } catch (\Exception $e) {
@@ -227,17 +257,24 @@ class AppRepositoryService
             // THis normally happens during cache:clear in catwalk
             return;
         }
-        $metaData = $this->loadEntitiesMetaData();
 
         // Nothing to sync
-        if (strcmp($maxSequence, $metaData['~highest_sequence']) <= 0) {
+        if (!$forceRegeneration &&
+            !$purgedFiles &&
+            !$droppedApps &&
+            strcmp($maxSequence, $metaData['~highest_sequence']) <= 0
+        ) {
             return;
         }
 
         $metaData['~highest_sequence'] = $maxSequence;
+        $metaData['~template_hash'] = $templateHash;
 
         foreach ($this->appGateway->getAll() as $app) {
-            if (isset($metaData[$app->identifier]) && $metaData[$app->identifier] == $app->sequence) {
+            if (!$forceRegeneration &&
+                isset($metaData[$app->identifier]) &&
+                $metaData[$app->identifier] == $app->sequence
+            ) {
                 continue;
             }
             $this->update($app);
@@ -257,9 +294,59 @@ class AppRepositoryService
 
     private function updateCodeMetaData(array $metaData): void
     {
-        file_put_contents(
+        // dumpFile() writes to a temp file and rename()s it — after a deploy
+        // all workers regenerate at once, and a concurrently included
+        // half-written code.meta.php would be a parse error.
+        $this->filesystem->dumpFile(
             $this->sourceDir . '/App/code.meta.php',
             '<?php return ' . var_export($metaData, true) . ';' . PHP_EOL
         );
+    }
+
+    private function computeTemplateHash(): string
+    {
+        return hash(
+            'sha256',
+            file_get_contents(__DIR__ . '/../Resources/views/App/dataObject.php.twig') .
+            var_export(self::DOCTRINE_TYPE_MAP, true)
+        );
+    }
+
+    private function purgeStaleEntityFiles(string $templateHash): bool
+    {
+        $purged = false;
+        foreach (glob($this->sourceDir . '/App/*.php') ?: [] as $file) {
+            if (basename($file) === 'code.meta.php') {
+                continue;
+            }
+            $content = (string) file_get_contents($file);
+            if (strpos($content, self::TEMPLATE_HASH_STAMP . $templateHash) !== false) {
+                continue;
+            }
+            $this->filesystem->remove($file);
+            $purged = true;
+        }
+        return $purged;
+    }
+
+    /**
+     * Drop meta entries whose entity file does not exist (just purged or
+     * deleted out-of-band), so the sync loop regenerates those apps even
+     * though their recorded sequence looks current.
+     */
+    private function dropAppsWithoutEntityFile(array &$metaData): bool
+    {
+        $dropped = false;
+        foreach (array_keys($metaData) as $identifier) {
+            if (strpos($identifier, '~') === 0) {
+                continue;
+            }
+            if (file_exists($this->sourceDir . '/App/' . $this->makeClassName($identifier) . '.php')) {
+                continue;
+            }
+            unset($metaData[$identifier]);
+            $dropped = true;
+        }
+        return $dropped;
     }
 }

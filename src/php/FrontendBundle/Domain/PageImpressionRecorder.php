@@ -19,11 +19,11 @@ class PageImpressionRecorder
 
     public function onKernelTerminate(TerminateEvent $event)
     {
-        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) {
             return;
         }
 
-        $controller = $event->getRequest()->get('_controller');
+        $controller = $event->getRequest()->attributes->get('_controller');
         if (!in_array(
             $controller,
             [

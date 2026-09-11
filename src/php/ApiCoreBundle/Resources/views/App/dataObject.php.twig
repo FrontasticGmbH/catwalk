@@ -12,6 +12,15 @@ use Kore\DataObject\DataObject;
  * this file will be overwritten again. Do NOT change
  * anything in this file.
  *
+ * Generated-Template-Hash: {{templateHash}}
+ *
+ * The mapping exists twice on purpose: pre-Symfony-7-upgrade releases
+ * read the docblock annotations, current releases read the PHP
+ * attributes. Each Doctrine driver only sees its own format, so the
+ * same file works on both sides of the upgrade (deploy rollbacks,
+ * branch switches). Attributes must stay single-line: on PHP 7.4 a
+ * single-line attribute parses as a comment.
+ *
  * @ORM\Entity(repositoryClass="Frontastic\Catwalk\ApiCoreBundle\Domain\DataRepository")
  * @ORM\Table(
     name="{{tableName}}",
@@ -28,6 +37,12 @@ use Kore\DataObject\DataObject;
     })
  * @SuppressWarnings("TooManyFields") This is a generated DTO.
  */
+#[ORM\Entity(repositoryClass: \Frontastic\Catwalk\ApiCoreBundle\Domain\DataRepository::class)]
+#[ORM\Table(name: '{{tableName}}')]
+#[ORM\Index(name: 'idx_sequence', columns: ['d_locale', 'd_sequence'])]
+{% for index in indexes %}
+#[ORM\Index(name: 'c_idx_{{index.name|lower()}}', columns: ['d_locale', {% for field in index.fields %}'d_{{field|lower()}}', {% endfor %}])]
+{% endfor %}
 class {{className}} extends DataObject
 {
     /**
@@ -35,6 +50,8 @@ class {{className}} extends DataObject
      * @ORM\Column(name="d_locale", type="string")
      * @var string
      */
+    #[ORM\Id]
+    #[ORM\Column(name: 'd_locale', type: 'string')]
     public $locale;
 
     /**
@@ -42,18 +59,22 @@ class {{className}} extends DataObject
      * @ORM\Column(name="d_id", type="string")
      * @var string
      */
+    #[ORM\Id]
+    #[ORM\Column(name: 'd_id', type: 'string')]
     public $dataId;
 
     /**
      * @ORM\Column(name="d_sequence", type="string")
      * @var string
      */
+    #[ORM\Column(name: 'd_sequence', type: 'string')]
     public $sequence;
 
     /**
      * @ORM\Column(name="d_is_deleted", type="boolean", options={"default" = false})
      * @var bool
      */
+    #[ORM\Column(name: 'd_is_deleted', type: 'boolean', options: ['default' => false])]
     public $isDeleted = false;
 
 {% for property, type in properties %}
@@ -61,6 +82,7 @@ class {{className}} extends DataObject
      * @ORM\Column(name="d_{{property|lower()}}", type="{{doctrineTypeMap[type]|default('text')}}", nullable=true)
      * @var {{doctrineTypeMap[type]|default('text')}}
      */
+    #[ORM\Column(name: 'd_{{property|lower()}}', type: '{{doctrineTypeMap[type]|default('text')}}', nullable: true)]
     public ${{property}};
 {% if not loop.last %}
 

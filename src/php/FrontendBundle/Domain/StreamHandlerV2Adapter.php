@@ -34,7 +34,7 @@ class StreamHandlerV2Adapter implements StreamHandlerV2
 
     private function extractParametersFor(?Request $request, Stream $stream): array
     {
-        if ($request === null || $request->request === null || !$request->request->has('s')) {
+        if ($request === null || !isset($request->request) || !$request->request->has('s')) {
             return [];
         }
         $streamParameters = $request->request->all('s');

@@ -182,8 +182,8 @@ class PageController
     {
         $locale = $this->getLocale($request);
 
-        $path = $request->get('path', null);
-        $depth = $request->get('depth', 1);
+        $path = $request->query->get('path', null);
+        $depth = $request->query->get('depth', 1);
 
         $pageFolderStructure = $this->pageFolderService->getStructure($context, $locale, $depth, $path);
 

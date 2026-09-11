@@ -8,7 +8,6 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\Tools\SchemaTool;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 
 abstract class IntegrationTestCase extends \PHPUnit\Framework\TestCase
 {
@@ -45,12 +44,6 @@ abstract class IntegrationTestCase extends \PHPUnit\Framework\TestCase
 
     protected static function initializeMysql($container)
     {
-        if (file_exists(__DIR__ . "/../../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php")) {
-            AnnotationRegistry::registerFile(
-                __DIR__ . "/../../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php"
-            );
-        }
-
         $connection = self::getContainer()->get('doctrine.dbal.default_connection');
         $parameters = $connection->getParams();
         $database = $parameters['dbname'];
@@ -58,8 +51,13 @@ abstract class IntegrationTestCase extends \PHPUnit\Framework\TestCase
 
         try {
             $tmpConnection = DriverManager::getConnection($parameters);
-            $schemaManager = $tmpConnection->getSchemaManager();
-            $schemaManager->dropAndCreateDatabase($database);
+            $schemaManager = $tmpConnection->createSchemaManager();
+            try {
+                $schemaManager->dropDatabase($database);
+            } catch (\Exception $e) {
+                // database may not exist yet
+            }
+            $schemaManager->createDatabase($database);
         } catch (\Exception $e) {
             self::$databaseFailure = "Could not connect to MySQL server: " . $e->getMessage();
             return;

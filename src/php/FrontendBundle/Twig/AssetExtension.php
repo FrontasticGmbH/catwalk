@@ -8,7 +8,7 @@ class AssetExtension extends AbstractExtension
 {
     private $assetHash;
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('asset_hash', [$this, 'updateHash']),

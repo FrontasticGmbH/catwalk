@@ -70,11 +70,11 @@
                 method="provideContext" />
         </service>
 
-        <service id="Frontastic\Catwalk\ApiCoreBundle\Controller\ParameterConverter\ContextConverter">
+        <service id="Frontastic\Catwalk\ApiCoreBundle\Controller\ValueResolver\ContextValueResolver">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
 
-			<tag name="request.param_converter" priority="100" converter="Frontastic\Backstage\ApiBundle\Controller\ParameterConverter\ContextConverter" />
-		</service>
+            <tag name="controller.argument_value_resolver" priority="150" />
+        </service>
 
         <service id="Frontastic\Catwalk\ApiCoreBundle\Domain\TasticService">
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Gateway\TasticGateway" />
@@ -110,6 +110,7 @@
                     <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\AppRepositoryService" />
                     <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Gateway\AppRepositoryGateway" />
                     <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\Project" />
+                    <argument type="service" id="logger" />
                 </service>
             </argument>
             <argument>%frontastic.environment%</argument>
@@ -161,6 +162,7 @@
             <argument type="service" id="Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService" />
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\EndpointService" />
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier" />
+            <argument type="service" id="doctrine.dbal.default_connection" />
             <argument>%secret%</argument>
             <call method="setContainer">
                 <argument type="service" id="service_container" />

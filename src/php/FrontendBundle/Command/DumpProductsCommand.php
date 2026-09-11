@@ -2,25 +2,31 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\ProductQuery;
+use Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
+#[AsCommand(name: 'frontastic:debug:dump-products', description: 'Dump products found in the commerce back-end')]
 class DumpProductsCommand extends Command
 {
-    use ContainerAwareTrait;
+    public function __construct(
+        private readonly ContextService $contextService,
+        private readonly ProductSearchApiFactory $productSearchApiFactory,
+    ) {
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('frontastic:debug:dump-products')
-            ->setDescription('Dump products found in the commerce back-end')
             ->addOption(
                 'category',
                 'c',
@@ -34,10 +40,9 @@ class DumpProductsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $context = $this->container->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
+        $context = $this->contextService->getContext();
 
-        $productSearchApi = $this->container
-            ->get('Frontastic\Common\ProductSearchApiBundle\Domain\ProductSearchApiFactory')
+        $productSearchApi = $this->productSearchApiFactory
             ->factor(
                 $context->project
             );

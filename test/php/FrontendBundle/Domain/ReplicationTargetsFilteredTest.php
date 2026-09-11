@@ -38,9 +38,6 @@ class ReplicationTargetsFilteredTest extends IntegrationTestCase
     {
         $reflectionObject = new \ReflectionObject($endpointService);
         $property = $reflectionObject->getProperty('targets');
-        if (\PHP_VERSION_ID < 80100) {
-            $property->setAccessible(true);
-        }
         return $property->getValue($endpointService);
     }
 }

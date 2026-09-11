@@ -17,7 +17,7 @@ class JsonExtension extends AbstractExtension
         $this->jsonSerializer = $jsonSerializer;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new \Twig\TwigFilter(

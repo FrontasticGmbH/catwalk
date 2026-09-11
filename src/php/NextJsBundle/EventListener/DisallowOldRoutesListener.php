@@ -20,7 +20,7 @@ class DisallowOldRoutesListener
     {
         $request = $event->getRequest();
 
-        $routeName = $request->get('_route');
+        $routeName = $request->attributes->get('_route');
 
         if (!$routeName || $this->isRouteAllowed($routeName)) {
             return;

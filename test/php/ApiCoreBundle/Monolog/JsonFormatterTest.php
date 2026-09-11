@@ -59,9 +59,6 @@ class JsonFormatterTest extends TestCase
       $reflection = new ReflectionClass("Frontastic\Catwalk\ApiCoreBundle\Monolog\JsonFormatter");
         $reflection->newInstanceArgs([$this->customerService, $env]);
         $method = $reflection->getMethod("formatExceptionTrace");
-        if (\PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
         return $method;
     }
 

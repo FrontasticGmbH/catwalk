@@ -102,7 +102,7 @@ class Authenticator extends AbstractAuthenticator implements AuthenticationEntry
                 'loggedIn' => false,
                 'message' => $exception->getMessage() ? ('Unauthenticated: ' . $exception->getMessage()) : null,
             ]),
-            ($request->get('_route') === 'Frontastic.AccountApi.Api.logout') ? 200 : 403
+            ($request->attributes->get('_route') === 'Frontastic.AccountApi.Api.logout') ? 200 : 403
         );
     }
 

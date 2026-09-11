@@ -25,9 +25,9 @@ class AppController
             return new JsonResponse([]);
         }
 
-        $orderBy = $request->get('orderBy', []);
-        $offset = $request->get('offset', null);
-        $limit = $request->get('limit', null);
+        $orderBy = $request->query->all('orderBy');
+        $offset = $request->query->get('offset', null);
+        $limit = $request->query->get('limit', null);
 
         $criteria = array_merge(
             ['locale' => $context->locale],

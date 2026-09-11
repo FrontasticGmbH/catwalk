@@ -2,6 +2,7 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Controller;
 
+use Doctrine\DBAL\Connection;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Common\AccountApiBundle\Domain\Session;
 use Frontastic\Common\ReplicatorBundle\Domain\Command;
@@ -24,17 +25,20 @@ class ApiController extends AbstractController
     private ContextService $contextService;
     private EndpointService $endpointService;
     private RequestVerifier $requestVerifier;
+    private Connection $connection;
     private string $secret;
 
     public function __construct(
         ContextService $contextService,
         EndpointService $endpointService,
         RequestVerifier $requestVerifier,
+        Connection $connection,
         string $secret
     ) {
         $this->contextService = $contextService;
         $this->endpointService = $endpointService;
         $this->requestVerifier = $requestVerifier;
+        $this->connection = $connection;
         $this->secret = $secret;
     }
 
@@ -130,8 +134,8 @@ class ApiController extends AbstractController
             return new JsonResponse(Result::fromThrowable($exception), $exception->getCode() ?: 500);
         }
 
-        $connection = $this->get('database_connection');
-        $schemaManager = $connection->getSchemaManager();
+        $connection = $this->connection;
+        $schemaManager = $connection->createSchemaManager();
 
         $tables = $schemaManager->listTables();
         foreach ($tables as $table) {

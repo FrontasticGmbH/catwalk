@@ -2,24 +2,22 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
+use Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService;
 use Frontastic\Common\ProductApiBundle\Domain\ProductApi\Query\CategoryQuery;
+use Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
+#[AsCommand(name: 'frontastic:debug:dump-categories', description: 'Dump categories found in the commerce back-end')]
 class DumpCategoriesCommand extends Command
 {
-    use ContainerAwareTrait;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        $this
-            ->setName('frontastic:debug:dump-categories')
-            ->setDescription('Dump categories found in the commerce back-end');
+    public function __construct(
+        private readonly ContextService $contextService,
+        private readonly ProductApiFactory $productApiFactory,
+    ) {
+        parent::__construct();
     }
 
     /**
@@ -27,9 +25,9 @@ class DumpCategoriesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $context = $this->container->get('Frontastic\Catwalk\ApiCoreBundle\Domain\ContextService')->getContext();
+        $context = $this->contextService->getContext();
 
-        $productApi = $this->container->get('Frontastic\Common\ProductApiBundle\Domain\ProductApiFactory')->factor(
+        $productApi = $this->productApiFactory->factor(
             $context->customer
         );
 

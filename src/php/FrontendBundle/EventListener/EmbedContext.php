@@ -19,7 +19,7 @@ class EmbedContext
 
     public function onKernelResponse(ResponseEvent $event)
     {
-        if (!$event->getRequest()->get('_embed')) {
+        if (!$event->getRequest()->query->get('_embed')) {
             return;
         }
 

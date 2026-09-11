@@ -2,25 +2,32 @@
 
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
+use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
+#[AsCommand(
+    name: 'frontastic:session:delete',
+    description: 'Clears all expired session data in batches, parameter batch limit, careful exceeding memory limits'
+)]
 class SessionDeleteCommand extends Command
 {
-    use ContainerAwareTrait;
-
     const DEFAULT_ROWS_TO_DELETE_PER_EXECUTION = 1000;
 
-    protected function configure()
+    public function __construct(
+        private readonly Connection $connection
+    ) {
+        parent::__construct();
+    }
+
+    protected function configure(): void
     {
         $this
-            ->setName('frontastic:session:delete')
-            ->setDescription(
-                'Clears all expired session data in batches, parameter batch limit, careful exceeding memory limits'
-            )
             ->addArgument(
                 'batchLimit',
                 InputArgument::OPTIONAL,
@@ -32,37 +39,39 @@ class SessionDeleteCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $batchLimit = (int) $input->getArgument('batchLimit');
-        $connection = $this->container->get('database_connection');
+        $connection = $this->connection;
         $loopCheck = true;
 
         while ($loopCheck) {
             $sql = 'SELECT sess_id FROM http_session WHERE sess_time < :time LIMIT :LIMIT_TO';
             $maxLifetime = (int)ini_get('session.gc_maxlifetime');
-            $select = $connection->prepare($sql);
-            $select->bindValue(':LIMIT_TO', $batchLimit, \PDO::PARAM_INT);
-            $select->bindValue(':time', time() - $maxLifetime, \PDO::PARAM_INT);
-            $select->execute();
-            $result = $select->fetchAll();
-            if (!$select->rowCount()) {
+            $ids = $connection->executeQuery(
+                $sql,
+                [
+                    'LIMIT_TO' => $batchLimit,
+                    'time' => time() - $maxLifetime,
+                ],
+                [
+                    'LIMIT_TO' => ParameterType::INTEGER,
+                    'time' => ParameterType::INTEGER,
+                ]
+            )->fetchFirstColumn();
+            $rowCount = count($ids);
+            if (!$rowCount) {
                 $output->writeln('No sessions to clear');
                 break;
             }
 
-            $ids = [];
-            foreach ($result as $item) {
-                $ids[] = $item['sess_id'];
-            }
-
             $sql = 'DELETE FROM http_session where sess_id in (?) AND sess_time < ? LIMIT ?';
-            $connection->executeUpdate(
+            $connection->executeStatement(
                 $sql,
                 [$ids, time() - $maxLifetime, $batchLimit],
-                [\Doctrine\DBAL\Connection::PARAM_STR_ARRAY, \PDO::PARAM_INT, \PDO::PARAM_INT]
+                [ArrayParameterType::STRING, ParameterType::INTEGER, ParameterType::INTEGER]
             );
 
             usleep(50000);
 
-            if ($select->rowCount() < $batchLimit) {
+            if ($rowCount < $batchLimit) {
                 $loopCheck = false;
                 $output->writeln('Sessions deleted');
                 continue;

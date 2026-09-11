@@ -301,9 +301,6 @@ class ExtensionServiceTest extends TestCase
         //Hacky way to manipulate a private property
         $reflection = new \ReflectionClass($this->subject);
         $reflectionExtensions = $reflection->getProperty("extensions");
-        if (\PHP_VERSION_ID < 80100) {
-            $reflectionExtensions->setAccessible(true);
-        }
         $reflectionExtensions->setValue($this->subject, $extensions);
     }
 

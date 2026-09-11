@@ -3,26 +3,29 @@
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
 use Frontastic\Common\HttpClient;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
+#[AsCommand(name: 'frontastic:release:announce', description: 'Announce the roll out of a release')]
 class AnnounceReleaseCommand extends Command
 {
-    use ContainerAwareTrait;
-
     const TIDEWAYS_URL = 'https://app.tideways.io/api/events';
+
+    public function __construct(
+        private readonly HttpClient $httpClient,
+    ) {
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('frontastic:release:announce')
-            ->setDescription('Announce the roll out of a release')
             ->addArgument(
                 'release-tag',
                 InputArgument::REQUIRED,
@@ -49,7 +52,7 @@ class AnnounceReleaseCommand extends Command
             return;
         }
 
-        $response = $this->container->get(HttpClient::class)
+        $response = $this->httpClient
             ->request(
                 'POST',
                 self::TIDEWAYS_URL,

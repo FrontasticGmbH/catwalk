@@ -12,6 +12,8 @@ doctrine:
             collate: "utf8mb4_unicode_ci"
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
+        enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
         auto_mapping: true
         dql:
             numeric_functions:
@@ -23,32 +25,11 @@ doctrine:
             string_functions:
                 REGEXP: DoctrineExtensions\Query\Mysql\Regexp
         mappings:
-            tree:
-                type: annotation
-                alias: Gedmo
-                prefix: Gedmo\Tree\Entity
-                dir: "%frontastic.gedmo_extension_source_dir%/Tree/Entity"
-                is_bundle: false
             FrontasticCatwalkApiCoreBundleAppTest:
-                type: annotation
+                type: attribute
                 prefix: Frontastic\Catwalk\ApiCoreBundle\Domain\App\
                 dir: "%frontastic.paas_catwalk_dir%/test/php/ApiCoreBundle/Domain/App"
             FrontasticCatwalkApiCoreBundle:
                 prefix: 'Frontastic\Catwalk\ApiCoreBundle\Domain'
             FrontasticCatwalkFrontendBundle:
                 prefix: 'Frontastic\Catwalk\FrontendBundle\Domain'
-
-services:
-    gedmo.listener.tree:
-        class: Gedmo\Tree\TreeListener
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ "@annotation_reader" ] ]
-
-    gedmo.listener.timestampable:
-        class: Gedmo\Timestampable\TimestampableListener
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ "@annotation_reader" ] ]

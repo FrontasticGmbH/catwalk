@@ -4,7 +4,6 @@
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\ErrorHandler\Debug;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 
 use Frontastic\Catwalk\AppKernel;
 
@@ -22,8 +21,6 @@ AppKernel::$catwalkBaseDir = dirname(__DIR__);
     [__DIR__ . '/..', __DIR__ . '/../../..'],
     AppKernel::getBaseConfiguration()
 );
-
-AnnotationRegistry::registerLoader(array($autoloader, 'loadClass'));
 
 $input = new ArgvInput();
 $env = $input->getParameterOption(['--env', '-e'], getenv('env'));

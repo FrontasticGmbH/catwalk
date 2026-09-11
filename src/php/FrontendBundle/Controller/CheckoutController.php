@@ -53,7 +53,7 @@ class CheckoutController
             $context,
             new PageMatcherContext([
                 'checkoutFinished' => true,
-                'orderId' => $request->get('order', null)
+                'orderId' => $request->query->get('order', null)
             ]),
             'order'
         );

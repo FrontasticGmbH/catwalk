@@ -54,7 +54,7 @@ class ErrorHandler
 
         $request = $event->getRequest();
 
-        $route = $request->get('_route');
+        $route = $request->attributes->get('_route');
         if ($route !== null && !$this->isMaster($route) && !$this->isNode($route)) {
             // return as we are obviously having an API request here and our JSON Response handler will take care of
             // dealing with the Exception

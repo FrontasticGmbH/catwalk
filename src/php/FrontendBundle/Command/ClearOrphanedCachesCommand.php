@@ -1,10 +1,10 @@
 <?php
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -12,33 +12,32 @@ use Symfony\Component\Finder\Finder;
  * This command clears the symfony caches of older versions, which is necessary on the deploy-hosts and has no effect
  * on production catwalks.
  */
+#[AsCommand(
+    name: 'frontastic:clear:orphaned-system-caches',
+    description: 'Removes orphaned system caches from older software versions which is necessary for the deploy-hosts'
+)]
 class ClearOrphanedCachesCommand extends Command
 {
-    use ContainerAwareTrait;
-
-    protected function configure()
-    {
-        $this
-            ->setName('frontastic:clear:orphaned-system-caches')
-            ->setDescription(
-                'Removes orphaned system caches from older software versions which is necessary for the deploy-hosts'
-            );
+    public function __construct(
+        private readonly string $kernelProjectDir,
+        private readonly string $cacheDir,
+    ) {
+        parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $container = $this->container;
-
-        if ('catwalk' === $container->getParameter('kernel.name')) {
-            $rootDir = realpath($container->getParameter('kernel.project_dir') . '/../../');
+        // The removed %kernel.name% parameter was derived from the base dir name
+        if ('catwalk' === basename($this->kernelProjectDir)) {
+            $rootDir = realpath($this->kernelProjectDir . '/../../');
         } else {
-            $rootDir = realpath($container->getParameter('kernel.project_dir') . '/../');
+            $rootDir = realpath($this->kernelProjectDir . '/../');
         }
 
         $filesystem = new Filesystem();
         $finder = new Finder();
 
-        $cacheDir = $container->getParameter('cache_dir');
+        $cacheDir = $this->cacheDir;
         foreach ($finder->directories()->in($cacheDir)->depth(1) as $dir) {
             if (2 !== (count($parts = explode('@', $dir->getBasename())))) {
                 continue;

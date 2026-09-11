@@ -16,7 +16,7 @@ class RemoveFrontasticReactServiceCompilerPass implements CompilerPassInterface
 {
     const TAG = 'nextjs.remove';
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         foreach ($container->findTaggedServiceIds(self::TAG) as $serviceId => $definition) {
             $container->removeDefinition($serviceId);

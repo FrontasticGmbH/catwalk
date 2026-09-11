@@ -3,11 +3,13 @@
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
 use RulerZ\RulerZ;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'frontastic:debug:match-fecl', description: 'Match a FECL query against a payload')]
 class MatchFeclCommand extends Command
 {
     private RulerZ $rulerz;
@@ -21,11 +23,9 @@ class MatchFeclCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
-            ->setName('frontastic:debug:match-fecl')
-            ->setDescription('Match a FECL query against a payload')
             ->addArgument('query', InputArgument::REQUIRED)
             ->addArgument('payload', InputArgument::REQUIRED, 'Payload as JSON encoded')
         ;

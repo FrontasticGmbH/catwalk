@@ -67,7 +67,7 @@ class TestController
                         ),
                         'usingTastics' => null,
                         'request' => $this->requestService->createApiRequest($request),
-                        'isPreview' => boolval($request->get('__isPreview'))
+                        'isPreview' => boolval($request->query->get('__isPreview'))
                     ])
                 ],
                 null

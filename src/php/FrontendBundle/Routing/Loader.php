@@ -29,7 +29,7 @@ class Loader extends BaseLoader
         $this->nodeControllerClass = $nodeControllerClass;
     }
 
-    public function load($resource, $type = null)
+    public function load($resource, $type = null): RouteCollection
     {
         if (true === $this->loaded) {
             throw new \RuntimeException('Do not add the "frontastic" loader twice');
@@ -48,7 +48,7 @@ class Loader extends BaseLoader
         return $routes;
     }
 
-    public function supports($resource, $type = null)
+    public function supports($resource, $type = null): bool
     {
         return 'frontastic' === $type;
     }

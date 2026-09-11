@@ -38,6 +38,7 @@ class StreamServiceTest extends \PHPUnit\Framework\TestCase
         $this->loggerMock = \Phake::mock(LoggerInterface::class);
 
         $this->requestStackMock = \Phake::mock(RequestStack::class);
+        \Phake::when($this->requestStackMock)->getCurrentRequest()->thenReturn(null);
 
         $this->streamHandlerSupplier = \Phake::mock(StreamHandlerSupplier::class);
 

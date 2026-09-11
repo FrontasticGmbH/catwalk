@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
   backupGlobals="false"
-  backupStaticAttributes="false"
+  backupStaticProperties="false"
   bootstrap="vendor/autoload.php"
   colors="true"
-  convertErrorsToExceptions="true"
-  convertWarningsToExceptions="true"
-  convertNoticesToExceptions="true"
   processIsolation="false"
   stopOnFailure="false"
 >
+  <extensions>
+    <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension"/>
+  </extensions>
   <php>
     <server name="KERNEL_DIR" value="./app"/>
     <env name="CONFIG" value="./test/environment"/>
     <env name="jwt_salt" value="00000000000000000000000000000000"/>
     <env name="aes256_key" value="elArK3RZN05kc0xYNXVXWnI5aGJnYk1sSTRqMUtybXM="/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[direct]=0"/>
   </php>
   <testsuites>
     <testsuite name="Catwalk Test Suite">

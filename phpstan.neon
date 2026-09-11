@@ -10,9 +10,3 @@ parameters:
         - '#Instantiated class (Browser|PageView|Conversion) not found.#'
         - '#Kameleoon#'
     reportUnmatchedIgnoredErrors: false
-    excludePaths:
-        - src/php/KameleoonBundle/Kameleoon/Data.php
-        - src/php/KameleoonBundle/Kameleoon/KameleoonClient.php
-        - src/php/KameleoonBundle/Kameleoon/KameleoonClientFactory.php
-        - src/php/KameleoonBundle/Kameleoon/KameleoonClientImpl.php
-        - src/php/KameleoonBundle/Kameleoon/KameleoonException.php

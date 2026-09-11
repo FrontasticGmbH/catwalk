@@ -4,24 +4,28 @@ namespace Frontastic\Catwalk\DevVmBundle\Command;
 use Frontastic\Catwalk\DevVmBundle\Domain\Archive;
 use Frontastic\Common\HttpClient;
 use Frontastic\Common\HttpClient\Signing;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Yaml\Yaml;
 
+#[AsCommand(name: 'frontastic:vm:sync-livepreview', description: 'Synchronizes locale dev catwalk data into a cloud instance.')]
 class SyncCommand extends Command
 {
-    use ContainerAwareTrait;
+    public function __construct(
+        private readonly string $projectDir,
+        private readonly string $projectFile,
+        private readonly HttpClient $httpClient,
+        private readonly bool $debug
+    ) {
+        parent::__construct();
+    }
 
-    protected function configure()
+    protected function configure(): void
     {
-        $this
-            ->setName('frontastic:vm:sync-livepreview')
-            ->setDescription('Synchronizes locale dev catwalk data into a cloud instance.');
-
         $this
             ->addOption(
                 'backup',
@@ -49,7 +53,7 @@ class SyncCommand extends Command
     {
         $syncDirectory = realpath(sprintf(
             '%s/public/assets/',
-            $this->container->getParameter('kernel.project_dir')
+            $this->projectDir
         ));
 
         if ($restoreFile = $input->getArgument('archive')) {
@@ -58,8 +62,7 @@ class SyncCommand extends Command
             $archive = Archive::createFromDirectory($syncDirectory);
         }
 
-        $projectFile = $this->container->getParameter('frontastic.project_file');
-        $yaml = Yaml::parse(file_get_contents($projectFile), Yaml::PARSE_OBJECT_FOR_MAP);
+        $yaml = Yaml::parse(file_get_contents($this->projectFile), Yaml::PARSE_OBJECT_FOR_MAP);
 
         $uri = sprintf(
             '%s://%s',
@@ -80,11 +83,11 @@ class SyncCommand extends Command
 
         /** @var \Frontastic\Common\HttpClient\Signing $httpClient */
         $httpClient = new Signing(
-            $this->container->get(HttpClient::class),
+            $this->httpClient,
             $customerSecret
         );
 
-        if ($this->container->getParameter('kernel.debug')) {
+        if ($this->debug) {
             $output->writeln("curl -X POST {$uri}/devvm/sync?" . http_build_query($parameters));
         }
 
@@ -94,7 +97,7 @@ class SyncCommand extends Command
             $archive->dump()
         );
 
-        if ($this->container->getParameter('kernel.debug')) {
+        if ($this->debug) {
             $output->writeln("Response:\n" . var_export($response, true));
         }
 

@@ -65,8 +65,8 @@ class NodeController
 
     public function treeAction(Request $request): Node
     {
-        $root = $request->get('root', null);
-        $depth = $request->get('depth', 1);
+        $root = $request->query->get('root', null);
+        $depth = $request->query->get('depth', 1);
 
         return $this->nodeService->getTree($root, $depth);
     }

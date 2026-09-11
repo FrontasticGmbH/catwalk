@@ -4,30 +4,24 @@ namespace Frontastic\Catwalk\FrontendBundle\Command;
 
 use Frontastic\Catwalk\FrontendBundle\Domain\NodeService;
 use Frontastic\Catwalk\FrontendBundle\Domain\RouteService;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
+#[AsCommand(name: 'frontastic:routes:rebuild', description: 'Rebuild routes from node definitions')]
 class RebuildRoutesCommand extends Command
 {
-    use ContainerAwareTrait;
-
-    protected function configure()
-    {
-        $this
-            ->setName('frontastic:routes:rebuild')
-            ->setDescription('Rebuild routes from node definitions');
+    public function __construct(
+        private readonly NodeService $nodeService,
+        private readonly RouteService $routeService,
+    ) {
+        parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var NodeService $nodeService */
-        $nodeService = $this->container->get(NodeService::class);
-        /** @var RouteService $routeService */
-        $routeService = $this->container->get(RouteService::class);
-
-        $routeService->rebuildRoutes($nodeService->getNodes());
+        $this->routeService->rebuildRoutes($this->nodeService->getNodes());
 
         return 0;
     }

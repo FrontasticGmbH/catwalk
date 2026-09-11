@@ -16,7 +16,7 @@ class LocaleResolver implements LocaleResolverInterface
             : null;
 
         // Update locale from request. Should that actually happen here?
-        if (($locale = $request->get('locale')) && $session !== null) {
+        if (($locale = $request->query->get('locale') ?? $request->request->get('locale')) && $session !== null) {
             $session->set('locale', (trim($locale) === '') ? null: $locale);
         }
 

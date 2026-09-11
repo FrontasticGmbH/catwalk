@@ -2,23 +2,22 @@
 namespace Frontastic\Catwalk\FrontendBundle\Command;
 
 use Cron\CronExpression;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Process\Process;
 
+#[AsCommand(name: 'frontastic:cron:run', description: 'Runs project specific cron jobs')]
 class CronCommand extends Command
 {
-    use ContainerAwareTrait;
-
     const REGEXP = '(^(\S+\s+\S+\s+\S+\s+\S+\s+\S+)\s+(.*)$)';
 
-    protected function configure(): void
-    {
-        $this
-            ->setName('frontastic:cron:run')
-            ->setDescription('Runs project specific cron jobs');
+    public function __construct(
+        private readonly LoggerInterface $logger
+    ) {
+        parent::__construct();
     }
 
     /**
@@ -42,7 +41,7 @@ class CronCommand extends Command
             if (0 === preg_match(self::REGEXP, $line, $match)) {
                 continue;
             }
-            if (CronExpression::factory($match[1])->isDue()) {
+            if ((new CronExpression($match[1]))->isDue()) {
                 $commands[] = $match[2];
             }
         }
@@ -52,8 +51,7 @@ class CronCommand extends Command
                 $this->processCommand($output, $verbose, $command, $projectDir);
             } catch (\Exception $e) {
                 $this
-                    ->container
-                    ->get('logger')
+                    ->logger
                     ->alert(
                         sprintf(
                             "Cronjob '%s' failed:\nMESSAGE: %s\nSTACKTRACE:\n%s",
@@ -97,9 +95,8 @@ class CronCommand extends Command
 
         if ($processOutput || $processErrorOutput || !$process->isSuccessful() || $process->getExitCode() != 0) {
             $this
-                ->container
-                ->get('logger')
-                ->warn($result);
+                ->logger
+                ->warning($result);
         }
     }
 }

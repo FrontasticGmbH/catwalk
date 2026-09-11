@@ -20,7 +20,6 @@ class AppKernel extends \Frontastic\Common\Kernel
             new \Symfony\Bundle\TwigBundle\TwigBundle(),
             new \Symfony\Bundle\MonologBundle\MonologBundle(),
             new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
-            new \Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new \Frontastic\Common\MvcBundle\FrontasticCommonMvcBundle(),
             new \KPhoen\RulerZBundle\KPhoenRulerZBundle(),
@@ -143,33 +142,14 @@ class AppKernel extends \Frontastic\Common\Kernel
 
         $container->setParameter('frontastic.environment', Environment::mapFromFramework($this->getEnvironment()));
         $container->setParameter('frontastic.paas_catwalk_dir', __DIR__ . '/../..');
-        $container->setParameter('frontastic.gedmo_extension_source_dir', $this->getGedmoExtensionsSourceDir());
 
-        return $container;
-    }
-
-    private function getGedmoExtensionsSourceDir(): string
-    {
-        // Until recently the vendor dir from paas/catwalk was used for the dependencies of catwalk. Now all
-        // dependencies are installed to the projects vendor dir. This ensures that we use the gedmo extension from the
-        // projects vendor dir if it exists there and fall back to the vendor dir in paas/catwalk to support legacy
-        // catwalks without touching them.
-        $candidates = [
-            $this->getProjectDir() . '/../vendor/gedmo/doctrine-extensions/lib/Gedmo',
-            $this->getProjectDir() . '/vendor/gedmo/doctrine-extensions/lib/Gedmo',
-            __DIR__ . '/../../vendor/gedmo/doctrine-extensions/lib/Gedmo',
-            $this->getProjectDir() . '/../vendor/gedmo/doctrine-extensions/src',
-            $this->getProjectDir() . '/vendor/gedmo/doctrine-extensions/src',
-            __DIR__ . '/../../vendor/gedmo/doctrine-extensions/src',
-        ];
-
-        foreach ($candidates as $candidate) {
-            if (is_dir($candidate)) {
-                return $candidate;
-            }
+        if (\Symfony\Component\HttpKernel\Kernel::VERSION_ID < 70000) {
+            // Nothing uses annotations anymore; Symfony 7 removed this option together with
+            // the whole integration, so it must only be set on the 6.4 leg.
+            $container->prependExtensionConfig('framework', ['annotations' => false]);
         }
 
-        throw new \RuntimeException('The source of the gedmo doctrine extension was not found');
+        return $container;
     }
 
     public static function isProduction()
@@ -180,6 +160,5 @@ class AppKernel extends \Frontastic\Common\Kernel
 
 // @FIXME: Remove references to \AppKernel from Frontastic\Common
 // phpcs:disable
-\Doctrine\Common\Annotations\AnnotationReader::addGlobalIgnoredName('type');
 class_alias(AppKernel::class, '\\AppKernel');
 // phpcs:enable

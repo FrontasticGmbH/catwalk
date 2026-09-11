@@ -13,6 +13,12 @@
 
         <prototype namespace="Frontastic\Catwalk\DevVmBundle\Command\" resource="../../Command" autoconfigure="true" />
 
+        <service id="Frontastic\Catwalk\DevVmBundle\Command\SyncCommand" autoconfigure="true" autowire="true">
+            <argument key="$projectDir">%kernel.project_dir%</argument>
+            <argument key="$projectFile">%frontastic.project_file%</argument>
+            <argument key="$debug">%kernel.debug%</argument>
+        </service>
+
         <service id="Frontastic\Catwalk\DevVmBundle\Controller\SyncController">
             <argument type="service" id="Frontastic\Common\ReplicatorBundle\Domain\RequestVerifier" />
             <argument>%env(secret)%</argument>

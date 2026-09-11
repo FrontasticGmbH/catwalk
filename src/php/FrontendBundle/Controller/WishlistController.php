@@ -54,7 +54,7 @@ class WishlistController
     public function getAction(Context $context, Request $request): array
     {
         return [
-            'wishlist' => $this->getWishlist($context, $request->get('wishlist', null)),
+            'wishlist' => $this->getWishlist($context, $request->query->get('wishlist', null)),
         ];
     }
 
@@ -75,7 +75,7 @@ class WishlistController
     {
         $payload = $this->getJsonContent($request);
 
-        $wishlist = $this->getWishlist($context, $request->get('wishlist', null));
+        $wishlist = $this->getWishlist($context, $request->query->get('wishlist', null));
         $wishlist = $this->wishlistApi->addToWishlist(
             $wishlist,
             new LineItem\Variant([
@@ -111,7 +111,7 @@ class WishlistController
             throw new BadRequestHttpException('Parameter "lineItems" in payload is not an array.');
         }
 
-        $wishlist = $this->getWishlist($context, $request->get('wishlist', null));
+        $wishlist = $this->getWishlist($context, $request->query->get('wishlist', null));
 
         $this->wishlistApi->startTransaction($wishlist);
         foreach (($payload['lineItems'] ?? []) as $lineItemData) {
@@ -175,7 +175,7 @@ class WishlistController
     {
         $payload = $this->getJsonContent($request);
 
-        $wishlist = $this->getWishlist($context, $request->get('wishlist', null));
+        $wishlist = $this->getWishlist($context, $request->query->get('wishlist', null));
         $wishlist = $this->wishlistApi->updateLineItem(
             $wishlist,
             $this->getLineItem($wishlist, $payload['lineItemId']),
@@ -205,7 +205,7 @@ class WishlistController
     {
         $payload = $this->getJsonContent($request);
 
-        $wishlist = $this->getWishlist($context, $request->get('wishlist', null));
+        $wishlist = $this->getWishlist($context, $request->query->get('wishlist', null));
         $wishlist = $this->wishlistApi->removeLineItem(
             $wishlist,
             $this->getLineItem($wishlist, $payload['lineItemId']),

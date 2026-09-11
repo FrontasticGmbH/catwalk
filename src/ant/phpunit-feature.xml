@@ -30,7 +30,6 @@
                     <env key="SERVER" value="http://localhost:8888" />
 
                     <arg value="--debug" />
-                    <arg value="--verbose" />
                     <arg value="--stop-on-failure" />
                     <arg value="--group" />
                     <arg value="functional" />

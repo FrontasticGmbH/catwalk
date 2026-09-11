@@ -8,8 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
-
 /**
  * Main entrance point for Frontastic Catwalk application.
  *
@@ -41,8 +39,6 @@ class Catwalk
         static::setTrustedProxies();
         static::setTrustedHosts();
 
-        AnnotationRegistry::registerLoader(array($autoloader, 'loadClass'));
-
         $request = Request::createFromGlobals();
         $kernel = new AppKernel($env, $debug);
 
@@ -72,8 +68,6 @@ class Catwalk
 
         // TODO: Why not start Tideways on shell?
         // static::startTidewaysIfConfigured();
-
-        AnnotationRegistry::registerLoader(array($autoloader, 'loadClass'));
 
         $input = new ArgvInput();
         $env = $input->getParameterOption(['--env', '-e'], getenv('env'));
