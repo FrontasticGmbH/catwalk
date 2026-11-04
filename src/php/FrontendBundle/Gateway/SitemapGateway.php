@@ -41,7 +41,7 @@ class SitemapGateway
             foreach ($sitemaps as $sitemap) {
                 $this->manager->persist($sitemap);
             }
-            $this->manager->flush($sitemaps);
+            $this->manager->flush();
             $this->manager->commit();
         } catch (\Throwable $e) {
             $this->manager->rollback();

@@ -2,6 +2,9 @@
 
 namespace Frontastic\Catwalk\ApiCoreBundle\Domain;
 
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Schema\Comparator;
+use Doctrine\DBAL\Schema\ComparatorConfig;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Tools\SchemaTool;
@@ -191,7 +194,15 @@ class AppRepositoryService
         );
     }
 
-    private function updateDatabaseSchema(string $appName, string $className)
+    /**
+     * Brings the database table of one custom app entity in line with its
+     * mapping.
+     *
+     * Only the table of the given entity is compared and altered. Every other
+     * table in the database is out of scope of this comparison, so it can
+     * neither be dropped nor modified here.
+     */
+    private function updateDatabaseSchema(string $appName, string $className): void
     {
         $metaDataFactory = new ClassMetadataFactory();
         $metaDataFactory->setEntityManager($this->entityManager);
@@ -200,16 +211,47 @@ class AppRepositoryService
             $this->getFullyQualifiedClassName($className)
         );
 
-        $schemaTool = new SchemaTool($this->entityManager);
-        $schemaSqlQueries = $schemaTool->getUpdateSchemaSql([$entityMetaData], true);
+        $connection = $this->entityManager->getConnection();
+        $platform = $connection->getDatabasePlatform();
+        $schemaManager = $connection->createSchemaManager();
+
+        $tableName = $entityMetaData->getTableName();
+        $targetTable = (new SchemaTool($this->entityManager))
+            ->getSchemaFromMetadata([$entityMetaData])
+            ->getTable($tableName);
+
+        if ($schemaManager->tablesExist([$tableName])) {
+            $tableDiff = $this->createComparator($schemaManager)->compareTables(
+                $schemaManager->introspectTable($tableName),
+                $targetTable
+            );
+            $schemaSqlQueries = $tableDiff->isEmpty() ? [] : $platform->getAlterTableSQL($tableDiff);
+        } else {
+            $schemaSqlQueries = $platform->getCreateTableSQL($targetTable);
+        }
+
         foreach ($schemaSqlQueries as $query) {
             $this->logger->info(sprintf(
                 'Updating database schema for custom app %s: %s',
                 $appName,
                 $query
             ));
-            $this->entityManager->getConnection()->executeQuery($query);
+            $connection->executeStatement($query);
         }
+    }
+
+    /**
+     * With the report option off, DBAL 4.4 lists a changed index as dropped
+     * and added instead of modified and no longer deprecates the comparison.
+     * DBAL 4.2 knows neither the option nor the deprecation.
+     */
+    private function createComparator(AbstractSchemaManager $schemaManager): Comparator
+    {
+        if (method_exists(ComparatorConfig::class, 'withReportModifiedIndexes')) {
+            return $schemaManager->createComparator((new ComparatorConfig())->withReportModifiedIndexes(false));
+        }
+
+        return $schemaManager->createComparator();
     }
 
     private function ensureEntitiesInSync(): void

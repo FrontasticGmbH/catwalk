@@ -51,13 +51,13 @@ SQL
         /** @noinspection SqlWithoutWhere */
         $connection->executeQuery('DELETE FROM http_session');
 
-        $statement = $connection->prepare('INSERT INTO http_session VALUES (:id, :data, :time, :time)');
-        $statement->execute([
+        $insert = 'INSERT INTO http_session VALUES (:id, :data, :time, :time)';
+        $connection->executeStatement($insert, [
             'id' => self::SESSION_ACTIVE_ID,
             'data' => self::SESSION_ACTIVE_DATA,
             'time' => time()
         ]);
-        $statement->execute([
+        $connection->executeStatement($insert, [
             'id' => self::SESSION_EXPIRED_ID,
             'data' => self::SESSION_EXPIRED_DATA,
             'time' => 1

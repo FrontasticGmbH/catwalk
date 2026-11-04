@@ -100,7 +100,6 @@ monolog:
 
 doctrine:
     orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
         filters:
             undeleted:
                 class: "Frontastic\\Catwalk\\ApiCoreBundle\\Doctrine\\UndeletedFilter"

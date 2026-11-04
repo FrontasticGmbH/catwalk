@@ -2,6 +2,8 @@
 
 namespace Frontastic\Catwalk;
 
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Environment;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -149,7 +151,50 @@ class AppKernel extends \Frontastic\Common\Kernel
             $container->prependExtensionConfig('framework', ['annotations' => false]);
         }
 
+        $container->prependExtensionConfig('doctrine', [
+            'orm' => array_merge($this->getLazyLoadingConfiguration(), $this->getFieldReportingConfiguration()),
+        ]);
+
         return $container;
+    }
+
+    /**
+     * Entities are lazy loaded through PHP's native lazy objects when PHP 8.4
+     * or newer runs an ORM that supports them, and through generated proxy
+     * classes otherwise.
+     *
+     * DoctrineBundle refuses the native option on PHP versions before 8.4 and
+     * on ORM versions before 3.4, and deprecates every proxy class setting
+     * from PHP 8.4 on when the ORM supports native lazy objects, so exactly
+     * one of the two variants is configured.
+     *
+     * @return array<string, bool>
+     */
+    private function getLazyLoadingConfiguration(): array
+    {
+        if (\PHP_VERSION_ID >= 80400 && method_exists(Configuration::class, 'enableNativeLazyObjects')) {
+            return ['enable_native_lazy_objects' => true];
+        }
+
+        return ['auto_generate_proxy_classes' => $this->isDebug()];
+    }
+
+    /**
+     * ORM 2 maps inherited fields to the class declaring them only with this
+     * option enabled and deprecates the disabled state; ORM 3 always maps them
+     * that way and DoctrineBundle deprecates setting the option there, so it
+     * is only set for ORM 2. ORM 3 removed the annotation driver, which makes
+     * its presence the version marker.
+     *
+     * @return array<string, bool>
+     */
+    private function getFieldReportingConfiguration(): array
+    {
+        if (class_exists(AnnotationDriver::class)) {
+            return ['report_fields_where_declared' => true];
+        }
+
+        return [];
     }
 
     public static function isProduction()

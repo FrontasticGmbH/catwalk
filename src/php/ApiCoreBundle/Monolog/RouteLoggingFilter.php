@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Monolog;
 
 use Monolog\Handler\HandlerWrapper;
 use Monolog\Handler\FilterHandler;
+use Monolog\LogRecord;
 use Frontastic\Catwalk\ApiCoreBundle\Domain\Environment;
 
 /**
@@ -22,7 +23,7 @@ class RouteLoggingFilter extends HandlerWrapper
         $this->environment = $environment;
     }
 
-    public function isHandling(array $record): bool
+    public function isHandling(array|LogRecord $record): bool
     {
         if ($this->shouldFilter($record)) {
             return false;
@@ -31,7 +32,7 @@ class RouteLoggingFilter extends HandlerWrapper
         return $this->handler->isHandling($record);
     }
 
-    public function handle(array $record): bool
+    public function handle(array|LogRecord $record): bool
     {
         if (!$this->isHandling($record)) {
             return false;
@@ -47,7 +48,7 @@ class RouteLoggingFilter extends HandlerWrapper
         }
     }
 
-    private function shouldFilter(array $record)
+    private function shouldFilter(array|LogRecord $record)
     {
         // do not filter in development or testing environment
         if ($this->environment === Environment::DEVELOPMENT ||

@@ -416,7 +416,7 @@ class GenerateSitemapsCommand extends Command
                     continue;
                 }
 
-                $node = $this->nodeService->get($this->masterService->matchNodeId(
+                $node = clone $this->nodeService->get($this->masterService->matchNodeId(
                     new PageMatcherContext([
                         'categoryId' => $category->categoryId,
                     ])

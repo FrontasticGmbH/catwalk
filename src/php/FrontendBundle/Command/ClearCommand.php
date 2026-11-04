@@ -23,9 +23,7 @@ class ClearCommand extends Command
         $schemaManager = $connection->createSchemaManager();
 
         $query = '';
-        $tables = $schemaManager->listTables();
-        foreach ($tables as $table) {
-            $tableName = $table->getName();
+        foreach ($schemaManager->listTableNames() as $tableName) {
             if ($tableName === 'changelog') {
                 continue;
             }

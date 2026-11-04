@@ -4,6 +4,7 @@ namespace Frontastic\Catwalk\ApiCoreBundle\Monolog;
 
 use Frontastic\Catwalk\ApiCoreBundle\Domain\CustomerService;
 use Monolog\Formatter\FormatterInterface;
+use Monolog\LogRecord;
 
 class JsonFormatter implements FormatterInterface
 {
@@ -22,19 +23,19 @@ class JsonFormatter implements FormatterInterface
         $this->applicationEnvironment = $applicationEnvironment;
     }
 
-    public function format(array $record)
+    public function format(array|LogRecord $record)
     {
         $logData = $record['extra'];
+        $context = $record['context'] ?? [];
 
-        if (isset($record['context']) && isset($record['context']['exception'])) {
-            $exception = $record['context']['exception'];
-            $logData['exception'] = $this->formatException($exception);
-            unset($record['context']['exception']);
+        if (isset($context['exception'])) {
+            $logData['exception'] = $this->formatException($context['exception']);
+            unset($context['exception']);
         }
 
         $logData = array_merge(
             $logData,
-            $this->formatGenericLogInfo($record)
+            $this->formatGenericLogInfo($record, $context)
         );
 
         return json_encode((object) $logData) . "\n";
@@ -90,7 +91,7 @@ class JsonFormatter implements FormatterInterface
         return $data;
     }
 
-    private function formatGenericLogInfo(array $record): array
+    private function formatGenericLogInfo(array|LogRecord $record, array $context): array
     {
         // Format see https://www.notion.so/frontastic/JSON-Logging-Format-7aa12f53846041f08f4d1526b64bd335
         return [
@@ -102,7 +103,7 @@ class JsonFormatter implements FormatterInterface
                 : (new \DateTimeImmutable('now'))->format('c')),
             'message' => $record['message'],
             'severity' => strtoupper($record['level_name']),
-            'context' => $record['context'],
+            'context' => $context,
             'channel' => $record['channel'],
             'level' => $record['level'],
         ];

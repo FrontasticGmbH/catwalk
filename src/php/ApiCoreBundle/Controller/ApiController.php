@@ -137,9 +137,7 @@ class ApiController extends AbstractController
         $connection = $this->connection;
         $schemaManager = $connection->createSchemaManager();
 
-        $tables = $schemaManager->listTables();
-        foreach ($tables as $table) {
-            $tableName = $table->getName();
+        foreach ($schemaManager->listTableNames() as $tableName) {
             if ($tableName === 'changelog') {
                 continue;
             }

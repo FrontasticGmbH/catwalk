@@ -121,8 +121,13 @@ class AppRepositoryServiceTest extends IntegrationTestCase
 
         $appRepositoryService->update($app);
 
-        $schemaManager = $this->getContainer()->get('doctrine.dbal.default_connection')->createSchemaManager();
-        $indexes = $schemaManager->listTableIndexes('app_testproduct');
+        // Index columns are read from MySQL directly; the DBAL index column API
+        // differs between the 4.2 and the 4.4 leg.
+        $connection = $this->getContainer()->get('doctrine.dbal.default_connection');
+        $indexColumns = [];
+        foreach ($connection->fetchAllAssociative('SHOW INDEX FROM app_testproduct') as $row) {
+            $indexColumns[strtolower($row['Key_name'])][$row['Seq_in_index'] - 1] = $row['Column_name'];
+        }
         $this->assertEquals(
             [
                 'primary' => ['d_locale', 'd_id'],
@@ -130,12 +135,7 @@ class AppRepositoryServiceTest extends IntegrationTestCase
                 'c_idx_id' => ['d_locale', 'd_productid'],
                 'c_idx_name' => ['d_locale', 'd_productid', 'd_name'],
             ],
-            array_map(
-                function (\Doctrine\DBAL\Schema\Index $index) {
-                    return $index->getColumns();
-                },
-                $indexes
-            )
+            $indexColumns
         );
     }
 

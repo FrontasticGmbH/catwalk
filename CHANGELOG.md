@@ -1,4 +1,15 @@
 
+## Version 1.72.0 (2026-11-04)
+
+** New Features & Improvements **
+
+- Add support for Doctrine ORM 3 and DBAL 4. ORM 2 and DBAL 3 stay supported.
+- Add support for Monolog 3. Monolog 2 stays supported. Own Monolog processors, handlers and formatters must accept `Monolog\LogRecord` before a project moves to Monolog 3.
+
+** Bug Fixes **
+
+- Fix the number of paginated category URLs in sitemaps
+
 ## Version 1.71.0 (2026-09-11)
 
 ** New Features & Improvements **

@@ -73,8 +73,7 @@ class StatusService
     {
         $start = microtime(true);
 
-        $this->entityManager->getConnection()->connect();
-        $connected = $this->entityManager->getConnection()->isConnected();
+        $connected = $this->entityManager->getConnection()->fetchOne('SELECT 1') !== false;
 
         $timeElapsedSecs = microtime(true) - $start;
 
