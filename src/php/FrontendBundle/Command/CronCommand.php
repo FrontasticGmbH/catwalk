@@ -99,7 +99,7 @@ class CronCommand extends Command
             $this
                 ->container
                 ->get('logger')
-                ->warn($result);
+                ->warning($result);
         }
     }
 }

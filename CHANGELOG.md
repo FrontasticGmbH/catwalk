@@ -1,4 +1,10 @@
 
+## Version 1.70.5 (2026-11-04)
+
+** Bug Fixes **
+
+- Fix a crash in `frontastic:cron:run` when a cronjob has output or fails
+
 ## Version 1.70.4 (2026-07-21)
 
 ** Bug Fixes **
